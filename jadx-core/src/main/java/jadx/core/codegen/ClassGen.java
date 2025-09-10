@@ -19,6 +19,7 @@ import jadx.api.CommentsLevel;
 import jadx.api.ICodeInfo;
 import jadx.api.ICodeWriter;
 import jadx.api.JadxArgs;
+import jadx.api.impl.SimpleCodeWriter;
 import jadx.api.args.IntegerFormat;
 import jadx.api.metadata.annotations.NodeEnd;
 import jadx.api.plugins.input.data.AccessFlags;
@@ -100,6 +101,11 @@ public class ClassGen {
 			return makePackageInfo();
 		}
 		ICodeWriter clsBody = cls.root().makeCodeWriter();
+		// Pre-size the StringBuilder for better performance
+		if (clsBody instanceof SimpleCodeWriter) {
+			int estimatedSize = cls.getMethods().size() * 500 + cls.getFields().size() * 100 + 500;
+			((SimpleCodeWriter) clsBody).getRawBuf().ensureCapacity(estimatedSize);
+		}
 		addClassCode(clsBody);
 
 		ICodeWriter clsCode = cls.root().makeCodeWriter();
@@ -351,6 +357,13 @@ public class ClassGen {
 			// show all methods for special decompilation modes
 			return false;
 		}
+
+		// Skip empty methods early for performance optimization
+		if (!mth.isConstructor() && mth.getInsnsCount() == 0 && !mth.isNoCode()) {
+			// Method has zero instructions and is not a constructor
+			return true;
+		}
+
 		MethodInlineAttr inlineAttr = mth.get(AType.METHOD_INLINE);
 		if (inlineAttr == null || inlineAttr.notNeeded()) {
 			return false;
