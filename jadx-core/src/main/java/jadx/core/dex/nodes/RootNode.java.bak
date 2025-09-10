@@ -126,7 +126,7 @@ public class RootNode {
 
 	public void init() {
 		if (args.isDeobfuscationOn()
-			|| !args.getRenameFlags().isEmpty()) {
+		||  !args.getRenameFlags().isEmpty()) {
 			args.getAliasProvider().init(this);
 		}
 		if (args.isDeobfuscationOn()) {
@@ -164,145 +164,145 @@ public class RootNode {
 
 					// Generated resource files (R.java, BuildConfig)
 					if (clsName.endsWith("/R;")
-							|| clsName.contains("/R$")
-							|| clsName.endsWith("/BuildConfig;")
-							|| clsName.endsWith("/BR;")) {
+							clsName.contains("/R$")
+							clsName.endsWith("/BuildConfig;")
+							clsName.endsWith("/BR;")) {
 						return;
 					}
 
 					// Data Binding
 					if (clsName.contains("/databinding/")
-							|| clsName.contains("DataBinderMapperImpl")
-							|| clsName.contains("DataBindingMapperImpl")
-							|| clsName.contains("BindingAdapter")) {
+							clsName.contains("DataBinderMapperImpl")
+							clsName.contains("DataBindingMapperImpl")
+							clsName.contains("BindingAdapter")) {
 						return;
 					}
 
 					// Dependency Injection - Dagger/Hilt
 					if (clsName.endsWith("_Factory;")
-							|| clsName.contains("_Factory$")
-							|| clsName.contains("_HiltModules")
-							|| clsName.contains("_HiltComponents")
-							|| clsName.contains("Hilt_")
-							|| clsName.contains("DaggerApplicationComponent")
-							|| clsName.contains("_MembersInjector")
-							|| clsName.contains("_ProvideFactory")
-							|| clsName.contains("_Injector")
-							|| clsName.contains("_Module_")) {
+							clsName.contains("_Factory$")
+							clsName.contains("_HiltModules")
+							clsName.contains("_HiltComponents")
+							clsName.contains("Hilt_")
+							clsName.contains("DaggerApplicationComponent")
+							clsName.contains("_MembersInjector")
+							clsName.contains("_ProvideFactory")
+							clsName.contains("_Injector")
+							clsName.contains("_Module_")) {
 						return;
 					}
 
 					// Butterknife
 					if (clsName.contains("_ViewBinding")
-							|| clsName.contains("_ViewBinder")
-							|| clsName.contains("$ViewBinder")
-							|| clsName.contains("$ViewInjector")) {
+							clsName.contains("_ViewBinder")
+							clsName.contains("$ViewBinder")
+							clsName.contains("$ViewInjector")) {
 						return;
 					}
 
 					// Flutter
 					if (clsName.startsWith("Lio/flutter/")
-							|| clsName.contains("FlutterApplication")
-							|| clsName.contains("FlutterActivity")
-							|| clsName.contains("FlutterFragment")
-							|| clsName.contains("GeneratedPluginRegistrant")) {
+							clsName.contains("FlutterApplication")
+							clsName.contains("FlutterActivity")
+							clsName.contains("FlutterFragment")
+							clsName.contains("GeneratedPluginRegistrant")) {
 						return;
 					}
 
 					// React Native
 					if (clsName.startsWith("Lcom/facebook/react/")
-							|| clsName.startsWith("Lcom/facebook/hermes/")
-							|| clsName.startsWith("Lcom/facebook/jni/")
-							|| clsName.startsWith("Lcom/facebook/soloader/")
-							|| clsName.startsWith("Lcom/facebook/yoga/")
-							|| clsName.startsWith("Lcom/facebook/imagepipeline/")
-							|| clsName.startsWith("Lcom/facebook/drawee/")
-							|| clsName.startsWith("Lcom/facebook/fresco/")
-							|| clsName.startsWith("Lcom/swmansion/")
-							|| clsName.startsWith("Lcom/reactnativecommunity/")
-							|| clsName.startsWith("Lcom/horcrux/svg/")
-							|| clsName.startsWith("Lexpo/modules/")) {
+							clsName.startsWith("Lcom/facebook/hermes/")
+							clsName.startsWith("Lcom/facebook/jni/")
+							clsName.startsWith("Lcom/facebook/soloader/")
+							clsName.startsWith("Lcom/facebook/yoga/")
+							clsName.startsWith("Lcom/facebook/imagepipeline/")
+							clsName.startsWith("Lcom/facebook/drawee/")
+							clsName.startsWith("Lcom/facebook/fresco/")
+							clsName.startsWith("Lcom/swmansion/")
+							clsName.startsWith("Lcom/reactnativecommunity/")
+							clsName.startsWith("Lcom/horcrux/svg/")
+							clsName.startsWith("Lexpo/modules/")) {
 						return;
 					}
 
 					// Unity
 					if (clsName.startsWith("Lcom/unity3d/")
-							|| clsName.startsWith("Lcom/unity/")
-							|| clsName.startsWith("Lbitter/jnibridge/")
-							|| clsName.startsWith("Lorg/fmod/")
-							|| clsName.startsWith("Lcom/google/androidgamesdk/")) {
+							clsName.startsWith("Lcom/unity/")
+							clsName.startsWith("Lbitter/jnibridge/")
+							clsName.startsWith("Lorg/fmod/")
+							clsName.startsWith("Lcom/google/androidgamesdk/")) {
 						return;
 					}
 
 					// Cordova/PhoneGap
 					if (clsName.startsWith("Lorg/apache/cordova/")
-							|| clsName.startsWith("Lorg/crosswalk/engine/")
-							|| clsName.startsWith("Lcom/ionicframework/")) {
+							clsName.startsWith("Lorg/crosswalk/engine/")
+							clsName.startsWith("Lcom/ionicframework/")) {
 						return;
 					}
 
 					// Xamarin
 					if (clsName.startsWith("Lmono/")
-							|| clsName.startsWith("Lxamarin/")
-							|| clsName.startsWith("Landroid/runtime/")
-							|| clsName.startsWith("Lmd5")
-							|| clsName.startsWith("Lmd51")) {
+							clsName.startsWith("Lxamarin/")
+							clsName.startsWith("Landroid/runtime/")
+							clsName.startsWith("Lmd5")
+							clsName.startsWith("Lmd51")) {
 						return;
 					}
 
 					// Cocos2D
 					if (clsName.startsWith("Lorg/cocos2dx/")
-							|| clsName.startsWith("Lcom/chukong/")) {
+							clsName.startsWith("Lcom/chukong/")) {
 						return;
 					}
 
 					// Database/ORM - Room
 					if (clsName.endsWith("_Impl;")
-							|| clsName.contains("_Impl$")
-							|| clsName.contains("RoomDatabase_Impl")
-							|| clsName.contains("Dao_Impl")) {
+							clsName.contains("_Impl$")
+							clsName.contains("RoomDatabase_Impl")
+							clsName.contains("Dao_Impl")) {
 						return;
 					}
 
 					// GreenDAO
 					if (clsName.contains("DaoMaster")
-							|| clsName.contains("DaoSession")) {
+							clsName.contains("DaoSession")) {
 						return;
 					}
 
 					// Realm
 					if (clsName.startsWith("Lio/realm/")
-							|| clsName.contains("RealmProxy")
-							|| clsName.contains("RealmModule")) {
+							clsName.contains("RealmProxy")
+							clsName.contains("RealmModule")) {
 						return;
 					}
 
 					// Protocol Buffers
 					if (clsName.endsWith("Proto;")
-							|| clsName.contains("ProtoOrBuilder")
-							|| clsName.contains("OuterClass$")) {
+							clsName.contains("ProtoOrBuilder")
+							clsName.contains("OuterClass$")) {
 						return;
 					}
 
 					// Gson
 					if (clsName.contains("TypeAdapter$")
-							|| clsName.contains("TypeAdapterFactory")) {
+							clsName.contains("TypeAdapterFactory")) {
 						return;
 					}
 
 					// Moshi
 					if (clsName.contains("JsonAdapter")
-							|| clsName.contains("MoshiJsonAdapter")) {
+							clsName.contains("MoshiJsonAdapter")) {
 						return;
 					}
 
 					// Testing frameworks
 					if (clsName.startsWith("Lorg/junit/")
-							|| clsName.startsWith("Lorg/mockito/")
-							|| clsName.startsWith("Lorg/hamcrest/")
-							|| clsName.startsWith("Landroidx/test/")
-							|| clsName.startsWith("Landroid/support/test/")
-							|| clsName.startsWith("Lorg/robolectric/")) {
+							clsName.startsWith("Lorg/mockito/")
+							clsName.startsWith("Lorg/hamcrest/")
+							clsName.startsWith("Landroidx/test/")
+							clsName.startsWith("Landroid/support/test/")
+							clsName.startsWith("Lorg/robolectric/")) {
 						return;
 					}
 
@@ -351,7 +351,7 @@ public class RootNode {
 				LOG.error("Failed to get name for class with type {}", typeStr, e);
 			}
 			if (name == null
-					|| name.isEmpty()) {
+			||  name.isEmpty()) {
 				name = "CLASS_" + typeStr;
 			}
 			ClassNode clsNode = ClassNode.addSyntheticClass(this, name, classData.getAccessFlags());
@@ -502,7 +502,7 @@ public class RootNode {
 	public void mergePasses(Map<JadxPassType, List<JadxPass>> customPasses) {
 		DecompilationMode mode = args.getDecompilationMode();
 		if (mode == DecompilationMode.FALLBACK
-				|| mode == DecompilationMode.SIMPLE) {
+		||  mode == DecompilationMode.SIMPLE) {
 			// for predefined modes ignore custom (and plugin) passes
 			return;
 		}
@@ -648,7 +648,7 @@ public class RootNode {
 	@Nullable
 	public ClassNode resolveClass(ArgType clsType) {
 		if (!clsType.isTypeKnown()
-				|| clsType.isGenericType()) {
+		||  clsType.isGenericType()) {
 			return null;
 		}
 		if (clsType.getWildcardBound() == ArgType.WildcardBound.UNBOUND) {
