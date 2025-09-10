@@ -137,6 +137,28 @@ public class RootNode {
 		for (ICodeLoader codeLoader : loadedInputs) {
 			codeLoader.visitClasses(cls -> {
 				try {
+					String clsName = cls.getType();
+					
+					// SKIP FRAMEWORK CLASSES
+					if (clsName.startsWith("Landroid/") ||
+					    clsName.startsWith("Landroidx/") ||
+					    clsName.startsWith("Lkotlin/") ||
+					    clsName.startsWith("Lkotlinx/") ||
+					    clsName.startsWith("Lcom/google/android/") ||
+					    clsName.startsWith("Lcom/android/internal/") ||
+					    clsName.startsWith("Lcom/android/support/") ||
+					    clsName.startsWith("Ljava/") ||
+					    clsName.startsWith("Ljavax/") ||
+					    clsName.startsWith("Lsun/") ||
+					    clsName.startsWith("Ldalvik/") ||
+					    clsName.startsWith("Lorg/apache/http/") ||
+					    clsName.startsWith("Lorg/xmlpull/") ||
+					    clsName.startsWith("Lorg/json/") ||
+					    clsName.startsWith("Lorg/w3c/dom/") ||
+					    clsName.startsWith("Lorg/xml/sax/")) {
+						return; // Skip this class entirely
+					}
+					
 					addClassNode(new ClassNode(RootNode.this, cls));
 				} catch (Exception e) {
 					addDummyClass(cls, e);

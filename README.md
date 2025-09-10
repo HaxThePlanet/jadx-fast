@@ -15,6 +15,16 @@
 
 Command line and GUI tools for producing Java source code from Android Dex and Apk files
 
+## 🚀 Performance Optimizations
+
+This fork includes performance optimizations that make JADX **2.2x faster** for typical Android APKs:
+
+- **Skip Framework Classes**: Automatically skips Android, AndroidX, Kotlin, and Java framework classes during decompilation
+- **54% Time Reduction**: From 7.67s to 3.50s on a 100MB APK
+- **Focus on App Code**: Decompiles only your application code, not well-documented framework classes
+
+See [README-FAST.md](README-FAST.md) for detailed performance analysis.
+
 > [!WARNING]
 > Please note that in most cases **jadx** can't decompile all 100% of the code, so errors will occur.<br />
 > Check [Troubleshooting guide](https://github.com/skylot/jadx/wiki/Troubleshooting-Q&A#decompilation-issues) for workarounds.
