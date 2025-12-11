@@ -73,30 +73,35 @@ public final class TypeUpdate {
 		return apply(mth, ssaVar, candidateType, TypeUpdateFlags.FLAGS_WIDER_IGNORE_SAME);
 	}
 
-	public TypeUpdateResult applyWithWiderIgnoreUnknown(MethodNode mth, SSAVar ssaVar, ArgType candidateType) {
-		return apply(mth, ssaVar, candidateType, TypeUpdateFlags.FLAGS_WIDER_IGNORE_UNKNOWN);
+	public TypeUpdateResult applyDebugInfo(MethodNode mth, SSAVar ssaVar, ArgType candidateType) {
+		return apply(mth, ssaVar, candidateType, TypeUpdateFlags.FLAGS_APPLY_DEBUG);
 	}
 
 	private TypeUpdateResult apply(MethodNode mth, SSAVar ssaVar, ArgType candidateType, TypeUpdateFlags flags) {
-		if (candidateType == null || !candidateType.isTypeKnown()) {
+		try {
+			if (candidateType == null || !candidateType.isTypeKnown()) {
+				return REJECT;
+			}
+
+			TypeUpdateInfo updateInfo = new TypeUpdateInfo(mth, flags, args);
+			TypeUpdateResult result = updateTypeChecked(updateInfo, ssaVar.getAssign(), candidateType);
+			if (result == REJECT) {
+				return result;
+			}
+			if (updateInfo.isEmpty()) {
+				return SAME;
+			}
+			if (Consts.DEBUG_TYPE_INFERENCE) {
+				LOG.debug("Applying type {} to {}:", candidateType, ssaVar.toShortString());
+				updateInfo.getSortedUpdates().forEach(upd -> LOG.debug("  {} -> {} in {}",
+						upd.getType(), upd.getArg().toShortString(), upd.getArg().getParentInsn()));
+			}
+			updateInfo.applyUpdates();
+			return CHANGED;
+		} catch (Exception e) {
+			mth.addWarnComment("Type update failed for variable: " + ssaVar + ", new type: " + candidateType, e);
 			return REJECT;
 		}
-
-		TypeUpdateInfo updateInfo = new TypeUpdateInfo(mth, flags, args);
-		TypeUpdateResult result = updateTypeChecked(updateInfo, ssaVar.getAssign(), candidateType);
-		if (result == REJECT) {
-			return result;
-		}
-		if (updateInfo.isEmpty()) {
-			return SAME;
-		}
-		if (Consts.DEBUG_TYPE_INFERENCE) {
-			LOG.debug("Applying type {} to {}:", candidateType, ssaVar.toShortString());
-			updateInfo.getSortedUpdates().forEach(upd -> LOG.debug("  {} -> {} in {}",
-					upd.getType(), upd.getArg().toShortString(), upd.getArg().getParentInsn()));
-		}
-		updateInfo.applyUpdates();
-		return CHANGED;
 	}
 
 	private TypeUpdateResult updateTypeChecked(TypeUpdateInfo updateInfo, InsnArg arg, ArgType candidateType) {
@@ -119,8 +124,9 @@ public final class TypeUpdate {
 
 	private @Nullable TypeUpdateResult verifyType(TypeUpdateInfo updateInfo, InsnArg arg, ArgType candidateType) {
 		ArgType currentType = arg.getType();
+		TypeUpdateFlags typeUpdateFlags = updateInfo.getFlags();
 		if (Objects.equals(currentType, candidateType)) {
-			if (!updateInfo.getFlags().isIgnoreSame()) {
+			if (!typeUpdateFlags.isIgnoreSame()) {
 				return SAME;
 			}
 		} else {
@@ -138,7 +144,7 @@ public final class TypeUpdate {
 				}
 				return REJECT;
 			}
-			if (compareResult == TypeCompareEnum.UNKNOWN && updateInfo.getFlags().isIgnoreUnknown()) {
+			if (compareResult == TypeCompareEnum.UNKNOWN && typeUpdateFlags.isIgnoreUnknown()) {
 				return REJECT;
 			}
 			if (arg.isTypeImmutable() && currentType != ArgType.UNKNOWN) {
@@ -151,7 +157,13 @@ public final class TypeUpdate {
 				}
 				return REJECT;
 			}
-			if (compareResult.isWider() && !updateInfo.getFlags().isAllowWider()) {
+			if (compareResult == TypeCompareEnum.WIDER_BY_GENERIC && typeUpdateFlags.isKeepGenerics()) {
+				if (Consts.DEBUG_TYPE_INFERENCE) {
+					LOG.debug("Type rejected for {}: candidate={} is removing generic from current={}", arg, candidateType, currentType);
+				}
+				return REJECT;
+			}
+			if (compareResult.isWider() && !typeUpdateFlags.isAllowWider()) {
 				if (Consts.DEBUG_TYPE_INFERENCE) {
 					LOG.debug("Type rejected for {}: candidate={} is wider than current={}", arg, candidateType, currentType);
 				}
@@ -435,6 +447,9 @@ public final class TypeUpdate {
 	}
 
 	private TypeUpdateResult moveListener(TypeUpdateInfo updateInfo, InsnNode insn, InsnArg arg, ArgType candidateType) {
+		if (insn.getResult() == null) {
+			return CHANGED;
+		}
 		boolean assignChanged = isAssign(insn, arg);
 		InsnArg changeArg = assignChanged ? insn.getArg(0) : insn.getResult();
 

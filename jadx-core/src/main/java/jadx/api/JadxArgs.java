@@ -4,7 +4,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -202,6 +201,11 @@ public class JadxArgs implements Closeable {
 	 */
 	private boolean runDebugChecks = false;
 
+	/**
+	 * Passes to exclude from processing.
+	 */
+	private final List<String> disabledPasses = new ArrayList<>();
+
 	private Map<String, String> pluginOptions = new HashMap<>();
 
 	private Set<String> disabledPlugins = new HashSet<>();
@@ -245,8 +249,12 @@ public class JadxArgs implements Closeable {
 		return inputFiles;
 	}
 
+	public void addInputFile(File inputFile) {
+		this.inputFiles.add(inputFile);
+	}
+
 	public void setInputFile(File inputFile) {
-		this.inputFiles = Collections.singletonList(inputFile);
+		addInputFile(inputFile);
 	}
 
 	public void setInputFiles(List<File> inputFiles) {
@@ -798,6 +806,10 @@ public class JadxArgs implements Closeable {
 
 	public void setRunDebugChecks(boolean runDebugChecks) {
 		this.runDebugChecks = runDebugChecks;
+	}
+
+	public List<String> getDisabledPasses() {
+		return disabledPasses;
 	}
 
 	public Map<String, String> getPluginOptions() {

@@ -3,6 +3,7 @@ package jadx.core.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -51,9 +52,8 @@ public class RegionUtils {
 			return true;
 		}
 		if (container instanceof IRegion) {
-			IRegion region = (IRegion) container;
-			List<IContainer> blocks = region.getSubBlocks();
-			return !blocks.isEmpty() && hasExitEdge(blocks.get(blocks.size() - 1));
+			IContainer last = Utils.last(((IRegion) container).getSubBlocks());
+			return last != null && hasExitEdge(last);
 		}
 		throw new JadxRuntimeException(unknownContainerType(container));
 	}
@@ -79,6 +79,26 @@ public class RegionUtils {
 		} else {
 			throw new JadxRuntimeException(unknownContainerType(container));
 		}
+	}
+
+	public static @Nullable BlockNode getFirstBlockNode(IContainer container) {
+		if (container instanceof IBlock) {
+			if (container instanceof BlockNode) {
+				return (BlockNode) container;
+			}
+			return null;
+		}
+		if (container instanceof IBranchRegion) {
+			return null;
+		}
+		if (container instanceof IRegion) {
+			List<IContainer> blocks = ((IRegion) container).getSubBlocks();
+			if (blocks.isEmpty()) {
+				return null;
+			}
+			return getFirstBlockNode(blocks.get(0));
+		}
+		throw new JadxRuntimeException(unknownContainerType(container));
 	}
 
 	public static int getFirstSourceLine(IContainer container) {
@@ -132,6 +152,40 @@ public class RegionUtils {
 		} else {
 			throw new JadxRuntimeException(unknownContainerType(container));
 		}
+	}
+
+	public static BlockInsnPair getLastInsnWithBlock(IContainer container) {
+		if (container instanceof IBlock) {
+			IBlock block = (IBlock) container;
+			InsnNode lastInsn = ListUtils.last(block.getInstructions());
+			if (lastInsn == null) {
+				return null;
+			}
+			return new BlockInsnPair(block, lastInsn);
+		}
+		if (container instanceof IBranchRegion) {
+			List<IContainer> branches = ((IBranchRegion) container).getBranches();
+			long count = branches.stream().filter(Objects::nonNull).count();
+			if (count == 1) {
+				// single branch
+				for (IContainer branch : branches) {
+					if (branch != null) {
+						return getLastInsnWithBlock(branch);
+					}
+				}
+			}
+			// several last instructions
+			return null;
+		}
+		if (container instanceof IRegion) {
+			IRegion region = (IRegion) container;
+			List<IContainer> blocks = region.getSubBlocks();
+			if (blocks.isEmpty()) {
+				return null;
+			}
+			return getLastInsnWithBlock(ListUtils.last(blocks));
+		}
+		throw new JadxRuntimeException(unknownContainerType(container));
 	}
 
 	public static IBlock getLastBlock(IContainer container) {
@@ -420,10 +474,11 @@ public class RegionUtils {
 		return true;
 	}
 
-	public static IContainer getBlockContainer(IContainer container, BlockNode block) {
+	public static IContainer getBlockContainer(IContainer container, IBlock block) {
 		if (container instanceof IBlock) {
 			return container == block ? container : null;
-		} else if (container instanceof IRegion) {
+		}
+		if (container instanceof IRegion) {
 			IRegion region = (IRegion) container;
 			for (IContainer c : region.getSubBlocks()) {
 				IContainer res = getBlockContainer(c, block);
@@ -432,9 +487,8 @@ public class RegionUtils {
 				}
 			}
 			return null;
-		} else {
-			throw new JadxRuntimeException(unknownContainerType(container));
 		}
+		throw new JadxRuntimeException(unknownContainerType(container));
 	}
 
 	/**
@@ -513,6 +567,17 @@ public class RegionUtils {
 			@Override
 			public void processBlock(MethodNode mth, IBlock block) {
 				visitor.accept(block);
+			}
+		});
+	}
+
+	public static void visitBlockNodes(MethodNode mth, IContainer container, Consumer<BlockNode> visitor) {
+		DepthRegionTraversal.traverse(mth, container, new AbstractRegionVisitor() {
+			@Override
+			public void processBlock(MethodNode mth, IBlock block) {
+				if (block instanceof BlockNode) {
+					visitor.accept((BlockNode) block);
+				}
 			}
 		});
 	}
