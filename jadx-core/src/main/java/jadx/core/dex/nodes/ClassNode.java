@@ -72,6 +72,7 @@ public class ClassNode extends NotificationAttrNode
 	private ArgType superClass;
 	private List<ArgType> interfaces;
 	private List<ArgType> generics = Collections.emptyList();
+	private String inputFileName;
 
 	private List<MethodNode> methods;
 	private List<FieldNode> fields;
@@ -123,6 +124,7 @@ public class ClassNode extends NotificationAttrNode
 			this.accessFlags = new AccessInfo(getAccessFlags(cls), AFType.CLASS);
 			this.superClass = checkSuperType(cls);
 			this.interfaces = Utils.collectionMap(cls.getInterfacesTypes(), ArgType::object);
+			setInputFileName(cls.getInputFileName());
 
 			ListConsumer<IFieldData, FieldNode> fieldsConsumer = new ListConsumer<>(fld -> FieldNode.build(this, fld));
 			ListConsumer<IMethodData, MethodNode> methodsConsumer = new ListConsumer<>(mth -> MethodNode.build(this, mth));
@@ -228,6 +230,7 @@ public class ClassNode extends NotificationAttrNode
 	public static ClassNode addSyntheticClass(RootNode root, ClassInfo clsInfo, int accessFlags) {
 		ClassNode cls = new ClassNode(root, clsInfo, accessFlags);
 		cls.add(AFlag.SYNTHETIC);
+		cls.setInputFileName("synthetic");
 		cls.setState(ProcessState.PROCESS_COMPLETE);
 		root.addClassNode(cls);
 		return cls;
@@ -403,7 +406,7 @@ public class ClassNode extends NotificationAttrNode
 			ICodeInfo codeInfo = root.getProcessClasses().generateCode(this);
 			processDefinitionAnnotations(codeInfo);
 			return codeInfo;
-		} catch (Throwable e) {
+		} catch (StackOverflowError | Exception e) {
 			addError("Code generation failed", e);
 			return new SimpleCodeInfo(Utils.getStackTrace(e));
 		}
@@ -612,17 +615,9 @@ public class ClassNode extends NotificationAttrNode
 		return parentClass;
 	}
 
-	public void updateParentClass() {
-		if (clsInfo.isInner()) {
-			ClassNode parent = root.resolveClass(clsInfo.getParentClass());
-			if (parent != null) {
-				parentClass = parent;
-				return;
-			}
-			// undo inner mark in class info
-			clsInfo.notInner(root);
-		}
-		parentClass = this;
+	public void notInner() {
+		this.clsInfo.notInner(root);
+		this.parentClass = this;
 	}
 
 	/**
@@ -632,31 +627,35 @@ public class ClassNode extends NotificationAttrNode
 	 */
 	@Override
 	public void rename(String newName) {
-		int lastDot = newName.lastIndexOf('.');
-		if (lastDot == -1) {
+		if (newName.indexOf('.') == -1) {
 			clsInfo.changeShortName(newName);
 			return;
 		}
-		if (clsInfo.isInner()) {
-			addWarn("Can't change package for inner class: " + this + " to " + newName);
-			return;
-		}
+		// full name provided
+		ClassInfo newClsInfo = ClassInfo.fromNameWithoutCache(root, newName, clsInfo.isInner());
 		// change class package
-		String newPkg = newName.substring(0, lastDot);
-		String newShortName = newName.substring(lastDot + 1);
-		if (changeClassNodePackage(newPkg)) {
-			clsInfo.changePkgAndName(newPkg, newShortName);
-		} else {
+		String newPkg = newClsInfo.getPackage();
+		String newShortName = newClsInfo.getShortName();
+		if (clsInfo.isInner()) {
+			if (!newPkg.equals(clsInfo.getPackage())) {
+				addWarn("Can't change package for inner class: " + this + " to " + newName);
+			}
 			clsInfo.changeShortName(newShortName);
+		} else {
+			if (changeClassNodePackage(newPkg)) {
+				clsInfo.changePkgAndName(newPkg, newShortName);
+			} else {
+				clsInfo.changeShortName(newShortName);
+			}
 		}
 	}
 
 	private boolean changeClassNodePackage(String fullPkg) {
-		if (clsInfo.isInner()) {
-			throw new JadxRuntimeException("Can't change package for inner class: " + clsInfo);
-		}
 		if (fullPkg.equals(clsInfo.getAliasPkg())) {
 			return false;
+		}
+		if (clsInfo.isInner()) {
+			throw new JadxRuntimeException("Can't change package for inner class: " + clsInfo);
 		}
 		root.removeClsFromPackage(packageNode, this);
 		packageNode = PackageNode.getForClass(root, fullPkg, this);
@@ -878,7 +877,7 @@ public class ClassNode extends NotificationAttrNode
 		code.startLine(String.format("###### Class %s (%s)", getFullName(), getRawName()));
 		try {
 			code.startLine(clsData.getDisassembledCode());
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			code.startLine("Failed to disassemble class:");
 			code.startLine(Utils.getStackTrace(e));
 		}
@@ -965,7 +964,11 @@ public class ClassNode extends NotificationAttrNode
 
 	@Override
 	public String getInputFileName() {
-		return clsData == null ? "synthetic" : clsData.getInputFileName();
+		return inputFileName;
+	}
+
+	public void setInputFileName(String inputFileName) {
+		this.inputFileName = inputFileName;
 	}
 
 	public JavaClass getJavaNode() {

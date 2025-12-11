@@ -23,9 +23,10 @@ dependencies {
 	runtimeOnly(project(":jadx-plugins:jadx-xapk-input"))
 	runtimeOnly(project(":jadx-plugins:jadx-aab-input"))
 	runtimeOnly(project(":jadx-plugins:jadx-apkm-input"))
+	runtimeOnly(project(":jadx-plugins:jadx-apks-input"))
 
 	implementation("org.jcommander:jcommander:2.0")
-	implementation("ch.qos.logback:logback-classic:1.5.18")
+	implementation("ch.qos.logback:logback-classic:1.5.21")
 }
 
 application {
@@ -36,6 +37,7 @@ application {
 			"-XX:+IgnoreUnrecognizedVMOptions",
 			"-Xms256M",
 			"-XX:MaxRAMPercentage=70.0",
+			"-XX:ParallelGCThreads=3",
 			// disable zip checks (#1962)
 			"-Djdk.util.zip.disableZip64ExtraFieldValidation=true",
 			// Foreign API access for 'directories' library (Windows only)

@@ -2,9 +2,9 @@ plugins {
 	id("jadx-kotlin")
 	id("application")
 	id("jadx-library")
-	id("edu.sc.seis.launch4j") version "3.0.6"
 	id("com.gradleup.shadow") version "8.3.8"
-	id("org.beryx.runtime") version "1.13.1"
+	id("edu.sc.seis.launch4j") version "4.0.0"
+	id("org.beryx.runtime") version "2.0.1"
 }
 
 dependencies {
@@ -23,30 +23,30 @@ dependencies {
 	implementation("com.fifesoft:autocomplete:3.3.2")
 
 	// use KtLint for format and check jadx scripts
-	implementation("com.pinterest.ktlint:ktlint-rule-engine:1.7.0")
-	implementation("com.pinterest.ktlint:ktlint-ruleset-standard:1.7.0")
+	implementation("com.pinterest.ktlint:ktlint-rule-engine:1.8.0")
+	implementation("com.pinterest.ktlint:ktlint-ruleset-standard:1.8.0")
 
 	implementation("org.jcommander:jcommander:2.0")
-	implementation("ch.qos.logback:logback-classic:1.5.18")
-	implementation("io.github.oshai:kotlin-logging-jvm:7.0.7")
+	implementation("ch.qos.logback:logback-classic:1.5.21")
+	implementation("io.github.oshai:kotlin-logging-jvm:7.0.13")
 
 	implementation("com.fifesoft:rsyntaxtextarea:3.6.0")
 	implementation("org.drjekyll:fontchooser:3.1.0")
 	implementation("hu.kazocsaba:image-viewer:1.2.3")
 	implementation("com.twelvemonkeys.imageio:imageio-webp:3.12.0") // WebP support for image viewer
 
-	implementation("com.formdev:flatlaf:3.6.1")
-	implementation("com.formdev:flatlaf-intellij-themes:3.6.1")
-	implementation("com.formdev:flatlaf-extras:3.6.1")
+	implementation("com.formdev:flatlaf:3.6.2")
+	implementation("com.formdev:flatlaf-intellij-themes:3.6.2")
+	implementation("com.formdev:flatlaf-extras:3.6.2")
 
-	implementation("com.google.code.gson:gson:2.13.1")
-	implementation("org.apache.commons:commons-lang3:3.18.0")
-	implementation("org.apache.commons:commons-text:1.13.1")
-	implementation("commons-io:commons-io:2.20.0")
+	implementation("com.google.code.gson:gson:2.13.2")
+	implementation("org.apache.commons:commons-lang3:3.20.0")
+	implementation("org.apache.commons:commons-text:1.14.0")
+	implementation("commons-io:commons-io:2.21.0")
 
-	implementation("io.reactivex.rxjava3:rxjava:3.1.11")
+	implementation("io.reactivex.rxjava3:rxjava:3.1.12")
 	implementation("com.github.akarnokd:rxjava3-swing:3.1.1")
-	implementation("com.android.tools.build:apksig:8.11.1")
+	implementation("com.android.tools.build:apksig:8.13.1")
 	implementation("io.github.skylot:jdwp:2.0.0")
 
 	// Library for hex viewing data
@@ -226,6 +226,20 @@ val copyDistWinWithJre by tasks.registering(Copy::class) {
 	}
 	into(layout.buildDirectory.dir("jadx-gui-with-jre-win"))
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+/**
+ * Register and expose distribution artifacts to use in top level packaging tasks
+ */
+val distWinConfiguration by configurations.creating {
+	isCanBeResolved = false
+}
+val distWinWithJreConfiguration by configurations.creating {
+	isCanBeResolved = false
+}
+artifacts {
+	add(distWinConfiguration.name, copyDistWin)
+	add(distWinWithJreConfiguration.name, copyDistWinWithJre)
 }
 
 val syncNLSLines by tasks.registering(JavaExec::class) {

@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import javax.swing.AbstractAction;
@@ -120,15 +119,11 @@ import jadx.gui.settings.JadxSettings;
 import jadx.gui.settings.ui.JadxSettingsWindow;
 import jadx.gui.tree.TreeExpansionService;
 import jadx.gui.treemodel.ApkSignatureNode;
-import jadx.gui.treemodel.JInputFiles;
-import jadx.gui.treemodel.JInputScripts;
-import jadx.gui.treemodel.JInputs;
 import jadx.gui.treemodel.JLoadableNode;
 import jadx.gui.treemodel.JNode;
 import jadx.gui.treemodel.JPackage;
 import jadx.gui.treemodel.JResource;
 import jadx.gui.treemodel.JRoot;
-import jadx.gui.treemodel.JSources;
 import jadx.gui.ui.action.ActionModel;
 import jadx.gui.ui.action.JadxGuiAction;
 import jadx.gui.ui.codearea.AbstractCodeArea;
@@ -381,8 +376,10 @@ public class MainWindow extends JFrame {
 		if (!ensureProjectIsSaved()) {
 			return;
 		}
-		closeAll();
-		updateProject(new JadxProject(this));
+		UiUtils.bgRun(() -> {
+			closeAll();
+			updateProject(new JadxProject(this));
+		});
 	}
 
 	private void saveProject() {
@@ -544,6 +541,7 @@ public class MainWindow extends JFrame {
 			synchronized (ReloadProject.EVENT) {
 				saveAll();
 				closeAll();
+				System.gc();
 				loadFiles(() -> {
 					menuBar.reloadShortcuts();
 					events().send(ReloadSettingsWindow.INSTANCE);
@@ -575,25 +573,16 @@ public class MainWindow extends JFrame {
 			onFinish.run();
 			return;
 		}
-		AtomicReference<Exception> wrapperException = new AtomicReference<>();
 		backgroundExecutor.execute(NLS.str("progress.load"),
 				() -> {
 					try {
 						wrapper.open();
 					} catch (Exception e) {
-						wrapperException.set(e);
+						LOG.error("Project load error", e);
+						closeAll();
 					}
 				},
 				status -> {
-					if (wrapperException.get() != null) {
-						closeAll();
-						Exception e = wrapperException.get();
-						if (e instanceof RuntimeException) {
-							throw (RuntimeException) e;
-						} else {
-							throw new JadxRuntimeException("Project load error", e);
-						}
-					}
 					if (status == TaskStatus.CANCEL_BY_MEMORY) {
 						showHeapUsageBar();
 						UiUtils.errorMessage(this, NLS.str("message.memoryLow"));
@@ -604,8 +593,7 @@ public class MainWindow extends JFrame {
 						return;
 					}
 					checkLoadedStatus();
-					onOpen();
-					onFinish.run();
+					onOpen(onFinish);
 				});
 	}
 
@@ -616,19 +604,21 @@ public class MainWindow extends JFrame {
 	}
 
 	private void closeAll() {
-		notifyLoadListeners(false);
+		UiUtils.notUiThreadGuard();
 		cancelBackgroundJobs();
-		navController.reset();
-		tabbedPane.reset();
-		clearTree();
-		resetCache();
-		LogCollector.getInstance().reset();
+		UiUtils.uiRunAndWait(() -> {
+			tabsController.forceCloseAllTabs();
+			tabbedPane.reset();
+			navController.reset();
+			shortcutsController.reset();
+			clearTree();
+			UiUtils.resetClipboardOwner();
+			update();
+		});
 		wrapper.close();
-		tabsController.forceCloseAllTabs();
-		shortcutsController.reset();
-		UiUtils.resetClipboardOwner();
-		System.gc();
-		UiUtils.uiRun(this::update);
+		LogCollector.getInstance().reset();
+		resetCache();
+		notifyLoadListeners(false);
 	}
 
 	private void checkLoadedStatus() {
@@ -651,21 +641,23 @@ public class MainWindow extends JFrame {
 		}
 	}
 
-	private void onOpen() {
+	private void onOpen(Runnable onFinish) {
 		initTree();
 		updateLiveReload(project.isEnableLiveReload());
 		BreakpointManager.init(project.getFilePaths().get(0).toAbsolutePath().getParent());
-		treeExpansionService.load(project.getTreeExpansions());
 		List<EditorViewState> openTabs = project.getOpenTabs(this);
-		backgroundExecutor.execute(NLS.str("progress.load"),
+		backgroundExecutor.startLoading(
 				() -> preLoadOpenTabs(openTabs),
-				status -> {
+				() -> {
 					restoreOpenTabs(openTabs);
-					runInitialBackgroundJobs();
-					notifyLoadListeners(true);
 					update();
+					notifyLoadListeners(true);
+					onFinish.run();
 					checkIfCodeHasNonPrintableChars();
+					runInitialBackgroundJobs();
 				});
+		// queue tree state restore after loading task
+		treeExpansionService.load(project.getTreeExpansions());
 	}
 
 	public void passesReloaded() {
@@ -920,11 +912,7 @@ public class MainWindow extends JFrame {
 				}
 			} else if (obj instanceof JNode) {
 				JNode treeNode = (JNode) obj;
-				if (!(treeNode instanceof JPackage)
-						&& !(treeNode instanceof JSources)
-						&& !(treeNode instanceof JInputs)
-						&& !(treeNode instanceof JInputFiles)
-						&& !(treeNode instanceof JInputScripts)) {
+				if (treeNode.hasContent() || treeNode.getJParent() != null) {
 					tabsController.codeJump(treeNode, true);
 					return true;
 				}
@@ -1600,18 +1588,26 @@ public class MainWindow extends JFrame {
 		if (!ensureProjectIsSaved()) {
 			return;
 		}
-		settings.setTreeWidth(treeSplitPane.getDividerLocation());
-		settings.saveWindowPos(this);
-		settings.setMainWindowExtendedState(getExtendedState());
-		if (debuggerPanel != null) {
-			saveSplittersInfo();
-		}
-		heapUsageBar.reset();
-		closeAll();
-
-		editorThemeManager.unload();
-		dispose();
-		System.exit(0);
+		UiUtils.bgRun(() -> {
+			try {
+				settings.setTreeWidth(treeSplitPane.getDividerLocation());
+				settings.saveWindowPos(this);
+				settings.setMainWindowExtendedState(getExtendedState());
+				if (debuggerPanel != null) {
+					saveSplittersInfo();
+				}
+				closeAll();
+				UiUtils.uiRunAndWait(() -> {
+					heapUsageBar.reset();
+					editorThemeManager.unload();
+					dispose();
+				});
+			} catch (Exception e) {
+				LOG.error("Close window error", e);
+			} finally {
+				System.exit(0);
+			}
+		});
 	}
 
 	private void saveOpenTabs() {
