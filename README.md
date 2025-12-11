@@ -10,6 +10,8 @@ Based on [skylot/jadx](https://github.com/skylot/jadx) v1.5.3 with performance o
 
 Tested on GoldRush APK (647MB, 20,481 classes, 11 DEX files):
 
+`sha256: aa7382155dc62389b3bbb0e2ee93c882b5118e3da7924db8575cb137ca36596b`
+
 | Version | Time | Speedup | Errors |
 |---------|------|---------|--------|
 | Stock JADX 1.5.3 | 47.60s | - | 56-65 |
