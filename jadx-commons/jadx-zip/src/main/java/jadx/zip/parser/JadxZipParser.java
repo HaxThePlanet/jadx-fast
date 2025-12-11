@@ -128,18 +128,10 @@ public final class JadxZipParser implements IZipParser {
 			throw new IOException("Zip file is too big");
 		}
 		int fileLen = (int) size;
-		if (fileLen < 100 * 1024 * 1024) {
-			// load files smaller than 100MB directly into memory
-			byte[] bytes = new byte[fileLen];
-			file.readFully(bytes);
-			byteBuffer = ByteBuffer.wrap(bytes).asReadOnlyBuffer();
-			file.close();
-			file = null;
-		} else {
-			// for big files - use a memory mapped file
-			fileChannel = file.getChannel();
-			byteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, fileChannel.size());
-		}
+
+		// Always use memory-mapped files for better parallel performance
+		fileChannel = file.getChannel();
+		byteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, fileChannel.size());
 		byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 	}
 
@@ -312,20 +304,27 @@ public final class JadxZipParser implements IZipParser {
 		return stream;
 	}
 
-	synchronized byte[] getBytes(JadxZipEntry entry) {
+	/**
+	 * Thread-safe getBytes using buffer duplication for parallel decompression.
+	 * jadx-fast optimization: removes synchronized to enable parallel processing.
+	 */
+	byte[] getBytes(JadxZipEntry entry) {
+		// Create a thread-local duplicate of the buffer to ensure thread safety
+		ByteBuffer threadBuffer = byteBuffer.duplicate().order(ByteOrder.LITTLE_ENDIAN);
+
 		if (verify) {
 			verifyEntry(entry);
 		}
 		if (entry.getCompressMethod() == 8) {
 			try {
-				return ZipDeflate.decompressEntryToBytes(byteBuffer, entry);
+				return ZipDeflate.decompressEntryToBytes(threadBuffer, entry);
 			} catch (Exception e) {
 				entryParseFailed(entry, e);
 				return useFallbackParser(entry).getBytes();
 			}
 		}
 		// treat any other compression methods values as UNCOMPRESSED
-		return bufferToBytes(byteBuffer, entry.getDataStart(), (int) entry.getUncompressedSize());
+		return bufferToBytes(threadBuffer, entry.getDataStart(), (int) entry.getUncompressedSize());
 	}
 
 	private static void verifyEntry(JadxZipEntry entry) {

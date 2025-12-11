@@ -19,7 +19,8 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 public class DecompilerScheduler implements IDecompileScheduler {
 	private static final Logger LOG = LoggerFactory.getLogger(DecompilerScheduler.class);
 
-	private static final int MERGED_BATCH_SIZE = 16;
+	// Increased batch size for better parallelization on high-core systems
+	private static final int MERGED_BATCH_SIZE = 48;
 	private static final boolean DEBUG_BATCHES = false;
 
 	@Override

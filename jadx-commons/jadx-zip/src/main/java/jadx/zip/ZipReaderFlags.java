@@ -24,9 +24,19 @@ public enum ZipReaderFlags {
 	/**
 	 * Use only jadx custom parser and do not switch to fallback on errors.
 	 */
-	DONT_USE_FALLBACK;
+	DONT_USE_FALLBACK,
+
+	/**
+	 * Enable parallel processing of zip entries.
+	 * Significantly improves extraction speed on multi-core systems.
+	 */
+	PARALLEL_EXTRACTION;
 
 	public static Set<ZipReaderFlags> none() {
 		return EnumSet.noneOf(ZipReaderFlags.class);
+	}
+
+	public static Set<ZipReaderFlags> defaultSet() {
+		return EnumSet.of(PARALLEL_EXTRACTION);
 	}
 }
