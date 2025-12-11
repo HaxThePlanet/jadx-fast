@@ -8,7 +8,7 @@ import jadx.zip.security.JadxZipSecurity;
 public class ZipReaderOptions {
 
 	public static ZipReaderOptions getDefault() {
-		return new ZipReaderOptions(new JadxZipSecurity(), ZipReaderFlags.none());
+		return new ZipReaderOptions(new JadxZipSecurity(), ZipReaderFlags.defaultSet());
 	}
 
 	private final IJadxZipSecurity zipSecurity;

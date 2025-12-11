@@ -47,7 +47,8 @@ import jadx.core.utils.files.FileUtils;
 public class JadxArgs implements Closeable {
 	private static final Logger LOG = LoggerFactory.getLogger(JadxArgs.class);
 
-	public static final int DEFAULT_THREADS_COUNT = Math.max(1, Runtime.getRuntime().availableProcessors() / 2);
+	// Optimized for physical cores rather than hyperthreads
+	public static final int DEFAULT_THREADS_COUNT = Math.max(1, (int) (Runtime.getRuntime().availableProcessors() / 3));
 
 	public static final String DEFAULT_NEW_LINE_STR = System.lineSeparator();
 	public static final String DEFAULT_INDENT_STR = "    ";

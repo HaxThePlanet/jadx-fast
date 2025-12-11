@@ -3,11 +3,18 @@ package jadx.zip;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jadx.zip.fallback.FallbackZipParser;
 import jadx.zip.parser.JadxZipParser;
@@ -19,6 +26,10 @@ import jadx.zip.security.JadxZipSecurity;
  * with fallback to default Java implementation.
  */
 public class ZipReader {
+	private static final Logger LOG = LoggerFactory.getLogger(ZipReader.class);
+	// Use 25% of available processors to optimize for physical cores, not hyperthreads
+	private static final int DEFAULT_THREAD_COUNT = Math.max(1, Runtime.getRuntime().availableProcessors() / 4);
+
 	private final ZipReaderOptions options;
 
 	public ZipReader() {
@@ -74,6 +85,15 @@ public class ZipReader {
 	}
 
 	public void readEntries(File file, BiConsumer<IZipEntry, InputStream> visitor) {
+		boolean useParallel = options.getFlags().contains(ZipReaderFlags.PARALLEL_EXTRACTION);
+		if (useParallel) {
+			readEntriesParallel(file, visitor);
+		} else {
+			readEntriesSequential(file, visitor);
+		}
+	}
+
+	private void readEntriesSequential(File file, BiConsumer<IZipEntry, InputStream> visitor) {
 		visitEntries(file, entry -> {
 			if (!entry.isDirectory()) {
 				try (InputStream in = entry.getInputStream()) {
@@ -84,6 +104,62 @@ public class ZipReader {
 			}
 			return null;
 		});
+	}
+
+	private void readEntriesParallel(File file, BiConsumer<IZipEntry, InputStream> visitor) {
+		try (ZipContent content = open(file)) {
+			List<IZipEntry> entries = content.getEntries();
+			int parallelism = DEFAULT_THREAD_COUNT;
+
+			// For small zip files, use fewer threads
+			if (entries.size() < parallelism) {
+				parallelism = Math.max(1, entries.size());
+			}
+			LOG.debug("Processing {} entries using ForkJoinPool with parallelism {}", entries.size(), parallelism);
+
+			// Use ForkJoinPool with custom parallelism for work-stealing
+			ConcurrentHashMap<String, Object> processedEntries = new ConcurrentHashMap<>();
+
+			// Filter out directories
+			List<IZipEntry> filesToProcess = entries.stream()
+					.filter(entry -> !entry.isDirectory())
+					.collect(Collectors.toList());
+
+			// Process in parallel with work-stealing
+			java.util.concurrent.ForkJoinPool customThreadPool =
+					new java.util.concurrent.ForkJoinPool(parallelism);
+
+			try {
+				customThreadPool.submit(() -> filesToProcess.parallelStream().forEach(entry -> {
+					try (InputStream in = entry.getInputStream()) {
+						visitor.accept(entry, in);
+						processedEntries.put(entry.getName(), Boolean.TRUE);
+					} catch (Exception e) {
+						throw new RuntimeException("Failed to process zip entry: " + entry, e);
+					}
+				})).get(); // Wait for completion
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new RuntimeException("Parallel processing interrupted", e);
+			} catch (ExecutionException e) {
+				throw new RuntimeException("Error in parallel processing", e.getCause());
+			} finally {
+				customThreadPool.shutdown();
+				try {
+					if (!customThreadPool.awaitTermination(1, TimeUnit.MINUTES)) {
+						LOG.warn("Thread pool did not terminate in the specified time");
+						customThreadPool.shutdownNow();
+					}
+				} catch (InterruptedException e) {
+					customThreadPool.shutdownNow();
+					Thread.currentThread().interrupt();
+				}
+			}
+
+			LOG.debug("Processed {} entries in parallel with work stealing", processedEntries.size());
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to process zip file: " + file.getAbsolutePath(), e);
+		}
 	}
 
 	public ZipReaderOptions getOptions() {
