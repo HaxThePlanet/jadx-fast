@@ -1,6 +1,8 @@
 # JADX-Fast v1.5.3
 
-**An optimized fork of JADX for high-performance Android app decompilation.**
+**jadx-fast goes brrrr**
+
+An optimized fork of JADX for high-performance Android app decompilation.
 
 Based on [skylot/jadx](https://github.com/skylot/jadx) v1.5.3 with performance optimizations that deliver **1.83x faster** decompilation.
 
