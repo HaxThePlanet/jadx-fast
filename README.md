@@ -19,7 +19,30 @@ Tested on GoldRush APK (647MB, 20,481 classes, 11 DEX files):
 
 ## Performance Optimizations
 
-### Tier 1: Parallel I/O & Decompression
+### Tier 1: Smart Class Filtering (THE BIG ONE)
+
+**This is the most impactful optimization.** Skips processing of framework and generated classes entirely:
+
+**Framework packages skipped:**
+- `android.*`, `androidx.*`
+- `kotlin.*`, `kotlinx.*`
+- `java.*`, `javax.*`, `sun.*`, `dalvik.*`
+- `com.google.android.*`, `com.android.*`
+- `org.apache.http.*`, `org.xmlpull.*`, `org.json.*`, `org.w3c.*`, `org.xml.*`
+
+**Generated code skipped:**
+- `R.java`, `R$*.class`, `BuildConfig`, `BR`
+- Data Binding (`*databinding*`, `*DataBinderMapper*`)
+- Dagger/Hilt (`*_Factory`, `*_HiltModules`, `*_MembersInjector`)
+- Butterknife (`*_ViewBinding`, `*_ViewBinder`)
+
+**Cross-platform frameworks skipped:**
+- Flutter (`io.flutter.*`)
+- React Native (`com.facebook.react.*`, `com.facebook.hermes.*`)
+
+**Why?** You don't need to decompile Android SDK or Kotlin stdlib - you can read those online. Focus on the actual app code.
+
+### Tier 2: Parallel I/O & Decompression
 
 1. **Lock-Free Parallel Decompression**
    - Thread-safe `getBytes()` using ByteBuffer duplication
@@ -40,21 +63,13 @@ Tested on GoldRush APK (647MB, 20,481 classes, 11 DEX files):
    - Increased batch size (16 → 48) for better parallelization
    - Tuned thread counts for physical cores vs hyperthreads
 
-### Tier 2: Smart Class Filtering
-
-5. **Framework Class Skipping**
-   - Skips Android, AndroidX, Kotlin, Java standard libraries
-   - Skip generated code: R.java, BuildConfig, Data Binding, Dagger/Hilt
-   - Skip cross-platform frameworks: Flutter, React Native, Unity, Xamarin
-   - Focus on YOUR code, not framework code you can read online
-
 ### Tier 3: Code Generation
 
-6. **StringBuilder Pre-sizing** (5-10% improvement)
+5. **StringBuilder Pre-sizing** (5-10% improvement)
    - Pre-allocates based on method/field count
    - Reduces memory reallocations during code generation
 
-7. **Empty Method Skipping** (10-15% improvement for obfuscated APKs)
+6. **Empty Method Skipping** (10-15% improvement for obfuscated APKs)
    - Detects methods with zero instructions
    - Common in obfuscated code with stub methods
 
