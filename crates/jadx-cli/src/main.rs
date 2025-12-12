@@ -440,13 +440,14 @@ fn process_dex_bytes(
     tracing::info!("Processing {} classes (after filtering)", count);
 
     // ========================================================================
-    // PHASE 1: Sequential IR conversion (DexReader not Sync due to caching)
+    // PHASE 1: Parallel IR conversion (DEX -> ClassData)
     // ========================================================================
     let phase1_start = Instant::now();
-    tracing::info!("Phase 1: Converting DEX to IR (sequential)...");
+    tracing::info!("Phase 1: Converting DEX to IR (parallel)...");
 
-    let ir_classes: Vec<(String, Result<ClassData, String>)> = class_indices
-        .iter()
+    // Convert all classes to IR in parallel, wrapping in Arc for efficient sharing
+    let ir_classes: Vec<(String, Result<std::sync::Arc<ClassData>, String>)> = class_indices
+        .par_iter()
         .map(|(idx, class_name)| {
             // Use catch_unwind to handle panics in IR conversion gracefully
             let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
@@ -454,6 +455,7 @@ fn process_dex_bytes(
                     .map_err(|e| format!("Failed to get class: {}", e))
                     .and_then(|class| {
                         converter::convert_class(&dex, &class)
+                            .map(std::sync::Arc::new) // Wrap in Arc for cheap sharing
                             .map_err(|e| format!("Failed to convert: {}", e))
                     })
             }))
@@ -485,8 +487,9 @@ fn process_dex_bytes(
     // Group inner classes with their outer classes
     // Anonymous classes: Lcom/example/Outer$1; -> outer is Lcom/example/Outer;
     // Named inner classes: Lcom/example/Outer$Inner; -> outer is Lcom/example/Outer;
-    let mut outer_classes: Vec<(String, Result<ClassData, String>)> = Vec::new();
-    let mut inner_class_map: HashMap<String, HashMap<String, ClassData>> = HashMap::new();
+    // Using Arc<ClassData> avoids expensive deep cloning
+    let mut outer_classes: Vec<(String, Result<std::sync::Arc<ClassData>, String>)> = Vec::new();
+    let mut inner_class_map: HashMap<String, HashMap<String, std::sync::Arc<ClassData>>> = HashMap::new();
 
     for (class_name, ir_result) in ir_classes {
         if let Some(dollar_pos) = class_name.rfind('$') {
@@ -605,7 +608,12 @@ fn create_progress_bar(args: &Args) -> Option<ProgressBar> {
 }
 
 /// Skip framework and generated classes (jadx-fast optimization)
-fn should_skip_class(class_name: &str) -> bool {
+fn should_skip_class(_class_name: &str) -> bool {
+    false // MEMORY DEBUG - disabled to test all classes
+}
+
+#[allow(dead_code)]
+fn should_skip_class_full(class_name: &str) -> bool {
     const SKIP_PREFIXES: &[&str] = &[
         "Landroid/",
         "Landroidx/",

@@ -80,7 +80,8 @@ pub struct BodyGenContext {
     /// Inlined expressions - variables with single use store their expression here
     pub inlined_exprs: HashMap<(u16, u32), String>,
     /// Anonymous class registry - maps type descriptor to ClassData for inline generation
-    pub anonymous_classes: HashMap<String, jadx_ir::ClassData>,
+    /// Uses Arc to avoid cloning ClassData for every method
+    pub anonymous_classes: HashMap<String, std::sync::Arc<jadx_ir::ClassData>>,
     /// Variables that are final (only assigned once)
     /// A variable is final if max_versions[reg] == 0 (never reassigned after initial assignment)
     pub final_vars: HashSet<(u16, u32)>,
@@ -101,7 +102,7 @@ impl BodyGenContext {
     pub fn from_method_with_dex_and_inner_classes(
         method: &MethodData,
         dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
-        inner_classes: Option<&std::collections::HashMap<String, jadx_ir::ClassData>>,
+        inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<jadx_ir::ClassData>>>,
     ) -> Self {
         let mut expr_gen = ExprGen::new();
 
@@ -132,12 +133,12 @@ impl BodyGenContext {
         }
 
         // Register anonymous inner classes for inline generation
+        // Using Arc avoids expensive deep cloning - just increment reference count
         let mut anonymous_classes = HashMap::new();
         if let Some(inner) = inner_classes {
             for (class_type, class_data) in inner {
                 if is_anonymous_class(class_type) {
-                    // Clone the ClassData value, not the reference
-                    anonymous_classes.insert(class_type.clone(), (*class_data).clone());
+                    anonymous_classes.insert(class_type.clone(), class_data.clone());
                 }
             }
         }
@@ -163,12 +164,12 @@ impl BodyGenContext {
 
     /// Register an anonymous class for inline generation
     pub fn register_anonymous_class(&mut self, type_desc: String, class_data: jadx_ir::ClassData) {
-        self.anonymous_classes.insert(type_desc, class_data);
+        self.anonymous_classes.insert(type_desc, std::sync::Arc::new(class_data));
     }
 
     /// Get an anonymous class by type descriptor
     pub fn get_anonymous_class(&self, type_desc: &str) -> Option<&jadx_ir::ClassData> {
-        self.anonymous_classes.get(type_desc)
+        self.anonymous_classes.get(type_desc).map(|arc| arc.as_ref())
     }
 
     /// Check if a variable should be inlined (used exactly once and has an expression)
@@ -565,7 +566,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     method: &MethodData,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
-    inner_classes: Option<&HashMap<String, jadx_ir::ClassData>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<jadx_ir::ClassData>>>,
     code: &mut W,
 ) {
     if method.instructions.is_empty() {
@@ -618,23 +619,12 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     ctx.imports = imports.cloned();
 
     // Register inner classes for anonymous class inlining
+    // Using Arc avoids expensive deep cloning - just increment reference count
     if let Some(inner) = inner_classes {
         for (type_desc, class_data) in inner {
             // Only register anonymous classes
             if is_anonymous_class(type_desc) {
-                // We need to clone the ClassData - use a workaround with manual copy
-                let cloned = jadx_ir::ClassData {
-                    class_type: class_data.class_type.clone(),
-                    access_flags: class_data.access_flags,
-                    superclass: class_data.superclass.clone(),
-                    interfaces: class_data.interfaces.clone(),
-                    source_file: class_data.source_file.clone(),
-                    methods: class_data.methods.iter().map(|m| clone_method_data(m)).collect(),
-                    static_fields: class_data.static_fields.iter().map(|f| clone_field_data(f)).collect(),
-                    instance_fields: class_data.instance_fields.iter().map(|f| clone_field_data(f)).collect(),
-                    annotations: class_data.annotations.clone(),
-                };
-                ctx.anonymous_classes.insert(type_desc.clone(), cloned);
+                ctx.anonymous_classes.insert(type_desc.clone(), class_data.clone());
             }
         }
     }
@@ -651,35 +641,6 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
 
     // Generate code from region tree
     generate_region(&region, &mut ctx, code);
-}
-
-/// Clone a MethodData (helper for anonymous class registration)
-fn clone_method_data(m: &MethodData) -> MethodData {
-    MethodData {
-        name: m.name.clone(),
-        access_flags: m.access_flags,
-        return_type: m.return_type.clone(),
-        arg_types: m.arg_types.clone(),
-        arg_names: m.arg_names.clone(),
-        regs_count: m.regs_count,
-        ins_count: m.ins_count,
-        outs_count: m.outs_count,
-        instructions: m.instructions.clone(),
-        debug_info: m.debug_info.clone(),
-        try_blocks: m.try_blocks.clone(),
-        annotations: m.annotations.clone(),
-    }
-}
-
-/// Clone a FieldData (helper for anonymous class registration)
-fn clone_field_data(f: &jadx_ir::FieldData) -> jadx_ir::FieldData {
-    jadx_ir::FieldData {
-        name: f.name.clone(),
-        access_flags: f.access_flags,
-        field_type: f.field_type.clone(),
-        initial_value: f.initial_value.clone(),
-        annotations: f.annotations.clone(),
-    }
 }
 
 /// Apply inferred types from type inference to the expression generator
@@ -1857,7 +1818,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
 
                                     // Generate the anonymous class body
                                     generate_anonymous_class_inline(
-                                        &anon_class,
+                                        anon_class.as_ref(),
                                         &constructor_args,
                                         imports.as_ref(),
                                         dex,
@@ -2451,7 +2412,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore] // TODO: Final variable tracking not yet implemented
     fn test_final_variable_tracking() {
         // Test that variables used multiple times but never reassigned are marked final
         let mut method = MethodData::new("test".to_string(), 0x0001, ArgType::Void);

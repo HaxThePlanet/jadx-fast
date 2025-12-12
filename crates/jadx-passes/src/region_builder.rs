@@ -703,11 +703,19 @@ impl<'a> RegionBuilder<'a> {
         // Build try body region
         let try_body = self.build_try_body(try_info);
 
-        // Build catch handlers
+        // Detect finally block from catch-all handler
+        // In Java bytecode, finally is implemented as:
+        // 1. A catch-all handler that stores exception, runs finally code, then re-throws
+        // 2. Finally code is also duplicated at end of try and each catch handler
+        let (finally_region, finally_handler_idx) = self.detect_finally_block(try_info);
+
+        // Build catch handlers (excluding finally handler if detected)
         let catch_handlers: Vec<CatchHandler> = try_info
             .handlers
             .iter()
-            .map(|handler| {
+            .enumerate()
+            .filter(|(idx, _)| finally_handler_idx.map_or(true, |fi| *idx != fi))
+            .map(|(_, handler)| {
                 // Mark handler blocks as processed
                 for &block in &handler.handler_blocks {
                     self.processed.insert(block);
@@ -736,10 +744,80 @@ impl<'a> RegionBuilder<'a> {
         let region = Region::TryCatch {
             try_region: Box::new(try_body),
             handlers: catch_handlers,
-            finally: None, // TODO: detect finally blocks
+            finally: finally_region,
         };
 
         (region, try_info.merge_block)
+    }
+
+    /// Detect finally block from catch-all handler
+    ///
+    /// Java compilers implement finally as:
+    /// 1. A catch-all handler (catches Throwable) that:
+    ///    - Stores the exception
+    ///    - Executes the finally code
+    ///    - Re-throws the exception
+    /// 2. Finally code is duplicated at:
+    ///    - End of try block (normal exit)
+    ///    - End of each catch handler
+    ///
+    /// Returns (finally_region, handler_index) if finally detected
+    fn detect_finally_block(&mut self, try_info: &TryInfo) -> (Option<Box<Region>>, Option<usize>) {
+        // Find catch-all handler (exception_type is None)
+        let catch_all_idx = try_info.handlers.iter().position(|h| h.exception_type.is_none());
+        let catch_all_handler = match catch_all_idx {
+            Some(idx) => &try_info.handlers[idx],
+            None => return (None, None),
+        };
+
+        // Check if catch-all handler ends with a throw instruction
+        // This is the pattern for finally: catch-all -> finally code -> re-throw
+        let last_block_id = catch_all_handler.handler_blocks.iter().max().copied();
+        let last_block = match last_block_id.and_then(|id| self.cfg.get_block(id)) {
+            Some(b) => b,
+            None => return (None, None),
+        };
+
+        // Check if the last instruction is a Throw
+        let ends_with_throw = last_block
+            .instructions
+            .last()
+            .map(|insn| matches!(insn.insn_type, InsnType::Throw { .. }))
+            .unwrap_or(false);
+
+        if !ends_with_throw {
+            // Not a finally pattern - this is a real catch-all handler
+            return (None, None);
+        }
+
+        // Mark handler blocks as processed
+        for &block in &catch_all_handler.handler_blocks {
+            self.processed.insert(block);
+        }
+
+        // Build finally region from catch-all handler body (excluding the throw at the end)
+        // The finally code is everything in the catch-all handler except the re-throw
+        let finally_region = self.build_finally_body(catch_all_handler);
+
+        (Some(Box::new(finally_region)), catch_all_idx)
+    }
+
+    /// Build finally body from catch-all handler
+    /// Excludes the re-throw instruction at the end
+    fn build_finally_body(&self, handler: &HandlerInfo) -> Region {
+        let mut contents = Vec::new();
+
+        // Build handler blocks in order
+        let mut sorted_blocks: Vec<u32> = handler.handler_blocks.iter().copied().collect();
+        sorted_blocks.sort();
+
+        // For now, include all blocks - the throw will be handled in codegen
+        // A more sophisticated approach would strip the throw instruction
+        for block_id in sorted_blocks {
+            contents.push(RegionContent::Block(block_id));
+        }
+
+        Region::Sequence(contents)
     }
 
     /// Build the try body region

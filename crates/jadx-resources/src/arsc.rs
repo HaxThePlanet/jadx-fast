@@ -12,6 +12,336 @@ use crate::constants::*;
 use crate::error::{ResourceError, Result};
 use crate::string_pool::StringPool;
 
+/// Resource configuration parsed from ResTable_config
+#[derive(Debug, Clone, Default)]
+pub struct ResConfig {
+    /// Mobile Country Code
+    pub mcc: u16,
+    /// Mobile Network Code
+    pub mnc: u16,
+    /// Language code (2 chars)
+    pub language: [u8; 2],
+    /// Country/region code (2 chars)
+    pub country: [u8; 2],
+    /// Orientation (0=any, 1=port, 2=land, 3=square)
+    pub orientation: u8,
+    /// Touchscreen type
+    pub touchscreen: u8,
+    /// Screen density (DPI)
+    pub density: u16,
+    /// Keyboard type
+    pub keyboard: u8,
+    /// Navigation type
+    pub navigation: u8,
+    /// Input flags
+    pub input_flags: u8,
+    /// Screen width (pixels)
+    pub screen_width: u16,
+    /// Screen height (pixels)
+    pub screen_height: u16,
+    /// SDK version (e.g., 21 for Android 5.0)
+    pub sdk_version: u16,
+    /// Minor version
+    pub minor_version: u16,
+    /// Screen layout flags
+    pub screen_layout: u8,
+    /// UI mode (car, desk, television, etc.)
+    pub ui_mode: u8,
+    /// Smallest screen width dp
+    pub smallest_screen_width_dp: u16,
+    /// Screen width dp
+    pub screen_width_dp: u16,
+    /// Screen height dp
+    pub screen_height_dp: u16,
+    /// Locale script (4 chars, BCP 47)
+    pub locale_script: [u8; 4],
+    /// Locale variant (8 chars, BCP 47)
+    pub locale_variant: [u8; 8],
+    /// Screen layout 2 (round screen)
+    pub screen_layout2: u8,
+    /// Color mode (wide color gamut, HDR)
+    pub color_mode: u8,
+}
+
+impl ResConfig {
+    /// Parse a ResTable_config from the cursor
+    pub fn parse(cursor: &mut Cursor<&[u8]>, config_size: u32) -> Result<Self> {
+        let start = cursor.position();
+        let mut config = Self::default();
+
+        if config_size == 0 {
+            return Ok(config);
+        }
+
+        // imsi: mcc (2) + mnc (2) = 4 bytes at offset 4
+        if config_size >= 8 {
+            config.mcc = cursor.read_u16::<LittleEndian>()?;
+            config.mnc = cursor.read_u16::<LittleEndian>()?;
+        }
+
+        // locale: language (2) + country (2) = 4 bytes at offset 8
+        if config_size >= 12 {
+            cursor.read_exact(&mut config.language)?;
+            cursor.read_exact(&mut config.country)?;
+        }
+
+        // screenType: orientation (1) + touchscreen (1) + density (2) = 4 bytes at offset 12
+        if config_size >= 16 {
+            config.orientation = cursor.read_u8()?;
+            config.touchscreen = cursor.read_u8()?;
+            config.density = cursor.read_u16::<LittleEndian>()?;
+        }
+
+        // input: keyboard (1) + navigation (1) + inputFlags (1) + inputPad0 (1) = 4 bytes at offset 16
+        if config_size >= 20 {
+            config.keyboard = cursor.read_u8()?;
+            config.navigation = cursor.read_u8()?;
+            config.input_flags = cursor.read_u8()?;
+            let _pad = cursor.read_u8()?;
+        }
+
+        // screenSize: width (2) + height (2) = 4 bytes at offset 20
+        if config_size >= 24 {
+            config.screen_width = cursor.read_u16::<LittleEndian>()?;
+            config.screen_height = cursor.read_u16::<LittleEndian>()?;
+        }
+
+        // version: sdkVersion (2) + minorVersion (2) = 4 bytes at offset 24
+        if config_size >= 28 {
+            config.sdk_version = cursor.read_u16::<LittleEndian>()?;
+            config.minor_version = cursor.read_u16::<LittleEndian>()?;
+        }
+
+        // screenConfig: screenLayout (1) + uiMode (1) + smallestScreenWidthDp (2) = 4 bytes at offset 28
+        if config_size >= 32 {
+            config.screen_layout = cursor.read_u8()?;
+            config.ui_mode = cursor.read_u8()?;
+            config.smallest_screen_width_dp = cursor.read_u16::<LittleEndian>()?;
+        }
+
+        // screenSizeDp: screenWidthDp (2) + screenHeightDp (2) = 4 bytes at offset 32
+        if config_size >= 36 {
+            config.screen_width_dp = cursor.read_u16::<LittleEndian>()?;
+            config.screen_height_dp = cursor.read_u16::<LittleEndian>()?;
+        }
+
+        // localeScript: 4 bytes at offset 36
+        if config_size >= 40 {
+            cursor.read_exact(&mut config.locale_script)?;
+        }
+
+        // localeVariant: 8 bytes at offset 40
+        if config_size >= 48 {
+            cursor.read_exact(&mut config.locale_variant)?;
+        }
+
+        // screenConfig2: screenLayout2 (1) + colorMode (1) + reserved (2) = 4 bytes at offset 48
+        if config_size >= 52 {
+            config.screen_layout2 = cursor.read_u8()?;
+            config.color_mode = cursor.read_u8()?;
+            let _reserved = cursor.read_u16::<LittleEndian>()?;
+        }
+
+        // Skip any remaining bytes in config
+        let consumed = cursor.position() - start;
+        if consumed < config_size as u64 {
+            cursor.seek(SeekFrom::Current((config_size as u64 - consumed) as i64))?;
+        }
+
+        Ok(config)
+    }
+
+    /// Convert to qualifier string (e.g., "en-rUS-hdpi-v21")
+    pub fn to_qualifier_string(&self) -> String {
+        let mut parts = Vec::new();
+
+        // MCC
+        if self.mcc != 0 {
+            parts.push(format!("mcc{}", self.mcc));
+        }
+
+        // MNC
+        if self.mnc != 0 {
+            parts.push(format!("mnc{}", self.mnc));
+        }
+
+        // Language/locale
+        if self.language[0] != 0 {
+            let lang = String::from_utf8_lossy(&self.language)
+                .trim_end_matches('\0')
+                .to_string();
+            if !lang.is_empty() {
+                if self.country[0] != 0 {
+                    let country = String::from_utf8_lossy(&self.country)
+                        .trim_end_matches('\0')
+                        .to_string();
+                    if !country.is_empty() {
+                        parts.push(format!("{}-r{}", lang, country));
+                    } else {
+                        parts.push(lang);
+                    }
+                } else {
+                    parts.push(lang);
+                }
+            }
+        }
+
+        // Locale script (BCP 47)
+        if self.locale_script[0] != 0 {
+            let script = String::from_utf8_lossy(&self.locale_script)
+                .trim_end_matches('\0')
+                .to_string();
+            if !script.is_empty() {
+                parts.push(format!("b+{}", script));
+            }
+        }
+
+        // Screen layout size
+        match self.screen_layout & 0x0F {
+            1 => parts.push("small".to_string()),
+            2 => parts.push("normal".to_string()),
+            3 => parts.push("large".to_string()),
+            4 => parts.push("xlarge".to_string()),
+            _ => {}
+        }
+
+        // Screen layout long
+        match (self.screen_layout >> 4) & 0x03 {
+            1 => parts.push("notlong".to_string()),
+            2 => parts.push("long".to_string()),
+            _ => {}
+        }
+
+        // Screen round (from screenLayout2)
+        match self.screen_layout2 & 0x03 {
+            1 => parts.push("notround".to_string()),
+            2 => parts.push("round".to_string()),
+            _ => {}
+        }
+
+        // Wide color gamut
+        match self.color_mode & 0x03 {
+            1 => parts.push("nowidecg".to_string()),
+            2 => parts.push("widecg".to_string()),
+            _ => {}
+        }
+
+        // HDR
+        match (self.color_mode >> 2) & 0x03 {
+            1 => parts.push("lowdr".to_string()),
+            2 => parts.push("highdr".to_string()),
+            _ => {}
+        }
+
+        // Orientation
+        match self.orientation {
+            1 => parts.push("port".to_string()),
+            2 => parts.push("land".to_string()),
+            3 => parts.push("square".to_string()),
+            _ => {}
+        }
+
+        // UI mode type
+        match self.ui_mode & 0x0F {
+            1 => parts.push("car".to_string()),
+            2 => parts.push("desk".to_string()),
+            3 => parts.push("television".to_string()),
+            4 => parts.push("appliance".to_string()),
+            5 => parts.push("watch".to_string()),
+            6 => parts.push("vrheadset".to_string()),
+            _ => {}
+        }
+
+        // UI mode night
+        match (self.ui_mode >> 4) & 0x03 {
+            1 => parts.push("notnight".to_string()),
+            2 => parts.push("night".to_string()),
+            _ => {}
+        }
+
+        // Density
+        match self.density {
+            0 => {}  // default
+            0xFFFF => parts.push("nodpi".to_string()),
+            0xFFFE => parts.push("anydpi".to_string()),
+            120 => parts.push("ldpi".to_string()),
+            160 => parts.push("mdpi".to_string()),
+            213 => parts.push("tvdpi".to_string()),
+            240 => parts.push("hdpi".to_string()),
+            320 => parts.push("xhdpi".to_string()),
+            480 => parts.push("xxhdpi".to_string()),
+            640 => parts.push("xxxhdpi".to_string()),
+            d => parts.push(format!("{}dpi", d)),
+        }
+
+        // Touchscreen
+        match self.touchscreen {
+            1 => parts.push("notouch".to_string()),
+            2 => parts.push("stylus".to_string()),
+            3 => parts.push("finger".to_string()),
+            _ => {}
+        }
+
+        // Keyboard hidden (from input_flags)
+        match self.input_flags & 0x03 {
+            1 => parts.push("keysexposed".to_string()),
+            2 => parts.push("keyshidden".to_string()),
+            3 => parts.push("keyssoft".to_string()),
+            _ => {}
+        }
+
+        // Keyboard type
+        match self.keyboard {
+            1 => parts.push("nokeys".to_string()),
+            2 => parts.push("qwerty".to_string()),
+            3 => parts.push("12key".to_string()),
+            _ => {}
+        }
+
+        // Navigation hidden (from input_flags)
+        match (self.input_flags >> 2) & 0x03 {
+            1 => parts.push("navexposed".to_string()),
+            2 => parts.push("navhidden".to_string()),
+            _ => {}
+        }
+
+        // Navigation type
+        match self.navigation {
+            1 => parts.push("nonav".to_string()),
+            2 => parts.push("dpad".to_string()),
+            3 => parts.push("trackball".to_string()),
+            4 => parts.push("wheel".to_string()),
+            _ => {}
+        }
+
+        // Smallest screen width
+        if self.smallest_screen_width_dp != 0 {
+            parts.push(format!("sw{}dp", self.smallest_screen_width_dp));
+        }
+
+        // Screen width
+        if self.screen_width_dp != 0 {
+            parts.push(format!("w{}dp", self.screen_width_dp));
+        }
+
+        // Screen height
+        if self.screen_height_dp != 0 {
+            parts.push(format!("h{}dp", self.screen_height_dp));
+        }
+
+        // SDK version
+        if self.sdk_version != 0 {
+            parts.push(format!("v{}", self.sdk_version));
+        }
+
+        if parts.is_empty() {
+            "default".to_string()
+        } else {
+            parts.join("-")
+        }
+    }
+}
+
 /// Raw value from resource table (type + data)
 #[derive(Debug, Clone, Copy)]
 pub struct RawValue {
@@ -28,6 +358,15 @@ impl RawValue {
     }
 }
 
+/// A single item in a bag/style/array resource
+#[derive(Debug, Clone)]
+pub struct BagItem {
+    /// Attribute resource ID (key)
+    pub name: u32,
+    /// Value
+    pub value: RawValue,
+}
+
 /// Resource entry information
 #[derive(Debug, Clone)]
 pub struct ResourceEntry {
@@ -41,6 +380,10 @@ pub struct ResourceEntry {
     pub key_name: String,
     /// Simple value (for non-complex resources)
     pub value: Option<RawValue>,
+    /// Complex entries (for styles, arrays, plurals, etc.)
+    pub bag_items: Option<Vec<BagItem>>,
+    /// Parent resource ID (for style inheritance)
+    pub parent: Option<u32>,
     /// Configuration qualifier (e.g., "default", "hdpi", "v21")
     pub config: String,
 }
@@ -298,7 +641,12 @@ impl ArscParser {
         let entry_count = cursor.read_u32::<LittleEndian>()?;
         let entries_start = cursor.read_u32::<LittleEndian>()?;
 
-        // Skip config
+        // Parse ResTable_config - size is first 4 bytes
+        let config_size = cursor.read_u32::<LittleEndian>()?;
+        let res_config = ResConfig::parse(cursor, config_size.saturating_sub(4))?;
+        let config = res_config.to_qualifier_string();
+
+        // Seek to end of header (in case config was shorter than expected)
         cursor.seek(SeekFrom::Start(chunk_start + header_size as u64))?;
 
         // Get type name
@@ -311,9 +659,6 @@ impl ArscParser {
         let is_offset16 = (flags & FLAG_OFFSET16) != 0;
 
         let data_start = chunk_start + entries_start as u64;
-
-        // For now, use "default" as config - TODO: parse actual config
-        let config = "default";
 
         if is_sparse {
             // Sparse entries
@@ -336,7 +681,7 @@ impl ArscParser {
                         package_name,
                         &type_name,
                         key_strings,
-                        config,
+                        &config,
                     )?;
                 }
             }
@@ -368,7 +713,7 @@ impl ArscParser {
                         package_name,
                         &type_name,
                         key_strings,
-                        config,
+                        &config,
                     )?;
                 }
             }
@@ -402,12 +747,12 @@ impl ArscParser {
         let flags = cursor.read_u16::<LittleEndian>()?;
 
         // Check for compact entry format
-        let (key_idx, value) = if (flags & FLAG_COMPACT) != 0 {
+        let (key_idx, value, bag_items, parent) = if (flags & FLAG_COMPACT) != 0 {
             // Compact format: size_or_flags is actually the key index
             // Value follows directly: type (1 byte) + data (3 bytes packed)
             let data_type = cursor.read_u8()?;
             let data = cursor.read_u24::<LittleEndian>()?;
-            (size_or_flags as u32, Some(RawValue::new(data_type, data)))
+            (size_or_flags as u32, Some(RawValue::new(data_type, data)), None, None)
         } else {
             // Normal format
             let key = cursor.read_u32::<LittleEndian>()?;
@@ -415,19 +760,37 @@ impl ArscParser {
             // Check if complex entry
             let is_complex = (flags & FLAG_COMPLEX) != 0;
 
-            let value = if !is_complex {
+            if !is_complex {
                 // Simple value: size (2) + res0 (1) + dataType (1) + data (4)
                 let _value_size = cursor.read_u16::<LittleEndian>()?;
                 let _res0 = cursor.read_u8()?;
                 let data_type = cursor.read_u8()?;
                 let data = cursor.read_u32::<LittleEndian>()?;
-                Some(RawValue::new(data_type, data))
+                (key, Some(RawValue::new(data_type, data)), None, None)
             } else {
-                // Complex entry (bag/style) - skip for now
-                None
-            };
+                // Complex entry (bag/style/array/plural)
+                // Structure: parent (4) + count (4) + items[]
+                let parent_id = cursor.read_u32::<LittleEndian>()?;
+                let count = cursor.read_u32::<LittleEndian>()?;
 
-            (key, value)
+                let mut items = Vec::with_capacity(count as usize);
+                for _ in 0..count {
+                    // Each item: name (4) + Res_value (size:2 + res0:1 + dataType:1 + data:4)
+                    let name = cursor.read_u32::<LittleEndian>()?;
+                    let _value_size = cursor.read_u16::<LittleEndian>()?;
+                    let _res0 = cursor.read_u8()?;
+                    let data_type = cursor.read_u8()?;
+                    let data = cursor.read_u32::<LittleEndian>()?;
+
+                    items.push(BagItem {
+                        name,
+                        value: RawValue::new(data_type, data),
+                    });
+                }
+
+                let parent = if parent_id != 0 { Some(parent_id) } else { None };
+                (key, None, Some(items), parent)
+            }
         };
 
         // Get key name
@@ -445,6 +808,8 @@ impl ArscParser {
             type_name: type_name.to_string(),
             key_name: key_name.clone(),
             value,
+            bag_items,
+            parent,
             config: config.to_string(),
         };
 

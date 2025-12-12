@@ -215,13 +215,8 @@ pub struct Args {
 impl Args {
     /// Get effective thread count (0 means auto-detect)
     pub fn effective_threads(&self) -> usize {
-        if self.threads == 0 {
-            std::thread::available_parallelism()
-                .map(|n| n.get())
-                .unwrap_or(4)
-        } else {
-            self.threads
-        }
+        // MEMORY DEBUG: Force single thread to test memory
+        1
     }
 
     /// Validate arguments

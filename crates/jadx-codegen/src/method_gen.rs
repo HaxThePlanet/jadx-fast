@@ -265,7 +265,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     _fallback: bool,
     imports: Option<&BTreeSet<String>>,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
-    inner_classes: Option<&std::collections::HashMap<String, ClassData>>,
+    inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
     code: &mut W,
 ) {
     // Emit method annotations from DEX
@@ -333,7 +333,7 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     method: &MethodData,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
-    inner_classes: Option<&std::collections::HashMap<String, ClassData>>,
+    inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
     code: &mut W,
 ) {
     generate_body_with_inner_classes(method, dex_info, imports, inner_classes, code);

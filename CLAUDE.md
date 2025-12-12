@@ -98,7 +98,7 @@ diff -r expected/ actual/
 
 ## Known Gaps (vs Java JADX)
 
-- Anonymous inner classes: Detection works, inline body generation not yet implemented (requires class registry)
+- Finally blocks in try-catch-finally (try-catch works, finally detection not yet implemented)
 
 ## Recently Implemented Features
 
@@ -113,6 +113,15 @@ diff -r expected/ actual/
 
 - **Multi-catch**: Full support for `catch (Type1 | Type2 e)` syntax
   - Multiple exception types in single catch block
+
+- **Anonymous class inlining**: Inline body generation at instantiation site
+  - Detection: `Outer$1`, `Outer$$Lambda$1` patterns
+  - Full method body generation inside `new ParentType() { ... }`
+  - Class registry passed through codegen pipeline
+
+- **Final local variables**: SSA-based detection
+  - Variables assigned exactly once marked as `final`
+  - Integrated with variable declaration emission
 
 ## Framework Class Filtering
 

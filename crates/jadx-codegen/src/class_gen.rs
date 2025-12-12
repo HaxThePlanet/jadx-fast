@@ -406,7 +406,7 @@ pub fn generate_class_with_inner_classes(
     class: &ClassData,
     config: &ClassGenConfig,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
-    inner_classes: Option<&HashMap<String, ClassData>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
 ) -> String {
     let mut writer = SimpleCodeWriter::new();
     generate_class_to_writer_with_inner_classes(class, config, dex_info, inner_classes, &mut writer);
@@ -433,7 +433,7 @@ pub fn generate_class_to_writer_with_inner_classes<W: CodeWriter>(
     class: &ClassData,
     config: &ClassGenConfig,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
-    inner_classes: Option<&HashMap<String, ClassData>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
     code: &mut W,
 ) {
     // Package declaration
@@ -471,9 +471,8 @@ pub fn generate_class_to_writer_with_inner_classes<W: CodeWriter>(
     add_fields(class, imports.as_ref(), code);
 
     // Methods (pass DEX info for name resolution in method bodies)
-    // NOTE: inner_classes disabled to avoid O(methods * inner_classes) cloning memory explosion
-    // TODO: Use Arc<ClassData> instead of cloning to re-enable anonymous class inlining
-    add_methods_with_inner_classes(class, config, imports.as_ref(), dex_info, None, code);
+    // inner_classes uses Arc<ClassData> to avoid cloning - O(1) reference count increment
+    add_methods_with_inner_classes(class, config, imports.as_ref(), dex_info, inner_classes, code);
 
     code.dec_indent();
     code.start_line().add("}").newline();
@@ -721,7 +720,7 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
     config: &ClassGenConfig,
     imports: Option<&BTreeSet<String>>,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
-    inner_classes: Option<&HashMap<String, ClassData>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
     code: &mut W,
 ) {
     use crate::method_gen::generate_method_with_inner_classes;
