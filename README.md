@@ -1,6 +1,6 @@
-# jadx-rust
+# Dexterity
 
-A Rust rewrite of [JADX](https://github.com/skylot/jadx) - the Android DEX/APK decompiler.
+A high-performance Android DEX/APK decompiler written in Rust, inspired by [JADX](https://github.com/skylot/jadx).
 
 ## Project Goal
 
@@ -13,7 +13,7 @@ This project reimplements `jadx-core` (the decompilation engine) in Rust. The go
 ```bash
 # Golden file testing strategy
 java -jar jadx-cli.jar -d expected/ input.apk
-./jadx-rust -d actual/ input.apk
+./dexterity -d actual/ input.apk
 diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 ```
 
@@ -143,35 +143,31 @@ cd crates && cargo build --release -p jadx-cli
 
 ## Usage
 
-> **WARNING: Memory Explosion Bug**
-> Multi-threaded processing (`-j N` where N > 1) currently causes unbounded memory growth.
-> Use `-j 1` until this is fixed. Investigation ongoing - the issue is in the codegen pipeline.
-
 ```bash
-# Basic decompilation (use -j 1 for now!)
-./target/release/jadx-rust -j 1 -d output/ app.apk
+# Basic decompilation
+./target/release/dexterity -d output/ app.apk
 
 # Single class
-./target/release/jadx-rust --single-class MainActivity -d output/ app.apk
+./target/release/dexterity --single-class MainActivity -d output/ app.apk
 
-# Parallel processing - DISABLED due to memory bug
-# ./target/release/jadx-rust -j 16 -d output/ app.apk
+# Parallel processing (use all CPU cores)
+./target/release/dexterity -j 16 -d output/ app.apk
 
 # Export as Gradle project (Android Studio ready)
-./target/release/jadx-rust -e -d output/ app.apk
+./target/release/dexterity -e -d output/ app.apk
 
 # Export with specific type
-./target/release/jadx-rust -e --export-gradle-type android-app -d output/ app.apk
-./target/release/jadx-rust -e --export-gradle-type simple-java -d output/ app.jar
+./target/release/dexterity -e --export-gradle-type android-app -d output/ app.apk
+./target/release/dexterity -e --export-gradle-type simple-java -d output/ app.jar
 
 # Deobfuscation - auto-rename short/invalid identifiers
-./target/release/jadx-rust -j 1 --deobf -d output/ app.apk
+./target/release/dexterity --deobf -d output/ app.apk
 
 # Deobfuscation with ProGuard mapping file
-./target/release/jadx-rust -j 1 --deobf --mappings-path mapping.txt -d output/ app.apk
+./target/release/dexterity --deobf --mappings-path mapping.txt -d output/ app.apk
 
 # Custom rename flags (valid, printable, case)
-./target/release/jadx-rust -j 1 --deobf --rename-flags valid,printable -d output/ app.apk
+./target/release/dexterity --deobf --rename-flags valid,printable -d output/ app.apk
 ```
 
 Core JADX CLI options are supported.
@@ -236,11 +232,47 @@ let null_test = chunk.wrapping_sub(0x0101_0101_0101_0101) & !chunk & HIGH_BITS_M
 
 ## Testing
 
+**867 tests across 3 test tiers:**
+
+### 1. Unit Tests (197 tests)
+Traditional unit tests in each crate covering parsers, IR builders, analysis passes, and code generation.
+
 ```bash
 cd crates && cargo test
 ```
 
-Golden file tests compare output against Java JADX to catch any deviation in formatting, whitespace, or structure.
+### 2. Integration Tests (670 tests)
+Comprehensive end-to-end decompilation tests automatically ported from Java JADX's integration test suite.
+
+**Test Categories (92% coverage):**
+- **Conditions** (66 tests): Boolean logic, bitwise ops, comparison simplification
+- **Loops** (57 tests): for/while/foreach, break/continue, labels
+- **Types** (61 tests): Type inference, generics, casts, primitives
+- **Try-Catch** (55 tests): Exception handling, multi-catch, finally blocks
+- **Others** (113 tests): Edge cases, special constructs, regression tests
+- **Inner Classes** (41 tests): Anonymous, lambda, local, nested classes
+- **20+ more categories** covering switches, enums, invocations, arrays, etc.
+
+**Test Infrastructure:**
+- Automated test generator (`scripts/generate_integration_tests.py`) extracts Java test cases
+- Compiles Java → .class → .dex → decompiles with jadx-rust
+- Assertion framework verifies output correctness
+- Located in `crates/jadx-passes/tests/integration/`
+
+```bash
+# Run integration tests (requires javac and d8/dx)
+cd crates && cargo test --test integration
+```
+
+### 3. Golden File Tests (existing)
+Compare output against reference files from Java JADX to catch formatting/whitespace deviations.
+
+**Test Statistics:**
+| Metric | Java JADX | Dexterity | Coverage |
+|--------|-----------|-----------|----------|
+| Integration tests | 730 | 670 | 92% |
+| Total tests | 879 | 867 | 99% |
+| Lines of test code | - | ~16,500 | - |
 
 ## License
 

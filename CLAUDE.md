@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-jadx-rust is a Rust rewrite of [JADX](https://github.com/skylot/jadx), an Android DEX/APK decompiler. The goal is 1:1 output compatibility with Java JADX while achieving 2-4x faster performance through zero-copy parsing, arena allocation, and native parallelism.
+**Dexterity** is a high-performance Android DEX/APK decompiler written in Rust, inspired by [JADX](https://github.com/skylot/jadx). The goal is 1:1 output compatibility with Java JADX while achieving 2-4x faster performance through zero-copy parsing, arena allocation, and native parallelism.
 
 **Current status**: ~69,700 lines of Rust, 227 tests (222 passing), full decompilation pipeline functional.
 
@@ -15,7 +15,7 @@ jadx-rust is a Rust rewrite of [JADX](https://github.com/skylot/jadx), an Androi
 cd crates && cargo build --release -p jadx-cli
 
 # Run
-./target/release/jadx-rust -d output/ app.apk
+./target/release/dexterity -d output/ app.apk
 
 # Run all tests
 cd crates && cargo test
