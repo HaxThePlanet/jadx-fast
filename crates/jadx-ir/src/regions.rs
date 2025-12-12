@@ -204,6 +204,49 @@ pub struct SwitchCase {
 /// Catch handler
 #[derive(Debug, Clone)]
 pub struct CatchHandler {
-    pub exception_type: Option<String>,
+    /// Exception types caught by this handler (multiple for multi-catch)
+    /// Empty or single None means catch-all (catches Throwable)
+    pub exception_types: Vec<String>,
+    /// True if this is a catch-all handler (catches all exceptions)
+    pub catch_all: bool,
     pub region: Box<Region>,
+}
+
+impl CatchHandler {
+    /// Create a catch handler for a single exception type
+    pub fn single(exception_type: String, region: Region) -> Self {
+        CatchHandler {
+            exception_types: vec![exception_type],
+            catch_all: false,
+            region: Box::new(region),
+        }
+    }
+
+    /// Create a catch-all handler
+    pub fn catch_all(region: Region) -> Self {
+        CatchHandler {
+            exception_types: vec![],
+            catch_all: true,
+            region: Box::new(region),
+        }
+    }
+
+    /// Create a multi-catch handler
+    pub fn multi(exception_types: Vec<String>, region: Region) -> Self {
+        CatchHandler {
+            exception_types,
+            catch_all: false,
+            region: Box::new(region),
+        }
+    }
+
+    /// Check if this is a multi-catch handler
+    pub fn is_multi_catch(&self) -> bool {
+        self.exception_types.len() > 1
+    }
+
+    /// Get the exception type (for single-catch compatibility)
+    pub fn exception_type(&self) -> Option<&str> {
+        self.exception_types.first().map(|s| s.as_str())
+    }
 }

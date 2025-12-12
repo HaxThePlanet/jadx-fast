@@ -51,6 +51,9 @@ pub trait DexInfoProvider: Send + Sync {
     /// Get a type name by index, converting descriptor to simple name
     fn get_type_name(&self, idx: u32) -> Option<String>;
 
+    /// Get type descriptor by index (raw form like "Ljava/lang/String;")
+    fn get_type_descriptor(&self, idx: u32) -> Option<String>;
+
     /// Get field info by index
     fn get_field(&self, idx: u32) -> Option<FieldInfo>;
 
@@ -68,6 +71,15 @@ pub trait DexInfoProvider: Send + Sync {
 
     /// Populate an ExprGen with DEX info
     fn populate_expr_gen(&self, expr_gen: &mut ExprGen);
+
+    /// Check if a type is an anonymous inner class (e.g., OuterClass$1)
+    fn is_anonymous_class(&self, type_idx: u32) -> bool {
+        if let Some(desc) = self.get_type_descriptor(type_idx) {
+            crate::class_gen::is_anonymous_class(&desc)
+        } else {
+            false
+        }
+    }
 }
 
 /// DEX information needed for code generation
@@ -181,6 +193,10 @@ impl DexInfoProvider for DexInfo {
 
     fn get_type_name(&self, idx: u32) -> Option<String> {
         self.types.get(&idx).map(|desc| descriptor_to_java_name(desc))
+    }
+
+    fn get_type_descriptor(&self, idx: u32) -> Option<String> {
+        self.types.get(&idx).cloned()
     }
 
     fn get_field(&self, idx: u32) -> Option<FieldInfo> {
@@ -361,6 +377,10 @@ impl DexInfoProvider for LazyDexInfo {
         LazyDexInfo::get_type_name(self, idx)
     }
 
+    fn get_type_descriptor(&self, idx: u32) -> Option<String> {
+        LazyDexInfo::get_type_descriptor(self, idx)
+    }
+
     fn get_field(&self, idx: u32) -> Option<FieldInfo> {
         LazyDexInfo::get_field(self, idx)
     }
@@ -387,10 +407,13 @@ impl DexInfoProvider for LazyDexInfo {
 }
 
 /// Helper: Convert type descriptor to simple class name
+/// Handles inner classes: "Lio/github/skylot/android/smallapp/R$layout;" -> "R.layout"
 fn descriptor_to_simple_name(desc: &str) -> String {
     if desc.starts_with('L') && desc.ends_with(';') {
         let inner = &desc[1..desc.len() - 1];
-        inner.rsplit('/').next().unwrap_or(inner).to_string()
+        let simple = inner.rsplit('/').next().unwrap_or(inner);
+        // Convert $ to . for inner class notation (R$layout -> R.layout)
+        simple.replace('$', ".")
     } else {
         desc.to_string()
     }
@@ -454,6 +477,7 @@ fn descriptor_to_argtype(desc: &str) -> Option<ArgType> {
 /// - "Ljava/lang/String;" -> "String"
 /// - "[I" -> "int[]"
 /// - "I" -> "int"
+/// - "Lio/github/skylot/android/smallapp/R$layout;" -> "R.layout"
 fn descriptor_to_java_name(desc: &str) -> String {
     if desc.is_empty() {
         return "Object".to_string();
@@ -476,26 +500,26 @@ fn descriptor_to_java_name(desc: &str) -> String {
         }
         'L' => {
             // Object type: Ljava/lang/String; -> String (simple name)
-            // or java.lang.String (full name if needed)
+            // Inner class: Lcom/example/R$layout; -> R.layout
             let inner = desc
                 .strip_prefix('L')
                 .unwrap_or(desc)
                 .strip_suffix(';')
                 .unwrap_or(desc);
-            // Convert / to . and take simple name
-            let full_name = inner.replace('/', ".");
-            // For now, use simple name (last component)
-            full_name
-                .rsplit('.')
+            // Get simple name (last component after /)
+            let simple = inner
+                .rsplit('/')
                 .next()
-                .unwrap_or(&full_name)
-                .to_string()
+                .unwrap_or(inner);
+            // Convert $ to . for inner class notation (R$layout -> R.layout)
+            simple.replace('$', ".")
         }
         _ => desc.to_string(),
     }
 }
 
 /// Convert a DEX type descriptor to a full Java type name (with package)
+/// Inner classes use . notation: "Lcom/example/R$layout;" -> "com.example.R.layout"
 pub fn descriptor_to_full_java_name(desc: &str) -> String {
     if desc.is_empty() {
         return "java.lang.Object".to_string();
@@ -522,7 +546,8 @@ pub fn descriptor_to_full_java_name(desc: &str) -> String {
                 .unwrap_or(desc)
                 .strip_suffix(';')
                 .unwrap_or(desc);
-            inner.replace('/', ".")
+            // Convert both / and $ to . for Java source notation
+            inner.replace('/', ".").replace('$', ".")
         }
         _ => desc.to_string(),
     }
@@ -546,11 +571,46 @@ mod tests {
     }
 
     #[test]
+    fn test_descriptor_to_java_name_inner_class() {
+        // R$layout -> R.layout (inner class notation)
+        assert_eq!(
+            descriptor_to_java_name("Lio/github/skylot/android/smallapp/R$layout;"),
+            "R.layout"
+        );
+        assert_eq!(
+            descriptor_to_java_name("Lcom/example/Outer$Inner;"),
+            "Outer.Inner"
+        );
+        assert_eq!(
+            descriptor_to_java_name("Lcom/example/R$drawable;"),
+            "R.drawable"
+        );
+        // Nested inner classes
+        assert_eq!(
+            descriptor_to_java_name("Lcom/example/A$B$C;"),
+            "A.B.C"
+        );
+    }
+
+    #[test]
     fn test_descriptor_to_full_java_name() {
         assert_eq!(descriptor_to_full_java_name("Ljava/lang/String;"), "java.lang.String");
         assert_eq!(
             descriptor_to_full_java_name("Landroid/widget/TextView;"),
             "android.widget.TextView"
+        );
+    }
+
+    #[test]
+    fn test_descriptor_to_full_java_name_inner_class() {
+        // Inner classes should use . notation in full names too
+        assert_eq!(
+            descriptor_to_full_java_name("Lio/github/skylot/android/smallapp/R$layout;"),
+            "io.github.skylot.android.smallapp.R.layout"
+        );
+        assert_eq!(
+            descriptor_to_full_java_name("Lcom/example/Outer$Inner;"),
+            "com.example.Outer.Inner"
         );
     }
 

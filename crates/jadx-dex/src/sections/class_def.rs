@@ -3,6 +3,7 @@
 use crate::error::Result;
 use crate::reader::DexReader;
 use crate::sections::read_u32;
+use crate::sections::encoded_value::{parse_annotation_item, parse_encoded_array, AnnotationItem, EncodedValue};
 use crate::utils::read_uleb128;
 
 /// A class definition in the DEX file
@@ -96,6 +97,131 @@ impl<'a> ClassDef<'a> {
             return Ok(None);
         }
         ClassData::parse(self.reader, off as usize).map(Some)
+    }
+
+    /// Parse static field initial values
+    ///
+    /// Returns a vector of EncodedValue corresponding to each static field.
+    /// The vector may be shorter than the number of static fields if not all
+    /// fields have initial values (remaining fields default to 0/null).
+    pub fn static_values(&self) -> Result<Vec<EncodedValue>> {
+        let off = self.static_values_off();
+        if off == 0 {
+            return Ok(Vec::new());
+        }
+
+        let data = self.reader.data();
+        let (values, _) = parse_encoded_array(data, off as usize)?;
+        Ok(values)
+    }
+
+    /// Parse class-level annotations
+    ///
+    /// Returns annotations declared directly on the class (e.g., @Deprecated).
+    pub fn class_annotations(&self) -> Result<Vec<AnnotationItem>> {
+        let annotations_off = self.annotations_off();
+        if annotations_off == 0 {
+            return Ok(Vec::new());
+        }
+
+        let data = self.reader.data();
+        let off = annotations_off as usize;
+
+        // annotations_directory_item:
+        // - class_annotations_off (u32)
+        // - fields_size, methods_size, parameters_size (u32 each)
+        // - field_annotations array
+        // - method_annotations array
+        // - parameter_annotations array
+        let class_annotations_off = read_u32(data, off);
+        if class_annotations_off == 0 {
+            return Ok(Vec::new());
+        }
+
+        self.read_annotation_set(class_annotations_off as usize)
+    }
+
+    /// Get method annotations for a specific method index
+    ///
+    /// Returns annotations declared on the method (e.g., @Override, @Deprecated).
+    pub fn method_annotations(&self, method_idx: u32) -> Result<Vec<AnnotationItem>> {
+        let annotations_off = self.annotations_off();
+        if annotations_off == 0 {
+            return Ok(Vec::new());
+        }
+
+        let data = self.reader.data();
+        let off = annotations_off as usize;
+
+        // Skip class_annotations_off
+        let fields_size = read_u32(data, off + 4);
+        let methods_size = read_u32(data, off + 8);
+
+        // Skip to method_annotations array (after field_annotations)
+        let method_annot_start = off + 16 + (fields_size as usize * 8);
+
+        // Search for matching method_idx
+        for i in 0..methods_size {
+            let entry_off = method_annot_start + (i as usize * 8);
+            let entry_method_idx = read_u32(data, entry_off);
+            let annot_set_off = read_u32(data, entry_off + 4);
+
+            if entry_method_idx == method_idx {
+                return self.read_annotation_set(annot_set_off as usize);
+            }
+        }
+
+        Ok(Vec::new())
+    }
+
+    /// Get field annotations for a specific field index
+    ///
+    /// Returns annotations declared on the field.
+    pub fn field_annotations(&self, field_idx: u32) -> Result<Vec<AnnotationItem>> {
+        let annotations_off = self.annotations_off();
+        if annotations_off == 0 {
+            return Ok(Vec::new());
+        }
+
+        let data = self.reader.data();
+        let off = annotations_off as usize;
+
+        let fields_size = read_u32(data, off + 4);
+
+        // Field annotations start right after the header (4 * 4 bytes)
+        let field_annot_start = off + 16;
+
+        // Search for matching field_idx
+        for i in 0..fields_size {
+            let entry_off = field_annot_start + (i as usize * 8);
+            let entry_field_idx = read_u32(data, entry_off);
+            let annot_set_off = read_u32(data, entry_off + 4);
+
+            if entry_field_idx == field_idx {
+                return self.read_annotation_set(annot_set_off as usize);
+            }
+        }
+
+        Ok(Vec::new())
+    }
+
+    /// Read an annotation_set_item at the given offset
+    fn read_annotation_set(&self, offset: usize) -> Result<Vec<AnnotationItem>> {
+        let data = self.reader.data();
+
+        // annotation_set_item:
+        // - size (u32)
+        // - entries[size] (annotation_off (u32))
+        let size = read_u32(data, offset) as usize;
+        let mut annotations = Vec::with_capacity(size);
+
+        for i in 0..size {
+            let annot_off = read_u32(data, offset + 4 + (i * 4)) as usize;
+            let (annot_item, _) = parse_annotation_item(data, annot_off)?;
+            annotations.push(annot_item);
+        }
+
+        Ok(annotations)
     }
 }
 

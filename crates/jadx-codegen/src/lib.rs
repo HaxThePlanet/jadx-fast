@@ -25,8 +25,14 @@ pub mod type_gen;
 pub mod writer;
 
 // Re-exports for convenience
-pub use body_gen::{generate_body, generate_body_with_dex, BodyGenContext};
-pub use class_gen::{generate_class, generate_class_with_dex, ClassGenConfig};
+pub use body_gen::{generate_body, generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes, BodyGenContext};
+pub use class_gen::{
+    generate_class, generate_class_with_dex, generate_class_with_inner_classes, ClassGenConfig,
+    // Inner class utilities
+    get_inner_class_info, get_outer_class, group_by_outer_class,
+    is_anonymous_class, is_inner_class, is_lambda_class, is_sam_interface,
+    InnerClassInfo, InnerClassKind,
+};
 pub use dex_info::{DexInfo, DexInfoProvider, LazyDexInfo};
 pub use expr_gen::{ExprGen, FieldInfo, MethodInfo};
 pub use stmt_gen::StmtGen;

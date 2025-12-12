@@ -4,33 +4,174 @@
 
 use std::collections::BTreeSet;
 
-use jadx_ir::{ArgType, ClassData, MethodData};
+use jadx_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData};
 
 use crate::access_flags::{self, flags::*, AccessContext};
-use crate::body_gen::{generate_body, generate_body_with_dex};
+use crate::body_gen::{generate_body, generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes};
 use crate::dex_info::DexInfoProvider;
 use crate::type_gen::{get_simple_name, type_to_string, type_to_string_with_imports};
 use crate::writer::CodeWriter;
 
-/// Check if a method should have @Override annotation
+/// Check if a method should have @Override annotation (heuristic fallback)
 /// We add @Override for non-constructor, non-static, non-private methods
 /// in classes that have a superclass (other than Object) or implement interfaces
-fn should_add_override(method: &MethodData, class: &ClassData) -> bool {
+/// Returns Option<String> with the declaring class name for the comment
+fn should_add_override_heuristic(method: &MethodData, class: &ClassData) -> Option<String> {
+    // If method already has annotations, let the annotation system handle it
+    if !method.annotations.is_empty() {
+        return None;
+    }
+
     // Don't add @Override to constructors or static initializers
     if method.is_constructor() || method.is_class_init() {
-        return false;
+        return None;
     }
     // Don't add @Override to static or private methods
     if method.is_static() || (method.access_flags & ACC_PRIVATE) != 0 {
+        return None;
+    }
+
+    // Check if class has a superclass (other than Object)
+    if let Some(superclass) = &class.superclass {
+        if superclass != "java/lang/Object" {
+            // Convert "android/app/Activity" to "android.app.Activity"
+            let declaring_class = superclass.replace('/', ".");
+            return Some(declaring_class);
+        }
+    }
+
+    // Check if class implements interfaces - use first interface as declaring class
+    if let Some(first_interface) = class.interfaces.first() {
+        let declaring_class = first_interface.replace('/', ".");
+        return Some(declaring_class);
+    }
+
+    None
+}
+
+/// Generate annotation code for an annotation
+pub fn generate_annotation<W: CodeWriter>(annotation: &Annotation, code: &mut W) {
+    code.add("@");
+    code.add(annotation.simple_name());
+
+    // Add annotation elements if present
+    if !annotation.elements.is_empty() {
+        code.add("(");
+        for (i, elem) in annotation.elements.iter().enumerate() {
+            if i > 0 {
+                code.add(", ");
+            }
+            // Single "value" element can omit the name
+            if annotation.elements.len() == 1 && elem.name == "value" {
+                code.add(&annotation_value_to_string(&elem.value));
+            } else {
+                code.add(&elem.name);
+                code.add(" = ");
+                code.add(&annotation_value_to_string(&elem.value));
+            }
+        }
+        code.add(")");
+    }
+}
+
+/// Convert an annotation value to its string representation
+fn annotation_value_to_string(value: &AnnotationValue) -> String {
+    match value {
+        AnnotationValue::Byte(v) => format!("(byte) {}", v),
+        AnnotationValue::Short(v) => format!("(short) {}", v),
+        AnnotationValue::Char(v) => {
+            if *v >= 32 && *v < 127 {
+                format!("'{}'", char::from_u32(*v as u32).unwrap_or('?'))
+            } else {
+                format!("'\\u{:04x}'", v)
+            }
+        }
+        AnnotationValue::Int(v) => v.to_string(),
+        AnnotationValue::Long(v) => format!("{}L", v),
+        AnnotationValue::Float(v) => {
+            if v.is_nan() {
+                "Float.NaN".to_string()
+            } else if *v == f32::INFINITY {
+                "Float.POSITIVE_INFINITY".to_string()
+            } else if *v == f32::NEG_INFINITY {
+                "Float.NEGATIVE_INFINITY".to_string()
+            } else {
+                format!("{}f", v)
+            }
+        }
+        AnnotationValue::Double(v) => {
+            if v.is_nan() {
+                "Double.NaN".to_string()
+            } else if *v == f64::INFINITY {
+                "Double.POSITIVE_INFINITY".to_string()
+            } else if *v == f64::NEG_INFINITY {
+                "Double.NEGATIVE_INFINITY".to_string()
+            } else {
+                format!("{}d", v)
+            }
+        }
+        AnnotationValue::String(s) => format!("\"{}\"", escape_string(s)),
+        AnnotationValue::Type(t) => format!("{}.class", get_simple_name(t)),
+        AnnotationValue::Enum(class_name, field_name) => {
+            format!("{}.{}", get_simple_name(class_name), field_name)
+        }
+        AnnotationValue::Annotation(nested) => {
+            // Nested annotation (rare case)
+            let mut s = String::from("@");
+            s.push_str(nested.simple_name());
+            if !nested.elements.is_empty() {
+                s.push_str("(...)");
+            }
+            s
+        }
+        AnnotationValue::Array(values) => {
+            if values.len() == 1 {
+                // Single-element array can omit braces
+                annotation_value_to_string(&values[0])
+            } else {
+                let items: Vec<_> = values.iter().map(annotation_value_to_string).collect();
+                format!("{{{}}}", items.join(", "))
+            }
+        }
+        AnnotationValue::Boolean(v) => v.to_string(),
+        AnnotationValue::Null => "null".to_string(),
+    }
+}
+
+/// Escape special characters in a string
+fn escape_string(s: &str) -> String {
+    let mut result = String::with_capacity(s.len());
+    for c in s.chars() {
+        match c {
+            '\\' => result.push_str("\\\\"),
+            '"' => result.push_str("\\\""),
+            '\n' => result.push_str("\\n"),
+            '\r' => result.push_str("\\r"),
+            '\t' => result.push_str("\\t"),
+            _ if c.is_control() => result.push_str(&format!("\\u{:04x}", c as u32)),
+            _ => result.push(c),
+        }
+    }
+    result
+}
+
+/// Check if an annotation should be emitted in generated code
+pub fn should_emit_annotation(annotation: &Annotation) -> bool {
+    // Don't emit build-time only annotations
+    if matches!(annotation.visibility, AnnotationVisibility::Build) {
         return false;
     }
-    // Only add @Override if class extends something (other than Object) or implements interfaces
-    let has_superclass = class.superclass.as_ref()
-        .map(|s| s != "java/lang/Object")
-        .unwrap_or(false);
-    let has_interfaces = !class.interfaces.is_empty();
 
-    has_superclass || has_interfaces
+    // Filter out some common internal annotations that shouldn't be emitted
+    let type_name = &annotation.annotation_type;
+    if type_name.contains("dalvik/annotation/")
+        || type_name.contains("kotlin/Metadata")
+        || type_name.contains("kotlin/jvm/internal/SourceDebugExtension")
+    {
+        return false;
+    }
+
+    true
 }
 
 /// Generate a method into a writer
@@ -53,10 +194,19 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     code: &mut W,
 ) {
-    // Add @Override annotation for potential override methods
+    // Emit method annotations from DEX
+    for annotation in &method.annotations {
+        if should_emit_annotation(annotation) {
+            code.start_line();
+            generate_annotation(annotation, code);
+            code.newline();
+        }
+    }
+
+    // Fallback: Add @Override annotation heuristically if no annotations present
     // (non-constructor, non-static, non-private methods in classes with superclass)
-    if should_add_override(method, class) {
-        code.start_line().add("@Override").newline();
+    if let Some(declaring_class) = should_add_override_heuristic(method, class) {
+        code.start_line().add("@Override // ").add(&declaring_class).newline();
     }
 
     code.start_line();
@@ -95,17 +245,98 @@ pub fn generate_method_with_dex<W: CodeWriter>(
         // Static initializer block
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_dex(method, dex_info.clone(), code);
+        add_method_body_with_dex_and_imports(method, dex_info.clone(), imports, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
         // Regular method with body
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_dex(method, dex_info.clone(), code);
+        add_method_body_with_dex_and_imports(method, dex_info.clone(), imports, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     }
+}
+
+/// Generate a method into a writer with inner classes for anonymous class inlining
+pub fn generate_method_with_inner_classes<W: CodeWriter>(
+    method: &MethodData,
+    class: &ClassData,
+    _fallback: bool,
+    imports: Option<&BTreeSet<String>>,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    inner_classes: Option<&std::collections::HashMap<String, ClassData>>,
+    code: &mut W,
+) {
+    // Emit method annotations from DEX
+    for annotation in &method.annotations {
+        if should_emit_annotation(annotation) {
+            code.start_line();
+            generate_annotation(annotation, code);
+            code.newline();
+        }
+    }
+
+    // Fallback: Add @Override annotation heuristically if no annotations present
+    if let Some(declaring_class) = should_add_override_heuristic(method, class) {
+        code.start_line()
+            .add("@Override // ")
+            .add(&declaring_class)
+            .newline();
+    }
+
+    code.start_line();
+
+    // Method modifiers
+    let mods = access_flags::access_flags_to_string(method.access_flags, AccessContext::Method);
+    if !mods.is_empty() {
+        code.add(&mods);
+    }
+
+    // Return type and name
+    if method.is_constructor() {
+        let class_name = get_simple_name(&class.class_type);
+        code.add(class_name);
+    } else if method.is_class_init() {
+        code.add("static");
+    } else {
+        code.add(&type_to_string_with_imports(&method.return_type, imports));
+        code.add(" ");
+        code.add(&method.name);
+    }
+
+    // Parameters (except for static initializer)
+    if !method.is_class_init() {
+        add_parameters(method, imports, code);
+    }
+
+    // Method body
+    if method.is_abstract() || method.is_native() {
+        code.add(";").newline();
+    } else if method.is_class_init() {
+        code.add(" {").newline();
+        code.inc_indent();
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, code);
+        code.dec_indent();
+        code.start_line().add("}").newline();
+    } else {
+        code.add(" {").newline();
+        code.inc_indent();
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, code);
+        code.dec_indent();
+        code.start_line().add("}").newline();
+    }
+}
+
+/// Add method body with inner classes for anonymous class inlining
+fn add_method_body_with_inner_classes<W: CodeWriter>(
+    method: &MethodData,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    imports: Option<&BTreeSet<String>>,
+    inner_classes: Option<&std::collections::HashMap<String, ClassData>>,
+    code: &mut W,
+) {
+    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, code);
 }
 
 /// Add method parameters
@@ -137,9 +368,12 @@ fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<
             code.add(&type_to_string_with_imports(param_type, imports));
         }
 
-        // Parameter name (generated)
+        // Parameter name: use debug info if available, otherwise generate from type
         code.add(" ");
-        code.add(&generate_param_name(i, param_type));
+        let name = method.arg_names.get(i)
+            .and_then(|n| n.clone())
+            .unwrap_or_else(|| generate_param_name(i, param_type));
+        code.add(&name);
     }
 
     code.add(")");
@@ -183,10 +417,11 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
 
 /// Add method body using region-based code generation
 fn add_method_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
-    add_method_body_with_dex(method, None, code)
+    add_method_body_with_dex_and_imports(method, None, None, code)
 }
 
 /// Add method body with DEX info for name resolution
+#[allow(dead_code)]
 fn add_method_body_with_dex<W: CodeWriter>(
     method: &MethodData,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
@@ -194,6 +429,17 @@ fn add_method_body_with_dex<W: CodeWriter>(
 ) {
     // Use the body generator with DEX info for proper name resolution
     generate_body_with_dex(method, dex_info, code);
+}
+
+/// Add method body with DEX info and imports for name resolution
+fn add_method_body_with_dex_and_imports<W: CodeWriter>(
+    method: &MethodData,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    imports: Option<&BTreeSet<String>>,
+    code: &mut W,
+) {
+    // Use the body generator with DEX info and imports for proper name resolution
+    generate_body_with_dex_and_imports(method, dex_info, imports, code);
 }
 
 

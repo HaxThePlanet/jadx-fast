@@ -161,6 +161,8 @@ pub fn build_ir_insn(
         0x26 => InsnType::FillArrayData {
             array: InsnArg::reg(regs[0]),
             payload_offset: target,
+            element_width: 0,  // Will be filled by payload parsing
+            data: Vec::new(),  // Will be filled by payload parsing
         },
 
         // THROW
@@ -177,12 +179,16 @@ pub fn build_ir_insn(
         0x2b => InsnType::PackedSwitch {
             value: InsnArg::reg(regs[0]),
             payload_offset: target,
+            first_key: 0,
+            targets: Vec::new(),
         },
 
         // SPARSE-SWITCH
         0x2c => InsnType::SparseSwitch {
             value: InsnArg::reg(regs[0]),
             payload_offset: target,
+            keys: Vec::new(),
+            targets: Vec::new(),
         },
 
         // CMP variants

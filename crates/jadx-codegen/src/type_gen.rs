@@ -71,15 +71,17 @@ pub fn object_to_java_name_with_imports(internal: &str, imports: Option<&std::co
     // Check if type is imported - if so, use simple name
     if let Some(imported_types) = imports {
         if imported_types.contains(stripped) {
-            // Return just the simple class name
+            // Return just the simple class name (handle inner classes with $)
             if let Some(simple) = stripped.rsplit('/').next() {
-                return simple.to_string();
+                // Convert $ to . for inner class notation (R$layout -> R.layout)
+                return simple.replace('$', ".");
             }
         }
     }
 
-    // Convert / to . for package separator (fully qualified)
-    stripped.replace('/', ".")
+    // Convert / to . for package separator and $ to . for inner classes
+    // This converts "com/example/R$layout" to "com.example.R.layout"
+    stripped.replace('/', ".").replace('$', ".")
 }
 
 /// Get short name for java.lang classes (no import needed)

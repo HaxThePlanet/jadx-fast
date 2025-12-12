@@ -29,7 +29,7 @@ pub struct ExprGen {
     /// Method info for method_idx (local cache)
     method_info: HashMap<u32, MethodInfo>,
     /// Optional DEX info provider for lazy lookups
-    dex_provider: Option<Arc<dyn DexInfoProvider>>,
+    pub dex_provider: Option<Arc<dyn DexInfoProvider>>,
 }
 
 /// Field information
@@ -141,7 +141,7 @@ impl ExprGen {
     }
 
     /// Get string by index (local cache first, then DEX provider)
-    fn get_string_value(&self, idx: u32) -> Option<String> {
+    pub fn get_string_value(&self, idx: u32) -> Option<String> {
         self.strings.get(&idx).cloned()
             .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_string(idx)))
     }

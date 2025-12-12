@@ -411,6 +411,25 @@ pub fn find_condition_chains(conditionals: &[IfInfo], cfg: &CFG) -> Vec<MergedCo
     chains
 }
 
+/// Information about a detected ternary expression
+#[derive(Debug, Clone)]
+pub struct TernaryInfo {
+    /// The condition block
+    pub condition_block: u32,
+    /// The destination register for the ternary result
+    pub dest_reg: u16,
+    /// SSA version of dest register in then branch
+    pub then_version: u32,
+    /// SSA version of dest register in else branch
+    pub else_version: u32,
+    /// Block containing the then value
+    pub then_block: u32,
+    /// Block containing the else value
+    pub else_block: u32,
+    /// Merge block (where phi node would be)
+    pub merge_block: u32,
+}
+
 /// Detect ternary expressions (if-else that produces a value)
 pub fn is_ternary_candidate(cond: &IfInfo, cfg: &CFG) -> bool {
     // Both branches should be single blocks
@@ -434,6 +453,70 @@ pub fn is_ternary_candidate(cond: &IfInfo, cfg: &CFG) -> bool {
         && else_succs.len() == 1
         && then_succs[0] == cond.merge_block.unwrap()
         && else_succs[0] == cond.merge_block.unwrap()
+}
+
+/// Check if blocks represent a ternary assignment pattern
+/// Returns Some((dest_reg, then_value, else_value)) if it's a ternary assignment
+pub fn detect_ternary_assignment(
+    then_block: &crate::block_split::BasicBlock,
+    else_block: &crate::block_split::BasicBlock,
+) -> Option<(u16, u32, u32)> {
+    use jadx_ir::instructions::InsnType;
+
+    // Find last assignment in then block (excluding control flow)
+    let then_assign = then_block.instructions.iter().rev()
+        .find(|insn| !is_control_flow_insn(&insn.insn_type))
+        .and_then(|insn| get_assignment_dest(&insn.insn_type));
+
+    // Find last assignment in else block
+    let else_assign = else_block.instructions.iter().rev()
+        .find(|insn| !is_control_flow_insn(&insn.insn_type))
+        .and_then(|insn| get_assignment_dest(&insn.insn_type));
+
+    // Both must assign to the same register
+    match (then_assign, else_assign) {
+        (Some((then_reg, then_ver)), Some((else_reg, else_ver))) if then_reg == else_reg => {
+            Some((then_reg, then_ver, else_ver))
+        }
+        _ => None,
+    }
+}
+
+/// Check if an instruction is control flow
+fn is_control_flow_insn(insn: &jadx_ir::instructions::InsnType) -> bool {
+    use jadx_ir::instructions::InsnType;
+    matches!(
+        insn,
+        InsnType::If { .. }
+            | InsnType::Goto { .. }
+            | InsnType::PackedSwitch { .. }
+            | InsnType::SparseSwitch { .. }
+    )
+}
+
+/// Get the destination register from an assignment instruction
+fn get_assignment_dest(insn: &jadx_ir::instructions::InsnType) -> Option<(u16, u32)> {
+    use jadx_ir::instructions::InsnType;
+    match insn {
+        InsnType::Const { dest, .. }
+        | InsnType::ConstString { dest, .. }
+        | InsnType::Move { dest, .. }
+        | InsnType::MoveResult { dest }
+        | InsnType::NewInstance { dest, .. }
+        | InsnType::NewArray { dest, .. }
+        | InsnType::ArrayLength { dest, .. }
+        | InsnType::ArrayGet { dest, .. }
+        | InsnType::InstanceGet { dest, .. }
+        | InsnType::StaticGet { dest, .. }
+        | InsnType::Unary { dest, .. }
+        | InsnType::Binary { dest, .. }
+        | InsnType::Cast { dest, .. }
+        | InsnType::Compare { dest, .. }
+        | InsnType::InstanceOf { dest, .. }
+        | InsnType::ConstClass { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        InsnType::Phi { dest, .. } => Some((dest.reg_num, dest.ssa_version)),
+        _ => None,
+    }
 }
 
 #[cfg(test)]

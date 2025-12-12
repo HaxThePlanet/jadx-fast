@@ -25,3 +25,4 @@ zip.workspace = true
 
 [dev-dependencies]
 pretty_assertions.workspace = true
+tempfile = "3.23.0"

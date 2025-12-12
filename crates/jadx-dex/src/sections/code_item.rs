@@ -189,6 +189,83 @@ impl<'a> CodeItem<'a> {
 
         Ok(handlers)
     }
+
+    /// Parse debug info to extract parameter names
+    /// Returns (parameter_names, line_start) where parameter_names[i] is Some(string_idx) or None
+    pub fn parse_debug_info(&self) -> Result<Option<DebugInfoItem>> {
+        if self.debug_info_off == 0 {
+            return Ok(None);
+        }
+
+        let data = self.reader.data();
+        let off = self.debug_info_off as usize;
+
+        if off >= data.len() {
+            return Ok(None);
+        }
+
+        // Read line_start (uleb128)
+        let (line_start, mut pos) = read_uleb128(&data[off..])?;
+        pos += off;
+
+        // Read parameters_size (uleb128)
+        let (params_size, len) = read_uleb128(&data[pos..])?;
+        pos += len;
+
+        // Read parameter names (uleb128 string indices)
+        // Value of 0 means NO_INDEX (no name for this parameter)
+        let mut param_names = Vec::with_capacity(params_size as usize);
+        for _ in 0..params_size {
+            let (string_idx, len) = read_uleb128(&data[pos..])?;
+            pos += len;
+            // uleb128 encoded NO_INDEX is represented as 0 in the file
+            // but the actual NO_INDEX value is 0xFFFFFFFF
+            // Since uleb128 can't encode negative numbers directly,
+            // the convention is: value 0 = NO_INDEX, value N = string_idx N-1
+            // Actually, looking at AOSP docs: "NO_INDEX is encoded as 0"
+            // So 0 means no name, and N>0 means string_idx = N-1
+            let name_idx = if string_idx == 0 {
+                None
+            } else {
+                Some(string_idx - 1)
+            };
+            param_names.push(name_idx);
+        }
+
+        Ok(Some(DebugInfoItem {
+            line_start,
+            param_names,
+        }))
+    }
+
+    /// Get parameter names as strings (resolving string indices)
+    pub fn get_parameter_names(&self) -> Result<Vec<Option<String>>> {
+        let debug_info = self.parse_debug_info()?;
+
+        match debug_info {
+            Some(info) => {
+                let mut names = Vec::with_capacity(info.param_names.len());
+                for name_idx in info.param_names {
+                    let name = match name_idx {
+                        Some(idx) => self.reader.get_string(idx).ok().map(|s| s.to_string()),
+                        None => None,
+                    };
+                    names.push(name);
+                }
+                Ok(names)
+            }
+            None => Ok(Vec::new()),
+        }
+    }
+}
+
+/// Parsed debug_info_item
+#[derive(Debug, Clone)]
+pub struct DebugInfoItem {
+    /// Initial line number
+    pub line_start: u32,
+    /// Parameter name string indices (None = no name)
+    pub param_names: Vec<Option<u32>>,
 }
 
 impl std::fmt::Debug for CodeItem<'_> {

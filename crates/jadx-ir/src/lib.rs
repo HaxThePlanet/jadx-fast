@@ -14,6 +14,9 @@ pub mod types;
 // Re-exports
 pub use arena::ArenaId;
 pub use builder::build_ir_insn;
-pub use info::{ClassData, FieldData, FieldValue, MethodData, TryBlock, ExceptionHandler, DebugInfo};
+pub use info::{
+    Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility,
+    ClassData, DebugInfo, ExceptionHandler, FieldData, FieldValue, MethodData, TryBlock,
+};
 pub use instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
 pub use types::ArgType;

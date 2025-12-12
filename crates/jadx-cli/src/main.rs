@@ -45,7 +45,7 @@ use rayon::prelude::*;
 use jadx_codegen::{LazyDexInfo, DexInfoProvider};
 use jadx_ir::ClassData;
 use jadx_dex::DexReader;
-use jadx_ir::ArgType;
+use std::collections::HashMap;
 
 pub use args::*;
 
@@ -184,11 +184,17 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     let mut manifest_data: Option<Vec<u8>> = None;
     let mut arsc_data: Option<Vec<u8>> = None;
     let mut xml_resources: Vec<(String, Vec<u8>)> = Vec::new();
+    let mut raw_files: Vec<(String, Vec<u8>)> = Vec::new();
 
     // Extract files from APK
     for i in 0..archive.len() {
         let mut entry = archive.by_index(i)?;
         let name = entry.name().to_string();
+
+        // Skip directories
+        if name.ends_with('/') {
+            continue;
+        }
 
         if name.ends_with(".dex") {
             let mut data = Vec::new();
@@ -206,6 +212,11 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             let mut data = Vec::new();
             entry.read_to_end(&mut data)?;
             xml_resources.push((name, data));
+        } else if should_extract_raw_file(&name) {
+            // Extract raw files (META-INF, assets, etc.)
+            let mut data = Vec::new();
+            entry.read_to_end(&mut data)?;
+            raw_files.push((name, data));
         }
     }
 
@@ -213,7 +224,7 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
 
     // Process resources (ARSC + AXML)
     if !args.skip_resources {
-        process_resources(out_res, manifest_data, arsc_data, xml_resources)?;
+        process_resources(out_res, manifest_data, arsc_data, xml_resources, raw_files)?;
     }
 
     // Process source code (DEX)
@@ -253,11 +264,12 @@ fn process_resources(
     manifest_data: Option<Vec<u8>>,
     arsc_data: Option<Vec<u8>>,
     xml_resources: Vec<(String, Vec<u8>)>,
+    raw_files: Vec<(String, Vec<u8>)>,
 ) -> Result<()> {
     use jadx_resources::{ArscParser, AxmlParser};
     use std::collections::HashMap;
 
-    tracing::info!("Processing resources...");
+    tracing::info!("Processing resources ({} raw files)...", raw_files.len());
 
     // Parse resources.arsc first to get resource name mappings
     let mut res_names: HashMap<u32, String> = HashMap::new();
@@ -268,6 +280,19 @@ fn process_resources(
             Ok(()) => {
                 res_names = arsc_parser.get_res_names();
                 tracing::info!("Parsed {} resource entries", res_names.len());
+
+                // Generate values/*.xml files
+                let values_dir = out_res.join("res").join("values");
+                std::fs::create_dir_all(&values_dir)?;
+
+                let values_files = arsc_parser.generate_values_xml();
+                let values_count = values_files.len();
+                for (filename, content) in values_files {
+                    let out_path = values_dir.join(&filename);
+                    std::fs::write(&out_path, &content)?;
+                    tracing::debug!("Wrote {}", filename);
+                }
+                tracing::info!("Generated {} values XML files", values_count);
             }
             Err(e) => {
                 tracing::warn!("Failed to parse resources.arsc: {}", e);
@@ -303,7 +328,9 @@ fn process_resources(
 
         match axml_parser.parse(&data) {
             Ok(xml) => {
-                let out_path = out_res.join(&name);
+                // Normalize config qualifiers (remove redundant -v21 for anydpi, etc.)
+                let normalized_name = normalize_config_qualifier(&name);
+                let out_path = out_res.join(&normalized_name);
                 if let Some(parent) = out_path.parent() {
                     std::fs::create_dir_all(parent)?;
                 }
@@ -317,6 +344,20 @@ fn process_resources(
     }
 
     tracing::info!("Processed {} resource XMLs ({} errors)", xml_count, xml_errors);
+
+    // Write raw files (META-INF, assets, etc.)
+    if !raw_files.is_empty() {
+        let mut raw_count = 0;
+        for (name, data) in raw_files {
+            let out_path = out_res.join(&name);
+            if let Some(parent) = out_path.parent() {
+                std::fs::create_dir_all(parent)?;
+            }
+            std::fs::write(&out_path, &data)?;
+            raw_count += 1;
+        }
+        tracing::info!("Extracted {} raw files", raw_count);
+    }
 
     Ok(())
 }
@@ -377,11 +418,12 @@ fn process_dex_bytes(
                         if !class_name.contains(single) {
                             return None;
                         }
-                    }
-
-                    // Framework class filter (jadx-fast optimization)
-                    if should_skip_class(&class_name) {
-                        return None;
+                        // Skip framework filter when specific class requested
+                    } else {
+                        // Framework class filter (jadx-fast optimization)
+                        if should_skip_class(&class_name) {
+                            return None;
+                        }
                     }
 
                     Some((i as u32, class_name))
@@ -440,8 +482,43 @@ fn process_dex_bytes(
     // Wrap LazyDexInfo in Arc for sharing across threads
     let dex_info = std::sync::Arc::new(dex_info);
 
+    // Group inner classes with their outer classes
+    // Anonymous classes: Lcom/example/Outer$1; -> outer is Lcom/example/Outer;
+    // Named inner classes: Lcom/example/Outer$Inner; -> outer is Lcom/example/Outer;
+    let mut outer_classes: Vec<(String, Result<ClassData, String>)> = Vec::new();
+    let mut inner_class_map: HashMap<String, HashMap<String, ClassData>> = HashMap::new();
+
+    for (class_name, ir_result) in ir_classes {
+        if let Some(dollar_pos) = class_name.rfind('$') {
+            // This is an inner class
+            let outer_name = format!("{};", &class_name[..dollar_pos]);
+            if let Ok(inner_class) = ir_result {
+                inner_class_map
+                    .entry(outer_name)
+                    .or_default()
+                    .insert(class_name, inner_class);
+            }
+            // Don't add to outer_classes - it will be embedded in outer class
+        } else {
+            // This is an outer class (or standalone)
+            outer_classes.push((class_name, ir_result));
+        }
+    }
+
+    let inner_count: usize = inner_class_map.values().map(|m| m.len()).sum();
+    tracing::info!(
+        "Grouped {} outer classes with {} inner classes",
+        outer_classes.len(),
+        inner_count
+    );
+
+    // Update progress bar for actual file count (outer classes only)
+    if let Some(pb) = progress {
+        pb.set_length(outer_classes.len() as u64);
+    }
+
     // Pre-create all necessary directories (sequential to avoid races)
-    for (class_name, _) in &ir_classes {
+    for (class_name, _) in &outer_classes {
         let rel_path = class_name_to_path(class_name);
         let out_path = out_src.join(&rel_path);
         if let Some(parent) = out_path.parent() {
@@ -450,18 +527,26 @@ fn process_dex_bytes(
     }
 
     // Parallel code generation and file writing
-    let results: Vec<Result<(), String>> = ir_classes
+    let results: Vec<Result<(), String>> = outer_classes
         .par_iter()
         .map(|(class_name, ir_result)| {
             let rel_path = class_name_to_path(class_name);
             let out_path = out_src.join(&rel_path);
+
+            // Get inner classes for this outer class
+            let inner_classes = inner_class_map.get(class_name);
 
             let java_code = match ir_result {
                 Ok(ir_class) => {
                     let config = jadx_codegen::ClassGenConfig::default();
                     // Clone the Arc for each parallel thread
                     let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
-                    jadx_codegen::generate_class_with_dex(ir_class, &config, Some(dex_arc))
+                    jadx_codegen::generate_class_with_inner_classes(
+                        ir_class,
+                        &config,
+                        Some(dex_arc),
+                        inner_classes,
+                    )
                 }
                 Err(e) => {
                     // Generate stub for failed conversions
@@ -487,10 +572,11 @@ fn process_dex_bytes(
     let phase2_elapsed = phase2_start.elapsed();
     let errors: Vec<_> = results.iter().filter(|r| r.is_err()).collect();
     tracing::info!(
-        "Phase 2 complete: {} files in {:.2}s ({} errors)",
-        ir_classes.len(),
+        "Phase 2 complete: {} files in {:.2}s ({} errors, {} inner classes embedded)",
+        outer_classes.len(),
         phase2_elapsed.as_secs_f64(),
-        errors.len()
+        errors.len(),
+        inner_count
     );
 
     tracing::info!(
@@ -500,7 +586,7 @@ fn process_dex_bytes(
         phase2_elapsed.as_secs_f64()
     );
 
-    Ok(count)
+    Ok(outer_classes.len() + inner_count)
 }
 
 fn create_progress_bar(args: &Args) -> Option<ProgressBar> {
@@ -626,3 +712,64 @@ fn generate_class_stub(class: &jadx_dex::sections::ClassDef<'_>, class_name: &st
 
 // NOTE: build_dex_info() was removed - replaced by LazyDexInfo for memory efficiency
 // LazyDexInfo loads strings/types/fields/methods on-demand instead of upfront
+
+/// Normalize config qualifier by removing redundant API version suffixes.
+/// E.g., "mipmap-anydpi-v21" -> "mipmap-anydpi" (anydpi implies v21)
+fn normalize_config_qualifier(path: &str) -> String {
+    // Only process res/ paths with config qualifiers
+    if !path.starts_with("res/") {
+        return path.to_string();
+    }
+
+    // Split path into components
+    let parts: Vec<&str> = path.split('/').collect();
+    if parts.len() < 2 {
+        return path.to_string();
+    }
+
+    // The second component is the resource type + config (e.g., "mipmap-anydpi-v21")
+    let type_config = parts[1];
+
+    // Handle anydpi-v21 -> anydpi (anydpi was introduced in API 21)
+    // Handle anydpi-v26 etc. - keep the version if it's higher than 21
+    let normalized = if type_config.contains("anydpi-v21") {
+        type_config.replace("-v21", "")
+    } else {
+        type_config.to_string()
+    };
+
+    // Rebuild path with normalized qualifier
+    let mut result = String::from("res/");
+    result.push_str(&normalized);
+    for part in &parts[2..] {
+        result.push('/');
+        result.push_str(part);
+    }
+
+    result
+}
+
+/// Check if a file should be extracted as raw (unprocessed) from the APK
+fn should_extract_raw_file(name: &str) -> bool {
+    // META-INF directory (certificates, manifests, signatures)
+    if name.starts_with("META-INF/") {
+        return true;
+    }
+    // Assets directory
+    if name.starts_with("assets/") {
+        return true;
+    }
+    // Raw resources (non-XML files in res/)
+    if name.starts_with("res/") && !name.ends_with(".xml") {
+        return true;
+    }
+    // lib/*.so files (native libraries)
+    if name.starts_with("lib/") && name.ends_with(".so") {
+        return true;
+    }
+    // kotlin metadata
+    if name.starts_with("kotlin/") {
+        return true;
+    }
+    false
+}

@@ -38,7 +38,7 @@ use jadx_ir::regions::{CatchHandler, Condition, LoopKind, Region, RegionContent,
 
 use crate::block_split::BasicBlock;
 use crate::cfg::CFG;
-use crate::conditionals::{detect_conditionals, IfInfo};
+use crate::conditionals::{detect_conditionals, find_condition_chains, IfInfo, MergedCondition, MergeMode};
 use crate::loops::{detect_loops, LoopInfo};
 
 /// Try block information
@@ -214,6 +214,11 @@ pub fn detect_all_loop_edges(cfg: &CFG, loops: &[LoopInfo]) -> Vec<LoopEdgeInsns
 
 /// Build region tree from a CFG
 pub fn build_regions(cfg: &CFG) -> Region {
+    build_regions_with_try_catch(cfg, &[])
+}
+
+/// Build regions with try-catch block information from IR
+pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Region {
     // Detect loops and conditionals
     let loops = detect_loops(cfg);
     let conditionals = detect_conditionals(cfg, &loops);
@@ -221,11 +226,97 @@ pub fn build_regions(cfg: &CFG) -> Region {
     // Detect synchronized blocks
     let syncs = detect_synchronized_blocks(cfg);
 
-    // Create builder context
-    let mut builder = RegionBuilder::new(cfg, &loops, &conditionals, &syncs);
+    // Convert IR try_blocks to TryInfo for CFG
+    let tries = detect_try_catch_regions(cfg, try_blocks);
+
+    // Detect merged condition chains (&&, ||)
+    let merged_conditions = find_condition_chains(&conditionals, cfg);
+
+    // Create builder context with try-catch information and merged conditions
+    let mut builder = RegionBuilder::new(cfg, &loops, &conditionals, &syncs, &tries, &merged_conditions);
 
     // Build from entry block
     builder.make_method_region()
+}
+
+/// Detect try-catch regions from IR TryBlock information
+fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Vec<TryInfo> {
+    let mut tries = Vec::with_capacity(try_blocks.len());
+
+    // Build a map of address -> block_id for fast lookups
+    let mut addr_to_block: BTreeMap<u32, u32> = BTreeMap::new();
+    for block_id in cfg.block_ids() {
+        // Block ID is the instruction address in jadx-rust
+        addr_to_block.insert(block_id, block_id);
+    }
+
+    for try_block in try_blocks {
+        // Find blocks covered by this try
+        let mut try_block_ids = BTreeSet::new();
+        for block_id in cfg.block_ids() {
+            // Check if block's address is within try range
+            if block_id >= try_block.start_addr && block_id < try_block.end_addr {
+                try_block_ids.insert(block_id);
+            }
+        }
+
+        if try_block_ids.is_empty() {
+            continue;
+        }
+
+        // Find start block (first block in try)
+        let start_block = *try_block_ids.iter().next().unwrap();
+
+        // Convert exception handlers
+        let handlers: Vec<HandlerInfo> = try_block.handlers.iter().map(|h| {
+            let handler_block = h.handler_addr;
+            let mut handler_blocks = BTreeSet::new();
+
+            // Find blocks reachable from handler (simple forward reach)
+            let mut worklist = vec![handler_block];
+            let mut visited = BTreeSet::new();
+            while let Some(b) = worklist.pop() {
+                if visited.contains(&b) || try_block_ids.contains(&b) {
+                    continue;
+                }
+                visited.insert(b);
+                handler_blocks.insert(b);
+
+                // Add successors (limited to avoid infinite loops)
+                for &succ in cfg.successors(b) {
+                    if !visited.contains(&succ) && handler_blocks.len() < 100 {
+                        worklist.push(succ);
+                    }
+                }
+            }
+
+            HandlerInfo {
+                exception_type: h.exception_type.clone(),
+                handler_block,
+                handler_blocks,
+            }
+        }).collect();
+
+        // Find merge block (first block after all try and handler blocks)
+        let all_blocks: BTreeSet<u32> = try_block_ids.iter()
+            .chain(handlers.iter().flat_map(|h| h.handler_blocks.iter()))
+            .copied()
+            .collect();
+
+        let merge_block = all_blocks.iter()
+            .flat_map(|&b| cfg.successors(b))
+            .find(|&&succ| !all_blocks.contains(&succ))
+            .copied();
+
+        tries.push(TryInfo {
+            start_block,
+            try_blocks: try_block_ids,
+            handlers,
+            merge_block,
+        });
+    }
+
+    tries
 }
 
 /// Detect synchronized blocks by finding MONITOR_ENTER/MONITOR_EXIT pairs
@@ -343,6 +434,10 @@ struct RegionBuilder<'a> {
     conditionals: &'a [IfInfo],
     #[allow(dead_code)]
     syncs: &'a [SyncInfo],
+    /// Try-catch regions
+    tries: &'a [TryInfo],
+    /// Merged condition chains (for &&, || synthesis)
+    merged_conditions: &'a [MergedCondition],
     /// Blocks that have been processed (like Java's processedBlocks)
     processed: BTreeSet<u32>,
     /// Loop header -> LoopInfo lookup
@@ -351,6 +446,12 @@ struct RegionBuilder<'a> {
     cond_map: BTreeMap<u32, &'a IfInfo>,
     /// Sync enter block -> SyncInfo lookup
     sync_map: BTreeMap<u32, &'a SyncInfo>,
+    /// Try start block -> TryInfo lookup
+    try_map: BTreeMap<u32, &'a TryInfo>,
+    /// Merged condition first_block -> MergedCondition lookup
+    merged_map: BTreeMap<u32, &'a MergedCondition>,
+    /// Blocks that are part of a merged condition (to skip when encountered)
+    merged_blocks: BTreeSet<u32>,
     /// Region stack for exit tracking
     stack: RegionStack,
 }
@@ -361,6 +462,8 @@ impl<'a> RegionBuilder<'a> {
         loops: &'a [LoopInfo],
         conditionals: &'a [IfInfo],
         syncs: &'a [SyncInfo],
+        tries: &'a [TryInfo],
+        merged_conditions: &'a [MergedCondition],
     ) -> Self {
         let mut loop_map = BTreeMap::new();
         for l in loops {
@@ -377,15 +480,37 @@ impl<'a> RegionBuilder<'a> {
             sync_map.insert(s.enter_block, s);
         }
 
+        let mut try_map = BTreeMap::new();
+        for t in tries {
+            try_map.insert(t.start_block, t);
+        }
+
+        // Build merged condition maps
+        let mut merged_map = BTreeMap::new();
+        let mut merged_blocks = BTreeSet::new();
+        for m in merged_conditions {
+            merged_map.insert(m.first_block, m);
+            // Track all blocks that are part of merged conditions (except first)
+            // so we can skip them when traversing
+            for &block in &m.merged_blocks[1..] {
+                merged_blocks.insert(block);
+            }
+        }
+
         RegionBuilder {
             cfg,
             loops,
             conditionals,
             syncs,
+            tries,
+            merged_conditions,
             processed: BTreeSet::new(),
             loop_map,
             cond_map,
             sync_map,
+            try_map,
+            merged_map,
+            merged_blocks,
             stack: RegionStack::new(),
         }
     }
@@ -443,6 +568,13 @@ impl<'a> RegionBuilder<'a> {
         if let Some(sync_info) = self.sync_map.get(&block_id).copied() {
             let (sync_region, next) = self.process_synchronized(sync_info);
             contents.push(RegionContent::Region(Box::new(sync_region)));
+            return next;
+        }
+
+        // Check for try-catch block start
+        if let Some(try_info) = self.try_map.get(&block_id).copied() {
+            let (try_region, next) = self.process_try_catch(try_info);
+            contents.push(RegionContent::Region(Box::new(try_region)));
             return next;
         }
 
@@ -556,6 +688,118 @@ impl<'a> RegionBuilder<'a> {
         Region::Sequence(contents)
     }
 
+    /// Process a try-catch region (like Java's TryCatchRegionMaker)
+    fn process_try_catch(&mut self, try_info: &TryInfo) -> (Region, Option<u32>) {
+        // Mark all try blocks as processed
+        for &block in &try_info.try_blocks {
+            self.processed.insert(block);
+        }
+
+        self.stack.push();
+
+        // Add merge point as exit
+        self.stack.add_exit(try_info.merge_block);
+
+        // Build try body region
+        let try_body = self.build_try_body(try_info);
+
+        // Build catch handlers
+        let catch_handlers: Vec<CatchHandler> = try_info
+            .handlers
+            .iter()
+            .map(|handler| {
+                // Mark handler blocks as processed
+                for &block in &handler.handler_blocks {
+                    self.processed.insert(block);
+                }
+
+                // Build handler body
+                let handler_body = self.build_handler_body(handler);
+
+                // Convert exception type to Vec<String> for multi-catch support
+                let exception_types = handler
+                    .exception_type
+                    .as_ref()
+                    .map(|t| vec![t.clone()])
+                    .unwrap_or_default();
+
+                CatchHandler {
+                    exception_types,
+                    catch_all: handler.exception_type.is_none(),
+                    region: Box::new(handler_body),
+                }
+            })
+            .collect();
+
+        self.stack.pop();
+
+        let region = Region::TryCatch {
+            try_region: Box::new(try_body),
+            handlers: catch_handlers,
+            finally: None, // TODO: detect finally blocks
+        };
+
+        (region, try_info.merge_block)
+    }
+
+    /// Build the try body region
+    fn build_try_body(&mut self, try_info: &TryInfo) -> Region {
+        let mut contents = Vec::new();
+
+        // Build blocks in order
+        let mut sorted_blocks: Vec<u32> = try_info.try_blocks.iter().copied().collect();
+        sorted_blocks.sort();
+
+        for block_id in sorted_blocks {
+            // Skip already processed (in case of nested structures)
+            if !try_info.try_blocks.contains(&block_id) {
+                continue;
+            }
+
+            // Check for nested loops/conditionals within try
+            if let Some(loop_info) = self.loop_map.get(&block_id).copied() {
+                if loop_info.blocks.iter().all(|b| try_info.try_blocks.contains(b)) {
+                    let body = self.build_loop_body(loop_info);
+                    contents.push(RegionContent::Region(Box::new(Region::Loop {
+                        kind: loop_info.kind,
+                        condition: Some(self.extract_condition(loop_info.header)),
+                        body: Box::new(body),
+                    })));
+                    continue;
+                }
+            }
+
+            if let Some(cond) = self.cond_map.get(&block_id).copied() {
+                if cond.then_blocks.iter().all(|b| try_info.try_blocks.contains(b))
+                    && cond.else_blocks.iter().all(|b| try_info.try_blocks.contains(b))
+                {
+                    let (if_region, _) = self.process_if(cond);
+                    contents.push(RegionContent::Region(Box::new(if_region)));
+                    continue;
+                }
+            }
+
+            contents.push(RegionContent::Block(block_id));
+        }
+
+        Region::Sequence(contents)
+    }
+
+    /// Build an exception handler body region
+    fn build_handler_body(&self, handler: &HandlerInfo) -> Region {
+        let mut contents = Vec::new();
+
+        // Build handler blocks in order
+        let mut sorted_blocks: Vec<u32> = handler.handler_blocks.iter().copied().collect();
+        sorted_blocks.sort();
+
+        for block_id in sorted_blocks {
+            contents.push(RegionContent::Block(block_id));
+        }
+
+        Region::Sequence(contents)
+    }
+
     /// Process a loop region (like Java's LoopRegionMaker.process)
     fn process_loop(&mut self, loop_info: &LoopInfo) -> (Region, Option<u32>) {
         // Mark all loop blocks as processed
@@ -591,20 +835,74 @@ impl<'a> RegionBuilder<'a> {
     /// In Dalvik bytecode, the branch is taken when the condition is TRUE.
     /// But in structured Java code, the "then" block is the fall-through path
     /// (when condition is FALSE). So we negate the condition to match Java semantics.
+    ///
+    /// If this block is the first of a merged condition chain (&&, ||), we build
+    /// a compound condition instead of a simple one.
     fn extract_condition(&self, block_id: u32) -> Condition {
+        // Check if this block is part of a merged condition chain
+        if let Some(merged) = self.merged_map.get(&block_id) {
+            if merged.merged_blocks.len() > 1 {
+                return self.build_merged_condition(merged);
+            }
+        }
+
+        // Simple single-block condition
+        self.extract_simple_condition(block_id)
+    }
+
+    /// Extract a simple condition from a single block
+    fn extract_simple_condition(&self, block_id: u32) -> Condition {
         if let Some(block) = self.cfg.get_block(block_id) {
             // Find the If instruction (usually the last one)
             for insn in block.instructions.iter().rev() {
                 if let InsnType::If { condition, .. } = &insn.insn_type {
-                    // Use simple_negated because:
-                    // - In Dalvik: if condition TRUE, branch to else; else fall-through to then
-                    // - In Java: if (cond) { then } requires cond TRUE -> then
-                    // So we need to negate the Dalvik condition
                     return Condition::simple_negated(block_id, condition.clone());
                 }
             }
         }
         Condition::Unknown
+    }
+
+    /// Build a compound condition from a merged condition chain
+    fn build_merged_condition(&self, merged: &MergedCondition) -> Condition {
+        // Build conditions for each block in the chain
+        let mut conditions: Vec<Condition> = merged
+            .merged_blocks
+            .iter()
+            .map(|&block| self.extract_simple_condition(block))
+            .collect();
+
+        if conditions.is_empty() {
+            return Condition::Unknown;
+        }
+
+        if conditions.len() == 1 {
+            return conditions.pop().unwrap();
+        }
+
+        // Combine based on merge mode
+        match merged.mode {
+            MergeMode::And => {
+                // AND chain: a && b && c
+                let mut result = conditions.pop().unwrap();
+                while let Some(left) = conditions.pop() {
+                    result = Condition::and(left, result);
+                }
+                result
+            }
+            MergeMode::Or => {
+                // OR chain: a || b || c
+                let mut result = conditions.pop().unwrap();
+                while let Some(left) = conditions.pop() {
+                    result = Condition::or(left, result);
+                }
+                result
+            }
+            MergeMode::Single => {
+                // Should not happen for len > 1, but handle gracefully
+                conditions.pop().unwrap()
+            }
+        }
     }
 
     /// Build loop body region
@@ -819,16 +1117,31 @@ impl<'a> RegionBuilder<'a> {
     }
 
     /// Get switch keys from the instruction
-    /// Note: Switch payload data is not yet parsed - returns None for now
     fn get_switch_info(&self, block: u32) -> Option<Vec<i32>> {
         let b = self.cfg.get_block(block)?;
         let last = b.instructions.last()?;
 
         match &last.insn_type {
-            InsnType::PackedSwitch { .. } | InsnType::SparseSwitch { .. } => {
-                // TODO: Parse switch payload data from the bytecode
-                // For now, we don't have the keys/targets extracted
-                None
+            InsnType::PackedSwitch {
+                first_key, targets, ..
+            } => {
+                // Generate consecutive keys from first_key
+                if targets.is_empty() {
+                    None
+                } else {
+                    Some(
+                        (0..targets.len())
+                            .map(|i| *first_key + i as i32)
+                            .collect(),
+                    )
+                }
+            }
+            InsnType::SparseSwitch { keys, .. } => {
+                if keys.is_empty() {
+                    None
+                } else {
+                    Some(keys.clone())
+                }
             }
             _ => None,
         }

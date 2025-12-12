@@ -229,15 +229,39 @@ impl<'a> StmtGen<'a> {
                 true
             }
 
-            InsnType::FillArrayData { array, payload_offset } => {
-                // TODO: Parse array data payload and generate array initialization
-                code.start_line()
-                    .add("/* fill-array-data ")
-                    .add(&self.expr.gen_arg(array))
-                    .add(" at offset ")
-                    .add(&payload_offset.to_string())
-                    .add(" */")
-                    .newline();
+            InsnType::FillArrayData { array, payload_offset, element_width, data } => {
+                if data.is_empty() {
+                    // Payload not parsed, emit placeholder comment
+                    code.start_line()
+                        .add("/* fill-array-data ")
+                        .add(&self.expr.gen_arg(array))
+                        .add(" at offset ")
+                        .add(&payload_offset.to_string())
+                        .add(" */")
+                        .newline();
+                } else {
+                    // Generate array element assignments
+                    let array_name = self.expr.gen_arg(array);
+                    for (i, value) in data.iter().enumerate() {
+                        code.start_line();
+                        code.add(&array_name)
+                            .add("[")
+                            .add(&i.to_string())
+                            .add("] = ");
+                        // Format value based on element width
+                        match element_width {
+                            1 => code.add(&format!("(byte) {}", *value as i8)),
+                            2 => {
+                                // Could be short or char - use short for now
+                                code.add(&format!("(short) {}", *value as i16))
+                            }
+                            4 => code.add(&value.to_string()),
+                            8 => code.add(&format!("{}L", value)),
+                            _ => code.add(&value.to_string()),
+                        };
+                        code.add(";").newline();
+                    }
+                }
                 true
             }
 
@@ -592,6 +616,26 @@ mod tests {
         assert!(code.contains("if (x > 0) {"));
         assert!(code.contains("} else {"));
         assert!(code.contains("}"));
+    }
+
+    #[test]
+    fn test_else_if_chain() {
+        let mut writer = SimpleCodeWriter::new();
+        gen_if_header("x > 10", &mut writer);
+        writer.start_line().add("doBig();").newline();
+        gen_else_if("x > 5", &mut writer);
+        writer.start_line().add("doMedium();").newline();
+        gen_else_if("x > 0", &mut writer);
+        writer.start_line().add("doSmall();").newline();
+        gen_else(&mut writer);
+        writer.start_line().add("doNone();").newline();
+        gen_close_block(&mut writer);
+
+        let code = writer.finish();
+        assert!(code.contains("if (x > 10) {"));
+        assert!(code.contains("} else if (x > 5) {"));
+        assert!(code.contains("} else if (x > 0) {"));
+        assert!(code.contains("} else {"));
     }
 
     #[test]

@@ -143,6 +143,10 @@ pub enum InsnType {
     FillArrayData {
         array: InsnArg,
         payload_offset: i32,
+        /// Element width in bytes (1, 2, 4, or 8)
+        element_width: u8,
+        /// Array data elements (stored as i64, interpret based on element_width)
+        data: Vec<i64>,
     },
 
     /// Array get: result = array[index]
@@ -237,16 +241,24 @@ pub enum InsnType {
         target: u32,
     },
 
-    /// Packed switch
+    /// Packed switch (consecutive case keys)
     PackedSwitch {
         value: InsnArg,
         payload_offset: i32,
+        /// First key value (keys are first_key, first_key+1, ...)
+        first_key: i32,
+        /// Target offsets (absolute, in code units) for each case
+        targets: Vec<u32>,
     },
 
-    /// Sparse switch
+    /// Sparse switch (arbitrary case keys)
     SparseSwitch {
         value: InsnArg,
         payload_offset: i32,
+        /// Case keys (sorted)
+        keys: Vec<i32>,
+        /// Target offsets (absolute, in code units) for each case
+        targets: Vec<u32>,
     },
 
     /// Phi node (for SSA form)

@@ -5,8 +5,94 @@
 use crate::instructions::InsnNode;
 use crate::types::ArgType;
 
+/// An annotation with its type and element values
+#[derive(Debug, Clone)]
+pub struct Annotation {
+    /// Annotation type (e.g., "java/lang/Override", "java/lang/Deprecated")
+    pub annotation_type: String,
+    /// Annotation visibility (build, runtime, system)
+    pub visibility: AnnotationVisibility,
+    /// Element name-value pairs
+    pub elements: Vec<AnnotationElement>,
+}
+
+impl Annotation {
+    /// Create a new annotation with the given type
+    pub fn new(annotation_type: String, visibility: AnnotationVisibility) -> Self {
+        Annotation {
+            annotation_type,
+            visibility,
+            elements: Vec::new(),
+        }
+    }
+
+    /// Get the simple name of this annotation (e.g., "Override" from "java/lang/Override")
+    pub fn simple_name(&self) -> &str {
+        self.annotation_type.rsplit('/').next().unwrap_or(&self.annotation_type)
+    }
+
+    /// Check if this is a standard annotation that should be emitted
+    pub fn should_emit(&self) -> bool {
+        // Only emit runtime-visible annotations by default
+        matches!(self.visibility, AnnotationVisibility::Runtime | AnnotationVisibility::System)
+    }
+}
+
+/// Annotation visibility
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum AnnotationVisibility {
+    /// Build-time only (not visible at runtime)
+    Build,
+    /// Visible at runtime via reflection
+    Runtime,
+    /// System annotation (visible to runtime, but not user code)
+    System,
+}
+
+/// An annotation element (name-value pair)
+#[derive(Debug, Clone)]
+pub struct AnnotationElement {
+    /// Element name
+    pub name: String,
+    /// Element value
+    pub value: AnnotationValue,
+}
+
+/// Annotation element value
+#[derive(Debug, Clone)]
+pub enum AnnotationValue {
+    /// Byte value
+    Byte(i8),
+    /// Short value
+    Short(i16),
+    /// Char value
+    Char(u16),
+    /// Int value
+    Int(i32),
+    /// Long value
+    Long(i64),
+    /// Float value
+    Float(f32),
+    /// Double value
+    Double(f64),
+    /// String value
+    String(String),
+    /// Type reference (class literal)
+    Type(String),
+    /// Enum constant (class name, field name)
+    Enum(String, String),
+    /// Nested annotation
+    Annotation(Box<Annotation>),
+    /// Array of values
+    Array(Vec<AnnotationValue>),
+    /// Boolean value
+    Boolean(bool),
+    /// Null
+    Null,
+}
+
 /// Method information and IR
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct MethodData {
     /// Method name
     pub name: String,
@@ -16,6 +102,8 @@ pub struct MethodData {
     pub return_type: ArgType,
     /// Parameter types
     pub arg_types: Vec<ArgType>,
+    /// Parameter names from debug info (None = no debug info)
+    pub arg_names: Vec<Option<String>>,
     /// Register count
     pub regs_count: u16,
     /// Input parameter count (includes 'this' for instance methods)
@@ -28,6 +116,8 @@ pub struct MethodData {
     pub try_blocks: Vec<TryBlock>,
     /// Debug info (line numbers, local variables)
     pub debug_info: Option<DebugInfo>,
+    /// Annotations on this method
+    pub annotations: Vec<Annotation>,
 }
 
 impl MethodData {
@@ -38,12 +128,14 @@ impl MethodData {
             access_flags,
             return_type,
             arg_types: Vec::new(),
+            arg_names: Vec::new(),
             regs_count: 0,
             ins_count: 0,
             outs_count: 0,
             instructions: Vec::new(),
             try_blocks: Vec::new(),
             debug_info: None,
+            annotations: Vec::new(),
         }
     }
 
@@ -128,7 +220,7 @@ pub struct LocalVar {
 }
 
 /// Class information
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ClassData {
     /// Class type descriptor (e.g., "Lcom/example/Foo;")
     pub class_type: String,
@@ -146,6 +238,8 @@ pub struct ClassData {
     pub static_fields: Vec<FieldData>,
     /// Instance fields
     pub instance_fields: Vec<FieldData>,
+    /// Annotations on this class
+    pub annotations: Vec<Annotation>,
 }
 
 impl ClassData {
@@ -160,6 +254,7 @@ impl ClassData {
             methods: Vec::new(),
             static_fields: Vec::new(),
             instance_fields: Vec::new(),
+            annotations: Vec::new(),
         }
     }
 
@@ -208,7 +303,7 @@ impl ClassData {
 }
 
 /// Field information
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct FieldData {
     /// Field name
     pub name: String,
@@ -218,6 +313,8 @@ pub struct FieldData {
     pub field_type: ArgType,
     /// Initial value (for static fields)
     pub initial_value: Option<FieldValue>,
+    /// Annotations on this field
+    pub annotations: Vec<Annotation>,
 }
 
 impl FieldData {
@@ -228,6 +325,7 @@ impl FieldData {
             access_flags,
             field_type,
             initial_value: None,
+            annotations: Vec::new(),
         }
     }
 
@@ -254,7 +352,14 @@ pub enum FieldValue {
     Double(f64),
     String(String),
     Type(String),
+    Boolean(bool),
     Null,
+    /// Array of values (for array field initializers)
+    Array(Vec<FieldValue>),
+    /// Enum constant reference (class name, field name)
+    Enum(String, String),
+    /// Field reference (class name, field name)
+    Field(String, String),
 }
 
 #[cfg(test)]

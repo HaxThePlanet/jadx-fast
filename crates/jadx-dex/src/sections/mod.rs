@@ -4,6 +4,7 @@
 
 mod class_def;
 mod code_item;
+mod encoded_value;
 mod field_id;
 mod method_id;
 mod proto_id;
@@ -11,6 +12,11 @@ mod string_pool;
 
 pub use class_def::{ClassData, ClassDef, EncodedField, EncodedMethod, FieldIterator, MethodIterator};
 pub use code_item::{CatchHandler, CodeItem, TryItem, TypeAddrPair};
+pub use encoded_value::{
+    parse_annotation_item, parse_encoded_annotation, parse_encoded_array, parse_encoded_value,
+    AnnotationElement, AnnotationItem, EncodedAnnotation, EncodedValue,
+    VISIBILITY_BUILD, VISIBILITY_RUNTIME, VISIBILITY_SYSTEM,
+};
 pub use field_id::FieldId;
 pub use method_id::MethodId;
 pub use proto_id::ProtoId;

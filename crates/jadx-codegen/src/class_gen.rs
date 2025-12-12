@@ -1,16 +1,164 @@
 //! Class code generation
 //!
 //! Generates Java source code for classes using jadx-ir types.
+//!
+//! ## Inner Class Support
+//!
+//! This module detects and handles several types of inner classes:
+//! - **Named inner classes**: `OuterClass$InnerClass`
+//! - **Anonymous inner classes**: `OuterClass$1`, `OuterClass$2`, etc.
+//! - **Lambda classes**: `OuterClass$$Lambda$1` (Java 8+ lambdas)
+//!
+//! When generating code for an outer class, inner classes can be embedded within.
 
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 
-use jadx_ir::{ArgType, ClassData, FieldData, FieldValue};
+use jadx_ir::{Annotation, AnnotationVisibility, ArgType, ClassData, FieldData, FieldValue};
 
 use crate::access_flags::{self, AccessContext};
 use crate::dex_info::DexInfoProvider;
 use crate::method_gen::{generate_method, generate_method_with_dex};
 use crate::type_gen::{escape_string, get_package, get_simple_name, literal_to_string, type_to_string};
 use crate::writer::{CodeWriter, SimpleCodeWriter};
+
+// Import annotation generation functions from method_gen
+use crate::method_gen::{generate_annotation, should_emit_annotation};
+
+// =====================
+// Inner Class Utilities
+// =====================
+
+/// Information about an inner class
+#[derive(Debug, Clone)]
+pub struct InnerClassInfo {
+    /// Full class type (e.g., "Lcom/example/Outer$Inner;")
+    pub class_type: String,
+    /// Simple name of inner class (e.g., "Inner" or "1")
+    pub simple_name: String,
+    /// Outer class type (e.g., "Lcom/example/Outer;")
+    pub outer_class: String,
+    /// Kind of inner class
+    pub kind: InnerClassKind,
+}
+
+/// Kind of inner class
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum InnerClassKind {
+    /// Named inner class (Outer$Inner)
+    Named,
+    /// Anonymous inner class (Outer$1)
+    Anonymous,
+    /// Lambda implementation (Outer$$Lambda$1)
+    Lambda,
+    /// Local class (Outer$1LocalClass)
+    Local,
+}
+
+/// Check if a class type is an inner class
+pub fn is_inner_class(class_type: &str) -> bool {
+    let stripped = class_type
+        .strip_prefix('L')
+        .unwrap_or(class_type)
+        .strip_suffix(';')
+        .unwrap_or(class_type);
+    stripped.contains('$')
+}
+
+/// Get inner class info from a class type
+pub fn get_inner_class_info(class_type: &str) -> Option<InnerClassInfo> {
+    let stripped = class_type
+        .strip_prefix('L')
+        .unwrap_or(class_type)
+        .strip_suffix(';')
+        .unwrap_or(class_type);
+
+    let dollar_pos = stripped.rfind('$')?;
+    let outer_part = &stripped[..dollar_pos];
+    let inner_part = &stripped[dollar_pos + 1..];
+
+    if inner_part.is_empty() {
+        return None;
+    }
+
+    // Determine kind
+    let kind = if stripped.contains("$$Lambda$") {
+        InnerClassKind::Lambda
+    } else if inner_part.chars().next().map(|c| c.is_ascii_digit()).unwrap_or(false) {
+        // Starts with digit: could be anonymous or local
+        if inner_part.chars().all(|c| c.is_ascii_digit()) {
+            InnerClassKind::Anonymous
+        } else {
+            InnerClassKind::Local
+        }
+    } else {
+        InnerClassKind::Named
+    };
+
+    Some(InnerClassInfo {
+        class_type: class_type.to_string(),
+        simple_name: inner_part.to_string(),
+        outer_class: format!("L{};", outer_part),
+        kind,
+    })
+}
+
+/// Get the outer class type from an inner class type
+pub fn get_outer_class(class_type: &str) -> Option<String> {
+    get_inner_class_info(class_type).map(|info| info.outer_class)
+}
+
+/// Check if a class is anonymous
+pub fn is_anonymous_class(class_type: &str) -> bool {
+    get_inner_class_info(class_type)
+        .map(|info| info.kind == InnerClassKind::Anonymous)
+        .unwrap_or(false)
+}
+
+/// Check if a class is a lambda implementation
+pub fn is_lambda_class(class_type: &str) -> bool {
+    get_inner_class_info(class_type)
+        .map(|info| info.kind == InnerClassKind::Lambda)
+        .unwrap_or(false)
+}
+
+/// Group classes by outer class for nested generation
+pub fn group_by_outer_class<'a>(
+    classes: impl Iterator<Item = &'a ClassData>,
+) -> BTreeMap<String, Vec<&'a ClassData>> {
+    let mut result: BTreeMap<String, Vec<&'a ClassData>> = BTreeMap::new();
+
+    for class in classes {
+        if let Some(info) = get_inner_class_info(&class.class_type) {
+            result
+                .entry(info.outer_class)
+                .or_default()
+                .push(class);
+        }
+    }
+
+    result
+}
+
+/// Check if a class implements a single abstract method interface (SAM)
+/// Used for lambda detection
+pub fn is_sam_interface(class: &ClassData) -> bool {
+    // Check if it's an anonymous class implementing exactly one interface
+    if !is_anonymous_class(&class.class_type) {
+        return false;
+    }
+
+    // Should implement exactly one interface
+    if class.interfaces.len() != 1 {
+        return false;
+    }
+
+    // Should have exactly one non-constructor method
+    let abstract_methods: Vec<_> = class.methods.iter()
+        .filter(|m| !m.is_constructor() && !m.is_class_init())
+        .collect();
+
+    abstract_methods.len() == 1
+}
 
 /// Collects types used in a class for import generation
 #[derive(Debug, Default)]
@@ -247,8 +395,21 @@ pub fn generate_class_with_dex(
     config: &ClassGenConfig,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
 ) -> String {
+    generate_class_with_inner_classes(class, config, dex_info, None)
+}
+
+/// Generate Java source code for a class with inner classes for anonymous class inlining
+///
+/// When `inner_classes` is provided, anonymous inner class instantiations are inlined
+/// with their full body (methods) instead of just `new AnonymousClass()`.
+pub fn generate_class_with_inner_classes(
+    class: &ClassData,
+    config: &ClassGenConfig,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    inner_classes: Option<&HashMap<String, ClassData>>,
+) -> String {
     let mut writer = SimpleCodeWriter::new();
-    generate_class_to_writer_with_dex(class, config, dex_info, &mut writer);
+    generate_class_to_writer_with_inner_classes(class, config, dex_info, inner_classes, &mut writer);
     writer.finish()
 }
 
@@ -262,6 +423,17 @@ pub fn generate_class_to_writer_with_dex<W: CodeWriter>(
     class: &ClassData,
     config: &ClassGenConfig,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    code: &mut W,
+) {
+    generate_class_to_writer_with_inner_classes(class, config, dex_info, None, code)
+}
+
+/// Generate Java source code for a class into a writer with inner classes
+pub fn generate_class_to_writer_with_inner_classes<W: CodeWriter>(
+    class: &ClassData,
+    config: &ClassGenConfig,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    inner_classes: Option<&HashMap<String, ClassData>>,
     code: &mut W,
 ) {
     // Package declaration
@@ -299,7 +471,9 @@ pub fn generate_class_to_writer_with_dex<W: CodeWriter>(
     add_fields(class, imports.as_ref(), code);
 
     // Methods (pass DEX info for name resolution in method bodies)
-    add_methods_with_dex(class, config, imports.as_ref(), dex_info, code);
+    // NOTE: inner_classes disabled to avoid O(methods * inner_classes) cloning memory explosion
+    // TODO: Use Arc<ClassData> instead of cloning to re-enable anonymous class inlining
+    add_methods_with_inner_classes(class, config, imports.as_ref(), dex_info, None, code);
 
     code.dec_indent();
     code.start_line().add("}").newline();
@@ -309,6 +483,14 @@ use crate::type_gen::type_to_string_with_imports;
 
 /// Add class declaration (modifiers, name, extends, implements)
 fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, code: &mut W) {
+    // Emit class-level annotations
+    for annotation in &class.annotations {
+        if should_emit_annotation(annotation) {
+            generate_annotation(annotation, code);
+            code.newline();
+        }
+    }
+
     let mut flags = class.access_flags;
 
     // Interfaces are implicitly abstract and static
@@ -384,6 +566,15 @@ fn add_fields<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String
 
 /// Add a single field declaration
 fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>>, code: &mut W) {
+    // Emit field annotations
+    for annotation in &field.annotations {
+        if should_emit_annotation(annotation) {
+            code.start_line();
+            generate_annotation(annotation, code);
+            code.newline();
+        }
+    }
+
     code.start_line();
 
     // Modifiers
@@ -409,7 +600,7 @@ fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>
 }
 
 /// Add field initial value
-fn add_field_value<W: CodeWriter>(value: &FieldValue, _field_type: &jadx_ir::ArgType, code: &mut W) {
+fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &jadx_ir::ArgType, code: &mut W) {
     match value {
         FieldValue::Byte(v) => code.add(&literal_to_string(*v as i64, &jadx_ir::ArgType::Byte)),
         FieldValue::Short(v) => code.add(&literal_to_string(*v as i64, &jadx_ir::ArgType::Short)),
@@ -423,8 +614,88 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, _field_type: &jadx_ir::Arg
             code.add(&type_to_string(&jadx_ir::ArgType::Object(t.clone())));
             code.add(".class")
         }
+        FieldValue::Boolean(b) => code.add(if *b { "true" } else { "false" }),
         FieldValue::Null => code.add("null"),
+        FieldValue::Array(values) => {
+            // Get element type from field type
+            let elem_type = match field_type {
+                jadx_ir::ArgType::Array(inner) => inner.as_ref().clone(),
+                _ => jadx_ir::ArgType::Unknown,
+            };
+            code.add("{");
+            for (i, v) in values.iter().enumerate() {
+                if i > 0 {
+                    code.add(", ");
+                }
+                add_field_value(v, &elem_type, code);
+            }
+            code.add("}")
+        }
+        FieldValue::Enum(class_name, field_name) => {
+            // Format: ClassName.FIELD_NAME
+            let simple_name = class_name.rsplit('/').next().unwrap_or(class_name);
+            code.add(simple_name);
+            code.add(".");
+            code.add(field_name)
+        }
+        FieldValue::Field(class_name, field_name) => {
+            // Format: ClassName.fieldName
+            let simple_name = class_name.rsplit('/').next().unwrap_or(class_name);
+            code.add(simple_name);
+            code.add(".");
+            code.add(field_name)
+        }
     };
+}
+
+/// Check if a method is a default constructor (just calls super(), no other code)
+/// These are implicit in Java and can be omitted for cleaner output
+fn is_default_constructor(method: &jadx_ir::MethodData) -> bool {
+    // Must be a constructor
+    if !method.is_constructor() {
+        return false;
+    }
+
+    // Must have no declared parameters (excluding 'this')
+    if !method.arg_types.is_empty() {
+        return false;
+    }
+
+    // Check instructions: should only be invoke-direct <init> on super and return
+    // A default constructor typically has 2-3 instructions:
+    // 1. invoke-direct {v0}, Ljava/lang/Object;-><init>()V  (or similar super call)
+    // 2. return-void
+    // May also have a const for literal 0 or similar
+    let insn_count = method.instructions.len();
+    if insn_count > 3 {
+        return false;
+    }
+
+    // Check that instructions are just invoke-direct super() and return
+    use jadx_ir::instructions::{InsnType, InvokeKind};
+    let mut has_super_init = false;
+    let mut has_return = false;
+
+    for insn in &method.instructions {
+        match &insn.insn_type {
+            InsnType::Invoke { kind: InvokeKind::Direct | InvokeKind::Super, .. } => {
+                // This is likely the super() call
+                has_super_init = true;
+            }
+            InsnType::Return { value: None } => {
+                has_return = true;
+            }
+            InsnType::Nop => {
+                // Ignore nops
+            }
+            _ => {
+                // Any other instruction means this is not a default constructor
+                return false;
+            }
+        }
+    }
+
+    has_super_init && has_return
 }
 
 /// Add method declarations
@@ -441,9 +712,27 @@ fn add_methods_with_dex<W: CodeWriter>(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     code: &mut W,
 ) {
+    add_methods_with_inner_classes(class, config, imports, dex_info, None, code)
+}
+
+/// Add method declarations with inner classes for anonymous class inlining
+fn add_methods_with_inner_classes<W: CodeWriter>(
+    class: &ClassData,
+    config: &ClassGenConfig,
+    imports: Option<&BTreeSet<String>>,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    inner_classes: Option<&HashMap<String, ClassData>>,
+    code: &mut W,
+) {
+    use crate::method_gen::generate_method_with_inner_classes;
+
     for method in &class.methods {
+        // Skip default constructors that just call super() - implicit in Java
+        if is_default_constructor(method) {
+            continue;
+        }
         code.newline();
-        generate_method_with_dex(method, class, config.fallback, imports, dex_info.clone(), code);
+        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, code);
     }
 }
 
@@ -498,6 +787,7 @@ mod tests {
             access_flags: 0x0002, // private
             field_type: ArgType::Int,
             initial_value: None,
+            annotations: Vec::new(),
         });
         let config = ClassGenConfig::default();
         let code = generate_class(&class, &config);
@@ -513,6 +803,7 @@ mod tests {
             access_flags: 0x0019, // public static final
             field_type: ArgType::Int,
             initial_value: Some(FieldValue::Int(100)),
+            annotations: Vec::new(),
         });
         let config = ClassGenConfig::default();
         let code = generate_class(&class, &config);
@@ -578,6 +869,7 @@ mod tests {
             access_flags: 0x0002,
             field_type: ArgType::Object("android/view/View".to_string()),
             initial_value: None,
+            annotations: Vec::new(),
         });
 
         let mut collector = ImportCollector::new(&class.class_type);
@@ -598,6 +890,7 @@ mod tests {
             access_flags: 0x0002,
             field_type: ArgType::Object("android/view/View".to_string()),
             initial_value: None,
+            annotations: Vec::new(),
         });
 
         let config = ClassGenConfig::default();
@@ -609,5 +902,76 @@ mod tests {
         let import_pos = code.find("import android.app.Activity;").unwrap();
         let class_pos = code.find("public class MyClass").unwrap();
         assert!(import_pos < class_pos);
+    }
+
+    // =====================
+    // Inner Class Tests
+    // =====================
+
+    #[test]
+    fn test_is_inner_class() {
+        assert!(!is_inner_class("Lcom/example/Outer;"));
+        assert!(is_inner_class("Lcom/example/Outer$Inner;"));
+        assert!(is_inner_class("Lcom/example/Outer$1;"));
+        assert!(is_inner_class("com/example/Outer$Inner"));
+    }
+
+    #[test]
+    fn test_get_inner_class_info_named() {
+        let info = get_inner_class_info("Lcom/example/Outer$Inner;").unwrap();
+        assert_eq!(info.simple_name, "Inner");
+        assert_eq!(info.outer_class, "Lcom/example/Outer;");
+        assert_eq!(info.kind, InnerClassKind::Named);
+    }
+
+    #[test]
+    fn test_get_inner_class_info_anonymous() {
+        let info = get_inner_class_info("Lcom/example/Outer$1;").unwrap();
+        assert_eq!(info.simple_name, "1");
+        assert_eq!(info.outer_class, "Lcom/example/Outer;");
+        assert_eq!(info.kind, InnerClassKind::Anonymous);
+    }
+
+    #[test]
+    fn test_get_inner_class_info_lambda() {
+        let info = get_inner_class_info("Lcom/example/Outer$$Lambda$1;").unwrap();
+        assert_eq!(info.kind, InnerClassKind::Lambda);
+    }
+
+    #[test]
+    fn test_get_inner_class_info_local() {
+        let info = get_inner_class_info("Lcom/example/Outer$1LocalClass;").unwrap();
+        assert_eq!(info.simple_name, "1LocalClass");
+        assert_eq!(info.kind, InnerClassKind::Local);
+    }
+
+    #[test]
+    fn test_is_anonymous_class() {
+        assert!(!is_anonymous_class("Lcom/example/Outer;"));
+        assert!(!is_anonymous_class("Lcom/example/Outer$Inner;"));
+        assert!(is_anonymous_class("Lcom/example/Outer$1;"));
+        assert!(is_anonymous_class("Lcom/example/Outer$123;"));
+        assert!(!is_anonymous_class("Lcom/example/Outer$1Local;"));
+    }
+
+    #[test]
+    fn test_is_lambda_class() {
+        assert!(!is_lambda_class("Lcom/example/Outer;"));
+        assert!(!is_lambda_class("Lcom/example/Outer$1;"));
+        assert!(is_lambda_class("Lcom/example/Outer$$Lambda$1;"));
+        assert!(is_lambda_class("Lcom/example/Outer$$Lambda$42;"));
+    }
+
+    #[test]
+    fn test_get_outer_class() {
+        assert_eq!(
+            get_outer_class("Lcom/example/Outer$Inner;"),
+            Some("Lcom/example/Outer;".to_string())
+        );
+        assert_eq!(
+            get_outer_class("Lcom/example/Outer$1;"),
+            Some("Lcom/example/Outer;".to_string())
+        );
+        assert_eq!(get_outer_class("Lcom/example/Outer;"), None);
     }
 }
