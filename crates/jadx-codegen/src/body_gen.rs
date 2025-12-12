@@ -1,12 +1,31 @@
 //! Method body code generation
 //!
-//! This module generates Java source code for method bodies by:
-//! 1. Splitting instructions into basic blocks
-//! 2. Building a control flow graph
-//! 3. SSA transformation with phi nodes
-//! 4. Type inference on SSA form
-//! 5. Constructing a region tree (if/else, loops, switches)
-//! 6. Walking the region tree to emit structured Java code
+//! This module generates Java source code for method bodies through a full
+//! decompilation pipeline:
+//!
+//! ## Pipeline Stages
+//! 1. **Block splitting** - Convert linear instructions into basic blocks
+//! 2. **CFG construction** - Build control flow graph with edges
+//! 3. **SSA transformation** - Convert to Static Single Assignment form with phi nodes
+//! 4. **Type inference** - Infer types for all registers using constraint solving
+//! 5. **Region reconstruction** - Convert CFG to structured regions (if/else, loops, switch)
+//! 6. **Code emission** - Walk the region tree to emit Java source
+//!
+//! ## Key Features
+//! - **Name resolution**: When `DexInfo` is provided, resolves string/field/method
+//!   indices to actual names (e.g., `Log.i()` instead of `method#123`)
+//! - **Type declarations**: Emits type on first variable assignment
+//! - **Condition extraction**: Generates actual conditions like `v0 == 0` from If blocks
+//! - **Invoke/MoveResult pairing**: Combines invoke + move-result into assignments
+//!
+//! ## Usage
+//! ```ignore
+//! // Without name resolution (placeholders like Type#123)
+//! generate_body(&method, &mut writer);
+//!
+//! // With name resolution (actual names from DEX)
+//! generate_body_with_dex(&method, Some(&dex_info), &mut writer);
+//! ```
 
 use std::collections::{BTreeMap, HashSet};
 
@@ -47,6 +66,8 @@ pub struct BodyGenContext {
     pub declared_vars: HashSet<(u16, u32)>,
     /// First parameter register (registers >= this are parameters, already declared)
     pub first_param_reg: u16,
+    /// Last invoke expression (for MoveResult to pick up)
+    pub last_invoke_expr: Option<String>,
 }
 
 impl BodyGenContext {
@@ -91,6 +112,7 @@ impl BodyGenContext {
             type_info: None,
             declared_vars: HashSet::new(),
             first_param_reg,
+            last_invoke_expr: None,
         }
     }
 
@@ -335,33 +357,33 @@ fn if_condition_to_string(op: &IfCondition, negated: bool) -> &'static str {
 /// Generate setup instructions from condition blocks (non-If instructions)
 /// These define variables that are used in the condition expression
 fn generate_condition_setup<W: CodeWriter>(condition: &Condition, ctx: &mut BodyGenContext, code: &mut W) {
-    // Collect all blocks referenced by this condition
-    let mut block_ids = Vec::new();
-    condition.collect_blocks(&mut block_ids);
+    // Only process Simple conditions - compound conditions recurse
+    if let Condition::Simple { block, .. } = condition {
+        // Get just this one block's instructions (avoid collecting from nested conditions)
+        if let Some(basic_block) = ctx.blocks.get(block).cloned() {
+            for insn in &basic_block.instructions {
+                // Skip the If instruction itself and control flow
+                if matches!(insn.insn_type, InsnType::If { .. }) || is_control_flow(&insn.insn_type) {
+                    continue;
+                }
+                // Generate the instruction
+                if !generate_insn(insn, ctx, code) {
+                    code.start_line()
+                        .add("/* ")
+                        .add(&format!("{:?}", insn.insn_type))
+                        .add(" */")
+                        .newline();
+                }
+            }
+        }
 
-    // First, collect all the instructions we need to generate (to avoid borrow issues)
-    let instructions: Vec<_> = block_ids
-        .iter()
-        .filter_map(|block_id| ctx.blocks.get(block_id))
-        .flat_map(|block| block.instructions.iter())
-        .filter(|insn| {
-            // Skip the If instruction itself and control flow
-            !matches!(insn.insn_type, InsnType::If { .. }) && !is_control_flow(&insn.insn_type)
-        })
-        .cloned()
-        .collect();
-
-    // Now generate the instructions
-    for insn in &instructions {
-        if !generate_insn(insn, ctx, code) {
-            // Fallback: emit as comment
-            code.start_line()
-                .add("/* ")
-                .add(&format!("{:?}", insn.insn_type))
-                .add(" */")
-                .newline();
+        // Flush any pending invoke expression
+        if let Some(invoke) = ctx.last_invoke_expr.take() {
+            code.start_line().add(&invoke).add(";").newline();
         }
     }
+    // For compound conditions (And, Or, Not), the nested Simple conditions
+    // will be handled when generate_condition recurses
 }
 
 /// Convert CFG blocks to a map (borrowing around CFG internals)
@@ -560,6 +582,11 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
                 .newline();
         }
     }
+
+    // Flush any pending invoke expression that wasn't consumed by MoveResult
+    if let Some(invoke) = ctx.last_invoke_expr.take() {
+        code.start_line().add(&invoke).add(";").newline();
+    }
 }
 
 /// Check if instruction is control flow (handled by regions)
@@ -621,8 +648,10 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::MoveResult { dest } => {
-            // Result of previous invoke - usually combined with invoke
-            emit_assignment(dest, "/* result */", ctx, code);
+            // Result of previous invoke - use stored expression
+            let expr = ctx.last_invoke_expr.take()
+                .unwrap_or_else(|| "/* result */".to_string());
+            emit_assignment(dest, &expr, ctx, code);
             true
         }
 
@@ -730,20 +759,20 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::Invoke { kind, method_idx, args } => {
-            if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                code.start_line().add(&expr).add(";").newline();
+        InsnType::Invoke { kind: _, method_idx, args } => {
+            let expr = if let Some(e) = ctx.expr_gen.gen_insn(&insn.insn_type) {
+                e
             } else {
                 // Fallback
                 let args_str: Vec<_> = args.iter().map(|a| ctx.expr_gen.gen_arg(a)).collect();
-                code.start_line()
-                    .add("method#")
-                    .add(&method_idx.to_string())
-                    .add("(")
-                    .add(&args_str.join(", "))
-                    .add(");")
-                    .newline();
+                format!("method#{}({})", method_idx, args_str.join(", "))
+            };
+            // Store the expression for potential MoveResult
+            // If there's a pending invoke that wasn't consumed by MoveResult, output it now
+            if let Some(prev) = ctx.last_invoke_expr.take() {
+                code.start_line().add(&prev).add(";").newline();
             }
+            ctx.last_invoke_expr = Some(expr);
             true
         }
 

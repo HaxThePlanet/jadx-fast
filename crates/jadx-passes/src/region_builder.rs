@@ -1,16 +1,35 @@
 //! Region builder - orchestrates control flow reconstruction
 //!
-//! This module takes a CFG with loop and conditional information and
-//! builds a hierarchical Region tree representing structured control flow.
+//! This module transforms a flat CFG into a hierarchical Region tree that
+//! represents structured control flow (if/else, loops, switch, try-catch).
+//! This is the key step that enables generating readable Java code instead
+//! of goto-based spaghetti.
 //!
-//! Based on JADX's RegionMaker implementation for 1:1 output compatibility.
+//! ## Algorithm Overview
 //!
-//! Supports:
-//! - If/else regions
-//! - Loop regions (while, do-while, for, endless)
-//! - Switch regions
-//! - Try-catch-finally regions
-//! - Synchronized blocks
+//! Based on JADX's RegionMaker implementation for 1:1 output compatibility:
+//!
+//! 1. **Detect loops** - Find back edges, classify as while/do-while/for/endless
+//! 2. **Detect conditionals** - Find if/else patterns with merge points
+//! 3. **Detect synchronized** - Match MONITOR_ENTER/MONITOR_EXIT pairs
+//! 4. **Build region tree** - Recursively process blocks, wrapping in regions
+//!
+//! ## Region Types
+//!
+//! - **Sequence** - Linear list of blocks/nested regions
+//! - **If** - Conditional with then/else branches and merge point
+//! - **Loop** - While, do-while, for, foreach, or endless loops
+//! - **Switch** - Multi-way branch with case regions
+//! - **TryCatch** - Exception handling with handlers and optional finally
+//! - **Synchronized** - Monitor-protected critical section
+//!
+//! ## Break/Continue Detection
+//!
+//! The module also detects break and continue edges within loops:
+//! - **Break**: Edge from inside loop to outside (not through normal exit)
+//! - **Continue**: Edge to loop header from non-latch position
+//!
+//! Labels are generated for nested loops (e.g., `break loop_0;`)
 
 use std::collections::{BTreeMap, BTreeSet};
 

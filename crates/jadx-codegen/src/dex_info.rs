@@ -1,8 +1,34 @@
 //! DEX information for code generation
 //!
-//! This module provides a way to pass DEX string/type/field/method data
-//! to code generation, enabling proper name resolution instead of
-//! placeholder indices like `Type#123`.
+//! This module provides a bridge between DEX file data and code generation,
+//! enabling proper name resolution instead of placeholder indices like `Type#123`.
+//!
+//! ## Purpose
+//!
+//! During code generation, instructions reference strings, types, fields, and
+//! methods by index (e.g., `const-string v0, string@1234`). Without DEX data,
+//! we'd generate `"string#1234"`. With `DexInfo`, we generate the actual value.
+//!
+//! ## Memory Warning
+//!
+//! **This struct can be very large for big APKs!** It stores all:
+//! - Strings (80,000+ for large apps)
+//! - Types (20,000+)
+//! - Fields (30,000+)
+//! - Methods (60,000+)
+//!
+//! For a typical large APK, this can consume 200-500MB of RAM. Future
+//! optimization: lazy loading with LRU cache.
+//!
+//! ## Usage
+//!
+//! ```ignore
+//! // Built from DexReader in main.rs
+//! let dex_info = build_dex_info(&dex);
+//!
+//! // Passed to code generation
+//! generate_class_with_dex(&class, &config, Some(&dex_info));
+//! ```
 
 use std::collections::HashMap;
 

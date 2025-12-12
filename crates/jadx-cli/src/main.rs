@@ -1,6 +1,33 @@
 //! jadx-rust command-line interface
 //!
+//! A high-performance Android DEX/APK decompiler written in Rust.
 //! Full CLI matching Java JADX's command-line options.
+//!
+//! ## Processing Pipeline
+//!
+//! Decompilation uses a two-phase approach for optimal performance:
+//!
+//! ### Phase 1: Sequential IR Conversion
+//! - Parses DEX bytecode into intermediate representation (IR)
+//! - Must be sequential because `DexReader` uses internal caching
+//! - Uses `catch_unwind` for robustness against panics in complex methods
+//!
+//! ### Phase 2: Parallel Code Generation
+//! - Converts IR to Java source code using rayon for parallelism
+//! - `DexInfo` wrapped in `Arc` for thread-safe sharing
+//! - Pre-creates output directories to avoid race conditions
+//!
+//! ## Memory Considerations
+//!
+//! **Warning**: `build_dex_info()` loads all DEX pools (strings, types, fields,
+//! methods) into memory upfront. For large APKs (50k+ classes), this can cause
+//! memory exhaustion. Use `--single-class` as a workaround.
+//!
+//! ## Framework Filtering
+//!
+//! By default, skips framework classes (android.*, kotlin.*, java.*) and
+//! generated code (R.class, databinding, Dagger) for faster decompilation
+//! of app-specific code.
 
 mod args;
 mod converter;
