@@ -271,6 +271,7 @@ fn get_def_register(insn_type: &InsnType) -> Option<u16> {
 }
 
 /// Get registers used by an instruction
+#[allow(dead_code)]
 fn get_use_registers(insn_type: &InsnType) -> Vec<u16> {
     let mut uses = Vec::new();
 

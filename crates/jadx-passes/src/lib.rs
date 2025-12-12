@@ -16,11 +16,20 @@ pub mod visitor;
 pub use algorithms::{compute_dominators, DominatorInfo, LiveVarAnalysis, LivenessInfo};
 pub use block_split::{split_blocks, BasicBlock, BlockSplitResult};
 pub use cfg::CFG;
-pub use conditionals::{detect_conditionals, IfInfo};
+pub use conditionals::{
+    detect_conditionals, find_condition_chains, merge_nested_conditions, IfInfo, MergeMode,
+    MergedCondition,
+};
 pub use loops::{detect_loops, LoopInfo};
-pub use region_builder::build_regions;
+pub use region_builder::{
+    build_regions, detect_all_loop_edges, detect_loop_edge_insns, EdgeInsn, EdgeInsnKind,
+    LoopEdgeInsns,
+};
 pub use ssa::{transform_to_ssa, DominatorTree, PhiNode, SsaBlock, SsaResult};
-pub use type_inference::{infer_types, TypeInference, TypeInferenceResult};
+pub use type_inference::{
+    infer_types, infer_types_with_context, Constraint, InferredType, TypeInference,
+    TypeInferenceResult, TypeVar,
+};
 
 /// Pass trait for decompilation passes
 pub trait Pass: Send + Sync {

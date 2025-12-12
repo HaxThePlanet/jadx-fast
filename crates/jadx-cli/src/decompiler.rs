@@ -6,87 +6,198 @@
 //! 3. Decompilation passes (jadx-passes)
 //! 4. Code generation (jadx-codegen)
 
-use anyhow::Result;
-use std::path::Path;
+use jadx_ir::regions::Region;
+use jadx_ir::MethodData;
+use jadx_passes::{
+    split_blocks, transform_to_ssa, infer_types, build_regions,
+    BlockSplitResult, CFG, SsaResult, TypeInferenceResult,
+};
 
-use crate::Args;
-
-/// Main decompiler context
-pub struct Decompiler<'a> {
-    args: &'a Args,
+/// Result of decompiling a method
+#[derive(Debug)]
+pub struct DecompiledMethod {
+    /// Basic blocks after splitting
+    pub blocks: BlockSplitResult,
+    /// Control flow graph
+    pub cfg: CFG,
+    /// SSA form
+    pub ssa: SsaResult,
+    /// Inferred types
+    pub types: TypeInferenceResult,
+    /// Region tree for structured code generation
+    pub regions: Region,
 }
 
-impl<'a> Decompiler<'a> {
-    pub fn new(args: &'a Args) -> Self {
-        Self { args }
+/// Decompile a method through the full pipeline
+///
+/// Pipeline stages:
+/// 1. Block splitting - split linear instructions into basic blocks
+/// 2. CFG construction - build control flow graph with dominance info
+/// 3. SSA transformation - convert to SSA form with phi nodes
+/// 4. Type inference - infer types for all registers
+/// 5. Region reconstruction - convert CFG to structured regions (if/loop/switch)
+pub fn decompile_method(method: &MethodData) -> Option<DecompiledMethod> {
+    if method.instructions.is_empty() {
+        return None;
     }
 
-    /// Decompile a DEX file to Java source
-    pub fn decompile_dex(&self, _dex_data: &[u8]) -> Result<Vec<DecompiledClass>> {
-        // TODO: Implement full pipeline
-        Ok(vec![])
+    // Clone instructions for the pipeline
+    let instructions = method.instructions.clone();
+
+    // Stage 1: Block splitting
+    let blocks = split_blocks(instructions);
+    if blocks.blocks.is_empty() {
+        return None;
     }
 
-    /// Decompile a single class
-    pub fn decompile_class(&self, _class_data: &ClassData) -> Result<String> {
-        // TODO: Implement
-        Ok(String::new())
-    }
+    // Stage 2: Build CFG
+    let cfg = CFG::from_blocks(blocks.clone());
+
+    // Stage 3: SSA transformation
+    let ssa = transform_to_ssa(&blocks);
+
+    // Stage 4: Type inference
+    let types = infer_types(&ssa);
+
+    // Stage 5: Region reconstruction
+    let regions = build_regions(&cfg);
+
+    Some(DecompiledMethod {
+        blocks,
+        cfg,
+        ssa,
+        types,
+        regions,
+    })
 }
 
-/// Represents a decompiled class
-pub struct DecompiledClass {
-    /// Full class name (e.g., "com.example.Foo")
-    pub name: String,
-    /// Generated Java source code
-    pub source: String,
+/// Check if a method has code that can be decompiled
+pub fn method_has_code(method: &MethodData) -> bool {
+    !method.instructions.is_empty()
 }
 
-/// Raw class data from DEX
-pub struct ClassData {
-    pub class_idx: u32,
-    pub access_flags: u32,
-    pub superclass_idx: u32,
-    // TODO: fields, methods, etc.
+/// Get a summary of decompilation results
+pub fn decompile_summary(result: &DecompiledMethod) -> String {
+    format!(
+        "{} blocks, {} SSA blocks, {} types inferred ({} constraints)",
+        result.blocks.block_count(),
+        result.ssa.blocks.len(),
+        result.types.num_resolved,
+        result.types.num_constraints,
+    )
 }
 
-/// Decompilation pipeline stages
-pub mod pipeline {
+#[cfg(test)]
+mod tests {
     use super::*;
+    use jadx_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg, InsnArg};
+    use jadx_ir::ArgType;
 
-    /// Stage 1: Build IR from DEX bytecode
-    pub fn build_ir(_method_code: &[u8]) -> Result<()> {
-        // TODO: Implement
-        Ok(())
+    fn make_test_method() -> MethodData {
+        let mut method = MethodData::new("test".to_string(), 0x0001, ArgType::Int);
+        method.regs_count = 2;
+        method.ins_count = 0;
+
+        // Simple method: return 42
+        // const v0, 42
+        // return v0
+        method.instructions = vec![
+            InsnNode::new(
+                InsnType::Const {
+                    dest: RegisterArg::new(0),
+                    value: LiteralArg::Int(42),
+                },
+                0,
+            ),
+            InsnNode::new(
+                InsnType::Return {
+                    value: Some(InsnArg::reg(0)),
+                },
+                1,
+            ),
+        ];
+
+        method
     }
 
-    /// Stage 2: Build CFG (control flow graph)
-    pub fn build_cfg() -> Result<()> {
-        // TODO: Implement using jadx-passes
-        Ok(())
+    #[test]
+    fn test_decompile_simple_method() {
+        let method = make_test_method();
+        let result = decompile_method(&method);
+
+        assert!(result.is_some());
+        let result = result.unwrap();
+
+        // Should have at least one block
+        assert!(result.blocks.block_count() >= 1);
+
+        // Should have inferred types
+        assert!(result.types.num_resolved > 0);
     }
 
-    /// Stage 3: SSA transformation
-    pub fn ssa_transform() -> Result<()> {
-        // TODO: Implement
-        Ok(())
+    #[test]
+    fn test_empty_method() {
+        let method = MethodData::new("empty".to_string(), 0x0001, ArgType::Void);
+        let result = decompile_method(&method);
+
+        assert!(result.is_none());
     }
 
-    /// Stage 4: Type inference
-    pub fn type_inference() -> Result<()> {
-        // TODO: Implement
-        Ok(())
-    }
+    #[test]
+    fn test_method_with_branch() {
+        let mut method = MethodData::new("branch".to_string(), 0x0001, ArgType::Int);
+        method.regs_count = 2;
 
-    /// Stage 5: Region reconstruction (CFG -> structured code)
-    pub fn region_reconstruction() -> Result<()> {
-        // TODO: Implement
-        Ok(())
-    }
+        // if (p0 == 0) return 1 else return 2
+        // if-eqz v0, :cond_true (target = 3)
+        // const v1, 2
+        // return v1
+        // :cond_true
+        // const v1, 1
+        // return v1
+        method.instructions = vec![
+            InsnNode::new(
+                InsnType::If {
+                    condition: jadx_ir::instructions::IfCondition::Eq,
+                    left: InsnArg::reg(0),
+                    right: None,
+                    target: 3,
+                },
+                0,
+            ),
+            InsnNode::new(
+                InsnType::Const {
+                    dest: RegisterArg::new(1),
+                    value: LiteralArg::Int(2),
+                },
+                1,
+            ),
+            InsnNode::new(
+                InsnType::Return {
+                    value: Some(InsnArg::reg(1)),
+                },
+                2,
+            ),
+            InsnNode::new(
+                InsnType::Const {
+                    dest: RegisterArg::new(1),
+                    value: LiteralArg::Int(1),
+                },
+                3,
+            ),
+            InsnNode::new(
+                InsnType::Return {
+                    value: Some(InsnArg::reg(1)),
+                },
+                4,
+            ),
+        ];
 
-    /// Stage 6: Code generation
-    pub fn generate_code() -> Result<String> {
-        // TODO: Implement using jadx-codegen
-        Ok(String::new())
+        let result = decompile_method(&method);
+        assert!(result.is_some());
+
+        let result = result.unwrap();
+        // Should have multiple blocks due to branching
+        assert!(result.blocks.block_count() >= 2);
     }
 }

@@ -3,7 +3,7 @@
 //! This module provides a CFG representation with dominance and post-dominance
 //! computation using the Cooper-Harvey-Kennedy algorithm.
 
-use std::collections::{BTreeMap, BTreeSet, VecDeque};
+use std::collections::{BTreeMap, BTreeSet};
 
 use crate::block_split::{BasicBlock, BlockSplitResult};
 
@@ -238,23 +238,33 @@ impl CFG {
 
     /// Intersect two dominators
     fn intersect(&self, mut b1: u32, mut b2: u32, rpo_num: &BTreeMap<u32, usize>) -> u32 {
-        while b1 != b2 {
+        // Limit iterations to prevent infinite loops
+        let max_iters = self.blocks.len() * 2;
+        let mut iters = 0;
+
+        while b1 != b2 && iters < max_iters {
+            iters += 1;
             let n1 = rpo_num.get(&b1).copied().unwrap_or(usize::MAX);
             let n2 = rpo_num.get(&b2).copied().unwrap_or(usize::MAX);
 
-            while n1 > n2 {
-                b1 = self.idom.get(&b1).copied().unwrap_or(b1);
-                let n1_new = rpo_num.get(&b1).copied().unwrap_or(usize::MAX);
-                if n1_new >= n1 {
+            if n1 > n2 {
+                if let Some(&dom) = self.idom.get(&b1) {
+                    if dom != b1 {
+                        b1 = dom;
+                    } else {
+                        break;
+                    }
+                } else {
                     break;
                 }
-            }
-
-            let n1 = rpo_num.get(&b1).copied().unwrap_or(usize::MAX);
-            while n2 > n1 {
-                b2 = self.idom.get(&b2).copied().unwrap_or(b2);
-                let n2_new = rpo_num.get(&b2).copied().unwrap_or(usize::MAX);
-                if n2_new >= n2 {
+            } else {
+                if let Some(&dom) = self.idom.get(&b2) {
+                    if dom != b2 {
+                        b2 = dom;
+                    } else {
+                        break;
+                    }
+                } else {
                     break;
                 }
             }
@@ -269,7 +279,7 @@ impl CFG {
         }
 
         // Create virtual exit node if multiple exits
-        let exit_node = if self.exits.len() == 1 {
+        let _exit_node = if self.exits.len() == 1 {
             self.exits[0]
         } else {
             // Use max block ID + 1 as virtual exit
@@ -362,23 +372,33 @@ impl CFG {
     }
 
     fn intersect_pdom(&self, mut b1: u32, mut b2: u32, rpo_num: &BTreeMap<u32, usize>) -> u32 {
-        while b1 != b2 {
+        // Limit iterations to prevent infinite loops
+        let max_iters = self.blocks.len() * 2;
+        let mut iters = 0;
+
+        while b1 != b2 && iters < max_iters {
+            iters += 1;
             let n1 = rpo_num.get(&b1).copied().unwrap_or(usize::MAX);
             let n2 = rpo_num.get(&b2).copied().unwrap_or(usize::MAX);
 
-            while n1 > n2 {
-                b1 = self.ipdom.get(&b1).copied().unwrap_or(b1);
-                let n1_new = rpo_num.get(&b1).copied().unwrap_or(usize::MAX);
-                if n1_new >= n1 {
+            if n1 > n2 {
+                if let Some(&dom) = self.ipdom.get(&b1) {
+                    if dom != b1 {
+                        b1 = dom;
+                    } else {
+                        break;
+                    }
+                } else {
                     break;
                 }
-            }
-
-            let n1 = rpo_num.get(&b1).copied().unwrap_or(usize::MAX);
-            while n2 > n1 {
-                b2 = self.ipdom.get(&b2).copied().unwrap_or(b2);
-                let n2_new = rpo_num.get(&b2).copied().unwrap_or(usize::MAX);
-                if n2_new >= n2 {
+            } else {
+                if let Some(&dom) = self.ipdom.get(&b2) {
+                    if dom != b2 {
+                        b2 = dom;
+                    } else {
+                        break;
+                    }
+                } else {
                     break;
                 }
             }

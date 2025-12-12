@@ -254,6 +254,20 @@ pub enum InsnType {
         dest: RegisterArg,
         sources: Vec<(u32, InsnArg)>, // (block_id, value)
     },
+
+    // === Synthetic instructions (added during region reconstruction) ===
+
+    /// Break statement (exit loop early)
+    Break {
+        /// Optional label for breaking out of nested loops
+        label: Option<String>,
+    },
+
+    /// Continue statement (skip to next iteration)
+    Continue {
+        /// Optional label for continuing outer loop
+        label: Option<String>,
+    },
 }
 
 /// Instruction argument

@@ -4,8 +4,10 @@
 
 use anyhow::Result;
 use jadx_dex::DexReader;
-use jadx_dex::sections::{ClassDef, EncodedField, EncodedMethod};
-use jadx_ir::{ArgType, ClassData, FieldData, FieldValue, MethodData};
+use jadx_dex::insns::InsnIterator;
+use jadx_dex::sections::{ClassDef, CodeItem, EncodedField, EncodedMethod};
+use jadx_ir::builder::build_ir_insn;
+use jadx_ir::{ArgType, ClassData, FieldData, MethodData};
 
 /// Convert a DEX ClassDef to IR ClassData
 pub fn convert_class(dex: &DexReader, class_def: &ClassDef<'_>) -> Result<ClassData> {
@@ -93,8 +95,33 @@ fn convert_method(dex: &DexReader, encoded: &EncodedMethod) -> Result<MethodData
         method.arg_types.push(parse_type_descriptor(param_type_str));
     }
 
-    // TODO: Parse code_item for instructions, registers, try-catch, etc.
-    // For now, leave instructions empty - codegen will generate stub body
+    // Parse code_item for instructions
+    if encoded.code_off != 0 {
+        if let Ok(code_item) = CodeItem::parse(dex, encoded.code_off) {
+            method.regs_count = code_item.registers_size;
+            method.ins_count = code_item.ins_size;
+            method.outs_count = code_item.outs_size;
+
+            // Decode instructions
+            let bytecode = code_item.instructions();
+            for decoded in InsnIterator::new(bytecode) {
+                if let Ok(insn) = decoded {
+                    let opcode_byte = insn.opcode as u8;
+                    if let Some(ir_insn) = build_ir_insn(
+                        opcode_byte,
+                        insn.offset,
+                        &insn.regs,
+                        insn.reg_count,
+                        insn.literal,
+                        insn.index,
+                        insn.target,
+                    ) {
+                        method.instructions.push(ir_insn);
+                    }
+                }
+            }
+        }
+    }
 
     Ok(method)
 }

@@ -14,7 +14,7 @@ use jadx_ir::instructions::{
 };
 use jadx_ir::types::ArgType;
 
-use crate::ssa::{SsaBlock, SsaResult};
+use crate::ssa::SsaResult;
 
 /// Type variable identifier
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -623,9 +623,10 @@ impl TypeInference {
             InsnType::Phi { dest, sources } => {
                 let dest_var = self.get_or_create_var(dest);
                 // All phi sources must have same type as dest
-                for (_, src_reg) in sources {
-                    let src_var = self.get_or_create_var(src_reg);
-                    self.add_constraint(Constraint::Same(dest_var, src_var));
+                for (_, src_arg) in sources {
+                    if let Some(src_var) = self.var_for_arg(src_arg) {
+                        self.add_constraint(Constraint::Same(dest_var, src_var));
+                    }
                 }
             }
 
@@ -921,7 +922,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::ssa::PhiNode;
+    use crate::ssa::{PhiNode, SsaBlock};
 
     fn make_simple_ssa() -> SsaResult {
         use jadx_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg};

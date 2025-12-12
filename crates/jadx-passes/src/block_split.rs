@@ -50,7 +50,7 @@ impl BasicBlock {
 }
 
 /// Result of block splitting
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct BlockSplitResult {
     /// Basic blocks indexed by ID
     pub blocks: BTreeMap<u32, BasicBlock>,

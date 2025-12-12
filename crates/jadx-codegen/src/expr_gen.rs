@@ -6,12 +6,10 @@
 use std::collections::HashMap;
 
 use jadx_ir::instructions::{
-    ArrayElemType, BinaryOp, CastType, CompareOp, IfCondition, InsnArg, InsnType,
+    BinaryOp, CastType, IfCondition, InsnArg, InsnType,
     InvokeKind, LiteralArg, RegisterArg, UnaryOp,
 };
 use jadx_ir::types::ArgType;
-
-use crate::type_gen::type_to_string;
 
 /// Expression generation context
 pub struct ExprGen {
@@ -268,8 +266,8 @@ impl ExprGen {
                 Some(format!("({}){}", type_str, maybe_paren(&arg_str)))
             }
 
-            InsnType::Compare { op, left, right, .. } => {
-                // Compare returns int, but we represent it as comparison
+            InsnType::Compare { left, right, .. } => {
+                // Compare returns int (-1, 0, 1), used for long/float/double comparisons
                 let left_str = self.gen_arg(left);
                 let right_str = self.gen_arg(right);
                 Some(format!("compare({}, {})", left_str, right_str))
@@ -388,6 +386,7 @@ fn escape_string(s: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use jadx_ir::instructions::ArrayElemType;
 
     #[test]
     fn test_literal_gen() {

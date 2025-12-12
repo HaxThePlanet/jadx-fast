@@ -35,7 +35,7 @@ pub struct DominatorInfo {
 pub fn compute_dominators(
     num_blocks: usize,
     predecessors: &[Vec<u32>],
-    successors: &[Vec<u32>],
+    _successors: &[Vec<u32>],
 ) -> DominatorInfo {
     if num_blocks == 0 {
         return DominatorInfo {

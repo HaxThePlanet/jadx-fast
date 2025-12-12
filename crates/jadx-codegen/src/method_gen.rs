@@ -5,6 +5,7 @@
 use jadx_ir::{ArgType, ClassData, MethodData};
 
 use crate::access_flags::{self, flags::*, AccessContext};
+use crate::body_gen::generate_body;
 use crate::type_gen::{get_simple_name, type_to_string};
 use crate::writer::CodeWriter;
 
@@ -137,61 +138,12 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
     }
 }
 
-/// Add method body (stub for now - full decompilation TODO)
+/// Add method body using region-based code generation
 fn add_method_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
-    if method.instructions.is_empty() {
-        // No instructions - add TODO comment
-        code.start_line().add("/* TODO: decompilation not implemented */").newline();
-
-        // Add default return if needed
-        add_default_return(&method.return_type, code);
-    } else {
-        // Has instructions but we can't decompile yet
-        code.start_line().add("/* ").add(&format!("{} instructions", method.instructions.len())).add(" */").newline();
-
-        // For now, just add a throw or default return
-        add_stub_body(method, code);
-    }
+    // Use the new body generator that handles control flow
+    generate_body(method, code);
 }
 
-/// Add a stub body for undecompiled methods
-fn add_stub_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
-    // Option 1: throw UnsupportedOperationException
-    // code.start_line().add("throw new UnsupportedOperationException(\"Decompilation not implemented\");").newline();
-
-    // Option 2: return default value (less noisy)
-    add_default_return(&method.return_type, code);
-}
-
-/// Add a default return statement for the given type
-fn add_default_return<W: CodeWriter>(return_type: &ArgType, code: &mut W) {
-    match return_type {
-        ArgType::Void => {
-            // No return needed
-        }
-        ArgType::Boolean => {
-            code.start_line().add("return false;").newline();
-        }
-        ArgType::Byte | ArgType::Char | ArgType::Short | ArgType::Int => {
-            code.start_line().add("return 0;").newline();
-        }
-        ArgType::Long => {
-            code.start_line().add("return 0L;").newline();
-        }
-        ArgType::Float => {
-            code.start_line().add("return 0.0f;").newline();
-        }
-        ArgType::Double => {
-            code.start_line().add("return 0.0d;").newline();
-        }
-        ArgType::Object(_) | ArgType::Array(_) | ArgType::Generic { .. } | ArgType::Wildcard { .. } => {
-            code.start_line().add("return null;").newline();
-        }
-        ArgType::Unknown => {
-            code.start_line().add("return null;").newline();
-        }
-    }
-}
 
 #[cfg(test)]
 mod tests {

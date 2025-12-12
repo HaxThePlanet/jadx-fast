@@ -7,6 +7,7 @@ license.workspace = true
 
 [dependencies]
 jadx-ir.workspace = true
+jadx-passes.workspace = true
 itoa.workspace = true
 ryu.workspace = true
 thiserror.workspace = true

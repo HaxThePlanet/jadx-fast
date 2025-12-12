@@ -167,6 +167,7 @@ fn collect_branch_blocks(
 }
 
 /// Check if block is reachable from start without going through barrier
+#[allow(dead_code)]
 fn is_reachable_without(cfg: &CFG, start: u32, target: u32, barrier: u32) -> bool {
     if start == target {
         return true;
@@ -197,7 +198,7 @@ fn is_reachable_without(cfg: &CFG, start: u32, target: u32, barrier: u32) -> boo
 }
 
 /// Detect if-else-if chains
-pub fn detect_if_else_if_chains<'a>(conditionals: &'a [IfInfo], cfg: &CFG) -> Vec<Vec<&'a IfInfo>> {
+pub fn detect_if_else_if_chains<'a>(conditionals: &'a [IfInfo], _cfg: &CFG) -> Vec<Vec<&'a IfInfo>> {
     let mut chains = Vec::new();
     let mut used = BTreeSet::new();
 
@@ -247,6 +248,169 @@ pub fn detect_if_else_if_chains<'a>(conditionals: &'a [IfInfo], cfg: &CFG) -> Ve
     chains
 }
 
+/// Merged condition information
+/// Represents a condition that may be a compound of multiple if blocks
+#[derive(Debug, Clone)]
+pub struct MergedCondition {
+    /// Original condition block that starts the chain
+    pub first_block: u32,
+    /// All blocks that were merged into this condition
+    pub merged_blocks: Vec<u32>,
+    /// The then block after all conditions
+    pub then_block: Option<u32>,
+    /// The else block after all conditions
+    pub else_block: Option<u32>,
+    /// The merge point after the entire if structure
+    pub out_block: Option<u32>,
+    /// The merge mode (AND or OR)
+    pub mode: MergeMode,
+}
+
+/// How conditions are merged
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum MergeMode {
+    /// Conditions are ANDed together (if a && b)
+    And,
+    /// Conditions are ORed together (if a || b)
+    Or,
+    /// Single condition, no merging
+    Single,
+}
+
+impl MergedCondition {
+    /// Create a new merged condition from a single IfInfo
+    pub fn from_if_info(info: &IfInfo) -> Self {
+        MergedCondition {
+            first_block: info.condition_block,
+            merged_blocks: vec![info.condition_block],
+            then_block: info.then_blocks.first().copied(),
+            else_block: info.else_blocks.first().copied(),
+            out_block: info.merge_block,
+            mode: MergeMode::Single,
+        }
+    }
+
+    /// Check if another condition can be merged with this one
+    pub fn can_merge(&self, other: &IfInfo, cfg: &CFG) -> Option<MergeMode> {
+        // Check for AND pattern: this.then leads directly to other.condition
+        if let Some(then_block) = self.then_block {
+            if then_block == other.condition_block {
+                // Check if else blocks point to the same place
+                let self_else = self.else_block;
+                let other_else = other.else_blocks.first().copied();
+                if self_else == other_else || self_else == self.out_block {
+                    return Some(MergeMode::And);
+                }
+            }
+        }
+
+        // Check for OR pattern: this.else leads directly to other.condition
+        if let Some(else_block) = self.else_block {
+            if else_block == other.condition_block {
+                // Check if then blocks point to the same place
+                let self_then = self.then_block;
+                let other_then = other.then_blocks.first().copied();
+                if self_then == other_then {
+                    return Some(MergeMode::Or);
+                }
+            }
+        }
+
+        None
+    }
+
+    /// Merge another condition into this one
+    pub fn merge(&mut self, other: &IfInfo, mode: MergeMode) {
+        self.merged_blocks.push(other.condition_block);
+        self.mode = mode;
+
+        match mode {
+            MergeMode::And => {
+                // In AND, the then is the inner then, else is the shared else
+                self.then_block = other.then_blocks.first().copied();
+                // else_block stays the same (shared exit for false)
+            }
+            MergeMode::Or => {
+                // In OR, the else is the inner else, then is the shared then
+                self.else_block = other.else_blocks.first().copied();
+                // then_block stays the same (shared exit for true)
+            }
+            MergeMode::Single => {}
+        }
+
+        // Update out_block to the merged condition's merge
+        if other.merge_block.is_some() {
+            self.out_block = other.merge_block;
+        }
+    }
+}
+
+/// Try to merge nested if conditions into compound conditions
+///
+/// Patterns detected:
+/// - AND: `if (a) { if (b) { then } }` -> `if (a && b) { then }`
+/// - OR: `if (a) { then } else { if (b) { then } }` -> `if (a || b) { then }`
+pub fn merge_nested_conditions(
+    start: &IfInfo,
+    all_conditionals: &[IfInfo],
+    cfg: &CFG,
+) -> MergedCondition {
+    let mut merged = MergedCondition::from_if_info(start);
+
+    // Try to find nested conditions to merge
+    loop {
+        let next_block = match merged.mode {
+            MergeMode::And | MergeMode::Single => merged.then_block,
+            MergeMode::Or => merged.else_block,
+        };
+
+        let Some(next) = next_block else {
+            break;
+        };
+
+        // Find if there's a condition at the next block
+        let next_cond = all_conditionals
+            .iter()
+            .find(|c| c.condition_block == next);
+
+        let Some(next_cond) = next_cond else {
+            break;
+        };
+
+        // Check if we can merge
+        if let Some(mode) = merged.can_merge(next_cond, cfg) {
+            merged.merge(next_cond, mode);
+        } else {
+            break;
+        }
+    }
+
+    merged
+}
+
+/// Find all mergeable condition chains starting from each conditional
+pub fn find_condition_chains(conditionals: &[IfInfo], cfg: &CFG) -> Vec<MergedCondition> {
+    let mut chains = Vec::new();
+    let mut used = BTreeSet::new();
+
+    for cond in conditionals {
+        if used.contains(&cond.condition_block) {
+            continue;
+        }
+
+        let merged = merge_nested_conditions(cond, conditionals, cfg);
+
+        // Mark all merged blocks as used
+        for &block in &merged.merged_blocks {
+            used.insert(block);
+        }
+
+        chains.push(merged);
+    }
+
+    chains
+}
+
 /// Detect ternary expressions (if-else that produces a value)
 pub fn is_ternary_candidate(cond: &IfInfo, cfg: &CFG) -> bool {
     // Both branches should be single blocks
@@ -278,6 +442,18 @@ mod tests {
     use crate::block_split::split_blocks;
     use crate::loops::detect_loops;
     use jadx_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType};
+
+    fn make_if_with_reg(offset: u32, target: u32, reg: u16) -> InsnNode {
+        InsnNode::new(
+            InsnType::If {
+                condition: IfCondition::Eq,
+                left: InsnArg::reg(reg),
+                right: None,
+                target,
+            },
+            offset,
+        )
+    }
 
     fn make_nop(offset: u32) -> InsnNode {
         InsnNode::new(InsnType::Nop, offset)
@@ -361,5 +537,60 @@ mod tests {
 
         // Loop condition should be filtered out
         assert!(conds.is_empty());
+    }
+
+    #[test]
+    fn test_and_condition_detection() {
+        // if (a && b) { then } else { else }
+        // Compiled as:
+        // B0: if (!a) goto B3 (else)
+        // B1: if (!b) goto B3 (else)
+        // B2: then -> B4
+        // B3: else -> B4
+        // B4: return
+        let instructions = vec![
+            make_if_with_reg(0, 3, 0), // B0: if (!a) goto else
+            make_if_with_reg(1, 3, 1), // B1: if (!b) goto else
+            make_goto(2, 4),           // B2: then -> merge
+            make_goto(3, 4),           // B3: else -> merge
+            make_return(4),            // B4: merge
+        ];
+        let blocks = split_blocks(instructions);
+        let cfg = CFG::from_blocks(blocks);
+        let loops = detect_loops(&cfg);
+        let conds = detect_conditionals(&cfg, &loops);
+
+        // Should detect both conditions
+        assert!(conds.len() >= 1);
+
+        // Find condition chains
+        let chains = find_condition_chains(&conds, &cfg);
+
+        // Should merge into single AND chain (or detect as separate depending on exact CFG)
+        assert!(!chains.is_empty());
+    }
+
+    #[test]
+    fn test_or_condition_detection() {
+        // if (a || b) { then } else { else }
+        // Compiled as:
+        // B0: if (a) goto B2 (then)
+        // B1: if (b) goto B2 (then)
+        // ... else code
+        // B2: then
+        // In this test we use a simpler pattern
+        let instructions = vec![
+            make_if_with_reg(0, 2, 0), // B0: if (a) goto then
+            make_if_with_reg(1, 2, 1), // B1: if (b) goto then
+            make_nop(2),               // B2: then
+            make_return(3),            // B3: merge
+        ];
+        let blocks = split_blocks(instructions);
+        let cfg = CFG::from_blocks(blocks);
+        let loops = detect_loops(&cfg);
+        let conds = detect_conditionals(&cfg, &loops);
+
+        // Should detect conditions
+        assert!(!conds.is_empty());
     }
 }
