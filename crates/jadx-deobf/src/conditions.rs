@@ -2,8 +2,20 @@
 //!
 //! Ported from jadx-core/src/main/java/jadx/core/deobf/conditions/
 
+use std::collections::HashSet;
 use jadx_ir::{ClassData, FieldData, MethodData};
 use crate::name_mapper::NameMapper;
+
+/// Rename flags that control deobfuscation behavior
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum RenameFlag {
+    /// Rename for case-insensitive filesystem safety
+    Case,
+    /// Rename invalid Java identifiers
+    Valid,
+    /// Rename non-printable characters
+    Printable,
+}
 
 /// Action to take for a node
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -192,6 +204,88 @@ impl DeobfCondition for CombinedCondition {
     fn check_method(&self, method: &MethodData) -> Action {
         self.combine_actions(|c| c.check_method(method))
     }
+}
+
+/// Condition based on printable characters only
+pub struct PrintableCondition;
+
+impl PrintableCondition {
+    pub fn new() -> Self {
+        Self
+    }
+
+    fn check_name(&self, name: &str) -> Action {
+        if !NameMapper::is_all_chars_printable(name) {
+            Action::ForceRename
+        } else {
+            Action::NoAction
+        }
+    }
+}
+
+impl Default for PrintableCondition {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl DeobfCondition for PrintableCondition {
+    fn check_package(&self, name: &str) -> Action {
+        self.check_name(name)
+    }
+
+    fn check_class(&self, cls: &ClassData) -> Action {
+        self.check_name(cls.simple_name())
+    }
+
+    fn check_field(&self, field: &FieldData) -> Action {
+        self.check_name(&field.name)
+    }
+
+    fn check_method(&self, method: &MethodData) -> Action {
+        self.check_name(&method.name)
+    }
+}
+
+/// Build conditions from a set of rename flags
+///
+/// This allows CLI flags to configure which conditions are applied.
+pub fn build_conditions_from_flags(
+    flags: &HashSet<RenameFlag>,
+    min_length: usize,
+    max_length: usize,
+) -> CombinedCondition {
+    let mut conditions: Vec<Box<dyn DeobfCondition>> = Vec::new();
+
+    // If no flags specified, use default JADX behavior
+    if flags.is_empty() {
+        return CombinedCondition::default_jadx(min_length, max_length);
+    }
+
+    // Add conditions based on flags
+    if flags.contains(&RenameFlag::Valid) {
+        conditions.push(Box::new(ValidityCondition::new()));
+        conditions.push(Box::new(LengthCondition::new(min_length, max_length)));
+    }
+
+    if flags.contains(&RenameFlag::Printable) {
+        conditions.push(Box::new(PrintableCondition::new()));
+    }
+
+    // Note: Case flag would need filesystem context to implement properly
+    // For now, it doesn't add any conditions (case sensitivity is OS-dependent)
+    // In Java JADX, this is handled by checking for class name collisions
+    if flags.contains(&RenameFlag::Case) {
+        // Case-insensitive collision detection would need access to all class names
+        // This is typically handled at a higher level in the pipeline
+    }
+
+    // If only Case flag and nothing else, still use default behavior
+    if conditions.is_empty() {
+        return CombinedCondition::default_jadx(min_length, max_length);
+    }
+
+    CombinedCondition::new(conditions)
 }
 
 #[cfg(test)]

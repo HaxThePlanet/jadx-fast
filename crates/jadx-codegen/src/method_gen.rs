@@ -9,7 +9,7 @@ use jadx_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassD
 use crate::access_flags::{self, flags::*, AccessContext};
 use crate::body_gen::{generate_body, generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes};
 use crate::dex_info::DexInfoProvider;
-use crate::type_gen::{get_simple_name, type_to_string, type_to_string_with_imports};
+use crate::type_gen::{get_simple_name, type_to_string_with_imports};
 use crate::writer::CodeWriter;
 
 /// Check if a method should have @Override annotation (heuristic fallback)

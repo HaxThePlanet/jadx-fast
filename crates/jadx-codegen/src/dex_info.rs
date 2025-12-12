@@ -234,14 +234,17 @@ impl DexInfoProvider for DexInfo {
 /// memory-mapped DEX file and loads strings/types/fields/methods on-demand.
 /// This dramatically reduces memory usage for large APKs.
 ///
-/// Thread-safe for parallel code generation via interior mutability.
+/// Thread-safe for parallel code generation.
+///
+/// ## Design Note
+///
+/// This implementation does NOT cache field/method lookups. The previous version
+/// had unbounded caches that caused memory explosion (300GB+) with multi-threading.
+/// Now we parse from DEX on every access, matching Java JADX's approach.
+/// DexReader's internal StringPool provides sufficient caching for performance.
 pub struct LazyDexInfo {
-    /// The underlying DEX reader (memory-mapped)
+    /// The underlying DEX reader (memory-mapped, with internal string caching)
     dex: Arc<DexReader>,
-    /// Cached FieldInfo (computed on-demand)
-    field_cache: RwLock<HashMap<u32, FieldInfo>>,
-    /// Cached MethodInfo (computed on-demand)
-    method_cache: RwLock<HashMap<u32, MethodInfo>>,
 }
 
 impl LazyDexInfo {
@@ -249,11 +252,7 @@ impl LazyDexInfo {
     ///
     /// This is O(1) - no data is loaded upfront.
     pub fn new(dex: Arc<DexReader>) -> Self {
-        LazyDexInfo {
-            dex,
-            field_cache: RwLock::new(HashMap::new()),
-            method_cache: RwLock::new(HashMap::new()),
-        }
+        LazyDexInfo { dex }
     }
 
     /// Get a string by index (lazy - reads from DEX on-demand)
@@ -271,45 +270,23 @@ impl LazyDexInfo {
         self.dex.get_type(idx).ok().map(|s| s.to_string())
     }
 
-    /// Get field info by index (lazy - computed and cached on-demand)
+    /// Get field info by index (parsed on-demand, not cached)
     pub fn get_field(&self, idx: u32) -> Option<FieldInfo> {
-        // Check cache first (read lock)
-        {
-            let cache = self.field_cache.read().unwrap();
-            if let Some(info) = cache.get(&idx) {
-                return Some(info.clone());
-            }
-        }
-
-        // Load and cache (write lock)
         let field = self.dex.get_field(idx).ok()?;
         let class_type = field.class_type().ok()?;
         let field_name = field.name().ok()?;
         let field_type_desc = field.field_type().ok()?;
 
-        let info = FieldInfo {
+        Some(FieldInfo {
             class_name: descriptor_to_simple_name(class_type),
             class_type: descriptor_to_internal_name(class_type),
             field_name: field_name.to_string(),
             field_type: parse_type_descriptor(field_type_desc),
-        };
-
-        let mut cache = self.field_cache.write().unwrap();
-        cache.insert(idx, info.clone());
-        Some(info)
+        })
     }
 
-    /// Get method info by index (lazy - computed and cached on-demand)
+    /// Get method info by index (parsed on-demand, not cached)
     pub fn get_method(&self, idx: u32) -> Option<MethodInfo> {
-        // Check cache first (read lock)
-        {
-            let cache = self.method_cache.read().unwrap();
-            if let Some(info) = cache.get(&idx) {
-                return Some(info.clone());
-            }
-        }
-
-        // Load and cache (write lock)
         let method = self.dex.get_method(idx).ok()?;
         let class_type = method.class_type().ok()?;
         let method_name = method.name().ok()?;
@@ -322,17 +299,13 @@ impl LazyDexInfo {
             .map(|params| params.into_iter().map(|d| parse_type_descriptor(d)).collect())
             .unwrap_or_default();
 
-        let info = MethodInfo {
+        Some(MethodInfo {
             class_name: descriptor_to_simple_name(class_type),
             class_type: descriptor_to_internal_name(class_type),
             method_name: method_name.to_string(),
             return_type,
             param_types,
-        };
-
-        let mut cache = self.method_cache.write().unwrap();
-        cache.insert(idx, info.clone());
-        Some(info)
+        })
     }
 
     /// Get field type by index (for type inference)
@@ -354,17 +327,10 @@ impl LazyDexInfo {
     ///
     /// Note: For lazy operation, prefer passing LazyDexInfo directly to
     /// code generation instead of using this method.
-    pub fn populate_expr_gen(&self, expr_gen: &mut ExprGen) {
+    pub fn populate_expr_gen(&self, _expr_gen: &mut ExprGen) {
         // This method exists for compatibility but is inefficient.
         // For truly lazy operation, use the LazyDexInfo directly in codegen.
         // We don't iterate all indices here - that would defeat the purpose.
-    }
-
-    /// Get cache statistics (for debugging/monitoring)
-    pub fn cache_stats(&self) -> (usize, usize) {
-        let fields = self.field_cache.read().unwrap().len();
-        let methods = self.method_cache.read().unwrap().len();
-        (fields, methods)
     }
 }
 
@@ -550,6 +516,114 @@ pub fn descriptor_to_full_java_name(desc: &str) -> String {
             inner.replace('/', ".").replace('$', ".")
         }
         _ => desc.to_string(),
+    }
+}
+
+// =============================================================================
+// AliasAwareDexInfo - Wrapper that applies deobfuscation aliases
+// =============================================================================
+
+/// Re-export AliasRegistry for convenience
+pub use jadx_deobf::AliasRegistry;
+
+/// DEX info wrapper that applies aliases from an alias registry
+///
+/// This wrapper intercepts calls to `get_field` and `get_method` and applies
+/// aliases from the registry, enabling cross-reference deobfuscation.
+///
+/// When code in class A references a method in class B, and class B has been
+/// deobfuscated, this wrapper ensures the reference uses the deobfuscated name.
+pub struct AliasAwareDexInfo {
+    /// The underlying DEX info provider
+    inner: Arc<dyn DexInfoProvider>,
+    /// The alias registry to query for deobfuscated names
+    registry: Arc<AliasRegistry>,
+}
+
+impl AliasAwareDexInfo {
+    /// Create a new alias-aware wrapper around a DEX info provider
+    pub fn new(inner: Arc<dyn DexInfoProvider>, registry: Arc<AliasRegistry>) -> Self {
+        Self { inner, registry }
+    }
+
+    /// Convert internal class name to descriptor format
+    /// "com/example/Foo" -> "Lcom/example/Foo;"
+    fn internal_to_descriptor(internal: &str) -> String {
+        format!("L{};", internal)
+    }
+}
+
+impl DexInfoProvider for AliasAwareDexInfo {
+    fn get_string(&self, idx: u32) -> Option<String> {
+        self.inner.get_string(idx)
+    }
+
+    fn get_type_name(&self, idx: u32) -> Option<String> {
+        let name = self.inner.get_type_name(idx)?;
+
+        // Try to get alias for the type
+        if let Some(desc) = self.inner.get_type_descriptor(idx) {
+            if let Some(alias) = self.registry.get_class_alias(&desc) {
+                return Some(alias);
+            }
+        }
+
+        Some(name)
+    }
+
+    fn get_type_descriptor(&self, idx: u32) -> Option<String> {
+        self.inner.get_type_descriptor(idx)
+    }
+
+    fn get_field(&self, idx: u32) -> Option<FieldInfo> {
+        let mut info = self.inner.get_field(idx)?;
+
+        // Apply class alias
+        let class_desc = Self::internal_to_descriptor(&info.class_type);
+        if let Some(class_alias) = self.registry.get_class_alias(&class_desc) {
+            info.class_name = class_alias;
+        }
+
+        // Apply field alias
+        if let Some(field_alias) = self.registry.get_field_alias(&class_desc, &info.field_name) {
+            info.field_name = field_alias;
+        }
+
+        Some(info)
+    }
+
+    fn get_method(&self, idx: u32) -> Option<MethodInfo> {
+        let mut info = self.inner.get_method(idx)?;
+
+        // Apply class alias
+        let class_desc = Self::internal_to_descriptor(&info.class_type);
+        if let Some(class_alias) = self.registry.get_class_alias(&class_desc) {
+            info.class_name = class_alias;
+        }
+
+        // Apply method alias (empty proto for now - could be improved)
+        if let Some(method_alias) = self.registry.get_method_alias(&class_desc, &info.method_name, "") {
+            info.method_name = method_alias;
+        }
+
+        Some(info)
+    }
+
+    fn get_field_type(&self, idx: u32) -> Option<ArgType> {
+        self.inner.get_field_type(idx)
+    }
+
+    fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
+        self.inner.get_type_as_argtype(idx)
+    }
+
+    fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
+        self.inner.get_method_return_type(idx)
+    }
+
+    fn populate_expr_gen(&self, expr_gen: &mut ExprGen) {
+        // Delegate to inner, but the ExprGen will call back through us for lookups
+        self.inner.populate_expr_gen(expr_gen);
     }
 }
 

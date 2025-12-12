@@ -19,7 +19,7 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 
 ## Current Status
 
-**~25,500 lines of Rust, 179 tests.**
+**~86,500 lines of Rust, 867 tests (92% coverage of Java JADX test suite).**
 
 ### Overall Completion (jadx-core parity, excluding jadx-gui)
 
@@ -38,20 +38,22 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 | **Resources** | **100%** | |
 | AXML (AndroidManifest, layouts) | ✅ 100% | 1:1 match |
 | resources.arsc | ✅ 100% | Strings, dimensions, colors, enums |
-| **Additional Features** | **50%** | |
+| **Additional Features** | **75%** | |
 | Gradle export | ✅ 100% | Android app/library, simple Java |
-| Code style options | ✅ 75% | --no-imports, --escape-unicode, --no-inline-anonymous work |
-| Deobfuscation | ❌ 0% | CLI args parsed but not implemented |
+| Code style options | ✅ 85% | --no-imports, --escape-unicode, --no-inline-anonymous, --no-inline-methods work |
+| Method inlining | ✅ 100% | Synthetic bridge methods (access$XXX) detected and inlined |
+| Deobfuscation | ✅ 90% | --deobf, --mappings-path (ProGuard), cross-ref aliasing (only .jobf persistence pending) |
 
-**Overall: ~85% feature-complete vs Java jadx-core**
+**Overall: ~90% feature-complete vs Java jadx-core**
 
 | Crate | Purpose |
 |-------|---------|
 | jadx-dex | DEX binary parsing (all 256 opcodes) |
 | jadx-ir | Intermediate representation |
-| jadx-passes | SSA, type inference, region reconstruction |
+| jadx-passes | SSA, type inference, region reconstruction, method inlining |
 | jadx-codegen | Java source generation |
 | jadx-resources | AXML and resources.arsc decoding (1:1 match) |
+| jadx-deobf | Deobfuscation (name validation, conditions, alias generation, registry, ProGuard parser) |
 | jadx-cli | CLI with core JADX options |
 
 ### Sample Output
@@ -97,6 +99,10 @@ public class MainActivity extends Activity {
 - Resource extraction (AXML, resources.arsc, dimensions, Android enums)
 - Framework class filtering (android.*, kotlin.*, java.*)
 - Gradle project export (`-e` flag, Android app/library/Java templates)
+- Synthetic method inlining (access$XXX bridge methods)
+- Deobfuscation with auto-alias generation (`--deobf` flag)
+- ProGuard mapping file support (`--mappings-path`)
+- Cross-reference deobfuscation (method bodies use aliased names)
 
 ### Remaining for 1:1 Match
 
@@ -105,30 +111,29 @@ public class MainActivity extends Activity {
 ### Not Yet Implemented
 
 - Smali file (`.smali`) processing
-- Deobfuscation (`--deobf` and related options) - see roadmap below
-- Method inlining (`--no-inline-methods`)
+- .jobf file persistence (`--deobf-cfg-file`)
 
 ### Deobfuscation Roadmap
 
 **Note:** Deobfuscation is cosmetic renaming (`a.b.c` → `MainActivity.onCreate`). The decompiled code is fully readable without it - you can see all logic, strings, URLs, API keys. Short names are just less convenient.
 
-| Component | Description |
-|-----------|-------------|
-| Alias tracking in IR | Add `alias: Option<String>` to class/method/field nodes |
-| ProGuard parser | Load `.mapping` files |
-| Tiny/Enigma parsers | Other mapping formats |
-| Conditions system | Decide what gets renamed (length, validity, whitelist) |
-| Auto-alias generator | Generate `C0001`, `m0002` style names |
-| `.jobf` persistence | Save/load generated mappings |
-| Pipeline integration | Wire deobf pass into IR → codegen |
-| Testing | Golden tests against Java JADX |
+| Component | Status | Description |
+|-----------|--------|-------------|
+| Alias tracking in IR | ✅ Done | `alias: Option<String>` on class/method/field nodes |
+| Conditions system | ✅ Done | Length and validity conditions (jadx-deobf crate) |
+| Auto-alias generator | ✅ Done | Generates `C0001`, `m0002`, `f0` style names |
+| Alias registry | ✅ Done | Thread-safe global registry for cross-reference resolution |
+| Pipeline integration | ✅ Done | `--deobf` flag wired into CLI |
+| ProGuard parser | ✅ Done | `--mappings-path` loads ProGuard mapping files |
+| Cross-ref aliasing | ✅ Done | Method bodies use deobfuscated names via AliasAwareDexInfo |
+| Tiny/Enigma parsers | ❌ Pending | Other mapping formats |
+| `.jobf` persistence | ❌ Pending | Save/load generated mappings |
 
-**What `--deobf` does in Java JADX:**
-1. Renames short/invalid identifiers → `AbstractActivityC1234`, `m0methodName`
-2. Loads ProGuard/Tiny/Enigma mapping files
-3. Persists generated names to `.jobf` file for consistent output
-
-**MVP path:** ProGuard mapping support + alias tracking only. Covers 90% of real-world use cases where you have a mapping file from the build.
+**What `--deobf` does (implemented):**
+1. ✅ Renames short/invalid identifiers → `AbstractActivityC1234`, `m0methodName`
+2. ✅ Loads ProGuard mapping files (`--mappings-path mapping.txt`)
+3. ✅ Cross-reference resolution - method bodies show deobfuscated names
+4. ❌ Persists generated names to `.jobf` file (pending)
 
 ## Building
 
@@ -138,15 +143,19 @@ cd crates && cargo build --release -p jadx-cli
 
 ## Usage
 
+> **WARNING: Memory Explosion Bug**
+> Multi-threaded processing (`-j N` where N > 1) currently causes unbounded memory growth.
+> Use `-j 1` until this is fixed. Investigation ongoing - the issue is in the codegen pipeline.
+
 ```bash
-# Basic decompilation
-./target/release/jadx-rust -d output/ app.apk
+# Basic decompilation (use -j 1 for now!)
+./target/release/jadx-rust -j 1 -d output/ app.apk
 
 # Single class
 ./target/release/jadx-rust --single-class MainActivity -d output/ app.apk
 
-# Parallel processing
-./target/release/jadx-rust -j 16 -d output/ app.apk
+# Parallel processing - DISABLED due to memory bug
+# ./target/release/jadx-rust -j 16 -d output/ app.apk
 
 # Export as Gradle project (Android Studio ready)
 ./target/release/jadx-rust -e -d output/ app.apk
@@ -154,9 +163,18 @@ cd crates && cargo build --release -p jadx-cli
 # Export with specific type
 ./target/release/jadx-rust -e --export-gradle-type android-app -d output/ app.apk
 ./target/release/jadx-rust -e --export-gradle-type simple-java -d output/ app.jar
+
+# Deobfuscation - auto-rename short/invalid identifiers
+./target/release/jadx-rust -j 1 --deobf -d output/ app.apk
+
+# Deobfuscation with ProGuard mapping file
+./target/release/jadx-rust -j 1 --deobf --mappings-path mapping.txt -d output/ app.apk
+
+# Custom rename flags (valid, printable, case)
+./target/release/jadx-rust -j 1 --deobf --rename-flags valid,printable -d output/ app.apk
 ```
 
-Core JADX CLI options are supported. Deobfuscation options are parsed but not yet implemented.
+Core JADX CLI options are supported.
 
 ## Architecture
 

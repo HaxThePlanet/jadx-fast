@@ -552,6 +552,7 @@ name = "jadx-codegen"
 version = "1.0.0"
 dependencies = [
  "itoa",
+ "jadx-deobf",
  "jadx-dex",
  "jadx-ir",
  "jadx-passes",
@@ -567,6 +568,7 @@ dependencies = [
  "jadx-ir",
  "lazy_static",
  "regex",
+ "thiserror",
 ]
 
 [[package]]

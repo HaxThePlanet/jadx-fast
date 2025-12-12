@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 jadx-rust is a Rust rewrite of [JADX](https://github.com/skylot/jadx), an Android DEX/APK decompiler. The goal is 1:1 output compatibility with Java JADX while achieving 2-4x faster performance through zero-copy parsing, arena allocation, and native parallelism.
 
-**Current status**: ~25,500 lines of Rust, 179 tests, full decompilation pipeline functional.
+**Current status**: ~69,700 lines of Rust, 227 tests (222 passing), full decompilation pipeline functional.
 
 ## Build Commands
 
@@ -48,6 +48,7 @@ DEX bytes → jadx-dex (parsing) → jadx-ir (IR) → jadx-passes (analysis) →
 | `jadx-codegen` | Java source generation (class/method/field/expr/stmt) |
 | `jadx-resources` | Android resource decoding (AXML, resources.arsc) |
 | `jadx-cli` | CLI application with JADX-compatible options |
+| `jadx-deobf` | Deobfuscation (name validation, conditions, alias generation, registry, ProGuard parser) |
 
 ### Key Design Patterns
 
@@ -122,6 +123,13 @@ diff -r expected/ actual/
 - **Final local variables**: SSA-based detection
   - Variables assigned exactly once marked as `final`
   - Integrated with variable declaration emission
+
+- **Deobfuscation infrastructure**: Full deobfuscation pipeline
+  - Name validation and conditions system
+  - Auto-alias generator with configurable prefixes
+  - Thread-safe alias registry for cross-reference resolution
+  - ProGuard mapping file parser (integration tests pending)
+  - Visitor pattern for IR transformation
 
 ## Framework Class Filtering
 

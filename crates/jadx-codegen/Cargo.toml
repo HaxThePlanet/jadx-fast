@@ -9,6 +9,7 @@ license.workspace = true
 jadx-dex.workspace = true
 jadx-ir.workspace = true
 jadx-passes.workspace = true
+jadx-deobf.workspace = true
 itoa.workspace = true
 ryu.workspace = true
 thiserror.workspace = true

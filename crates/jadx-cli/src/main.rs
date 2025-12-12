@@ -43,10 +43,14 @@ use clap::Parser;
 use indicatif::{ProgressBar, ProgressStyle};
 use rayon::prelude::*;
 
-use jadx_codegen::{LazyDexInfo, DexInfoProvider};
+use jadx_codegen::{LazyDexInfo, DexInfoProvider, AliasAwareDexInfo};
 use jadx_ir::ClassData;
 use jadx_dex::DexReader;
-use jadx_deobf::{DeobfuscatorVisitor, DeobfAliasProvider, CombinedCondition};
+use jadx_deobf::{
+    DeobfuscatorVisitor, DeobfAliasProvider, CombinedCondition,
+    AliasRegistry, build_conditions_from_flags, parse_proguard_mapping,
+    RenameFlag as DeobfRenameFlag,
+};
 use std::collections::HashMap;
 
 pub use args::*;
@@ -751,16 +755,75 @@ fn process_dex_bytes(
     tracing::info!("Streaming processing with {} threads...", num_threads);
 
     // Wrap LazyDexInfo in Arc for sharing across threads
-    let dex_info = std::sync::Arc::new(dex_info);
+    let dex_info: std::sync::Arc<dyn DexInfoProvider> = std::sync::Arc::new(dex_info);
+
+    // Create global alias registry for deobfuscation (used for cross-reference resolution)
+    let alias_registry = std::sync::Arc::new(AliasRegistry::new());
+
+    // Load ProGuard mapping file if provided
+    if let Some(ref mapping_path) = args.mappings_path {
+        if args.mappings_mode != crate::args::MappingsMode::Ignore {
+            match std::fs::read_to_string(mapping_path) {
+                Ok(content) => {
+                    match parse_proguard_mapping(&content, &alias_registry) {
+                        Ok(()) => {
+                            tracing::info!(
+                                "Loaded {} class, {} field, {} method mappings from {}",
+                                alias_registry.class_count(),
+                                alias_registry.field_count(),
+                                alias_registry.method_count(),
+                                mapping_path.display()
+                            );
+                        }
+                        Err(e) => {
+                            tracing::warn!("Failed to parse mapping file {}: {}", mapping_path.display(), e);
+                        }
+                    }
+                }
+                Err(e) => {
+                    tracing::warn!("Failed to read mapping file {}: {}", mapping_path.display(), e);
+                }
+            }
+        }
+    }
 
     // Create deobfuscator if enabled
     let deobfuscator = if args.deobfuscation {
         tracing::info!("Deobfuscation enabled (min={}, max={})", args.deobf_min_length, args.deobf_max_length);
-        let condition = CombinedCondition::default_jadx(args.deobf_min_length, args.deobf_max_length);
+
+        // Build conditions from rename flags
+        // Convert args::RenameFlag to jadx_deobf::RenameFlag
+        let cli_flags = args.parse_rename_flags();
+        let deobf_flags: std::collections::HashSet<DeobfRenameFlag> = cli_flags
+            .into_iter()
+            .filter_map(|f| match f {
+                crate::args::RenameFlag::Case => Some(DeobfRenameFlag::Case),
+                crate::args::RenameFlag::Valid => Some(DeobfRenameFlag::Valid),
+                crate::args::RenameFlag::Printable => Some(DeobfRenameFlag::Printable),
+            })
+            .collect();
+
+        let condition = if deobf_flags.is_empty() || deobf_flags.contains(&DeobfRenameFlag::Valid) {
+            // Default: use JADX default conditions
+            CombinedCondition::default_jadx(args.deobf_min_length, args.deobf_max_length)
+        } else {
+            build_conditions_from_flags(&deobf_flags, args.deobf_min_length, args.deobf_max_length)
+        };
+
         let provider = DeobfAliasProvider::new(args.deobf_max_length);
-        Some(std::sync::Arc::new(DeobfuscatorVisitor::new(condition, provider)))
+        Some(std::sync::Arc::new(
+            DeobfuscatorVisitor::new(condition, provider)
+                .with_registry(alias_registry.clone())
+        ))
     } else {
         None
+    };
+
+    // Wrap dex_info with alias-aware version if deobfuscation or mappings are active
+    let dex_info: std::sync::Arc<dyn DexInfoProvider> = if args.deobfuscation || args.mappings_path.is_some() {
+        std::sync::Arc::new(AliasAwareDexInfo::new(dex_info, alias_registry.clone()))
+    } else {
+        dex_info
     };
 
     // First pass: identify inner/outer class relationships (metadata only, no IR)

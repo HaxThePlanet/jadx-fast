@@ -9,3 +9,4 @@ description = "Deobfuscation support for jadx-rust"
 jadx-ir.workspace = true
 regex.workspace = true
 lazy_static.workspace = true
+thiserror.workspace = true

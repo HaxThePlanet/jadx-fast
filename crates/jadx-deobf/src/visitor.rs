@@ -2,9 +2,11 @@
 //!
 //! Ported from jadx-core/src/main/java/jadx/core/deobf/DeobfuscatorVisitor.java
 
+use std::sync::Arc;
 use jadx_ir::ClassData;
 use crate::conditions::{DeobfCondition, Action};
 use crate::alias_provider::AliasProvider;
+use crate::registry::AliasRegistry;
 
 /// Deobfuscation visitor that applies renaming to classes
 pub struct DeobfuscatorVisitor<C, A>
@@ -14,6 +16,8 @@ where
 {
     condition: C,
     alias_provider: A,
+    /// Optional registry to populate with aliases for cross-reference resolution
+    registry: Option<Arc<AliasRegistry>>,
 }
 
 impl<C, A> DeobfuscatorVisitor<C, A>
@@ -25,7 +29,14 @@ where
         Self {
             condition,
             alias_provider,
+            registry: None,
         }
+    }
+
+    /// Set the alias registry to populate during processing
+    pub fn with_registry(mut self, registry: Arc<AliasRegistry>) -> Self {
+        self.registry = Some(registry);
+        self
     }
 
     /// Process a single class, applying deobfuscation
@@ -33,20 +44,33 @@ where
         // Check if class should be renamed
         let class_action = self.condition.check_class(cls);
         if class_action.should_rename() && cls.alias.is_none() {
-            cls.alias = Some(self.alias_provider.for_class(cls));
+            let alias = self.alias_provider.for_class(cls);
+            cls.alias = Some(alias.clone());
+            // Register alias for cross-reference resolution
+            if let Some(ref reg) = self.registry {
+                reg.set_class_alias(&cls.class_type, &alias);
+            }
         }
 
         // Process fields
         for field in &mut cls.static_fields {
             let action = self.condition.check_field(field);
             if action.should_rename() && field.alias.is_none() {
-                field.alias = Some(self.alias_provider.for_field(field));
+                let alias = self.alias_provider.for_field(field);
+                field.alias = Some(alias.clone());
+                if let Some(ref reg) = self.registry {
+                    reg.set_field_alias(&cls.class_type, &field.name, &alias);
+                }
             }
         }
         for field in &mut cls.instance_fields {
             let action = self.condition.check_field(field);
             if action.should_rename() && field.alias.is_none() {
-                field.alias = Some(self.alias_provider.for_field(field));
+                let alias = self.alias_provider.for_field(field);
+                field.alias = Some(alias.clone());
+                if let Some(ref reg) = self.registry {
+                    reg.set_field_alias(&cls.class_type, &field.name, &alias);
+                }
             }
         }
 
@@ -54,9 +78,13 @@ where
         for method in &mut cls.methods {
             let action = self.condition.check_method(method);
             if action.should_rename() && method.alias.is_none() {
-                // TODO: Check if method is an override
                 let is_override = Self::is_likely_override(method);
-                method.alias = Some(self.alias_provider.for_method(method, is_override));
+                let alias = self.alias_provider.for_method(method, is_override);
+                method.alias = Some(alias.clone());
+                if let Some(ref reg) = self.registry {
+                    // Use empty proto for simplicity (could be improved for overloads)
+                    reg.set_method_alias(&cls.class_type, &method.name, "", &alias);
+                }
             }
         }
     }
