@@ -859,10 +859,14 @@ fn process_dex_bytes(
         }
     }
 
-    // Process all classes in parallel (full parallelism)
+    // Process classes in parallel with SMALL chunks for strict memory control
+    // Small chunks = only one class per thread in-flight at a time
+    // Chunk size: exactly num_threads to maximize CPU while minimizing memory
     let error_count = std::sync::atomic::AtomicUsize::new(0);
+    let chunk_size = num_threads; // One class per thread max
 
-    class_indices.par_iter().for_each(|&idx| {
+    for chunk in class_indices.chunks(chunk_size) {
+        chunk.par_iter().for_each(|&idx| {
         // Fetch class name on-demand to avoid storing all names in memory
         let class_name = dex.get_class(idx)
             .ok()
@@ -883,7 +887,7 @@ fn process_dex_bytes(
                             if let Some(ref deobf) = deobfuscator {
                                 deobf.process_class(&mut class_data);
                             }
-                            std::sync::Arc::new(class_data)
+                            class_data
                         })
                         .map_err(|e| format!("Failed to convert: {}", e))
                 })
@@ -931,7 +935,9 @@ fn process_dex_bytes(
         if let Some(pb) = progress {
             pb.inc(1);
         }
-    });
+        });
+        // Chunk complete - memory freed before next batch
+    }
 
     // Explicit cleanup - drop class_indices before returning
     drop(class_indices);
