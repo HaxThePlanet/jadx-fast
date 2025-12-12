@@ -49,7 +49,7 @@ fn normalize_java(code: &str) -> String {
 fn run_rust_jadx(input: &Path) -> Result<HashMap<String, String>, String> {
     let out_dir = tempfile::tempdir().map_err(|e| e.to_string())?;
 
-    let output = Command::new(env!("CARGO_BIN_EXE_jadx-rust"))
+    let output = Command::new(env!("CARGO_BIN_EXE_dexterity"))
         .args(["-d", out_dir.path().to_str().unwrap()])
         .arg(input)
         .output()

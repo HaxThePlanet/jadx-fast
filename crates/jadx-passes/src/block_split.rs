@@ -83,7 +83,8 @@ impl BlockSplitResult {
 }
 
 /// Split instructions into basic blocks
-pub fn split_blocks(instructions: Vec<InsnNode>) -> BlockSplitResult {
+/// Takes a reference to avoid unnecessary Vec cloning - instructions are only cloned when moved into blocks
+pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     if instructions.is_empty() {
         return BlockSplitResult {
             blocks: BTreeMap::new(),
@@ -96,7 +97,7 @@ pub fn split_blocks(instructions: Vec<InsnNode>) -> BlockSplitResult {
     let mut leaders = BTreeSet::new();
     leaders.insert(0u32); // First instruction is always a leader
 
-    for insn in &instructions {
+    for insn in instructions {
         match &insn.insn_type {
             // Branch targets are leaders
             InsnType::Goto { target } => {
@@ -138,13 +139,13 @@ pub fn split_blocks(instructions: Vec<InsnNode>) -> BlockSplitResult {
         }
     }
 
-    // Second pass: create basic blocks
+    // Second pass: create basic blocks (clone instructions only when adding to blocks)
     let mut blocks = BTreeMap::new();
     let mut current_block: Option<BasicBlock> = None;
     let mut block_id = 0u32;
     let mut offset_to_block: BTreeMap<u32, u32> = BTreeMap::new();
 
-    for (idx, insn) in instructions.into_iter().enumerate() {
+    for (idx, insn) in instructions.iter().enumerate() {
         let offset = insn.offset;
 
         // Check if we need to start a new block
@@ -163,10 +164,10 @@ pub fn split_blocks(instructions: Vec<InsnNode>) -> BlockSplitResult {
             block_id += 1;
         }
 
-        // Add instruction to current block
+        // Add instruction to current block (clone only here, not upfront)
         if let Some(ref mut block) = current_block {
             block.end_offset = offset + 1; // Approximate
-            block.instructions.push(insn);
+            block.instructions.push(insn.clone());
         }
     }
 
@@ -311,14 +312,14 @@ mod tests {
 
     #[test]
     fn test_empty_instructions() {
-        let result = split_blocks(vec![]);
+        let result = split_blocks(&vec![]);
         assert_eq!(result.block_count(), 0);
     }
 
     #[test]
     fn test_single_block() {
         let instructions = vec![make_nop(0), make_nop(1), make_return(2)];
-        let result = split_blocks(instructions);
+        let result = split_blocks(&instructions);
 
         assert_eq!(result.block_count(), 1);
         assert_eq!(result.entry_block, 0);
@@ -336,7 +337,7 @@ mod tests {
             make_nop(2),
             make_return(3),
         ];
-        let result = split_blocks(instructions);
+        let result = split_blocks(&instructions);
 
         // Should have 3 blocks: [nop, goto], [nop], [return]
         assert_eq!(result.block_count(), 3);
@@ -349,7 +350,7 @@ mod tests {
             make_nop(1),    // fall-through
             make_return(2), // branch target
         ];
-        let result = split_blocks(instructions);
+        let result = split_blocks(&instructions);
 
         // Block 0 should have 2 successors
         let block0 = result.get_block(0).unwrap();
@@ -363,7 +364,7 @@ mod tests {
             make_nop(1),
             make_return(2),
         ];
-        let result = split_blocks(instructions);
+        let result = split_blocks(&instructions);
 
         // Block with return should have block 0 as predecessor
         if let Some(exit_block) = result.get_block(result.exit_blocks[0]) {

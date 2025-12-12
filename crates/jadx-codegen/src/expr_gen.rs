@@ -3,6 +3,7 @@
 //! This module turns IR instructions into Java source code expressions.
 //! For example: `Binary { op: Add, left: v0, right: v1 }` -> `"a + b"`
 
+use std::cell::RefCell;
 use std::collections::HashMap;
 use std::sync::Arc;
 
@@ -55,6 +56,12 @@ pub struct MethodInfo {
     pub param_types: Vec<ArgType>,
 }
 
+// Thread-local pool of ExprGen instances for reuse across methods
+// Reduces allocation overhead by reusing HashMap capacity
+thread_local! {
+    static EXPR_GEN_POOL: RefCell<Vec<ExprGen>> = RefCell::new(Vec::new());
+}
+
 impl ExprGen {
     /// Create a new expression generator
     pub fn new() -> Self {
@@ -85,6 +92,36 @@ impl ExprGen {
     /// Set the DEX info provider for lazy lookups
     pub fn set_dex_provider(&mut self, provider: Arc<dyn DexInfoProvider>) {
         self.dex_provider = Some(provider);
+    }
+
+    /// Reset for reuse (clears data but retains capacity)
+    pub fn reset(&mut self) {
+        self.var_names.clear();
+        self.var_types.clear();
+        self.strings.clear();
+        self.type_names.clear();
+        self.field_info.clear();
+        self.method_info.clear();
+        self.dex_provider = None;
+    }
+
+    /// Get an ExprGen from the thread-local pool (or create new)
+    pub fn from_pool() -> Self {
+        EXPR_GEN_POOL.with(|pool| {
+            pool.borrow_mut().pop().unwrap_or_else(|| ExprGen::new())
+        })
+    }
+
+    /// Return an ExprGen to the thread-local pool for reuse
+    pub fn return_to_pool(mut self) {
+        self.reset();
+        EXPR_GEN_POOL.with(|pool| {
+            let mut p = pool.borrow_mut();
+            // Limit pool size to avoid unbounded growth
+            if p.len() < 16 {
+                p.push(self);
+            }
+        });
     }
 
     /// Set variable name

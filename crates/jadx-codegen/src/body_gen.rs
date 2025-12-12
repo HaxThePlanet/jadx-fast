@@ -87,6 +87,16 @@ pub struct BodyGenContext {
     pub final_vars: HashSet<(u16, u32)>,
 }
 
+impl Drop for BodyGenContext {
+    fn drop(&mut self) {
+        // Move expr_gen out and return to pool
+        // We need to swap it with a temporary one since we can't move out of &mut self
+        let temp = ExprGen::new();
+        let old = std::mem::replace(&mut self.expr_gen, temp);
+        old.return_to_pool();
+    }
+}
+
 impl BodyGenContext {
     /// Create a new body generation context from method data
     pub fn from_method(method: &MethodData) -> Self {
@@ -104,7 +114,7 @@ impl BodyGenContext {
         dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
         inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<jadx_ir::ClassData>>>,
     ) -> Self {
-        let mut expr_gen = ExprGen::new();
+        let mut expr_gen = ExprGen::from_pool();
 
         // Set DEX provider for lazy lookups during code generation
         if let Some(ref dex) = dex_info {
@@ -427,8 +437,8 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
         return;
     }
 
-    // Split into basic blocks
-    let block_result = split_blocks(method.instructions.clone());
+    // Split into basic blocks (pass reference to avoid Vec clone)
+    let block_result = split_blocks(&method.instructions);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -508,8 +518,8 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         return;
     }
 
-    // Split into basic blocks
-    let block_result = split_blocks(method.instructions.clone());
+    // Split into basic blocks (pass reference to avoid Vec clone)
+    let block_result = split_blocks(&method.instructions);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -591,8 +601,8 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         return;
     }
 
-    // Split into basic blocks
-    let block_result = split_blocks(method.instructions.clone());
+    // Split into basic blocks (pass reference to avoid Vec clone)
+    let block_result = split_blocks(&method.instructions);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -2484,7 +2494,7 @@ mod tests {
         ));
 
         // Test the SSA transform directly to see max_versions
-        let block_result = jadx_passes::block_split::split_blocks(method.instructions.clone());
+        let block_result = jadx_passes::block_split::split_blocks(&method.instructions);
         let ssa_result = jadx_passes::ssa::transform_to_ssa(&block_result);
 
         // Debug: print max_versions

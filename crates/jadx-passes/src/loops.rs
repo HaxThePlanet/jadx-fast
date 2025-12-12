@@ -301,7 +301,7 @@ mod tests {
     #[test]
     fn test_no_loops() {
         let instructions = vec![make_nop(0), make_return(1)];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
 
@@ -319,7 +319,7 @@ mod tests {
             make_goto(1, 0), // B1: back to header (back edge)
             make_return(2),  // B2: exit
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
 
@@ -341,7 +341,7 @@ mod tests {
             make_if(1, 0),   // B1: back to B0 if true
             make_return(2),  // B2: exit
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
 
@@ -365,7 +365,7 @@ mod tests {
             make_goto(3, 0), // B3: outer back edge
             make_return(4),  // B4: exit
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
 
@@ -386,7 +386,7 @@ mod tests {
         let instructions = vec![
             make_goto(0, 0), // Infinite loop
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
 

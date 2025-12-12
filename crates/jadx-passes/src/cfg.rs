@@ -512,7 +512,7 @@ mod tests {
     fn test_simple_cfg() {
         // Linear: B0 -> B1 -> return
         let instructions = vec![make_nop(0), make_nop(1), make_return(2)];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
 
         assert_eq!(cfg.entry(), 0);
@@ -532,7 +532,7 @@ mod tests {
             make_goto(3, 4),  // B2: goto 4
             make_return(4),   // B3: return
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
 
         // B0 should dominate all blocks
@@ -551,7 +551,7 @@ mod tests {
             make_goto(2, 1),  // B2: back edge to B1
             make_return(3),   // B3: exit
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
 
         // Entry dominates everything
@@ -570,7 +570,7 @@ mod tests {
             make_goto(2, 3),  // B2: else -> merge
             make_return(3),   // B3: merge + return
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
 
         // B3 (return) should post-dominate everything

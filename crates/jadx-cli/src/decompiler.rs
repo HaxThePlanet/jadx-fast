@@ -50,11 +50,8 @@ pub fn decompile_method(method: &MethodData) -> Option<DecompiledMethod> {
         return None;
     }
 
-    // Clone instructions for the pipeline
-    let instructions = method.instructions.clone();
-
-    // Stage 1: Block splitting
-    let blocks = split_blocks(instructions);
+    // Stage 1: Block splitting (pass reference to avoid Vec clone)
+    let blocks = split_blocks(&method.instructions);
     if blocks.blocks.is_empty() {
         return None;
     }

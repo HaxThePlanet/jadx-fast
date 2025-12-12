@@ -573,7 +573,7 @@ mod tests {
             make_nop(1),     // B1: then block
             make_return(2),  // B2: merge/exit
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
         let conds = detect_conditionals(&cfg, &loops);
@@ -595,7 +595,7 @@ mod tests {
             make_goto(2, 3), // B2: else -> merge
             make_return(3),  // B3: merge
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
         let conds = detect_conditionals(&cfg, &loops);
@@ -613,7 +613,7 @@ mod tests {
             make_goto(1, 0), // Back edge
             make_return(2),  // Exit
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
         let conds = detect_conditionals(&cfg, &loops);
@@ -638,7 +638,7 @@ mod tests {
             make_goto(3, 4),           // B3: else -> merge
             make_return(4),            // B4: merge
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
         let conds = detect_conditionals(&cfg, &loops);
@@ -668,7 +668,7 @@ mod tests {
             make_nop(2),               // B2: then
             make_return(3),            // B3: merge
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
         let conds = detect_conditionals(&cfg, &loops);

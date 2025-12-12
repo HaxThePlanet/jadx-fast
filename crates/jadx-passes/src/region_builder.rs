@@ -1366,7 +1366,7 @@ mod tests {
     #[test]
     fn test_linear_region() {
         let instructions = vec![make_nop(0), make_nop(1), make_return(2)];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let region = build_regions(&cfg);
 
@@ -1381,7 +1381,7 @@ mod tests {
             make_nop(1),     // then
             make_return(2),  // merge
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let region = build_regions(&cfg);
 
@@ -1407,7 +1407,7 @@ mod tests {
             make_goto(1, 0), // back edge
             make_return(2),  // exit
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let region = build_regions(&cfg);
 
@@ -1443,7 +1443,7 @@ mod tests {
             make_goto(2, 0), // B2: back edge
             make_return(3),  // B3: exit
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
 
@@ -1472,7 +1472,7 @@ mod tests {
             make_goto(2, 0), // B2: natural back edge
             make_return(3),  // B3: exit
         ];
-        let blocks = split_blocks(instructions);
+        let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
         let loops = detect_loops(&cfg);
 

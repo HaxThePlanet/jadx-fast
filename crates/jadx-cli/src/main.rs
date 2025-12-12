@@ -80,10 +80,13 @@ fn main() -> Result<()> {
     );
 
     // Configure rayon thread pool
-    rayon::ThreadPoolBuilder::new()
+    if let Err(e) = rayon::ThreadPoolBuilder::new()
         .num_threads(args.effective_threads())
         .build_global()
-        .ok();
+    {
+        tracing::warn!("Failed to configure rayon thread pool (may already be initialized): {}", e);
+        tracing::warn!("Using default rayon configuration instead");
+    }
 
     // Process each input file
     for input in &args.input {
@@ -710,40 +713,49 @@ fn process_dex_bytes(
         pb.set_length(class_count as u64);
     }
 
-    // Collect class indices to process (with filtering)
-    let class_indices: Vec<(u32, String)> = dex
-        .classes()
-        .enumerate()
-        .filter_map(|(i, class_result)| {
-            match class_result {
-                Ok(class) => {
-                    let class_name = class.class_type().ok()?.to_string();
+    // ========================================================================
+    // MEMORY-OPTIMIZED CLASS COLLECTION
+    // Collect all class indices for processing - each class becomes a separate file
+    // Pre-allocate vector based on class count to avoid reallocations
+    // ========================================================================
 
-                    // Single-class filter
+    let mut class_indices: Vec<u32> = Vec::with_capacity(class_count);
+    let mut outer_count = 0usize;
+    let mut inner_count = 0usize;
+
+    for (i, class_result) in dex.classes().enumerate() {
+        match class_result {
+            Ok(class) => {
+                if let Ok(class_type) = class.class_type() {
+                    let class_name = class_type.to_string();
+
+                    // Apply filters
                     if let Some(ref single) = args.single_class {
                         if !class_name.contains(single) {
-                            return None;
+                            continue;
                         }
-                        // Skip framework filter when specific class requested
-                    } else {
-                        // Framework class filter (jadx-fast optimization)
-                        if should_skip_class(&class_name) {
-                            return None;
-                        }
+                    } else if should_skip_class(&class_name) {
+                        continue;
                     }
 
-                    Some((i as u32, class_name))
-                }
-                Err(e) => {
-                    tracing::warn!("Failed to parse class {}: {}", i, e);
-                    None
+                    // Track outer vs inner for logging
+                    if class_name.contains('$') {
+                        inner_count += 1;
+                    } else {
+                        outer_count += 1;
+                    }
+
+                    class_indices.push(i as u32);
                 }
             }
-        })
-        .collect();
+            Err(e) => {
+                tracing::warn!("Failed to parse class {}: {}", i, e);
+            }
+        }
+    }
 
     let count = class_indices.len();
-    tracing::info!("Processing {} classes (after filtering)", count);
+    tracing::info!("Processing {} classes ({} outer, {} inner)", count, outer_count, inner_count);
 
     // ========================================================================
     // STREAMING PROCESSING (like Java JADX)
@@ -826,53 +838,43 @@ fn process_dex_bytes(
         dex_info
     };
 
-    // First pass: identify inner/outer class relationships (metadata only, no IR)
-    let mut outer_indices: Vec<(u32, String)> = Vec::new();
-    let mut inner_to_outer: HashMap<String, String> = HashMap::new();
-
-    for (idx, class_name) in &class_indices {
-        if let Some(dollar_pos) = class_name.rfind('$') {
-            // This is an inner class
-            let outer_name = format!("{};", &class_name[..dollar_pos]);
-            inner_to_outer.insert(class_name.clone(), outer_name);
-        } else {
-            outer_indices.push((*idx, class_name.clone()));
-        }
-    }
-
-    // Create index lookup for inner classes
-    let class_name_to_idx: HashMap<String, u32> = class_indices.iter()
-        .map(|(idx, name)| (name.clone(), *idx))
-        .collect();
-
-    let outer_count = outer_indices.len();
-    let inner_count = inner_to_outer.len();
-    tracing::info!("Found {} outer classes, {} inner classes", outer_count, inner_count);
+    // NOTE: inner_to_outer and class_name_to_idx HashMaps were removed
+    // as they were allocated but never used, wasting memory
 
     if let Some(pb) = progress {
-        pb.set_length(outer_count as u64);
+        pb.set_length(count as u64);
     }
 
-    // Pre-create directories
-    for (_, class_name) in &outer_indices {
-        let rel_path = class_name_to_path(class_name);
-        let out_path = out_src.join(&rel_path);
-        if let Some(parent) = out_path.parent() {
-            std::fs::create_dir_all(parent).ok();
+    // Pre-create directories (fetch class names on-demand)
+    for &idx in &class_indices {
+        if let Ok(class) = dex.get_class(idx) {
+            if let Ok(class_type) = class.class_type() {
+                let class_name = class_type.to_string();
+                let rel_path = class_name_to_path(&class_name);
+                let out_path = out_src.join(&rel_path);
+                if let Some(parent) = out_path.parent() {
+                    std::fs::create_dir_all(parent).ok();
+                }
+            }
         }
     }
 
-    // Process classes in parallel with streaming - each thread processes one class at a time
-    // Memory is bounded by: num_threads * (one class with its inner classes)
+    // Process all classes in parallel (full parallelism)
     let error_count = std::sync::atomic::AtomicUsize::new(0);
 
-    outer_indices.par_iter().for_each(|(idx, class_name)| {
-        let rel_path = class_name_to_path(class_name);
+    class_indices.par_iter().for_each(|&idx| {
+        // Fetch class name on-demand to avoid storing all names in memory
+        let class_name = dex.get_class(idx)
+            .ok()
+            .and_then(|c| c.class_type().ok().map(|t| t.to_string()))
+            .unwrap_or_else(|| format!("UnknownClass{}", idx));
+
+        let rel_path = class_name_to_path(&class_name);
         let out_path = out_src.join(&rel_path);
 
-        // Convert outer class to IR (loaded on-demand)
+        // Convert class to IR (loaded on-demand)
         let ir_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-            dex.get_class(*idx)
+            dex.get_class(idx)
                 .map_err(|e| format!("Failed to get class: {}", e))
                 .and_then(|class| {
                     converter::convert_class(&dex, &class)
@@ -888,8 +890,7 @@ fn process_dex_bytes(
         }))
         .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_name)));
 
-        // Generate code
-        // Note: Inner classes currently generated as separate files for memory efficiency
+        // Generate code (each class becomes a separate .java file)
         let java_code = match ir_result {
             Ok(ir_class) => {
                 let config = jadx_codegen::ClassGenConfig {
@@ -932,17 +933,21 @@ fn process_dex_bytes(
         }
     });
 
+    // Explicit cleanup - drop class_indices before returning
+    drop(class_indices);
+
     let elapsed = start.elapsed();
     let errors = error_count.load(std::sync::atomic::Ordering::Relaxed);
     tracing::info!(
-        "Processed {} outer + {} inner classes in {:.2}s ({} errors)",
+        "Processed {} classes ({} outer, {} inner) in {:.2}s ({} errors)",
+        count,
         outer_count,
         inner_count,
         elapsed.as_secs_f64(),
         errors
     );
 
-    Ok(outer_count + inner_count)
+    Ok(count)
 }
 
 fn create_progress_bar(args: &Args) -> Option<ProgressBar> {

@@ -6,7 +6,7 @@ This is a Rust port of [JADX](https://github.com/skylot/jadx), aiming for identi
 
 ## Current Status: 1:1 Output Match with Java JADX
 
-**~24,000 lines of Rust | 180 tests passing | 0 semantic differences in golden tests**
+**~87,000 lines of Rust | 877 tests passing | 0 semantic differences in golden tests**
 
 The full decompilation pipeline produces **identical output** to Java JADX:
 
