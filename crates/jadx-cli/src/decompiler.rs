@@ -7,10 +7,16 @@
 //! 4. Code generation (jadx-codegen)
 
 use jadx_ir::regions::Region;
-use jadx_ir::MethodData;
+use jadx_ir::{ClassData, MethodData};
 use jadx_passes::{
-    split_blocks, transform_to_ssa, infer_types, build_regions,
-    BlockSplitResult, CFG, SsaResult, TypeInferenceResult,
+    assign_var_names, split_blocks, transform_to_ssa, infer_types, build_regions,
+    BlockSplitResult, CFG, SsaResult, TypeInferenceResult, VarNamingResult,
+};
+use jadx_codegen::{
+    generate_body_with_dex, generate_class_with_dex,
+    dex_info::DexInfo,
+    class_gen::ClassGenConfig,
+    writer::SimpleCodeWriter,
 };
 
 /// Result of decompiling a method
@@ -24,6 +30,8 @@ pub struct DecompiledMethod {
     pub ssa: SsaResult,
     /// Inferred types
     pub types: TypeInferenceResult,
+    /// Variable names
+    pub var_names: VarNamingResult,
     /// Region tree for structured code generation
     pub regions: Region,
 }
@@ -35,7 +43,8 @@ pub struct DecompiledMethod {
 /// 2. CFG construction - build control flow graph with dominance info
 /// 3. SSA transformation - convert to SSA form with phi nodes
 /// 4. Type inference - infer types for all registers
-/// 5. Region reconstruction - convert CFG to structured regions (if/loop/switch)
+/// 5. Variable naming - assign meaningful names to variables
+/// 6. Region reconstruction - convert CFG to structured regions (if/loop/switch)
 pub fn decompile_method(method: &MethodData) -> Option<DecompiledMethod> {
     if method.instructions.is_empty() {
         return None;
@@ -59,7 +68,12 @@ pub fn decompile_method(method: &MethodData) -> Option<DecompiledMethod> {
     // Stage 4: Type inference
     let types = infer_types(&ssa);
 
-    // Stage 5: Region reconstruction
+    // Stage 5: Variable naming
+    let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
+    let num_params = method.arg_types.len() as u16;
+    let var_names = assign_var_names(&ssa, &types, first_param_reg, num_params);
+
+    // Stage 6: Region reconstruction
     let regions = build_regions(&cfg);
 
     Some(DecompiledMethod {
@@ -67,6 +81,7 @@ pub fn decompile_method(method: &MethodData) -> Option<DecompiledMethod> {
         cfg,
         ssa,
         types,
+        var_names,
         regions,
     })
 }
@@ -79,12 +94,36 @@ pub fn method_has_code(method: &MethodData) -> bool {
 /// Get a summary of decompilation results
 pub fn decompile_summary(result: &DecompiledMethod) -> String {
     format!(
-        "{} blocks, {} SSA blocks, {} types inferred ({} constraints)",
+        "{} blocks, {} SSA blocks, {} types inferred ({} constraints), {} vars named",
         result.blocks.block_count(),
         result.ssa.blocks.len(),
         result.types.num_resolved,
         result.types.num_constraints,
+        result.var_names.names.len(),
     )
+}
+
+/// Generate Java source code for a method body
+pub fn generate_method_code(method: &MethodData, dex_info: Option<&DexInfo>) -> String {
+    let mut writer = SimpleCodeWriter::new();
+    generate_body_with_dex(method, dex_info, &mut writer);
+    writer.finish()
+}
+
+/// Generate Java source code for a class
+pub fn generate_class_code(class: &ClassData, dex_info: Option<&DexInfo>) -> String {
+    let config = ClassGenConfig {
+        use_imports: true,
+        show_access_flags: true,
+        show_source_file: false,
+        fallback: true,
+    };
+    generate_class_with_dex(class, &config, dex_info)
+}
+
+/// Decompile a class and generate Java source code
+pub fn decompile_class(class: &ClassData, dex_info: Option<&DexInfo>) -> String {
+    generate_class_code(class, dex_info)
 }
 
 #[cfg(test)]

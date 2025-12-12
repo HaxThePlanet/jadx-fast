@@ -13,7 +13,10 @@ use std::time::Instant;
 use anyhow::{Context, Result};
 use clap::Parser;
 use indicatif::{ProgressBar, ProgressStyle};
-use rayon::prelude::*;
+
+use jadx_codegen::{DexInfo, FieldInfo, MethodInfo};
+use jadx_dex::DexReader;
+use jadx_ir::ArgType;
 
 pub use args::*;
 
@@ -216,8 +219,6 @@ fn process_dex_bytes(
     args: &Args,
     progress: Option<&ProgressBar>,
 ) -> Result<usize> {
-    use jadx_dex::DexReader;
-
     let dex = DexReader::from_slice(0, "input.dex".to_string(), data)?;
 
     let class_count = dex.header.class_defs_size as usize;
@@ -226,6 +227,17 @@ fn process_dex_bytes(
         class_count,
         dex.header.method_ids_size,
         dex.header.string_ids_size
+    );
+
+    // Build DexInfo for name resolution during code generation
+    tracing::debug!("Building DEX info for name resolution...");
+    let dex_info = build_dex_info(&dex);
+    tracing::debug!(
+        "Loaded {} strings, {} types, {} fields, {} methods",
+        dex_info.strings.len(),
+        dex_info.types.len(),
+        dex_info.fields.len(),
+        dex_info.methods.len()
     );
 
     if let Some(pb) = progress {
@@ -280,7 +292,7 @@ fn process_dex_bytes(
         let java_code = match converter::convert_class(&dex, &class) {
             Ok(ir_class) => {
                 let config = jadx_codegen::ClassGenConfig::default();
-                jadx_codegen::generate_class(&ir_class, &config)
+                jadx_codegen::generate_class_with_dex(&ir_class, &config, Some(&dex_info))
             }
             Err(e) => {
                 tracing::warn!("Failed to convert class {}: {}", class_name, e);
@@ -416,4 +428,81 @@ fn generate_class_stub(class: &jadx_dex::sections::ClassDef<'_>, class_name: &st
     out.push_str("}\n");
 
     Ok(out)
+}
+
+/// Build DexInfo from DexReader for name resolution during code generation
+fn build_dex_info(dex: &DexReader) -> DexInfo {
+    let mut info = DexInfo::new();
+
+    // Load all strings
+    for idx in 0..dex.header.string_ids_size {
+        if let Ok(s) = dex.get_string(idx) {
+            info.add_string(idx, s.to_string());
+        }
+    }
+
+    // Load all type descriptors
+    for idx in 0..dex.header.type_ids_size {
+        if let Ok(t) = dex.get_type(idx) {
+            info.add_type(idx, t.to_string());
+        }
+    }
+
+    // Load all field info
+    for idx in 0..dex.header.field_ids_size {
+        if let Ok(field) = dex.get_field(idx) {
+            if let (Ok(class_type), Ok(field_name), Ok(field_type_desc)) =
+                (field.class_type(), field.name(), field.field_type())
+            {
+                let class_name = descriptor_to_simple_name(class_type);
+                let field_type = parse_type_descriptor(field_type_desc);
+                info.add_field(idx, FieldInfo {
+                    class_name,
+                    field_name: field_name.to_string(),
+                    field_type,
+                });
+            }
+        }
+    }
+
+    // Load all method info
+    for idx in 0..dex.header.method_ids_size {
+        if let Ok(method) = dex.get_method(idx) {
+            if let (Ok(class_type), Ok(method_name), Ok(proto)) =
+                (method.class_type(), method.name(), method.proto())
+            {
+                let class_name = descriptor_to_simple_name(class_type);
+                let return_type = proto.return_type()
+                    .map(|d| parse_type_descriptor(d))
+                    .unwrap_or(ArgType::Void);
+                let param_types: Vec<ArgType> = proto.parameters()
+                    .map(|params| params.into_iter().map(|d| parse_type_descriptor(d)).collect())
+                    .unwrap_or_default();
+
+                info.add_method(idx, MethodInfo {
+                    class_name,
+                    method_name: method_name.to_string(),
+                    return_type,
+                    param_types,
+                });
+            }
+        }
+    }
+
+    info
+}
+
+/// Convert type descriptor to simple class name
+fn descriptor_to_simple_name(desc: &str) -> String {
+    if desc.starts_with('L') && desc.ends_with(';') {
+        let inner = &desc[1..desc.len()-1];
+        inner.rsplit('/').next().unwrap_or(inner).to_string()
+    } else {
+        desc.to_string()
+    }
+}
+
+/// Parse type descriptor to ArgType
+fn parse_type_descriptor(desc: &str) -> ArgType {
+    ArgType::from_descriptor(desc).unwrap_or(ArgType::Unknown)
 }

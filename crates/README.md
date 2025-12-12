@@ -4,17 +4,25 @@ A high-performance Android DEX/APK decompiler written in Rust.
 
 This is a Rust port of [JADX](https://github.com/skylot/jadx), aiming for identical output with significantly improved performance through Rust's zero-cost abstractions, memory safety, and parallel processing capabilities.
 
+## Current Work
+
+- **Linda (Claude Opus 4.5)**: ✅ Condition expression extraction - DONE
+  - Modified `region_builder.rs` to extract `IfCondition` from blocks
+  - Added `generate_condition()` in `body_gen.rs` to convert `Condition` to expression strings
+  - Supports simple conditions, AND/OR/NOT compound conditions, and ternary
+  - If/while/for now generate actual conditions like `v0 == 0` instead of `/* condition */`
+
 ## Project Status
 
-**Work in Progress** - DEX parsing complete, IR and passes in progress, code generation planned.
+**Active Development** - ~15,000 lines of Rust, 133 tests passing. Core pipeline functional.
 
-| Component | Status | Description |
-|-----------|--------|-------------|
-| jadx-dex | ✅ Complete | DEX parsing, instruction decoding (256 opcodes), code items |
-| jadx-ir | ✅ Phase 1 | IR types, instruction builder, class/method/field data |
-| jadx-passes | 🔨 Phase 1 | Block splitting pass, visitor traits |
-| jadx-codegen | 🔨 Partial | CodeWriter trait, SimpleCodeWriter |
-| jadx-cli | 🔨 Phase 1 | Full CLI args, APK/DEX processing, stub output |
+| Component | Lines | Status | Description |
+|-----------|------:|--------|-------------|
+| jadx-dex | 2,999 | ✅ Complete | DEX parsing, instruction decoding (256 opcodes), code items |
+| jadx-ir | 2,121 | ✅ Complete | IR types, instruction builder, regions, class/method/field data |
+| jadx-passes | 5,457 | 🔨 60% | Block splitting, CFG, dominators, SSA, type inference, regions |
+| jadx-codegen | 3,032 | 🔨 50% | Class/method gen, expression/statement gen, body generation |
+| jadx-cli | 1,236 | ✅ Complete | Full CLI args, APK/DEX processing, converter, decompiler pipeline |
 
 ## Features
 
@@ -28,19 +36,26 @@ This is a Rust port of [JADX](https://github.com/skylot/jadx), aiming for identi
 - IR instruction types (all Dalvik operations mapped)
 - DEX to IR instruction builder
 - Basic block splitting pass
+- Control flow graph (CFG) construction
+- Dominator tree computation (Cooper-Harvey-Kennedy algorithm)
+- SSA transformation with phi node placement
+- Type inference with constraint solving
+- Region reconstruction (if/else, loops, switch, try-catch)
 - Class/method/field data structures
-- Try-catch block handling
+- Java source generation (class signatures, method bodies, expressions)
 - Full CLI matching Java JADX options (50+ flags)
 - APK extraction and multi-DEX support
 - Framework class filtering (jadx-fast optimization)
 - Progress bar and logging
-- Stub Java output generation
+- Complete decompilation pipeline (DEX → IR → passes → Java)
+
+### In Progress
+- Expression simplification
+- Copy propagation
+- Dead code elimination
+- Variable naming and renaming
 
 ### Planned
-- SSA transformation
-- Type inference
-- Region reconstruction (CFG → if/loop/switch)
-- Full Java source code generation
 - Parallel class processing
 - Deobfuscation support
 - Resource decoding
@@ -59,7 +74,7 @@ cargo build --release
 cargo test --workspace
 ```
 
-Current test coverage: **40 tests** across all crates.
+Current test coverage: **133 tests** across all crates.
 
 ## Usage
 
@@ -81,7 +96,7 @@ jadx-rust --single-class MainActivity -d output/ app.apk
 
 ```
 crates/
-├── jadx-dex/           # DEX binary format parsing
+├── jadx-dex/           # DEX binary format parsing (2,999 lines)
 │   ├── header.rs       # DEX header (112 bytes)
 │   ├── reader.rs       # Memory-mapped file reader
 │   ├── sections/       # Class, field, method, proto, code item parsing
@@ -96,25 +111,40 @@ crates/
 │   │   └── decoder.rs  # Instruction iterator
 │   └── utils/          # LEB128, MUTF-8 utilities
 │
-├── jadx-ir/            # Intermediate representation
+├── jadx-ir/            # Intermediate representation (2,121 lines)
 │   ├── types.rs        # ArgType (primitives, objects, arrays)
 │   ├── instructions.rs # IR instruction types (InsnNode, InsnType)
 │   ├── builder.rs      # DEX -> IR conversion
 │   ├── info.rs         # MethodData, ClassData, FieldData
 │   ├── nodes.rs        # ClassNode, MethodNode, BlockNode
-│   ├── regions.rs      # Control flow regions
+│   ├── regions.rs      # Control flow regions (if/loop/switch/try)
 │   └── attributes.rs   # Attribute storage
 │
-├── jadx-passes/        # Decompilation passes
+├── jadx-passes/        # Decompilation passes (5,457 lines)
 │   ├── block_split.rs  # Basic block splitting
-│   └── visitor.rs      # Visitor trait definitions
+│   ├── cfg.rs          # Control flow graph + dominators
+│   ├── ssa.rs          # SSA transformation + phi nodes
+│   ├── type_inference.rs   # Type inference with constraints
+│   ├── region_builder.rs   # CFG → structured regions
+│   ├── conditionals.rs     # Condition analysis (&&, ||)
+│   ├── loops.rs            # Loop detection and classification
+│   └── algorithms/     # Graph algorithms
+│       └── dominance.rs    # Cooper-Harvey-Kennedy dominance
 │
-├── jadx-codegen/       # Java source generation
-│   └── writer.rs       # CodeWriter trait
+├── jadx-codegen/       # Java source generation (3,032 lines)
+│   ├── writer.rs       # CodeWriter trait
+│   ├── class_gen.rs    # Class declaration generation
+│   ├── method_gen.rs   # Method signature generation
+│   ├── body_gen.rs     # Method body from regions
+│   ├── expr_gen.rs     # Expression generation
+│   ├── stmt_gen.rs     # Statement generation
+│   ├── type_gen.rs     # Type formatting
+│   └── access_flags.rs # Modifier strings
 │
-└── jadx-cli/           # CLI application
+└── jadx-cli/           # CLI application (1,236 lines)
     ├── main.rs         # Entry point, APK/DEX processing
     ├── args.rs         # CLI arguments (50+ options)
+    ├── converter.rs    # DEX → IR conversion
     └── decompiler.rs   # Pipeline orchestration
 ```
 
@@ -133,11 +163,12 @@ Build IR → InsnNode, MethodData, ClassData
     ↓ [jadx-passes]
 Transform:
   1. Block splitting (instructions → basic blocks) ✅
-  2. SSA transformation
-  3. Type inference
-  4. Region reconstruction (CFG → if/loop/switch)
-    ↓ [jadx-codegen]
-Generate → Java source code
+  2. CFG construction + dominators ✅
+  3. SSA transformation + phi nodes ✅
+  4. Type inference + constraints ✅
+  5. Region reconstruction (CFG → if/loop/switch) ✅
+    ↓ [jadx-codegen] ✅
+Generate → Java source code (class/method/body/expr)
 ```
 
 ## Performance Goals

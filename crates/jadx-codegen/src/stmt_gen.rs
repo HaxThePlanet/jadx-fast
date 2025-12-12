@@ -319,6 +319,28 @@ impl<'a> StmtGen<'a> {
             InsnType::Phi { .. } => false,
 
             InsnType::Nop => true, // No-op, nothing to generate
+
+            // Break/Continue - generate the statement
+            InsnType::Break { label } => {
+                code.start_line();
+                if let Some(lbl) = label {
+                    code.add("break ").add(lbl).add(";");
+                } else {
+                    code.add("break;");
+                }
+                code.newline();
+                true
+            }
+            InsnType::Continue { label } => {
+                code.start_line();
+                if let Some(lbl) = label {
+                    code.add("continue ").add(lbl).add(";");
+                } else {
+                    code.add("continue;");
+                }
+                code.newline();
+                true
+            }
         }
     }
 }

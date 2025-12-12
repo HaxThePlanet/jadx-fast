@@ -5,7 +5,8 @@
 use jadx_ir::{ArgType, ClassData, MethodData};
 
 use crate::access_flags::{self, flags::*, AccessContext};
-use crate::body_gen::generate_body;
+use crate::body_gen::{generate_body, generate_body_with_dex};
+use crate::dex_info::DexInfo;
 use crate::type_gen::{get_simple_name, type_to_string};
 use crate::writer::CodeWriter;
 
@@ -13,7 +14,18 @@ use crate::writer::CodeWriter;
 pub fn generate_method<W: CodeWriter>(
     method: &MethodData,
     class: &ClassData,
+    fallback: bool,
+    code: &mut W,
+) {
+    generate_method_with_dex(method, class, fallback, None, code)
+}
+
+/// Generate a method into a writer with DEX info for name resolution
+pub fn generate_method_with_dex<W: CodeWriter>(
+    method: &MethodData,
+    class: &ClassData,
     _fallback: bool,
+    dex_info: Option<&DexInfo>,
     code: &mut W,
 ) {
     code.start_line();
@@ -52,14 +64,14 @@ pub fn generate_method<W: CodeWriter>(
         // Static initializer block
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body(method, code);
+        add_method_body_with_dex(method, dex_info, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
         // Regular method with body
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body(method, code);
+        add_method_body_with_dex(method, dex_info, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     }
@@ -140,8 +152,17 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
 
 /// Add method body using region-based code generation
 fn add_method_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
-    // Use the new body generator that handles control flow
-    generate_body(method, code);
+    add_method_body_with_dex(method, None, code)
+}
+
+/// Add method body with DEX info for name resolution
+fn add_method_body_with_dex<W: CodeWriter>(
+    method: &MethodData,
+    dex_info: Option<&DexInfo>,
+    code: &mut W,
+) {
+    // Use the body generator with DEX info for proper name resolution
+    generate_body_with_dex(method, dex_info, code);
 }
 
 

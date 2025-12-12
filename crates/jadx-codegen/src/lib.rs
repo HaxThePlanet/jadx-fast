@@ -11,11 +11,13 @@
 //! - `stmt_gen` - Generates Java statements from IR instructions
 //! - `type_gen` - Converts IR types to Java type strings
 //! - `access_flags` - Converts access flags to Java modifier strings
+//! - `dex_info` - DEX data for name resolution
 //! - `writer` - Code writer abstraction
 
 pub mod access_flags;
 pub mod body_gen;
 pub mod class_gen;
+pub mod dex_info;
 pub mod expr_gen;
 pub mod method_gen;
 pub mod stmt_gen;
@@ -23,8 +25,9 @@ pub mod type_gen;
 pub mod writer;
 
 // Re-exports for convenience
-pub use body_gen::{generate_body, BodyGenContext};
-pub use class_gen::{generate_class, ClassGenConfig};
+pub use body_gen::{generate_body, generate_body_with_dex, BodyGenContext};
+pub use class_gen::{generate_class, generate_class_with_dex, ClassGenConfig};
+pub use dex_info::DexInfo;
 pub use expr_gen::{ExprGen, FieldInfo, MethodInfo};
 pub use stmt_gen::StmtGen;
 pub use type_gen::{type_to_string, escape_string};

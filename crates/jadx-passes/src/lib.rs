@@ -10,6 +10,7 @@ pub mod loops;
 pub mod region_builder;
 pub mod ssa;
 pub mod type_inference;
+pub mod var_naming;
 pub mod visitor;
 
 // Re-exports
@@ -30,6 +31,7 @@ pub use type_inference::{
     infer_types, infer_types_with_context, Constraint, InferredType, TypeInference,
     TypeInferenceResult, TypeVar,
 };
+pub use var_naming::{assign_var_names, VarNaming, VarNamingResult};
 
 /// Pass trait for decompilation passes
 pub trait Pass: Send + Sync {

@@ -87,6 +87,21 @@ impl ExprGen {
         self.method_info.insert(idx, info);
     }
 
+    /// Get field info by index
+    pub fn get_field_info(&self, idx: u32) -> Option<&FieldInfo> {
+        self.field_info.get(&idx)
+    }
+
+    /// Get field name (just the name, not qualified)
+    pub fn get_field_name(&self, idx: u32) -> Option<String> {
+        self.field_info.get(&idx).map(|f| f.field_name.clone())
+    }
+
+    /// Get static field reference (Class.fieldName)
+    pub fn get_static_field_ref(&self, idx: u32) -> Option<String> {
+        self.field_info.get(&idx).map(|f| format!("{}.{}", f.class_name, f.field_name))
+    }
+
     /// Get variable name (or generate default)
     pub fn get_var_name(&self, reg: &RegisterArg) -> String {
         self.var_names
@@ -233,10 +248,25 @@ impl ExprGen {
                         }
                         InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
                             let receiver = args.first().map(|a| self.gen_arg(a)).unwrap_or_default();
-                            Some(format!("{}.{}({})", receiver, info.method_name, args_str.join(", ")))
+                            // Handle constructor calls: this.<init>() -> super()
+                            if info.method_name == "<init>" {
+                                if receiver == "this" {
+                                    // Constructor calling super constructor
+                                    Some(format!("super({})", args_str.join(", ")))
+                                } else {
+                                    // new SomeClass() - this is typically handled by NewInstance
+                                    Some(format!("new {}({})", info.class_name, args_str.join(", ")))
+                                }
+                            } else {
+                                Some(format!("{}.{}({})", receiver, info.method_name, args_str.join(", ")))
+                            }
                         }
                         InvokeKind::Super => {
-                            Some(format!("super.{}({})", info.method_name, args_str.join(", ")))
+                            if info.method_name == "<init>" {
+                                Some(format!("super({})", args_str.join(", ")))
+                            } else {
+                                Some(format!("super.{}({})", info.method_name, args_str.join(", ")))
+                            }
                         }
                         _ => Some(format!("method#{}({})", method_idx, args_str.join(", ")))
                     }

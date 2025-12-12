@@ -5,7 +5,8 @@
 use jadx_ir::{ClassData, FieldData, FieldValue};
 
 use crate::access_flags::{self, AccessContext};
-use crate::method_gen::generate_method;
+use crate::dex_info::DexInfo;
+use crate::method_gen::{generate_method, generate_method_with_dex};
 use crate::type_gen::{escape_string, get_package, get_simple_name, literal_to_string, type_to_string};
 use crate::writer::{CodeWriter, SimpleCodeWriter};
 
@@ -37,8 +38,31 @@ pub fn generate_class(class: &ClassData, config: &ClassGenConfig) -> String {
     writer.finish()
 }
 
+/// Generate Java source code for a class with DEX info for name resolution
+///
+/// When `dex_info` is provided, type/field/method indices are resolved to actual names.
+pub fn generate_class_with_dex(
+    class: &ClassData,
+    config: &ClassGenConfig,
+    dex_info: Option<&DexInfo>,
+) -> String {
+    let mut writer = SimpleCodeWriter::new();
+    generate_class_to_writer_with_dex(class, config, dex_info, &mut writer);
+    writer.finish()
+}
+
 /// Generate Java source code for a class into a writer
 pub fn generate_class_to_writer<W: CodeWriter>(class: &ClassData, config: &ClassGenConfig, code: &mut W) {
+    generate_class_to_writer_with_dex(class, config, None, code)
+}
+
+/// Generate Java source code for a class into a writer with DEX info
+pub fn generate_class_to_writer_with_dex<W: CodeWriter>(
+    class: &ClassData,
+    config: &ClassGenConfig,
+    dex_info: Option<&DexInfo>,
+    code: &mut W,
+) {
     // Package declaration
     if let Some(pkg) = get_package(&class.class_type) {
         code.add("package ").add(&pkg).add(";").newline().newline();
@@ -57,8 +81,8 @@ pub fn generate_class_to_writer<W: CodeWriter>(class: &ClassData, config: &Class
     // Fields
     add_fields(class, code);
 
-    // Methods
-    add_methods(class, config, code);
+    // Methods (pass DEX info for name resolution in method bodies)
+    add_methods_with_dex(class, config, dex_info, code);
 
     code.dec_indent();
     code.start_line().add("}").newline();
@@ -182,9 +206,19 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, _field_type: &jadx_ir::Arg
 
 /// Add method declarations
 fn add_methods<W: CodeWriter>(class: &ClassData, config: &ClassGenConfig, code: &mut W) {
+    add_methods_with_dex(class, config, None, code)
+}
+
+/// Add method declarations with DEX info for name resolution
+fn add_methods_with_dex<W: CodeWriter>(
+    class: &ClassData,
+    config: &ClassGenConfig,
+    dex_info: Option<&DexInfo>,
+    code: &mut W,
+) {
     for method in &class.methods {
         code.newline();
-        generate_method(method, class, config.fallback, code);
+        generate_method_with_dex(method, class, config.fallback, dex_info, code);
     }
 }
 

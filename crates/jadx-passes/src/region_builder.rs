@@ -116,13 +116,29 @@ pub fn detect_loop_edge_insns(cfg: &CFG, loop_info: &LoopInfo, all_loops: &[Loop
                 }
             }
 
-            // Check for continue: edge goes to header from non-back-edge position
+            // Check for continue: edge goes to header from non-latch position
             if succ == loop_info.header && loop_info.blocks.contains(&block) {
-                // Check if this is NOT the natural back edge (from loop latch)
-                let is_natural_back_edge = loop_info.back_edges.iter().any(|(src, _)| *src == block);
+                // The "latch" is typically the block with the back edge at the end of the loop.
+                // If there are multiple back edges, the latch is usually the one with the highest
+                // block number (last in the loop body).
+                let latch_block = loop_info
+                    .back_edges
+                    .iter()
+                    .map(|(src, _)| *src)
+                    .max()
+                    .unwrap_or(block);
 
-                if !is_natural_back_edge {
-                    // This is a continue - determine if we need a label
+                // An edge to the header is a "continue" if:
+                // 1. It's not from the latch block (the natural loop end)
+                // 2. OR it's from a conditional branch (not the fall-through)
+                let is_from_latch = block == latch_block;
+
+                // Check if this block has multiple successors (conditional)
+                let block_succs = cfg.successors(block);
+                let is_conditional = block_succs.len() > 1;
+
+                // If it's from a conditional in the middle of the loop, it's a continue
+                if is_conditional && !is_from_latch {
                     let label = get_continue_label(loop_info, all_loops, block);
                     continues.push(EdgeInsn {
                         from: block,
@@ -533,6 +549,9 @@ impl<'a> RegionBuilder<'a> {
         let loop_exit = loop_info.exit_targets.first().copied();
         self.stack.add_exit(loop_exit);
 
+        // Extract condition from the loop header
+        let condition = self.extract_condition(loop_info.header);
+
         // Build loop body
         let body = self.build_loop_body(loop_info);
 
@@ -540,11 +559,24 @@ impl<'a> RegionBuilder<'a> {
 
         let region = Region::Loop {
             kind: loop_info.kind,
-            condition: Some(Condition::Unknown),
+            condition: Some(condition),
             body: Box::new(body),
         };
 
         (region, loop_exit)
+    }
+
+    /// Extract condition from a block that ends with an If instruction
+    fn extract_condition(&self, block_id: u32) -> Condition {
+        if let Some(block) = self.cfg.get_block(block_id) {
+            // Find the If instruction (usually the last one)
+            for insn in block.instructions.iter().rev() {
+                if let InsnType::If { condition, .. } = &insn.insn_type {
+                    return Condition::simple(block_id, condition.clone());
+                }
+            }
+        }
+        Condition::Unknown
     }
 
     /// Build loop body region
@@ -628,6 +660,9 @@ impl<'a> RegionBuilder<'a> {
         // Add merge point as exit
         self.stack.add_exit(cond.merge_block);
 
+        // Extract condition from the block
+        let condition = self.extract_condition(cond.condition_block);
+
         // Build then region
         let then_region = if cond.then_blocks.is_empty() {
             Region::Sequence(vec![])
@@ -651,7 +686,7 @@ impl<'a> RegionBuilder<'a> {
         self.stack.pop();
 
         let region = Region::If {
-            condition: Condition::Unknown,
+            condition,
             then_region: Box::new(then_region),
             else_region,
         };
