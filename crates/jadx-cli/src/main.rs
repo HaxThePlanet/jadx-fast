@@ -1,6 +1,6 @@
-//! jadx-rust command-line interface
+//! Dexterity - A high-performance Android DEX/APK decompiler
 //!
-//! A high-performance Android DEX/APK decompiler written in Rust.
+//! Written in Rust for speed and safety.
 //! Full CLI matching Java JADX's command-line options.
 //!
 //! ## Processing Pipeline
@@ -60,7 +60,7 @@ fn main() -> Result<()> {
 
     // Handle --version
     if args.version {
-        println!("jadx-rust {}", env!("CARGO_PKG_VERSION"));
+        println!("dexterity {}", env!("CARGO_PKG_VERSION"));
         return Ok(());
     }
 
@@ -72,7 +72,7 @@ fn main() -> Result<()> {
 
     let start = Instant::now();
 
-    tracing::info!("jadx-rust v{}", env!("CARGO_PKG_VERSION"));
+    tracing::info!("dexterity v{}", env!("CARGO_PKG_VERSION"));
     tracing::info!(
         "Processing {} input file(s) with {} thread(s)",
         args.input.len(),
@@ -480,7 +480,7 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
             tracing::warn!("");
             tracing::warn!("Alternatively, convert the JAR to DEX manually:");
             tracing::warn!("  d8 --output output.zip {}", input.display());
-            tracing::warn!("  jadx-rust -d output/ output.zip");
+            tracing::warn!("  dexterity -d output/ output.zip");
         }
     }
 
@@ -586,7 +586,7 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     // Process JAR files (typically classes.jar)
     if !args.skip_sources && !jar_files.is_empty() && dex_files.is_empty() {
         // Write JARs to temp files and process them
-        let temp_dir = std::env::temp_dir().join("jadx-rust-aar");
+        let temp_dir = std::env::temp_dir().join("dexterity-aar");
         std::fs::create_dir_all(&temp_dir)?;
 
         for (name, data) in &jar_files {
@@ -645,7 +645,7 @@ fn convert_jar_to_dex(
 ) -> Result<()> {
     use std::process::Command;
 
-    let temp_dir = std::env::temp_dir().join("jadx-rust-convert");
+    let temp_dir = std::env::temp_dir().join("dexterity-convert");
     std::fs::create_dir_all(&temp_dir)?;
 
     let output_zip = temp_dir.join("classes.zip");

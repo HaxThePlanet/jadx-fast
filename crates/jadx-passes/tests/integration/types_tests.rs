@@ -1404,3 +1404,52 @@ return array[offset] * 128 + (array[offset + 1] & 0xFF);
 
     // TODO: Add assertions
 }
+
+#[test]
+fn generics_basic_test() {
+    let helper = IntegrationTestHelper::new("generics_basic_test");
+    // Tests basic generic type preservation
+    let source = r#"
+public class TestCls<T> {
+    public T data;
+
+    public TestCls<T> data(T t) {
+        this.data = t;
+        return this;
+    }
+}
+"#;
+
+    let result = helper.test_decompilation(source)
+        .expect("Decompilation failed");
+
+    result
+        .contains("<T>")
+        .contains("TestCls<T> data(T t)");
+}
+
+#[test]
+fn primitive_conversion_test() {
+    let helper = IntegrationTestHelper::new("primitive_conversion_test");
+    // Tests type inference for primitive widening and narrowing
+    let source = r#"
+public class TestCls {
+    public void test(byte b) {
+        int i = b;  // Widening conversion
+        System.out.println(i);
+    }
+
+    public void test2(int i) {
+        byte b = (byte) i;  // Narrowing conversion (explicit cast)
+        System.out.println(b);
+    }
+}
+"#;
+
+    let result = helper.test_decompilation(source)
+        .expect("Decompilation failed");
+
+    result
+        .contains("int i = b;")
+        .contains("byte b = (byte)");
+}

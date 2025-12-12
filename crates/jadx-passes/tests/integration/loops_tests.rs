@@ -492,10 +492,21 @@ return;
 #[test]
 fn endless_loop2_test() {
     let helper = IntegrationTestHelper::new("endless_loop2_test");
-    // TODO: Extract test source
+    // Tests detection of empty endless loops (issue #1611 in Java JADX)
+    // Source adapted from jadx-core/src/test/smali/loops/TestEndlessLoop2.smali
     let source = r#"
 public class TestCls {
-    // Add test code here
+    public void test1() {
+        while (true) {
+            // Empty infinite loop
+        }
+    }
+
+    public void test2() {
+        while (true) {
+            // Another empty infinite loop
+        }
+    }
 }
 "#;
 
@@ -713,33 +724,72 @@ return "";
 #[test]
 fn iterable_for_each3_test() {
     let helper = IntegrationTestHelper::new("iterable_for_each3_test");
-    // TODO: Extract test source
+    // Tests generic for-each loop with set modification
+    // Source from jadx-core/src/test/java/jadx/tests/integration/loops/TestIterableForEach3.java
     let source = r#"
-public class TestCls {
-    // Add test code here
+import java.util.Set;
+
+public class TestCls<T extends String> {
+    private Set<T> a;
+    private Set<T> b;
+
+    public void test(T str) {
+        Set<T> set = str.length() == 1 ? a : b;
+        for (T s : set) {
+            if (s.length() == str.length()) {
+                if (str.length() == 0) {
+                    set.remove(s);
+                } else {
+                    set.add(str);
+                }
+                return;
+            }
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("for (")
+        .contains(" : ")
+        .contains("if (str.length() == 0) {");
 }
 
 #[test]
 fn iterable_for_each3_test_no_debug() {
     let helper = IntegrationTestHelper::new("iterable_for_each3_test_no_debug");
-    // TODO: Extract test source
+    // Same as iterable_for_each3_test but with noDebugInfo()
     let source = r#"
-public class TestCls {
-    // Add test code here
+import java.util.Set;
+
+public class TestCls<T extends String> {
+    private Set<T> a;
+    private Set<T> b;
+
+    public void test(T str) {
+        Set<T> set = str.length() == 1 ? a : b;
+        for (T s : set) {
+            if (s.length() == str.length()) {
+                if (str.length() == 0) {
+                    set.remove(s);
+                } else {
+                    set.add(str);
+                }
+                return;
+            }
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("for (");
 }
 
 #[test]
