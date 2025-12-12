@@ -625,6 +625,197 @@ fn rename_def(insn_type: &mut InsnType, version: u32) {
     }
 }
 
+/// Transform to SSA form, taking ownership of blocks to avoid cloning instructions
+/// This is the memory-efficient version that moves instructions instead of cloning
+pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
+    if blocks.blocks.is_empty() {
+        return SsaResult {
+            blocks: Vec::new(),
+            dominators: HashMap::new(),
+            dom_frontiers: HashMap::new(),
+            max_versions: HashMap::new(),
+        };
+    }
+
+    // Step 1: Compute dominators (needs blocks reference, but we still own them)
+    let dom_tree = DominatorTree::compute(&blocks);
+
+    // Step 2: Compute dominance frontiers
+    let dom_frontiers = dom_tree.compute_frontiers(&blocks);
+
+    // Step 3: Find all variable definitions per block
+    let mut defs_per_block: HashMap<u32, HashSet<u16>> = HashMap::new();
+    let mut all_vars: HashSet<u16> = HashSet::new();
+
+    for (&block_id, block) in &blocks.blocks {
+        let defs = find_defs(block);
+        all_vars.extend(&defs);
+        defs_per_block.insert(block_id, defs);
+    }
+
+    // Step 4: Place phi nodes
+    let mut phi_placements: HashMap<u32, HashSet<u16>> = HashMap::new();
+
+    for &var in &all_vars {
+        let def_blocks: Vec<u32> = defs_per_block
+            .iter()
+            .filter(|(_, defs)| defs.contains(&var))
+            .map(|(&id, _)| id)
+            .collect();
+
+        let mut worklist: VecDeque<u32> = def_blocks.iter().copied().collect();
+        let mut processed: HashSet<u32> = HashSet::new();
+
+        while let Some(block_id) = worklist.pop_front() {
+            if let Some(frontier) = dom_frontiers.get(&block_id) {
+                for &df_block in frontier {
+                    phi_placements.entry(df_block).or_default().insert(var);
+                    if !processed.contains(&df_block) {
+                        processed.insert(df_block);
+                        worklist.push_back(df_block);
+                    }
+                }
+            }
+        }
+    }
+
+    // Step 5: Rename variables
+    let mut version_counter: HashMap<u16, u32> = HashMap::new();
+    let mut version_stack: HashMap<u16, Vec<u32>> = HashMap::new();
+
+    for &var in &all_vars {
+        version_counter.insert(var, 0);
+        version_stack.insert(var, vec![0]);
+    }
+
+    // Create SSA blocks by MOVING data from original blocks (no clone!)
+    let mut ssa_blocks: HashMap<u32, SsaBlock> = HashMap::new();
+    let entry_block = blocks.entry_block;
+
+    // Take blocks out of the BlockSplitResult to avoid borrowing issues
+    let original_blocks = std::mem::take(&mut blocks.blocks);
+
+    for (block_id, block) in original_blocks {
+        let phi_vars = phi_placements.get(&block_id).cloned().unwrap_or_default();
+
+        let phi_nodes: Vec<PhiNode> = phi_vars
+            .iter()
+            .map(|&var| {
+                let version = *version_counter.get(&var).unwrap_or(&0);
+                PhiNode {
+                    dest: RegisterArg::with_ssa(var, version),
+                    sources: Vec::new(),
+                }
+            })
+            .collect();
+
+        // MOVE instructions and successors/predecessors instead of cloning
+        ssa_blocks.insert(block_id, SsaBlock {
+            id: block_id,
+            phi_nodes,
+            instructions: block.instructions, // Move, not clone!
+            successors: block.successors,     // Move, not clone!
+            predecessors: block.predecessors, // Move, not clone!
+        });
+    }
+
+    // Create a temporary structure for rename_block that provides successor info
+    // We need this because rename_block needs to look up successors
+    let successor_map: HashMap<u32, Vec<u32>> = ssa_blocks
+        .iter()
+        .map(|(&id, b)| (id, b.successors.clone()))
+        .collect();
+
+    // Rename in dominator tree order
+    fn rename_block_owned(
+        block_id: u32,
+        ssa_blocks: &mut HashMap<u32, SsaBlock>,
+        dom_tree: &DominatorTree,
+        version_counter: &mut HashMap<u16, u32>,
+        version_stack: &mut HashMap<u16, Vec<u32>>,
+        successor_map: &HashMap<u32, Vec<u32>>,
+    ) {
+        let block = match ssa_blocks.get_mut(&block_id) {
+            Some(b) => b,
+            None => return,
+        };
+
+        let mut pushed_vars: Vec<u16> = Vec::new();
+
+        // Rename phi node destinations
+        for phi in &mut block.phi_nodes {
+            let var = phi.dest.reg_num;
+            let version = version_counter.entry(var).or_insert(0);
+            *version += 1;
+            phi.dest.ssa_version = *version;
+            version_stack.entry(var).or_default().push(*version);
+            pushed_vars.push(var);
+        }
+
+        // Rename uses and definitions in instructions
+        for insn in &mut block.instructions {
+            rename_uses(&mut insn.insn_type, version_stack);
+            if let Some(var) = get_def_register(&insn.insn_type) {
+                let version = version_counter.entry(var).or_insert(0);
+                *version += 1;
+                rename_def(&mut insn.insn_type, *version);
+                version_stack.entry(var).or_default().push(*version);
+                pushed_vars.push(var);
+            }
+        }
+
+        // Fill phi sources in successors
+        let successors = successor_map.get(&block_id).cloned().unwrap_or_default();
+        for succ_id in successors {
+            if let Some(succ) = ssa_blocks.get_mut(&succ_id) {
+                for phi in &mut succ.phi_nodes {
+                    let var = phi.dest.reg_num;
+                    let version = version_stack
+                        .get(&var)
+                        .and_then(|stack| stack.last())
+                        .copied()
+                        .unwrap_or(0);
+                    phi.sources.push((block_id, RegisterArg::with_ssa(var, version)));
+                }
+            }
+        }
+
+        // Recursively rename dominated blocks
+        if let Some(children) = dom_tree.children.get(&block_id) {
+            for &child in children {
+                rename_block_owned(child, ssa_blocks, dom_tree, version_counter, version_stack, successor_map);
+            }
+        }
+
+        // Pop versions pushed in this block
+        for var in pushed_vars {
+            if let Some(stack) = version_stack.get_mut(&var) {
+                stack.pop();
+            }
+        }
+    }
+
+    rename_block_owned(
+        entry_block,
+        &mut ssa_blocks,
+        &dom_tree,
+        &mut version_counter,
+        &mut version_stack,
+        &successor_map,
+    );
+
+    // Convert to ordered vector
+    let mut result_blocks: Vec<SsaBlock> = ssa_blocks.into_values().collect();
+    result_blocks.sort_by_key(|b| b.id);
+
+    SsaResult {
+        blocks: result_blocks,
+        dominators: dom_tree.idom,
+        dom_frontiers,
+        max_versions: version_counter,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

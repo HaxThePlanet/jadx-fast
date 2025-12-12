@@ -157,8 +157,11 @@ fn process_input(input: &PathBuf, args: &Args) -> Result<()> {
         "dex" => {
             process_dex(input, &out_dir_src, args)?;
         }
-        "jar" | "aar" | "zip" => {
-            tracing::warn!("JAR/AAR processing not yet implemented");
+        "jar" | "zip" => {
+            process_jar(input, &out_dir_src, args)?;
+        }
+        "aar" => {
+            process_aar(input, &out_dir_src, &out_dir_res, args)?;
         }
         "class" => {
             tracing::warn!("Class file processing not yet implemented");
@@ -377,6 +380,287 @@ fn process_dex(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     Ok(())
 }
 
+/// Process a JAR file
+///
+/// JAR files may contain:
+/// - DEX files (rare, but some Android builds include them)
+/// - .class files (standard Java bytecode - requires conversion)
+///
+/// For .class files, we attempt to use D8/dx for conversion to DEX.
+fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
+    tracing::info!("Processing JAR: {}", input.display());
+
+    let file = std::fs::File::open(input)?;
+    let mut archive = zip::ZipArchive::new(file)?;
+
+    let mut dex_files: Vec<(String, Vec<u8>)> = Vec::new();
+    let mut class_files: Vec<String> = Vec::new();
+
+    // Scan JAR contents
+    for i in 0..archive.len() {
+        let mut entry = archive.by_index(i)?;
+        let name = entry.name().to_string();
+
+        if name.ends_with('/') {
+            continue;
+        }
+
+        if name.ends_with(".dex") {
+            // Found DEX file - extract it
+            let mut data = Vec::new();
+            entry.read_to_end(&mut data)?;
+            dex_files.push((name, data));
+        } else if name.ends_with(".class") && !name.contains("module-info") {
+            // Track .class files
+            class_files.push(name);
+        }
+    }
+
+    tracing::info!(
+        "JAR contains {} DEX file(s), {} class file(s)",
+        dex_files.len(),
+        class_files.len()
+    );
+
+    // Process any DEX files found
+    if !dex_files.is_empty() {
+        let progress = create_progress_bar(args);
+        let mut total_classes = 0;
+
+        for (name, data) in &dex_files {
+            tracing::debug!("Processing DEX: {}", name);
+            match process_dex_bytes(data, out_src, args, progress.as_ref()) {
+                Ok(count) => total_classes += count,
+                Err(e) => tracing::warn!("Failed to process {}: {}", name, e),
+            }
+        }
+
+        if let Some(pb) = progress {
+            pb.finish_with_message("done");
+        }
+
+        tracing::info!("Processed {} classes from DEX files", total_classes);
+    }
+
+    // Handle .class files
+    if !class_files.is_empty() && dex_files.is_empty() {
+        // Try to find D8 or dx for conversion
+        if let Some(converter) = find_dex_converter() {
+            tracing::info!("Found DEX converter: {}", converter);
+            convert_jar_to_dex(input, out_src, &converter, args)?;
+        } else {
+            tracing::warn!(
+                "JAR contains {} .class files but no DEX converter found.",
+                class_files.len()
+            );
+            tracing::warn!("To decompile Java bytecode (.class files), install Android SDK Build Tools");
+            tracing::warn!("and ensure 'd8' or 'dx' is in your PATH.");
+            tracing::warn!("");
+            tracing::warn!("Alternatively, convert the JAR to DEX manually:");
+            tracing::warn!("  d8 --output output.zip {}", input.display());
+            tracing::warn!("  jadx-rust -d output/ output.zip");
+        }
+    }
+
+    Ok(())
+}
+
+/// Process an AAR (Android Archive) file
+///
+/// AAR files contain:
+/// - classes.jar (Java bytecode)
+/// - AndroidManifest.xml (text format, not binary AXML)
+/// - res/ (resources)
+/// - libs/ (additional JARs)
+/// - Optional DEX files
+fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Args) -> Result<()> {
+    tracing::info!("Processing AAR: {}", input.display());
+
+    let file = std::fs::File::open(input)?;
+    let mut archive = zip::ZipArchive::new(file)?;
+
+    let mut dex_files: Vec<(String, Vec<u8>)> = Vec::new();
+    let mut jar_files: Vec<(String, Vec<u8>)> = Vec::new();
+    let mut manifest_data: Option<Vec<u8>> = None;
+    let mut resource_files: Vec<(String, Vec<u8>)> = Vec::new();
+
+    // Extract AAR contents
+    for i in 0..archive.len() {
+        let mut entry = archive.by_index(i)?;
+        let name = entry.name().to_string();
+
+        if name.ends_with('/') {
+            continue;
+        }
+
+        if name.ends_with(".dex") {
+            let mut data = Vec::new();
+            entry.read_to_end(&mut data)?;
+            dex_files.push((name, data));
+        } else if name.ends_with(".jar") {
+            let mut data = Vec::new();
+            entry.read_to_end(&mut data)?;
+            jar_files.push((name, data));
+        } else if name == "AndroidManifest.xml" {
+            let mut data = Vec::new();
+            entry.read_to_end(&mut data)?;
+            manifest_data = Some(data);
+        } else if name.starts_with("res/") {
+            let mut data = Vec::new();
+            entry.read_to_end(&mut data)?;
+            resource_files.push((name, data));
+        }
+    }
+
+    tracing::info!(
+        "AAR contains {} DEX file(s), {} JAR file(s), {} resource file(s)",
+        dex_files.len(),
+        jar_files.len(),
+        resource_files.len()
+    );
+
+    // Extract resources
+    if !args.skip_resources {
+        // Write AndroidManifest.xml (it's plain text in AAR, not binary AXML)
+        if let Some(manifest) = manifest_data {
+            let out_path = out_res.join("AndroidManifest.xml");
+            std::fs::write(&out_path, &manifest)?;
+            tracing::info!("Wrote AndroidManifest.xml ({} bytes)", manifest.len());
+        }
+
+        // Write resource files
+        for (name, data) in &resource_files {
+            let out_path = out_res.join(name);
+            if let Some(parent) = out_path.parent() {
+                std::fs::create_dir_all(parent)?;
+            }
+            std::fs::write(&out_path, data)?;
+        }
+        if !resource_files.is_empty() {
+            tracing::info!("Extracted {} resource files", resource_files.len());
+        }
+    }
+
+    // Process DEX files directly
+    if !args.skip_sources && !dex_files.is_empty() {
+        let progress = create_progress_bar(args);
+        let mut total_classes = 0;
+
+        for (name, data) in &dex_files {
+            tracing::debug!("Processing DEX: {}", name);
+            match process_dex_bytes(data, out_src, args, progress.as_ref()) {
+                Ok(count) => total_classes += count,
+                Err(e) => tracing::warn!("Failed to process {}: {}", name, e),
+            }
+        }
+
+        if let Some(pb) = progress {
+            pb.finish_with_message("done");
+        }
+
+        tracing::info!("Processed {} classes from DEX files", total_classes);
+    }
+
+    // Process JAR files (typically classes.jar)
+    if !args.skip_sources && !jar_files.is_empty() && dex_files.is_empty() {
+        // Write JARs to temp files and process them
+        let temp_dir = std::env::temp_dir().join("jadx-rust-aar");
+        std::fs::create_dir_all(&temp_dir)?;
+
+        for (name, data) in &jar_files {
+            let jar_name = std::path::Path::new(name)
+                .file_name()
+                .unwrap_or_default()
+                .to_string_lossy();
+            let temp_jar = temp_dir.join(jar_name.as_ref());
+            std::fs::write(&temp_jar, data)?;
+
+            tracing::info!("Processing embedded JAR: {}", name);
+            if let Err(e) = process_jar(&temp_jar, out_src, args) {
+                tracing::warn!("Failed to process {}: {}", name, e);
+            }
+
+            // Clean up temp file
+            let _ = std::fs::remove_file(&temp_jar);
+        }
+
+        // Clean up temp dir
+        let _ = std::fs::remove_dir(&temp_dir);
+    }
+
+    Ok(())
+}
+
+/// Find a DEX converter (D8 or dx) in PATH
+fn find_dex_converter() -> Option<String> {
+    // Check for d8 first (modern, preferred)
+    if std::process::Command::new("d8")
+        .arg("--version")
+        .output()
+        .is_ok()
+    {
+        return Some("d8".to_string());
+    }
+
+    // Check for dx (legacy)
+    if std::process::Command::new("dx")
+        .arg("--version")
+        .output()
+        .is_ok()
+    {
+        return Some("dx".to_string());
+    }
+
+    None
+}
+
+/// Convert JAR to DEX using d8 or dx, then process the resulting DEX
+fn convert_jar_to_dex(
+    input: &PathBuf,
+    out_src: &PathBuf,
+    converter: &str,
+    args: &Args,
+) -> Result<()> {
+    use std::process::Command;
+
+    let temp_dir = std::env::temp_dir().join("jadx-rust-convert");
+    std::fs::create_dir_all(&temp_dir)?;
+
+    let output_zip = temp_dir.join("classes.zip");
+
+    tracing::info!("Converting JAR to DEX using {}...", converter);
+
+    let status = if converter == "d8" {
+        Command::new("d8")
+            .arg("--output")
+            .arg(&output_zip)
+            .arg(input)
+            .status()?
+    } else {
+        // dx --dex --output=classes.zip input.jar
+        Command::new("dx")
+            .arg("--dex")
+            .arg(format!("--output={}", output_zip.display()))
+            .arg(input)
+            .status()?
+    };
+
+    if !status.success() {
+        anyhow::bail!("DEX conversion failed with exit code: {:?}", status.code());
+    }
+
+    tracing::info!("Conversion successful, processing DEX...");
+
+    // Process the output ZIP (contains classes.dex)
+    process_jar(&output_zip, out_src, args)?;
+
+    // Clean up
+    let _ = std::fs::remove_file(&output_zip);
+    let _ = std::fs::remove_dir(&temp_dir);
+
+    Ok(())
+}
+
 fn process_dex_bytes(
     data: &[u8],
     out_src: &PathBuf,
@@ -440,88 +724,46 @@ fn process_dex_bytes(
     tracing::info!("Processing {} classes (after filtering)", count);
 
     // ========================================================================
-    // PHASE 1: Parallel IR conversion (DEX -> ClassData)
+    // STREAMING PROCESSING (like Java JADX)
+    // Process each class: convert -> generate -> write -> drop
+    // This keeps memory bounded by batch size, not total class count
     // ========================================================================
-    let phase1_start = Instant::now();
-    tracing::info!("Phase 1: Converting DEX to IR (parallel)...");
-
-    // Convert all classes to IR in parallel, wrapping in Arc for efficient sharing
-    let ir_classes: Vec<(String, Result<std::sync::Arc<ClassData>, String>)> = class_indices
-        .par_iter()
-        .map(|(idx, class_name)| {
-            // Use catch_unwind to handle panics in IR conversion gracefully
-            let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-                dex.get_class(*idx)
-                    .map_err(|e| format!("Failed to get class: {}", e))
-                    .and_then(|class| {
-                        converter::convert_class(&dex, &class)
-                            .map(std::sync::Arc::new) // Wrap in Arc for cheap sharing
-                            .map_err(|e| format!("Failed to convert: {}", e))
-                    })
-            }))
-            .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_name)));
-            (class_name.clone(), result)
-        })
-        .collect();
-
-    let phase1_elapsed = phase1_start.elapsed();
-    tracing::info!(
-        "Phase 1 complete: {} classes in {:.2}s",
-        ir_classes.len(),
-        phase1_elapsed.as_secs_f64()
-    );
-
-    // ========================================================================
-    // PHASE 2: Parallel code generation (ClassData + DexInfo are Send+Sync)
-    // ========================================================================
-    let phase2_start = Instant::now();
+    let start = Instant::now();
     let num_threads = rayon::current_num_threads();
-    tracing::info!(
-        "Phase 2: Generating Java code (parallel, {} threads)...",
-        num_threads
-    );
+    tracing::info!("Streaming processing with {} threads...", num_threads);
 
     // Wrap LazyDexInfo in Arc for sharing across threads
     let dex_info = std::sync::Arc::new(dex_info);
 
-    // Group inner classes with their outer classes
-    // Anonymous classes: Lcom/example/Outer$1; -> outer is Lcom/example/Outer;
-    // Named inner classes: Lcom/example/Outer$Inner; -> outer is Lcom/example/Outer;
-    // Using Arc<ClassData> avoids expensive deep cloning
-    let mut outer_classes: Vec<(String, Result<std::sync::Arc<ClassData>, String>)> = Vec::new();
-    let mut inner_class_map: HashMap<String, HashMap<String, std::sync::Arc<ClassData>>> = HashMap::new();
+    // First pass: identify inner/outer class relationships (metadata only, no IR)
+    let mut outer_indices: Vec<(u32, String)> = Vec::new();
+    let mut inner_to_outer: HashMap<String, String> = HashMap::new();
 
-    for (class_name, ir_result) in ir_classes {
+    for (idx, class_name) in &class_indices {
         if let Some(dollar_pos) = class_name.rfind('$') {
             // This is an inner class
             let outer_name = format!("{};", &class_name[..dollar_pos]);
-            if let Ok(inner_class) = ir_result {
-                inner_class_map
-                    .entry(outer_name)
-                    .or_default()
-                    .insert(class_name, inner_class);
-            }
-            // Don't add to outer_classes - it will be embedded in outer class
+            inner_to_outer.insert(class_name.clone(), outer_name);
         } else {
-            // This is an outer class (or standalone)
-            outer_classes.push((class_name, ir_result));
+            outer_indices.push((*idx, class_name.clone()));
         }
     }
 
-    let inner_count: usize = inner_class_map.values().map(|m| m.len()).sum();
-    tracing::info!(
-        "Grouped {} outer classes with {} inner classes",
-        outer_classes.len(),
-        inner_count
-    );
+    // Create index lookup for inner classes
+    let class_name_to_idx: HashMap<String, u32> = class_indices.iter()
+        .map(|(idx, name)| (name.clone(), *idx))
+        .collect();
 
-    // Update progress bar for actual file count (outer classes only)
+    let outer_count = outer_indices.len();
+    let inner_count = inner_to_outer.len();
+    tracing::info!("Found {} outer classes, {} inner classes", outer_count, inner_count);
+
     if let Some(pb) = progress {
-        pb.set_length(outer_classes.len() as u64);
+        pb.set_length(outer_count as u64);
     }
 
-    // Pre-create all necessary directories (sequential to avoid races)
-    for (class_name, _) in &outer_classes {
+    // Pre-create directories
+    for (_, class_name) in &outer_indices {
         let rel_path = class_name_to_path(class_name);
         let out_path = out_src.join(&rel_path);
         if let Some(parent) = out_path.parent() {
@@ -529,67 +771,87 @@ fn process_dex_bytes(
         }
     }
 
-    // Parallel code generation and file writing
-    let results: Vec<Result<(), String>> = outer_classes
-        .par_iter()
-        .map(|(class_name, ir_result)| {
-            let rel_path = class_name_to_path(class_name);
-            let out_path = out_src.join(&rel_path);
+    // Process classes in parallel with streaming - each thread processes one class at a time
+    // Memory is bounded by: num_threads * (one class with its inner classes)
+    let error_count = std::sync::atomic::AtomicUsize::new(0);
 
-            // Get inner classes for this outer class
-            let inner_classes = inner_class_map.get(class_name);
+    outer_indices.par_iter().for_each(|(idx, class_name)| {
+        let rel_path = class_name_to_path(class_name);
+        let out_path = out_src.join(&rel_path);
 
-            let java_code = match ir_result {
-                Ok(ir_class) => {
-                    let config = jadx_codegen::ClassGenConfig::default();
-                    // Clone the Arc for each parallel thread
-                    let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
-                    jadx_codegen::generate_class_with_inner_classes(
-                        ir_class,
-                        &config,
-                        Some(dex_arc),
-                        inner_classes,
-                    )
+        // Convert outer class to IR (loaded on-demand)
+        let ir_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            dex.get_class(*idx)
+                .map_err(|e| format!("Failed to get class: {}", e))
+                .and_then(|class| {
+                    converter::convert_class(&dex, &class)
+                        .map(std::sync::Arc::new)
+                        .map_err(|e| format!("Failed to convert: {}", e))
+                })
+        }))
+        .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_name)));
+
+        // Find and convert inner classes for this outer class
+        let mut inner_classes: HashMap<String, std::sync::Arc<ClassData>> = HashMap::new();
+        for (inner_name, outer_name) in &inner_to_outer {
+            if outer_name == class_name {
+                if let Some(&inner_idx) = class_name_to_idx.get(inner_name) {
+                    if let Ok(inner_class) = dex.get_class(inner_idx) {
+                        if let Ok(inner_data) = converter::convert_class(&dex, &inner_class) {
+                            inner_classes.insert(inner_name.clone(), std::sync::Arc::new(inner_data));
+                        }
+                    }
                 }
-                Err(e) => {
-                    // Generate stub for failed conversions
-                    format!(
-                        "// Failed to decompile: {}\nclass {} {{\n}}\n",
-                        e,
-                        class_name.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown")
-                    )
-                }
-            };
-
-            std::fs::write(&out_path, java_code)
-                .map_err(|e| format!("Failed to write {}: {}", out_path.display(), e))?;
-
-            if let Some(pb) = progress {
-                pb.inc(1);
             }
+        }
 
-            Ok(())
-        })
-        .collect();
+        // Generate code
+        let java_code = match ir_result {
+            Ok(ir_class) => {
+                let config = jadx_codegen::ClassGenConfig::default();
+                let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
+                let inner_ref = if inner_classes.is_empty() { None } else { Some(&inner_classes) };
+                jadx_codegen::generate_class_with_inner_classes(
+                    &ir_class,
+                    &config,
+                    Some(dex_arc),
+                    inner_ref,
+                )
+            }
+            Err(e) => {
+                error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                format!(
+                    "// Failed to decompile: {}\nclass {} {{\n}}\n",
+                    e,
+                    class_name.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown")
+                )
+            }
+        };
 
-    let phase2_elapsed = phase2_start.elapsed();
-    let errors: Vec<_> = results.iter().filter(|r| r.is_err()).collect();
+        // Write to file
+        if let Err(e) = std::fs::write(&out_path, java_code) {
+            tracing::warn!("Failed to write {}: {}", out_path.display(), e);
+            error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        }
+
+        // IR is dropped here automatically - memory freed
+
+        if let Some(pb) = progress {
+            pb.inc(1);
+        }
+    });
+
+    let elapsed = start.elapsed();
+    let errors = error_count.load(std::sync::atomic::Ordering::Relaxed);
     tracing::info!(
-        "Phase 2 complete: {} files in {:.2}s ({} errors, {} inner classes embedded)",
-        outer_classes.len(),
-        phase2_elapsed.as_secs_f64(),
-        errors.len(),
+        "Processed {} classes in {:.2}s ({} errors, {} inner classes embedded)",
+        outer_count,
+        elapsed.as_secs_f64(),
+        errors,
         inner_count
     );
 
-    tracing::info!(
-        "Total: {:.2}s (IR: {:.2}s, codegen: {:.2}s)",
-        phase1_elapsed.as_secs_f64() + phase2_elapsed.as_secs_f64(),
-        phase1_elapsed.as_secs_f64(),
-        phase2_elapsed.as_secs_f64()
-    );
-
-    Ok(outer_classes.len() + inner_count)
+    Ok(outer_count + inner_count)
 }
 
 fn create_progress_bar(args: &Args) -> Option<ProgressBar> {
@@ -609,7 +871,7 @@ fn create_progress_bar(args: &Args) -> Option<ProgressBar> {
 
 /// Skip framework and generated classes (jadx-fast optimization)
 fn should_skip_class(_class_name: &str) -> bool {
-    false // MEMORY DEBUG - disabled to test all classes
+    false // Disabled for testing all classes
 }
 
 #[allow(dead_code)]

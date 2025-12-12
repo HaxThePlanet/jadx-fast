@@ -456,6 +456,26 @@ impl CFG {
     pub fn strictly_dominates(&self, a: u32, b: u32) -> bool {
         a != b && self.dominates(a, b)
     }
+
+    /// Extract blocks from CFG, consuming self
+    /// This allows blocks to be reused after dominator computation without cloning
+    pub fn into_blocks(self) -> BlockSplitResult {
+        BlockSplitResult {
+            blocks: self.blocks,
+            entry_block: self.entry,
+            exit_blocks: self.exits,
+        }
+    }
+
+    /// Take blocks out of CFG, replacing with empty map
+    /// Use this to pass blocks to SSA after CFG computation
+    pub fn take_blocks(&mut self) -> BlockSplitResult {
+        BlockSplitResult {
+            blocks: std::mem::take(&mut self.blocks),
+            entry_block: self.entry,
+            exit_blocks: std::mem::take(&mut self.exits),
+        }
+    }
 }
 
 #[cfg(test)]

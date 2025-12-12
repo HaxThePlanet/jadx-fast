@@ -36,7 +36,7 @@ use jadx_ir::MethodData;
 use jadx_passes::block_split::{split_blocks, BasicBlock};
 use jadx_passes::cfg::CFG;
 use jadx_passes::region_builder::build_regions_with_try_catch;
-use jadx_passes::ssa::transform_to_ssa;
+use jadx_passes::ssa::{transform_to_ssa, transform_to_ssa_owned};
 use jadx_passes::type_inference::{infer_types, TypeInferenceResult};
 
 use crate::class_gen::is_anonymous_class;
@@ -438,29 +438,36 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
         return;
     }
 
-    // Build CFG
-    let cfg = CFG::from_blocks(block_result.clone());
+    // Build CFG for dominance analysis (takes ownership, no clone needed)
+    let cfg = CFG::from_blocks(block_result);
 
-    // SSA transformation
-    let ssa_result = transform_to_ssa(&block_result);
+    // Build region tree for structured code with try-catch support
+    // Region analysis only needs instruction types for control flow, not SSA info
+    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
+
+    // Extract blocks from CFG after region analysis
+    let block_result = cfg.into_blocks();
+
+    // SSA transformation - use owned version to avoid cloning instructions
+    let ssa_result = transform_to_ssa_owned(block_result);
 
     // Type inference on SSA form
     let type_result = infer_types(&ssa_result);
 
-    // Build region tree for structured code with try-catch support
-    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
-
     // Create generation context with type info
     let mut ctx = BodyGenContext::from_method(method);
+    // Extract max_versions before consuming ssa_result (small HashMap, cheap to move)
+    let max_versions = ssa_result.max_versions.clone();
     // Use SSA blocks instead of CFG blocks to preserve SSA versions for proper variable naming
-    ctx.blocks = ssa_blocks_to_map(&ssa_result);
+    // Use owned version to avoid cloning instructions again
+    ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
 
     // Count variable uses for expression inlining
     ctx.use_counts = count_variable_uses(&ctx.blocks);
 
     // Compute final variables from SSA - variables with max_version == 0 are final
-    ctx.set_final_vars_from_max_versions(&ssa_result.max_versions);
+    ctx.set_final_vars_from_max_versions(&max_versions);
 
     // Apply inferred types and generate variable names
     apply_inferred_types(&mut ctx);
@@ -512,11 +519,18 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         return;
     }
 
-    // Build CFG
-    let cfg = CFG::from_blocks(block_result.clone());
+    // Build CFG for dominance analysis (takes ownership, no clone needed)
+    let cfg = CFG::from_blocks(block_result);
 
-    // SSA transformation
-    let ssa_result = transform_to_ssa(&block_result);
+    // Build region tree for structured code with try-catch support
+    // Region analysis only needs instruction types for control flow, not SSA info
+    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
+
+    // Extract blocks from CFG after region analysis
+    let block_result = cfg.into_blocks();
+
+    // SSA transformation - use owned version to avoid cloning instructions
+    let ssa_result = transform_to_ssa_owned(block_result);
 
     // Type inference on SSA form - use DEX lookups if available for better type accuracy
     let type_result = if let Some(ref dex) = dex_info {
@@ -533,13 +547,13 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         infer_types(&ssa_result)
     };
 
-    // Build region tree for structured code with try-catch support
-    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
-
     // Create generation context with type info and DEX data for name resolution
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
+    // Extract max_versions before consuming ssa_result
+    let max_versions = ssa_result.max_versions.clone();
     // Use SSA blocks instead of CFG blocks to preserve SSA versions for proper variable naming
-    ctx.blocks = ssa_blocks_to_map(&ssa_result);
+    // Use owned version to avoid cloning instructions again
+    ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
     // Set imports for using simple type names in variable declarations
     ctx.imports = imports.cloned();
@@ -548,7 +562,7 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
     ctx.use_counts = count_variable_uses(&ctx.blocks);
 
     // Compute final variables from SSA - variables with max_version == 0 are final
-    ctx.set_final_vars_from_max_versions(&ssa_result.max_versions);
+    ctx.set_final_vars_from_max_versions(&max_versions);
 
     // Apply inferred types and generate variable names
     apply_inferred_types(&mut ctx);
@@ -588,11 +602,12 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         return;
     }
 
-    // Build CFG
+    // Build CFG (needs clone because SSA will take ownership of blocks)
+    // TODO: Optimize by having CFG and region_builder use SSA blocks directly
     let cfg = CFG::from_blocks(block_result.clone());
 
-    // SSA transformation
-    let ssa_result = transform_to_ssa(&block_result);
+    // SSA transformation - use owned version to avoid cloning instructions
+    let ssa_result = transform_to_ssa_owned(block_result);
 
     // Type inference on SSA form
     let type_result = if let Some(ref dex) = dex_info {
@@ -614,7 +629,10 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
 
     // Create generation context with type info and DEX data for name resolution
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
-    ctx.blocks = ssa_blocks_to_map(&ssa_result);
+    // Extract max_versions before consuming ssa_result
+    let max_versions = ssa_result.max_versions.clone();
+    // Use owned version to avoid cloning instructions again
+    ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
     ctx.imports = imports.cloned();
 
@@ -633,7 +651,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     ctx.use_counts = count_variable_uses(&ctx.blocks);
 
     // Compute final variables from SSA - variables with max_version == 0 are final
-    ctx.set_final_vars_from_max_versions(&ssa_result.max_versions);
+    ctx.set_final_vars_from_max_versions(&max_versions);
 
     // Apply inferred types and generate variable names
     apply_inferred_types(&mut ctx);
@@ -1315,6 +1333,27 @@ fn ssa_blocks_to_map(ssa_result: &jadx_passes::ssa::SsaResult) -> BTreeMap<u32, 
             instructions: ssa_block.instructions.clone(),
             successors: ssa_block.successors.clone(),
             predecessors: ssa_block.predecessors.clone(),
+        };
+        map.insert(ssa_block.id, basic_block);
+    }
+    map
+}
+
+/// Convert SSA blocks to BasicBlock map by taking ownership (no cloning)
+/// This is the memory-efficient version
+fn ssa_blocks_to_map_owned(ssa_result: jadx_passes::ssa::SsaResult) -> BTreeMap<u32, BasicBlock> {
+    let mut map = BTreeMap::new();
+    for ssa_block in ssa_result.blocks {
+        // Compute offsets from instructions
+        let start_offset = ssa_block.instructions.first().map(|i| i.offset).unwrap_or(0);
+        let end_offset = ssa_block.instructions.last().map(|i| i.offset + 1).unwrap_or(0);
+        let basic_block = BasicBlock {
+            id: ssa_block.id,
+            start_offset,
+            end_offset,
+            instructions: ssa_block.instructions, // Move, not clone!
+            successors: ssa_block.successors,     // Move, not clone!
+            predecessors: ssa_block.predecessors, // Move, not clone!
         };
         map.insert(ssa_block.id, basic_block);
     }

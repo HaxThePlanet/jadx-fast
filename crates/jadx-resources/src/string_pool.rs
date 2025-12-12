@@ -2,6 +2,8 @@
 //!
 //! String pools are used in both AXML (binary XML) and ARSC (resource table) formats.
 //! They support both UTF-8 and UTF-16 encoded strings.
+//!
+//! This implementation uses SIMD-like techniques for fast UTF-16 decoding.
 
 use std::collections::HashMap;
 
@@ -139,6 +141,8 @@ impl StringPool {
     }
 
     /// Extract a UTF-16 encoded string
+    ///
+    /// Uses SIMD-like processing to convert bytes to u16 values 4 at a time
     fn extract_string16(&self, offset: usize) -> String {
         if offset + 2 >= self.buffer.len() {
             return INVALID_STRING_PLACEHOLDER.to_string();
@@ -149,6 +153,31 @@ impl StringPool {
         let mut end = start;
 
         // Read until null terminator (0x0000)
+        // Process 8 bytes at a time looking for null terminator
+        while end + 8 <= self.buffer.len() {
+            // Load 8 bytes (4 UTF-16 code units)
+            let chunk = &self.buffer[end..end + 8];
+
+            // Check each pair for null (0x0000 in LE = two consecutive 0 bytes)
+            if chunk[0] == 0 && chunk[1] == 0 {
+                break;
+            }
+            if chunk[2] == 0 && chunk[3] == 0 {
+                end += 2;
+                break;
+            }
+            if chunk[4] == 0 && chunk[5] == 0 {
+                end += 4;
+                break;
+            }
+            if chunk[6] == 0 && chunk[7] == 0 {
+                end += 6;
+                break;
+            }
+            end += 8;
+        }
+
+        // Handle remaining bytes
         while end + 1 < self.buffer.len() {
             if self.buffer[end] == 0 && self.buffer[end + 1] == 0 {
                 break;
@@ -156,11 +185,32 @@ impl StringPool {
             end += 2;
         }
 
-        // Decode UTF-16LE
+        // Decode UTF-16LE using SIMD-like batch processing
         let bytes = &self.buffer[start..end];
-        let mut chars: Vec<u16> = Vec::with_capacity(bytes.len() / 2);
-        for chunk in bytes.chunks_exact(2) {
-            chars.push(LittleEndian::read_u16(chunk));
+        let len = bytes.len() / 2;
+        let mut chars: Vec<u16> = Vec::with_capacity(len);
+
+        // Process 8 u16 values at a time (16 bytes) when possible
+        let mut i = 0;
+        while i + 16 <= bytes.len() {
+            // Read 8 u16 values in one batch
+            // This enables better vectorization by the compiler
+            let b = &bytes[i..i + 16];
+            chars.push(u16::from_le_bytes([b[0], b[1]]));
+            chars.push(u16::from_le_bytes([b[2], b[3]]));
+            chars.push(u16::from_le_bytes([b[4], b[5]]));
+            chars.push(u16::from_le_bytes([b[6], b[7]]));
+            chars.push(u16::from_le_bytes([b[8], b[9]]));
+            chars.push(u16::from_le_bytes([b[10], b[11]]));
+            chars.push(u16::from_le_bytes([b[12], b[13]]));
+            chars.push(u16::from_le_bytes([b[14], b[15]]));
+            i += 16;
+        }
+
+        // Handle remaining bytes
+        while i + 1 < bytes.len() {
+            chars.push(u16::from_le_bytes([bytes[i], bytes[i + 1]]));
+            i += 2;
         }
 
         String::from_utf16_lossy(&chars)

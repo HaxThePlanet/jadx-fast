@@ -6,7 +6,7 @@ This is a Rust port of [JADX](https://github.com/skylot/jadx), aiming for identi
 
 ## Current Status: 1:1 Output Match with Java JADX
 
-**~23,000 lines of Rust | 171 tests passing | 0 semantic differences in golden tests**
+**~24,000 lines of Rust | 180 tests passing | 0 semantic differences in golden tests**
 
 The full decompilation pipeline produces **identical output** to Java JADX:
 
@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
 | jadx-ir | 2,400 | 28 | ✅ Complete |
 | jadx-passes | 6,000 | 43 | ✅ Complete |
 | jadx-codegen | 6,200 | 70 | ✅ Complete |
-| jadx-resources | 2,100 | 8 | ✅ Complete |
+| jadx-resources | 3,350 | 9 | ✅ Complete |
 | jadx-cli | 2,600 | 7 | ✅ Complete |
 
 ## Features
@@ -81,16 +81,20 @@ public class MainActivity extends Activity {
 - Import-aware simple names in method bodies
 - Full CLI matching Java JADX options (50+ flags)
 - APK extraction and multi-DEX support
+- **JAR/AAR input support** (with D8/dx conversion for .class files)
 - Framework class filtering (jadx-fast optimization)
+- **Finally block detection** (catch-all → finally transformation)
 - Progress bar and logging
 - Complete decompilation pipeline (DEX → IR → passes → Java)
-- **Resource decoding (AXML)**: AndroidManifest.xml, layouts, drawables
-- **Resource table (ARSC)**: strings.xml, colors.xml, public.xml, drawables.xml
+- **Resource decoding (AXML)**: AndroidManifest.xml, layouts, drawables (250+ attribute mappings)
+- **Resource table (ARSC)**: Full values/*.xml generation with config qualifiers
+  - strings.xml, colors.xml, styles.xml, arrays.xml, plurals.xml, dimens.xml, integers.xml, bools.xml
+  - Config qualifier parsing (en-rUS, hdpi, xhdpi, v21, night, land, etc.)
+  - Complex entries (styles with parent inheritance, typed arrays, plurals)
 - Dimension value decoding (dp, sp, px, etc.)
 - Final variable detection (SSA-based)
 - **Android enum/flag value decoding** (match_parent, wrap_content, vertical, nonZero, etc.)
 - **Raw file extraction** (META-INF, assets, native libs)
-- **Config qualifier normalization** (mipmap-anydpi-v21 → mipmap-anydpi)
 
 ### Edge Cases (rare differences)
 - Unusual exception handlers in complex control flow
@@ -116,6 +120,8 @@ public class MainActivity extends Activity {
 - ✅ **Multi-catch exceptions** - `catch (IOException | SQLException e)` syntax support
 - ✅ **Ternary operators** - Detect if/else assigning to same variable → `x = cond ? a : b`
 - ✅ **Anonymous inner classes** - Detection utilities for `Outer$1`, `Outer$Inner`, `Outer$$Lambda$1`
+- ✅ **Finally block detection** - Catch-all handlers ending with re-throw → `finally { }` blocks
+- ✅ **JAR/AAR support** - Process JAR/AAR files (D8/dx conversion for .class files)
 - ✅ Default constructors - Skipped when just calling `super()` (implicit in Java)
 - ✅ Trailing void returns - Removed unnecessary `return;` statements
 - ✅ Import simple names - Variables use simple type names when imported
@@ -123,7 +129,9 @@ public class MainActivity extends Activity {
 - ✅ Static field initial values - Full support (primitives, strings, types, booleans, arrays, enums, field refs)
 - ✅ **Android enum values** - match_parent, wrap_content, vertical, horizontal, nonZero, evenOdd
 - ✅ **Raw file extraction** - META-INF, assets, native libs extracted from APK
-- ✅ **Config qualifier normalization** - Removes redundant -v21 suffix for anydpi resources
+- ✅ **Config qualifier parsing** - Full ResTable_config parsing (locale, density, SDK, orientation, night mode)
+- ✅ **Complex resource entries** - styles.xml, arrays.xml, plurals.xml with parent inheritance
+- ✅ **Expanded AXML attributes** - 250+ Android framework attribute mappings for manifest/layout parsing
 
 ### Future
 - Deobfuscation support
@@ -142,7 +150,7 @@ cargo build --release
 cargo test --workspace
 ```
 
-Current test coverage: **171 tests** across all crates, including golden file comparison tests.
+Current test coverage: **180 tests** across all crates, including golden file comparison tests.
 
 ## Usage
 
@@ -158,6 +166,12 @@ jadx-rust -j 16 -d output/ classes.dex
 
 # Single class
 jadx-rust --single-class MainActivity -d output/ app.apk
+
+# JAR file (requires d8 or dx in PATH for .class files)
+jadx-rust -d output/ library.jar
+
+# AAR file (Android Archive)
+jadx-rust -d output/ library.aar
 ```
 
 ## Project Structure

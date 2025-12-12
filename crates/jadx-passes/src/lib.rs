@@ -26,7 +26,7 @@ pub use region_builder::{
     build_regions, detect_all_loop_edges, detect_loop_edge_insns, EdgeInsn, EdgeInsnKind,
     LoopEdgeInsns,
 };
-pub use ssa::{transform_to_ssa, DominatorTree, PhiNode, SsaBlock, SsaResult};
+pub use ssa::{transform_to_ssa, transform_to_ssa_owned, DominatorTree, PhiNode, SsaBlock, SsaResult};
 pub use type_inference::{
     infer_types, infer_types_with_context, Constraint, InferredType, TypeInference,
     TypeInferenceResult, TypeVar,

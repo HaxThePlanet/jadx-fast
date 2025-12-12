@@ -12,6 +12,172 @@ use crate::constants::*;
 use crate::error::{ResourceError, Result};
 use crate::string_pool::StringPool;
 
+use std::sync::LazyLock;
+
+/// Map of common Android framework attribute IDs to names
+static ANDROID_ATTR_MAP: LazyLock<HashMap<u32, &'static str>> = LazyLock::new(|| {
+    let mut m = HashMap::new();
+    // Common style attributes
+    m.insert(0x01010000, "theme");
+    m.insert(0x01010001, "label");
+    m.insert(0x01010002, "icon");
+    m.insert(0x01010003, "name");
+    m.insert(0x0101000e, "textSize");
+    m.insert(0x0101000f, "textColor");
+    m.insert(0x01010010, "enabled");
+    m.insert(0x01010011, "id");
+    m.insert(0x01010012, "text");
+    m.insert(0x01010013, "background");
+    m.insert(0x01010014, "foreground");
+    m.insert(0x01010015, "src");
+    m.insert(0x01010024, "layout_width");
+    m.insert(0x01010025, "layout_height");
+    m.insert(0x01010026, "layout_weight");
+    m.insert(0x01010027, "layout_gravity");
+    m.insert(0x01010028, "gravity");
+    m.insert(0x01010029, "hint");
+    m.insert(0x0101002a, "textColorHint");
+    m.insert(0x0101002b, "textStyle");
+    m.insert(0x0101002c, "typeface");
+    m.insert(0x0101002f, "inputType");
+    m.insert(0x01010030, "scrollbars");
+    m.insert(0x01010031, "fadingEdge");
+    m.insert(0x01010032, "fadingEdgeLength");
+    m.insert(0x01010033, "nextFocusLeft");
+    m.insert(0x01010034, "nextFocusRight");
+    m.insert(0x01010035, "nextFocusUp");
+    m.insert(0x01010036, "nextFocusDown");
+    m.insert(0x01010037, "clickable");
+    m.insert(0x01010038, "longClickable");
+    m.insert(0x01010039, "saveEnabled");
+    m.insert(0x0101003a, "drawingCacheQuality");
+    m.insert(0x0101003f, "duplicateParentState");
+    m.insert(0x01010040, "clipChildren");
+    m.insert(0x01010041, "clipToPadding");
+    m.insert(0x01010048, "visibility");
+    m.insert(0x0101004a, "orientation");
+    m.insert(0x0101004c, "padding");
+    m.insert(0x0101004d, "paddingLeft");
+    m.insert(0x0101004e, "paddingTop");
+    m.insert(0x0101004f, "paddingRight");
+    m.insert(0x01010050, "paddingBottom");
+    m.insert(0x01010053, "layout_margin");
+    m.insert(0x01010054, "layout_marginLeft");
+    m.insert(0x01010055, "layout_marginTop");
+    m.insert(0x01010056, "layout_marginRight");
+    m.insert(0x01010057, "layout_marginBottom");
+    m.insert(0x01010058, "scaleType");
+    m.insert(0x01010059, "adjustViewBounds");
+    m.insert(0x0101005a, "maxWidth");
+    m.insert(0x0101005b, "maxHeight");
+    m.insert(0x0101005c, "tint");
+    m.insert(0x0101005d, "baselineAlignBottom");
+    m.insert(0x01010095, "textAppearance");
+    m.insert(0x010100af, "windowBackground");
+    m.insert(0x010100b0, "windowFrame");
+    m.insert(0x010100b1, "windowNoTitle");
+    m.insert(0x010100b2, "windowIsFloating");
+    m.insert(0x010100b3, "windowIsTranslucent");
+    m.insert(0x010100b4, "windowContentOverlay");
+    m.insert(0x010100b5, "windowTitleSize");
+    m.insert(0x010100b6, "windowTitleStyle");
+    m.insert(0x010100b7, "windowTitleBackgroundStyle");
+    m.insert(0x010100b8, "alertDialogStyle");
+    m.insert(0x010100c9, "colorForeground");
+    m.insert(0x010100ca, "colorForegroundInverse");
+    m.insert(0x010100cb, "colorBackground");
+    m.insert(0x010100d4, "textColorPrimary");
+    m.insert(0x010100d5, "textColorSecondary");
+    m.insert(0x010100d6, "textColorTertiary");
+    m.insert(0x010100d7, "textColorPrimaryInverse");
+    m.insert(0x010100d8, "textColorSecondaryInverse");
+    m.insert(0x010100d9, "textColorTertiaryInverse");
+    m.insert(0x010100da, "textColorPrimaryDisableOnly");
+    m.insert(0x010100db, "textColorPrimaryInverseDisableOnly");
+    m.insert(0x010100dc, "textColorPrimaryNoDisable");
+    m.insert(0x010100dd, "textColorSecondaryNoDisable");
+    m.insert(0x010100de, "textColorPrimaryInverseNoDisable");
+    m.insert(0x010100df, "textColorSecondaryInverseNoDisable");
+    m.insert(0x010100e0, "textColorHintInverse");
+    m.insert(0x010100e3, "listPreferredItemHeight");
+    m.insert(0x010100e4, "listDivider");
+    m.insert(0x010100fa, "actionBarSize");
+    m.insert(0x0101011f, "minWidth");
+    m.insert(0x01010120, "minHeight");
+    m.insert(0x01010129, "singleLine");
+    m.insert(0x0101012b, "ellipsize");
+    m.insert(0x0101012c, "marqueeRepeatLimit");
+    m.insert(0x0101012e, "includeFontPadding");
+    m.insert(0x01010130, "cursorVisible");
+    m.insert(0x01010131, "maxLines");
+    m.insert(0x01010132, "maxEms");
+    m.insert(0x01010133, "minEms");
+    m.insert(0x01010134, "maxLength");
+    m.insert(0x01010135, "lines");
+    m.insert(0x01010136, "ems");
+    m.insert(0x01010137, "autoText");
+    m.insert(0x01010138, "capitalize");
+    m.insert(0x01010139, "scrollHorizontally");
+    m.insert(0x0101013a, "password");
+    m.insert(0x0101013b, "numeric");
+    m.insert(0x0101013c, "digits");
+    m.insert(0x0101013d, "phoneNumber");
+    m.insert(0x0101013e, "autoLink");
+    m.insert(0x0101013f, "linksClickable");
+    m.insert(0x01010140, "entries");
+    m.insert(0x01010141, "layout_x");
+    m.insert(0x01010142, "layout_y");
+    m.insert(0x01010143, "layout_below");
+    m.insert(0x01010144, "layout_above");
+    m.insert(0x01010145, "layout_toLeftOf");
+    m.insert(0x01010146, "layout_toRightOf");
+    m.insert(0x01010147, "layout_alignBaseline");
+    m.insert(0x01010148, "layout_alignLeft");
+    m.insert(0x01010149, "layout_alignTop");
+    m.insert(0x0101014a, "layout_alignRight");
+    m.insert(0x0101014b, "layout_alignBottom");
+    m.insert(0x0101014c, "layout_alignParentLeft");
+    m.insert(0x0101014d, "layout_alignParentTop");
+    m.insert(0x0101014e, "layout_alignParentRight");
+    m.insert(0x0101014f, "layout_alignParentBottom");
+    m.insert(0x01010150, "layout_centerInParent");
+    m.insert(0x01010151, "layout_centerHorizontal");
+    m.insert(0x01010152, "layout_centerVertical");
+    m.insert(0x01010153, "layout_alignWithParentIfMissing");
+    m.insert(0x01010154, "layout_scale");
+    m.insert(0x01010159, "listSelector");
+    m.insert(0x0101015a, "drawSelectorOnTop");
+    m.insert(0x0101015b, "stackFromBottom");
+    m.insert(0x0101015c, "scrollingCache");
+    m.insert(0x0101015d, "textFilterEnabled");
+    m.insert(0x0101015e, "transcriptMode");
+    m.insert(0x0101015f, "cacheColorHint");
+    m.insert(0x01010162, "choiceMode");
+    m.insert(0x010101a5, "colorPrimary");
+    m.insert(0x010101a6, "colorPrimaryDark");
+    m.insert(0x010101a7, "colorAccent");
+    m.insert(0x010101b5, "editTextStyle");
+    m.insert(0x010101b6, "progressBarStyle");
+    m.insert(0x010101ba, "spinnerStyle");
+    m.insert(0x010101bc, "buttonStyle");
+    m.insert(0x010101be, "checkboxStyle");
+    m.insert(0x010101c0, "radioButtonStyle");
+    m.insert(0x010101c2, "ratingBarStyle");
+    m.insert(0x010101c4, "seekBarStyle");
+    m.insert(0x010101c6, "toggleButtonStyle");
+    m.insert(0x0101020c, "minSdkVersion");
+    m.insert(0x0101021b, "versionCode");
+    m.insert(0x0101021c, "versionName");
+    m.insert(0x01010270, "targetSdkVersion");
+    m.insert(0x0101027f, "paddingStart");
+    m.insert(0x01010280, "paddingEnd");
+    m.insert(0x010102ac, "fontFamily");
+    m.insert(0x010102c9, "elevation");
+    m.insert(0x010102d3, "hardwareAccelerated");
+    m.insert(0x010103f2, "supportsRtl");
+    m
+});
+
 /// Resource configuration parsed from ResTable_config
 #[derive(Debug, Clone, Default)]
 pub struct ResConfig {
@@ -877,14 +1043,25 @@ impl ArscParser {
 
         for entry in string_entries {
             if let Some(ref value) = entry.value {
-                if value.data_type == TYPE_STRING {
-                    if let Some(decoded) = self.strings.get(value.data) {
-                        let escaped = escape_xml_text(&decoded);
+                match value.data_type {
+                    TYPE_STRING => {
+                        if let Some(decoded) = self.strings.get(value.data) {
+                            let escaped = escape_string_resource(&decoded);
+                            xml.push_str(&format!(
+                                "    <string name=\"{}\">{}</string>\n",
+                                entry.key_name, escaped
+                            ));
+                        }
+                    }
+                    TYPE_REFERENCE => {
+                        // Include string references (e.g., @android:string/cancel)
+                        let ref_str = self.decode_value(value).unwrap_or_else(|| format!("@0x{:08x}", value.data));
                         xml.push_str(&format!(
                             "    <string name=\"{}\">{}</string>\n",
-                            entry.key_name, escaped
+                            entry.key_name, ref_str
                         ));
                     }
+                    _ => {}
                 }
             }
         }
@@ -907,7 +1084,11 @@ impl ArscParser {
 
         for entry in color_entries {
             if let Some(ref value) = entry.value {
-                if Self::is_color_type(value.data_type) {
+                // Include color values, references, and attributes
+                if Self::is_color_type(value.data_type)
+                    || value.data_type == TYPE_REFERENCE
+                    || value.data_type == TYPE_ATTRIBUTE
+                {
                     if let Some(decoded) = self.decode_value(value) {
                         xml.push_str(&format!(
                             "    <color name=\"{}\">{}</color>\n",
@@ -984,6 +1165,264 @@ impl ArscParser {
         xml
     }
 
+    /// Get attribute name for a bag item key (resource ID)
+    fn get_attr_name(&self, name_id: u32) -> String {
+        // Check if it's an Android framework attribute (0x01xxxxxx)
+        if (name_id >> 24) == 0x01 {
+            // Try to get from Android attribute map
+            if let Some(name) = ANDROID_ATTR_MAP.get(&name_id) {
+                return format!("android:{}", name);
+            }
+            // Fall back to hex
+            return format!("android:attr/0x{:08x}", name_id);
+        }
+
+        // Check our resource names
+        if let Some(name) = self.res_names.get(&name_id) {
+            // Extract just the name part after the type
+            if let Some(pos) = name.find('/') {
+                return name[pos + 1..].to_string();
+            }
+            return name.clone();
+        }
+
+        // Special Android array indices (for plurals and arrays)
+        match name_id {
+            0x01000000 => "zero".to_string(),
+            0x01000001 => "one".to_string(),
+            0x01000002 => "two".to_string(),
+            0x01000003 => "few".to_string(),
+            0x01000004 => "many".to_string(),
+            0x01000005 => "other".to_string(),
+            _ => format!("attr_0x{:08x}", name_id),
+        }
+    }
+
+    /// Generate styles.xml content
+    pub fn generate_styles_xml(&mut self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        // Collect style entries (default config only, with bag_items)
+        let style_entries: Vec<_> = self
+            .entries
+            .iter()
+            .filter(|e| e.type_name == "style" && e.config == "default" && e.bag_items.is_some())
+            .cloned()
+            .collect();
+
+        for entry in style_entries {
+            // Start style tag
+            xml.push_str("    <style name=\"");
+            xml.push_str(&escape_xml_text(&entry.key_name));
+            xml.push('"');
+
+            // Add parent if present
+            if let Some(parent_id) = entry.parent {
+                if let Some(parent_name) = self.res_names.get(&parent_id) {
+                    xml.push_str(" parent=\"@");
+                    xml.push_str(parent_name);
+                    xml.push('"');
+                } else if (parent_id >> 24) == 0x01 {
+                    // Android framework style
+                    xml.push_str(&format!(" parent=\"@android:style/0x{:08x}\"", parent_id));
+                } else {
+                    xml.push_str(&format!(" parent=\"@0x{:08x}\"", parent_id));
+                }
+            }
+
+            if let Some(ref items) = entry.bag_items {
+                if items.is_empty() {
+                    xml.push_str(" />\n");
+                } else {
+                    xml.push_str(">\n");
+
+                    for item in items {
+                        let attr_name = self.get_attr_name(item.name);
+                        let value_str = self.decode_value(&item.value)
+                            .unwrap_or_else(|| format!("0x{:08x}", item.value.data));
+
+                        xml.push_str("        <item name=\"");
+                        xml.push_str(&attr_name);
+                        xml.push_str("\">");
+                        xml.push_str(&escape_xml_text(&value_str));
+                        xml.push_str("</item>\n");
+                    }
+
+                    xml.push_str("    </style>\n");
+                }
+            } else {
+                xml.push_str(" />\n");
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate arrays.xml content
+    pub fn generate_arrays_xml(&mut self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        // Collect array entries (default config only, with bag_items)
+        let array_entries: Vec<_> = self
+            .entries
+            .iter()
+            .filter(|e| e.type_name == "array" && e.config == "default" && e.bag_items.is_some())
+            .cloned()
+            .collect();
+
+        for entry in array_entries {
+            // Determine array type based on first item
+            let array_type = if let Some(ref items) = entry.bag_items {
+                if let Some(first) = items.first() {
+                    match first.value.data_type {
+                        TYPE_STRING => "string-array",
+                        TYPE_INT_DEC | TYPE_INT_HEX => "integer-array",
+                        _ => "array",
+                    }
+                } else {
+                    "array"
+                }
+            } else {
+                "array"
+            };
+
+            xml.push_str(&format!("    <{} name=\"{}\">\n", array_type, entry.key_name));
+
+            if let Some(ref items) = entry.bag_items {
+                for item in items {
+                    let value_str = self.decode_value(&item.value)
+                        .unwrap_or_else(|| format!("0x{:08x}", item.value.data));
+                    xml.push_str("        <item>");
+                    xml.push_str(&escape_xml_text(&value_str));
+                    xml.push_str("</item>\n");
+                }
+            }
+
+            xml.push_str(&format!("    </{}>\n", array_type));
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate plurals.xml content
+    pub fn generate_plurals_xml(&mut self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        // Collect plurals entries (default config only, with bag_items)
+        let plurals_entries: Vec<_> = self
+            .entries
+            .iter()
+            .filter(|e| e.type_name == "plurals" && e.config == "default" && e.bag_items.is_some())
+            .cloned()
+            .collect();
+
+        for entry in plurals_entries {
+            xml.push_str(&format!("    <plurals name=\"{}\">\n", entry.key_name));
+
+            if let Some(ref items) = entry.bag_items {
+                for item in items {
+                    let quantity = self.get_attr_name(item.name);
+                    let value_str = self.decode_value(&item.value)
+                        .unwrap_or_else(|| format!("0x{:08x}", item.value.data));
+                    xml.push_str(&format!(
+                        "        <item quantity=\"{}\">{}</item>\n",
+                        quantity,
+                        escape_xml_text(&value_str)
+                    ));
+                }
+            }
+
+            xml.push_str("    </plurals>\n");
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate dimens.xml content
+    pub fn generate_dimens_xml(&mut self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        // Collect dimen entries (default config only)
+        let dimen_entries: Vec<_> = self
+            .entries
+            .iter()
+            .filter(|e| e.type_name == "dimen" && e.config == "default")
+            .cloned()
+            .collect();
+
+        for entry in dimen_entries {
+            if let Some(ref value) = entry.value {
+                let decoded = match value.data_type {
+                    TYPE_DIMENSION => decode_dimension(value.data),
+                    TYPE_FLOAT => format!("{}", f32::from_bits(value.data)),
+                    _ => self.decode_value(value).unwrap_or_else(|| format!("0x{:x}", value.data)),
+                };
+                xml.push_str(&format!(
+                    "    <dimen name=\"{}\">{}</dimen>\n",
+                    entry.key_name, decoded
+                ));
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate integers.xml content
+    pub fn generate_integers_xml(&mut self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        // Collect integer entries (default config only)
+        let int_entries: Vec<_> = self
+            .entries
+            .iter()
+            .filter(|e| e.type_name == "integer" && e.config == "default")
+            .cloned()
+            .collect();
+
+        for entry in int_entries {
+            if let Some(ref value) = entry.value {
+                let decoded = self.decode_value(value).unwrap_or_else(|| format!("{}", value.data));
+                xml.push_str(&format!(
+                    "    <integer name=\"{}\">{}</integer>\n",
+                    entry.key_name, decoded
+                ));
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
+    /// Generate bools.xml content
+    pub fn generate_bools_xml(&mut self) -> String {
+        let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        // Collect bool entries (default config only)
+        let bool_entries: Vec<_> = self
+            .entries
+            .iter()
+            .filter(|e| e.type_name == "bool" && e.config == "default")
+            .cloned()
+            .collect();
+
+        for entry in bool_entries {
+            if let Some(ref value) = entry.value {
+                let decoded = if value.data == 0 { "false" } else { "true" };
+                xml.push_str(&format!(
+                    "    <bool name=\"{}\">{}</bool>\n",
+                    entry.key_name, decoded
+                ));
+            }
+        }
+
+        xml.push_str("</resources>\n");
+        xml
+    }
+
     /// Generate all values XML files as a map of filename -> content
     pub fn generate_values_xml(&mut self) -> HashMap<String, String> {
         let mut files = HashMap::new();
@@ -1003,6 +1442,42 @@ impl ArscParser {
         // Generate drawables.xml (even if empty, for consistency with JADX)
         let drawables_xml = self.generate_drawables_xml();
         files.insert("drawables.xml".to_string(), drawables_xml);
+
+        // Generate styles.xml
+        let styles_xml = self.generate_styles_xml();
+        if styles_xml.contains("<style") {
+            files.insert("styles.xml".to_string(), styles_xml);
+        }
+
+        // Generate arrays.xml
+        let arrays_xml = self.generate_arrays_xml();
+        if arrays_xml.contains("<array") || arrays_xml.contains("-array") {
+            files.insert("arrays.xml".to_string(), arrays_xml);
+        }
+
+        // Generate plurals.xml
+        let plurals_xml = self.generate_plurals_xml();
+        if plurals_xml.contains("<plurals") {
+            files.insert("plurals.xml".to_string(), plurals_xml);
+        }
+
+        // Generate dimens.xml
+        let dimens_xml = self.generate_dimens_xml();
+        if dimens_xml.contains("<dimen") {
+            files.insert("dimens.xml".to_string(), dimens_xml);
+        }
+
+        // Generate integers.xml
+        let integers_xml = self.generate_integers_xml();
+        if integers_xml.contains("<integer") {
+            files.insert("integers.xml".to_string(), integers_xml);
+        }
+
+        // Generate bools.xml
+        let bools_xml = self.generate_bools_xml();
+        if bools_xml.contains("<bool") {
+            files.insert("bools.xml".to_string(), bools_xml);
+        }
 
         // Generate public.xml
         let public_xml = self.generate_public_xml();
@@ -1039,8 +1514,28 @@ fn escape_xml_text(s: &str) -> String {
             '&' => result.push_str("&amp;"),
             '<' => result.push_str("&lt;"),
             '>' => result.push_str("&gt;"),
-            '\'' => result.push_str("&apos;"),
             '"' => result.push_str("&quot;"),
+            _ => result.push(c),
+        }
+    }
+    result
+}
+
+/// Escape string for Android string resource XML (uses backslash escaping)
+fn escape_string_resource(s: &str) -> String {
+    let mut result = String::with_capacity(s.len() + s.len() / 10);
+    for c in s.chars() {
+        match c {
+            '&' => result.push_str("&amp;"),
+            '<' => result.push_str("&lt;"),
+            '>' => result.push_str("&gt;"),
+            '\'' => result.push_str("\\'"),
+            '"' => result.push_str("\\\""),
+            '\\' => result.push_str("\\\\"),
+            '\n' => result.push_str("\\n"),
+            '\t' => result.push_str("\\t"),
+            '@' if result.is_empty() => result.push_str("\\@"),
+            '?' if result.is_empty() => result.push_str("\\?"),
             _ => result.push(c),
         }
     }
@@ -1066,6 +1561,8 @@ mod tests {
             type_name: "string".to_string(),
             key_name: "app_name".to_string(),
             value: None,
+            bag_items: None,
+            parent: None,
             config: "default".to_string(),
         };
         assert_eq!(entry.full_name(), "string/app_name");
