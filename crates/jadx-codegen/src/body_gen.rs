@@ -24,7 +24,7 @@ use crate::dex_info::DexInfo;
 use crate::expr_gen::ExprGen;
 use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_if_header,
-    gen_while_header, StmtGen,
+    gen_while_header,
 };
 use crate::type_gen::type_to_string;
 use crate::writer::CodeWriter;
@@ -332,6 +332,39 @@ fn if_condition_to_string(op: &IfCondition, negated: bool) -> &'static str {
     }
 }
 
+/// Generate setup instructions from condition blocks (non-If instructions)
+/// These define variables that are used in the condition expression
+fn generate_condition_setup<W: CodeWriter>(condition: &Condition, ctx: &mut BodyGenContext, code: &mut W) {
+    // Collect all blocks referenced by this condition
+    let mut blocks = Vec::new();
+    condition.collect_blocks(&mut blocks);
+
+    // Generate non-If instructions from each condition block
+    for block_id in blocks {
+        if let Some(block) = ctx.blocks.get(&block_id) {
+            for insn in &block.instructions {
+                // Skip the If instruction itself - it becomes the condition
+                if matches!(insn.insn_type, InsnType::If { .. }) {
+                    continue;
+                }
+                // Skip control flow instructions
+                if is_control_flow(&insn.insn_type) {
+                    continue;
+                }
+                // Generate the instruction
+                if !generate_insn(insn, ctx, code) {
+                    // Fallback: emit as comment
+                    code.start_line()
+                        .add("/* ")
+                        .add(&format!("{:?}", insn.insn_type))
+                        .add(" */")
+                        .newline();
+                }
+            }
+        }
+    }
+}
+
 /// Convert CFG blocks to a map (borrowing around CFG internals)
 fn cfg_blocks_to_map(cfg: &CFG) -> BTreeMap<u32, BasicBlock> {
     let mut map = BTreeMap::new();
@@ -357,6 +390,10 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             then_region,
             else_region,
         } => {
+            // First, output any setup instructions from the condition block(s)
+            // These are the non-If instructions that define variables used in the condition
+            generate_condition_setup(condition, ctx, code);
+
             // Generate the actual condition expression
             let condition_str = generate_condition(condition, ctx);
 
@@ -384,6 +421,10 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             match kind {
                 LoopKind::While | LoopKind::For => {
+                    // For while loops, setup instructions go before the loop
+                    if let Some(cond) = condition {
+                        generate_condition_setup(cond, ctx, code);
+                    }
                     gen_while_header(&condition_str, code);
                     generate_region(body, ctx, code);
                     gen_close_block(code);
@@ -391,6 +432,10 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                 LoopKind::DoWhile => {
                     gen_do_while_start(code);
                     generate_region(body, ctx, code);
+                    // For do-while, condition setup is at the end of the body
+                    if let Some(cond) = condition {
+                        generate_condition_setup(cond, ctx, code);
+                    }
                     gen_do_while_end(&condition_str, code);
                 }
                 LoopKind::Endless => {
@@ -500,8 +545,6 @@ fn generate_content<W: CodeWriter>(content: &RegionContent, ctx: &mut BodyGenCon
 
 /// Generate code for a basic block
 fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, code: &mut W) {
-    let stmt_gen = StmtGen::new(&ctx.expr_gen);
-
     for insn in &block.instructions {
         // Skip control flow instructions - they're handled by region structure
         if is_control_flow(&insn.insn_type) {
@@ -509,7 +552,7 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
         }
 
         // Generate statement or expression
-        if !generate_insn(insn, ctx, &stmt_gen, code) {
+        if !generate_insn(insn, ctx, code) {
             // Fallback: emit as comment
             code.start_line()
                 .add("/* ")
@@ -535,19 +578,26 @@ fn is_control_flow(insn: &InsnType) -> bool {
 fn generate_insn<W: CodeWriter>(
     insn: &InsnNode,
     ctx: &mut BodyGenContext,
-    stmt_gen: &StmtGen,
     code: &mut W,
 ) -> bool {
     match &insn.insn_type {
         InsnType::Nop => true, // Nothing to generate
 
         InsnType::Return { value } => {
-            stmt_gen.gen_return(value.as_ref(), code);
+            code.start_line().add("return");
+            if let Some(v) = value {
+                code.add(" ").add(&ctx.expr_gen.gen_arg(v));
+            }
+            code.add(";").newline();
             true
         }
 
         InsnType::Throw { exception } => {
-            stmt_gen.gen_throw(exception, code);
+            code.start_line()
+                .add("throw ")
+                .add(&ctx.expr_gen.gen_arg(exception))
+                .add(";")
+                .newline();
             true
         }
 
@@ -619,7 +669,14 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::ArrayPut { array, index, value, .. } => {
-            stmt_gen.gen_array_put(array, index, value, code);
+            code.start_line()
+                .add(&ctx.expr_gen.gen_arg(array))
+                .add("[")
+                .add(&ctx.expr_gen.gen_arg(index))
+                .add("] = ")
+                .add(&ctx.expr_gen.gen_arg(value))
+                .add(";")
+                .newline();
             true
         }
 
@@ -778,12 +835,18 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::MonitorEnter { object } => {
-            stmt_gen.gen_monitor_enter(object, code);
+            code.start_line()
+                .add("synchronized (")
+                .add(&ctx.expr_gen.gen_arg(object))
+                .add(") {")
+                .newline();
+            code.inc_indent();
             true
         }
 
-        InsnType::MonitorExit { object } => {
-            stmt_gen.gen_monitor_exit(object, code);
+        InsnType::MonitorExit { object: _ } => {
+            code.dec_indent();
+            code.start_line().add("}").newline();
             true
         }
 

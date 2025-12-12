@@ -676,7 +676,9 @@ pub fn build_ir_insn(
 
 /// Build invoke arguments from register array
 fn build_invoke_args(regs: &[u16; 5], count: u8) -> Vec<InsnArg> {
-    regs[..count as usize]
+    // Clamp count to max 5 registers (protection against malformed DEX)
+    let safe_count = (count as usize).min(5);
+    regs[..safe_count]
         .iter()
         .map(|&r| InsnArg::reg(r))
         .collect()

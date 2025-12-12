@@ -567,12 +567,20 @@ impl<'a> RegionBuilder<'a> {
     }
 
     /// Extract condition from a block that ends with an If instruction
+    ///
+    /// In Dalvik bytecode, the branch is taken when the condition is TRUE.
+    /// But in structured Java code, the "then" block is the fall-through path
+    /// (when condition is FALSE). So we negate the condition to match Java semantics.
     fn extract_condition(&self, block_id: u32) -> Condition {
         if let Some(block) = self.cfg.get_block(block_id) {
             // Find the If instruction (usually the last one)
             for insn in block.instructions.iter().rev() {
                 if let InsnType::If { condition, .. } = &insn.insn_type {
-                    return Condition::simple(block_id, condition.clone());
+                    // Use simple_negated because:
+                    // - In Dalvik: if condition TRUE, branch to else; else fall-through to then
+                    // - In Java: if (cond) { then } requires cond TRUE -> then
+                    // So we need to negate the Dalvik condition
+                    return Condition::simple_negated(block_id, condition.clone());
                 }
             }
         }

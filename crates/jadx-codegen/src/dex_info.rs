@@ -71,6 +71,23 @@ impl DexInfo {
         self.methods.get(&idx)
     }
 
+    /// Get field type by index (for type inference)
+    pub fn get_field_type(&self, idx: u32) -> Option<ArgType> {
+        self.fields.get(&idx).map(|f| f.field_type.clone())
+    }
+
+    /// Get type by index as ArgType (for type inference)
+    pub fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
+        self.types.get(&idx).and_then(|desc| descriptor_to_argtype(desc))
+    }
+
+    /// Get method return type by index (for type inference)
+    pub fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
+        self.methods.get(&idx).map(|m| {
+            (m.param_types.clone(), m.return_type.clone())
+        })
+    }
+
     /// Populate an ExprGen with this DEX info
     pub fn populate_expr_gen(&self, expr_gen: &mut ExprGen) {
         // Add all strings
@@ -94,6 +111,43 @@ impl DexInfo {
             expr_gen.set_method_info(idx, info.clone());
         }
     }
+}
+
+/// Convert a DEX type descriptor to an ArgType (for type inference)
+/// Public version for use from body_gen.rs
+pub fn descriptor_to_argtype_pub(desc: &str) -> Option<ArgType> {
+    descriptor_to_argtype(desc)
+}
+
+/// Convert a DEX type descriptor to an ArgType (for type inference)
+fn descriptor_to_argtype(desc: &str) -> Option<ArgType> {
+    if desc.is_empty() {
+        return None;
+    }
+
+    let first = desc.chars().next()?;
+    Some(match first {
+        'V' => ArgType::Void,
+        'Z' => ArgType::Boolean,
+        'B' => ArgType::Byte,
+        'S' => ArgType::Short,
+        'C' => ArgType::Char,
+        'I' => ArgType::Int,
+        'J' => ArgType::Long,
+        'F' => ArgType::Float,
+        'D' => ArgType::Double,
+        '[' => {
+            let elem = descriptor_to_argtype(&desc[1..])?;
+            ArgType::Array(Box::new(elem))
+        }
+        'L' => {
+            let inner = desc
+                .strip_prefix('L')?
+                .strip_suffix(';')?;
+            ArgType::Object(inner.to_string())
+        }
+        _ => return None,
+    })
 }
 
 /// Convert a DEX type descriptor to a Java type name

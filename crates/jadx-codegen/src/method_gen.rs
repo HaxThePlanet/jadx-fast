@@ -10,6 +10,27 @@ use crate::dex_info::DexInfo;
 use crate::type_gen::{get_simple_name, type_to_string};
 use crate::writer::CodeWriter;
 
+/// Check if a method should have @Override annotation
+/// We add @Override for non-constructor, non-static, non-private methods
+/// in classes that have a superclass (other than Object) or implement interfaces
+fn should_add_override(method: &MethodData, class: &ClassData) -> bool {
+    // Don't add @Override to constructors or static initializers
+    if method.is_constructor() || method.is_class_init() {
+        return false;
+    }
+    // Don't add @Override to static or private methods
+    if method.is_static() || (method.access_flags & ACC_PRIVATE) != 0 {
+        return false;
+    }
+    // Only add @Override if class extends something (other than Object) or implements interfaces
+    let has_superclass = class.superclass.as_ref()
+        .map(|s| s != "java/lang/Object")
+        .unwrap_or(false);
+    let has_interfaces = !class.interfaces.is_empty();
+
+    has_superclass || has_interfaces
+}
+
 /// Generate a method into a writer
 pub fn generate_method<W: CodeWriter>(
     method: &MethodData,
@@ -28,6 +49,12 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     dex_info: Option<&DexInfo>,
     code: &mut W,
 ) {
+    // Add @Override annotation for potential override methods
+    // (non-constructor, non-static, non-private methods in classes with superclass)
+    if should_add_override(method, class) {
+        code.start_line().add("@Override").newline();
+    }
+
     code.start_line();
 
     // Method modifiers

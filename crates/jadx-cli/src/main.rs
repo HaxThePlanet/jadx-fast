@@ -13,8 +13,10 @@ use std::time::Instant;
 use anyhow::{Context, Result};
 use clap::Parser;
 use indicatif::{ProgressBar, ProgressStyle};
+use rayon::prelude::*;
 
 use jadx_codegen::{DexInfo, FieldInfo, MethodInfo};
+use jadx_ir::ClassData;
 use jadx_dex::DexReader;
 use jadx_ir::ArgType;
 
@@ -278,33 +280,106 @@ fn process_dex_bytes(
     let count = class_indices.len();
     tracing::info!("Processing {} classes (after filtering)", count);
 
-    // Process classes sequentially (parallel requires Sync DexReader - TODO)
-    for (idx, class_name) in &class_indices {
-        let class = dex.get_class(*idx)?;
+    // ========================================================================
+    // PHASE 1: Sequential IR conversion (DexReader not Sync due to caching)
+    // ========================================================================
+    let phase1_start = Instant::now();
+    tracing::info!("Phase 1: Converting DEX to IR (sequential)...");
+
+    let ir_classes: Vec<(String, Result<ClassData, String>)> = class_indices
+        .iter()
+        .map(|(idx, class_name)| {
+            // Use catch_unwind to handle panics in IR conversion gracefully
+            let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                dex.get_class(*idx)
+                    .map_err(|e| format!("Failed to get class: {}", e))
+                    .and_then(|class| {
+                        converter::convert_class(&dex, &class)
+                            .map_err(|e| format!("Failed to convert: {}", e))
+                    })
+            }))
+            .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_name)));
+            (class_name.clone(), result)
+        })
+        .collect();
+
+    let phase1_elapsed = phase1_start.elapsed();
+    tracing::info!(
+        "Phase 1 complete: {} classes in {:.2}s",
+        ir_classes.len(),
+        phase1_elapsed.as_secs_f64()
+    );
+
+    // ========================================================================
+    // PHASE 2: Parallel code generation (ClassData + DexInfo are Send+Sync)
+    // ========================================================================
+    let phase2_start = Instant::now();
+    let num_threads = rayon::current_num_threads();
+    tracing::info!(
+        "Phase 2: Generating Java code (parallel, {} threads)...",
+        num_threads
+    );
+
+    // Wrap DexInfo in Arc for sharing across threads
+    let dex_info = std::sync::Arc::new(dex_info);
+
+    // Pre-create all necessary directories (sequential to avoid races)
+    for (class_name, _) in &ir_classes {
         let rel_path = class_name_to_path(class_name);
         let out_path = out_src.join(&rel_path);
-
         if let Some(parent) = out_path.parent() {
-            std::fs::create_dir_all(parent)?;
-        }
-
-        // Convert DEX class to IR and generate Java code
-        let java_code = match converter::convert_class(&dex, &class) {
-            Ok(ir_class) => {
-                let config = jadx_codegen::ClassGenConfig::default();
-                jadx_codegen::generate_class_with_dex(&ir_class, &config, Some(&dex_info))
-            }
-            Err(e) => {
-                tracing::warn!("Failed to convert class {}: {}", class_name, e);
-                generate_class_stub(&class, class_name)?
-            }
-        };
-        std::fs::write(&out_path, java_code)?;
-
-        if let Some(pb) = progress {
-            pb.inc(1);
+            std::fs::create_dir_all(parent).ok();
         }
     }
+
+    // Parallel code generation and file writing
+    let results: Vec<Result<(), String>> = ir_classes
+        .par_iter()
+        .map(|(class_name, ir_result)| {
+            let rel_path = class_name_to_path(class_name);
+            let out_path = out_src.join(&rel_path);
+
+            let java_code = match ir_result {
+                Ok(ir_class) => {
+                    let config = jadx_codegen::ClassGenConfig::default();
+                    jadx_codegen::generate_class_with_dex(ir_class, &config, Some(&dex_info))
+                }
+                Err(e) => {
+                    // Generate stub for failed conversions
+                    format!(
+                        "// Failed to decompile: {}\nclass {} {{\n}}\n",
+                        e,
+                        class_name.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown")
+                    )
+                }
+            };
+
+            std::fs::write(&out_path, java_code)
+                .map_err(|e| format!("Failed to write {}: {}", out_path.display(), e))?;
+
+            if let Some(pb) = progress {
+                pb.inc(1);
+            }
+
+            Ok(())
+        })
+        .collect();
+
+    let phase2_elapsed = phase2_start.elapsed();
+    let errors: Vec<_> = results.iter().filter(|r| r.is_err()).collect();
+    tracing::info!(
+        "Phase 2 complete: {} files in {:.2}s ({} errors)",
+        ir_classes.len(),
+        phase2_elapsed.as_secs_f64(),
+        errors.len()
+    );
+
+    tracing::info!(
+        "Total: {:.2}s (IR: {:.2}s, codegen: {:.2}s)",
+        phase1_elapsed.as_secs_f64() + phase2_elapsed.as_secs_f64(),
+        phase1_elapsed.as_secs_f64(),
+        phase2_elapsed.as_secs_f64()
+    );
 
     Ok(count)
 }

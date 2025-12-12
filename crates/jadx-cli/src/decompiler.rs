@@ -16,7 +16,7 @@ use jadx_codegen::{
     generate_body_with_dex, generate_class_with_dex,
     dex_info::DexInfo,
     class_gen::ClassGenConfig,
-    writer::SimpleCodeWriter,
+    writer::{CodeWriter, SimpleCodeWriter},
 };
 
 /// Result of decompiling a method
@@ -114,8 +114,7 @@ pub fn generate_method_code(method: &MethodData, dex_info: Option<&DexInfo>) -> 
 pub fn generate_class_code(class: &ClassData, dex_info: Option<&DexInfo>) -> String {
     let config = ClassGenConfig {
         use_imports: true,
-        show_access_flags: true,
-        show_source_file: false,
+        show_debug: false,
         fallback: true,
     };
     generate_class_with_dex(class, &config, dex_info)

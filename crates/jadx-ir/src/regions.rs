@@ -100,6 +100,18 @@ impl Condition {
         }
     }
 
+    /// Create a simple condition with explicit negation
+    /// In Dalvik, the branch is taken when condition is TRUE, but the "then" block
+    /// in structured code is the fall-through (when condition is FALSE).
+    /// So we typically need `negated: true` when converting from Dalvik to Java.
+    pub fn simple_negated(block: u32, op: IfCondition) -> Self {
+        Condition::Simple {
+            block,
+            op,
+            negated: true,
+        }
+    }
+
     /// Create a negated condition
     pub fn negate(self) -> Self {
         match self {
@@ -140,7 +152,7 @@ impl Condition {
         blocks
     }
 
-    fn collect_blocks(&self, blocks: &mut Vec<u32>) {
+    pub fn collect_blocks(&self, blocks: &mut Vec<u32>) {
         match self {
             Condition::Simple { block, .. } => {
                 if !blocks.contains(block) {
