@@ -27,9 +27,9 @@
 //! generate_body_with_dex(&method, Some(&dex_info), &mut writer);
 //! ```
 
-use std::collections::{BTreeMap, HashSet};
+use std::collections::{BTreeMap, HashMap, HashSet};
 
-use jadx_ir::instructions::{IfCondition, InsnNode, InsnType};
+use jadx_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LiteralArg};
 use jadx_ir::regions::{Condition, LoopKind, Region, RegionContent};
 use jadx_ir::types::ArgType;
 use jadx_ir::MethodData;
@@ -39,7 +39,7 @@ use jadx_passes::region_builder::build_regions;
 use jadx_passes::ssa::transform_to_ssa;
 use jadx_passes::type_inference::{infer_types, TypeInferenceResult};
 
-use crate::dex_info::DexInfo;
+use crate::dex_info::DexInfoProvider;
 use crate::expr_gen::ExprGen;
 use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_if_header,
@@ -66,8 +66,11 @@ pub struct BodyGenContext {
     pub declared_vars: HashSet<(u16, u32)>,
     /// First parameter register (registers >= this are parameters, already declared)
     pub first_param_reg: u16,
-    /// Last invoke expression (for MoveResult to pick up)
+    /// Last invoke expression (for MoveResult pairing)
     pub last_invoke_expr: Option<String>,
+    /// Pending new-instance instructions waiting for <init> call
+    /// Maps register number to type_idx for combining new-instance + invoke-direct <init>
+    pub pending_new_instances: HashMap<u16, u32>,
 }
 
 impl BodyGenContext {
@@ -77,12 +80,12 @@ impl BodyGenContext {
     }
 
     /// Create a new body generation context from method data with DEX info for name resolution
-    pub fn from_method_with_dex(method: &MethodData, dex_info: Option<&DexInfo>) -> Self {
+    pub fn from_method_with_dex(method: &MethodData, dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>) -> Self {
         let mut expr_gen = ExprGen::new();
 
-        // Populate ExprGen with DEX data if available (for name resolution)
+        // Set DEX provider for lazy lookups during code generation
         if let Some(dex) = dex_info {
-            dex.populate_expr_gen(&mut expr_gen);
+            expr_gen.set_dex_provider(dex);
         }
 
         // Set up parameter names based on method signature
@@ -113,6 +116,7 @@ impl BodyGenContext {
             declared_vars: HashSet::new(),
             first_param_reg,
             last_invoke_expr: None,
+            pending_new_instances: HashMap::new(),
         }
     }
 
@@ -136,9 +140,12 @@ impl BodyGenContext {
         self.declared_vars.insert((reg, version));
     }
 
-    /// Check if this register is a parameter (already has a type from method signature)
-    pub fn is_parameter(&self, reg: u16) -> bool {
-        reg >= self.first_param_reg
+    /// Check if this register AND version is a parameter (already has a type from method signature)
+    /// Note: In SSA form, only version 0 of a parameter register is the actual parameter.
+    /// Later versions are redefinitions that need to be declared as locals.
+    pub fn is_parameter(&self, reg: u16, version: u32) -> bool {
+        // Only version 0 of parameter registers are actual parameters
+        version == 0 && reg >= self.first_param_reg
     }
 }
 
@@ -151,6 +158,17 @@ fn emit_assignment<W: CodeWriter>(
     ctx: &mut BodyGenContext,
     code: &mut W,
 ) {
+    emit_assignment_with_hint(dest, value_str, None, ctx, code);
+}
+
+/// Emit an assignment with an optional type hint from the instruction context
+fn emit_assignment_with_hint<W: CodeWriter>(
+    dest: &RegisterArg,
+    value_str: &str,
+    type_hint: Option<&ArgType>,
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) {
     let var_name = ctx.expr_gen.get_var_name(dest);
     let reg = dest.reg_num;
     let version = dest.ssa_version;
@@ -158,14 +176,26 @@ fn emit_assignment<W: CodeWriter>(
     code.start_line();
 
     // Check if we need to declare this variable
-    if !ctx.is_declared(reg, version) && !ctx.is_parameter(reg) {
-        // Get the type from type inference
-        if let Some(arg_type) = ctx.get_inferred_type_versioned(reg, version) {
+    // In SSA form, only version 0 of parameter registers are actual parameters
+    if !ctx.is_declared(reg, version) && !ctx.is_parameter(reg, version) {
+        // Priority: 1. Type inference, 2. Type hint, 3. Try version 0, 4. Object fallback
+        let decl_type = ctx.get_inferred_type_versioned(reg, version)
+            .or_else(|| type_hint)
+            .or_else(|| {
+                // Try version 0 if specific version not found
+                if version != 0 {
+                    ctx.get_inferred_type_versioned(reg, 0)
+                } else {
+                    None
+                }
+            });
+
+        if let Some(arg_type) = decl_type {
             let type_str = type_to_string(arg_type);
             code.add(&type_str).add(" ");
         } else {
-            // Fallback: try to get from expr_gen's var_types
-            code.add("var ");  // Use 'var' as fallback (Java 10+ style)
+            // Fallback: use Object as default type (better than Java 10+ 'var')
+            code.add("Object ");
         }
         ctx.mark_declared(reg, version);
     }
@@ -212,11 +242,13 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     // Create generation context with type info
     let mut ctx = BodyGenContext::from_method(method);
-    ctx.blocks = cfg_blocks_to_map(&cfg);
+    // Use SSA blocks instead of CFG blocks to preserve SSA versions for proper variable naming
+    ctx.blocks = ssa_blocks_to_map(&ssa_result);
     ctx.type_info = Some(type_result);
 
-    // Apply inferred types to expression generator
+    // Apply inferred types and generate variable names
     apply_inferred_types(&mut ctx);
+    generate_var_names(&mut ctx);
 
     // Generate code from region tree
     generate_region(&region, &mut ctx, code);
@@ -228,7 +260,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 /// class names like `TextView`, and `field#456` becomes actual field names.
 pub fn generate_body_with_dex<W: CodeWriter>(
     method: &MethodData,
-    dex_info: Option<&DexInfo>,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     code: &mut W,
 ) {
     if method.instructions.is_empty() {
@@ -256,19 +288,33 @@ pub fn generate_body_with_dex<W: CodeWriter>(
     // SSA transformation
     let ssa_result = transform_to_ssa(&block_result);
 
-    // Type inference on SSA form
-    let type_result = infer_types(&ssa_result);
+    // Type inference on SSA form - use DEX lookups if available for better type accuracy
+    let type_result = if let Some(ref dex) = dex_info {
+        let dex_clone = dex.clone();
+        let dex_clone2 = dex.clone();
+        let dex_clone3 = dex.clone();
+        jadx_passes::infer_types_with_context(
+            &ssa_result,
+            move |idx| dex_clone.get_type_name(idx).map(|s| ArgType::Object(s)),
+            move |idx| dex_clone2.get_field(idx).map(|f| f.field_type.clone()),
+            move |idx| dex_clone3.get_method(idx).map(|m| (m.param_types.clone(), m.return_type.clone())),
+        )
+    } else {
+        infer_types(&ssa_result)
+    };
 
     // Build region tree for structured code
     let region = build_regions(&cfg);
 
     // Create generation context with type info and DEX data for name resolution
-    let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info);
-    ctx.blocks = cfg_blocks_to_map(&cfg);
+    let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
+    // Use SSA blocks instead of CFG blocks to preserve SSA versions for proper variable naming
+    ctx.blocks = ssa_blocks_to_map(&ssa_result);
     ctx.type_info = Some(type_result);
 
-    // Apply inferred types to expression generator
+    // Apply inferred types and generate variable names
     apply_inferred_types(&mut ctx);
+    generate_var_names(&mut ctx);
 
     // Generate code from region tree
     generate_region(&region, &mut ctx, code);
@@ -283,6 +329,78 @@ fn apply_inferred_types(ctx: &mut BodyGenContext) {
     }
 }
 
+/// Generate variable names based on inferred types
+/// This should be called after apply_inferred_types
+fn generate_var_names(ctx: &mut BodyGenContext) {
+    // Track name usage counts for disambiguation
+    let mut name_counts: std::collections::HashMap<String, u32> = std::collections::HashMap::new();
+
+    // Get all type entries and sort by (reg, version) for deterministic naming
+    let mut type_entries: Vec<((u16, u32), ArgType)> = Vec::new();
+    if let Some(ref type_info) = ctx.type_info {
+        for ((reg, version), arg_type) in &type_info.types {
+            // Skip parameter registers - they already have names
+            if *reg >= ctx.first_param_reg {
+                continue;
+            }
+            type_entries.push(((*reg, *version), arg_type.clone()));
+        }
+    }
+    type_entries.sort_by_key(|((reg, version), _)| (*reg, *version));
+
+    for ((reg, version), arg_type) in type_entries {
+        let base_name = type_to_var_name(&arg_type);
+        let count = name_counts.entry(base_name.clone()).or_insert(0);
+        let name = if *count == 0 {
+            base_name.clone()
+        } else {
+            format!("{}{}", base_name, count)
+        };
+        *count += 1;
+        ctx.expr_gen.set_var_name(reg, version, name);
+    }
+}
+
+/// Convert a type to a variable name prefix
+fn type_to_var_name(ty: &ArgType) -> String {
+    match ty {
+        ArgType::Int => "i".to_string(),
+        ArgType::Long => "l".to_string(),
+        ArgType::Float => "f".to_string(),
+        ArgType::Double => "d".to_string(),
+        ArgType::Boolean => "z".to_string(),
+        ArgType::Byte => "b".to_string(),
+        ArgType::Char => "c".to_string(),
+        ArgType::Short => "s".to_string(),
+        ArgType::Void => "v".to_string(),
+        ArgType::Object(name) => {
+            // Extract simple class name and lowercase first char
+            let simple = name.rsplit('/').next().unwrap_or(name);
+            let simple = simple.trim_start_matches('L').trim_end_matches(';');
+            let mut chars = simple.chars();
+            match chars.next() {
+                Some(c) => c.to_lowercase().chain(chars).collect(),
+                None => "obj".to_string(),
+            }
+        }
+        ArgType::Array(elem) => {
+            format!("{}Arr", type_to_var_name(elem))
+        }
+        ArgType::Unknown => "v".to_string(),
+        ArgType::Generic { base, .. } => {
+            // Use base class name for generics
+            let simple = base.rsplit('/').next().unwrap_or(base);
+            let simple = simple.trim_start_matches('L').trim_end_matches(';');
+            let mut chars = simple.chars();
+            match chars.next() {
+                Some(c) => c.to_lowercase().chain(chars).collect(),
+                None => "obj".to_string(),
+            }
+        }
+        ArgType::Wildcard { .. } => "w".to_string(),
+    }
+}
+
 /// Generate condition expression string from a Condition
 fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
     match condition {
@@ -293,9 +411,27 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                 for insn in basic_block.instructions.iter().rev() {
                     if let InsnType::If { condition: _, left, right, .. } = &insn.insn_type {
                         let left_str = ctx.expr_gen.gen_arg(left);
+
+                        // Check if this is a zero-comparison (commonly used for booleans)
+                        let is_zero_compare = right.is_none() || matches!(right, Some(r) if is_zero_literal(r));
+
+                        if is_zero_compare {
+                            // Simplify boolean comparisons: x == 0 -> !x, x != 0 -> x
+                            let effective_op = if *negated { negate_op(op) } else { *op };
+                            match effective_op {
+                                IfCondition::Eq => return format!("!{}", wrap_if_complex(&left_str)),
+                                IfCondition::Ne => return left_str,
+                                _ => {
+                                    // For other ops (lt, gt, etc.), keep explicit comparison
+                                    let op_str = if_condition_to_string(op, *negated);
+                                    return format!("{} {} 0", left_str, op_str);
+                                }
+                            }
+                        }
+
                         let right_str = match right {
                             Some(r) => ctx.expr_gen.gen_arg(r),
-                            None => "0".to_string(), // Compare to zero
+                            None => "0".to_string(),
                         };
 
                         // Get the operator string
@@ -311,28 +447,121 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
         Condition::And(left, right) => {
             let left_str = generate_condition(left, ctx);
             let right_str = generate_condition(right, ctx);
-            format!("({}) && ({})", left_str, right_str)
+            // Only wrap in parens if needed
+            let left_wrapped = wrap_for_and(&left_str, left);
+            let right_wrapped = wrap_for_and(&right_str, right);
+            format!("{} && {}", left_wrapped, right_wrapped)
         }
 
         Condition::Or(left, right) => {
             let left_str = generate_condition(left, ctx);
             let right_str = generate_condition(right, ctx);
-            format!("({}) || ({})", left_str, right_str)
+            // Only wrap in parens if needed
+            let left_wrapped = wrap_for_or(&left_str, left);
+            let right_wrapped = wrap_for_or(&right_str, right);
+            format!("{} || {}", left_wrapped, right_wrapped)
         }
 
         Condition::Not(inner) => {
             let inner_str = generate_condition(inner, ctx);
-            format!("!({})", inner_str)
+            format!("!{}", wrap_if_complex(&inner_str))
         }
 
         Condition::Ternary { condition, if_true, if_false } => {
             let cond_str = generate_condition(condition, ctx);
             let true_str = generate_condition(if_true, ctx);
             let false_str = generate_condition(if_false, ctx);
-            format!("({}) ? ({}) : ({})", cond_str, true_str, false_str)
+            format!("{} ? {} : {}", wrap_if_complex(&cond_str), true_str, false_str)
         }
 
         Condition::Unknown => "/* condition */".to_string(),
+    }
+}
+
+/// Check if an InsnArg is a zero literal
+fn is_zero_literal(arg: &InsnArg) -> bool {
+    matches!(arg, InsnArg::Literal(LiteralArg::Int(0)))
+}
+
+/// Negate an IfCondition
+fn negate_op(op: &IfCondition) -> IfCondition {
+    match op {
+        IfCondition::Eq => IfCondition::Ne,
+        IfCondition::Ne => IfCondition::Eq,
+        IfCondition::Lt => IfCondition::Ge,
+        IfCondition::Ge => IfCondition::Lt,
+        IfCondition::Gt => IfCondition::Le,
+        IfCondition::Le => IfCondition::Gt,
+    }
+}
+
+/// Wrap string in parentheses if it contains operators
+fn wrap_if_complex(s: &str) -> String {
+    if s.contains(" && ") || s.contains(" || ") || s.contains(" ? ") {
+        format!("({})", s)
+    } else {
+        s.to_string()
+    }
+}
+
+/// Wrap condition string for && context (wrap || subconditions)
+fn wrap_for_and(s: &str, cond: &Condition) -> String {
+    if matches!(cond, Condition::Or(..)) {
+        format!("({})", s)
+    } else {
+        s.to_string()
+    }
+}
+
+/// Wrap condition string for || context (wrap && subconditions)
+fn wrap_for_or(s: &str, cond: &Condition) -> String {
+    if matches!(cond, Condition::And(..)) {
+        format!("({})", s)
+    } else {
+        s.to_string()
+    }
+}
+
+/// Generate exception variable name from exception type
+fn generate_exception_var_name(exc_type: &str, index: usize) -> String {
+    // Extract simple class name
+    let simple = exc_type.rsplit('.').next().unwrap_or(exc_type);
+    let simple = simple.rsplit('/').next().unwrap_or(simple);
+
+    // Generate a short name based on common patterns
+    let base = match simple {
+        "Exception" | "RuntimeException" => "e",
+        "IOException" => "ioException",
+        "NullPointerException" | "NPE" => "npe",
+        "IllegalArgumentException" => "iae",
+        "IllegalStateException" => "ise",
+        "IndexOutOfBoundsException" => "ioobe",
+        "ClassCastException" => "cce",
+        "SecurityException" => "se",
+        "Throwable" => "th",
+        _ if simple.ends_with("Exception") => {
+            // Convert FooBarException -> fooBarException or just e
+            let prefix = simple.strip_suffix("Exception").unwrap_or(simple);
+            if prefix.len() <= 3 {
+                "e"
+            } else {
+                let mut chars = prefix.chars();
+                match chars.next() {
+                    Some(c) => {
+                        let name: String = c.to_lowercase().chain(chars).collect();
+                        return if index == 0 { name } else { format!("{}{}", name, index) };
+                    }
+                    None => "e",
+                }
+            }
+        }
+        _ => "e",
+    };
+
+    if index == 0 {
+        base.to_string()
+    } else {
+        format!("{}{}", base, index)
     }
 }
 
@@ -354,37 +583,8 @@ fn if_condition_to_string(op: &IfCondition, negated: bool) -> &'static str {
     }
 }
 
-/// Generate setup instructions from condition blocks (non-If instructions)
-/// These define variables that are used in the condition expression
-fn generate_condition_setup<W: CodeWriter>(condition: &Condition, ctx: &mut BodyGenContext, code: &mut W) {
-    // Only process Simple conditions - compound conditions recurse
-    if let Condition::Simple { block, .. } = condition {
-        // Get just this one block's instructions (avoid collecting from nested conditions)
-        if let Some(basic_block) = ctx.blocks.get(block).cloned() {
-            for insn in &basic_block.instructions {
-                // Skip the If instruction itself and control flow
-                if matches!(insn.insn_type, InsnType::If { .. }) || is_control_flow(&insn.insn_type) {
-                    continue;
-                }
-                // Generate the instruction
-                if !generate_insn(insn, ctx, code) {
-                    code.start_line()
-                        .add("/* ")
-                        .add(&format!("{:?}", insn.insn_type))
-                        .add(" */")
-                        .newline();
-                }
-            }
-        }
-
-        // Flush any pending invoke expression
-        if let Some(invoke) = ctx.last_invoke_expr.take() {
-            code.start_line().add(&invoke).add(";").newline();
-        }
-    }
-    // For compound conditions (And, Or, Not), the nested Simple conditions
-    // will be handled when generate_condition recurses
-}
+// Note: Condition setup removed due to memory issues
+// The proper fix requires rethinking how condition blocks are processed
 
 /// Convert CFG blocks to a map (borrowing around CFG internals)
 fn cfg_blocks_to_map(cfg: &CFG) -> BTreeMap<u32, BasicBlock> {
@@ -393,6 +593,27 @@ fn cfg_blocks_to_map(cfg: &CFG) -> BTreeMap<u32, BasicBlock> {
         if let Some(block) = cfg.get_block(block_id) {
             map.insert(block_id, block.clone());
         }
+    }
+    map
+}
+
+/// Convert SSA blocks to BasicBlock map for code generation
+/// This preserves the SSA versions on register arguments
+fn ssa_blocks_to_map(ssa_result: &jadx_passes::ssa::SsaResult) -> BTreeMap<u32, BasicBlock> {
+    let mut map = BTreeMap::new();
+    for ssa_block in &ssa_result.blocks {
+        // Compute offsets from instructions
+        let start_offset = ssa_block.instructions.first().map(|i| i.offset).unwrap_or(0);
+        let end_offset = ssa_block.instructions.last().map(|i| i.offset + 1).unwrap_or(0);
+        let basic_block = BasicBlock {
+            id: ssa_block.id,
+            start_offset,
+            end_offset,
+            instructions: ssa_block.instructions.clone(),
+            successors: ssa_block.successors.clone(),
+            predecessors: ssa_block.predecessors.clone(),
+        };
+        map.insert(ssa_block.id, basic_block);
     }
     map
 }
@@ -411,10 +632,6 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             then_region,
             else_region,
         } => {
-            // First, output any setup instructions from the condition block(s)
-            // These are the non-If instructions that define variables used in the condition
-            generate_condition_setup(condition, ctx, code);
-
             // Generate the actual condition expression
             let condition_str = generate_condition(condition, ctx);
 
@@ -442,10 +659,6 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             match kind {
                 LoopKind::While | LoopKind::For => {
-                    // For while loops, setup instructions go before the loop
-                    if let Some(cond) = condition {
-                        generate_condition_setup(cond, ctx, code);
-                    }
                     gen_while_header(&condition_str, code);
                     generate_region(body, ctx, code);
                     gen_close_block(code);
@@ -453,10 +666,6 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                 LoopKind::DoWhile => {
                     gen_do_while_start(code);
                     generate_region(body, ctx, code);
-                    // For do-while, condition setup is at the end of the body
-                    if let Some(cond) = condition {
-                        generate_condition_setup(cond, ctx, code);
-                    }
                     gen_do_while_end(&condition_str, code);
                 }
                 LoopKind::Endless => {
@@ -473,8 +682,23 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             }
         }
 
-        Region::Switch { cases, default } => {
-            code.start_line().add("switch (/* value */) {").newline();
+        Region::Switch { header_block, cases, default } => {
+            // Extract switch value from the header block's switch instruction
+            let switch_value = ctx.blocks.get(header_block)
+                .and_then(|block| block.instructions.iter().rev().find_map(|insn| {
+                    match &insn.insn_type {
+                        InsnType::PackedSwitch { value, .. } |
+                        InsnType::SparseSwitch { value, .. } => Some(ctx.expr_gen.gen_arg(value)),
+                        _ => None,
+                    }
+                }))
+                .unwrap_or_else(|| "/* value */".to_string());
+
+            code.start_line()
+                .add("switch (")
+                .add(&switch_value)
+                .add(") {")
+                .newline();
             code.inc_indent();
 
             for case in cases {
@@ -512,15 +736,19 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             generate_region(try_region, ctx, code);
             code.dec_indent();
 
-            for handler in handlers {
+            for (i, handler) in handlers.iter().enumerate() {
                 let exc_type = handler
                     .exception_type
                     .as_deref()
                     .unwrap_or("Exception");
+                // Generate exception variable name based on type
+                let exc_var = generate_exception_var_name(exc_type, i);
                 code.start_line()
                     .add("} catch (")
                     .add(exc_type)
-                    .add(" e) {")
+                    .add(" ")
+                    .add(&exc_var)
+                    .add(") {")
                     .newline();
                 code.inc_indent();
                 generate_region(&handler.region, ctx, code);
@@ -537,9 +765,21 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             code.start_line().add("}").newline();
         }
 
-        Region::Synchronized { body } => {
+        Region::Synchronized { enter_block, body } => {
+            // Extract lock object from the MonitorEnter instruction in the enter block
+            let lock_obj = ctx.blocks.get(enter_block)
+                .and_then(|block| block.instructions.iter().find_map(|insn| {
+                    match &insn.insn_type {
+                        InsnType::MonitorEnter { object } => Some(ctx.expr_gen.gen_arg(object)),
+                        _ => None,
+                    }
+                }))
+                .unwrap_or_else(|| "/* lock */".to_string());
+
             code.start_line()
-                .add("synchronized (/* lock */) {")
+                .add("synchronized (")
+                .add(&lock_obj)
+                .add(") {")
                 .newline();
             code.inc_indent();
             generate_region(body, ctx, code);
@@ -566,14 +806,21 @@ fn generate_content<W: CodeWriter>(content: &RegionContent, ctx: &mut BodyGenCon
 
 /// Generate code for a basic block
 fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, code: &mut W) {
-    for insn in &block.instructions {
+    let insns: Vec<_> = block.instructions.iter().collect();
+
+    for (i, insn) in insns.iter().enumerate() {
         // Skip control flow instructions - they're handled by region structure
         if is_control_flow(&insn.insn_type) {
             continue;
         }
 
+        // Check if next instruction is MoveResult (for invoke pairing)
+        let next_is_move_result = insns.get(i + 1)
+            .map(|next| matches!(next.insn_type, InsnType::MoveResult { .. }))
+            .unwrap_or(false);
+
         // Generate statement or expression
-        if !generate_insn(insn, ctx, code) {
+        if !generate_insn_with_lookahead(insn, next_is_move_result, ctx, code) {
             // Fallback: emit as comment
             code.start_line()
                 .add("/* ")
@@ -581,11 +828,6 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
                 .add(" */")
                 .newline();
         }
-    }
-
-    // Flush any pending invoke expression that wasn't consumed by MoveResult
-    if let Some(invoke) = ctx.last_invoke_expr.take() {
-        code.start_line().add(&invoke).add(";").newline();
     }
 }
 
@@ -598,6 +840,70 @@ fn is_control_flow(insn: &InsnType) -> bool {
             | InsnType::PackedSwitch { .. }
             | InsnType::SparseSwitch { .. }
     )
+}
+
+/// Generate code for an instruction with lookahead information
+fn generate_insn_with_lookahead<W: CodeWriter>(
+    insn: &InsnNode,
+    next_is_move_result: bool,
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) -> bool {
+    // Special handling for Invoke: store expression if MoveResult follows
+    if let InsnType::Invoke { kind, method_idx, args } = &insn.insn_type {
+        // Check if this is an <init> call on a pending new-instance
+        if matches!(kind, InvokeKind::Direct) {
+            // Get method info to check if this is <init>
+            if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
+                if method_info.method_name == "<init>" {
+                    // Get the receiver register (first argument for non-static)
+                    if let Some(InsnArg::Register(recv_reg)) = args.first() {
+                        // Check if this register has a pending new-instance
+                        if let Some(type_idx) = ctx.pending_new_instances.remove(&recv_reg.reg_num) {
+                            // Get the type name
+                            let type_name = ctx.expr_gen.get_type_value(type_idx)
+                                .unwrap_or_else(|| format!("Type#{}", type_idx));
+
+                            // Generate arguments (skip the receiver 'this')
+                            let args_str: Vec<_> = args.iter()
+                                .skip(1)
+                                .map(|a| ctx.expr_gen.gen_arg(a))
+                                .collect();
+
+                            // Combined expression: new Type(args)
+                            let expr = format!("new {}({})", type_name, args_str.join(", "));
+
+                            // Create a synthetic RegisterArg for the destination
+                            let dest = RegisterArg::with_ssa(recv_reg.reg_num, recv_reg.ssa_version);
+                            emit_assignment(&dest, &expr, ctx, code);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Normal invoke handling
+        let expr = if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
+            expr
+        } else {
+            // Fallback
+            let args_str: Vec<_> = args.iter().map(|a| ctx.expr_gen.gen_arg(a)).collect();
+            format!("method#{}({})", method_idx, args_str.join(", "))
+        };
+
+        if next_is_move_result {
+            // Store expression for MoveResult to use
+            ctx.last_invoke_expr = Some(expr);
+        } else {
+            // No MoveResult follows: emit as statement (void return or discarded)
+            code.start_line().add(&expr).add(";").newline();
+        }
+        return true;
+    }
+
+    // For all other instructions, use the standard generator
+    generate_insn(insn, ctx, code)
 }
 
 /// Generate code for a single instruction
@@ -629,7 +935,15 @@ fn generate_insn<W: CodeWriter>(
 
         InsnType::Const { dest, value } => {
             let val_str = ctx.expr_gen.gen_literal(value);
-            emit_assignment(dest, &val_str, ctx, code);
+            // Type hint from literal type
+            let type_hint = match value {
+                LiteralArg::Int(v) if *v >= i32::MIN as i64 && *v <= i32::MAX as i64 => Some(ArgType::Int),
+                LiteralArg::Int(_) => Some(ArgType::Long),
+                LiteralArg::Float(_) => Some(ArgType::Float),
+                LiteralArg::Double(_) => Some(ArgType::Double),
+                LiteralArg::Null => None, // null can be any object type
+            };
+            emit_assignment_with_hint(dest, &val_str, type_hint.as_ref(), ctx, code);
             true
         }
 
@@ -637,7 +951,9 @@ fn generate_insn<W: CodeWriter>(
             // Use gen_insn to properly resolve the string value from DexInfo
             let value = ctx.expr_gen.gen_insn(&insn.insn_type)
                 .unwrap_or_else(|| format!("string#{}", string_idx));
-            emit_assignment(dest, &value, ctx, code);
+            // String type hint
+            let string_type = ArgType::Object("java/lang/String".to_string());
+            emit_assignment_with_hint(dest, &value, Some(&string_type), ctx, code);
             true
         }
 
@@ -648,25 +964,23 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::MoveResult { dest } => {
-            // Result of previous invoke - use stored expression
+            // Use the stored invoke expression from the previous invoke
             let expr = ctx.last_invoke_expr.take()
                 .unwrap_or_else(|| "/* result */".to_string());
             emit_assignment(dest, &expr, ctx, code);
             true
         }
 
-        InsnType::MoveException { dest } => {
-            emit_assignment(dest, "/* caught exception */", ctx, code);
+        InsnType::MoveException { dest: _ } => {
+            // MoveException captures the caught exception - this is implicit in Java's
+            // catch clause syntax (catch (Type e) { ... }), so we don't emit anything
             true
         }
 
         InsnType::NewInstance { dest, type_idx } => {
-            if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                emit_assignment(dest, &expr, ctx, code);
-            } else {
-                let value = format!("new Type#{}()", type_idx);
-                emit_assignment(dest, &value, ctx, code);
-            }
+            // Don't emit code here - track this as a pending new-instance
+            // It will be combined with the following invoke-direct <init> call
+            ctx.pending_new_instances.insert(dest.reg_num, *type_idx);
             true
         }
 
@@ -684,7 +998,8 @@ fn generate_insn<W: CodeWriter>(
         InsnType::ArrayLength { dest, array } => {
             let arr_str = ctx.expr_gen.gen_arg(array);
             let value = format!("{}.length", arr_str);
-            emit_assignment(dest, &value, ctx, code);
+            // ArrayLength always returns int
+            emit_assignment_with_hint(dest, &value, Some(&ArgType::Int), ctx, code);
             true
         }
 
@@ -734,15 +1049,9 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::StaticGet { dest, field_idx } => {
-            let var_name = ctx.expr_gen.get_var_name(dest);
             let field_ref = ctx.expr_gen.get_static_field_ref(*field_idx)
                 .unwrap_or_else(|| format!("field#{}", field_idx));
-            code.start_line()
-                .add(&var_name)
-                .add(" = ")
-                .add(&field_ref)
-                .add(";")
-                .newline();
+            emit_assignment(dest, &field_ref, ctx, code);
             true
         }
 
@@ -760,76 +1069,52 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::Invoke { kind: _, method_idx, args } => {
-            let expr = if let Some(e) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                e
+            if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
+                code.start_line().add(&expr).add(";").newline();
             } else {
                 // Fallback
                 let args_str: Vec<_> = args.iter().map(|a| ctx.expr_gen.gen_arg(a)).collect();
-                format!("method#{}({})", method_idx, args_str.join(", "))
-            };
-            // Store the expression for potential MoveResult
-            // If there's a pending invoke that wasn't consumed by MoveResult, output it now
-            if let Some(prev) = ctx.last_invoke_expr.take() {
-                code.start_line().add(&prev).add(";").newline();
+                code.start_line()
+                    .add("method#")
+                    .add(&method_idx.to_string())
+                    .add("(")
+                    .add(&args_str.join(", "))
+                    .add(");")
+                    .newline();
             }
-            ctx.last_invoke_expr = Some(expr);
             true
         }
 
-        InsnType::Unary { dest, op, arg } => {
+        InsnType::Unary { dest, op: _, arg: _ } => {
             if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                let var_name = ctx.expr_gen.get_var_name(dest);
-                code.start_line()
-                    .add(&var_name)
-                    .add(" = ")
-                    .add(&expr)
-                    .add(";")
-                    .newline();
+                emit_assignment(dest, &expr, ctx, code);
                 true
             } else {
                 false
             }
         }
 
-        InsnType::Binary { dest, op, left, right } => {
+        InsnType::Binary { dest, op: _, left: _, right: _ } => {
             if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                let var_name = ctx.expr_gen.get_var_name(dest);
-                code.start_line()
-                    .add(&var_name)
-                    .add(" = ")
-                    .add(&expr)
-                    .add(";")
-                    .newline();
+                emit_assignment(dest, &expr, ctx, code);
                 true
             } else {
                 false
             }
         }
 
-        InsnType::Cast { dest, cast_type, arg } => {
+        InsnType::Cast { dest, cast_type: _, arg: _ } => {
             if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                let var_name = ctx.expr_gen.get_var_name(dest);
-                code.start_line()
-                    .add(&var_name)
-                    .add(" = ")
-                    .add(&expr)
-                    .add(";")
-                    .newline();
+                emit_assignment(dest, &expr, ctx, code);
                 true
             } else {
                 false
             }
         }
 
-        InsnType::Compare { dest, op, left, right } => {
+        InsnType::Compare { dest, op: _, left: _, right: _ } => {
             if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                let var_name = ctx.expr_gen.get_var_name(dest);
-                code.start_line()
-                    .add(&var_name)
-                    .add(" = ")
-                    .add(&expr)
-                    .add(";")
-                    .newline();
+                emit_assignment(dest, &expr, ctx, code);
                 true
             } else {
                 false
@@ -837,28 +1122,36 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::InstanceOf { dest, object, type_idx } => {
-            let var_name = ctx.expr_gen.get_var_name(dest);
             let obj_str = ctx.expr_gen.gen_arg(object);
-            code.start_line()
-                .add(&var_name)
-                .add(" = ")
-                .add(&obj_str)
-                .add(" instanceof Type#")
-                .add(&type_idx.to_string())
-                .add(";")
-                .newline();
+            let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                .unwrap_or_else(|| format!("Type#{}", type_idx));
+            let expr = format!("{} instanceof {}", obj_str, type_name);
+            emit_assignment(dest, &expr, ctx, code);
             true
         }
 
         InsnType::CheckCast { object, type_idx } => {
-            // Check-cast doesn't produce output, it's a runtime check
-            code.start_line()
-                .add("/* check-cast ")
-                .add(&ctx.expr_gen.gen_arg(object))
-                .add(" to Type#")
-                .add(&type_idx.to_string())
-                .add(" */")
-                .newline();
+            // Check-cast is a runtime type check + cast
+            // Generate as: var = (Type) var;
+            let obj_str = ctx.expr_gen.gen_arg(object);
+            if let Some(cast_expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
+                code.start_line()
+                    .add(&obj_str)
+                    .add(" = ")
+                    .add(&cast_expr)
+                    .add(";")
+                    .newline();
+            } else {
+                // Fallback with type index
+                code.start_line()
+                    .add(&obj_str)
+                    .add(" = (Type#")
+                    .add(&type_idx.to_string())
+                    .add(") ")
+                    .add(&obj_str)
+                    .add(";")
+                    .newline();
+            }
             true
         }
 
@@ -879,33 +1172,26 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::ConstClass { dest, type_idx } => {
-            let var_name = ctx.expr_gen.get_var_name(dest);
-            code.start_line()
-                .add(&var_name)
-                .add(" = Type#")
-                .add(&type_idx.to_string())
-                .add(".class;")
-                .newline();
+            let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                .unwrap_or_else(|| format!("Type#{}", type_idx));
+            let expr = format!("{}.class", type_name);
+            emit_assignment(dest, &expr, ctx, code);
             true
         }
 
         InsnType::FilledNewArray { dest, type_idx, args } => {
             let args_str: Vec<_> = args.iter().map(|a| ctx.expr_gen.gen_arg(a)).collect();
+            let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                .unwrap_or_else(|| format!("Type#{}", type_idx));
+            let expr = format!("new {}[] {{ {} }}", type_name, args_str.join(", "));
             if let Some(d) = dest {
-                let var_name = ctx.expr_gen.get_var_name(d);
-                code.start_line()
-                    .add(&var_name)
-                    .add(" = new Type#")
-                    .add(&type_idx.to_string())
-                    .add("[] { ")
-                    .add(&args_str.join(", "))
-                    .add(" };")
-                    .newline();
+                emit_assignment(d, &expr, ctx, code);
             }
             true
         }
 
-        InsnType::FillArrayData { array, payload_offset } => {
+        InsnType::FillArrayData { array: _, payload_offset: _ } => {
+            // TODO: Parse array data payload and generate array initialization
             code.start_line()
                 .add("/* fill-array-data */")
                 .newline();

@@ -2,12 +2,14 @@
 //!
 //! Generates Java source code for methods.
 
+use std::collections::BTreeSet;
+
 use jadx_ir::{ArgType, ClassData, MethodData};
 
 use crate::access_flags::{self, flags::*, AccessContext};
 use crate::body_gen::{generate_body, generate_body_with_dex};
-use crate::dex_info::DexInfo;
-use crate::type_gen::{get_simple_name, type_to_string};
+use crate::dex_info::DexInfoProvider;
+use crate::type_gen::{get_simple_name, type_to_string, type_to_string_with_imports};
 use crate::writer::CodeWriter;
 
 /// Check if a method should have @Override annotation
@@ -32,13 +34,14 @@ fn should_add_override(method: &MethodData, class: &ClassData) -> bool {
 }
 
 /// Generate a method into a writer
+#[allow(dead_code)]
 pub fn generate_method<W: CodeWriter>(
     method: &MethodData,
     class: &ClassData,
     fallback: bool,
     code: &mut W,
 ) {
-    generate_method_with_dex(method, class, fallback, None, code)
+    generate_method_with_dex(method, class, fallback, None, None, code)
 }
 
 /// Generate a method into a writer with DEX info for name resolution
@@ -46,7 +49,8 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     method: &MethodData,
     class: &ClassData,
     _fallback: bool,
-    dex_info: Option<&DexInfo>,
+    imports: Option<&BTreeSet<String>>,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     code: &mut W,
 ) {
     // Add @Override annotation for potential override methods
@@ -72,15 +76,15 @@ pub fn generate_method_with_dex<W: CodeWriter>(
         // Static initializer
         code.add("static");
     } else {
-        // Regular method
-        code.add(&type_to_string(&method.return_type));
+        // Regular method (use simple names when imports available)
+        code.add(&type_to_string_with_imports(&method.return_type, imports));
         code.add(" ");
         code.add(&method.name);
     }
 
     // Parameters (except for static initializer)
     if !method.is_class_init() {
-        add_parameters(method, code);
+        add_parameters(method, imports, code);
     }
 
     // Method body
@@ -91,21 +95,21 @@ pub fn generate_method_with_dex<W: CodeWriter>(
         // Static initializer block
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_dex(method, dex_info, code);
+        add_method_body_with_dex(method, dex_info.clone(), code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
         // Regular method with body
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_dex(method, dex_info, code);
+        add_method_body_with_dex(method, dex_info.clone(), code);
         code.dec_indent();
         code.start_line().add("}").newline();
     }
 }
 
 /// Add method parameters
-fn add_parameters<W: CodeWriter>(method: &MethodData, code: &mut W) {
+fn add_parameters<W: CodeWriter>(method: &MethodData, imports: Option<&BTreeSet<String>>, code: &mut W) {
     code.add("(");
 
     let is_varargs = method.access_flags & ACC_VARARGS != 0;
@@ -120,17 +124,17 @@ fn add_parameters<W: CodeWriter>(method: &MethodData, code: &mut W) {
         let is_last = i == param_count - 1;
         let is_last_vararg = is_last && is_varargs;
 
-        // Type (convert last array to varargs if needed)
+        // Type (convert last array to varargs if needed, use simple names when imports available)
         if is_last_vararg {
             if let ArgType::Array(elem) = param_type {
-                code.add(&type_to_string(elem));
+                code.add(&type_to_string_with_imports(elem, imports));
                 code.add("...");
             } else {
                 // Fallback - shouldn't happen but handle gracefully
-                code.add(&type_to_string(param_type));
+                code.add(&type_to_string_with_imports(param_type, imports));
             }
         } else {
-            code.add(&type_to_string(param_type));
+            code.add(&type_to_string_with_imports(param_type, imports));
         }
 
         // Parameter name (generated)
@@ -185,7 +189,7 @@ fn add_method_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 /// Add method body with DEX info for name resolution
 fn add_method_body_with_dex<W: CodeWriter>(
     method: &MethodData,
-    dex_info: Option<&DexInfo>,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     code: &mut W,
 ) {
     // Use the body generator with DEX info for proper name resolution

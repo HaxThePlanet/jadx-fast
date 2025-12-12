@@ -14,6 +14,7 @@ jadx-dex.workspace = true
 jadx-ir.workspace = true
 jadx-passes.workspace = true
 jadx-codegen.workspace = true
+jadx-resources.workspace = true
 clap.workspace = true
 indicatif.workspace = true
 rayon.workspace = true

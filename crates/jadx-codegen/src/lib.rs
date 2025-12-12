@@ -27,7 +27,7 @@ pub mod writer;
 // Re-exports for convenience
 pub use body_gen::{generate_body, generate_body_with_dex, BodyGenContext};
 pub use class_gen::{generate_class, generate_class_with_dex, ClassGenConfig};
-pub use dex_info::DexInfo;
+pub use dex_info::{DexInfo, DexInfoProvider, LazyDexInfo};
 pub use expr_gen::{ExprGen, FieldInfo, MethodInfo};
 pub use stmt_gen::StmtGen;
 pub use type_gen::{type_to_string, escape_string};

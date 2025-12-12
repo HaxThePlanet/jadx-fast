@@ -513,6 +513,7 @@ impl<'a> RegionBuilder<'a> {
         self.stack.pop();
 
         let region = Region::Synchronized {
+            enter_block: sync_info.enter_block,
             body: Box::new(body),
         };
 
@@ -809,6 +810,7 @@ impl<'a> RegionBuilder<'a> {
         self.stack.pop();
 
         let region = Region::Switch {
+            header_block: block,
             cases,
             default: default_case,
         };

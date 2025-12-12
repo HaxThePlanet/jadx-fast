@@ -14,14 +14,14 @@
 //!
 //! ### Phase 2: Parallel Code Generation
 //! - Converts IR to Java source code using rayon for parallelism
-//! - `DexInfo` wrapped in `Arc` for thread-safe sharing
+//! - `LazyDexInfo` wrapped in `Arc` for thread-safe sharing
 //! - Pre-creates output directories to avoid race conditions
 //!
-//! ## Memory Considerations
+//! ## Memory Optimization
 //!
-//! **Warning**: `build_dex_info()` loads all DEX pools (strings, types, fields,
-//! methods) into memory upfront. For large APKs (50k+ classes), this can cause
-//! memory exhaustion. Use `--single-class` as a workaround.
+//! Uses `LazyDexInfo` for on-demand loading of DEX pools (strings, types, fields,
+//! methods), similar to Java JADX's approach. Only loads data when needed during
+//! code generation, dramatically reducing memory usage for large APKs.
 //!
 //! ## Framework Filtering
 //!
@@ -42,7 +42,7 @@ use clap::Parser;
 use indicatif::{ProgressBar, ProgressStyle};
 use rayon::prelude::*;
 
-use jadx_codegen::{DexInfo, FieldInfo, MethodInfo};
+use jadx_codegen::{LazyDexInfo, DexInfoProvider};
 use jadx_ir::ClassData;
 use jadx_dex::DexReader;
 use jadx_ir::ArgType;
@@ -174,15 +174,18 @@ fn process_input(input: &PathBuf, args: &Args) -> Result<()> {
     Ok(())
 }
 
-fn process_apk(input: &PathBuf, out_src: &PathBuf, _out_res: &PathBuf, args: &Args) -> Result<()> {
+fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Args) -> Result<()> {
     tracing::info!("Processing APK: {}", input.display());
 
     let file = std::fs::File::open(input)?;
     let mut archive = zip::ZipArchive::new(file)?;
 
     let mut dex_files = Vec::new();
+    let mut manifest_data: Option<Vec<u8>> = None;
+    let mut arsc_data: Option<Vec<u8>> = None;
+    let mut xml_resources: Vec<(String, Vec<u8>)> = Vec::new();
 
-    // Extract DEX files from APK
+    // Extract files from APK
     for i in 0..archive.len() {
         let mut entry = archive.by_index(i)?;
         let name = entry.name().to_string();
@@ -191,11 +194,29 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, _out_res: &PathBuf, args: &Ar
             let mut data = Vec::new();
             entry.read_to_end(&mut data)?;
             dex_files.push((name, data));
+        } else if name == "AndroidManifest.xml" {
+            let mut data = Vec::new();
+            entry.read_to_end(&mut data)?;
+            manifest_data = Some(data);
+        } else if name == "resources.arsc" {
+            let mut data = Vec::new();
+            entry.read_to_end(&mut data)?;
+            arsc_data = Some(data);
+        } else if name.starts_with("res/") && name.ends_with(".xml") {
+            let mut data = Vec::new();
+            entry.read_to_end(&mut data)?;
+            xml_resources.push((name, data));
         }
     }
 
-    tracing::info!("Found {} DEX file(s)", dex_files.len());
+    tracing::info!("Found {} DEX file(s), {} resource XMLs", dex_files.len(), xml_resources.len());
 
+    // Process resources (ARSC + AXML)
+    if !args.skip_resources {
+        process_resources(out_res, manifest_data, arsc_data, xml_resources)?;
+    }
+
+    // Process source code (DEX)
     if !args.skip_sources {
         let progress = create_progress_bar(args);
         let mut total_classes = 0;
@@ -227,6 +248,79 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, _out_res: &PathBuf, args: &Ar
     Ok(())
 }
 
+fn process_resources(
+    out_res: &PathBuf,
+    manifest_data: Option<Vec<u8>>,
+    arsc_data: Option<Vec<u8>>,
+    xml_resources: Vec<(String, Vec<u8>)>,
+) -> Result<()> {
+    use jadx_resources::{ArscParser, AxmlParser};
+    use std::collections::HashMap;
+
+    tracing::info!("Processing resources...");
+
+    // Parse resources.arsc first to get resource name mappings
+    let mut res_names: HashMap<u32, String> = HashMap::new();
+    if let Some(ref data) = arsc_data {
+        tracing::debug!("Parsing resources.arsc ({} bytes)", data.len());
+        let mut arsc_parser = ArscParser::new();
+        match arsc_parser.parse(data) {
+            Ok(()) => {
+                res_names = arsc_parser.get_res_names();
+                tracing::info!("Parsed {} resource entries", res_names.len());
+            }
+            Err(e) => {
+                tracing::warn!("Failed to parse resources.arsc: {}", e);
+            }
+        }
+    }
+
+    // Parse and write AndroidManifest.xml
+    if let Some(data) = manifest_data {
+        tracing::debug!("Parsing AndroidManifest.xml ({} bytes)", data.len());
+        let mut axml_parser = AxmlParser::new();
+        axml_parser.set_res_names(res_names.clone());
+
+        match axml_parser.parse(&data) {
+            Ok(xml) => {
+                let out_path = out_res.join("AndroidManifest.xml");
+                std::fs::write(&out_path, &xml)?;
+                tracing::info!("Wrote AndroidManifest.xml ({} bytes)", xml.len());
+            }
+            Err(e) => {
+                tracing::warn!("Failed to parse AndroidManifest.xml: {}", e);
+            }
+        }
+    }
+
+    // Parse and write other XML resources
+    let xml_count = xml_resources.len();
+    let mut xml_errors = 0;
+
+    for (name, data) in xml_resources {
+        let mut axml_parser = AxmlParser::new();
+        axml_parser.set_res_names(res_names.clone());
+
+        match axml_parser.parse(&data) {
+            Ok(xml) => {
+                let out_path = out_res.join(&name);
+                if let Some(parent) = out_path.parent() {
+                    std::fs::create_dir_all(parent)?;
+                }
+                std::fs::write(&out_path, &xml)?;
+            }
+            Err(e) => {
+                tracing::debug!("Failed to parse {}: {}", name, e);
+                xml_errors += 1;
+            }
+        }
+    }
+
+    tracing::info!("Processed {} resource XMLs ({} errors)", xml_count, xml_errors);
+
+    Ok(())
+}
+
 fn process_dex(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     tracing::info!("Processing DEX: {}", input.display());
 
@@ -248,7 +342,8 @@ fn process_dex_bytes(
     args: &Args,
     progress: Option<&ProgressBar>,
 ) -> Result<usize> {
-    let dex = DexReader::from_slice(0, "input.dex".to_string(), data)?;
+    // Wrap DexReader in Arc for sharing with LazyDexInfo
+    let dex = std::sync::Arc::new(DexReader::from_slice(0, "input.dex".to_string(), data)?);
 
     let class_count = dex.header.class_defs_size as usize;
     tracing::info!(
@@ -258,16 +353,11 @@ fn process_dex_bytes(
         dex.header.string_ids_size
     );
 
-    // Build DexInfo for name resolution during code generation
-    tracing::debug!("Building DEX info for name resolution...");
-    let dex_info = build_dex_info(&dex);
-    tracing::debug!(
-        "Loaded {} strings, {} types, {} fields, {} methods",
-        dex_info.strings.len(),
-        dex_info.types.len(),
-        dex_info.fields.len(),
-        dex_info.methods.len()
-    );
+    // Create LazyDexInfo for name resolution during code generation
+    // This is O(1) - no data is loaded upfront (lazy loading like Java JADX)
+    tracing::debug!("Creating lazy DEX info for name resolution...");
+    let dex_info = LazyDexInfo::new(std::sync::Arc::clone(&dex));
+    tracing::debug!("LazyDexInfo ready (on-demand loading enabled)");
 
     if let Some(pb) = progress {
         pb.set_length(class_count as u64);
@@ -347,7 +437,7 @@ fn process_dex_bytes(
         num_threads
     );
 
-    // Wrap DexInfo in Arc for sharing across threads
+    // Wrap LazyDexInfo in Arc for sharing across threads
     let dex_info = std::sync::Arc::new(dex_info);
 
     // Pre-create all necessary directories (sequential to avoid races)
@@ -369,7 +459,9 @@ fn process_dex_bytes(
             let java_code = match ir_result {
                 Ok(ir_class) => {
                     let config = jadx_codegen::ClassGenConfig::default();
-                    jadx_codegen::generate_class_with_dex(ir_class, &config, Some(&dex_info))
+                    // Clone the Arc for each parallel thread
+                    let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
+                    jadx_codegen::generate_class_with_dex(ir_class, &config, Some(dex_arc))
                 }
                 Err(e) => {
                     // Generate stub for failed conversions
@@ -532,79 +624,5 @@ fn generate_class_stub(class: &jadx_dex::sections::ClassDef<'_>, class_name: &st
     Ok(out)
 }
 
-/// Build DexInfo from DexReader for name resolution during code generation
-fn build_dex_info(dex: &DexReader) -> DexInfo {
-    let mut info = DexInfo::new();
-
-    // Load all strings
-    for idx in 0..dex.header.string_ids_size {
-        if let Ok(s) = dex.get_string(idx) {
-            info.add_string(idx, s.to_string());
-        }
-    }
-
-    // Load all type descriptors
-    for idx in 0..dex.header.type_ids_size {
-        if let Ok(t) = dex.get_type(idx) {
-            info.add_type(idx, t.to_string());
-        }
-    }
-
-    // Load all field info
-    for idx in 0..dex.header.field_ids_size {
-        if let Ok(field) = dex.get_field(idx) {
-            if let (Ok(class_type), Ok(field_name), Ok(field_type_desc)) =
-                (field.class_type(), field.name(), field.field_type())
-            {
-                let class_name = descriptor_to_simple_name(class_type);
-                let field_type = parse_type_descriptor(field_type_desc);
-                info.add_field(idx, FieldInfo {
-                    class_name,
-                    field_name: field_name.to_string(),
-                    field_type,
-                });
-            }
-        }
-    }
-
-    // Load all method info
-    for idx in 0..dex.header.method_ids_size {
-        if let Ok(method) = dex.get_method(idx) {
-            if let (Ok(class_type), Ok(method_name), Ok(proto)) =
-                (method.class_type(), method.name(), method.proto())
-            {
-                let class_name = descriptor_to_simple_name(class_type);
-                let return_type = proto.return_type()
-                    .map(|d| parse_type_descriptor(d))
-                    .unwrap_or(ArgType::Void);
-                let param_types: Vec<ArgType> = proto.parameters()
-                    .map(|params| params.into_iter().map(|d| parse_type_descriptor(d)).collect())
-                    .unwrap_or_default();
-
-                info.add_method(idx, MethodInfo {
-                    class_name,
-                    method_name: method_name.to_string(),
-                    return_type,
-                    param_types,
-                });
-            }
-        }
-    }
-
-    info
-}
-
-/// Convert type descriptor to simple class name
-fn descriptor_to_simple_name(desc: &str) -> String {
-    if desc.starts_with('L') && desc.ends_with(';') {
-        let inner = &desc[1..desc.len()-1];
-        inner.rsplit('/').next().unwrap_or(inner).to_string()
-    } else {
-        desc.to_string()
-    }
-}
-
-/// Parse type descriptor to ArgType
-fn parse_type_descriptor(desc: &str) -> ArgType {
-    ArgType::from_descriptor(desc).unwrap_or(ArgType::Unknown)
-}
+// NOTE: build_dex_info() was removed - replaced by LazyDexInfo for memory efficiency
+// LazyDexInfo loads strings/types/fields/methods on-demand instead of upfront

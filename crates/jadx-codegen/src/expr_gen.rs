@@ -4,6 +4,7 @@
 //! For example: `Binary { op: Add, left: v0, right: v1 }` -> `"a + b"`
 
 use std::collections::HashMap;
+use std::sync::Arc;
 
 use jadx_ir::instructions::{
     BinaryOp, CastType, IfCondition, InsnArg, InsnType,
@@ -11,26 +12,33 @@ use jadx_ir::instructions::{
 };
 use jadx_ir::types::ArgType;
 
+use crate::dex_info::DexInfoProvider;
+
 /// Expression generation context
 pub struct ExprGen {
     /// Variable names: (reg_num, ssa_version) -> name
     var_names: HashMap<(u16, u32), String>,
     /// Variable types (for casting decisions)
     var_types: HashMap<(u16, u32), ArgType>,
-    /// String pool for const-string
+    /// String pool for const-string (local cache)
     strings: HashMap<u32, String>,
-    /// Type names for type_idx
+    /// Type names for type_idx (local cache)
     type_names: HashMap<u32, String>,
-    /// Field info for field_idx
+    /// Field info for field_idx (local cache)
     field_info: HashMap<u32, FieldInfo>,
-    /// Method info for method_idx
+    /// Method info for method_idx (local cache)
     method_info: HashMap<u32, MethodInfo>,
+    /// Optional DEX info provider for lazy lookups
+    dex_provider: Option<Arc<dyn DexInfoProvider>>,
 }
 
 /// Field information
 #[derive(Clone)]
 pub struct FieldInfo {
+    /// Simple class name (e.g., "Log") for code generation
     pub class_name: String,
+    /// Internal class type (e.g., "android/util/Log") for import collection
+    pub class_type: String,
     pub field_name: String,
     pub field_type: ArgType,
 }
@@ -38,7 +46,10 @@ pub struct FieldInfo {
 /// Method information
 #[derive(Clone)]
 pub struct MethodInfo {
+    /// Simple class name (e.g., "Log") for code generation
     pub class_name: String,
+    /// Internal class type (e.g., "android/util/Log") for import collection
+    pub class_type: String,
     pub method_name: String,
     pub return_type: ArgType,
     pub param_types: Vec<ArgType>,
@@ -54,7 +65,26 @@ impl ExprGen {
             type_names: HashMap::new(),
             field_info: HashMap::new(),
             method_info: HashMap::new(),
+            dex_provider: None,
         }
+    }
+
+    /// Create a new expression generator with a DEX info provider for lazy lookups
+    pub fn with_dex_provider(dex_provider: Arc<dyn DexInfoProvider>) -> Self {
+        ExprGen {
+            var_names: HashMap::new(),
+            var_types: HashMap::new(),
+            strings: HashMap::new(),
+            type_names: HashMap::new(),
+            field_info: HashMap::new(),
+            method_info: HashMap::new(),
+            dex_provider: Some(dex_provider),
+        }
+    }
+
+    /// Set the DEX info provider for lazy lookups
+    pub fn set_dex_provider(&mut self, provider: Arc<dyn DexInfoProvider>) {
+        self.dex_provider = Some(provider);
     }
 
     /// Set variable name
@@ -99,7 +129,7 @@ impl ExprGen {
 
     /// Get static field reference (Class.fieldName)
     pub fn get_static_field_ref(&self, idx: u32) -> Option<String> {
-        self.field_info.get(&idx).map(|f| format!("{}.{}", f.class_name, f.field_name))
+        self.get_field_value(idx).map(|f| format!("{}.{}", f.class_name, f.field_name))
     }
 
     /// Get variable name (or generate default)
@@ -110,18 +140,41 @@ impl ExprGen {
             .unwrap_or_else(|| format!("v{}", reg.reg_num))
     }
 
+    /// Get string by index (local cache first, then DEX provider)
+    fn get_string_value(&self, idx: u32) -> Option<String> {
+        self.strings.get(&idx).cloned()
+            .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_string(idx)))
+    }
+
+    /// Get type name by index (local cache first, then DEX provider)
+    pub fn get_type_value(&self, idx: u32) -> Option<String> {
+        self.type_names.get(&idx).cloned()
+            .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_type_name(idx)))
+    }
+
+    /// Get field info by index (local cache first, then DEX provider)
+    pub fn get_field_value(&self, idx: u32) -> Option<FieldInfo> {
+        self.field_info.get(&idx).cloned()
+            .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_field(idx)))
+    }
+
+    /// Get method info by index (local cache first, then DEX provider)
+    pub fn get_method_value(&self, idx: u32) -> Option<MethodInfo> {
+        self.method_info.get(&idx).cloned()
+            .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_method(idx)))
+    }
+
     /// Generate expression for an instruction argument
     pub fn gen_arg(&self, arg: &InsnArg) -> String {
         match arg {
             InsnArg::Register(reg) => self.get_var_name(reg),
             InsnArg::Literal(lit) => self.gen_literal(lit),
-            InsnArg::Type(idx) => self.type_names.get(idx)
-                .cloned()
+            InsnArg::Type(idx) => self.get_type_value(*idx)
                 .unwrap_or_else(|| format!("Type#{}", idx)),
             InsnArg::Field(idx) => format!("field#{}", idx),
             InsnArg::Method(idx) => format!("method#{}", idx),
-            InsnArg::String(idx) => self.strings.get(idx)
-                .map(|s| format!("\"{}\"", escape_string(s)))
+            InsnArg::String(idx) => self.get_string_value(*idx)
+                .map(|s| format!("\"{}\"", escape_string(&s)))
                 .unwrap_or_else(|| format!("string#{}", idx)),
         }
     }
@@ -164,14 +217,13 @@ impl ExprGen {
             InsnType::Const { value, .. } => Some(self.gen_literal(value)),
 
             InsnType::ConstString { string_idx, .. } => {
-                Some(self.strings.get(string_idx)
-                    .map(|s| format!("\"{}\"", escape_string(s)))
+                Some(self.get_string_value(*string_idx)
+                    .map(|s| format!("\"{}\"", escape_string(&s)))
                     .unwrap_or_else(|| format!("string#{}", string_idx)))
             }
 
             InsnType::ConstClass { type_idx, .. } => {
-                let name = self.type_names.get(type_idx)
-                    .cloned()
+                let name = self.get_type_value(*type_idx)
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
                 Some(format!("{}.class", name))
             }
@@ -179,15 +231,13 @@ impl ExprGen {
             InsnType::Move { src, .. } => Some(self.gen_arg(src)),
 
             InsnType::NewInstance { type_idx, .. } => {
-                let name = self.type_names.get(type_idx)
-                    .cloned()
+                let name = self.get_type_value(*type_idx)
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
                 Some(format!("new {}()", name))
             }
 
             InsnType::NewArray { size, type_idx, .. } => {
-                let name = self.type_names.get(type_idx)
-                    .cloned()
+                let name = self.get_type_value(*type_idx)
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
                 let size_str = self.gen_arg(size);
                 // Type is array type, get element type
@@ -196,8 +246,7 @@ impl ExprGen {
             }
 
             InsnType::FilledNewArray { type_idx, args, .. } => {
-                let name = self.type_names.get(type_idx)
-                    .cloned()
+                let name = self.get_type_value(*type_idx)
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
                 let elem_name = name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';');
                 let args_str: Vec<_> = args.iter().map(|a| self.gen_arg(a)).collect();
@@ -213,14 +262,13 @@ impl ExprGen {
             }
 
             InsnType::InstanceOf { object, type_idx, .. } => {
-                let name = self.type_names.get(type_idx)
-                    .cloned()
+                let name = self.get_type_value(*type_idx)
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
                 Some(format!("{} instanceof {}", self.gen_arg(object), name))
             }
 
             InsnType::InstanceGet { object, field_idx, .. } => {
-                if let Some(info) = self.field_info.get(field_idx) {
+                if let Some(info) = self.get_field_value(*field_idx) {
                     Some(format!("{}.{}", self.gen_arg(object), info.field_name))
                 } else {
                     Some(format!("{}.field#{}", self.gen_arg(object), field_idx))
@@ -228,7 +276,7 @@ impl ExprGen {
             }
 
             InsnType::StaticGet { field_idx, .. } => {
-                if let Some(info) = self.field_info.get(field_idx) {
+                if let Some(info) = self.get_field_value(*field_idx) {
                     Some(format!("{}.{}", info.class_name, info.field_name))
                 } else {
                     Some(format!("field#{}", field_idx))
@@ -241,7 +289,7 @@ impl ExprGen {
                     .map(|a| self.gen_arg(a))
                     .collect();
 
-                if let Some(info) = self.method_info.get(method_idx) {
+                if let Some(info) = self.get_method_value(*method_idx) {
                     match kind {
                         InvokeKind::Static => {
                             Some(format!("{}.{}({})", info.class_name, info.method_name, args_str.join(", ")))
@@ -304,8 +352,7 @@ impl ExprGen {
             }
 
             InsnType::CheckCast { object, type_idx } => {
-                let name = self.type_names.get(type_idx)
-                    .cloned()
+                let name = self.get_type_value(*type_idx)
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
                 Some(format!("({}){}", name, self.gen_arg(object)))
             }

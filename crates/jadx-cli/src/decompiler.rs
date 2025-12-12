@@ -14,7 +14,7 @@ use jadx_passes::{
 };
 use jadx_codegen::{
     generate_body_with_dex, generate_class_with_dex,
-    dex_info::DexInfo,
+    dex_info::DexInfoProvider,
     class_gen::ClassGenConfig,
     writer::{CodeWriter, SimpleCodeWriter},
 };
@@ -104,14 +104,14 @@ pub fn decompile_summary(result: &DecompiledMethod) -> String {
 }
 
 /// Generate Java source code for a method body
-pub fn generate_method_code(method: &MethodData, dex_info: Option<&DexInfo>) -> String {
+pub fn generate_method_code(method: &MethodData, dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>) -> String {
     let mut writer = SimpleCodeWriter::new();
     generate_body_with_dex(method, dex_info, &mut writer);
     writer.finish()
 }
 
 /// Generate Java source code for a class
-pub fn generate_class_code(class: &ClassData, dex_info: Option<&DexInfo>) -> String {
+pub fn generate_class_code(class: &ClassData, dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>) -> String {
     let config = ClassGenConfig {
         use_imports: true,
         show_debug: false,
@@ -121,7 +121,7 @@ pub fn generate_class_code(class: &ClassData, dex_info: Option<&DexInfo>) -> Str
 }
 
 /// Decompile a class and generate Java source code
-pub fn decompile_class(class: &ClassData, dex_info: Option<&DexInfo>) -> String {
+pub fn decompile_class(class: &ClassData, dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>) -> String {
     generate_class_code(class, dex_info)
 }
 

@@ -24,6 +24,8 @@ pub enum Region {
 
     /// Switch region
     Switch {
+        /// Block containing the switch instruction (for extracting switch value)
+        header_block: u32,
         cases: Vec<SwitchCase>,
         default: Option<Box<Region>>,
     },
@@ -37,6 +39,8 @@ pub enum Region {
 
     /// Synchronized block
     Synchronized {
+        /// Block containing the MonitorEnter instruction (for extracting lock object)
+        enter_block: u32,
         body: Box<Region>,
     },
 }

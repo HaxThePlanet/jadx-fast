@@ -4,8 +4,13 @@
 
 use jadx_ir::ArgType;
 
-/// Convert an ArgType to its Java source representation
+/// Convert an ArgType to its Java source representation (fully qualified)
 pub fn type_to_string(ty: &ArgType) -> String {
+    type_to_string_with_imports(ty, None)
+}
+
+/// Convert an ArgType to Java source, using simple names for imported types
+pub fn type_to_string_with_imports(ty: &ArgType, imports: Option<&std::collections::BTreeSet<String>>) -> String {
     match ty {
         ArgType::Void => "void".to_string(),
         ArgType::Boolean => "boolean".to_string(),
@@ -16,14 +21,16 @@ pub fn type_to_string(ty: &ArgType) -> String {
         ArgType::Long => "long".to_string(),
         ArgType::Float => "float".to_string(),
         ArgType::Double => "double".to_string(),
-        ArgType::Object(name) => object_to_java_name(name),
-        ArgType::Array(elem) => format!("{}[]", type_to_string(elem)),
+        ArgType::Object(name) => object_to_java_name_with_imports(name, imports),
+        ArgType::Array(elem) => format!("{}[]", type_to_string_with_imports(elem, imports)),
         ArgType::Generic { base, params } => {
-            let base_name = object_to_java_name(base);
+            let base_name = object_to_java_name_with_imports(base, imports);
             if params.is_empty() {
                 base_name
             } else {
-                let param_str: Vec<_> = params.iter().map(type_to_string).collect();
+                let param_str: Vec<_> = params.iter()
+                    .map(|t| type_to_string_with_imports(t, imports))
+                    .collect();
                 format!("{}<{}>", base_name, param_str.join(", "))
             }
         }
@@ -31,8 +38,8 @@ pub fn type_to_string(ty: &ArgType) -> String {
             use jadx_ir::types::WildcardBound;
             match (bound, inner) {
                 (WildcardBound::Unbounded, _) => "?".to_string(),
-                (WildcardBound::Extends, Some(t)) => format!("? extends {}", type_to_string(t)),
-                (WildcardBound::Super, Some(t)) => format!("? super {}", type_to_string(t)),
+                (WildcardBound::Extends, Some(t)) => format!("? extends {}", type_to_string_with_imports(t, imports)),
+                (WildcardBound::Super, Some(t)) => format!("? super {}", type_to_string_with_imports(t, imports)),
                 _ => "?".to_string(),
             }
         }
@@ -44,13 +51,35 @@ pub fn type_to_string(ty: &ArgType) -> String {
 /// e.g., "java/lang/String" -> "String" (for common types)
 /// or "com/example/Foo" -> "com.example.Foo" (full qualified)
 pub fn object_to_java_name(internal: &str) -> String {
+    object_to_java_name_with_imports(internal, None)
+}
+
+/// Convert an internal class name to Java source format, using simple names when imported
+pub fn object_to_java_name_with_imports(internal: &str, imports: Option<&std::collections::BTreeSet<String>>) -> String {
+    // Strip L prefix and ; suffix if present
+    let stripped = internal
+        .strip_prefix('L')
+        .unwrap_or(internal)
+        .strip_suffix(';')
+        .unwrap_or(internal);
+
     // Handle common java.lang types with short names
-    if let Some(simple) = get_java_lang_short_name(internal) {
+    if let Some(simple) = get_java_lang_short_name(stripped) {
         return simple.to_string();
     }
 
-    // Convert / to . for package separator
-    internal.replace('/', ".")
+    // Check if type is imported - if so, use simple name
+    if let Some(imported_types) = imports {
+        if imported_types.contains(stripped) {
+            // Return just the simple class name
+            if let Some(simple) = stripped.rsplit('/').next() {
+                return simple.to_string();
+            }
+        }
+    }
+
+    // Convert / to . for package separator (fully qualified)
+    stripped.replace('/', ".")
 }
 
 /// Get short name for java.lang classes (no import needed)

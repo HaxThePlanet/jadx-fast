@@ -6,6 +6,7 @@ edition.workspace = true
 license.workspace = true
 
 [dependencies]
+jadx-dex.workspace = true
 jadx-ir.workspace = true
 jadx-passes.workspace = true
 itoa.workspace = true

@@ -6,6 +6,7 @@ members = [
     "jadx-passes",
     "jadx-codegen",
     "jadx-cli",
+    "jadx-resources",
 ]
 
 [workspace.package]
@@ -66,6 +67,7 @@ jadx-dex = { path = "jadx-dex" }
 jadx-ir = { path = "jadx-ir" }
 jadx-passes = { path = "jadx-passes" }
 jadx-codegen = { path = "jadx-codegen" }
+jadx-resources = { path = "jadx-resources" }
 
 [profile.release]
 lto = true
