@@ -336,31 +336,30 @@ fn if_condition_to_string(op: &IfCondition, negated: bool) -> &'static str {
 /// These define variables that are used in the condition expression
 fn generate_condition_setup<W: CodeWriter>(condition: &Condition, ctx: &mut BodyGenContext, code: &mut W) {
     // Collect all blocks referenced by this condition
-    let mut blocks = Vec::new();
-    condition.collect_blocks(&mut blocks);
+    let mut block_ids = Vec::new();
+    condition.collect_blocks(&mut block_ids);
 
-    // Generate non-If instructions from each condition block
-    for block_id in blocks {
-        if let Some(block) = ctx.blocks.get(&block_id) {
-            for insn in &block.instructions {
-                // Skip the If instruction itself - it becomes the condition
-                if matches!(insn.insn_type, InsnType::If { .. }) {
-                    continue;
-                }
-                // Skip control flow instructions
-                if is_control_flow(&insn.insn_type) {
-                    continue;
-                }
-                // Generate the instruction
-                if !generate_insn(insn, ctx, code) {
-                    // Fallback: emit as comment
-                    code.start_line()
-                        .add("/* ")
-                        .add(&format!("{:?}", insn.insn_type))
-                        .add(" */")
-                        .newline();
-                }
-            }
+    // First, collect all the instructions we need to generate (to avoid borrow issues)
+    let instructions: Vec<_> = block_ids
+        .iter()
+        .filter_map(|block_id| ctx.blocks.get(block_id))
+        .flat_map(|block| block.instructions.iter())
+        .filter(|insn| {
+            // Skip the If instruction itself and control flow
+            !matches!(insn.insn_type, InsnType::If { .. }) && !is_control_flow(&insn.insn_type)
+        })
+        .cloned()
+        .collect();
+
+    // Now generate the instructions
+    for insn in &instructions {
+        if !generate_insn(insn, ctx, code) {
+            // Fallback: emit as comment
+            code.start_line()
+                .add("/* ")
+                .add(&format!("{:?}", insn.insn_type))
+                .add(" */")
+                .newline();
         }
     }
 }
