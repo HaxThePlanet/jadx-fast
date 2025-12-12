@@ -4,29 +4,27 @@ A high-performance Android DEX/APK decompiler written in Rust.
 
 This is a Rust port of [JADX](https://github.com/skylot/jadx), aiming for identical output with significantly improved performance through Rust's zero-cost abstractions, memory safety, and parallel processing capabilities.
 
-## Current Work
+## Current Status: Name Resolution Working
 
-- **Linda (Claude Opus 4.5)**: ✅ Condition expression extraction - DONE
-  - Modified `region_builder.rs` to extract `IfCondition` from blocks
-  - Added `generate_condition()` in `body_gen.rs` to convert `Condition` to expression strings
-  - Supports simple conditions, AND/OR/NOT compound conditions, and ternary
-  - If/while/for now generate actual conditions like `v0 == 0` instead of `/* condition */`
+**~16,000 lines of Rust | 133 tests passing**
 
-## Project Status
+The full decompilation pipeline is functional with **proper name resolution**:
+- String literals: `"SmallApp"`, `"Hello World"` instead of `string#0`
+- Field names: `R.layout.activity_main` instead of `field#123`
+- Method calls: `Log.i()`, `setContentView()` instead of `method#456`
+- Superclass calls: `super.onCreate(bundle)`
 
-**Active Development** - ~15,000 lines of Rust, 133 tests passing. Core pipeline functional.
-
-| Component | Lines | Status | Description |
-|-----------|------:|--------|-------------|
-| jadx-dex | 2,999 | ✅ Complete | DEX parsing, instruction decoding (256 opcodes), code items |
-| jadx-ir | 2,121 | ✅ Complete | IR types, instruction builder, regions, class/method/field data |
-| jadx-passes | 5,457 | 🔨 60% | Block splitting, CFG, dominators, SSA, type inference, regions |
-| jadx-codegen | 3,032 | 🔨 50% | Class/method gen, expression/statement gen, body generation |
-| jadx-cli | 1,236 | ✅ Complete | Full CLI args, APK/DEX processing, converter, decompiler pipeline |
+| Component | Lines | Tests | Status |
+|-----------|------:|------:|--------|
+| jadx-dex | 2,999 | 52 | ✅ Complete |
+| jadx-ir | 2,135 | 20 | ✅ Complete |
+| jadx-passes | 5,825 | 43 | ✅ Complete |
+| jadx-codegen | 3,672 | 14 | ✅ Complete |
+| jadx-cli | 1,438 | 5 | ✅ Complete |
 
 ## Features
 
-### Implemented
+### Completed
 - Memory-mapped DEX file parsing
 - Complete Dalvik instruction decoder (256 opcodes, 25 formats)
 - LEB128 and MUTF-8 encoding support
@@ -43,23 +41,28 @@ This is a Rust port of [JADX](https://github.com/skylot/jadx), aiming for identi
 - Region reconstruction (if/else, loops, switch, try-catch)
 - Class/method/field data structures
 - Java source generation (class signatures, method bodies, expressions)
+- **Name resolution from DEX string/type/field/method pools**
+- Variable naming (type-based: `str` for String, `i` for int)
+- Constructor cleanup (`super()` instead of `this.<init>()`)
 - Full CLI matching Java JADX options (50+ flags)
 - APK extraction and multi-DEX support
 - Framework class filtering (jadx-fast optimization)
 - Progress bar and logging
 - Complete decompilation pipeline (DEX → IR → passes → Java)
 
-### In Progress
-- Expression simplification
-- Copy propagation
-- Dead code elimination
-- Variable naming and renaming
+### Remaining for 1:1 Output
+- Import statements (fully qualified names currently used)
+- Field initializers in declarations
+- Variable declarations before use
+- Anonymous inner classes
 
-### Planned
+### Known Issues
+- **Memory explosion on large APKs**: `build_dex_info()` loads all DEX pools upfront. Use `--single-class` as workaround.
+
+### Future
 - Parallel class processing
 - Deobfuscation support
 - Resource decoding
-- Identical output to Java JADX for regression testing
 
 ## Building
 
@@ -74,7 +77,7 @@ cargo build --release
 cargo test --workspace
 ```
 
-Current test coverage: **133 tests** across all crates.
+Current test coverage: **134 tests** across all crates.
 
 ## Usage
 
@@ -120,28 +123,30 @@ crates/
 │   ├── regions.rs      # Control flow regions (if/loop/switch/try)
 │   └── attributes.rs   # Attribute storage
 │
-├── jadx-passes/        # Decompilation passes (5,457 lines)
+├── jadx-passes/        # Decompilation passes (5,817 lines)
 │   ├── block_split.rs  # Basic block splitting
 │   ├── cfg.rs          # Control flow graph + dominators
 │   ├── ssa.rs          # SSA transformation + phi nodes
 │   ├── type_inference.rs   # Type inference with constraints
+│   ├── var_naming.rs       # Type-based variable naming [NEW]
 │   ├── region_builder.rs   # CFG → structured regions
 │   ├── conditionals.rs     # Condition analysis (&&, ||)
 │   ├── loops.rs            # Loop detection and classification
 │   └── algorithms/     # Graph algorithms
 │       └── dominance.rs    # Cooper-Harvey-Kennedy dominance
 │
-├── jadx-codegen/       # Java source generation (3,032 lines)
+├── jadx-codegen/       # Java source generation (3,556 lines)
 │   ├── writer.rs       # CodeWriter trait
 │   ├── class_gen.rs    # Class declaration generation
 │   ├── method_gen.rs   # Method signature generation
 │   ├── body_gen.rs     # Method body from regions
-│   ├── expr_gen.rs     # Expression generation
+│   ├── expr_gen.rs     # Expression generation with name resolution
 │   ├── stmt_gen.rs     # Statement generation
 │   ├── type_gen.rs     # Type formatting
+│   ├── dex_info.rs     # DEX data for name resolution [NEW]
 │   └── access_flags.rs # Modifier strings
 │
-└── jadx-cli/           # CLI application (1,236 lines)
+└── jadx-cli/           # CLI application (1,363 lines)
     ├── main.rs         # Entry point, APK/DEX processing
     ├── args.rs         # CLI arguments (50+ options)
     ├── converter.rs    # DEX → IR conversion
@@ -160,15 +165,17 @@ Load + Extract DEX files
 Parse → ClassDef, MethodId, CodeItem, Instructions
     ↓ [jadx-ir] ✅
 Build IR → InsnNode, MethodData, ClassData
-    ↓ [jadx-passes]
+    ↓ [jadx-passes] ✅
 Transform:
   1. Block splitting (instructions → basic blocks) ✅
   2. CFG construction + dominators ✅
   3. SSA transformation + phi nodes ✅
   4. Type inference + constraints ✅
-  5. Region reconstruction (CFG → if/loop/switch) ✅
+  5. Variable naming (type-based) ✅
+  6. Region reconstruction (CFG → if/loop/switch) ✅
     ↓ [jadx-codegen] ✅
-Generate → Java source code (class/method/body/expr)
+Generate → Java source code with name resolution
+  - Strings, types, fields, methods resolved from DEX pools
 ```
 
 ## Performance Goals

@@ -130,16 +130,17 @@ jadx-fast removes these bottlenecks while maintaining full compatibility with th
 
 This repo also contains an in-progress **Rust rewrite** of jadx-core for even greater performance gains.
 
-## Current Status: Name Resolution Working
+## Current Status: Code Generation with Type Declarations
 
-The full decompilation pipeline is functional end-to-end with **proper name resolution**:
+The full decompilation pipeline is functional end-to-end:
 
-- **String literals**: `"SmallApp"`, `"Hello World"` instead of `string#0`
-- **Field names**: `R.layout.activity_main` instead of `field#123`
-- **Method calls**: `Log.i()`, `setContentView()` instead of `method#456`
-- **Superclass calls**: `super.onCreate(bundle)`
+- **Name resolution**: String literals, field names, method calls, type names
+- **Control flow**: If/else, while loops, switch, try/catch
+- **Type casts**: Proper `(Type) obj` syntax from check-cast
+- **Move-result**: Invoke + result combined in assignments
+- **Variable declarations**: Types declared on first use
 
-**~15,800 lines of Rust | 133 tests passing**
+**~16,000 lines of Rust | 133 tests passing**
 
 ### Sample Output
 
@@ -154,9 +155,8 @@ public class MainActivity extends android.app.Activity {
 
     public void onCreate(android.os.Bundle bundle) {
         super.onCreate(bundle);
-        android.widget.TextView textView = new android.widget.TextView(this);
-        textView.setText("Hello World");
-        setContentView(textView);
+        this.setContentView(R$layout.activity_main);
+        Log.i("SmallApp", "Hello");
     }
 }
 ```
@@ -285,15 +285,15 @@ crates/
     └── decompiler.rs   # Decompilation orchestration
 ```
 
-**Current progress: ~15,800 lines of Rust | 133 tests**
+**Current progress: ~16,000 lines of Rust | 133 tests**
 
 | Crate | Lines | Tests | Status |
 |-------|------:|------:|--------|
-| jadx-dex | 2,999 | 51 | ✅ Complete |
-| jadx-ir | 2,121 | 20 | ✅ Complete |
-| jadx-passes | 5,817 | 43 | ✅ Complete |
-| jadx-codegen | 3,586 | 14 | ✅ Complete |
-| jadx-cli | 1,325 | 5 | ✅ Complete |
+| jadx-dex | 2,999 | 52 | ✅ Complete |
+| jadx-ir | 2,135 | 20 | ✅ Complete |
+| jadx-passes | 5,825 | 43 | ✅ Complete |
+| jadx-codegen | 3,672 | 14 | ✅ Complete |
+| jadx-cli | 1,438 | 5 | ✅ Complete |
 
 ## CLI Status: Working
 
@@ -383,11 +383,39 @@ The CLI successfully:
 - ✅ Full instruction coverage (~40 instruction types)
 - ✅ Name resolution from DEX string pool (strings, types, fields, methods)
 
-**Remaining polish for 1:1 output:**
-- Variable names: use inferred names instead of `v0`, `v1`
-- Constructor cleanup: `super()` instead of `this.<init>()`
-- Type declarations on variable assignments
-- Import management
+## Remaining Work for 1:1 Output
+
+### Critical
+1. **Import statements** - Currently uses fully qualified names instead of imports
+2. **Field initializers** - Values should appear in field declarations, not constructor
+3. **Variable declarations** - Variables used before declared, SSA versions leaked (`v0`, `i5`)
+4. **Invoke result handling** - `/* result */` placeholders instead of proper assignment chaining
+
+### Major
+5. **Control flow semantics** - Some if/else conditions inverted, bitwise ops decoded wrong
+6. **Anonymous inner classes** - Lambda/anonymous class bodies not generated
+7. **Switch payload** - Case values not extracted from DEX payload data
+8. **Ternary operators** - Not reconstructed from if/else patterns
+
+### Files Needing Work
+| File | Issue |
+|------|-------|
+| `body_gen.rs` | Variable tracking, SSA→name mapping |
+| `class_gen.rs` | Imports, field initializers |
+| `expr_gen.rs` | Binary ops, ternary reconstruction |
+| `stmt_gen.rs` | Check-cast integration |
+| `region_builder.rs` | Switch payload, anonymous classes |
+
+## Known Issues
+
+### Memory Explosion on Large APKs
+The current implementation loads all DEX string/type/field/method pools into memory upfront for name resolution. For large APKs (50,000+ classes, 80,000+ strings), this causes memory exhaustion.
+
+**Location**: `crates/jadx-cli/src/main.rs:509-567` (`build_dex_info()`)
+
+**Workaround**: Use `--single-class ClassName` to decompile specific classes.
+
+**Future fix**: Lazy loading with LRU cache for DEX pools
 
 ## Key Design Decisions
 
