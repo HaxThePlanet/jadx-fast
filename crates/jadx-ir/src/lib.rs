@@ -16,7 +16,7 @@ pub use arena::ArenaId;
 pub use builder::build_ir_insn;
 pub use info::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility,
-    ClassData, DebugInfo, ExceptionHandler, FieldData, FieldValue, MethodData, TryBlock,
+    ClassData, DebugInfo, ExceptionHandler, FieldData, FieldValue, MethodData, MethodInlineAttr, TryBlock,
 };
 pub use instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
 pub use types::ArgType;

@@ -91,6 +91,32 @@ pub enum AnnotationValue {
     Null,
 }
 
+/// Method inline attribute - stores info for inlining synthetic bridge methods
+#[derive(Debug, Clone)]
+pub enum MethodInlineAttr {
+    /// Method should not be inlined
+    NotNeeded,
+    /// Method can be inlined - replace invokes with field get
+    FieldGet {
+        /// Field index to get
+        field_idx: u32,
+        /// Is instance field (vs static)
+        is_instance: bool,
+    },
+    /// Method can be inlined - replace invokes with field set
+    FieldSet {
+        /// Field index to set
+        field_idx: u32,
+        /// Is instance field (vs static)
+        is_instance: bool,
+    },
+    /// Method can be inlined - replace invokes with method call
+    MethodCall {
+        /// Method index to call
+        method_idx: u32,
+    },
+}
+
 /// Method information and IR
 #[derive(Debug, Clone)]
 pub struct MethodData {
@@ -120,6 +146,8 @@ pub struct MethodData {
     pub debug_info: Option<DebugInfo>,
     /// Annotations on this method
     pub annotations: Vec<Annotation>,
+    /// Method inline attribute (for synthetic bridge methods)
+    pub inline_attr: Option<MethodInlineAttr>,
 }
 
 impl MethodData {
@@ -139,6 +167,7 @@ impl MethodData {
             try_blocks: Vec::new(),
             debug_info: None,
             annotations: Vec::new(),
+            inline_attr: None,
         }
     }
 
@@ -170,6 +199,24 @@ impl MethodData {
     /// Check if this is a native method
     pub fn is_native(&self) -> bool {
         self.access_flags & 0x0100 != 0
+    }
+
+    /// Check if this is a synthetic method
+    pub fn is_synthetic(&self) -> bool {
+        self.access_flags & 0x1000 != 0
+    }
+
+    /// Check if this is a bridge method
+    pub fn is_bridge(&self) -> bool {
+        self.access_flags & 0x0040 != 0
+    }
+
+    /// Check if this method is a candidate for inlining (synthetic/bridge methods)
+    pub fn is_inline_candidate(&self) -> bool {
+        // Synthetic methods (access$XXX patterns) or bridge methods
+        (self.is_synthetic() || self.is_bridge() || self.name.starts_with("access$"))
+            && !self.is_constructor()
+            && !self.is_class_init()
     }
 
     /// Get the number of parameters (excluding 'this')

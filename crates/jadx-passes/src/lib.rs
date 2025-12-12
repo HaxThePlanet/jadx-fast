@@ -7,6 +7,7 @@ pub mod block_split;
 pub mod cfg;
 pub mod conditionals;
 pub mod loops;
+pub mod method_inline;
 pub mod region_builder;
 pub mod ssa;
 pub mod type_inference;
@@ -22,6 +23,9 @@ pub use conditionals::{
     merge_nested_conditions, IfInfo, MergeMode, MergedCondition, TernaryInfo,
 };
 pub use loops::{detect_loops, LoopInfo};
+pub use method_inline::{
+    analyze_method_for_inline, mark_methods_for_inline, should_skip_method,
+};
 pub use region_builder::{
     build_regions, detect_all_loop_edges, detect_loop_edge_insns, EdgeInsn, EdgeInsnKind,
     LoopEdgeInsns,

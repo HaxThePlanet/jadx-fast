@@ -735,11 +735,23 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
     code: &mut W,
 ) {
     use crate::method_gen::generate_method_with_inner_classes;
+    use jadx_ir::MethodInlineAttr;
 
     for method in &class.methods {
         // Skip default constructors that just call super() - implicit in Java
         if is_default_constructor(method) {
             continue;
+        }
+        // Skip synthetic methods that will be inlined (when inline_methods is enabled)
+        if config.inline_methods {
+            if let Some(ref attr) = method.inline_attr {
+                match attr {
+                    MethodInlineAttr::FieldGet { .. }
+                    | MethodInlineAttr::FieldSet { .. }
+                    | MethodInlineAttr::MethodCall { .. } => continue,
+                    MethodInlineAttr::NotNeeded => {}
+                }
+            }
         }
         code.newline();
         generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, code);

@@ -1774,7 +1774,8 @@ impl ArscParser {
 
             if let Some(ref items) = entry.bag_items {
                 if items.is_empty() {
-                    xml.push_str(" />\n");
+                    // Empty styles use open/close tags (matches Java JADX format)
+                    xml.push_str(">\n    </style>\n");
                 } else {
                     xml.push_str(">\n");
 
@@ -1793,7 +1794,8 @@ impl ArscParser {
                     xml.push_str("    </style>\n");
                 }
             } else {
-                xml.push_str(" />\n");
+                // No bag items means empty style
+                xml.push_str(">\n    </style>\n");
             }
         }
 
