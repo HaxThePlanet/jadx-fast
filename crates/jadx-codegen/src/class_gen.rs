@@ -368,6 +368,12 @@ pub struct ClassGenConfig {
     pub show_debug: bool,
     /// Fallback mode (show raw bytecode on error)
     pub fallback: bool,
+    /// Escape non-ASCII characters in strings as \uXXXX
+    pub escape_unicode: bool,
+    /// Inline anonymous class bodies at instantiation sites
+    pub inline_anonymous: bool,
+    /// Add comments with debug line numbers
+    pub add_debug_lines: bool,
 }
 
 impl Default for ClassGenConfig {
@@ -376,6 +382,9 @@ impl Default for ClassGenConfig {
             use_imports: true,
             show_debug: false,
             fallback: false,
+            escape_unicode: false,
+            inline_anonymous: true,
+            add_debug_lines: false,
         }
     }
 }
@@ -511,9 +520,8 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
     let keyword = access_flags::class_type_keyword(class.access_flags);
     code.add(keyword).add(" ");
 
-    // Class name
-    let simple_name = get_simple_name(&class.class_type);
-    code.add(simple_name);
+    // Class name (use alias if available from deobfuscation)
+    code.add(class.display_name());
 
     // Extends
     if let Some(ref superclass) = class.superclass {
@@ -586,8 +594,8 @@ fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>
     code.add(&type_to_string_with_imports(&field.field_type, imports));
     code.add(" ");
 
-    // Name
-    code.add(&field.name);
+    // Name (use alias if available from deobfuscation)
+    code.add(field.display_name());
 
     // Initial value
     if let Some(ref value) = field.initial_value {
@@ -783,6 +791,7 @@ mod tests {
         let mut class = make_class("com/example/Test", 0x0001);
         class.instance_fields.push(FieldData {
             name: "value".to_string(),
+            alias: None,
             access_flags: 0x0002, // private
             field_type: ArgType::Int,
             initial_value: None,
@@ -799,6 +808,7 @@ mod tests {
         let mut class = make_class("com/example/Constants", 0x0001);
         class.static_fields.push(FieldData {
             name: "MAX_VALUE".to_string(),
+            alias: None,
             access_flags: 0x0019, // public static final
             field_type: ArgType::Int,
             initial_value: Some(FieldValue::Int(100)),
@@ -865,6 +875,7 @@ mod tests {
         class.interfaces.push("java/io/Serializable".to_string());
         class.instance_fields.push(FieldData {
             name: "view".to_string(),
+            alias: None,
             access_flags: 0x0002,
             field_type: ArgType::Object("android/view/View".to_string()),
             initial_value: None,
@@ -886,6 +897,7 @@ mod tests {
         class.superclass = Some("android/app/Activity".to_string());
         class.instance_fields.push(FieldData {
             name: "view".to_string(),
+            alias: None,
             access_flags: 0x0002,
             field_type: ArgType::Object("android/view/View".to_string()),
             initial_value: None,

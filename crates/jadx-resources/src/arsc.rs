@@ -178,6 +178,357 @@ static ANDROID_ATTR_MAP: LazyLock<HashMap<u32, &'static str>> = LazyLock::new(||
     m
 });
 
+/// Map of common Android framework resource IDs to names (for references)
+static ANDROID_RES_MAP: LazyLock<HashMap<u32, &'static str>> = LazyLock::new(|| {
+    let mut m = HashMap::new();
+
+    // Colors (0x0106xxxx)
+    m.insert(0x0106000b, "android:color/white");
+    m.insert(0x0106000c, "android:color/black");
+    m.insert(0x0106000d, "android:color/transparent");
+    m.insert(0x01060000, "android:color/background_dark");
+    m.insert(0x01060001, "android:color/background_light");
+    m.insert(0x01060002, "android:color/darker_gray");
+    m.insert(0x01060003, "android:color/holo_blue_bright");
+    m.insert(0x01060004, "android:color/holo_blue_dark");
+    m.insert(0x01060005, "android:color/holo_blue_light");
+    m.insert(0x01060006, "android:color/holo_green_dark");
+    m.insert(0x01060007, "android:color/holo_green_light");
+    m.insert(0x01060008, "android:color/holo_orange_dark");
+    m.insert(0x01060009, "android:color/holo_orange_light");
+    m.insert(0x0106000a, "android:color/holo_purple");
+    m.insert(0x0106000e, "android:color/holo_red_dark");
+    m.insert(0x0106000f, "android:color/holo_red_light");
+    m.insert(0x01060010, "android:color/primary_text_dark");
+    m.insert(0x01060011, "android:color/primary_text_dark_nodisable");
+    m.insert(0x01060012, "android:color/primary_text_light");
+    m.insert(0x01060013, "android:color/primary_text_light_nodisable");
+    m.insert(0x01060014, "android:color/secondary_text_dark");
+    m.insert(0x01060015, "android:color/secondary_text_dark_nodisable");
+    m.insert(0x01060016, "android:color/secondary_text_light");
+    m.insert(0x01060017, "android:color/secondary_text_light_nodisable");
+    m.insert(0x01060018, "android:color/tab_indicator_text");
+    m.insert(0x01060019, "android:color/tertiary_text_dark");
+    m.insert(0x0106001a, "android:color/tertiary_text_light");
+    m.insert(0x0106001b, "android:color/widget_edittext_dark");
+
+    // Strings (0x0104xxxx)
+    m.insert(0x01040000, "android:string/cancel");
+    m.insert(0x01040001, "android:string/copy");
+    m.insert(0x01040002, "android:string/copyUrl");
+    m.insert(0x01040003, "android:string/cut");
+    m.insert(0x01040004, "android:string/defaultMs498isplayName");
+    m.insert(0x01040005, "android:string/defaultVoiceMailAlphaTag");
+    m.insert(0x01040006, "android:string/dialog_alert_title");
+    m.insert(0x01040007, "android:string/emptyPhoneNumber");
+    m.insert(0x01040008, "android:string/httpErrorBadUrl");
+    m.insert(0x01040009, "android:string/no");
+    m.insert(0x0104000a, "android:string/ok");
+    m.insert(0x0104000b, "android:string/paste");
+    m.insert(0x0104000c, "android:string/search_go");
+    m.insert(0x0104000d, "android:string/selectAll");
+    m.insert(0x0104000e, "android:string/selectTextMode");
+    m.insert(0x0104000f, "android:string/status_bar_notification_info_overflow");
+    m.insert(0x01040010, "android:string/unknownName");
+    m.insert(0x01040011, "android:string/untitled");
+    m.insert(0x01040012, "android:string/VideoView_error_button");
+    m.insert(0x01040013, "android:string/VideoView_error_text_invalid_progressive_playback");
+    m.insert(0x01040014, "android:string/VideoView_error_text_unknown");
+    m.insert(0x01040015, "android:string/VideoView_error_title");
+    m.insert(0x01040016, "android:string/yes");
+
+    // Drawables (0x0108xxxx)
+    m.insert(0x01080000, "android:drawable/alert_dark_frame");
+    m.insert(0x01080001, "android:drawable/alert_light_frame");
+    m.insert(0x01080002, "android:drawable/arrow_down_float");
+    m.insert(0x01080003, "android:drawable/arrow_up_float");
+    m.insert(0x01080004, "android:drawable/bottom_bar");
+    m.insert(0x01080005, "android:drawable/btn_default");
+    m.insert(0x01080006, "android:drawable/btn_default_small");
+    m.insert(0x01080007, "android:drawable/btn_dialog");
+    m.insert(0x01080008, "android:drawable/btn_dropdown");
+    m.insert(0x01080009, "android:drawable/btn_minus");
+    m.insert(0x0108000a, "android:drawable/btn_plus");
+    m.insert(0x0108000b, "android:drawable/btn_radio");
+    m.insert(0x0108000c, "android:drawable/btn_star");
+    m.insert(0x0108000d, "android:drawable/btn_star_big_off");
+    m.insert(0x0108000e, "android:drawable/btn_star_big_on");
+    m.insert(0x01080078, "android:drawable/ic_delete");
+    m.insert(0x01080079, "android:drawable/ic_dialog_alert");
+    m.insert(0x0108007a, "android:drawable/ic_dialog_dialer");
+    m.insert(0x0108007b, "android:drawable/ic_dialog_email");
+    m.insert(0x0108007c, "android:drawable/ic_dialog_info");
+    m.insert(0x0108007d, "android:drawable/ic_dialog_map");
+    m.insert(0x0108009b, "android:drawable/ic_input_add");
+    m.insert(0x0108009c, "android:drawable/ic_input_delete");
+    m.insert(0x0108009d, "android:drawable/ic_input_get");
+    m.insert(0x010800b4, "android:drawable/ic_menu_add");
+    m.insert(0x010800b5, "android:drawable/ic_menu_agenda");
+    m.insert(0x010800b6, "android:drawable/ic_menu_always_landscape_portrait");
+    m.insert(0x010800b7, "android:drawable/ic_menu_call");
+    m.insert(0x010800b8, "android:drawable/ic_menu_camera");
+    m.insert(0x010800b9, "android:drawable/ic_menu_close_clear_cancel");
+    m.insert(0x010800ba, "android:drawable/ic_menu_compass");
+    m.insert(0x010800bb, "android:drawable/ic_menu_crop");
+    m.insert(0x010800bc, "android:drawable/ic_menu_day");
+    m.insert(0x010800bd, "android:drawable/ic_menu_delete");
+    m.insert(0x010800be, "android:drawable/ic_menu_directions");
+    m.insert(0x010800bf, "android:drawable/ic_menu_edit");
+    m.insert(0x010800c0, "android:drawable/ic_menu_gallery");
+    m.insert(0x010800c1, "android:drawable/ic_menu_help");
+    m.insert(0x010800c2, "android:drawable/ic_menu_info_details");
+    m.insert(0x010800c3, "android:drawable/ic_menu_manage");
+    m.insert(0x010800c4, "android:drawable/ic_menu_mapmode");
+    m.insert(0x010800c5, "android:drawable/ic_menu_month");
+    m.insert(0x010800c6, "android:drawable/ic_menu_more");
+    m.insert(0x010800c7, "android:drawable/ic_menu_my_calendar");
+    m.insert(0x010800c8, "android:drawable/ic_menu_mylocation");
+    m.insert(0x010800c9, "android:drawable/ic_menu_myplaces");
+    m.insert(0x010800ca, "android:drawable/ic_menu_preferences");
+    m.insert(0x010800cb, "android:drawable/ic_menu_recent_history");
+    m.insert(0x010800cc, "android:drawable/ic_menu_report_image");
+    m.insert(0x010800cd, "android:drawable/ic_menu_revert");
+    m.insert(0x010800ce, "android:drawable/ic_menu_rotate");
+    m.insert(0x010800cf, "android:drawable/ic_menu_save");
+    m.insert(0x010800d0, "android:drawable/ic_menu_search");
+    m.insert(0x010800d1, "android:drawable/ic_menu_send");
+    m.insert(0x010800d2, "android:drawable/ic_menu_set_as");
+    m.insert(0x010800d3, "android:drawable/ic_menu_share");
+    m.insert(0x010800d4, "android:drawable/ic_menu_slideshow");
+    m.insert(0x010800d5, "android:drawable/ic_menu_sort_alphabetically");
+    m.insert(0x010800d6, "android:drawable/ic_menu_sort_by_size");
+    m.insert(0x010800d7, "android:drawable/ic_menu_today");
+    m.insert(0x010800d8, "android:drawable/ic_menu_upload");
+    m.insert(0x010800d9, "android:drawable/ic_menu_upload_you_tube");
+    m.insert(0x010800da, "android:drawable/ic_menu_view");
+    m.insert(0x010800db, "android:drawable/ic_menu_week");
+    m.insert(0x010800dc, "android:drawable/ic_menu_zoom");
+
+    // Styles (0x0103xxxx)
+    m.insert(0x01030000, "android:style/Animation");
+    m.insert(0x01030001, "android:style/Animation.Activity");
+    m.insert(0x01030002, "android:style/Animation.Dialog");
+    m.insert(0x01030003, "android:style/Animation.InputMethod");
+    m.insert(0x01030004, "android:style/Animation.Toast");
+    m.insert(0x01030005, "android:style/Animation.Translucent");
+    m.insert(0x01030006, "android:style/DeviceDefault.ButtonBar");
+    m.insert(0x01030007, "android:style/DeviceDefault.ButtonBar.AlertDialog");
+    m.insert(0x01030008, "android:style/DeviceDefault.Light.ButtonBar");
+    m.insert(0x01030009, "android:style/DeviceDefault.Light.ButtonBar.AlertDialog");
+    m.insert(0x0103000a, "android:style/DeviceDefault.Light.SegmentedButton");
+    m.insert(0x0103000b, "android:style/DeviceDefault.SegmentedButton");
+    m.insert(0x0103000c, "android:style/Holo.ButtonBar");
+    m.insert(0x0103000d, "android:style/Holo.ButtonBar.AlertDialog");
+    m.insert(0x0103000e, "android:style/Holo.Light.ButtonBar");
+    m.insert(0x0103000f, "android:style/Holo.Light.ButtonBar.AlertDialog");
+    m.insert(0x01030010, "android:style/Holo.Light.SegmentedButton");
+    m.insert(0x01030011, "android:style/Holo.SegmentedButton");
+    m.insert(0x010300a0, "android:style/TextAppearance");
+    m.insert(0x010300a1, "android:style/TextAppearance.DeviceDefault");
+    m.insert(0x010300a2, "android:style/TextAppearance.DeviceDefault.DialogWindowTitle");
+    m.insert(0x010300a3, "android:style/TextAppearance.DeviceDefault.Inverse");
+    m.insert(0x010300a4, "android:style/TextAppearance.DeviceDefault.Large");
+    m.insert(0x010300a5, "android:style/TextAppearance.DeviceDefault.Large.Inverse");
+    m.insert(0x010300a6, "android:style/TextAppearance.DeviceDefault.Medium");
+    m.insert(0x010300a7, "android:style/TextAppearance.DeviceDefault.Medium.Inverse");
+    m.insert(0x010300a8, "android:style/TextAppearance.DeviceDefault.SearchResult.Subtitle");
+    m.insert(0x010300a9, "android:style/TextAppearance.DeviceDefault.SearchResult.Title");
+    m.insert(0x010300aa, "android:style/TextAppearance.DeviceDefault.Small");
+    m.insert(0x010300ab, "android:style/TextAppearance.DeviceDefault.Small.Inverse");
+    m.insert(0x010300ac, "android:style/TextAppearance.DeviceDefault.Widget");
+    m.insert(0x010300ad, "android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Menu");
+    m.insert(0x010300ae, "android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Subtitle");
+    m.insert(0x010300af, "android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Subtitle.Inverse");
+    m.insert(0x010300b0, "android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title");
+    m.insert(0x010300b1, "android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title.Inverse");
+    m.insert(0x010300b2, "android:style/TextAppearance.DeviceDefault.Widget.ActionMode.Subtitle");
+    m.insert(0x010300b3, "android:style/TextAppearance.DeviceDefault.Widget.ActionMode.Subtitle.Inverse");
+    m.insert(0x010300b4, "android:style/TextAppearance.DeviceDefault.Widget.ActionMode.Title");
+    m.insert(0x010300b5, "android:style/TextAppearance.DeviceDefault.Widget.ActionMode.Title.Inverse");
+    m.insert(0x010300b6, "android:style/TextAppearance.DeviceDefault.Widget.Button");
+    m.insert(0x010300b7, "android:style/TextAppearance.DeviceDefault.Widget.DropDownHint");
+    m.insert(0x010300b8, "android:style/TextAppearance.DeviceDefault.Widget.DropDownItem");
+    m.insert(0x010300b9, "android:style/TextAppearance.DeviceDefault.Widget.EditText");
+    m.insert(0x010300ba, "android:style/TextAppearance.DeviceDefault.Widget.IconMenu.Item");
+    m.insert(0x010300bb, "android:style/TextAppearance.DeviceDefault.Widget.PopupMenu");
+    m.insert(0x010300bc, "android:style/TextAppearance.DeviceDefault.Widget.PopupMenu.Large");
+    m.insert(0x010300bd, "android:style/TextAppearance.DeviceDefault.Widget.PopupMenu.Small");
+    m.insert(0x010300be, "android:style/TextAppearance.DeviceDefault.Widget.TabWidget");
+    m.insert(0x010300bf, "android:style/TextAppearance.DeviceDefault.Widget.TextView");
+    m.insert(0x010300c0, "android:style/TextAppearance.DeviceDefault.Widget.TextView.PopupMenu");
+    m.insert(0x010300c1, "android:style/TextAppearance.DeviceDefault.Widget.TextView.SpinnerItem");
+    m.insert(0x010300c2, "android:style/TextAppearance.DeviceDefault.WindowTitle");
+    m.insert(0x010300f0, "android:style/Theme");
+    m.insert(0x010300f1, "android:style/Theme.Black");
+    m.insert(0x010300f2, "android:style/Theme.Black.NoTitleBar");
+    m.insert(0x010300f3, "android:style/Theme.Black.NoTitleBar.Fullscreen");
+    m.insert(0x010300f4, "android:style/Theme.DeviceDefault");
+    m.insert(0x010300f5, "android:style/Theme.DeviceDefault.Dialog");
+    m.insert(0x010300f6, "android:style/Theme.DeviceDefault.Dialog.Alert");
+    m.insert(0x010300f7, "android:style/Theme.DeviceDefault.Dialog.MinWidth");
+    m.insert(0x010300f8, "android:style/Theme.DeviceDefault.Dialog.NoActionBar");
+    m.insert(0x010300f9, "android:style/Theme.DeviceDefault.Dialog.NoActionBar.MinWidth");
+    m.insert(0x010300fa, "android:style/Theme.DeviceDefault.DialogWhenLarge");
+    m.insert(0x010300fb, "android:style/Theme.DeviceDefault.DialogWhenLarge.NoActionBar");
+    m.insert(0x010300fc, "android:style/Theme.DeviceDefault.InputMethod");
+    m.insert(0x010300fd, "android:style/Theme.DeviceDefault.Light");
+    m.insert(0x010300fe, "android:style/Theme.DeviceDefault.Light.DarkActionBar");
+    m.insert(0x010300ff, "android:style/Theme.DeviceDefault.Light.Dialog");
+    m.insert(0x01030100, "android:style/Theme.DeviceDefault.Light.Dialog.Alert");
+    m.insert(0x01030101, "android:style/Theme.DeviceDefault.Light.Dialog.MinWidth");
+    m.insert(0x01030102, "android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar");
+    m.insert(0x01030103, "android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar.MinWidth");
+    m.insert(0x01030104, "android:style/Theme.DeviceDefault.Light.DialogWhenLarge");
+    m.insert(0x01030105, "android:style/Theme.DeviceDefault.Light.DialogWhenLarge.NoActionBar");
+    m.insert(0x01030106, "android:style/Theme.DeviceDefault.Light.NoActionBar");
+    m.insert(0x01030107, "android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen");
+    m.insert(0x01030108, "android:style/Theme.DeviceDefault.Light.NoActionBar.Overscan");
+    m.insert(0x01030109, "android:style/Theme.DeviceDefault.Light.NoActionBar.TranslucentDecor");
+    m.insert(0x0103010a, "android:style/Theme.DeviceDefault.Light.Panel");
+    m.insert(0x0103010b, "android:style/Theme.DeviceDefault.NoActionBar");
+    m.insert(0x0103010c, "android:style/Theme.DeviceDefault.NoActionBar.Fullscreen");
+    m.insert(0x0103010d, "android:style/Theme.DeviceDefault.NoActionBar.Overscan");
+    m.insert(0x0103010e, "android:style/Theme.DeviceDefault.NoActionBar.TranslucentDecor");
+    m.insert(0x0103010f, "android:style/Theme.DeviceDefault.Panel");
+    m.insert(0x01030110, "android:style/Theme.DeviceDefault.Settings");
+    m.insert(0x01030111, "android:style/Theme.DeviceDefault.Wallpaper");
+    m.insert(0x01030112, "android:style/Theme.DeviceDefault.Wallpaper.NoTitleBar");
+    m.insert(0x01030129, "android:style/Theme.Dialog");
+    m.insert(0x0103012a, "android:style/Theme.Holo");
+    m.insert(0x0103012b, "android:style/Theme.Holo.Dialog");
+    m.insert(0x0103012c, "android:style/Theme.Holo.Dialog.MinWidth");
+    m.insert(0x0103012d, "android:style/Theme.Holo.Dialog.NoActionBar");
+    m.insert(0x0103012e, "android:style/Theme.Holo.Dialog.NoActionBar.MinWidth");
+    m.insert(0x0103012f, "android:style/Theme.Holo.DialogWhenLarge");
+    m.insert(0x01030130, "android:style/Theme.Holo.DialogWhenLarge.NoActionBar");
+    m.insert(0x01030131, "android:style/Theme.Holo.InputMethod");
+    m.insert(0x01030132, "android:style/Theme.Holo.Light");
+    m.insert(0x01030133, "android:style/Theme.Holo.Light.DarkActionBar");
+    m.insert(0x01030134, "android:style/Theme.Holo.Light.Dialog");
+    m.insert(0x01030135, "android:style/Theme.Holo.Light.Dialog.MinWidth");
+    m.insert(0x01030136, "android:style/Theme.Holo.Light.Dialog.NoActionBar");
+    m.insert(0x01030137, "android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth");
+    m.insert(0x01030138, "android:style/Theme.Holo.Light.DialogWhenLarge");
+    m.insert(0x01030139, "android:style/Theme.Holo.Light.DialogWhenLarge.NoActionBar");
+    m.insert(0x0103013a, "android:style/Theme.Holo.Light.NoActionBar");
+    m.insert(0x0103013b, "android:style/Theme.Holo.Light.NoActionBar.Fullscreen");
+    m.insert(0x0103013c, "android:style/Theme.Holo.Light.NoActionBar.Overscan");
+    m.insert(0x0103013d, "android:style/Theme.Holo.Light.NoActionBar.TranslucentDecor");
+    m.insert(0x0103013e, "android:style/Theme.Holo.Light.Panel");
+    m.insert(0x0103013f, "android:style/Theme.Holo.NoActionBar");
+    m.insert(0x01030140, "android:style/Theme.Holo.NoActionBar.Fullscreen");
+    m.insert(0x01030141, "android:style/Theme.Holo.NoActionBar.Overscan");
+    m.insert(0x01030142, "android:style/Theme.Holo.NoActionBar.TranslucentDecor");
+    m.insert(0x01030143, "android:style/Theme.Holo.Panel");
+    m.insert(0x01030144, "android:style/Theme.Holo.Wallpaper");
+    m.insert(0x01030145, "android:style/Theme.Holo.Wallpaper.NoTitleBar");
+    m.insert(0x01030170, "android:style/Theme.Light");
+    m.insert(0x01030171, "android:style/Theme.Light.NoTitleBar");
+    m.insert(0x01030172, "android:style/Theme.Light.NoTitleBar.Fullscreen");
+    m.insert(0x01030173, "android:style/Theme.Light.Panel");
+    m.insert(0x01030174, "android:style/Theme.Light.WallpaperSettings");
+    m.insert(0x010301e0, "android:style/Theme.Material");
+    m.insert(0x010301e1, "android:style/Theme.Material.Dialog");
+    m.insert(0x010301e2, "android:style/Theme.Material.Dialog.Alert");
+    m.insert(0x010301e3, "android:style/Theme.Material.Dialog.MinWidth");
+    m.insert(0x010301e4, "android:style/Theme.Material.Dialog.NoActionBar");
+    m.insert(0x010301e5, "android:style/Theme.Material.Dialog.NoActionBar.MinWidth");
+    m.insert(0x010301e6, "android:style/Theme.Material.Dialog.Presentation");
+    m.insert(0x010301e7, "android:style/Theme.Material.DialogWhenLarge");
+    m.insert(0x010301e8, "android:style/Theme.Material.DialogWhenLarge.NoActionBar");
+    m.insert(0x010301e9, "android:style/Theme.Material.InputMethod");
+    m.insert(0x010301ea, "android:style/Theme.Material.Light");
+    m.insert(0x010301eb, "android:style/Theme.Material.Light.DarkActionBar");
+    m.insert(0x010301ec, "android:style/Theme.Material.Light.Dialog");
+    m.insert(0x010301ed, "android:style/Theme.Material.Light.Dialog.Alert");
+    m.insert(0x010301ee, "android:style/Theme.Material.Light.Dialog.MinWidth");
+    m.insert(0x010301ef, "android:style/Theme.Material.Light.Dialog.NoActionBar");
+    m.insert(0x010301f0, "android:style/Theme.Material.Light.Dialog.NoActionBar.MinWidth");
+    m.insert(0x010301f1, "android:style/Theme.Material.Light.Dialog.Presentation");
+    m.insert(0x010301f2, "android:style/Theme.Material.Light.DialogWhenLarge");
+    m.insert(0x010301f3, "android:style/Theme.Material.Light.DialogWhenLarge.NoActionBar");
+    m.insert(0x010301f4, "android:style/Theme.Material.Light.LightStatusBar");
+    m.insert(0x010301f5, "android:style/Theme.Material.Light.NoActionBar");
+    m.insert(0x010301f6, "android:style/Theme.Material.Light.NoActionBar.Fullscreen");
+    m.insert(0x010301f7, "android:style/Theme.Material.Light.NoActionBar.Overscan");
+    m.insert(0x010301f8, "android:style/Theme.Material.Light.NoActionBar.TranslucentDecor");
+    m.insert(0x010301f9, "android:style/Theme.Material.Light.Panel");
+    m.insert(0x010301fa, "android:style/Theme.Material.Light.Voice");
+    m.insert(0x010301fb, "android:style/Theme.Material.NoActionBar");
+    m.insert(0x010301fc, "android:style/Theme.Material.NoActionBar.Fullscreen");
+    m.insert(0x010301fd, "android:style/Theme.Material.NoActionBar.Overscan");
+    m.insert(0x010301fe, "android:style/Theme.Material.NoActionBar.TranslucentDecor");
+    m.insert(0x010301ff, "android:style/Theme.Material.Panel");
+    m.insert(0x01030200, "android:style/Theme.Material.Settings");
+    m.insert(0x01030201, "android:style/Theme.Material.Voice");
+    m.insert(0x01030202, "android:style/Theme.Material.Wallpaper");
+    m.insert(0x01030203, "android:style/Theme.Material.Wallpaper.NoTitleBar");
+    m.insert(0x01030210, "android:style/Theme.NoTitleBar");
+    m.insert(0x01030211, "android:style/Theme.NoTitleBar.Fullscreen");
+    m.insert(0x01030212, "android:style/Theme.NoTitleBar.OverlayActionModes");
+    m.insert(0x01030213, "android:style/Theme.Panel");
+    m.insert(0x01030214, "android:style/Theme.Translucent");
+    m.insert(0x01030215, "android:style/Theme.Translucent.NoTitleBar");
+    m.insert(0x01030216, "android:style/Theme.Translucent.NoTitleBar.Fullscreen");
+    m.insert(0x01030217, "android:style/Theme.Wallpaper");
+    m.insert(0x01030218, "android:style/Theme.Wallpaper.NoTitleBar");
+    m.insert(0x01030219, "android:style/Theme.Wallpaper.NoTitleBar.Fullscreen");
+    m.insert(0x0103021a, "android:style/Theme.WallpaperSettings");
+    m.insert(0x0103021b, "android:style/Theme.WithActionBar");
+
+    // IDs (0x0102xxxx)
+    m.insert(0x01020000, "android:id/background");
+    m.insert(0x01020001, "android:id/button1");
+    m.insert(0x01020002, "android:id/button2");
+    m.insert(0x01020003, "android:id/button3");
+    m.insert(0x01020004, "android:id/candidatesArea");
+    m.insert(0x01020005, "android:id/checkbox");
+    m.insert(0x01020006, "android:id/closeButton");
+    m.insert(0x01020007, "android:id/content");
+    m.insert(0x01020008, "android:id/copy");
+    m.insert(0x01020009, "android:id/custom");
+    m.insert(0x0102000a, "android:id/cut");
+    m.insert(0x0102000b, "android:id/edit");
+    m.insert(0x0102000c, "android:id/empty");
+    m.insert(0x0102000d, "android:id/extractArea");
+    m.insert(0x0102000e, "android:id/hint");
+    m.insert(0x0102000f, "android:id/home");
+    m.insert(0x01020010, "android:id/icon");
+    m.insert(0x01020011, "android:id/icon1");
+    m.insert(0x01020012, "android:id/icon2");
+    m.insert(0x01020013, "android:id/input");
+    m.insert(0x01020014, "android:id/inputArea");
+    m.insert(0x01020015, "android:id/inputExtractEditText");
+    m.insert(0x01020016, "android:id/keyboardView");
+    m.insert(0x01020017, "android:id/list");
+    m.insert(0x01020018, "android:id/list_container");
+    m.insert(0x01020019, "android:id/mask");
+    m.insert(0x0102001a, "android:id/message");
+    m.insert(0x0102001b, "android:id/navigationBarBackground");
+    m.insert(0x0102001c, "android:id/paste");
+    m.insert(0x0102001d, "android:id/primary");
+    m.insert(0x0102001e, "android:id/progress");
+    m.insert(0x0102001f, "android:id/secondaryProgress");
+    m.insert(0x01020020, "android:id/selectAll");
+    m.insert(0x01020021, "android:id/selectTextMode");
+    m.insert(0x01020022, "android:id/selectedIcon");
+    m.insert(0x01020023, "android:id/startSelectingText");
+    m.insert(0x01020024, "android:id/statusBarBackground");
+    m.insert(0x01020025, "android:id/stopSelectingText");
+    m.insert(0x01020026, "android:id/summary");
+    m.insert(0x01020027, "android:id/switchInputMethod");
+    m.insert(0x01020028, "android:id/tabcontent");
+    m.insert(0x01020029, "android:id/tabhost");
+    m.insert(0x0102002a, "android:id/tabs");
+    m.insert(0x0102002b, "android:id/text1");
+    m.insert(0x0102002c, "android:id/text2");
+    m.insert(0x0102002d, "android:id/title");
+    m.insert(0x0102002e, "android:id/toggle");
+    m.insert(0x0102002f, "android:id/widget_frame");
+
+    m
+});
+
 /// Resource configuration parsed from ResTable_config
 #[derive(Debug, Clone, Default)]
 pub struct ResConfig {
@@ -1004,6 +1355,9 @@ impl ArscParser {
                     Some("@null".to_string())
                 } else if let Some(name) = self.res_names.get(&value.data) {
                     Some(format!("@{}", name))
+                } else if let Some(name) = ANDROID_RES_MAP.get(&value.data) {
+                    // Android framework resource
+                    Some(format!("@{}", name))
                 } else {
                     Some(format!("@0x{:08x}", value.data))
                 }
@@ -1011,6 +1365,12 @@ impl ArscParser {
             TYPE_ATTRIBUTE => {
                 if let Some(name) = self.res_names.get(&value.data) {
                     Some(format!("?{}", name))
+                } else if let Some(name) = ANDROID_RES_MAP.get(&value.data) {
+                    // Android framework attribute
+                    Some(format!("?{}", name))
+                } else if let Some(name) = ANDROID_ATTR_MAP.get(&value.data) {
+                    // Android framework attribute from attr map
+                    Some(format!("?android:attr/{}", name))
                 } else {
                     Some(format!("?0x{:08x}", value.data))
                 }
@@ -1141,12 +1501,8 @@ impl ArscParser {
     pub fn generate_public_xml(&self) -> String {
         let mut xml = String::from("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
 
-        // Sort entries by ID for consistent output
-        let mut sorted_entries: Vec<_> = self
-            .entries
-            .iter()
-            .filter(|e| e.config == "default")
-            .collect();
+        // Sort entries by ID for consistent output - include ALL configs
+        let mut sorted_entries: Vec<_> = self.entries.iter().collect();
         sorted_entries.sort_by_key(|e| e.id);
 
         // Track seen IDs to avoid duplicates
@@ -1154,9 +1510,13 @@ impl ArscParser {
 
         for entry in sorted_entries {
             if seen_ids.insert(entry.id) {
+                // Normalize name for Java JADX compatibility:
+                // - Replace $ with _ (invalid in XML names)
+                // - Add _res_0x{id} suffix for names starting with special chars
+                let name = normalize_resource_name(&entry.key_name, entry.id);
                 xml.push_str(&format!(
                     "    <public type=\"{}\" name=\"{}\" id=\"0x{:08x}\" />\n",
-                    entry.type_name, entry.key_name, entry.id
+                    entry.type_name, name, entry.id
                 ));
             }
         }
@@ -1540,6 +1900,30 @@ fn escape_string_resource(s: &str) -> String {
         }
     }
     result
+}
+
+/// Normalize resource name for XML compatibility (matches Java JADX behavior)
+/// - Names starting with $ get _ prefix and _res_0x{id} suffix
+/// - Names with invalid XML chars get escaped
+fn normalize_resource_name(name: &str, id: u32) -> String {
+    if name.is_empty() {
+        return format!("res_0x{:08x}", id);
+    }
+
+    let first_char = name.chars().next().unwrap();
+
+    // Names starting with $ are invalid XML - normalize like Java JADX
+    if first_char == '$' {
+        let normalized = name.replace('$', "_");
+        return format!("{}_res_0x{:08x}", normalized, id);
+    }
+
+    // Names starting with digit need underscore prefix
+    if first_char.is_ascii_digit() {
+        return format!("_{}_res_0x{:08x}", name, id);
+    }
+
+    name.to_string()
 }
 
 #[cfg(test)]

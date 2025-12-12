@@ -36,10 +36,10 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 | **Resources** | **100%** | |
 | AXML (AndroidManifest, layouts) | ✅ 100% | 1:1 match |
 | resources.arsc | ✅ 100% | Strings, dimensions, colors, enums |
-| **Additional Features** | **25%** | |
+| **Additional Features** | **35%** | |
 | Deobfuscation | ❌ 0% | CLI args parsed but not implemented |
 | Gradle export | ❌ 0% | CLI args parsed but not implemented |
-| Code style options | ⚠️ 50% | Some options work, others pending |
+| Code style options | ✅ 75% | --no-imports, --escape-unicode, --no-inline-anonymous work |
 
 **Overall: ~85% feature-complete vs Java jadx-core**
 
@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
 - Smali file (`.smali`) processing
 - Deobfuscation (`--deobf` and related options) - see roadmap below
 - Gradle project export (`--export-gradle`)
-- Some code style options (inline methods, debug info, unicode escape)
+- Method inlining (`--no-inline-methods`)
 
 ### Deobfuscation Roadmap
 

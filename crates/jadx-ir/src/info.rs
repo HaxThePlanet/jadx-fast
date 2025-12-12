@@ -96,6 +96,8 @@ pub enum AnnotationValue {
 pub struct MethodData {
     /// Method name
     pub name: String,
+    /// Alias name (from deobfuscation or mapping file)
+    pub alias: Option<String>,
     /// Access flags
     pub access_flags: u32,
     /// Return type
@@ -125,6 +127,7 @@ impl MethodData {
     pub fn new(name: String, access_flags: u32, return_type: ArgType) -> Self {
         MethodData {
             name,
+            alias: None,
             access_flags,
             return_type,
             arg_types: Vec::new(),
@@ -137,6 +140,11 @@ impl MethodData {
             debug_info: None,
             annotations: Vec::new(),
         }
+    }
+
+    /// Get the display name (alias if set, otherwise original name)
+    pub fn display_name(&self) -> &str {
+        self.alias.as_deref().unwrap_or(&self.name)
     }
 
     /// Check if this is a static method
@@ -224,6 +232,10 @@ pub struct LocalVar {
 pub struct ClassData {
     /// Class type descriptor (e.g., "Lcom/example/Foo;")
     pub class_type: String,
+    /// Alias name (from deobfuscation or mapping file)
+    pub alias: Option<String>,
+    /// Package alias (from deobfuscation or mapping file)
+    pub pkg_alias: Option<String>,
     /// Access flags
     pub access_flags: u32,
     /// Superclass type (None for java/lang/Object)
@@ -247,6 +259,8 @@ impl ClassData {
     pub fn new(class_type: String, access_flags: u32) -> Self {
         ClassData {
             class_type,
+            alias: None,
+            pkg_alias: None,
             access_flags,
             superclass: None,
             interfaces: Vec::new(),
@@ -256,6 +270,11 @@ impl ClassData {
             instance_fields: Vec::new(),
             annotations: Vec::new(),
         }
+    }
+
+    /// Get the display name (alias if set, otherwise simple_name)
+    pub fn display_name(&self) -> &str {
+        self.alias.as_deref().unwrap_or_else(|| self.simple_name())
     }
 
     /// Get the simple name (without package)
@@ -307,6 +326,8 @@ impl ClassData {
 pub struct FieldData {
     /// Field name
     pub name: String,
+    /// Alias name (from deobfuscation or mapping file)
+    pub alias: Option<String>,
     /// Access flags
     pub access_flags: u32,
     /// Field type
@@ -322,11 +343,17 @@ impl FieldData {
     pub fn new(name: String, access_flags: u32, field_type: ArgType) -> Self {
         FieldData {
             name,
+            alias: None,
             access_flags,
             field_type,
             initial_value: None,
             annotations: Vec::new(),
         }
+    }
+
+    /// Get the display name (alias if set, otherwise original name)
+    pub fn display_name(&self) -> &str {
+        self.alias.as_deref().unwrap_or(&self.name)
     }
 
     /// Check if static

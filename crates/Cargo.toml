@@ -7,6 +7,7 @@ members = [
     "jadx-codegen",
     "jadx-cli",
     "jadx-resources",
+    "jadx-deobf",
 ]
 
 [workspace.package]
@@ -62,12 +63,17 @@ serde_json = "1.0"
 pretty_assertions = "1.4"
 criterion = "0.5"
 
+# Regex
+regex = "1"
+lazy_static = "1.4"
+
 # Internal crates
 jadx-dex = { path = "jadx-dex" }
 jadx-ir = { path = "jadx-ir" }
 jadx-passes = { path = "jadx-passes" }
 jadx-codegen = { path = "jadx-codegen" }
 jadx-resources = { path = "jadx-resources" }
+jadx-deobf = { path = "jadx-deobf" }
 
 [profile.release]
 lto = true

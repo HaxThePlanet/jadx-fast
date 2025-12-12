@@ -32,6 +32,7 @@
 mod args;
 mod converter;
 mod decompiler;
+mod gradle_export;
 
 use std::io::Read;
 use std::path::PathBuf;
@@ -45,6 +46,7 @@ use rayon::prelude::*;
 use jadx_codegen::{LazyDexInfo, DexInfoProvider};
 use jadx_ir::ClassData;
 use jadx_dex::DexReader;
+use jadx_deobf::{DeobfuscatorVisitor, DeobfAliasProvider, CombinedCondition};
 use std::collections::HashMap;
 
 pub use args::*;
@@ -172,6 +174,22 @@ fn process_input(input: &PathBuf, args: &Args) -> Result<()> {
         _ => {
             anyhow::bail!("Unsupported file type: {}", extension);
         }
+    }
+
+    // Export as Gradle project if requested
+    if args.export_gradle {
+        let project_name = input
+            .file_stem()
+            .map(|s| s.to_string_lossy().to_string())
+            .unwrap_or_else(|| "app".to_string());
+
+        gradle_export::export_gradle_project(
+            &out_dir,
+            &out_dir_src,
+            &out_dir_res,
+            args.export_gradle_type,
+            &project_name,
+        )?;
     }
 
     Ok(())
@@ -735,6 +753,16 @@ fn process_dex_bytes(
     // Wrap LazyDexInfo in Arc for sharing across threads
     let dex_info = std::sync::Arc::new(dex_info);
 
+    // Create deobfuscator if enabled
+    let deobfuscator = if args.deobfuscation {
+        tracing::info!("Deobfuscation enabled (min={}, max={})", args.deobf_min_length, args.deobf_max_length);
+        let condition = CombinedCondition::default_jadx(args.deobf_min_length, args.deobf_max_length);
+        let provider = DeobfAliasProvider::new(args.deobf_max_length);
+        Some(std::sync::Arc::new(DeobfuscatorVisitor::new(condition, provider)))
+    } else {
+        None
+    };
+
     // First pass: identify inner/outer class relationships (metadata only, no IR)
     let mut outer_indices: Vec<(u32, String)> = Vec::new();
     let mut inner_to_outer: HashMap<String, String> = HashMap::new();
@@ -785,37 +813,36 @@ fn process_dex_bytes(
                 .map_err(|e| format!("Failed to get class: {}", e))
                 .and_then(|class| {
                     converter::convert_class(&dex, &class)
-                        .map(std::sync::Arc::new)
+                        .map(|mut class_data| {
+                            // Apply deobfuscation if enabled
+                            if let Some(ref deobf) = deobfuscator {
+                                deobf.process_class(&mut class_data);
+                            }
+                            std::sync::Arc::new(class_data)
+                        })
                         .map_err(|e| format!("Failed to convert: {}", e))
                 })
         }))
         .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_name)));
 
-        // Find and convert inner classes for this outer class
-        let mut inner_classes: HashMap<String, std::sync::Arc<ClassData>> = HashMap::new();
-        for (inner_name, outer_name) in &inner_to_outer {
-            if outer_name == class_name {
-                if let Some(&inner_idx) = class_name_to_idx.get(inner_name) {
-                    if let Ok(inner_class) = dex.get_class(inner_idx) {
-                        if let Ok(inner_data) = converter::convert_class(&dex, &inner_class) {
-                            inner_classes.insert(inner_name.clone(), std::sync::Arc::new(inner_data));
-                        }
-                    }
-                }
-            }
-        }
-
         // Generate code
+        // Note: Inner classes currently generated as separate files for memory efficiency
         let java_code = match ir_result {
             Ok(ir_class) => {
-                let config = jadx_codegen::ClassGenConfig::default();
+                let config = jadx_codegen::ClassGenConfig {
+                    use_imports: args.use_imports(),
+                    show_debug: false,
+                    fallback: args.effective_decompilation_mode() == DecompilationMode::Fallback,
+                    escape_unicode: args.escape_unicode,
+                    inline_anonymous: args.inline_anonymous(),
+                    add_debug_lines: args.add_debug_lines,
+                };
                 let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
-                let inner_ref = if inner_classes.is_empty() { None } else { Some(&inner_classes) };
                 jadx_codegen::generate_class_with_inner_classes(
                     &ir_class,
                     &config,
                     Some(dex_arc),
-                    inner_ref,
+                    None,
                 )
             }
             Err(e) => {
@@ -844,11 +871,11 @@ fn process_dex_bytes(
     let elapsed = start.elapsed();
     let errors = error_count.load(std::sync::atomic::Ordering::Relaxed);
     tracing::info!(
-        "Processed {} classes in {:.2}s ({} errors, {} inner classes embedded)",
+        "Processed {} outer + {} inner classes in {:.2}s ({} errors)",
         outer_count,
+        inner_count,
         elapsed.as_secs_f64(),
-        errors,
-        inner_count
+        errors
     );
 
     Ok(outer_count + inner_count)

@@ -602,9 +602,15 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         return;
     }
 
-    // Build CFG (needs clone because SSA will take ownership of blocks)
-    // TODO: Optimize by having CFG and region_builder use SSA blocks directly
-    let cfg = CFG::from_blocks(block_result.clone());
+    // Build CFG for dominance analysis (takes ownership, no clone needed)
+    let cfg = CFG::from_blocks(block_result);
+
+    // Build region tree for structured code with try-catch support
+    // Region analysis only needs instruction types for control flow, not SSA info
+    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
+
+    // Extract blocks from CFG after region analysis
+    let block_result = cfg.into_blocks();
 
     // SSA transformation - use owned version to avoid cloning instructions
     let ssa_result = transform_to_ssa_owned(block_result);
@@ -623,9 +629,6 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     } else {
         infer_types(&ssa_result)
     };
-
-    // Build region tree for structured code with try-catch support
-    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
 
     // Create generation context with type info and DEX data for name resolution
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());

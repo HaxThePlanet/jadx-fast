@@ -116,6 +116,9 @@ pub fn generate_class_code(class: &ClassData, dex_info: Option<std::sync::Arc<dy
         use_imports: true,
         show_debug: false,
         fallback: true,
+        escape_unicode: false,
+        inline_anonymous: true,
+        add_debug_lines: false,
     };
     generate_class_with_dex(class, &config, dex_info)
 }

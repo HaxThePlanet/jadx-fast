@@ -226,8 +226,16 @@ fn format_double(d: f64) -> String {
     }
 }
 
-/// Escape a string for Java source
+/// Escape a string for Java source (default: no unicode escaping)
 pub fn escape_string(s: &str) -> String {
+    escape_string_with_unicode(s, false)
+}
+
+/// Escape a string for Java source with optional unicode escaping
+///
+/// When `escape_unicode` is true, non-ASCII characters are escaped as \uXXXX.
+/// When false, UTF-8 characters are preserved for readability.
+pub fn escape_string_with_unicode(s: &str, escape_unicode: bool) -> String {
     let mut result = String::with_capacity(s.len() + 2);
     result.push('"');
     for c in s.chars() {
@@ -238,6 +246,8 @@ pub fn escape_string(s: &str) -> String {
             '"' => result.push_str("\\\""),
             '\\' => result.push_str("\\\\"),
             c if c.is_ascii_graphic() || c == ' ' => result.push(c),
+            c if !escape_unicode && c.is_alphanumeric() => result.push(c),
+            c if !escape_unicode && !c.is_control() => result.push(c),
             c if c as u32 <= 0xFFFF => {
                 result.push_str(&format!("\\u{:04x}", c as u32));
             }

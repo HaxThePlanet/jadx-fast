@@ -229,7 +229,8 @@ pub fn generate_method_with_dex<W: CodeWriter>(
         // Regular method (use simple names when imports available)
         code.add(&type_to_string_with_imports(&method.return_type, imports));
         code.add(" ");
-        code.add(&method.name);
+        // Use alias if available from deobfuscation
+        code.add(method.display_name());
     }
 
     // Parameters (except for static initializer)
@@ -302,7 +303,8 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     } else {
         code.add(&type_to_string_with_imports(&method.return_type, imports));
         code.add(" ");
-        code.add(&method.name);
+        // Use alias if available from deobfuscation
+        code.add(method.display_name());
     }
 
     // Parameters (except for static initializer)
