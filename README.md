@@ -19,7 +19,7 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 
 ## Current Status
 
-**~87,000 lines of Rust, 877 tests (92% coverage of Java JADX test suite).**
+**88,366 lines of Rust, 877 tests (92% coverage of Java JADX test suite).**
 
 **✅ Memory-optimized for production use** - All critical memory issues resolved (December 2025)
 

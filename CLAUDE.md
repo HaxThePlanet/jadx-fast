@@ -52,11 +52,11 @@ DEX bytes → jadx-dex (parsing) → jadx-ir (IR) → jadx-passes (analysis) →
 
 ### Key Design Patterns
 
-1. **Arena Allocation** (`bumpalo`) - IR nodes allocated in per-method arenas
-2. **Enum-based IR** - Instructions as `InsnType` enum variants, not class hierarchy
-3. **SSA Form** - Full SSA transformation with phi nodes for type inference
-4. **Region Tree** - Hierarchical control flow (Sequence, If, Loop, Switch, TryCatch)
-5. **Parallel by Default** (`rayon`) - Class-level parallelism
+1. **Enum-based IR** - Instructions as `InsnType` enum variants, not class hierarchy
+2. **SSA Form** - Full SSA transformation with phi nodes for type inference
+3. **Region Tree** - Hierarchical control flow (Sequence, If, Loop, Switch, TryCatch with finally)
+4. **Parallel by Default** (`rayon`) - Class-level parallelism
+5. **Standard heap allocation** - Uses Rust's default allocator with strategic cloning
 
 ### Java → Rust Type Mappings
 
@@ -99,7 +99,7 @@ diff -r expected/ actual/
 
 ## Known Gaps (vs Java JADX)
 
-- Finally block duplicate removal (infrastructure implemented, needs marking pass before region building)
+None currently identified. All major decompilation features are implemented.
 
 ## Deobfuscation Roadmap
 
@@ -115,14 +115,14 @@ Note: Deobfuscation is cosmetic renaming (a.b.c → MainActivity.onCreate). The 
 | ProGuard parser | ✅ Done | `--mappings-path` loads ProGuard mapping files |
 | Cross-ref aliasing | ✅ Done | Method bodies use deobfuscated names via AliasAwareDexInfo |
 | Tiny/Enigma parsers | ❌ Pending | Other mapping formats |
-| .jobf persistence | ❌ Pending | Save/load generated mappings |
+| .jobf persistence | ⚠️ Partial | CLI param defined, read/write logic not implemented |
 
 ### What --deobf does (implemented):
 
 - ✅ Renames short/invalid identifiers → AbstractActivityC1234, m0methodName
 - ✅ Loads ProGuard mapping files (`--mappings-path mapping.txt`)
 - ✅ Cross-reference resolution - method bodies show deobfuscated names
-- ❌ Persists generated names to .jobf file (pending)
+- ⚠️ Save/load `.jobf` files (CLI parameter exists, not yet implemented)
 
 ## Recently Implemented Features
 

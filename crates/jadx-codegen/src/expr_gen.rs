@@ -2,6 +2,16 @@
 //!
 //! This module turns IR instructions into Java source code expressions.
 //! For example: `Binary { op: Add, left: v0, right: v1 }` -> `"a + b"`
+//!
+//! ⚠️ CRITICAL MEMORY WARNING ⚠️
+//!
+//! The ExprGen struct uses HashMap pooling with capacity shrinking to prevent
+//! catastrophic memory growth. DO NOT modify the reset() logic without
+//! understanding the memory implications - see reset() documentation.
+//!
+//! The bug: HashMap::clear() retains capacity permanently, causing 100GB+
+//! memory explosions on real APKs when large obfuscated methods inflate
+//! HashMap capacity that is then retained across all remaining classes.
 
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -16,6 +26,14 @@ use jadx_ir::types::ArgType;
 use crate::dex_info::DexInfoProvider;
 
 /// Expression generation context
+///
+/// ⚠️ WARNING: Contains 6 HashMaps that MUST be properly shrunk via reset()
+///
+/// These HashMaps are pooled and reused across methods for performance.
+/// The reset() method MUST check capacity and replace oversized HashMaps,
+/// otherwise capacity accumulates and causes memory explosions (100GB+ OOM).
+///
+/// See reset() documentation for detailed explanation of the bug.
 pub struct ExprGen {
     /// Variable names: (reg_num, ssa_version) -> name
     var_names: HashMap<(u16, u32), String>,
@@ -94,48 +112,79 @@ impl ExprGen {
         self.dex_provider = Some(provider);
     }
 
-    /// Reset for reuse - SHRINKS HashMaps to prevent memory accumulation
-    /// If a HashMap grew very large for one big method, we don't want to keep
-    /// that capacity for small methods
+    /// Reset for reuse - CRITICAL: Must shrink oversized HashMaps
+    ///
+    /// ⚠️ DANGER: HashMap::clear() PERMANENTLY RETAINS CAPACITY ⚠️
+    ///
+    /// This was the root cause of 100GB+ memory explosions on real APKs.
+    ///
+    /// THE BUG:
+    /// - Process small class (10 vars) → HashMap capacity = 14 bytes
+    /// - Process huge obfuscated class (10,000 vars) → capacity = 10MB
+    /// - Process small class again → capacity STILL 10MB! ❌
+    ///
+    /// With 6 HashMaps per ExprGen × 16 pooled instances per thread × 10 threads:
+    /// - One huge method inflates ALL 960 HashMaps to 10MB each
+    /// - Total: 9.6GB locked PERMANENTLY
+    /// - Multiple huge methods → 100GB+ OOM kill
+    ///
+    /// THE FIX:
+    /// - Replace HashMap if capacity > 1000 (shrinks to ~0)
+    /// - Keep capacity if small (reuse allocation)
+    ///
+    /// DO NOT CHANGE THIS without understanding the memory implications!
     pub fn reset(&mut self) {
-        // If HashMaps grew too large, replace them with fresh ones
-        // This prevents memory accumulation across classes
+        // MAX_POOLED_CAPACITY = threshold for replacing vs clearing
+        // Too high: memory explosion from huge methods
+        // Too low: unnecessary allocations for normal methods
         const MAX_POOLED_CAPACITY: usize = 1000;
 
+        // Variable names: (register, ssa_version) -> name
+        // CRITICAL: Replace if oversized to prevent memory leak
         if self.var_names.capacity() > MAX_POOLED_CAPACITY {
-            self.var_names = HashMap::new();
+            self.var_names = HashMap::new();  // SHRINK - drops old allocation
         } else {
-            self.var_names.clear();
+            self.var_names.clear();  // Reuse - keeps capacity
         }
 
+        // Variable types: (register, ssa_version) -> ArgType
+        // CRITICAL: Replace if oversized to prevent memory leak
         if self.var_types.capacity() > MAX_POOLED_CAPACITY {
-            self.var_types = HashMap::new();
+            self.var_types = HashMap::new();  // SHRINK - drops old allocation
         } else {
-            self.var_types.clear();
+            self.var_types.clear();  // Reuse - keeps capacity
         }
 
+        // String constants: string_idx -> String value
+        // CRITICAL: Replace if oversized to prevent memory leak
         if self.strings.capacity() > MAX_POOLED_CAPACITY {
-            self.strings = HashMap::new();
+            self.strings = HashMap::new();  // SHRINK - drops old allocation
         } else {
-            self.strings.clear();
+            self.strings.clear();  // Reuse - keeps capacity
         }
 
+        // Type names: type_idx -> type name
+        // CRITICAL: Replace if oversized to prevent memory leak
         if self.type_names.capacity() > MAX_POOLED_CAPACITY {
-            self.type_names = HashMap::new();
+            self.type_names = HashMap::new();  // SHRINK - drops old allocation
         } else {
-            self.type_names.clear();
+            self.type_names.clear();  // Reuse - keeps capacity
         }
 
+        // Field info cache: field_idx -> FieldInfo
+        // CRITICAL: Replace if oversized to prevent memory leak
         if self.field_info.capacity() > MAX_POOLED_CAPACITY {
-            self.field_info = HashMap::new();
+            self.field_info = HashMap::new();  // SHRINK - drops old allocation
         } else {
-            self.field_info.clear();
+            self.field_info.clear();  // Reuse - keeps capacity
         }
 
+        // Method info cache: method_idx -> MethodInfo
+        // CRITICAL: Replace if oversized to prevent memory leak
         if self.method_info.capacity() > MAX_POOLED_CAPACITY {
-            self.method_info = HashMap::new();
+            self.method_info = HashMap::new();  // SHRINK - drops old allocation
         } else {
-            self.method_info.clear();
+            self.method_info.clear();  // Reuse - keeps capacity
         }
 
         self.dex_provider = None;
