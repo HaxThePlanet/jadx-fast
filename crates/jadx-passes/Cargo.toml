@@ -1,0 +1,20 @@
+[package]
+name = "jadx-passes"
+description = "Decompilation passes for jadx-rust"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+jadx-dex.workspace = true
+jadx-ir.workspace = true
+rayon.workspace = true
+petgraph.workspace = true
+smallvec.workspace = true
+fixedbitset.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+tracing-subscriber.workspace = true

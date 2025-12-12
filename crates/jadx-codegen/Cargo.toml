@@ -1,0 +1,15 @@
+[package]
+name = "jadx-codegen"
+description = "Java source code generator for jadx-rust"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+jadx-ir.workspace = true
+itoa.workspace = true
+ryu.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true

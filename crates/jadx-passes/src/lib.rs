@@ -1,0 +1,34 @@
+//! Decompilation passes for jadx-rust
+//!
+//! This crate contains the visitor passes that transform the IR.
+
+pub mod algorithms;
+pub mod block_split;
+pub mod cfg;
+pub mod conditionals;
+pub mod loops;
+pub mod region_builder;
+pub mod ssa;
+pub mod type_inference;
+pub mod visitor;
+
+// Re-exports
+pub use algorithms::{compute_dominators, DominatorInfo, LiveVarAnalysis, LivenessInfo};
+pub use block_split::{split_blocks, BasicBlock, BlockSplitResult};
+pub use cfg::CFG;
+pub use conditionals::{detect_conditionals, IfInfo};
+pub use loops::{detect_loops, LoopInfo};
+pub use region_builder::build_regions;
+pub use ssa::{transform_to_ssa, DominatorTree, PhiNode, SsaBlock, SsaResult};
+pub use type_inference::{infer_types, TypeInference, TypeInferenceResult};
+
+/// Pass trait for decompilation passes
+pub trait Pass: Send + Sync {
+    /// Name of this pass
+    fn name(&self) -> &'static str;
+
+    /// Passes that must run before this one
+    fn run_after(&self) -> &[&'static str] {
+        &[]
+    }
+}

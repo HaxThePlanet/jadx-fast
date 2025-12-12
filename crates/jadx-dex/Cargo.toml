@@ -1,0 +1,18 @@
+[package]
+name = "jadx-dex"
+description = "DEX file format parser for jadx-rust"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+zerocopy.workspace = true
+byteorder.workspace = true
+memmap2.workspace = true
+string-interner.workspace = true
+rayon.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
