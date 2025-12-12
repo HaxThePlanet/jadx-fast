@@ -642,7 +642,9 @@ impl TypeInference {
             | InsnType::If { .. }
             | InsnType::Goto { .. }
             | InsnType::PackedSwitch { .. }
-            | InsnType::SparseSwitch { .. } => {}
+            | InsnType::SparseSwitch { .. }
+            | InsnType::Break { .. }
+            | InsnType::Continue { .. } => {}
         }
     }
 
