@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Dexterity** is a high-performance Android DEX/APK decompiler written in Rust, inspired by [JADX](https://github.com/skylot/jadx). The goal is 1:1 output compatibility with Java JADX while achieving 2-4x faster performance through zero-copy parsing, arena allocation, and native parallelism.
+**Dexterity** is a high-performance Android DEX/APK decompiler written in Rust, inspired by [JADX](https://github.com/skylot/jadx). The goal is 1:1 output compatibility with Java JADX while achieving 2-4x faster performance through zero-copy parsing and native parallelism.
 
 **Current status**: 88,366 lines of Rust, 877 tests (92% coverage of Java JADX test suite with ~953 total tests), full decompilation pipeline functional.
 

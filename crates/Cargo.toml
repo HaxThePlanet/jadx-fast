@@ -23,7 +23,6 @@ byteorder = "1.5"
 memmap2 = "0.9"
 
 # Data structures
-bumpalo = { version = "3.16", features = ["collections"] }
 slotmap = "1.0"
 fixedbitset = "0.5"
 smallvec = { version = "1.13", features = ["union"] }

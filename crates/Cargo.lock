@@ -589,7 +589,6 @@ dependencies = [
 name = "jadx-ir"
 version = "1.0.0"
 dependencies = [
- "bumpalo",
  "fixedbitset 0.5.7",
  "pretty_assertions",
  "serde",

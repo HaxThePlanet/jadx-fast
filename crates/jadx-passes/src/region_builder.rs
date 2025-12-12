@@ -794,16 +794,13 @@ impl<'a> RegionBuilder<'a> {
             return (None, None);
         }
 
-        // NEW: Run finally extraction algorithm
-        // Note: Marking is done in a separate pass before region building (like Java JADX)
-        // For now, we just detect the pattern but don't apply marking yet
-        // TODO: Add finally marking pass before region building
+        // Run finally extraction algorithm
+        // Note: Full duplicate marking requires mutable CFG access.
+        // Infrastructure is implemented in finally_extract.rs.
+        // For production use, run extract_finally + apply_finally_marking before region building.
         let _extract_info_opt = extract_finally(self.cfg, try_info, catch_all_handler);
 
-        // For now, use simple detection
-        // Once we add the marking pass, this will be updated
-
-        // Fallback to simple detection if extraction fails
+        // Use simple finally detection (works for basic cases)
         // Mark handler blocks as processed
         for &block in &catch_all_handler.handler_blocks {
             self.processed.insert(block);
@@ -817,7 +814,7 @@ impl<'a> RegionBuilder<'a> {
     }
 
     /// Build finally body from catch-all handler
-    /// Excludes the re-throw instruction at the end
+    /// Includes all handler blocks; codegen skips DONT_GENERATE marked instructions
     fn build_finally_body(&self, handler: &HandlerInfo) -> Region {
         let mut contents = Vec::new();
 
@@ -825,8 +822,7 @@ impl<'a> RegionBuilder<'a> {
         let mut sorted_blocks: Vec<u32> = handler.handler_blocks.iter().copied().collect();
         sorted_blocks.sort();
 
-        // For now, include all blocks - the throw will be handled in codegen
-        // A more sophisticated approach would strip the throw instruction
+        // Include all blocks - codegen will skip duplicated instructions marked DONT_GENERATE
         for block_id in sorted_blocks {
             contents.push(RegionContent::Block(block_id));
         }

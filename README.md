@@ -268,8 +268,6 @@ DEX/APK → jadx-dex (parse) → jadx-ir (IR) → jadx-passes (analyze) → jadx
 
 | Choice | Benefit |
 |--------|---------|
-| Arena allocation (bumpalo) | Cache-friendly IR, fast cleanup |
-| Enum-based IR | No class hierarchy, pattern matching |
 | String interning | Deduplicated type/method names |
 | Rayon parallelism | Concurrent class processing |
 | Memory-mapped I/O | Zero-copy DEX parsing |
@@ -351,7 +349,7 @@ method_cache: LruCache::new(50_000_000), // ~10GB
 
 **2. Arena Allocation (Medium Impact)**
 
-Despite being mentioned in docs, **bumpalo is not actually used**. Everything uses standard Rust heap allocation with repeated cloning.
+**Current Status**: Standard Rust heap allocation is used (Vec/Box) with repeated cloning.
 
 **Current overhead**:
 - SSA pass clones instructions **4 times** per method
