@@ -48,23 +48,24 @@ const ANDROID_SETTINGS_GRADLE: &str = r#"rootProject.name = '{{projectName}}'
 include '{{mainModuleName}}'
 "#;
 
-/// app/build.gradle for Android Application
-const ANDROID_APP_BUILD_GRADLE: &str = r#"plugins {
+/// app/build.gradle for Android Application (exact match to Java JADX)
+const ANDROID_APP_BUILD_GRADLE: &str = "plugins {
     id 'com.android.application'
 }
 
 android {
-    namespace '{{namespace}}'
+\tnamespace \"{{applicationId}}\"
     compileSdkVersion {{compileSdkVersion}}
 
     defaultConfig {
         applicationId '{{applicationId}}'
         minSdkVersion {{minSdkVersion}}
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
         targetSdkVersion {{targetSdkVersion}}
         versionCode {{versionCode}}
-        versionName '{{versionName}}'
+        versionName \"{{versionName}}\"
 
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"
     }
 
     buildTypes {
@@ -79,31 +80,32 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    lint {
+    lintOptions {
         abortOnError false
     }
 
     buildFeatures {
-        buildConfig false
+        buildConfig = false
     }
 }
 
 dependencies {
-    // TODO: add dependencies
+    // TODO: dependencies
 }
-"#;
+";
 
-/// lib/build.gradle for Android Library
-const ANDROID_LIB_BUILD_GRADLE: &str = r#"plugins {
+/// lib/build.gradle for Android Library (exact match to Java JADX)
+const ANDROID_LIB_BUILD_GRADLE: &str = "plugins {
     id 'com.android.library'
 }
 
 android {
-    namespace '{{namespace}}'
-    compileSdkVersion {{compileSdkVersion}}
+    namespace '{{packageId}}'
+    compileSdk {{compileSdkVersion}}
 
     defaultConfig {
-        minSdkVersion {{minSdkVersion}}
+        minSdk {{minSdkVersion}}
+
     }
 
     buildTypes {
@@ -111,25 +113,24 @@ android {
             minifyEnabled false
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    lint {
+    lintOptions {
         abortOnError false
     }
 
     buildFeatures {
-        buildConfig false
+        buildConfig = false
     }
 }
 
 dependencies {
-    // TODO: add dependencies
+\t// TODO: dependencies
 }
-"#;
+";
 
 /// build.gradle.kts for Simple Java projects
 const JAVA_BUILD_GRADLE_KTS: &str = r#"plugins {
@@ -357,14 +358,13 @@ fn export_android_project(
     let compile_sdk = std::cmp::max(manifest_info.target_sdk, 34);
     let module_build_content = if is_library {
         ANDROID_LIB_BUILD_GRADLE
-            .replace("{{namespace}}", &manifest_info.package)
+            .replace("{{packageId}}", &manifest_info.package)
             .replace("{{compileSdkVersion}}", &compile_sdk.to_string())
             .replace("{{minSdkVersion}}", &manifest_info.min_sdk.to_string())
     } else {
         ANDROID_APP_BUILD_GRADLE
-            .replace("{{namespace}}", &manifest_info.package)
-            .replace("{{compileSdkVersion}}", &compile_sdk.to_string())
             .replace("{{applicationId}}", &manifest_info.package)
+            .replace("{{compileSdkVersion}}", &compile_sdk.to_string())
             .replace("{{minSdkVersion}}", &manifest_info.min_sdk.to_string())
             .replace("{{targetSdkVersion}}", &manifest_info.target_sdk.to_string())
             .replace("{{versionCode}}", &manifest_info.version_code.to_string())

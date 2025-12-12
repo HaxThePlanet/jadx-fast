@@ -836,6 +836,7 @@ fn process_dex_bytes(
                     escape_unicode: args.escape_unicode,
                     inline_anonymous: args.inline_anonymous(),
                     add_debug_lines: args.add_debug_lines,
+                    inline_methods: args.inline_methods(),
                 };
                 let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
                 jadx_codegen::generate_class_with_inner_classes(

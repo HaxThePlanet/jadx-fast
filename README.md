@@ -8,6 +8,8 @@ A Rust rewrite of [JADX](https://github.com/skylot/jadx) - the Android DEX/APK d
 
 This project reimplements `jadx-core` (the decompilation engine) in Rust. The goal is 1:1 output compatibility with the Java version - not jadx-gui. When complete, you can run both implementations on the same APK and `diff` should show zero differences.
 
+**Reference Implementation:** Java JADX v1.5.3 source is included at `jadx-core/` for 1:1 comparison during development.
+
 ```bash
 # Golden file testing strategy
 java -jar jadx-cli.jar -d expected/ input.apk
@@ -36,10 +38,10 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 | **Resources** | **100%** | |
 | AXML (AndroidManifest, layouts) | ✅ 100% | 1:1 match |
 | resources.arsc | ✅ 100% | Strings, dimensions, colors, enums |
-| **Additional Features** | **35%** | |
-| Deobfuscation | ❌ 0% | CLI args parsed but not implemented |
-| Gradle export | ❌ 0% | CLI args parsed but not implemented |
+| **Additional Features** | **50%** | |
+| Gradle export | ✅ 100% | Android app/library, simple Java |
 | Code style options | ✅ 75% | --no-imports, --escape-unicode, --no-inline-anonymous work |
+| Deobfuscation | ❌ 0% | CLI args parsed but not implemented |
 
 **Overall: ~85% feature-complete vs Java jadx-core**
 
@@ -94,6 +96,7 @@ public class MainActivity extends Activity {
 - Final local variable marking (SSA-based detection)
 - Resource extraction (AXML, resources.arsc, dimensions, Android enums)
 - Framework class filtering (android.*, kotlin.*, java.*)
+- Gradle project export (`-e` flag, Android app/library/Java templates)
 
 ### Remaining for 1:1 Match
 
@@ -103,7 +106,6 @@ public class MainActivity extends Activity {
 
 - Smali file (`.smali`) processing
 - Deobfuscation (`--deobf` and related options) - see roadmap below
-- Gradle project export (`--export-gradle`)
 - Method inlining (`--no-inline-methods`)
 
 ### Deobfuscation Roadmap
@@ -145,9 +147,16 @@ cd crates && cargo build --release -p jadx-cli
 
 # Parallel processing
 ./target/release/jadx-rust -j 16 -d output/ app.apk
+
+# Export as Gradle project (Android Studio ready)
+./target/release/jadx-rust -e -d output/ app.apk
+
+# Export with specific type
+./target/release/jadx-rust -e --export-gradle-type android-app -d output/ app.apk
+./target/release/jadx-rust -e --export-gradle-type simple-java -d output/ app.jar
 ```
 
-Core JADX CLI options are supported. Additional options (deobfuscation, gradle export, etc.) are parsed but not yet implemented.
+Core JADX CLI options are supported. Deobfuscation options are parsed but not yet implemented.
 
 ## Architecture
 

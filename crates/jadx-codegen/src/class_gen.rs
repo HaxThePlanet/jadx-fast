@@ -374,6 +374,8 @@ pub struct ClassGenConfig {
     pub inline_anonymous: bool,
     /// Add comments with debug line numbers
     pub add_debug_lines: bool,
+    /// Inline synthetic bridge methods (access$XXX methods)
+    pub inline_methods: bool,
 }
 
 impl Default for ClassGenConfig {
@@ -385,6 +387,7 @@ impl Default for ClassGenConfig {
             escape_unicode: false,
             inline_anonymous: true,
             add_debug_lines: false,
+            inline_methods: true,
         }
     }
 }

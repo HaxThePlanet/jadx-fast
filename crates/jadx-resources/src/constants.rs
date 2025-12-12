@@ -143,11 +143,16 @@ fn decode_complex_value(data: u32) -> f64 {
 }
 
 fn format_float_value(value: f64, suffix: &str) -> String {
-    if value == value.floor() {
-        format!("{}{}", value as i64, suffix)
+    // Round to 4 decimal places (matches Java JADX NumberFormat maxFractionDigits=4)
+    let rounded = (value * 10000.0).round() / 10000.0;
+
+    // Check if value is effectively an integer (within rounding tolerance)
+    let int_val = rounded.round();
+    if (rounded - int_val).abs() < 0.00005 {
+        format!("{}{}", int_val as i64, suffix)
     } else {
-        // Format with 6 decimal places, trim trailing zeros
-        let formatted = format!("{:.6}", value);
+        // Format with up to 4 decimal places, trim trailing zeros
+        let formatted = format!("{:.4}", rounded);
         let trimmed = formatted.trim_end_matches('0').trim_end_matches('.');
         format!("{}{}", trimmed, suffix)
     }
