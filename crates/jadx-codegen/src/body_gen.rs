@@ -29,6 +29,7 @@
 
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 
+use jadx_ir::attributes::AFlag;
 use jadx_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LiteralArg};
 use jadx_ir::regions::{Condition, LoopKind, Region, RegionContent};
 use jadx_ir::types::ArgType;
@@ -1346,6 +1347,7 @@ fn ssa_blocks_to_map(ssa_result: &jadx_passes::ssa::SsaResult) -> BTreeMap<u32, 
             instructions: ssa_block.instructions.clone(),
             successors: ssa_block.successors.clone(),
             predecessors: ssa_block.predecessors.clone(),
+            flags: 0,
         };
         map.insert(ssa_block.id, basic_block);
     }
@@ -1367,6 +1369,7 @@ fn ssa_blocks_to_map_owned(ssa_result: jadx_passes::ssa::SsaResult) -> BTreeMap<
             instructions: ssa_block.instructions, // Move, not clone!
             successors: ssa_block.successors,     // Move, not clone!
             predecessors: ssa_block.predecessors, // Move, not clone!
+            flags: 0,
         };
         map.insert(ssa_block.id, basic_block);
     }
@@ -1643,10 +1646,20 @@ fn generate_content<W: CodeWriter>(content: &RegionContent, ctx: &mut BodyGenCon
 
 /// Generate code for a basic block
 fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, code: &mut W) {
+    // Skip blocks marked with DONT_GENERATE (duplicated finally code)
+    if block.has_flag(AFlag::DontGenerate) {
+        return;
+    }
+
     let insns: Vec<_> = block.instructions.iter().collect();
     let last_idx = insns.len().saturating_sub(1);
 
     for (i, insn) in insns.iter().enumerate() {
+        // Skip instructions marked with DONT_GENERATE (duplicated finally code)
+        if insn.has_flag(AFlag::DontGenerate) {
+            continue;
+        }
+
         // Skip control flow instructions - they're handled by region structure
         if is_control_flow(&insn.insn_type) {
             continue;

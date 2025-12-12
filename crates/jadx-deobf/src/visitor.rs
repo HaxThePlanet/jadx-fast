@@ -4,9 +4,10 @@
 
 use std::sync::Arc;
 use jadx_ir::ClassData;
-use crate::conditions::{DeobfCondition, Action};
+use crate::conditions::DeobfCondition;
 use crate::alias_provider::AliasProvider;
 use crate::registry::AliasRegistry;
+use crate::signature::method_proto_to_descriptor;
 
 /// Deobfuscation visitor that applies renaming to classes
 pub struct DeobfuscatorVisitor<C, A>
@@ -82,8 +83,8 @@ where
                 let alias = self.alias_provider.for_method(method, is_override);
                 method.alias = Some(alias.clone());
                 if let Some(ref reg) = self.registry {
-                    // Use empty proto for simplicity (could be improved for overloads)
-                    reg.set_method_alias(&cls.class_type, &method.name, "", &alias);
+                    let proto_desc = method_proto_to_descriptor(&method.arg_types, &method.return_type);
+                    reg.set_method_alias(&cls.class_type, &method.name, &proto_desc, &alias);
                 }
             }
         }
@@ -92,8 +93,8 @@ where
     /// Check if a method is likely an override (has @Override annotation)
     fn is_likely_override(method: &jadx_ir::MethodData) -> bool {
         method.annotations.iter().any(|a| {
-            a.annotation_type.ends_with("/Override;")
-                || a.annotation_type == "Ljava/lang/Override;"
+            a.annotation_type == "java/lang/Override"
+                || a.annotation_type.ends_with("/Override")
         })
     }
 

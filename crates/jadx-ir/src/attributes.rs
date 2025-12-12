@@ -45,4 +45,5 @@ pub enum AFlag {
     Wrapped = 7,
     LoopStart = 8,
     LoopEnd = 9,
+    FinallyInsns = 10,
 }

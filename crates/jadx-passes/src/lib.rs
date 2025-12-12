@@ -6,6 +6,7 @@ pub mod algorithms;
 pub mod block_split;
 pub mod cfg;
 pub mod conditionals;
+pub mod finally_extract;
 pub mod loops;
 pub mod method_inline;
 pub mod region_builder;
@@ -22,6 +23,7 @@ pub use conditionals::{
     detect_conditionals, detect_ternary_assignment, find_condition_chains, is_ternary_candidate,
     merge_nested_conditions, IfInfo, MergeMode, MergedCondition, TernaryInfo,
 };
+pub use finally_extract::{apply_finally_marking, extract_finally, FinallyExtractInfo, InsnsSlice};
 pub use loops::{detect_loops, LoopInfo};
 pub use method_inline::{
     analyze_method_for_inline, mark_methods_for_inline, should_skip_method,

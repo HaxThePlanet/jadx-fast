@@ -4,6 +4,7 @@
 //! Each IR instruction represents a single operation with typed arguments.
 
 use crate::arena::ArenaId;
+use crate::attributes::AFlag;
 use crate::types::ArgType;
 
 /// Instruction node ID
@@ -20,6 +21,8 @@ pub struct InsnNode {
     pub source_line: Option<u32>,
     /// Original bytecode offset
     pub offset: u32,
+    /// Attribute flags (for FINALLY_INSNS, DONT_GENERATE, etc.)
+    pub flags: u64,
 }
 
 impl InsnNode {
@@ -30,6 +33,7 @@ impl InsnNode {
             result_type: None,
             source_line: None,
             offset,
+            flags: 0,
         }
     }
 
@@ -37,6 +41,21 @@ impl InsnNode {
     pub fn with_result(mut self, result_type: ArgType) -> Self {
         self.result_type = Some(result_type);
         self
+    }
+
+    /// Check if a flag is set
+    pub fn has_flag(&self, flag: AFlag) -> bool {
+        (self.flags & (1 << flag as u8)) != 0
+    }
+
+    /// Set a flag
+    pub fn add_flag(&mut self, flag: AFlag) {
+        self.flags |= 1 << flag as u8;
+    }
+
+    /// Remove a flag
+    pub fn remove_flag(&mut self, flag: AFlag) {
+        self.flags &= !(1 << flag as u8);
     }
 }
 

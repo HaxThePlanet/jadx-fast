@@ -94,14 +94,50 @@ impl ExprGen {
         self.dex_provider = Some(provider);
     }
 
-    /// Reset for reuse (clears data but retains capacity)
+    /// Reset for reuse - SHRINKS HashMaps to prevent memory accumulation
+    /// If a HashMap grew very large for one big method, we don't want to keep
+    /// that capacity for small methods
     pub fn reset(&mut self) {
-        self.var_names.clear();
-        self.var_types.clear();
-        self.strings.clear();
-        self.type_names.clear();
-        self.field_info.clear();
-        self.method_info.clear();
+        // If HashMaps grew too large, replace them with fresh ones
+        // This prevents memory accumulation across classes
+        const MAX_POOLED_CAPACITY: usize = 1000;
+
+        if self.var_names.capacity() > MAX_POOLED_CAPACITY {
+            self.var_names = HashMap::new();
+        } else {
+            self.var_names.clear();
+        }
+
+        if self.var_types.capacity() > MAX_POOLED_CAPACITY {
+            self.var_types = HashMap::new();
+        } else {
+            self.var_types.clear();
+        }
+
+        if self.strings.capacity() > MAX_POOLED_CAPACITY {
+            self.strings = HashMap::new();
+        } else {
+            self.strings.clear();
+        }
+
+        if self.type_names.capacity() > MAX_POOLED_CAPACITY {
+            self.type_names = HashMap::new();
+        } else {
+            self.type_names.clear();
+        }
+
+        if self.field_info.capacity() > MAX_POOLED_CAPACITY {
+            self.field_info = HashMap::new();
+        } else {
+            self.field_info.clear();
+        }
+
+        if self.method_info.capacity() > MAX_POOLED_CAPACITY {
+            self.method_info = HashMap::new();
+        } else {
+            self.method_info.clear();
+        }
+
         self.dex_provider = None;
     }
 

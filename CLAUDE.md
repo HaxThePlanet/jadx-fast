@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Dexterity** is a high-performance Android DEX/APK decompiler written in Rust, inspired by [JADX](https://github.com/skylot/jadx). The goal is 1:1 output compatibility with Java JADX while achieving 2-4x faster performance through zero-copy parsing, arena allocation, and native parallelism.
 
-**Current status**: ~69,700 lines of Rust, 227 tests (222 passing), full decompilation pipeline functional.
+**Current status**: 88,366 lines of Rust, 877 tests (92% coverage of Java JADX test suite with ~953 total tests), full decompilation pipeline functional.
 
 ## Build Commands
 
@@ -99,7 +99,30 @@ diff -r expected/ actual/
 
 ## Known Gaps (vs Java JADX)
 
-- Finally blocks in try-catch-finally (try-catch works, finally detection not yet implemented)
+- Finally block duplicate removal (infrastructure implemented, needs marking pass before region building)
+
+## Deobfuscation Roadmap
+
+Note: Deobfuscation is cosmetic renaming (a.b.c → MainActivity.onCreate). The decompiled code is fully readable without it - you can see all logic, strings, URLs, API keys. Short names are just less convenient.
+
+| Component | Status | Description |
+|-----------|--------|-------------|
+| Alias tracking in IR | ✅ Done | `alias: Option<String>` on class/method/field nodes |
+| Conditions system | ✅ Done | Length and validity conditions (jadx-deobf crate) |
+| Auto-alias generator | ✅ Done | Generates C0001, m0002, f0 style names |
+| Alias registry | ✅ Done | Thread-safe global registry for cross-reference resolution |
+| Pipeline integration | ✅ Done | `--deobf` flag wired into CLI |
+| ProGuard parser | ✅ Done | `--mappings-path` loads ProGuard mapping files |
+| Cross-ref aliasing | ✅ Done | Method bodies use deobfuscated names via AliasAwareDexInfo |
+| Tiny/Enigma parsers | ❌ Pending | Other mapping formats |
+| .jobf persistence | ❌ Pending | Save/load generated mappings |
+
+### What --deobf does (implemented):
+
+- ✅ Renames short/invalid identifiers → AbstractActivityC1234, m0methodName
+- ✅ Loads ProGuard mapping files (`--mappings-path mapping.txt`)
+- ✅ Cross-reference resolution - method bodies show deobfuscated names
+- ❌ Persists generated names to .jobf file (pending)
 
 ## Recently Implemented Features
 
@@ -123,13 +146,6 @@ diff -r expected/ actual/
 - **Final local variables**: SSA-based detection
   - Variables assigned exactly once marked as `final`
   - Integrated with variable declaration emission
-
-- **Deobfuscation infrastructure**: Full deobfuscation pipeline
-  - Name validation and conditions system
-  - Auto-alias generator with configurable prefixes
-  - Thread-safe alias registry for cross-reference resolution
-  - ProGuard mapping file parser (integration tests pending)
-  - Visitor pattern for IR transformation
 
 ## Framework Class Filtering
 

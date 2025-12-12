@@ -31,6 +31,7 @@
 
 mod args;
 mod converter;
+mod deobf;
 mod decompiler;
 mod gradle_export;
 
@@ -47,9 +48,7 @@ use jadx_codegen::{LazyDexInfo, DexInfoProvider, AliasAwareDexInfo};
 use jadx_ir::ClassData;
 use jadx_dex::DexReader;
 use jadx_deobf::{
-    DeobfuscatorVisitor, DeobfAliasProvider, CombinedCondition,
-    AliasRegistry, build_conditions_from_flags, parse_proguard_mapping,
-    RenameFlag as DeobfRenameFlag,
+    AliasRegistry, parse_proguard_mapping,
 };
 use std::collections::HashMap;
 
@@ -799,37 +798,15 @@ fn process_dex_bytes(
         }
     }
 
-    // Create deobfuscator if enabled
-    let deobfuscator = if args.deobfuscation {
-        tracing::info!("Deobfuscation enabled (min={}, max={})", args.deobf_min_length, args.deobf_max_length);
-
-        // Build conditions from rename flags
-        // Convert args::RenameFlag to jadx_deobf::RenameFlag
-        let cli_flags = args.parse_rename_flags();
-        let deobf_flags: std::collections::HashSet<DeobfRenameFlag> = cli_flags
-            .into_iter()
-            .filter_map(|f| match f {
-                crate::args::RenameFlag::Case => Some(DeobfRenameFlag::Case),
-                crate::args::RenameFlag::Valid => Some(DeobfRenameFlag::Valid),
-                crate::args::RenameFlag::Printable => Some(DeobfRenameFlag::Printable),
-            })
-            .collect();
-
-        let condition = if deobf_flags.is_empty() || deobf_flags.contains(&DeobfRenameFlag::Valid) {
-            // Default: use JADX default conditions
-            CombinedCondition::default_jadx(args.deobf_min_length, args.deobf_max_length)
-        } else {
-            build_conditions_from_flags(&deobf_flags, args.deobf_min_length, args.deobf_max_length)
-        };
-
-        let provider = DeobfAliasProvider::new(args.deobf_max_length);
-        Some(std::sync::Arc::new(
-            DeobfuscatorVisitor::new(condition, provider)
-                .with_registry(alias_registry.clone())
-        ))
-    } else {
-        None
-    };
+    // Deterministic deobfuscation prepass (populate registry once, then apply per-class)
+    if args.deobfuscation {
+        tracing::info!(
+            "Deobfuscation enabled (min={}, max={})",
+            args.deobf_min_length,
+            args.deobf_max_length
+        );
+        deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
+    }
 
     // Wrap dex_info with alias-aware version if deobfuscation or mappings are active
     let dex_info: std::sync::Arc<dyn DexInfoProvider> = if args.deobfuscation || args.mappings_path.is_some() {
@@ -849,8 +826,8 @@ fn process_dex_bytes(
     for &idx in &class_indices {
         if let Ok(class) = dex.get_class(idx) {
             if let Ok(class_type) = class.class_type() {
-                let class_name = class_type.to_string();
-                let rel_path = class_name_to_path(&class_name);
+                let class_desc = class_type.to_string();
+                let rel_path = deobf::class_output_rel_path(&class_desc, &alias_registry);
                 let out_path = out_src.join(&rel_path);
                 if let Some(parent) = out_path.parent() {
                     std::fs::create_dir_all(parent).ok();
@@ -868,13 +845,15 @@ fn process_dex_bytes(
     for chunk in class_indices.chunks(chunk_size) {
         chunk.par_iter().for_each(|&idx| {
         // Fetch class name on-demand to avoid storing all names in memory
-        let class_name = dex.get_class(idx)
+        let class_desc = dex.get_class(idx)
             .ok()
             .and_then(|c| c.class_type().ok().map(|t| t.to_string()))
-            .unwrap_or_else(|| format!("UnknownClass{}", idx));
+            .unwrap_or_else(|| format!("LUnknownClass{};", idx));
 
-        let rel_path = class_name_to_path(&class_name);
-        let out_path = out_src.join(&rel_path);
+        let out_path = {
+            let rel_path = deobf::class_output_rel_path(&class_desc, &alias_registry);
+            out_src.join(&rel_path)
+        };
 
         // Convert class to IR (loaded on-demand)
         let ir_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
@@ -883,16 +862,14 @@ fn process_dex_bytes(
                 .and_then(|class| {
                     converter::convert_class(&dex, &class)
                         .map(|mut class_data| {
-                            // Apply deobfuscation if enabled
-                            if let Some(ref deobf) = deobfuscator {
-                                deobf.process_class(&mut class_data);
-                            }
+                            // Apply aliases from deterministic prepass (if any)
+                            deobf::apply_aliases_from_registry(&mut class_data, &alias_registry);
                             class_data
                         })
                         .map_err(|e| format!("Failed to convert: {}", e))
                 })
         }))
-        .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_name)));
+        .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_desc)));
 
         // Generate code (each class becomes a separate .java file)
         let java_code = match ir_result {
@@ -919,7 +896,7 @@ fn process_dex_bytes(
                 format!(
                     "// Failed to decompile: {}\nclass {} {{\n}}\n",
                     e,
-                    class_name.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown")
+                    class_desc.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown")
                 )
             }
         };

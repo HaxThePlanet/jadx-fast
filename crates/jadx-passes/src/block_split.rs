@@ -6,6 +6,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
+use jadx_ir::attributes::AFlag;
 use jadx_ir::instructions::{InsnNode, InsnType};
 
 /// A basic block in the control flow graph
@@ -23,6 +24,8 @@ pub struct BasicBlock {
     pub successors: Vec<u32>,
     /// Predecessor block IDs
     pub predecessors: Vec<u32>,
+    /// Attribute flags (for FINALLY_INSNS, DONT_GENERATE, etc.)
+    pub flags: u64,
 }
 
 impl BasicBlock {
@@ -35,6 +38,7 @@ impl BasicBlock {
             instructions: Vec::new(),
             successors: Vec::new(),
             predecessors: Vec::new(),
+            flags: 0,
         }
     }
 
@@ -46,6 +50,21 @@ impl BasicBlock {
     /// Get the last instruction
     pub fn last_insn(&self) -> Option<&InsnNode> {
         self.instructions.last()
+    }
+
+    /// Check if a flag is set
+    pub fn has_flag(&self, flag: AFlag) -> bool {
+        (self.flags & (1 << flag as u8)) != 0
+    }
+
+    /// Set a flag
+    pub fn add_flag(&mut self, flag: AFlag) {
+        self.flags |= 1 << flag as u8;
+    }
+
+    /// Remove a flag
+    pub fn remove_flag(&mut self, flag: AFlag) {
+        self.flags &= !(1 << flag as u8);
     }
 }
 

@@ -38,6 +38,7 @@ use jadx_ir::regions::{CatchHandler, Condition, LoopKind, Region, RegionContent,
 
 use crate::block_split::BasicBlock;
 use crate::cfg::CFG;
+use crate::finally_extract::{apply_finally_marking, extract_finally};
 use crate::conditionals::{detect_conditionals, find_condition_chains, IfInfo, MergedCondition, MergeMode};
 use crate::loops::{detect_loops, LoopInfo};
 
@@ -63,6 +64,8 @@ pub struct HandlerInfo {
     pub handler_block: u32,
     /// Blocks in the handler
     pub handler_blocks: BTreeSet<u32>,
+    /// True if this is a finally handler (not a catch)
+    pub is_finally: bool,
 }
 
 /// Synchronized block information
@@ -294,6 +297,7 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Vec<
                 exception_type: h.exception_type.clone(),
                 handler_block,
                 handler_blocks,
+                is_finally: false,
             }
         }).collect();
 
@@ -790,6 +794,16 @@ impl<'a> RegionBuilder<'a> {
             return (None, None);
         }
 
+        // NEW: Run finally extraction algorithm
+        // Note: Marking is done in a separate pass before region building (like Java JADX)
+        // For now, we just detect the pattern but don't apply marking yet
+        // TODO: Add finally marking pass before region building
+        let _extract_info_opt = extract_finally(self.cfg, try_info, catch_all_handler);
+
+        // For now, use simple detection
+        // Once we add the marking pass, this will be updated
+
+        // Fallback to simple detection if extraction fails
         // Mark handler blocks as processed
         for &block in &catch_all_handler.handler_blocks {
             self.processed.insert(block);

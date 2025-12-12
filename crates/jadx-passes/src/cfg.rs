@@ -149,6 +149,133 @@ impl CFG {
             .unwrap_or(&[])
     }
 
+    /// Get mutable reference to a block
+    pub fn get_block_mut(&mut self, id: u32) -> Option<&mut BasicBlock> {
+        self.blocks.get_mut(&id)
+    }
+
+    /// Collect all blocks dominated by dominator within a region
+    ///
+    /// Returns blocks that are:
+    /// 1. In the region set
+    /// 2. Dominated by the dominator block
+    pub fn collect_dominated_blocks(&self, dominator: u32, region: &BTreeSet<u32>) -> Vec<u32> {
+        let mut result = Vec::new();
+
+        for &block_id in region {
+            if block_id != dominator && self.dominates(dominator, block_id) {
+                result.push(block_id);
+            }
+        }
+
+        result
+    }
+
+    /// Collect predecessor path from start block back to boundary blocks
+    ///
+    /// Returns all blocks on paths from start_block back to stop_at blocks
+    pub fn collect_predecessors(&self, start: u32, stop_at: &BTreeSet<u32>) -> Vec<u32> {
+        let mut result = Vec::new();
+        let mut visited = BTreeSet::new();
+        let mut worklist = vec![start];
+
+        while let Some(block_id) = worklist.pop() {
+            if !visited.insert(block_id) {
+                continue;
+            }
+
+            // Stop at boundary
+            if stop_at.contains(&block_id) {
+                continue;
+            }
+
+            result.push(block_id);
+
+            // Add predecessors to worklist
+            if let Some(block) = self.blocks.get(&block_id) {
+                for &pred in &block.predecessors {
+                    if !visited.contains(&pred) {
+                        worklist.push(pred);
+                    }
+                }
+            }
+        }
+
+        result
+    }
+
+    /// Find the bottom block in a region (block with no successors in region)
+    pub fn get_bottom_block(&self, blocks: &BTreeSet<u32>) -> Option<u32> {
+        for &block_id in blocks {
+            if let Some(block) = self.blocks.get(&block_id) {
+                // Check if this block has no successors in the region
+                let has_succ_in_region = block.successors.iter().any(|s| blocks.contains(s));
+                if !has_succ_in_region {
+                    return Some(block_id);
+                }
+            }
+        }
+        None
+    }
+
+    /// Follow path through empty blocks
+    pub fn follow_empty_path(&self, start: u32) -> u32 {
+        let mut current = start;
+        let mut visited = BTreeSet::new();
+
+        loop {
+            if !visited.insert(current) {
+                // Cycle detected, return current
+                return current;
+            }
+
+            if let Some(block) = self.blocks.get(&current) {
+                if !block.is_empty() {
+                    return current;
+                }
+
+                // Follow single successor
+                if block.successors.len() == 1 {
+                    current = block.successors[0];
+                } else {
+                    return current;
+                }
+            } else {
+                return current;
+            }
+        }
+    }
+
+    /// Get blocks that are path starts for try exit paths
+    ///
+    /// Returns blocks that lead from try blocks to the merge point
+    pub fn get_try_exit_paths(
+        &self,
+        bottom: u32,
+        bottom_finally: u32,
+        exit_block: Option<u32>,
+    ) -> Vec<u32> {
+        let mut result = Vec::new();
+
+        if let Some(bottom_block) = self.blocks.get(&bottom) {
+            // Get predecessors excluding the finally bottom block
+            for &pred in &bottom_block.predecessors {
+                if pred != bottom_finally {
+                    // If bottom is exit block, get predecessors of predecessors
+                    if Some(bottom) == exit_block {
+                        if let Some(pred_block) = self.blocks.get(&pred) {
+                            result.extend(pred_block.predecessors.iter().copied());
+                        }
+                    } else {
+                        result.push(pred);
+                    }
+                }
+            }
+        }
+
+        result
+    }
+
     /// Compute reverse postorder traversal
     fn compute_rpo(&mut self) {
         let mut visited = BTreeSet::new();

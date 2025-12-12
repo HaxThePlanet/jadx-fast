@@ -13,6 +13,7 @@ pub mod alias_provider;
 pub mod visitor;
 pub mod registry;
 pub mod mapping_parser;
+pub mod signature;
 
 pub use name_mapper::NameMapper;
 pub use conditions::{
@@ -23,3 +24,4 @@ pub use alias_provider::{AliasProvider, DeobfAliasProvider};
 pub use visitor::DeobfuscatorVisitor;
 pub use registry::AliasRegistry;
 pub use mapping_parser::{parse_proguard_mapping, parse_proguard_mapping_file, MappingError};
+pub use signature::{arg_type_to_descriptor, method_proto_to_descriptor};

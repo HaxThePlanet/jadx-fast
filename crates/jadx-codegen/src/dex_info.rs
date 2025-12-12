@@ -601,8 +601,9 @@ impl DexInfoProvider for AliasAwareDexInfo {
             info.class_name = class_alias;
         }
 
-        // Apply method alias (empty proto for now - could be improved)
-        if let Some(method_alias) = self.registry.get_method_alias(&class_desc, &info.method_name, "") {
+        // Apply method alias (use full proto descriptor to disambiguate overloads)
+        let proto_desc = jadx_deobf::method_proto_to_descriptor(&info.param_types, &info.return_type);
+        if let Some(method_alias) = self.registry.get_method_alias(&class_desc, &info.method_name, &proto_desc) {
             info.method_name = method_alias;
         }
 
