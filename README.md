@@ -406,6 +406,48 @@ The CLI successfully:
 | `stmt_gen.rs` | Check-cast integration |
 | `region_builder.rs` | Switch payload, anonymous classes |
 
+## Rust vs Java JADX Comparison
+
+### Architecture Differences
+
+| Aspect | JADX Java | Rust |
+|--------|-----------|------|
+| Structure | Inheritance hierarchy (`RegionGen extends InsnGen`) | Composition with explicit functions |
+| Pipeline | Multiple paths (AUTO/SIMPLE/FALLBACK modes) | Single unified pipeline |
+| Type Info | Embedded in passes via AFlag system | Explicit `TypeInferenceResult` passed through |
+| Variable Tracking | `AFlag.DECLARE_VAR` on instructions | SSA versions in HashSet |
+
+### Critical Gaps
+
+| Feature | JADX Java | Rust Status |
+|---------|-----------|-------------|
+| Invoke/MoveResult pairing | Combined in one `InvokeNode` | ❌ Separated, uses `last_invoke_expr` - incomplete |
+| Switch value extraction | `switch (arg)` with actual expression | ❌ `switch (/* value */)` placeholder |
+| ForEach loop detection | Proper `for (var : iterable)` syntax | ❌ Stubbed as `while (/* iterator.hasNext() */)` |
+| Synchronized lock | Extracts lock object from monitor-enter | ❌ `synchronized (/* lock */)` placeholder |
+| Multi-catch | `catch (E1 \| E2)` union types | ❌ Single type only |
+| Exception variable names | From SSAVar | ❌ Hardcoded `e` |
+| Final variables | Tracked via attributes | ❌ Not handled |
+| Condition optimization | Simplifies `x == true` → `x` | ❌ None |
+| Else-if chaining | Special `connectElseIf` handling | ⚠️ Nested if (works but verbose) |
+
+### Key Java Files to Reference
+
+```
+jadx-core/src/main/java/jadx/core/codegen/
+├── MethodGen.java      (570 lines)  - Method signature, entry point
+├── InsnGen.java        (1200 lines) - Instruction → expression
+├── RegionGen.java      (386 lines)  - Region tree → structured code
+└── ConditionGen.java   (199 lines)  - Complex condition handling
+```
+
+### Priority Fixes for 1:1 Output
+
+1. **Fix invoke/move-result pairing** - Store invoke expr, consume in MoveResult
+2. **Extract switch value** - Get from SwitchInsn in header block
+3. **ForEach detection** - Match iterator patterns in region_builder
+4. **Extract synchronized lock** - Get object from MonitorEnter instruction
+
 ## Known Issues
 
 ### Memory Explosion on Large APKs
