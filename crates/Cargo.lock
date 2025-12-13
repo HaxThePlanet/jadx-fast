@@ -558,6 +558,7 @@ dependencies = [
  "jadx-deobf",
  "jadx-dex",
  "jadx-ir",
+ "jadx-kotlin",
  "jadx-passes",
  "jadx-resources",
  "pretty_assertions",

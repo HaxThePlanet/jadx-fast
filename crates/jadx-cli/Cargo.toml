@@ -16,6 +16,7 @@ jadx-passes.workspace = true
 jadx-codegen.workspace = true
 jadx-resources.workspace = true
 jadx-deobf.workspace = true
+jadx-kotlin.workspace = true
 clap.workspace = true
 indicatif.workspace = true
 rayon.workspace = true

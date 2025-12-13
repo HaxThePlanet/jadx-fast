@@ -105,6 +105,14 @@ pub struct Args {
     #[arg(long = "no-finally")]
     pub no_finally: bool,
 
+    /// Process Kotlin metadata annotations to extract original names (enabled by default)
+    #[arg(long = "kotlin-metadata", default_value_t = true)]
+    pub kotlin_metadata: bool,
+
+    /// Disable Kotlin metadata processing
+    #[arg(long = "no-kotlin-metadata")]
+    pub no_kotlin_metadata: bool,
+
     /// Don't restore switch over string
     #[arg(long = "no-restore-switch-over-string")]
     pub no_restore_switch_string: bool,
@@ -290,6 +298,11 @@ impl Args {
     /// Check if constants should be replaced
     pub fn replace_consts(&self) -> bool {
         !self.no_replace_consts
+    }
+
+    /// Check if Kotlin metadata should be processed
+    pub fn process_kotlin_metadata(&self) -> bool {
+        self.kotlin_metadata && !self.no_kotlin_metadata
     }
 
     /// Get effective decompilation mode

@@ -47,6 +47,7 @@ use rayon::prelude::*;
 use jadx_codegen::{LazyDexInfo, DexInfoProvider, AliasAwareDexInfo};
 use jadx_ir::ClassData;
 use jadx_dex::DexReader;
+use jadx_kotlin;
 use jadx_deobf::{
     AliasRegistry, parse_proguard_mapping,
 };
@@ -880,6 +881,13 @@ fn process_dex_bytes(
                 .and_then(|class| {
                     converter::convert_class(&dex, &class)
                         .map(|mut class_data| {
+                            // Process Kotlin metadata annotations (extracts names)
+                            if args.process_kotlin_metadata() {
+                                if let Err(e) = jadx_kotlin::process_kotlin_metadata(&mut class_data) {
+                                    tracing::debug!("Kotlin metadata processing failed for {}: {}", class_desc, e);
+                                }
+                            }
+
                             // Apply aliases from deterministic prepass (if any)
                             deobf::apply_aliases_from_registry(&mut class_data, &alias_registry);
                             class_data
