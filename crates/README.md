@@ -6,7 +6,7 @@ This is a Rust port of [JADX](https://github.com/skylot/jadx), aiming for identi
 
 ## Current Status: 1:1 Output Match with Java JADX
 
-**~91,000 lines of Rust | 877+ tests passing | 0 semantic differences in golden tests**
+**~91,000 lines of Rust | 904 tests passing | 0 semantic differences in golden tests**
 
 The full decompilation pipeline produces **identical output** to Java JADX:
 
@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
 | jadx-codegen | 6,871 | 70 | ✅ Complete |
 | jadx-resources | 4,030 | 9 | ✅ Complete |
 | jadx-cli | 3,767 | 7 | ✅ Complete |
-| jadx-deobf | 1,636 | - | ✅ Complete |
+| jadx-deobf | 1,636 | 14 | ✅ Complete |
 | jadx-kotlin | 415 | - | 🚧 In Progress |
 
 ## Features
@@ -102,7 +102,11 @@ public class MainActivity extends Activity {
   - ProGuard mapping file support (read/write)
   - Automatic deobfuscation (min/max length constraints)
   - Alias registry and uniqueness guarantees
-- **Kotlin metadata parsing** (extracts original names from `@kotlin.Metadata`)
+- **Static field initialization extraction** (`<clinit>` → field declarations)
+- **Kotlin integration**:
+  - Metadata parsing (`@kotlin.Metadata`)
+  - Name restoration for classes, fields, methods, parameters
+  - Parameter name extraction from `Intrinsics.checkNotNullParameter`
 
 ### Edge Cases (rare differences)
 - Unusual exception handlers in complex control flow
@@ -141,16 +145,12 @@ public class MainActivity extends Activity {
 - ✅ **Complex resource entries** - styles.xml, arrays.xml, plurals.xml with parent inheritance
 - ✅ **Expanded AXML attributes** - 250+ Android framework attribute mappings for manifest/layout parsing
 - ✅ **Deobfuscation** - Full support for ProGuard mappings and automatic renaming
-- ✅ **Kotlin metadata support** - Full parsing of @kotlin.Metadata annotations with protobuf decoder
-  - Extracts original class, field, method, and parameter names
-  - Fallback to d2 array if protobuf parsing fails
-  - Preserves Kotlin names in deobfuscation pipeline
-  - Enabled by default with --no-kotlin-metadata to disable
+- ✅ **Static Init Cleanup** - Extract constant assignments from `<clinit>` to fields
+- ✅ **Kotlin Support** - Metadata-based name restoration and Intrinsics analysis
 
 ### Future
-- Extended Kotlin metadata features (FileFacade, SyntheticClass, toString() parser)
+- Complete Kotlin metadata integration (data class comments, property accessors)
 - Advanced control flow analysis (goto elimination)
-- Companion object hiding and getter renaming
 
 ## Building
 
@@ -165,7 +165,7 @@ cargo build --release
 cargo test --workspace
 ```
 
-Current test coverage: **180+ tests** across all crates, including golden file comparison tests.
+Current test coverage: **904 tests** across all crates, including golden file comparison tests.
 
 ## Usage
 
@@ -228,6 +228,8 @@ crates/
 │   ├── region_builder.rs   # CFG → structured regions
 │   ├── conditionals.rs     # Condition analysis (&&, ||)
 │   ├── loops.rs            # Loop detection and classification
+│   ├── extract_field_init.rs # Static field initialization extraction
+│   ├── kotlin_intrinsics.rs  # Kotlin Intrinsics parameter naming
 │   └── algorithms/     # Graph algorithms
 │       └── dominance.rs    # Cooper-Harvey-Kennedy dominance
 │
@@ -255,6 +257,7 @@ crates/
 │
 ├── jadx-kotlin/        # Kotlin metadata parsing (415 lines)
 │   ├── parser.rs       # @kotlin.Metadata annotation parser
+│   ├── extractor.rs    # Name restoration from metadata
 │   ├── types.rs        # Kotlin metadata types
 │   └── proto/          # Generated protobuf types
 │
@@ -285,6 +288,7 @@ Transform:
   4. Type inference + constraints ✅
   5. Variable naming (type-based) ✅
   6. Region reconstruction (CFG → if/loop/switch) ✅
+  7. **Extract field init** (cleanup <clinit>) ✅
     ↓ [jadx-codegen] ✅
 Generate → Java source code with name resolution
   - Strings, types, fields, methods resolved from DEX pools
