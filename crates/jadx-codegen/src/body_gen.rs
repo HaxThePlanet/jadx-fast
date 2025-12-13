@@ -743,10 +743,14 @@ fn type_to_var_name(ty: &ArgType) -> String {
         ArgType::Void => "v".to_string(),
         ArgType::Object(name) => {
             // Extract simple class name and lowercase first char
+            // Following JADX's getAliasShortName() approach:
+            // 1. Split on / (package separator in internal format)
+            // 2. Split on $ (inner classes)
+            // 3. Split on . (qualified names like BillingClient.Builder)
             let simple = name.rsplit('/').next().unwrap_or(name);
             let simple = simple.trim_start_matches('L').trim_end_matches(';');
-            // For inner classes (R$layout), use the innermost class name (layout)
             let simple = simple.rsplit('$').next().unwrap_or(simple);
+            let simple = simple.rsplit('.').next().unwrap_or(simple);
             let mut chars = simple.chars();
             match chars.next() {
                 Some(c) => c.to_lowercase().chain(chars).collect(),
@@ -759,10 +763,14 @@ fn type_to_var_name(ty: &ArgType) -> String {
         ArgType::Unknown => "v".to_string(),
         ArgType::Generic { base, .. } => {
             // Use base class name for generics
+            // Following JADX's getAliasShortName() approach:
+            // 1. Split on / (package separator in internal format)
+            // 2. Split on $ (inner classes)
+            // 3. Split on . (qualified names)
             let simple = base.rsplit('/').next().unwrap_or(base);
             let simple = simple.trim_start_matches('L').trim_end_matches(';');
-            // For inner classes, use the innermost class name
             let simple = simple.rsplit('$').next().unwrap_or(simple);
+            let simple = simple.rsplit('.').next().unwrap_or(simple);
             let mut chars = simple.chars();
             match chars.next() {
                 Some(c) => c.to_lowercase().chain(chars).collect(),
@@ -2538,5 +2546,50 @@ mod tests {
 
         // v0 is used twice and never reassigned - should be final
         assert!(code.contains("final"), "Expected 'final' keyword for variable used multiple times but never reassigned. Code: {}", code);
+    }
+
+    #[test]
+    fn test_type_to_var_name_with_dots() {
+        // Test variable naming with qualified class names (following JADX logic)
+        // BillingClient.Builder should become "builder" not "billingClient.Builder"
+
+        // Test simple class name
+        assert_eq!(
+            type_to_var_name(&ArgType::Object("java/lang/String".to_string())),
+            "string"
+        );
+
+        // Test inner classes with $
+        assert_eq!(
+            type_to_var_name(&ArgType::Object("com/example/Outer$Inner".to_string())),
+            "inner"
+        );
+
+        // Test qualified names with dots (main bug fix)
+        assert_eq!(
+            type_to_var_name(&ArgType::Object("com/google/android/gms/billing/BillingClient.Builder".to_string())),
+            "builder"
+        );
+
+        // Test multiple dots
+        assert_eq!(
+            type_to_var_name(&ArgType::Object("com/example/Outer$Middle.Inner".to_string())),
+            "inner"
+        );
+
+        // Test all-uppercase names
+        assert_eq!(
+            type_to_var_name(&ArgType::Object("com/example/ABC".to_string())),
+            "abc"
+        );
+
+        // Test generic with qualified base
+        assert_eq!(
+            type_to_var_name(&ArgType::Generic {
+                base: "java/util/List.Node".to_string(),
+                params: vec![]
+            }),
+            "node"
+        );
     }
 }

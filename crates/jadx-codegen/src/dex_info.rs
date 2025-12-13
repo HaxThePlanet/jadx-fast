@@ -37,6 +37,82 @@ use jadx_dex::DexReader;
 use jadx_ir::types::ArgType;
 
 // =============================================================================
+// GlobalFieldPool - Multi-DEX field deduplication (like Java JADX)
+// =============================================================================
+
+/// Global field pool for multi-DEX deduplication
+///
+/// This pool ensures that the same field (same class, name, type) referenced
+/// across multiple DEX files is deduplicated to a single FieldInfo instance.
+/// This matches Java JADX's InfoStorage behavior.
+///
+/// Key insight: Fields are identified by (class_name, field_name, field_type),
+/// NOT by DEX field index. When multiple DEX files reference the same field,
+/// they all get the same cached FieldInfo, enabling consistent name resolution.
+#[derive(Default)]
+pub struct GlobalFieldPool {
+    /// Map from (class, name, type) tuple to canonical FieldInfo
+    /// Uses a custom key for deduplication across DEX boundaries
+    fields: RwLock<HashMap<FieldKey, FieldInfo>>,
+}
+
+/// Key for deduplicating fields across DEX files
+/// Uses (class_type, field_name, field_type_descriptor) as identity
+#[derive(Clone, Eq, PartialEq, Hash)]
+struct FieldKey {
+    class_type: String,
+    field_name: String,
+    field_type: String,
+}
+
+impl GlobalFieldPool {
+    /// Create a new empty global field pool
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// Get or cache a field by its descriptor tuple
+    /// If the same (class, name, type) already exists, return the cached instance.
+    /// Otherwise, add it to the pool and return it.
+    pub fn get_or_cache(&self, field: FieldInfo) -> FieldInfo {
+        let key = FieldKey {
+            class_type: field.class_type.clone(),
+            field_name: field.field_name.clone(),
+            field_type: field.field_type.to_string(),
+        };
+
+        let mut pool = self.fields.write().unwrap();
+        if let Some(existing) = pool.get(&key) {
+            existing.clone()
+        } else {
+            pool.insert(key, field.clone());
+            field
+        }
+    }
+
+    /// Get cached field if it exists (without adding)
+    pub fn get(&self,
+        class_type: &str,
+        field_name: &str,
+        field_type_str: &str
+    ) -> Option<FieldInfo> {
+        let key = FieldKey {
+            class_type: class_type.to_string(),
+            field_name: field_name.to_string(),
+            field_type: field_type_str.to_string(),
+        };
+        self.fields.read().unwrap().get(&key).cloned()
+    }
+
+    /// Statistics for debugging
+    #[allow(dead_code)]
+    pub fn stats(&self) -> (usize, usize) {
+        let pool = self.fields.read().unwrap();
+        (pool.len(), 0)  // TODO: track memory usage if needed
+    }
+}
+
+// =============================================================================
 // DexInfoProvider trait - unified interface for DEX data access
 // =============================================================================
 
@@ -242,17 +318,35 @@ impl DexInfoProvider for DexInfo {
 /// had unbounded caches that caused memory explosion (300GB+) with multi-threading.
 /// Now we parse from DEX on every access, matching Java JADX's approach.
 /// DexReader's internal StringPool provides sufficient caching for performance.
+///
+/// ## Multi-DEX Support
+///
+/// When a GlobalFieldPool is provided, fields are deduplicated across all DEX files
+/// using (class_type, field_name, field_type) as the identity key. This ensures
+/// consistent name resolution even when a field is referenced from multiple DEX files
+/// or defined in one DEX and referenced from another.
 pub struct LazyDexInfo {
     /// The underlying DEX reader (memory-mapped, with internal string caching)
     dex: Arc<DexReader>,
+    /// Optional global field pool for multi-DEX deduplication
+    global_field_pool: Option<Arc<GlobalFieldPool>>,
 }
 
 impl LazyDexInfo {
-    /// Create a new LazyDexInfo wrapping a DexReader
+    /// Create a new LazyDexInfo wrapping a DexReader (without global pool)
     ///
     /// This is O(1) - no data is loaded upfront.
+    /// Use `new_with_pool()` for multi-DEX deduplication.
     pub fn new(dex: Arc<DexReader>) -> Self {
-        LazyDexInfo { dex }
+        LazyDexInfo { dex, global_field_pool: None }
+    }
+
+    /// Create a new LazyDexInfo wrapping a DexReader with a global field pool
+    ///
+    /// The global pool enables deduplication of fields across multiple DEX files.
+    /// This is O(1) - no data is loaded upfront.
+    pub fn new_with_pool(dex: Arc<DexReader>, pool: Arc<GlobalFieldPool>) -> Self {
+        LazyDexInfo { dex, global_field_pool: Some(pool) }
     }
 
     /// Get a string by index (lazy - reads from DEX on-demand)
@@ -270,14 +364,20 @@ impl LazyDexInfo {
         self.dex.get_type(idx).ok().map(|s| s.to_string())
     }
 
-    /// Get field info by index (parsed on-demand, not cached)
+    /// Get field info by index (parsed on-demand, deduplicated via global pool if available)
+    ///
+    /// Implementation mirrors Java JADX's InfoStorage behavior:
+    /// 1. Parse field from current DEX
+    /// 2. Create FieldInfo with (class_type, field_name, field_type_descriptor)
+    /// 3. If global_field_pool exists, deduplicate by these three components
+    /// 4. Return canonicalized FieldInfo (same instance for same field across DEX files)
     pub fn get_field(&self, idx: u32) -> Option<FieldInfo> {
         let field = match self.dex.get_field(idx) {
             Ok(f) => f,
             Err(_e) => {
-                // Debug: Field lookup failed - idx is out of bounds for this DEX file
-                // This can happen if field indices aren't properly resolved
-                eprintln!("Field lookup failed for idx {} (DEX has {} fields)", idx, self.dex.header.field_ids_size);
+                // Field lookup failed - idx is out of bounds for this DEX file
+                // This can happen in multi-DEX scenarios where one DEX references
+                // a field defined in another DEX. Return None to use fallback.
                 return None;
             }
         };
@@ -285,11 +385,18 @@ impl LazyDexInfo {
         let field_name = field.name().ok()?;
         let field_type_desc = field.field_type().ok()?;
 
-        Some(FieldInfo {
+        let field_info = FieldInfo {
             class_name: descriptor_to_simple_name(class_type),
             class_type: descriptor_to_internal_name(class_type),
             field_name: field_name.to_string(),
             field_type: parse_type_descriptor(field_type_desc),
+        };
+
+        // Deduplicate via global pool if available
+        Some(if let Some(ref pool) = self.global_field_pool {
+            pool.get_or_cache(field_info)
+        } else {
+            field_info
         })
     }
 

@@ -33,7 +33,7 @@ pub use class_gen::{
     is_anonymous_class, is_inner_class, is_lambda_class, is_sam_interface,
     InnerClassInfo, InnerClassKind,
 };
-pub use dex_info::{DexInfo, DexInfoProvider, LazyDexInfo, AliasAwareDexInfo, AliasRegistry};
+pub use dex_info::{DexInfo, DexInfoProvider, LazyDexInfo, GlobalFieldPool, AliasAwareDexInfo, AliasRegistry};
 pub use expr_gen::{ExprGen, FieldInfo, MethodInfo};
 pub use stmt_gen::StmtGen;
 pub use type_gen::{type_to_string, escape_string};
