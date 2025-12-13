@@ -162,6 +162,62 @@ public class MainActivity extends Activity {
 3. ✅ Cross-reference resolution - method bodies show deobfuscated names
 4. ❌ Persists generated names to `.jobf` file (pending)
 
+## CRITICAL FINDING: Memory Explosion Root Cause (December 13, 2025)
+
+**🚨 IDENTIFIED:** The 50GB+ memory explosion on single-threaded decompilation of badboy.apk (58,000 methods) has been traced to a fundamental architectural issue:
+
+### The Problem: Arc<Mutex> Instruction Cloning
+
+**Location:** `crates/jadx-passes/src/block_split.rs:166`
+
+```rust
+let instructions_arc: Vec<Arc<Mutex<InsnNode>>> = instructions
+    .iter()
+    .map(|i| Arc::new(Mutex::new(i.clone())))  // ← CLONES ENTIRE InsnNode!
+    .collect();
+```
+
+**Memory Impact:**
+- **Per instruction:** 200+ bytes cloned
+- **Per method (10,000 insns):** 2-3 MB of clones
+- **Per APK (58,000 methods):** 116GB+ potential memory usage
+- **Actual observed:** ~50GB before OOM on 300GB RAM machine
+
+### Why This Happens
+
+The Arc<Mutex<>> pattern was intended to:
+- Share instruction references across blocks (good!)
+- Avoid 5-20x over-cloning from multiple block references (good!)
+
+But it still requires **cloning the InsnNode data** because Rust's borrow checker needs interior mutability for SSA mutations. This creates a fundamental conflict: we clone once to wrap in Mutex, but that's still 10,000 clones per method.
+
+### The Java JADX Solution (Proven Pattern)
+
+Java JADX avoids this entirely by:
+1. Storing **ALL instructions in one ClassNode.instructions array**
+2. Having **BlockNodes reference by offset range** (startOffset/endOffset), NOT by clone
+3. Accessing instructions via `classnodes.instructions[offset]` when needed
+4. After codegen: **`instructions.clear()`** in a single operation
+
+This eliminates cloning entirely while maintaining mutable access through a single owner.
+
+### The Rust Solution (Must Copy JADX's Architecture)
+
+**Current state:** ClassData already has `all_instructions: Vec<InsnNode>` (line 528 in info.rs) - the infrastructure is there!
+
+**Required refactor:**
+1. Remove `instructions: Vec<Arc<Mutex<InsnNode>>>` from BasicBlock
+2. Change BasicBlock to use offset-based references only
+3. Pass ClassData through entire pipeline (CFG → SSA → type_inference → codegen)
+4. Access instructions via `&class_data.all_instructions[offset_range]`
+5. In `unload()`: `class_data.all_instructions.clear()` to free all at once
+
+**Expected result:** 116GB potential → ~20GB actual instruction memory (80-90% reduction)
+
+**See:** MEMORY_REFACTOR_PLAN.md for complete implementation steps
+
+---
+
 ## Code Quality vs JADX
 
 **Status:** Dexterity is feature-complete but has code generation quality gaps vs JADX. Below is a real-world comparison:

@@ -97,6 +97,37 @@ java -jar jadx-cli.jar -d expected/ input.apk
 diff -r expected/ actual/
 ```
 
+## 🚨 CRITICAL: Memory Explosion Issue (December 13, 2025)
+
+**Root Cause Identified:** Single-threaded decompilation explodes to 50GB+ memory due to Arc<Mutex> instruction cloning in split_blocks.rs:166.
+
+**The Problem:**
+```rust
+// Current: Clones EVERY InsnNode for Arc wrapping
+Arc::new(Mutex::new(i.clone()))  // 10,000 clones × 200 bytes = 2-3MB per method!
+```
+
+**Why it Exists:**
+The Arc<Mutex> pattern was meant to share instructions across blocks without 5-20x over-cloning. But Rust's borrow checker requires interior mutability, so we still clone the InsnNode data.
+
+**The Solution (MUST Follow Java JADX):**
+Java JADX stores ALL instructions in ONE ClassNode.instructions array and has BlockNodes reference by offset range (startOffset/endOffset) - NO CLONING AT ALL.
+
+Rust has the infrastructure (ClassData.all_instructions at info.rs:528) but uses it wrong. Need to:
+1. Remove `instructions: Vec<Arc<Mutex<InsnNode>>>` from BasicBlock
+2. Use offset-based references only
+3. Pass ClassData through pipeline
+4. Access: `&class_data.all_instructions[start_offset..end_offset]`
+5. Clear in unload(): `class_data.all_instructions.clear()`
+
+**Expected Impact:** 116GB potential → ~20GB actual (80-90% reduction)
+
+**Status:** BLOCKING - Cannot process large APKs until fixed
+**Refactor Complexity:** HIGH (touches CFG, SSA, type_inference, codegen)
+**See:** MEMORY_REFACTOR_PLAN.md for complete steps
+
+---
+
 ## Memory Optimization (Phase 1: Foundation ✅)
 
 **Status:** ✅ Infrastructure implemented and tested
