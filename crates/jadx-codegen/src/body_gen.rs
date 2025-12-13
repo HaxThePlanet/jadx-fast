@@ -751,10 +751,17 @@ fn type_to_var_name(ty: &ArgType) -> String {
             let simple = simple.trim_start_matches('L').trim_end_matches(';');
             let simple = simple.rsplit('$').next().unwrap_or(simple);
             let simple = simple.rsplit('.').next().unwrap_or(simple);
-            let mut chars = simple.chars();
-            match chars.next() {
-                Some(c) => c.to_lowercase().chain(chars).collect(),
-                None => "obj".to_string(),
+
+            // Check if all uppercase (like ABC) - convert entirely to lowercase
+            if simple.chars().all(|c| !c.is_ascii_lowercase()) && !simple.is_empty() {
+                simple.to_lowercase()
+            } else {
+                // Normal case: lowercase first character only
+                let mut chars = simple.chars();
+                match chars.next() {
+                    Some(c) => c.to_lowercase().chain(chars).collect(),
+                    None => "obj".to_string(),
+                }
             }
         }
         ArgType::Array(elem) => {
@@ -771,10 +778,17 @@ fn type_to_var_name(ty: &ArgType) -> String {
             let simple = simple.trim_start_matches('L').trim_end_matches(';');
             let simple = simple.rsplit('$').next().unwrap_or(simple);
             let simple = simple.rsplit('.').next().unwrap_or(simple);
-            let mut chars = simple.chars();
-            match chars.next() {
-                Some(c) => c.to_lowercase().chain(chars).collect(),
-                None => "obj".to_string(),
+
+            // Check if all uppercase (like ABC) - convert entirely to lowercase
+            if simple.chars().all(|c| !c.is_ascii_lowercase()) && !simple.is_empty() {
+                simple.to_lowercase()
+            } else {
+                // Normal case: lowercase first character only
+                let mut chars = simple.chars();
+                match chars.next() {
+                    Some(c) => c.to_lowercase().chain(chars).collect(),
+                    None => "obj".to_string(),
+                }
             }
         }
         ArgType::Wildcard { .. } => "w".to_string(),

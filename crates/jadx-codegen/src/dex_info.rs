@@ -33,6 +33,7 @@ use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 
 use crate::expr_gen::{ExprGen, FieldInfo, MethodInfo};
+use crate::type_gen::type_to_string;
 use jadx_dex::DexReader;
 use jadx_ir::types::ArgType;
 
@@ -78,7 +79,7 @@ impl GlobalFieldPool {
         let key = FieldKey {
             class_type: field.class_type.clone(),
             field_name: field.field_name.clone(),
-            field_type: field.field_type.to_string(),
+            field_type: type_to_string(&field.field_type),
         };
 
         let mut pool = self.fields.write().unwrap();
