@@ -272,7 +272,15 @@ impl LazyDexInfo {
 
     /// Get field info by index (parsed on-demand, not cached)
     pub fn get_field(&self, idx: u32) -> Option<FieldInfo> {
-        let field = self.dex.get_field(idx).ok()?;
+        let field = match self.dex.get_field(idx) {
+            Ok(f) => f,
+            Err(_e) => {
+                // Debug: Field lookup failed - idx is out of bounds for this DEX file
+                // This can happen if field indices aren't properly resolved
+                eprintln!("Field lookup failed for idx {} (DEX has {} fields)", idx, self.dex.header.field_ids_size);
+                return None;
+            }
+        };
         let class_type = field.class_type().ok()?;
         let field_name = field.name().ok()?;
         let field_type_desc = field.field_type().ok()?;

@@ -338,7 +338,7 @@ impl ImportCollector {
     pub fn get_imports(&self) -> Vec<String> {
         self.imports
             .iter()
-            .map(|name| name.replace('/', "."))
+            .map(|name| name.replace('/', ".").replace('$', "."))
             .collect()
     }
 
@@ -466,7 +466,10 @@ pub fn generate_class_to_writer_with_inner_classes<W: CodeWriter>(
     if let Some(ref imp) = imports {
         if !imp.is_empty() {
             for name in imp {
-                code.add("import ").add(&name.replace('/', ".")).add(";").newline();
+                // Replace / with . for package separators
+                // Replace $ with . for inner classes (Build$VERSION -> Build.VERSION)
+                let import_name = name.replace('/', ".").replace('$', ".");
+                code.add("import ").add(&import_name).add(";").newline();
             }
             code.newline();
         }
@@ -494,6 +497,11 @@ use crate::type_gen::type_to_string_with_imports;
 
 /// Add class declaration (modifiers, name, extends, implements)
 fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, code: &mut W) {
+    // Add "loaded from" comment for top-level classes
+    if !is_inner_class(&class.class_type) {
+        code.start_line().add("/* loaded from: classes.dex */").newline();
+    }
+
     // Emit class-level annotations
     for annotation in &class.annotations {
         if should_emit_annotation(annotation) {
@@ -529,15 +537,17 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
     // Extends
     if let Some(ref superclass) = class.superclass {
         // Don't show "extends Object"
-        if superclass != "java/lang/Object" {
+        // Don't show "extends Annotation" for annotation types (implicit in Java)
+        if superclass != "java/lang/Object"
+            && !(access_flags::is_annotation(class.access_flags) && superclass == "java/lang/annotation/Annotation") {
             code.add(" extends ");
             let ty = ArgType::Object(superclass.clone());
             code.add(&type_to_string_with_imports(&ty, imports));
         }
     }
 
-    // Implements
-    if !class.interfaces.is_empty() {
+    // Implements (skip entirely for annotations - they can't implement interfaces)
+    if !class.interfaces.is_empty() && !access_flags::is_annotation(class.access_flags) {
         if access_flags::is_interface(class.access_flags) {
             code.add(" extends ");
         } else {

@@ -826,6 +826,16 @@ fn process_dex_bytes(
         deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
     }
 
+    // Build class hierarchy for type inference (enables LCA, subtype checking)
+    tracing::info!("Building class hierarchy from {} classes", class_indices.len());
+    let hierarchy_start = std::time::Instant::now();
+    let class_hierarchy = converter::build_class_hierarchy(&dex, &class_indices);
+    tracing::info!(
+        "Class hierarchy built in {:?} ({} classes)",
+        hierarchy_start.elapsed(),
+        class_hierarchy.has_class("java/lang/Object")
+    );
+
     // Wrap dex_info with alias-aware version if deobfuscation or mappings are active
     let dex_info: std::sync::Arc<dyn DexInfoProvider> = if args.deobfuscation || args.mappings_path.is_some() {
         std::sync::Arc::new(AliasAwareDexInfo::new(dex_info, alias_registry.clone()))
@@ -879,7 +889,7 @@ fn process_dex_bytes(
             dex.get_class(idx)
                 .map_err(|e| format!("Failed to get class: {}", e))
                 .and_then(|class| {
-                    converter::convert_class(&dex, &class)
+                    converter::convert_class(&dex, &class, args.debug_info())
                         .map(|mut class_data| {
                             // Process Kotlin metadata annotations (extracts names)
                             if args.process_kotlin_metadata() {

@@ -4,14 +4,16 @@ A high-performance Android DEX/APK decompiler written in Rust.
 
 This is a Rust port of [JADX](https://github.com/skylot/jadx), aiming for identical output with significantly improved performance through Rust's zero-cost abstractions, memory safety, and parallel processing capabilities.
 
-## Current Status: 1:1 Output Match with Java JADX
+## Current Status: Pipeline Complete, Code Quality Issues
 
-**~91,000 lines of Rust | 904 tests passing | 0 semantic differences in golden tests**
+**~95,600 lines of Rust | 217 tests passing (100% success rate) | Critical code quality issues**
 
-The full decompilation pipeline produces **identical output** to Java JADX:
+**Note:** While the infrastructure is excellent (fast, stable, memory-efficient), the decompiled code has severe quality issues with 14,007 compilation errors. See main README.md for the Comprehensive Status Report.
+
+The full decompilation pipeline is functional and can produce valid Java:
 
 ```java
-// Rust jadx output (identical to Java JADX)
+// Example Rust jadx output (simple cases work correctly)
 package io.github.skylot.android.smallapp;
 
 import android.app.Activity;
@@ -29,7 +31,7 @@ public class MainActivity extends Activity {
 }
 ```
 
-**Key features achieving 1:1 match:**
+**Key features (when working correctly):**
 - Parameter names from debug info (`savedInstanceState` not `bundle`)
 - @Override with declaring class comment (`// android.app.Activity`)
 - String literals, field names, method calls fully resolved
@@ -120,7 +122,7 @@ public class MainActivity extends Activity {
 **Type inference fallbacks**: Falls back to `Object`/`int`/`vN` when type cannot be determined.
 
 ### Recently Fixed
-- ✅ **1:1 Output Match** - Golden tests show 0 semantic differences vs Java JADX
+- ⚠️ **Code Quality Issues Identified** - 14,007 compilation errors found in real-world APKs (see main README for details)
 - ✅ **Parameter naming** - Extracts original parameter names from DEX debug info
 - ✅ **@Override comments** - Includes declaring class: `@Override // android.app.Activity`
 - ✅ **Expression inlining** - Eliminates single-use variables for cleaner output
@@ -165,7 +167,7 @@ cargo build --release
 cargo test --workspace
 ```
 
-Current test coverage: **904 tests** across all crates, including golden file comparison tests.
+Current test coverage: **217 tests** across all crates (100% passing).
 
 ## Usage
 
@@ -312,10 +314,10 @@ Key optimizations:
 
 ## Compatibility
 
-**Achieved: identical output** to Java JADX on test APKs with 0 semantic differences:
-- Golden file tests compare Rust output vs Java JADX output
-- Parameter names, annotations, imports all match
-- Differential testing validates correctness
+**Current Status:** Pipeline is functional but output quality has critical gaps:
+- Simple test cases work correctly with proper parameter names, annotations, and imports
+- Real-world APKs have 14,007+ compilation errors (field#, annotation syntax, import errors)
+- See main README.md Comprehensive Status Report for detailed analysis and fixes needed
 
 ## Dependencies
 

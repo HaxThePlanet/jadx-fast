@@ -211,10 +211,12 @@ pub fn generate_method_with_dex<W: CodeWriter>(
 
     code.start_line();
 
-    // Method modifiers
-    let mods = access_flags::access_flags_to_string(method.access_flags, AccessContext::Method);
-    if !mods.is_empty() {
-        code.add(&mods);
+    // Method modifiers (skip for static initializers since we handle them specially)
+    if !method.is_class_init() {
+        let mods = access_flags::access_flags_to_string(method.access_flags, AccessContext::Method);
+        if !mods.is_empty() {
+            code.add(&mods);
+        }
     }
 
     // Return type and name
@@ -288,10 +290,12 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
 
     code.start_line();
 
-    // Method modifiers
-    let mods = access_flags::access_flags_to_string(method.access_flags, AccessContext::Method);
-    if !mods.is_empty() {
-        code.add(&mods);
+    // Method modifiers (skip for static initializers since we handle them specially)
+    if !method.is_class_init() {
+        let mods = access_flags::access_flags_to_string(method.access_flags, AccessContext::Method);
+        if !mods.is_empty() {
+            code.add(&mods);
+        }
     }
 
     // Return type and name
@@ -299,6 +303,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
         let class_name = get_simple_name(&class.class_type);
         code.add(class_name);
     } else if method.is_class_init() {
+        // Static initializer
         code.add("static");
     } else {
         code.add(&type_to_string_with_imports(&method.return_type, imports));

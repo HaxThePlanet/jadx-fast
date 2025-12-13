@@ -325,9 +325,12 @@ impl ClassData {
     }
 
     /// Get the simple name (without package)
+    /// For inner classes (e.g., "Outer$Inner"), returns just "Inner"
     pub fn simple_name(&self) -> &str {
         let name = self.class_type.trim_start_matches('L').trim_end_matches(';');
-        name.rsplit('/').next().unwrap_or(name)
+        let after_slash = name.rsplit('/').next().unwrap_or(name);
+        // For inner classes, get the part after the last $ (e.g., "Outer$Inner" -> "Inner")
+        after_slash.rsplit('$').next().unwrap_or(after_slash)
     }
 
     /// Get the package name

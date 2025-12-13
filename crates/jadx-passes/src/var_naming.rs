@@ -69,33 +69,59 @@ impl VarNaming {
             ArgType::Char => "c",
             ArgType::Short => "s",
             ArgType::Int => "i",
-            ArgType::Long => "j",
+            ArgType::Long => "l",  // Fixed: was "j", should be "l" for JADX compatibility
             ArgType::Float => "f",
             ArgType::Double => "d",
             ArgType::Object(name) => {
-                // Use first letter of simple name, lowercased
-                if name.contains("String") {
+                // OBJ_ALIAS mappings from JADX for 1:1 compatibility
+                // IMPORTANT: More specific patterns must come before general ones
+                // (e.g., StringBuilder before String, StringBuffer before Buffer)
+
+                if name.contains("StringBuilder") || name.contains("StringBuffer") {
+                    "sb"
+                } else if name.contains("String") {
                     "str"
-                } else if name.contains("List") || name.contains("ArrayList") {
+                } else if name.contains("Class") {
+                    "cls"
+                } else if name.contains("Throwable") {
+                    "th"
+                } else if name.contains("Exception") {
+                    "th"  // JADX uses "th" for Throwable and Exception
+                } else if name.contains("Integer") {
+                    "num"
+                } else if name.contains("Long") && !name.contains("LongSparseArray") {
+                    "num"
+                } else if name.contains("Double") && !name.contains("DoubleArray") {
+                    "num"
+                } else if name.contains("Float") && !name.contains("FloatArray") {
+                    "num"
+                } else if name.contains("Boolean") && !name.contains("BooleanArray") {
+                    "bool"
+                } else if name.contains("ArrayList") {
                     "list"
-                } else if name.contains("Map") || name.contains("HashMap") {
+                } else if name.contains("List") {
+                    "list"
+                } else if name.contains("HashMap") {
                     "map"
-                } else if name.contains("Set") || name.contains("HashSet") {
+                } else if name.contains("Map") {
+                    "map"
+                } else if name.contains("HashSet") {
                     "set"
-                } else if name.contains("Array") {
-                    "arr"
+                } else if name.contains("Set") {
+                    "set"
                 } else if name.contains("Iterator") {
                     "it"
-                } else if name.contains("Exception") {
-                    "e"
                 } else if name.contains("Stream") {
                     "stream"
                 } else if name.contains("Builder") {
                     "builder"
                 } else if name.contains("Buffer") {
                     "buf"
-                } else {
+                } else if name.contains("Object") && name.ends_with("/Object") {
                     "obj"
+                } else {
+                    // Extract simple class name and use lowercase first char
+                    return Self::extract_class_name_base(name);
                 }
             }
             ArgType::Array(elem) => {
@@ -103,7 +129,7 @@ impl VarNaming {
                     ArgType::Byte => "bArr",
                     ArgType::Char => "cArr",
                     ArgType::Int => "iArr",
-                    ArgType::Long => "jArr",
+                    ArgType::Long => "lArr",  // Fixed: was "jArr", should be "lArr"
                     ArgType::Float => "fArr",
                     ArgType::Double => "dArr",
                     ArgType::Object(name) if name.contains("String") => "strArr",
@@ -113,6 +139,69 @@ impl VarNaming {
             ArgType::Void => "v",
             _ => "var",
         }
+    }
+
+    /// Extract simple class name and generate base variable name
+    /// Examples:
+    /// - "android/view/View" → "view"
+    /// - "com/example/Outer$Inner" → "inner"
+    /// - "java/io/IOException" → "ioException"
+    /// - "ABC" (all uppercase) → "abc"
+    /// - "AB" (short) → "abVar"
+    fn extract_class_name_base(full_name: &str) -> &'static str {
+        // Leak the string to get 'static lifetime - variable names are small and cached
+        // This is acceptable because we only generate a limited set of base names
+
+        // Extract simple name (after last '/', '$', or '.')
+        // Note: Types may be in internal format (/) or Java format (.), and inner classes may use $ or .
+        let simple_name = full_name
+            .rsplit('/')
+            .next()
+            .unwrap_or(full_name)
+            .rsplit('$')
+            .next()
+            .unwrap_or(full_name)
+            .rsplit('.')
+            .next()
+            .unwrap_or(full_name);
+
+        // If empty or non-ASCII, fallback to "obj"
+        if simple_name.is_empty() || !simple_name.is_ascii() {
+            return "obj";
+        }
+
+        // Check if all uppercase
+        let is_all_uppercase = simple_name.chars().all(|c| !c.is_ascii_lowercase());
+
+        // Generate base name
+        let base = if is_all_uppercase {
+            // Convert all-uppercase to lowercase
+            let lower = simple_name.to_lowercase();
+            if lower.len() < 3 {
+                // Short names get "Var" suffix
+                Box::leak(format!("{}Var", lower).into_boxed_str())
+            } else {
+                Box::leak(lower.into_boxed_str())
+            }
+        } else {
+            // Lowercase first character
+            let mut chars = simple_name.chars();
+            if let Some(first) = chars.next() {
+                let rest: String = chars.collect();
+                let base = format!("{}{}", first.to_lowercase(), rest);
+
+                if base.len() < 3 {
+                    // Short names get "Var" suffix
+                    Box::leak(format!("{}Var", base).into_boxed_str())
+                } else {
+                    Box::leak(base.into_boxed_str())
+                }
+            } else {
+                "obj"
+            }
+        };
+
+        base
     }
 
     /// Generate a name for a variable based on its type
@@ -240,7 +329,7 @@ mod tests {
         let mut naming = VarNaming::new(10);
 
         assert_eq!(naming.name_for_type(&ArgType::Boolean), "z");
-        assert_eq!(naming.name_for_type(&ArgType::Long), "j");
+        assert_eq!(naming.name_for_type(&ArgType::Long), "l"); // Fixed: was "j", now "l"
         assert_eq!(
             naming.name_for_type(&ArgType::Object("java/lang/String".to_string())),
             "str"
@@ -248,6 +337,104 @@ mod tests {
         assert_eq!(
             naming.name_for_type(&ArgType::Array(Box::new(ArgType::Int))),
             "iArr"
+        );
+        assert_eq!(
+            naming.name_for_type(&ArgType::Array(Box::new(ArgType::Long))),
+            "lArr" // Fixed: was "jArr", now "lArr"
+        );
+    }
+
+    #[test]
+    fn test_obj_alias_mappings() {
+        // Test base name mappings (each gets a fresh naming context)
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("java/lang/Class".to_string())),
+            "cls"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("java/lang/Throwable".to_string())),
+            "th"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("java/lang/Exception".to_string())),
+            "th"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("java/lang/Integer".to_string())),
+            "num"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("java/lang/Long".to_string())),
+            "num"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("java/lang/Double".to_string())),
+            "num"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("java/lang/Boolean".to_string())),
+            "bool"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("java/lang/StringBuilder".to_string())),
+            "sb"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("java/lang/StringBuffer".to_string())),
+            "sb"
+        );
+    }
+
+    #[test]
+    fn test_obj_alias_uniqueness() {
+        let mut naming = VarNaming::new(10);
+
+        // When multiple variables have the same base type, they get numeric suffixes
+        let th1 = naming.name_for_type(&ArgType::Object("java/lang/Throwable".to_string()));
+        let th2 = naming.name_for_type(&ArgType::Object("java/lang/Exception".to_string()));
+        let num1 = naming.name_for_type(&ArgType::Object("java/lang/Integer".to_string()));
+        let num2 = naming.name_for_type(&ArgType::Object("java/lang/Long".to_string()));
+
+        assert_eq!(th1, "th");
+        assert_eq!(th2, "th2"); // Second throwable-type gets suffix
+        assert_eq!(num1, "num");
+        assert_eq!(num2, "num2"); // Second numeric-type gets suffix
+    }
+
+    #[test]
+    fn test_class_name_extraction() {
+        // Test base name extraction for various class names
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("android/view/View".to_string())),
+            "view"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("android/app/Activity".to_string())),
+            "activity"
+        );
+
+        // Inner classes
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("com/example/Outer$Inner".to_string())),
+            "inner"
+        );
+
+        // All-uppercase names
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("com/example/ABC".to_string())),
+            "abc"
+        );
+
+        // Short names get "Var" suffix
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("com/example/AB".to_string())),
+            "abVar"
+        );
+
+        // Complex inner class paths
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("com/example/Outer$Middle$Inner".to_string())),
+            "inner"
         );
     }
 

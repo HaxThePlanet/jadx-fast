@@ -18,7 +18,7 @@ use jadx_ir::{
 use jadx_passes::{mark_methods_for_inline, extract_field_init};
 
 /// Convert a DEX ClassDef to IR ClassData
-pub fn convert_class(dex: &DexReader, class_def: &ClassDef<'_>) -> Result<ClassData> {
+pub fn convert_class(dex: &DexReader, class_def: &ClassDef<'_>, process_debug_info: bool) -> Result<ClassData> {
     let class_type = class_def.class_type()?.to_string();
     let access_flags = class_def.access_flags();
 
@@ -35,7 +35,9 @@ pub fn convert_class(dex: &DexReader, class_def: &ClassDef<'_>) -> Result<ClassD
     }
 
     // Source file
-    class_data.source_file = class_def.source_file()?.map(|s| s.to_string());
+    if process_debug_info {
+        class_data.source_file = class_def.source_file()?.map(|s| s.to_string());
+    }
 
     // Get static field initial values (if any)
     let static_values = class_def.static_values().unwrap_or_default();
@@ -87,7 +89,7 @@ pub fn convert_class(dex: &DexReader, class_def: &ClassDef<'_>) -> Result<ClassD
 
         // Direct methods (constructors, static methods, private methods)
         for method in data.direct_methods() {
-            if let Ok(mut method_data) = convert_method(dex, &method) {
+            if let Ok(mut method_data) = convert_method(dex, &method, process_debug_info) {
                 // Method annotations
                 if let Ok(annots) = class_def.method_annotations(method.method_idx) {
                     for annot_item in annots {
@@ -102,7 +104,7 @@ pub fn convert_class(dex: &DexReader, class_def: &ClassDef<'_>) -> Result<ClassD
 
         // Virtual methods
         for method in data.virtual_methods() {
-            if let Ok(mut method_data) = convert_method(dex, &method) {
+            if let Ok(mut method_data) = convert_method(dex, &method, process_debug_info) {
                 // Method annotations
                 if let Ok(annots) = class_def.method_annotations(method.method_idx) {
                     for annot_item in annots {
@@ -489,7 +491,7 @@ fn parse_fill_array_payload(insn: &mut jadx_ir::instructions::InsnNode, bytecode
 }
 
 /// Convert a DEX EncodedMethod to IR MethodData
-fn convert_method(dex: &DexReader, encoded: &EncodedMethod) -> Result<MethodData> {
+fn convert_method(dex: &DexReader, encoded: &EncodedMethod, process_debug_info: bool) -> Result<MethodData> {
     let method_id = dex.get_method(encoded.method_idx)?;
     let proto = method_id.proto()?;
 
@@ -512,8 +514,10 @@ fn convert_method(dex: &DexReader, encoded: &EncodedMethod) -> Result<MethodData
             method.outs_count = code_item.outs_size;
 
             // Extract parameter names from debug info
-            if let Ok(param_names) = code_item.get_parameter_names() {
-                method.arg_names = param_names;
+            if process_debug_info {
+                if let Ok(param_names) = code_item.get_parameter_names() {
+                    method.arg_names = param_names;
+                }
             }
 
             // Decode instructions
@@ -614,6 +618,45 @@ fn parse_type_descriptor(desc: &str) -> ArgType {
 fn strip_descriptor(desc: &str) -> &str {
     let s = desc.strip_prefix('L').unwrap_or(desc);
     s.strip_suffix(';').unwrap_or(s)
+}
+
+/// Build class hierarchy from all classes in the DEX file
+///
+/// This scans all classes to extract superclass and interface relationships,
+/// enabling hierarchy-aware type inference and LCA calculation for PHI nodes.
+pub fn build_class_hierarchy(dex: &DexReader, class_indices: &[u32]) -> jadx_ir::ClassHierarchy {
+    let mut hierarchy = jadx_ir::ClassHierarchy::new();
+
+    // Extract class relationships from DEX
+    for &idx in class_indices {
+        if let Ok(class_def) = dex.get_class(idx) {
+            // Get class name
+            if let Ok(class_type) = class_def.class_type() {
+                let class_name = strip_descriptor(class_type).to_string();
+
+                // Get superclass
+                let superclass = class_def
+                    .superclass_type()
+                    .ok()
+                    .flatten()
+                    .map(|s| strip_descriptor(s).to_string());
+
+                // Get interfaces
+                let interfaces = class_def
+                    .interfaces()
+                    .ok()
+                    .unwrap_or_default()
+                    .into_iter()
+                    .map(|s| strip_descriptor(s).to_string())
+                    .collect();
+
+                // Add to hierarchy
+                hierarchy.add_class(class_name, superclass, interfaces);
+            }
+        }
+    }
+
+    hierarchy
 }
 
 #[cfg(test)]

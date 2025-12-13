@@ -43,10 +43,13 @@ pub struct DecompiledMethod {
 /// 1. Block splitting - split linear instructions into basic blocks
 /// 2. CFG construction - build control flow graph with dominance info
 /// 3. SSA transformation - convert to SSA form with phi nodes
-/// 4. Type inference - infer types for all registers
+/// 4. Type inference - infer types for all registers (with hierarchy if available)
 /// 5. Variable naming - assign meaningful names to variables
 /// 6. Region reconstruction - convert CFG to structured regions (if/loop/switch)
-pub fn decompile_method(method: &MethodData) -> Option<DecompiledMethod> {
+pub fn decompile_method(
+    method: &MethodData,
+    hierarchy: Option<&jadx_ir::ClassHierarchy>,
+) -> Option<DecompiledMethod> {
     if method.instructions.is_empty() {
         return None;
     }
@@ -66,8 +69,12 @@ pub fn decompile_method(method: &MethodData) -> Option<DecompiledMethod> {
     // Stage 3: SSA transformation
     let ssa = transform_to_ssa(&blocks);
 
-    // Stage 4: Type inference
-    let types = infer_types(&ssa);
+    // Stage 4: Type inference (use hierarchy if available for better precision)
+    let types = if let Some(h) = hierarchy {
+        jadx_passes::infer_types_with_hierarchy(&ssa, h)
+    } else {
+        infer_types(&ssa)
+    };
 
     // Stage 5: Variable naming
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
@@ -166,7 +173,7 @@ mod tests {
     #[test]
     fn test_decompile_simple_method() {
         let method = make_test_method();
-        let result = decompile_method(&method);
+        let result = decompile_method(&method, None);
 
         assert!(result.is_some());
         let result = result.unwrap();
@@ -181,7 +188,7 @@ mod tests {
     #[test]
     fn test_empty_method() {
         let method = MethodData::new("empty".to_string(), 0x0001, ArgType::Void);
-        let result = decompile_method(&method);
+        let result = decompile_method(&method, None);
 
         assert!(result.is_none());
     }
@@ -236,7 +243,7 @@ mod tests {
             ),
         ];
 
-        let result = decompile_method(&method);
+        let result = decompile_method(&method, None);
         assert!(result.is_some());
 
         let result = result.unwrap();

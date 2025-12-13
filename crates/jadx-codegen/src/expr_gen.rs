@@ -239,14 +239,15 @@ impl ExprGen {
         self.method_info.insert(idx, info);
     }
 
-    /// Get field info by index
-    pub fn get_field_info(&self, idx: u32) -> Option<&FieldInfo> {
-        self.field_info.get(&idx)
+    /// Get field info by index (local cache first, then DEX provider)
+    pub fn get_field_info(&self, idx: u32) -> Option<FieldInfo> {
+        self.get_field_value(idx)
     }
 
     /// Get field name (just the name, not qualified)
+    /// Uses local cache first, then DEX provider fallback
     pub fn get_field_name(&self, idx: u32) -> Option<String> {
-        self.field_info.get(&idx).map(|f| f.field_name.clone())
+        self.get_field_value(idx).map(|f| f.field_name)
     }
 
     /// Get static field reference (Class.fieldName)
@@ -427,6 +428,8 @@ impl ExprGen {
                                     // new SomeClass() - this is typically handled by NewInstance
                                     Some(format!("new {}({})", info.class_name, args_str.join(", ")))
                                 }
+                            } else if receiver == "this" {
+                                Some(format!("{}({})", info.method_name, args_str.join(", ")))
                             } else {
                                 Some(format!("{}.{}({})", receiver, info.method_name, args_str.join(", ")))
                             }

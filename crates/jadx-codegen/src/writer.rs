@@ -37,7 +37,7 @@ impl SimpleCodeWriter {
         SimpleCodeWriter {
             buf: String::new(),
             indent_level: 0,
-            indent_str: "\t",
+            indent_str: "    ",
             at_line_start: true,
         }
     }
@@ -118,6 +118,6 @@ mod tests {
 
         let result = w.finish();
         assert!(result.contains("public class Test"));
-        assert!(result.contains("\tpublic void method()"));
+        assert!(result.contains("    public void method()")); // 4-space indent
     }
 }
