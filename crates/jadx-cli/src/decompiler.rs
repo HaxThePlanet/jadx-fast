@@ -66,12 +66,12 @@ pub fn decompile_method(
     let mut cfg = CFG::from_blocks(blocks);
 
     // Mark duplicated finally code before region building (JADX compatibility)
-    mark_duplicated_finally(&mut cfg, &method.try_blocks);
+    mark_duplicated_finally(&mut cfg, &method.try_blocks, insns);
 
     // Stage 3: SSA transformation
     // Take blocks from CFG after dominance analysis (avoids clone)
     let blocks = cfg.take_blocks();
-    let ssa = transform_to_ssa(&blocks);
+    let ssa = transform_to_ssa(&blocks, insns);
 
     // Stage 4: Type inference (use hierarchy if available for better precision)
     let types = if let Some(h) = hierarchy {
@@ -86,7 +86,7 @@ pub fn decompile_method(
     let var_names = assign_var_names(&ssa, &types, first_param_reg, num_params);
 
     // Stage 6: Region reconstruction
-    let regions = build_regions_with_try_catch(&cfg, &method.try_blocks);
+    let regions = build_regions_with_try_catch(&cfg, &method.try_blocks, insns);
 
     Some(DecompiledMethod {
         blocks,
