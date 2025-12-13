@@ -141,10 +141,16 @@ public class MainActivity extends Activity {
 - ✅ **Complex resource entries** - styles.xml, arrays.xml, plurals.xml with parent inheritance
 - ✅ **Expanded AXML attributes** - 250+ Android framework attribute mappings for manifest/layout parsing
 - ✅ **Deobfuscation** - Full support for ProGuard mappings and automatic renaming
+- ✅ **Kotlin metadata support** - Full parsing of @kotlin.Metadata annotations with protobuf decoder
+  - Extracts original class, field, method, and parameter names
+  - Fallback to d2 array if protobuf parsing fails
+  - Preserves Kotlin names in deobfuscation pipeline
+  - Enabled by default with --no-kotlin-metadata to disable
 
 ### Future
-- Complete Kotlin metadata integration
+- Extended Kotlin metadata features (FileFacade, SyntheticClass, toString() parser)
 - Advanced control flow analysis (goto elimination)
+- Companion object hiding and getter renaming
 
 ## Building
 
