@@ -19,7 +19,7 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 
 ## Current Status
 
-**~98,200 lines of Rust, 245 tests passing (100% success rate).**
+**~120,000 lines of Rust, 245 tests passing (100% success rate).**
 
 **✅ Full multi-core parallelism** - Critical bug fixed, now 4-56x faster depending on core count (December 2025)
 **✅ Memory-optimized for production use** - All critical memory issues resolved (December 2025)
@@ -285,7 +285,7 @@ The codebase is **production-ready from a compilation standpoint** for these fix
 ### Build & Tests ✅
 - **Clean build**, all warnings expected for active development
 - **245 tests passing** (100% success rate)
-- **~98,200 lines** of Rust across all crates
+- **~120,000 lines** of Rust across all crates
 
 ### Performance ✅
 - 12MB APK with 5,882 classes: **13.36 seconds**
