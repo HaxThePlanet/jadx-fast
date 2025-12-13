@@ -475,29 +475,32 @@ pub fn is_ternary_candidate(cond: &IfInfo, cfg: &CFG) -> bool {
 pub fn detect_ternary_assignment(
     then_block: &crate::block_split::BasicBlock,
     else_block: &crate::block_split::BasicBlock,
+    instructions: &[jadx_ir::instructions::InsnNode],
 ) -> Option<(u16, u32, u32)> {
     use jadx_ir::instructions::InsnType;
 
     // Find last assignment in then block (excluding control flow)
-    let then_assign = then_block.instructions.iter().rev()
-        .find(|insn_arc| {
-            let insn = insn_arc.lock().unwrap();
-            !is_control_flow_insn(&insn.insn_type)
-        })
-        .and_then(|insn_arc| {
-            let insn = insn_arc.lock().unwrap();
-            get_assignment_dest(&insn.insn_type)
+    let then_assign = then_block.insn_indices.iter().rev()
+        .find_map(|&idx| {
+            instructions.get(idx as usize).and_then(|insn| {
+                if !is_control_flow_insn(&insn.insn_type) {
+                    get_assignment_dest(&insn.insn_type)
+                } else {
+                    None
+                }
+            })
         });
 
     // Find last assignment in else block
-    let else_assign = else_block.instructions.iter().rev()
-        .find(|insn_arc| {
-            let insn = insn_arc.lock().unwrap();
-            !is_control_flow_insn(&insn.insn_type)
-        })
-        .and_then(|insn_arc| {
-            let insn = insn_arc.lock().unwrap();
-            get_assignment_dest(&insn.insn_type)
+    let else_assign = else_block.insn_indices.iter().rev()
+        .find_map(|&idx| {
+            instructions.get(idx as usize).and_then(|insn| {
+                if !is_control_flow_insn(&insn.insn_type) {
+                    get_assignment_dest(&insn.insn_type)
+                } else {
+                    None
+                }
+            })
         });
 
     // Both must assign to the same register

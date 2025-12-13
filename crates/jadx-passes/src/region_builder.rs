@@ -32,9 +32,8 @@
 //! Labels are generated for nested loops (e.g., `break loop_0;`)
 
 use std::collections::{BTreeMap, BTreeSet};
-use std::sync::{Arc, Mutex};
 
-use jadx_ir::instructions::{IfCondition, InsnType};
+use jadx_ir::instructions::{IfCondition, InsnNode, InsnType};
 use jadx_ir::regions::{CatchHandler, Condition, LoopKind, Region, RegionContent, SwitchCase};
 
 use crate::block_split::BasicBlock;
@@ -217,18 +216,18 @@ pub fn detect_all_loop_edges(cfg: &CFG, loops: &[LoopInfo]) -> Vec<LoopEdgeInsns
 }
 
 /// Build region tree from a CFG
-pub fn build_regions(cfg: &CFG) -> Region {
-    build_regions_with_try_catch(cfg, &[])
+pub fn build_regions(cfg: &CFG, instructions: &[InsnNode]) -> Region {
+    build_regions_with_try_catch(cfg, &[], instructions)
 }
 
 /// Build regions with try-catch block information from IR
-pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Region {
+pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock], instructions: &[InsnNode]) -> Region {
     // Detect loops and conditionals
     let loops = detect_loops(cfg);
     let conditionals = detect_conditionals(cfg, &loops);
 
     // Detect synchronized blocks
-    let syncs = detect_synchronized_blocks(cfg);
+    let syncs = detect_synchronized_blocks(cfg, instructions);
 
     // Convert IR try_blocks to TryInfo for CFG
     let tries = detect_try_catch_regions(cfg, try_blocks);
@@ -237,7 +236,7 @@ pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock])
     let merged_conditions = find_condition_chains(&conditionals, cfg);
 
     // Create builder context with try-catch information and merged conditions
-    let mut builder = RegionBuilder::new(cfg, &loops, &conditionals, &syncs, &tries, &merged_conditions);
+    let mut builder = RegionBuilder::new(cfg, &loops, &conditionals, &syncs, &tries, &merged_conditions, instructions);
 
     // Build from entry block
     builder.make_method_region()
@@ -247,7 +246,7 @@ pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock])
 ///
 /// This runs the finally extraction algorithm and applies instruction/block flags
 /// so codegen can skip duplicated finally sequences (1:1 with JADX behavior).
-pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[jadx_ir::TryBlock]) {
+pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[jadx_ir::TryBlock], instructions: &[InsnNode]) {
     if try_blocks.is_empty() {
         return;
     }
@@ -269,19 +268,16 @@ pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[jadx_ir::TryBlock]) 
             continue;
         };
         let ends_with_throw = last_block
-            .instructions
-            .last()
-            .map(|insn_arc| {
-                let insn = insn_arc.lock().unwrap();
-                matches!(insn.insn_type, InsnType::Throw { .. })
-            })
+            .last_insn_idx()
+            .and_then(|idx| instructions.get(idx as usize))
+            .map(|insn| matches!(insn.insn_type, InsnType::Throw { .. }))
             .unwrap_or(false);
         if !ends_with_throw {
             continue;
         }
 
-        if let Some(extract_info) = extract_finally(cfg, try_info, catch_all_handler) {
-            apply_finally_marking(&extract_info, cfg);
+        if let Some(extract_info) = extract_finally(cfg, try_info, catch_all_handler, instructions) {
+            apply_finally_marking(&extract_info, cfg, instructions);
         }
     }
 }
@@ -368,18 +364,18 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Vec<
 }
 
 /// Detect synchronized blocks by finding MONITOR_ENTER/MONITOR_EXIT pairs
-pub fn detect_synchronized_blocks(cfg: &CFG) -> Vec<SyncInfo> {
+pub fn detect_synchronized_blocks(cfg: &CFG, instructions: &[InsnNode]) -> Vec<SyncInfo> {
     let mut syncs = Vec::new();
 
     for block_id in cfg.block_ids() {
         if let Some(block) = cfg.get_block(block_id) {
-            for insn_arc in &block.instructions {
-                let insn = insn_arc.lock().unwrap();
-                if matches!(insn.insn_type, InsnType::MonitorEnter { .. }) {
-                    // Found a monitor enter - find matching exits
-                    drop(insn); // Release lock before calling find_sync_region
-                    if let Some(sync_info) = find_sync_region(cfg, block_id) {
-                        syncs.push(sync_info);
+            for &idx in &block.insn_indices {
+                if let Some(insn) = instructions.get(idx as usize) {
+                    if matches!(insn.insn_type, InsnType::MonitorEnter { .. }) {
+                        // Found a monitor enter - find matching exits
+                        if let Some(sync_info) = find_sync_region(cfg, block_id, instructions) {
+                            syncs.push(sync_info);
+                        }
                     }
                 }
             }
@@ -390,7 +386,7 @@ pub fn detect_synchronized_blocks(cfg: &CFG) -> Vec<SyncInfo> {
 }
 
 /// Find the synchronized region starting from a MONITOR_ENTER block
-fn find_sync_region(cfg: &CFG, enter_block: u32) -> Option<SyncInfo> {
+fn find_sync_region(cfg: &CFG, enter_block: u32, instructions: &[InsnNode]) -> Option<SyncInfo> {
     let mut body_blocks = BTreeSet::new();
     let mut exit_blocks = BTreeSet::new();
     let mut worklist = vec![enter_block];
@@ -404,9 +400,10 @@ fn find_sync_region(cfg: &CFG, enter_block: u32) -> Option<SyncInfo> {
 
         if let Some(block) = cfg.get_block(block_id) {
             // Check for MONITOR_EXIT
-            let has_exit = block.instructions.iter().any(|insn_arc| {
-                let insn = insn_arc.lock().unwrap();
-                matches!(insn.insn_type, InsnType::MonitorExit { .. })
+            let has_exit = block.insn_indices.iter().any(|&idx| {
+                instructions.get(idx as usize)
+                    .map(|insn| matches!(insn.insn_type, InsnType::MonitorExit { .. }))
+                    .unwrap_or(false)
             });
 
             if has_exit {
@@ -489,6 +486,8 @@ struct RegionBuilder<'a> {
     tries: &'a [TryInfo],
     /// Merged condition chains (for &&, || synthesis)
     merged_conditions: &'a [MergedCondition],
+    /// Instruction array (for accessing instructions by index)
+    instructions: &'a [InsnNode],
     /// Blocks that have been processed (like Java's processedBlocks)
     processed: BTreeSet<u32>,
     /// Loop header -> LoopInfo lookup
@@ -515,6 +514,7 @@ impl<'a> RegionBuilder<'a> {
         syncs: &'a [SyncInfo],
         tries: &'a [TryInfo],
         merged_conditions: &'a [MergedCondition],
+        instructions: &'a [InsnNode],
     ) -> Self {
         let mut loop_map = BTreeMap::new();
         for l in loops {
@@ -555,6 +555,7 @@ impl<'a> RegionBuilder<'a> {
             syncs,
             tries,
             merged_conditions,
+            instructions,
             processed: BTreeSet::new(),
             loop_map,
             cond_map,
@@ -758,7 +759,7 @@ impl<'a> RegionBuilder<'a> {
         // In Java bytecode, finally is implemented as:
         // 1. A catch-all handler that stores exception, runs finally code, then re-throws
         // 2. Finally code is also duplicated at end of try and each catch handler
-        let (finally_region, finally_handler_idx) = self.detect_finally_block(try_info);
+        let (finally_region, finally_handler_idx) = self.detect_finally_block(try_info, self.instructions);
 
         // Build catch handlers (excluding finally handler if detected)
         let catch_handlers: Vec<CatchHandler> = try_info
@@ -813,7 +814,7 @@ impl<'a> RegionBuilder<'a> {
     ///    - End of each catch handler
     ///
     /// Returns (finally_region, handler_index) if finally detected
-    fn detect_finally_block(&mut self, try_info: &TryInfo) -> (Option<Box<Region>>, Option<usize>) {
+    fn detect_finally_block(&mut self, try_info: &TryInfo, instructions: &[InsnNode]) -> (Option<Box<Region>>, Option<usize>) {
         // Find catch-all handler (exception_type is None)
         let catch_all_idx = try_info.handlers.iter().position(|h| h.exception_type.is_none());
         let catch_all_handler = match catch_all_idx {
@@ -831,12 +832,9 @@ impl<'a> RegionBuilder<'a> {
 
         // Check if the last instruction is a Throw
         let ends_with_throw = last_block
-            .instructions
-            .last()
-            .map(|insn_arc| {
-                let insn = insn_arc.lock().unwrap();
-                matches!(insn.insn_type, InsnType::Throw { .. })
-            })
+            .last_insn_idx()
+            .and_then(|idx| instructions.get(idx as usize))
+            .map(|insn| matches!(insn.insn_type, InsnType::Throw { .. }))
             .unwrap_or(false);
 
         if !ends_with_throw {
@@ -987,10 +985,11 @@ impl<'a> RegionBuilder<'a> {
     fn extract_simple_condition(&self, block_id: u32) -> Condition {
         if let Some(block) = self.cfg.get_block(block_id) {
             // Find the If instruction (usually the last one)
-            for insn_arc in block.instructions.iter().rev() {
-                let insn = insn_arc.lock().unwrap();
-                if let InsnType::If { condition, .. } = &insn.insn_type {
-                    return Condition::simple_negated(block_id, condition.clone());
+            for &idx in block.insn_indices.iter().rev() {
+                if let Some(insn) = self.instructions.get(idx as usize) {
+                    if let InsnType::If { condition, .. } = &insn.insn_type {
+                        return Condition::simple_negated(block_id, condition.clone());
+                    }
                 }
             }
         }
@@ -1176,12 +1175,13 @@ impl<'a> RegionBuilder<'a> {
     /// Check if a block is a switch statement
     fn is_switch_block(&self, block: u32) -> bool {
         if let Some(b) = self.cfg.get_block(block) {
-            if let Some(last_arc) = b.instructions.last() {
-                let last = last_arc.lock().unwrap();
-                return matches!(
-                    last.insn_type,
-                    InsnType::PackedSwitch { .. } | InsnType::SparseSwitch { .. }
-                );
+            if let Some(&idx) = b.insn_indices.last() {
+                if let Some(last) = self.instructions.get(idx as usize) {
+                    return matches!(
+                        last.insn_type,
+                        InsnType::PackedSwitch { .. } | InsnType::SparseSwitch { .. }
+                    );
+                }
             }
         }
         false
@@ -1259,8 +1259,8 @@ impl<'a> RegionBuilder<'a> {
     /// Get switch keys from the instruction
     fn get_switch_info(&self, block: u32) -> Option<Vec<i32>> {
         let b = self.cfg.get_block(block)?;
-        let last_arc = b.instructions.last()?;
-        let last = last_arc.lock().unwrap();
+        let idx = *b.insn_indices.last()?;
+        let last = self.instructions.get(idx as usize)?;
 
         match &last.insn_type {
             InsnType::PackedSwitch {
@@ -1371,19 +1371,16 @@ impl<'a> RegionBuilder<'a> {
 }
 
 /// Simplified region construction for a method
-pub fn build_method_regions(blocks: &BTreeMap<u32, BasicBlock>, entry: u32) -> Region {
+pub fn build_method_regions(blocks: &BTreeMap<u32, BasicBlock>, entry: u32, instructions: &[InsnNode]) -> Region {
     // Convert to BlockSplitResult format
     use crate::block_split::BlockSplitResult;
 
     let exits: Vec<u32> = blocks
         .values()
         .filter(|b| {
-            b.instructions
-                .last()
-                .map(|i_arc| {
-                    let i = i_arc.lock().unwrap();
-                    matches!(i.insn_type, InsnType::Return { .. } | InsnType::Throw { .. })
-                })
+            b.last_insn_idx()
+                .and_then(|idx| instructions.get(idx as usize))
+                .map(|i| matches!(i.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }))
                 .unwrap_or(false)
         })
         .map(|b| b.id)
@@ -1396,7 +1393,7 @@ pub fn build_method_regions(blocks: &BTreeMap<u32, BasicBlock>, entry: u32) -> R
     };
 
     let cfg = CFG::from_blocks(result);
-    build_regions(&cfg)
+    build_regions(&cfg, instructions)
 }
 
 #[cfg(test)]
@@ -1437,7 +1434,7 @@ mod tests {
         let instructions = vec![make_nop(0), make_nop(1), make_return(2)];
         let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
-        let region = build_regions(&cfg);
+        let region = build_regions(&cfg, &instructions);
 
         // Should be a sequence
         assert!(matches!(region, Region::Sequence(_)));
@@ -1452,7 +1449,7 @@ mod tests {
         ];
         let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
-        let region = build_regions(&cfg);
+        let region = build_regions(&cfg, &instructions);
 
         // Root should contain an If region
         match region {
@@ -1478,7 +1475,7 @@ mod tests {
         ];
         let blocks = split_blocks(&instructions);
         let cfg = CFG::from_blocks(blocks);
-        let region = build_regions(&cfg);
+        let region = build_regions(&cfg, &instructions);
 
         // Should contain a Loop region
         fn contains_loop(region: &Region) -> bool {
@@ -1559,11 +1556,23 @@ mod tests {
 
     #[test]
     fn test_mark_duplicated_finally_marks_duplicate_handler_insns() {
+        // Create instruction array
+        let mut instructions = vec![
+            InsnNode::new(InsnType::Nop, 0),     // idx 0
+            InsnNode::new(InsnType::Nop, 11),    // idx 1
+            InsnNode::new(InsnType::Nop, 12),    // idx 2
+            InsnNode::new(InsnType::Throw {      // idx 3
+                exception: InsnArg::reg(0),
+            }, 13),
+            InsnNode::new(InsnType::Nop, 21),    // idx 4
+            InsnNode::new(InsnType::Nop, 22),    // idx 5
+        ];
+
         let mut blocks = BTreeMap::new();
 
         // Try block (id == address for this synthetic test)
         let mut b0 = BasicBlock::new(0, 0);
-        b0.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 0))));
+        b0.insn_indices.push(0);
         blocks.insert(0, b0);
 
         // Catch-all (finally) handler: 10 -> 11 -> 12 (throw)
@@ -1572,19 +1581,14 @@ mod tests {
         blocks.insert(10, b10);
 
         let mut b11 = BasicBlock::new(11, 11);
-        b11.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 11))));
-        b11.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 12))));
+        b11.insn_indices.push(1);
+        b11.insn_indices.push(2);
         b11.predecessors = vec![10];
         b11.successors = vec![12];
         blocks.insert(11, b11);
 
         let mut b12 = BasicBlock::new(12, 13);
-        b12.instructions.push(Arc::new(Mutex::new(InsnNode::new(
-            InsnType::Throw {
-                exception: InsnArg::reg(0),
-            },
-            13,
-        ))));
+        b12.insn_indices.push(3);
         b12.predecessors = vec![11];
         blocks.insert(12, b12);
 
@@ -1594,8 +1598,8 @@ mod tests {
         blocks.insert(20, b20);
 
         let mut b21 = BasicBlock::new(21, 21);
-        b21.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 21))));
-        b21.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 22))));
+        b21.insn_indices.push(4);
+        b21.insn_indices.push(5);
         b21.predecessors = vec![20];
         blocks.insert(21, b21);
 
@@ -1620,15 +1624,12 @@ mod tests {
             ],
         }];
 
-        mark_duplicated_finally(&mut cfg, &try_blocks);
+        mark_duplicated_finally(&mut cfg, &try_blocks, &instructions);
 
         let dup_block = cfg.get_block(21).expect("duplicate block missing");
         assert!(
-            dup_block
-                .instructions
-                .iter()
-                .all(|i| i.lock().unwrap().has_flag(AFlag::DontGenerate)),
-            "expected duplicated finally instructions to be marked DONT_GENERATE"
+            dup_block.has_flag(AFlag::DontGenerate),
+            "expected duplicated finally block to be marked DONT_GENERATE"
         );
     }
 }

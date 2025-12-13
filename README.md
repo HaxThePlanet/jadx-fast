@@ -214,7 +214,29 @@ This eliminates cloning entirely while maintaining mutable access through a sing
 
 **Expected result:** 116GB potential → ~20GB actual instruction memory (80-90% reduction)
 
-**See:** MEMORY_REFACTOR_PLAN.md for complete implementation steps
+**Implementation (8-12 hours):**
+1. **Phase 1:** Refactor BasicBlock
+   - Remove `instructions: Vec<Arc<Mutex<InsnNode>>>` field
+   - Add `start_offset: u32, end_offset: u32` fields
+   - Create `fn get_instructions(&self, class_data: &ClassData) -> Vec<&InsnNode>` getter
+   - Update split_blocks() to NOT create Arc<Mutex> - just compute offsets
+
+2. **Phase 2:** Thread ClassData through pipeline
+   - CFG::from_blocks(class_data, block_result) instead of just block_result
+   - SSA::transform_to_ssa(&class_data, ...)
+   - Type inference functions take &ClassData
+   - Codegen takes &ClassData
+
+3. **Phase 3:** Replace all instruction access (200+ locations)
+   - Change `block.instructions` to `class_data.all_instructions[offset_range]`
+   - Update iteration patterns accordingly
+
+4. **Phase 4:** Test and verify
+   - All 247 unit tests pass
+   - Memory profiling: verify ~20GB peak on badboy.apk
+   - No regression vs JADX output
+
+**Status:** BLOCKING - Cannot process large APKs until fixed
 
 ---
 

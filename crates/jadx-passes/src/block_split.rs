@@ -5,7 +5,6 @@
 //! where control flow enters at the beginning and leaves at the end.
 
 use std::collections::{BTreeMap, BTreeSet};
-use std::sync::{Arc, Mutex};
 
 use jadx_ir::attributes::AFlag;
 use jadx_ir::instructions::{InsnNode, InsnType};
@@ -19,38 +18,45 @@ pub struct BasicBlock {
     pub start_offset: u32,
     /// Ending offset (exclusive)
     pub end_offset: u32,
-    /// Instructions in this block (shared Arc<Mutex<>> to eliminate 5-20x cloning)
-    pub instructions: Vec<Arc<Mutex<InsnNode>>>,
+    /// Instruction indices in this block (references into MethodData.instructions array)
+    pub insn_indices: Vec<u32>,
     /// Successor block IDs
     pub successors: Vec<u32>,
     /// Predecessor block IDs
     pub predecessors: Vec<u32>,
     /// Attribute flags (for FINALLY_INSNS, DONT_GENERATE, etc.)
     pub flags: u64,
+    /// Cached instructions for SSA-transformed blocks (backward compatibility)
+    /// SSA transformation stores Arc<Mutex<>> wrapped instructions here
+    #[deprecated = "Use insn_indices with the master instruction array instead"]
+    pub instructions: Vec<std::sync::Arc<std::sync::Mutex<InsnNode>>>,
 }
 
 impl BasicBlock {
     /// Create a new basic block
     pub fn new(id: u32, start_offset: u32) -> Self {
-        BasicBlock {
+        #[allow(deprecated)]
+        let block = BasicBlock {
             id,
             start_offset,
             end_offset: start_offset,
-            instructions: Vec::new(),
+            insn_indices: Vec::new(),
             successors: Vec::new(),
             predecessors: Vec::new(),
             flags: 0,
-        }
+            instructions: Vec::new(),
+        };
+        block
     }
 
     /// Check if block is empty
     pub fn is_empty(&self) -> bool {
-        self.instructions.is_empty()
+        self.insn_indices.is_empty()
     }
 
-    /// Get the last instruction (returns Arc to locked instruction)
-    pub fn last_insn(&self) -> Option<Arc<Mutex<InsnNode>>> {
-        self.instructions.last().cloned()
+    /// Get the index of the last instruction in this block
+    pub fn last_insn_idx(&self) -> Option<u32> {
+        self.insn_indices.last().copied()
     }
 
     /// Check if a flag is set
@@ -103,7 +109,7 @@ impl BlockSplitResult {
 }
 
 /// Split instructions into basic blocks
-/// Takes a reference to avoid unnecessary Vec cloning - instructions are only cloned when moved into blocks
+/// Takes a reference and works with instruction indices
 pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     if instructions.is_empty() {
         return BlockSplitResult {
@@ -159,12 +165,9 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
         }
     }
 
-    // Second pass: wrap instructions in Arc<Mutex<>> for sharing across blocks
-    // This ELIMINATES the 5-20x cloning problem that caused 50GB+ memory usage!
-    let instructions_arc: Vec<Arc<Mutex<InsnNode>>> = instructions
-        .iter()
-        .map(|i| Arc::new(Mutex::new(i.clone())))  // Single clone here, then Arc shares
-        .collect();
+    // Second pass: populate block instruction indices (no cloning!)
+    // Following Java JADX: blocks store indices into the instruction array
+    // This eliminates Arc<Mutex> cloning overhead completely
 
     let mut blocks = BTreeMap::new();
     let mut current_block: Option<BasicBlock> = None;
@@ -190,10 +193,10 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
             block_id += 1;
         }
 
-        // Add shared instruction reference to current block (cheap Arc clone, not deep!)
+        // Add instruction index to current block (no cloning!)
         if let Some(ref mut block) = current_block {
             block.end_offset = offset + 1; // Approximate
-            block.instructions.push(Arc::clone(&instructions_arc[idx]));
+            block.insn_indices.push(idx as u32);  // Store index, not Arc wrapper!
         }
     }
 
@@ -210,7 +213,7 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     for &block_id in &block_ids {
         let successors = {
             let block = blocks.get(&block_id).unwrap();
-            compute_successors(block, &offset_to_block, &block_ids)
+            compute_successors(block, instructions, &offset_to_block, &block_ids)
         };
 
         // Add successors to current block
@@ -232,9 +235,12 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     let exit_blocks: Vec<u32> = blocks
         .values()
         .filter(|block| {
-            block.last_insn().map_or(false, |insn_arc| {
-                let insn = insn_arc.lock().unwrap();
-                matches!(insn.insn_type, InsnType::Return { .. } | InsnType::Throw { .. })
+            block.last_insn_idx().map_or(false, |idx| {
+                if let Some(insn) = instructions.get(idx as usize) {
+                    matches!(insn.insn_type, InsnType::Return { .. } | InsnType::Throw { .. })
+                } else {
+                    false
+                }
             })
         })
         .map(|block| block.id)
@@ -263,38 +269,40 @@ fn is_terminator(insn_type: &InsnType) -> bool {
 /// Compute successors for a block
 fn compute_successors(
     block: &BasicBlock,
+    instructions: &[InsnNode],
     offset_to_block: &BTreeMap<u32, u32>,
     all_blocks: &[u32],
 ) -> Vec<u32> {
     let mut successors = Vec::new();
 
-    if let Some(last_insn_arc) = block.last_insn() {
-        let last_insn = last_insn_arc.lock().unwrap();
-        match &last_insn.insn_type {
-            InsnType::Goto { target } => {
-                if let Some(&target_block) = offset_to_block.get(target) {
-                    successors.push(target_block);
-                }
-            }
-            InsnType::If { target, .. } => {
-                // Fall-through successor
-                if let Some(&next_block) = find_next_block(block.id, all_blocks) {
-                    successors.push(next_block);
-                }
-                // Branch target successor
-                if let Some(&target_block) = offset_to_block.get(target) {
-                    if !successors.contains(&target_block) {
+    if let Some(last_idx) = block.last_insn_idx() {
+        if let Some(last_insn) = instructions.get(last_idx as usize) {
+            match &last_insn.insn_type {
+                InsnType::Goto { target } => {
+                    if let Some(&target_block) = offset_to_block.get(target) {
                         successors.push(target_block);
                     }
                 }
-            }
-            InsnType::Return { .. } | InsnType::Throw { .. } => {
-                // No successors
-            }
-            _ => {
-                // Fall through to next block
-                if let Some(&next_block) = find_next_block(block.id, all_blocks) {
-                    successors.push(next_block);
+                InsnType::If { target, .. } => {
+                    // Fall-through successor
+                    if let Some(&next_block) = find_next_block(block.id, all_blocks) {
+                        successors.push(next_block);
+                    }
+                    // Branch target successor
+                    if let Some(&target_block) = offset_to_block.get(target) {
+                        if !successors.contains(&target_block) {
+                            successors.push(target_block);
+                        }
+                    }
+                }
+                InsnType::Return { .. } | InsnType::Throw { .. } => {
+                    // No successors
+                }
+                _ => {
+                    // Fall through to next block
+                    if let Some(&next_block) = find_next_block(block.id, all_blocks) {
+                        successors.push(next_block);
+                    }
                 }
             }
         }
@@ -354,7 +362,7 @@ mod tests {
         assert_eq!(result.exit_blocks, vec![0]);
 
         let block = result.get_block(0).unwrap();
-        assert_eq!(block.instructions.len(), 3);
+        assert_eq!(block.insn_indices.len(), 3);
     }
 
     #[test]

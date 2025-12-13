@@ -270,14 +270,15 @@ use jadx_ir::instructions::RegisterArg;
 
 /// Count variable uses across all blocks
 /// Returns a map of (reg, version) -> use count
-fn count_variable_uses(blocks: &BTreeMap<u32, BasicBlock>) -> HashMap<(u16, u32), usize> {
+fn count_variable_uses(blocks: &BTreeMap<u32, BasicBlock>, instructions: &[InsnNode]) -> HashMap<(u16, u32), usize> {
     let mut counts: HashMap<(u16, u32), usize> = HashMap::new();
 
     for block in blocks.values() {
-        for insn_arc in &block.instructions {
-            let insn = insn_arc.lock().unwrap();
-            // Count uses in instruction arguments
-            count_uses_in_insn(&insn.insn_type, &mut counts);
+        for &insn_idx in &block.insn_indices {
+            if let Some(insn) = instructions.get(insn_idx as usize) {
+                // Count uses in instruction arguments
+                count_uses_in_insn(&insn.insn_type, &mut counts);
+            }
         }
     }
 
@@ -457,17 +458,17 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     let mut cfg = CFG::from_blocks(block_result);
 
     // Mark duplicated finally code before region building (JADX compatibility)
-    mark_duplicated_finally(&mut cfg, &method.try_blocks);
+    mark_duplicated_finally(&mut cfg, &method.try_blocks, insns);
 
     // Build region tree for structured code with try-catch support
     // Region analysis only needs instruction types for control flow, not SSA info
-    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
+    let region = build_regions_with_try_catch(&cfg, &method.try_blocks, insns);
 
     // Extract blocks from CFG after region analysis
     let block_result = cfg.into_blocks();
 
     // SSA transformation - use owned version to avoid cloning instructions
-    let ssa_result = transform_to_ssa_owned(block_result);
+    let ssa_result = transform_to_ssa_owned(block_result, insns);
 
     // Type inference on SSA form
     let type_result = infer_types(&ssa_result);
@@ -482,7 +483,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     ctx.type_info = Some(type_result);
 
     // Count variable uses for expression inlining
-    ctx.use_counts = count_variable_uses(&ctx.blocks);
+    ctx.use_counts = count_variable_uses(&ctx.blocks, insns);
 
     // Compute final variables from SSA - variables with max_version == 0 are final
     ctx.set_final_vars_from_max_versions(&max_versions);
@@ -544,17 +545,17 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
     let mut cfg = CFG::from_blocks(block_result);
 
     // Mark duplicated finally code before region building (JADX compatibility)
-    mark_duplicated_finally(&mut cfg, &method.try_blocks);
+    mark_duplicated_finally(&mut cfg, &method.try_blocks, insns);
 
     // Build region tree for structured code with try-catch support
     // Region analysis only needs instruction types for control flow, not SSA info
-    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
+    let region = build_regions_with_try_catch(&cfg, &method.try_blocks, insns);
 
     // Extract blocks from CFG after region analysis
     let block_result = cfg.into_blocks();
 
     // SSA transformation - use owned version to avoid cloning instructions
-    let ssa_result = transform_to_ssa_owned(block_result);
+    let ssa_result = transform_to_ssa_owned(block_result, insns);
 
     // Type inference on SSA form - use DEX lookups if available for better type accuracy
     let type_result = if let Some(ref dex) = dex_info {
@@ -583,7 +584,7 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
     ctx.imports = imports.cloned();
 
     // Count variable uses for expression inlining
-    ctx.use_counts = count_variable_uses(&ctx.blocks);
+    ctx.use_counts = count_variable_uses(&ctx.blocks, insns);
 
     // Compute final variables from SSA - variables with max_version == 0 are final
     ctx.set_final_vars_from_max_versions(&max_versions);
@@ -635,17 +636,17 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     let mut cfg = CFG::from_blocks(block_result);
 
     // Mark duplicated finally code before region building (JADX compatibility)
-    mark_duplicated_finally(&mut cfg, &method.try_blocks);
+    mark_duplicated_finally(&mut cfg, &method.try_blocks, insns);
 
     // Build region tree for structured code with try-catch support
     // Region analysis only needs instruction types for control flow, not SSA info
-    let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
+    let region = build_regions_with_try_catch(&cfg, &method.try_blocks, insns);
 
     // Extract blocks from CFG after region analysis
     let block_result = cfg.into_blocks();
 
     // SSA transformation - use owned version to avoid cloning instructions
-    let ssa_result = transform_to_ssa_owned(block_result);
+    let ssa_result = transform_to_ssa_owned(block_result, insns);
 
     // Type inference on SSA form
     // NOTE: Skip hierarchy-based inference to avoid cloning 58,000-class hierarchy per method
@@ -685,7 +686,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     }
 
     // Count variable uses for expression inlining
-    ctx.use_counts = count_variable_uses(&ctx.blocks);
+    ctx.use_counts = count_variable_uses(&ctx.blocks, insns);
 
     // Compute final variables from SSA - variables with max_version == 0 are final
     ctx.set_final_vars_from_max_versions(&max_versions);
@@ -1422,10 +1423,12 @@ fn ssa_blocks_to_map(ssa_result: &jadx_passes::ssa::SsaResult) -> BTreeMap<u32, 
             let insn = i.lock().unwrap();
             insn.offset + 1
         }).unwrap_or(0);
+        #[allow(deprecated)]
         let basic_block = BasicBlock {
             id: ssa_block.id,
             start_offset,
             end_offset,
+            insn_indices: Vec::new(), // Empty for SSA blocks (they store instructions instead)
             instructions: ssa_block.instructions.clone(),
             successors: ssa_block.successors.clone(),
             predecessors: ssa_block.predecessors.clone(),
@@ -1450,10 +1453,12 @@ fn ssa_blocks_to_map_owned(ssa_result: jadx_passes::ssa::SsaResult) -> BTreeMap<
             let insn = i.lock().unwrap();
             insn.offset + 1
         }).unwrap_or(0);
+        #[allow(deprecated)]
         let basic_block = BasicBlock {
             id: ssa_block.id,
             start_offset,
             end_offset,
+            insn_indices: Vec::new(), // Empty for SSA blocks (they store instructions instead)
             instructions: ssa_block.instructions, // Move, not clone!
             successors: ssa_block.successors,     // Move, not clone!
             predecessors: ssa_block.predecessors, // Move, not clone!
@@ -2606,8 +2611,9 @@ mod tests {
         ]);
 
         // Test the SSA transform directly to see max_versions
-        let block_result = jadx_passes::block_split::split_blocks(method.get_instructions());
-        let ssa_result = jadx_passes::ssa::transform_to_ssa(&block_result);
+        let instructions = method.get_instructions();
+        let block_result = jadx_passes::block_split::split_blocks(instructions);
+        let ssa_result = jadx_passes::ssa::transform_to_ssa(&block_result, instructions);
 
         // Debug: print max_versions
         eprintln!("max_versions: {:?}", ssa_result.max_versions);
