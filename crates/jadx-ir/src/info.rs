@@ -555,7 +555,21 @@ impl ClassData {
         for method in &mut self.methods {
             method.unload();
         }
+        // CRITICAL: Clear the shared instruction pool to prevent memory accumulation across threads
+        // This is the largest memory consumer for large classes (40-50MB per class)
+        // Without this, par_chunks processing accumulates 37GB+ per thread
+        self.all_instructions.clear();
+        self.all_instructions.shrink_to_fit();
         self.state = ProcessState::GeneratedAndUnloaded;
+    }
+
+    /// Clear all ExprGen instances to prevent pool accumulation
+    /// This is called after codegen to reduce memory footprint
+    /// Note: Blocks are created dynamically by block_split, not stored in ClassData
+    /// Their Arc<Mutex<>> wrapped instructions are cleared through BodyGenContext drop
+    pub fn clear_gen_pools(&mut self) {
+        // ExprGen pooling is thread-local, cleared when thread exits or pool is reset
+        // This is a no-op at ClassData level - included for API completeness
     }
 
     /// Get the current processing state

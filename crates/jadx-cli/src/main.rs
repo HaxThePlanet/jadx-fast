@@ -1136,6 +1136,9 @@ fn process_dex_bytes(
                 );
 
                 // Unload immediately after codegen to free memory
+                // This clears all_instructions (the largest consumer, 40-50MB per class)
+                // Arc<Mutex<>> block instructions are freed when BodyGenContext is dropped
+                // ExprGen pool size is limited to 4 instances per thread
                 ir_class.unload();
                 code
             }

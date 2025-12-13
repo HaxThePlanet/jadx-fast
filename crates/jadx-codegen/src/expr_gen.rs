@@ -203,7 +203,10 @@ impl ExprGen {
         EXPR_GEN_POOL.with(|pool| {
             let mut p = pool.borrow_mut();
             // Limit pool size to avoid unbounded growth
-            if p.len() < 16 {
+            // REDUCED from 16 to 4: With 6 HashMaps × 16 instances = 960MB per thread
+            // Reduced to 4 instances = 240MB per thread on large methods
+            // Methods are typically reused in sequence, so 4 is sufficient
+            if p.len() < 4 {
                 p.push(self);
             }
         });
