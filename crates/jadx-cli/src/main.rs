@@ -1055,19 +1055,23 @@ fn process_dex_bytes(
         }
     }
 
-    // Java JADX memory strategy: Sequential class processing with proper unload
+    // Java JADX memory strategy: Batched parallel processing
     // See: jadx-fast/jadx-core/src/main/java/jadx/core/ProcessClass.java
-    // CRITICAL FIX: Process classes SEQUENTIALLY (like Java JADX does), not in parallel!
-    // Java JADX groups classes into batches but processes them SEQUENTIALLY in each thread.
-    // With rayon par_iter(), we were spawning 56 tasks that all tried to load instructions,
-    // causing 256GB memory explosion. Solution: Process sequentially without parallelism.
-    // Users who want speed can use RAYON_NUM_THREADS env var or -j flag (future enhancement).
+    // Process classes in thread-safe batches: each thread gets N classes to process sequentially.
+    // This balances parallelism (uses all cores) with memory safety (each thread processes one class at a time).
+    // Memory stays bounded because only num_threads classes are in memory at once, not total count.
 
     let error_count = std::sync::atomic::AtomicUsize::new(0);
     let hierarchy_arc = std::sync::Arc::new(class_hierarchy);
 
-    // Process classes sequentially (Java JADX pattern)
-    for &idx in &class_indices {
+    // Calculate batch size: distribute classes evenly across threads
+    let num_threads = rayon::current_num_threads();
+    let batch_size = std::cmp::max(1, (class_indices.len() + num_threads - 1) / num_threads);
+
+    // Process batches in parallel using rayon
+    use rayon::prelude::*;
+    class_indices.par_chunks(batch_size).for_each(|batch| {
+        for &idx in batch {
         // Fetch class name on-demand to avoid storing all names in memory
         let class_desc = dex.get_class(idx)
             .ok()
@@ -1154,7 +1158,8 @@ fn process_dex_bytes(
         if let Some(pb) = progress.as_ref() {
             pb.inc(1);
         }
-    }
+        }
+    });
 
     // Explicit cleanup - drop class_indices before returning
     drop(class_indices);
