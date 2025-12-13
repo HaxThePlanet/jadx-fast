@@ -214,6 +214,37 @@ impl VarNaming {
     pub fn mark_used(&mut self, name: &str) {
         self.used_names.insert(name.to_string());
     }
+
+    /// Try to generate a name from instruction context (like JADX's makeNameFromInsn)
+    /// Returns None if no suitable context-based name can be generated
+    ///
+    /// Note: This currently handles cases that don't require DexInfo lookup.
+    /// TODO: Add method invocation and constructor handling when DexInfo is available
+    fn name_from_instruction_context(
+        &mut self,
+        insn: &jadx_ir::instructions::InsnNode,
+    ) -> Option<String> {
+        use jadx_ir::instructions::InsnType;
+
+        match &insn.insn_type {
+            // Array length (like JADX's ARRAY_LENGTH case)
+            InsnType::ArrayLength { .. } => {
+                Some(self.make_unique("length"))
+            }
+
+            // String constant - use "str"
+            InsnType::ConstString { .. } => {
+                Some(self.make_unique("str"))
+            }
+
+            // TODO: Add these when DexInfo is wired through:
+            // - Invoke: cut prefixes from method names (getUser -> user)
+            // - NewInstance: use class name (new Builder() -> builder)
+
+            // For other instructions, return None to fall back to type-based naming
+            _ => None,
+        }
+    }
 }
 
 /// Assign names to all variables in an SSA result
@@ -230,6 +261,17 @@ pub fn assign_var_names(
     for i in 0..num_params {
         let name = format!("p{}", i);
         naming.mark_used(&name);
+    }
+
+    // Build assignment map: (reg, version) -> instruction that assigns to it
+    // (like JADX's SSAVar.getAssignInsn())
+    let mut assignment_map: HashMap<(u16, u32), &jadx_ir::instructions::InsnNode> = HashMap::new();
+    for block in &ssa.blocks {
+        for insn in &block.instructions {
+            if let Some((reg, version)) = get_insn_dest(&insn.insn_type) {
+                assignment_map.insert((reg, version), insn);
+            }
+        }
     }
 
     // Collect all (reg, version) pairs that need names
@@ -257,15 +299,20 @@ pub fn assign_var_names(
     vars_to_name.sort();
     vars_to_name.dedup();
 
-    // Assign names
+    // Assign names (following JADX's guessName and makeNameForSSAVar logic)
     for (reg, version) in vars_to_name {
-        // Look up type
-        let ty = type_info.types.get(&(reg, version));
+        // Try to get name from assignment instruction (like JADX's makeNameForSSAVar)
+        let context_name = assignment_map.get(&(reg, version))
+            .and_then(|assign_insn| naming.name_from_instruction_context(assign_insn));
 
-        let name = if let Some(arg_type) = ty {
+        let name = if let Some(name) = context_name {
+            // Got a name from instruction context (like makeNameFromInsn succeeded)
+            name
+        } else if let Some(arg_type) = type_info.types.get(&(reg, version)) {
+            // Fall back to type-based naming (like JADX's makeNameForType)
             naming.name_for_type(arg_type)
         } else {
-            // Fallback: use vN naming
+            // Last resort: use vN naming
             naming.make_unique(&format!("v{}", reg))
         };
 
