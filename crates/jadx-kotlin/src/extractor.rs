@@ -1,7 +1,7 @@
 //! Name extraction and application to IR
 
-use anyhow::{anyhow, Result};
-use jadx_ir::{ClassData, ArgType};
+use anyhow::Result;
+use jadx_ir::ClassData;
 use crate::types::KotlinClassMetadata;
 
 /// Apply Kotlin metadata names to IR class structure

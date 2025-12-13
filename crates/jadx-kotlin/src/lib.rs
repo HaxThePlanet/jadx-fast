@@ -9,6 +9,9 @@ pub mod extractor;
 pub mod types;
 pub mod visitor;
 
+// Re-exports
+pub use visitor::KotlinAwareCondition;
+
 // Re-export generated protobuf types
 pub mod proto {
     include!(concat!(env!("OUT_DIR"), "/org.jetbrains.kotlin.metadata.rs"));
@@ -55,8 +58,6 @@ pub fn process_kotlin_metadata(cls: &mut ClassData) -> Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     #[test]
     fn test_find_kotlin_metadata() {
         // Tested in parser module

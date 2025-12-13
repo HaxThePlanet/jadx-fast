@@ -8,6 +8,7 @@ repository.workspace = true
 [dependencies]
 jadx-ir = { workspace = true }
 jadx-dex = { workspace = true }
+jadx-deobf = { workspace = true }
 prost = "0.14"
 prost-types = "0.14"
 base64 = "0.22"
