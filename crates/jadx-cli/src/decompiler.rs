@@ -63,12 +63,14 @@ pub fn decompile_method(
     }
 
     // Stage 2: Build CFG
-    let mut cfg = CFG::from_blocks(blocks.clone());
+    let mut cfg = CFG::from_blocks(blocks);
 
     // Mark duplicated finally code before region building (JADX compatibility)
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
     // Stage 3: SSA transformation
+    // Take blocks from CFG after dominance analysis (avoids clone)
+    let blocks = cfg.take_blocks();
     let ssa = transform_to_ssa(&blocks);
 
     // Stage 4: Type inference (use hierarchy if available for better precision)

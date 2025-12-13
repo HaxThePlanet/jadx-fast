@@ -991,7 +991,9 @@ impl AxmlParser {
 
         // Skip typed value
         let size = cursor.read_u16::<LittleEndian>()?;
-        cursor.seek(SeekFrom::Current((size - 2) as i64))?;
+        if size >= 2 {
+            cursor.seek(SeekFrom::Current((size - 2) as i64))?;
+        }
 
         Ok(())
     }
