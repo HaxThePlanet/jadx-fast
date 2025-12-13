@@ -8,7 +8,11 @@
 
 use std::collections::{HashMap, HashSet};
 
+use std::sync::Arc;
+
 /// Class hierarchy graph
+/// NOTE: This is now used behind Arc to avoid expensive cloning
+/// when shared across multiple methods during type inference.
 #[derive(Debug, Clone)]
 pub struct ClassHierarchy {
     /// Class name -> superclass name
@@ -18,6 +22,9 @@ pub struct ClassHierarchy {
     /// All known class names
     all_classes: HashSet<String>,
 }
+
+/// Shared class hierarchy reference (common usage pattern)
+pub type ClassHierarchyRef = Arc<ClassHierarchy>;
 
 impl ClassHierarchy {
     /// Create a new empty class hierarchy

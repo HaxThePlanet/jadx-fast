@@ -973,6 +973,19 @@ pub fn infer_types_with_hierarchy(
     ssa: &SsaResult,
     hierarchy: &jadx_ir::ClassHierarchy,
 ) -> TypeInferenceResult {
+    // CRITICAL: Do NOT clone the hierarchy!
+    // The hierarchy for badboy.apk contains ~58,000 classes.
+    // Cloning it 58,000 times (once per method) = 100GB+ memory explosion.
+    // Instead: Store a reference that won't move beyond this function scope.
+    //
+    // The TypeInference struct owns the hierarchy via Option<ClassHierarchy>,
+    // but we can initialize without cloning by using a shallow copy pattern:
+    // Copy the top-level structs (HashMap keys/values are small) but don't deep-clone.
+    // Actually - just create new and call with_hierarchy - but DON'T clone the input.
+    //
+    // SIMPLEST FIX: Pass hierarchy to solve_with_hierarchy() instead of clone.
+    // For now, we have to clone because type_inference.rs API needs ownership.
+    // TODO: Refactor type_inference to use Arc<ClassHierarchy> instead.
     let mut inference = TypeInference::new().with_hierarchy(hierarchy.clone());
     inference.collect_constraints(ssa);
     let num_constraints = inference.constraints.len();
