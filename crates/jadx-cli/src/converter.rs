@@ -18,7 +18,11 @@ use jadx_ir::{
 use jadx_passes::{mark_methods_for_inline, extract_field_init};
 
 /// Convert a DEX ClassDef to IR ClassData
-pub fn convert_class(dex: &DexReader, class_def: &ClassDef<'_>, process_debug_info: bool) -> Result<ClassData> {
+pub fn convert_class(
+    dex: &DexReader,
+    class_def: &ClassDef<'_>,
+    process_debug_info: bool,
+) -> Result<ClassData> {
     let class_type = class_def.class_type()?.to_string();
     let access_flags = class_def.access_flags();
 
@@ -491,7 +495,11 @@ fn parse_fill_array_payload(insn: &mut jadx_ir::instructions::InsnNode, bytecode
 }
 
 /// Convert a DEX EncodedMethod to IR MethodData
-fn convert_method(dex: &DexReader, encoded: &EncodedMethod, process_debug_info: bool) -> Result<MethodData> {
+fn convert_method(
+    dex: &DexReader,
+    encoded: &EncodedMethod,
+    process_debug_info: bool,
+) -> Result<MethodData> {
     let method_id = dex.get_method(encoded.method_idx)?;
     let proto = method_id.proto()?;
 
@@ -513,6 +521,18 @@ fn convert_method(dex: &DexReader, encoded: &EncodedMethod, process_debug_info: 
             method.ins_count = code_item.ins_size;
             method.outs_count = code_item.outs_size;
 
+            // Store bytecode reference for lazy loading (like Java JADX's ICodeReader)
+            // This allows for true lazy loading later (instructions loaded on-demand)
+            method.bytecode_ref = Some(jadx_ir::BytecodeRef {
+                dex_idx: 0, // TODO: multi-DEX support
+                method_idx: encoded.method_idx,
+                code_offset: encoded.code_off as u64,
+                insns_count: code_item.insns_size as u32,
+                regs_count: code_item.registers_size,
+                ins_count: code_item.ins_size,
+                outs_count: code_item.outs_size,
+            });
+
             // Extract parameter names from debug info
             if process_debug_info {
                 if let Ok(param_names) = code_item.get_parameter_names() {
@@ -520,29 +540,11 @@ fn convert_method(dex: &DexReader, encoded: &EncodedMethod, process_debug_info: 
                 }
             }
 
-            // Decode instructions
-            let bytecode = code_item.instructions();
-            for decoded in InsnIterator::new(bytecode) {
-                if let Ok(insn) = decoded {
-                    let opcode_byte = insn.opcode as u8;
-                    if let Some(mut ir_insn) = build_ir_insn(
-                        opcode_byte,
-                        insn.offset,
-                        &insn.regs,
-                        insn.reg_count,
-                        insn.literal,
-                        insn.index,
-                        insn.target,
-                    ) {
-                        // Parse payload data for switch and fill-array instructions
-                        parse_switch_payload(&mut ir_insn, bytecode);
-                        parse_fill_array_payload(&mut ir_insn, bytecode);
-                        method.instructions.push(ir_insn);
-                    }
-                }
-            }
+            // ✅ DO NOT DECODE INSTRUCTIONS IN CONVERTER
+            // Store ONLY bytecode reference - instructions loaded later in single-threaded phase
+            // This follows Java JADX pattern exactly: reference storage, deferred load
 
-            // Convert try-catch blocks
+            // Convert try-catch blocks (these are lightweight and can be stored now)
             if let Ok(try_items) = code_item.try_items() {
                 if let Ok(catch_handlers) = code_item.catch_handlers() {
                     method.try_blocks = convert_try_catch_blocks(dex, &try_items, &catch_handlers);
@@ -657,6 +659,56 @@ pub fn build_class_hierarchy(dex: &DexReader, class_indices: &[u32]) -> jadx_ir:
     }
 
     hierarchy
+}
+
+/// Load instructions for a method from its bytecode reference
+///
+/// This is called just before code generation to decode instructions from
+/// the bytecode stored in BytecodeRef. This pattern (store reference, decode on-demand)
+/// is key to Java JADX's memory efficiency.
+pub fn load_method_instructions(method: &mut MethodData, dex: &DexReader) -> Result<()> {
+    // Already loaded
+    if method.is_loaded() {
+        return Ok(());
+    }
+
+    // No code to load
+    let Some(bytecode_ref) = &method.bytecode_ref else {
+        return Ok(());
+    };
+
+    let code_offset = bytecode_ref.code_offset as u32;
+
+    // Parse code_item at the stored offset
+    let code_item = CodeItem::parse(dex, code_offset)?;
+
+    // Decode instructions from bytecode
+    let bytecode = code_item.instructions();
+    let mut instructions = Vec::new();
+
+    for decoded in InsnIterator::new(bytecode) {
+        if let Ok(insn) = decoded {
+            let opcode_byte = insn.opcode as u8;
+            if let Some(mut ir_insn) = build_ir_insn(
+                opcode_byte,
+                insn.offset,
+                &insn.regs,
+                insn.reg_count,
+                insn.literal,
+                insn.index,
+                insn.target,
+            ) {
+                // Parse payload data for switch and fill-array instructions
+                parse_switch_payload(&mut ir_insn, bytecode);
+                parse_fill_array_payload(&mut ir_insn, bytecode);
+                instructions.push(ir_insn);
+            }
+        }
+    }
+
+    // Set instructions (marks as Loaded)
+    method.set_instructions(instructions);
+    Ok(())
 }
 
 #[cfg(test)]

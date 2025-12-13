@@ -21,7 +21,7 @@ pub fn analyze_method_for_inline(method: &MethodData) -> Option<MethodInlineAttr
     }
 
     // Skip methods with no instructions or too many instructions
-    let insns = &method.instructions;
+    let insns = method.get_instructions();
     if insns.is_empty() || insns.len() > 5 {
         return Some(MethodInlineAttr::NotNeeded);
     }
@@ -196,7 +196,7 @@ mod tests {
     #[test]
     fn test_detect_static_field_getter() {
         let mut method = make_synthetic_method("access$000", 0x0008); // static synthetic
-        method.instructions = vec![
+        method.set_instructions(vec![
             InsnNode::new(
                 InsnType::StaticGet {
                     dest: RegisterArg::new(0),
@@ -210,7 +210,7 @@ mod tests {
                 },
                 1,
             ),
-        ];
+        ]);
 
         let attr = analyze_method_for_inline(&method);
         assert!(matches!(
@@ -225,7 +225,7 @@ mod tests {
     #[test]
     fn test_detect_instance_field_getter() {
         let mut method = make_synthetic_method("access$100", 0x0008);
-        method.instructions = vec![
+        method.set_instructions(vec![
             InsnNode::new(
                 InsnType::InstanceGet {
                     dest: RegisterArg::new(0),
@@ -240,7 +240,7 @@ mod tests {
                 },
                 1,
             ),
-        ];
+        ]);
 
         let attr = analyze_method_for_inline(&method);
         assert!(matches!(
@@ -255,7 +255,7 @@ mod tests {
     #[test]
     fn test_detect_static_field_setter() {
         let mut method = make_synthetic_method("access$002", 0x0008);
-        method.instructions = vec![
+        method.set_instructions(vec![
             InsnNode::new(
                 InsnType::StaticPut {
                     value: InsnArg::reg(0),
@@ -264,7 +264,7 @@ mod tests {
                 0,
             ),
             InsnNode::new(InsnType::Return { value: None }, 1),
-        ];
+        ]);
 
         // Need at least 3 instructions for setter pattern (put, move, return)
         // This should not match setter pattern with only 2 insns
@@ -273,13 +273,13 @@ mod tests {
     #[test]
     fn test_non_synthetic_not_inlined() {
         let mut method = MethodData::new("normalMethod".to_string(), 0x0001, ArgType::Int);
-        method.instructions = vec![InsnNode::new(
+        method.set_instructions(vec![InsnNode::new(
             InsnType::StaticGet {
                 dest: RegisterArg::new(0),
                 field_idx: 42,
             },
             0,
-        )];
+        )]);
 
         let attr = analyze_method_for_inline(&method);
         assert!(attr.is_none());

@@ -223,13 +223,22 @@ pub struct Args {
 impl Args {
     /// Get effective thread count (0 means auto-detect)
     pub fn effective_threads(&self) -> usize {
-        if self.threads == 0 {
-            std::thread::available_parallelism()
-                .map(|p| p.get())
-                .unwrap_or(4)
-        } else {
-            self.threads
+        // First check RAYON_NUM_THREADS environment variable (highest priority)
+        if let Ok(threads_str) = std::env::var("RAYON_NUM_THREADS") {
+            if let Ok(threads) = threads_str.parse::<usize>() {
+                if threads > 0 {
+                    return threads;
+                }
+            }
         }
+        // Then check CLI argument
+        if self.threads > 0 {
+            return self.threads;
+        }
+        // Finally default to available parallelism
+        std::thread::available_parallelism()
+            .map(|p| p.get())
+            .unwrap_or(4)
     }
 
     /// Validate arguments

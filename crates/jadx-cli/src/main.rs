@@ -879,6 +879,7 @@ fn process_dex_bytes(
     global_field_pool: Arc<GlobalFieldPool>,
 ) -> Result<usize> {
     // Wrap DexReader in Arc for sharing with LazyDexInfo
+    // (DexReader already holds the bytes internally, no need to duplicate)
     let dex = std::sync::Arc::new(DexReader::from_slice(0, "input.dex".to_string(), data)?);
 
     let class_count = dex.header.class_defs_size as usize;
@@ -1100,7 +1101,14 @@ fn process_dex_bytes(
 
         // Generate code (each class becomes a separate .java file)
         let java_code = match ir_result {
-            Ok(ir_class) => {
+            Ok(mut ir_class) => {
+                // LOAD: Decode instructions from bytecode reference (just before code generation)
+                // Critical: This is per-class, so max ~112 classes in-flight with instructions
+                // (rayon bounds parallelism to thread count)
+                for method in &mut ir_class.methods {
+                    let _ = converter::load_method_instructions(method, &dex);
+                }
+
                 let config = jadx_codegen::ClassGenConfig {
                     use_imports: args.use_imports(),
                     show_debug: false,
@@ -1112,12 +1120,20 @@ fn process_dex_bytes(
                     hierarchy: Some(hierarchy_arc.clone()),  // Arc clone = cheap refcount bump
                 };
                 let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
-                jadx_codegen::generate_class_with_inner_classes(
+                let code = jadx_codegen::generate_class_with_inner_classes(
                     &ir_class,
                     &config,
                     Some(dex_arc),
                     None,
-                )
+                );
+
+                // UNLOAD PHASE: Free method instructions immediately after code generation
+                // This is the key to Java JADX's memory efficiency on 10GB+ APKs.
+                // Parallel threads each load -> generate -> unload independently,
+                // keeping memory bounded to ~thread_count × avg_class_size
+                ir_class.unload();
+
+                code
             }
             Err(e) => {
                 error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
@@ -1135,7 +1151,7 @@ fn process_dex_bytes(
             error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
         }
 
-        // IR is dropped here automatically - memory freed
+        // IR is dropped here automatically - memory freed (methods unloaded above)
 
         if let Some(pb) = progress {
             pb.inc(1);

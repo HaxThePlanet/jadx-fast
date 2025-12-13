@@ -18,7 +18,8 @@ pub use builder::build_ir_insn;
 pub use class_hierarchy::ClassHierarchy;
 pub use info::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility,
-    ClassData, DebugInfo, ExceptionHandler, FieldData, FieldValue, MethodData, MethodInlineAttr, TryBlock,
+    BytecodeRef, ClassData, DebugInfo, ExceptionHandler, FieldData, FieldValue,
+    MethodData, MethodInlineAttr, ProcessState, TryBlock,
 };
 pub use instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
 pub use types::{ArgType, TypeCompare, compare_types};

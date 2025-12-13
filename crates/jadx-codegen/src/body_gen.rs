@@ -430,16 +430,19 @@ fn emit_assignment_with_hint<W: CodeWriter>(
 
 /// Generate method body from instructions
 pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
-    if method.instructions.is_empty() {
-        code.start_line()
-            .add("/* empty method */")
-            .newline();
-        add_default_return(&method.return_type, code);
-        return;
-    }
+    let insns = match method.instructions() {
+        Some(i) if !i.is_empty() => i,
+        _ => {
+            code.start_line()
+                .add("/* empty method */")
+                .newline();
+            add_default_return(&method.return_type, code);
+            return;
+        }
+    };
 
     // Split into basic blocks (pass reference to avoid Vec clone)
-    let block_result = split_blocks(&method.instructions);
+    let block_result = split_blocks(insns);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -514,16 +517,19 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
     imports: Option<&BTreeSet<String>>,
     code: &mut W,
 ) {
-    if method.instructions.is_empty() {
-        code.start_line()
-            .add("/* empty method */")
-            .newline();
-        add_default_return(&method.return_type, code);
-        return;
-    }
+    let insns = match method.instructions() {
+        Some(i) if !i.is_empty() => i,
+        _ => {
+            code.start_line()
+                .add("/* empty method */")
+                .newline();
+            add_default_return(&method.return_type, code);
+            return;
+        }
+    };
 
     // Split into basic blocks (pass reference to avoid Vec clone)
-    let block_result = split_blocks(&method.instructions);
+    let block_result = split_blocks(insns);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -601,16 +607,19 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     hierarchy: Option<&jadx_ir::ClassHierarchy>,
     code: &mut W,
 ) {
-    if method.instructions.is_empty() {
-        code.start_line()
-            .add("/* empty method */")
-            .newline();
-        add_default_return(&method.return_type, code);
-        return;
-    }
+    let insns = match method.instructions() {
+        Some(i) if !i.is_empty() => i,
+        _ => {
+            code.start_line()
+                .add("/* empty method */")
+                .newline();
+            add_default_return(&method.return_type, code);
+            return;
+        }
+    };
 
     // Split into basic blocks (pass reference to avoid Vec clone)
-    let block_result = split_blocks(&method.instructions);
+    let block_result = split_blocks(insns);
 
     if block_result.blocks.is_empty() {
         code.start_line()
@@ -2423,10 +2432,10 @@ mod tests {
     #[test]
     fn test_simple_return() {
         let mut method = make_method();
-        method.instructions.push(InsnNode::new(
+        method.set_instructions(vec![InsnNode::new(
             InsnType::Return { value: None },
             0,
-        ));
+        )]);
 
         let mut writer = SimpleCodeWriter::new();
         generate_body(&method, &mut writer);
@@ -2440,19 +2449,21 @@ mod tests {
         let mut method = MethodData::new("test".to_string(), 0x0001, ArgType::Int);
         method.regs_count = 1;
 
-        method.instructions.push(InsnNode::new(
-            InsnType::Const {
-                dest: RegisterArg::new(0),
-                value: LiteralArg::Int(42),
-            },
-            0,
-        ));
-        method.instructions.push(InsnNode::new(
-            InsnType::Return {
-                value: Some(InsnArg::reg(0)),
-            },
-            1,
-        ));
+        method.set_instructions(vec![
+            InsnNode::new(
+                InsnType::Const {
+                    dest: RegisterArg::new(0),
+                    value: LiteralArg::Int(42),
+                },
+                0,
+            ),
+            InsnNode::new(
+                InsnType::Return {
+                    value: Some(InsnArg::reg(0)),
+                },
+                1,
+            ),
+        ]);
 
         let mut writer = SimpleCodeWriter::new();
         generate_body(&method, &mut writer);
@@ -2488,10 +2499,10 @@ mod tests {
         run_method.regs_count = 1;
         run_method.ins_count = 1;
         // Empty body - just return
-        run_method.instructions.push(jadx_ir::instructions::InsnNode::new(
+        run_method.set_instructions(vec![jadx_ir::instructions::InsnNode::new(
             jadx_ir::instructions::InsnType::Return { value: None },
             0,
-        ));
+        )]);
         anon_class.methods.push(run_method);
 
         // Generate the anonymous class inline
@@ -2517,32 +2528,35 @@ mod tests {
         let mut method = MethodData::new("test".to_string(), 0x0001, ArgType::Void);
         method.regs_count = 2;
 
-        // v0 = 42 (assigned once, used twice -> should be final)
-        method.instructions.push(InsnNode::new(
-            InsnType::Const {
-                dest: RegisterArg::new(0),
-                value: LiteralArg::Int(42),
-            },
-            0,
-        ));
-        // v1 = v0 (first use of v0)
-        method.instructions.push(InsnNode::new(
-            InsnType::Move {
-                dest: RegisterArg::new(1),
-                src: InsnArg::reg(0),
-            },
-            1,
-        ));
-        // return v0 (second use of v0)
-        method.instructions.push(InsnNode::new(
-            InsnType::Return {
-                value: Some(InsnArg::reg(0)),
-            },
-            2,
-        ));
+        // Build instructions and set via API
+        method.set_instructions(vec![
+            // v0 = 42 (assigned once, used twice -> should be final)
+            InsnNode::new(
+                InsnType::Const {
+                    dest: RegisterArg::new(0),
+                    value: LiteralArg::Int(42),
+                },
+                0,
+            ),
+            // v1 = v0 (first use of v0)
+            InsnNode::new(
+                InsnType::Move {
+                    dest: RegisterArg::new(1),
+                    src: InsnArg::reg(0),
+                },
+                1,
+            ),
+            // return v0 (second use of v0)
+            InsnNode::new(
+                InsnType::Return {
+                    value: Some(InsnArg::reg(0)),
+                },
+                2,
+            ),
+        ]);
 
         // Test the SSA transform directly to see max_versions
-        let block_result = jadx_passes::block_split::split_blocks(&method.instructions);
+        let block_result = jadx_passes::block_split::split_blocks(method.get_instructions());
         let ssa_result = jadx_passes::ssa::transform_to_ssa(&block_result);
 
         // Debug: print max_versions

@@ -63,8 +63,8 @@
 //!
 //! Typically reduces static initializer codegen time by 50-70% for obfuscated code.
 
-use std::collections::{HashMap, HashSet};
-use jadx_ir::{ClassData, FieldData, FieldValue, InsnArg, InsnType, MethodData, ArgType};
+use std::collections::HashSet;
+use jadx_ir::{ClassData, FieldData, FieldValue, InsnArg, InsnType, MethodData};
 
 /// Information about a field initialization instruction
 #[derive(Debug, Clone)]
@@ -115,14 +115,14 @@ pub fn extract_field_init(class: &mut ClassData) {
 fn collect_field_inits(method: &MethodData, fields: &[FieldData]) -> Vec<FieldInitInfo> {
     let mut inits = Vec::new();
 
-    // Build a map of field index -> field for quick lookup
-    let mut field_map = HashMap::new();
-    for (idx, field) in fields.iter().enumerate() {
-        field_map.insert(field.name.clone(), idx);
-    }
+    // Get instructions (lazy loading support)
+    let instructions = match method.instructions() {
+        Some(insns) => insns,
+        None => return inits, // Method not loaded
+    };
 
     // Scan all instructions for SPUT operations
-    for (insn_idx, insn) in method.instructions.iter().enumerate() {
+    for (insn_idx, insn) in instructions.iter().enumerate() {
         if let InsnType::StaticPut { field_idx, value } = &insn.insn_type {
             let field_idx_usize = *field_idx as usize;
 
@@ -224,8 +224,11 @@ fn extract_constant_value(arg: &InsnArg, method: &MethodData) -> Option<FieldVal
 
 /// Trace back through instructions to find the constant value assigned to a register
 fn trace_register_constant(reg_num: usize, method: &MethodData) -> Option<FieldValue> {
+    // Get instructions (lazy loading support)
+    let instructions = method.instructions()?;
+
     // Scan instructions backwards to find the last assignment to this register
-    for insn in method.instructions.iter().rev() {
+    for insn in instructions.iter().rev() {
         match &insn.insn_type {
             InsnType::Const { dest, value } if dest.reg_num == reg_num as u16 => {
                 // Found a const instruction that writes to our register
@@ -243,14 +246,14 @@ fn trace_register_constant(reg_num: usize, method: &MethodData) -> Option<FieldV
                     jadx_ir::instructions::LiteralArg::Null => FieldValue::Null,
                 });
             }
-            InsnType::ConstString { dest, string_idx } if dest.reg_num == reg_num as u16 => {
+            InsnType::ConstString { dest, .. } if dest.reg_num == reg_num as u16 => {
                 // Found a const-string instruction
                 // We need to resolve the string from the DEX string pool
                 // For now, we can't do this without access to DexFile
                 // Return None to skip this (will be fixed when we add DexFile access)
                 return None;
             }
-            InsnType::ConstClass { dest, type_idx } if dest.reg_num == reg_num as u16 => {
+            InsnType::ConstClass { dest, .. } if dest.reg_num == reg_num as u16 => {
                 // Found a const-class instruction
                 // Similar issue - need DexFile to resolve type_idx
                 return None;
@@ -301,7 +304,7 @@ fn insn_writes_to_register(insn: &InsnType, reg_num: usize) -> bool {
 /// Apply field initializations by updating field values and removing SPUT instructions
 fn apply_field_inits(class: &mut ClassData, inits: &[FieldInitInfo], clinit_idx: usize) {
     // Build a set of instruction indices to remove
-    let mut remove_indices: HashSet<usize> = inits.iter().map(|i| i.insn_idx).collect();
+    let remove_indices: HashSet<usize> = inits.iter().map(|i| i.insn_idx).collect();
 
     // Update fields with their initial values
     for init in inits {
@@ -312,12 +315,15 @@ fn apply_field_inits(class: &mut ClassData, inits: &[FieldInitInfo], clinit_idx:
 
     // Remove the SPUT instructions from the method (in reverse order to maintain indices)
     let method = &mut class.methods[clinit_idx];
+
+    // Get mutable access to instructions using the proper getter
+    let instructions = method.get_instructions_mut();
     let mut indices_to_remove: Vec<usize> = remove_indices.into_iter().collect();
     indices_to_remove.sort_by(|a, b| b.cmp(a)); // Sort in reverse
 
     for idx in indices_to_remove {
-        if idx < method.instructions.len() {
-            method.instructions.remove(idx);
+        if idx < instructions.len() {
+            instructions.remove(idx);
         }
     }
 }
@@ -339,7 +345,7 @@ mod tests {
         // Create <clinit> method with SPUT instruction
         let mut clinit = MethodData::new("<clinit>".to_string(), 0x0008, ArgType::Void); // 0x0008 = static
         clinit.regs_count = 2;
-        clinit.instructions = vec![
+        clinit.set_instructions(vec![
             InsnNode::new(
                 InsnType::Const {
                     dest: RegisterArg::new(0),
@@ -355,7 +361,7 @@ mod tests {
                 1,
             ),
             InsnNode::new(InsnType::Return { value: None }, 2),
-        ];
+        ]);
 
         class.methods.push(clinit);
 
@@ -370,10 +376,11 @@ mod tests {
 
         // Verify SPUT instruction was removed
         let clinit_method = &class.methods[0];
-        assert!(!clinit_method
-            .instructions
-            .iter()
-            .any(|i| matches!(i.insn_type, InsnType::StaticPut { .. })));
+        let has_sput = clinit_method
+            .instructions()
+            .map(|insns| insns.iter().any(|i| matches!(i.insn_type, InsnType::StaticPut { .. })))
+            .unwrap_or(false);
+        assert!(!has_sput);
     }
 
     #[test]
@@ -387,7 +394,7 @@ mod tests {
         // Create <clinit> method
         let mut clinit = MethodData::new("<clinit>".to_string(), 0x0008, ArgType::Void);
         clinit.regs_count = 2;
-        clinit.instructions = vec![
+        clinit.set_instructions(vec![
             InsnNode::new(
                 InsnType::Const {
                     dest: RegisterArg::new(0),
@@ -403,7 +410,7 @@ mod tests {
                 1,
             ),
             InsnNode::new(InsnType::Return { value: None }, 2),
-        ];
+        ]);
 
         class.methods.push(clinit);
 
@@ -415,9 +422,10 @@ mod tests {
 
         // SPUT should still be there
         let clinit_method = &class.methods[0];
-        assert!(clinit_method
-            .instructions
-            .iter()
-            .any(|i| matches!(i.insn_type, InsnType::StaticPut { .. })));
+        let has_sput = clinit_method
+            .instructions()
+            .map(|insns| insns.iter().any(|i| matches!(i.insn_type, InsnType::StaticPut { .. })))
+            .unwrap_or(false);
+        assert!(has_sput);
     }
 }

@@ -286,8 +286,10 @@ impl ImportCollector {
             for annotation in &method.annotations {
                 self.add_internal_name(&annotation.annotation_type);
             }
-            // Collect types from method body instructions
-            self.collect_from_instructions(&method.instructions, dex_info);
+            // Collect types from method body instructions (if loaded)
+            if let Some(instructions) = method.instructions() {
+                self.collect_from_instructions(instructions, dex_info);
+            }
         }
     }
 
@@ -706,7 +708,11 @@ fn is_default_constructor(method: &jadx_ir::MethodData) -> bool {
     // 1. invoke-direct {v0}, Ljava/lang/Object;-><init>()V  (or similar super call)
     // 2. return-void
     // May also have a const for literal 0 or similar
-    let insn_count = method.instructions.len();
+    let insns = match method.instructions() {
+        Some(i) => i,
+        None => return false, // Can't check without instructions
+    };
+    let insn_count = insns.len();
     if insn_count > 3 {
         return false;
     }
@@ -716,7 +722,7 @@ fn is_default_constructor(method: &jadx_ir::MethodData) -> bool {
     let mut has_super_init = false;
     let mut has_return = false;
 
-    for insn in &method.instructions {
+    for insn in insns {
         match &insn.insn_type {
             InsnType::Invoke { kind: InvokeKind::Direct | InvokeKind::Super, .. } => {
                 // This is likely the super() call

@@ -50,12 +50,14 @@ pub fn decompile_method(
     method: &MethodData,
     hierarchy: Option<&jadx_ir::ClassHierarchy>,
 ) -> Option<DecompiledMethod> {
-    if method.instructions.is_empty() {
+    // Check if instructions are loaded (lazy loading support)
+    let insns = method.instructions()?;
+    if insns.is_empty() {
         return None;
     }
 
     // Stage 1: Block splitting (pass reference to avoid Vec clone)
-    let blocks = split_blocks(&method.instructions);
+    let blocks = split_blocks(insns);
     if blocks.blocks.is_empty() {
         return None;
     }
@@ -96,7 +98,7 @@ pub fn decompile_method(
 
 /// Check if a method has code that can be decompiled
 pub fn method_has_code(method: &MethodData) -> bool {
-    !method.instructions.is_empty()
+    !method.get_instructions().is_empty()
 }
 
 /// Get a summary of decompilation results
@@ -152,7 +154,7 @@ mod tests {
         // Simple method: return 42
         // const v0, 42
         // return v0
-        method.instructions = vec![
+        method.set_instructions(vec![
             InsnNode::new(
                 InsnType::Const {
                     dest: RegisterArg::new(0),
@@ -166,7 +168,7 @@ mod tests {
                 },
                 1,
             ),
-        ];
+        ]);
 
         method
     }
@@ -206,7 +208,7 @@ mod tests {
         // :cond_true
         // const v1, 1
         // return v1
-        method.instructions = vec![
+        method.set_instructions(vec![
             InsnNode::new(
                 InsnType::If {
                     condition: jadx_ir::instructions::IfCondition::Eq,
@@ -242,7 +244,7 @@ mod tests {
                 },
                 4,
             ),
-        ];
+        ]);
 
         let result = decompile_method(&method, None);
         assert!(result.is_some());

@@ -10,7 +10,12 @@ use jadx_ir::instructions::{InsnType, InsnArg};
 /// Process Kotlin Intrinsics calls in a method to extract parameter names
 pub fn process_kotlin_intrinsics(method: &mut MethodData) {
     // Early exit checks
-    if method.instructions.is_empty() || method.arg_types.is_empty() {
+    if method.instructions.is_none() || method.arg_types.is_empty() {
+        return;
+    }
+
+    let instructions = method.get_instructions();
+    if instructions.is_empty() {
         return;
     }
 
@@ -23,10 +28,10 @@ pub fn process_kotlin_intrinsics(method: &mut MethodData) {
     // Scan instructions for Intrinsics calls
     let mut param_names_found = Vec::new();
 
-    for (insn_idx, insn) in method.instructions.iter().enumerate() {
+    for (insn_idx, insn) in instructions.iter().enumerate() {
         if let InsnType::Invoke { method_idx, args, .. } = &insn.insn_type {
             // Check if this is an Intrinsics call
-            if !intrinsics_methods.contains(method_idx) {
+            if !intrinsics_methods.contains(&method_idx) {
                 continue;
             }
 
@@ -35,7 +40,7 @@ pub fn process_kotlin_intrinsics(method: &mut MethodData) {
             //          Intrinsics.checkNotNullParameter(register, "paramName", "className")
             if args.len() >= 2 {
                 // Second argument should be the parameter name string
-                if let Some(param_name) = extract_string_from_arg(&args[1], insn_idx, &method.instructions) {
+                if let Some(param_name) = extract_string_from_arg(&args[1], insn_idx, instructions) {
                     // First argument is the parameter value (register)
                     if let InsnArg::Register(reg) = &args[0] {
                         // Map register to parameter index

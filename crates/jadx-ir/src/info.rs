@@ -1,9 +1,77 @@
 //! Information types (class info, method info, etc.)
 //!
 //! These types hold metadata about classes and methods during decompilation.
+//!
+//! ## Lazy Loading (like Java JADX)
+//!
+//! To minimize memory usage, method instructions are loaded on-demand:
+//!
+//! ```text
+//! NOT_LOADED → LOADED → PROCESS_COMPLETE → UNLOADED
+//! ```
+//!
+//! - `NOT_LOADED`: Only metadata stored (name, signature, bytecode reference)
+//! - `LOADED`: Instructions decoded from bytecode
+//! - `PROCESS_COMPLETE`: Analysis passes complete
+//! - `UNLOADED`: Instructions dropped, only generated code remains
+//!
+//! This allows processing large APKs with bounded memory by loading
+//! methods only when needed and unloading immediately after code generation.
 
 use crate::instructions::InsnNode;
 use crate::types::ArgType;
+
+/// Processing state for classes and methods (mirrors Java JADX's ProcessState)
+///
+/// This enables lazy loading: load instructions on-demand, unload after codegen.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum ProcessState {
+    /// Not yet loaded - only metadata available, bytecode not decoded
+    #[default]
+    NotLoaded,
+    /// Loaded - instructions decoded and available
+    Loaded,
+    /// Processing started - analysis passes running
+    ProcessStarted,
+    /// Processing complete - ready for code generation
+    ProcessComplete,
+    /// Generated and unloaded - code written, memory freed
+    GeneratedAndUnloaded,
+}
+
+impl ProcessState {
+    /// Check if processing is complete (either still loaded or already unloaded)
+    pub fn is_process_complete(&self) -> bool {
+        matches!(self, ProcessState::ProcessComplete | ProcessState::GeneratedAndUnloaded)
+    }
+
+    /// Check if instructions are currently available
+    pub fn is_loaded(&self) -> bool {
+        matches!(self, ProcessState::Loaded | ProcessState::ProcessStarted | ProcessState::ProcessComplete)
+    }
+}
+
+/// Reference to bytecode in DEX file for lazy loading
+///
+/// Instead of storing decoded instructions upfront, we store this lightweight
+/// reference and decode only when needed. This is the key to JADX's memory efficiency.
+#[derive(Debug, Clone)]
+pub struct BytecodeRef {
+    /// DEX file index (for multi-DEX APKs)
+    pub dex_idx: u32,
+    /// Method index within the DEX file
+    pub method_idx: u32,
+    /// Bytecode offset within the DEX file (for direct access)
+    pub code_offset: u64,
+    /// Number of code units (2 bytes each)
+    pub insns_count: u32,
+    /// Register count
+    pub regs_count: u16,
+    /// Input parameter count
+    pub ins_count: u16,
+    /// Output count
+    pub outs_count: u16,
+}
 
 /// An annotation with its type and element values
 #[derive(Debug, Clone)]
@@ -118,6 +186,11 @@ pub enum MethodInlineAttr {
 }
 
 /// Method information and IR
+///
+/// Supports lazy loading like Java JADX's MethodNode:
+/// - `bytecode_ref`: Lightweight reference to bytecode (always present if has code)
+/// - `instructions`: Only populated when load() is called
+/// - After codegen, call unload() to free memory
 #[derive(Debug, Clone)]
 pub struct MethodData {
     /// Method name
@@ -138,8 +211,13 @@ pub struct MethodData {
     pub ins_count: u16,
     /// Output count
     pub outs_count: u16,
-    /// Instructions (after DEX -> IR conversion)
-    pub instructions: Vec<InsnNode>,
+    /// Processing state for lazy loading
+    pub state: ProcessState,
+    /// Reference to bytecode for lazy loading (None for abstract/native methods)
+    pub bytecode_ref: Option<BytecodeRef>,
+    /// Instructions - None when not loaded, Some when loaded
+    /// Use load() to populate, unload() to free
+    pub instructions: Option<Vec<InsnNode>>,
     /// Try-catch blocks
     pub try_blocks: Vec<TryBlock>,
     /// Debug info (line numbers, local variables)
@@ -151,7 +229,7 @@ pub struct MethodData {
 }
 
 impl MethodData {
-    /// Create a new method data
+    /// Create a new method data (starts in NotLoaded state)
     pub fn new(name: String, access_flags: u32, return_type: ArgType) -> Self {
         MethodData {
             name,
@@ -163,12 +241,123 @@ impl MethodData {
             regs_count: 0,
             ins_count: 0,
             outs_count: 0,
-            instructions: Vec::new(),
+            state: ProcessState::NotLoaded,
+            bytecode_ref: None,
+            instructions: None,
             try_blocks: Vec::new(),
             debug_info: None,
             annotations: Vec::new(),
             inline_attr: None,
         }
+    }
+
+    /// Create a method with pre-loaded instructions (for backwards compatibility)
+    ///
+    /// This creates a method in Loaded state with instructions already decoded.
+    /// Used during the transition period; new code should use lazy loading.
+    pub fn new_with_instructions(
+        name: String,
+        access_flags: u32,
+        return_type: ArgType,
+        instructions: Vec<InsnNode>,
+    ) -> Self {
+        MethodData {
+            name,
+            alias: None,
+            access_flags,
+            return_type,
+            arg_types: Vec::new(),
+            arg_names: Vec::new(),
+            regs_count: 0,
+            ins_count: 0,
+            outs_count: 0,
+            state: ProcessState::Loaded,
+            bytecode_ref: None,
+            instructions: Some(instructions),
+            try_blocks: Vec::new(),
+            debug_info: None,
+            annotations: Vec::new(),
+            inline_attr: None,
+        }
+    }
+
+    /// Unload instructions to free memory (like Java JADX's MethodNode.unload())
+    ///
+    /// Call this after code generation to release memory. The method metadata
+    /// (name, signature, annotations) is retained for cross-reference resolution.
+    pub fn unload(&mut self) {
+        if self.state == ProcessState::NotLoaded || self.state == ProcessState::GeneratedAndUnloaded {
+            return;
+        }
+        // Free instructions - this is where the memory savings come from
+        self.instructions = None;
+        // Free try blocks (they reference instruction offsets, useless without instructions)
+        self.try_blocks.clear();
+        self.try_blocks.shrink_to_fit();
+        // Keep debug_info - it's small and useful for stack traces
+        // Keep annotations - they're part of the class API
+        self.state = ProcessState::GeneratedAndUnloaded;
+    }
+
+    /// Check if instructions are currently loaded and available
+    pub fn is_loaded(&self) -> bool {
+        self.instructions.is_some()
+    }
+
+    /// Get instructions, returns empty slice if not loaded
+    ///
+    /// Use `is_loaded()` to check first, or `instructions()` for Option.
+    /// Returns empty slice instead of panicking for robustness with lazy loading.
+    pub fn get_instructions(&self) -> &[InsnNode] {
+        self.instructions.as_ref()
+            .map(|v| v.as_slice())
+            .unwrap_or(&[])  // Return empty slice if not loaded (lazy loading pattern)
+    }
+
+    /// Get instructions as Option (doesn't panic)
+    pub fn instructions(&self) -> Option<&[InsnNode]> {
+        self.instructions.as_ref().map(|v| v.as_slice())
+    }
+
+    /// Get mutable instructions, panics if not loaded
+    pub fn get_instructions_mut(&mut self) -> &mut Vec<InsnNode> {
+        self.instructions.as_mut()
+            .expect("Method instructions not loaded - call load() first")
+    }
+
+    /// Set instructions (marks method as Loaded)
+    pub fn set_instructions(&mut self, instructions: Vec<InsnNode>) {
+        self.instructions = Some(instructions);
+        self.state = ProcessState::Loaded;
+    }
+
+    /// Load instructions from bytecode reference (lazy loading)
+    ///
+    /// This is the key to JADX-style memory efficiency: instructions are stored
+    /// on disk (via BytecodeRef) and only decoded when actually needed.
+    ///
+    /// IMPORTANT: The actual loading should happen in the caller (converter/main)
+    /// that has access to jadx_dex parsing functions. This method is a placeholder
+    /// for the lazy loading pattern. Real implementation decodes instructions from
+    /// the bytecode stored in bytecode_ref.
+    ///
+    /// For now, this is a no-op since instructions are loaded in converter before
+    /// the class is returned. In a full lazy loading implementation, this would
+    /// decode instructions from bytecode_ref on-demand.
+    pub fn load(&mut self, _dex_bytes: &[u8]) -> Result<(), String> {
+        // Already loaded
+        if self.is_loaded() {
+            return Ok(());
+        }
+
+        // No bytecode to load (abstract method, native, etc.)
+        let Some(_bytecode_ref) = &self.bytecode_ref else {
+            return Ok(());
+        };
+
+        // TODO: Implement actual lazy loading by decoding instructions from bytecode_ref
+        // For now, instructions should be loaded by the converter before returning the class
+        Ok(())
     }
 
     /// Get the display name (alias if set, otherwise original name)
@@ -275,6 +464,9 @@ pub struct LocalVar {
 }
 
 /// Class information
+///
+/// Supports lazy loading like Java JADX's ClassNode.
+/// Call `unload()` after code generation to free method instructions.
 #[derive(Debug, Clone)]
 pub struct ClassData {
     /// Class type descriptor (e.g., "Lcom/example/Foo;")
@@ -291,6 +483,8 @@ pub struct ClassData {
     pub interfaces: Vec<String>,
     /// Source file name
     pub source_file: Option<String>,
+    /// Processing state for lazy loading
+    pub state: ProcessState,
     /// Methods
     pub methods: Vec<MethodData>,
     /// Static fields
@@ -312,11 +506,32 @@ impl ClassData {
             superclass: None,
             interfaces: Vec::new(),
             source_file: None,
+            state: ProcessState::NotLoaded,
             methods: Vec::new(),
             static_fields: Vec::new(),
             instance_fields: Vec::new(),
             annotations: Vec::new(),
         }
+    }
+
+    /// Unload all method instructions to free memory (like Java JADX's ClassNode.unload())
+    ///
+    /// Call this after code generation. The class metadata is retained.
+    pub fn unload(&mut self) {
+        for method in &mut self.methods {
+            method.unload();
+        }
+        self.state = ProcessState::GeneratedAndUnloaded;
+    }
+
+    /// Get the current processing state
+    pub fn get_state(&self) -> ProcessState {
+        self.state
+    }
+
+    /// Set processing state
+    pub fn set_state(&mut self, state: ProcessState) {
+        self.state = state;
     }
 
     /// Get the display name (alias if set, otherwise simple_name)
@@ -471,5 +686,53 @@ mod tests {
         method.regs_count = 5;
         method.ins_count = 2;
         assert_eq!(method.first_arg_reg(), 3);
+    }
+
+    #[test]
+    fn test_method_unload() {
+        use crate::instructions::{InsnNode, InsnType};
+
+        let mut method = MethodData::new("test".to_string(), 0, ArgType::Void);
+        method.set_instructions(vec![
+            InsnNode::new(InsnType::Nop, 0),
+            InsnNode::new(InsnType::Nop, 1),
+        ]);
+
+        assert!(method.is_loaded());
+        assert_eq!(method.state, ProcessState::Loaded);
+
+        method.unload();
+
+        assert!(!method.is_loaded());
+        assert_eq!(method.state, ProcessState::GeneratedAndUnloaded);
+        assert!(method.instructions.is_none());
+    }
+
+    #[test]
+    fn test_class_unload() {
+        use crate::instructions::{InsnNode, InsnType};
+
+        let mut class = ClassData::new("Lcom/example/Test;".to_string(), 0);
+
+        let mut method1 = MethodData::new("method1".to_string(), 0, ArgType::Void);
+        method1.set_instructions(vec![InsnNode::new(InsnType::Nop, 0)]);
+
+        let mut method2 = MethodData::new("method2".to_string(), 0, ArgType::Void);
+        method2.set_instructions(vec![InsnNode::new(InsnType::Nop, 0)]);
+
+        class.methods.push(method1);
+        class.methods.push(method2);
+
+        // Both methods loaded
+        assert!(class.methods[0].is_loaded());
+        assert!(class.methods[1].is_loaded());
+
+        // Unload entire class
+        class.unload();
+
+        // All methods unloaded
+        assert!(!class.methods[0].is_loaded());
+        assert!(!class.methods[1].is_loaded());
+        assert_eq!(class.state, ProcessState::GeneratedAndUnloaded);
     }
 }
