@@ -1055,117 +1055,106 @@ fn process_dex_bytes(
         }
     }
 
-    // Java JADX batching strategy: Process classes in size-limited batches
-    // See: jadx-fast/jadx-core/src/main/java/jadx/core/utils/DecompilerScheduler.java
-    // With thread pool limited to 4 cores (see args.rs), we can safely use larger batches.
-    // Each thread will process one batch sequentially, keeping memory bounded.
-    // With 4 threads × batch_size 12 = max 48 classes in-flight with instructions loaded.
-    const BATCH_SIZE: usize = 12;
+    // Java JADX memory strategy: Sequential class processing with proper unload
+    // See: jadx-fast/jadx-core/src/main/java/jadx/core/ProcessClass.java
+    // CRITICAL FIX: Process classes SEQUENTIALLY (like Java JADX does), not in parallel!
+    // Java JADX groups classes into batches but processes them SEQUENTIALLY in each thread.
+    // With rayon par_iter(), we were spawning 56 tasks that all tried to load instructions,
+    // causing 256GB memory explosion. Solution: Process sequentially without parallelism.
+    // Users who want speed can use RAYON_NUM_THREADS env var or -j flag (future enhancement).
 
     let error_count = std::sync::atomic::AtomicUsize::new(0);
     let hierarchy_arc = std::sync::Arc::new(class_hierarchy);
 
-    // Build batches of class indices
-    let batches: Vec<Vec<u32>> = class_indices
-        .chunks(BATCH_SIZE)
-        .map(|chunk| chunk.to_vec())
-        .collect();
+    // Process classes sequentially (Java JADX pattern)
+    for &idx in &class_indices {
+        // Fetch class name on-demand to avoid storing all names in memory
+        let class_desc = dex.get_class(idx)
+            .ok()
+            .and_then(|c| c.class_type().ok().map(|t| t.to_string()))
+            .unwrap_or_else(|| format!("LUnknownClass{};", idx));
 
-    // Process batches in parallel - each batch is ONE task
-    batches.par_iter().for_each(|batch| {
-        // Within each batch, process classes sequentially (no per-class locks)
-        for &idx in batch {
-            // Fetch class name on-demand to avoid storing all names in memory
-            let class_desc = dex.get_class(idx)
-                .ok()
-                .and_then(|c| c.class_type().ok().map(|t| t.to_string()))
-                .unwrap_or_else(|| format!("LUnknownClass{};", idx));
+        let out_path = {
+            let rel_path = deobf::class_output_rel_path(&class_desc, &alias_registry);
+            out_src.join(&rel_path)
+        };
 
-            let out_path = {
-                let rel_path = deobf::class_output_rel_path(&class_desc, &alias_registry);
-                out_src.join(&rel_path)
-            };
-
-            // Convert class to IR (loaded on-demand)
-            let ir_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-                dex.get_class(idx)
-                    .map_err(|e| format!("Failed to get class: {}", e))
-                    .and_then(|class| {
-                        converter::convert_class(&dex, &class, args.debug_info())
-                            .map(|mut class_data| {
-                                // Process Kotlin metadata annotations (extracts names)
-                                if args.process_kotlin_metadata() {
-                                    if let Err(e) = jadx_kotlin::process_kotlin_metadata(&mut class_data) {
-                                        tracing::debug!("Kotlin metadata processing failed for {}: {}", class_desc, e);
-                                    }
+        // Convert class to IR
+        let ir_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            dex.get_class(idx)
+                .map_err(|e| format!("Failed to get class: {}", e))
+                .and_then(|class| {
+                    converter::convert_class(&dex, &class, args.debug_info())
+                        .map(|mut class_data| {
+                            // Process Kotlin metadata annotations (extracts names)
+                            if args.process_kotlin_metadata() {
+                                if let Err(e) = jadx_kotlin::process_kotlin_metadata(&mut class_data) {
+                                    tracing::debug!("Kotlin metadata processing failed for {}: {}", class_desc, e);
                                 }
+                            }
 
-                                // Apply aliases from deterministic prepass (if any)
-                                deobf::apply_aliases_from_registry(&mut class_data, &alias_registry);
-                                class_data
-                            })
-                            .map_err(|e| format!("Failed to convert: {}", e))
-                    })
-            }))
-            .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_desc)));
+                            // Apply aliases from deterministic prepass (if any)
+                            deobf::apply_aliases_from_registry(&mut class_data, &alias_registry);
+                            class_data
+                        })
+                        .map_err(|e| format!("Failed to convert: {}", e))
+                })
+        }))
+        .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_desc)));
 
-            // Generate code (each class becomes a separate .java file)
-            let java_code = match ir_result {
-                Ok(mut ir_class) => {
-                    // Load instructions BEFORE codegen (required for body generation)
-                    // With small batch size (4), only ~4-14 classes have instructions in-flight,
-                    // keeping memory bounded to ~4GB instead of 256GB with 56-core par_iter.
-                    for method in &mut ir_class.methods {
-                        let _ = converter::load_method_instructions(method, &dex);
-                    }
-
-                    // Extract static field initializations AFTER instructions are loaded
-                    // (matches Java JADX pattern: load() → passes → codegen)
-                    jadx_passes::extract_field_init(&mut ir_class);
-
-                    let config = jadx_codegen::ClassGenConfig {
-                        use_imports: args.use_imports(),
-                        show_debug: false,
-                        fallback: args.effective_decompilation_mode() == DecompilationMode::Fallback,
-                        escape_unicode: args.escape_unicode,
-                        inline_anonymous: args.inline_anonymous(),
-                        add_debug_lines: args.add_debug_lines,
-                        inline_methods: args.inline_methods(),
-                        hierarchy: Some(hierarchy_arc.clone()),
-                    };
-                    let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
-                    let code = jadx_codegen::generate_class_with_inner_classes(
-                        &ir_class,
-                        &config,
-                        Some(dex_arc),
-                        None,
-                    );
-
-                    // UNLOAD PHASE: Free method instructions immediately after code generation
-                    ir_class.unload();
-                    code
+        // Generate code
+        let java_code = match ir_result {
+            Ok(mut ir_class) => {
+                // Load instructions before codegen
+                for method in &mut ir_class.methods {
+                    let _ = converter::load_method_instructions(method, &dex);
                 }
-                Err(e) => {
-                    error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-                    format!(
-                        "// Failed to decompile: {}\nclass {} {{\n}}\n",
-                        e,
-                        class_desc.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown")
-                    )
-                }
-            };
 
-            // Write to file
-            if let Err(e) = std::fs::write(&out_path, java_code) {
-                tracing::warn!("Failed to write {}: {}", out_path.display(), e);
+                // Extract static field initializations
+                jadx_passes::extract_field_init(&mut ir_class);
+
+                let config = jadx_codegen::ClassGenConfig {
+                    use_imports: args.use_imports(),
+                    show_debug: false,
+                    fallback: args.effective_decompilation_mode() == DecompilationMode::Fallback,
+                    escape_unicode: args.escape_unicode,
+                    inline_anonymous: args.inline_anonymous(),
+                    add_debug_lines: args.add_debug_lines,
+                    inline_methods: args.inline_methods(),
+                    hierarchy: Some(hierarchy_arc.clone()),
+                };
+                let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
+                let code = jadx_codegen::generate_class_with_inner_classes(
+                    &ir_class,
+                    &config,
+                    Some(dex_arc),
+                    None,
+                );
+
+                // Unload immediately after codegen to free memory
+                ir_class.unload();
+                code
+            }
+            Err(e) => {
                 error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                format!(
+                    "// Failed to decompile: {}\nclass {} {{\n}}\n",
+                    e,
+                    class_desc.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown")
+                )
             }
+        };
 
-            if let Some(pb) = progress.as_ref() {
-                pb.inc(1);
-            }
+        // Write to file
+        if let Err(e) = std::fs::write(&out_path, java_code) {
+            tracing::warn!("Failed to write {}: {}", out_path.display(), e);
+            error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
         }
-    });  // End of batch processing
+
+        if let Some(pb) = progress.as_ref() {
+            pb.inc(1);
+        }
+    }
 
     // Explicit cleanup - drop class_indices before returning
     drop(class_indices);
