@@ -1055,18 +1055,28 @@ fn process_dex_bytes(
         }
     }
 
-    // Process all classes in parallel - rayon automatically bounds by thread count
-    // Memory usage is limited by thread count (e.g., 10 threads = max 10 classes in-flight)
-    // For huge obfuscated APKs, reduce --threads-count to 2-4 to minimize memory
-    let error_count = std::sync::atomic::AtomicUsize::new(0);
+    // Java JADX batching strategy: Process classes in size-limited batches
+    // See: jadx-fast/jadx-core/src/main/java/jadx/core/utils/DecompilerScheduler.java
+    // Instead of par_iter on each class (causing 256GB memory explosion),
+    // build batches of 48 classes and process each batch as ONE parallel task.
+    // This limits memory to `thread_count × 48` instead of `thread_count × class_count`.
+    const BATCH_SIZE: usize = 48;
 
-    // Create Arc ONCE outside the loop - cloning Arc is cheap (just refcount bump)
-    // Previously this was cloning the entire hierarchy for every class = 70GB+ memory!
+    let error_count = std::sync::atomic::AtomicUsize::new(0);
     let hierarchy_arc = std::sync::Arc::new(class_hierarchy);
 
-    class_indices.par_iter().for_each(|&idx| {
-        // Fetch class name on-demand to avoid storing all names in memory
-        let class_desc = dex.get_class(idx)
+    // Build batches of class indices
+    let batches: Vec<Vec<u32>> = class_indices
+        .chunks(BATCH_SIZE)
+        .map(|chunk| chunk.to_vec())
+        .collect();
+
+    // Process batches in parallel - each batch is ONE task
+    batches.par_iter().for_each(|batch| {
+        // Within each batch, process classes sequentially (no per-class locks)
+        for &idx in batch {
+            // Fetch class name on-demand to avoid storing all names in memory
+            let class_desc = dex.get_class(idx)
             .ok()
             .and_then(|c| c.class_type().ok().map(|t| t.to_string()))
             .unwrap_or_else(|| format!("LUnknownClass{};", idx));
@@ -1153,10 +1163,11 @@ fn process_dex_bytes(
 
         // IR is dropped here automatically - memory freed (methods unloaded above)
 
-        if let Some(pb) = progress {
-            pb.inc(1);
+            if let Some(pb) = progress.as_ref() {
+                pb.inc(1);
+            }
         }
-    });  // End of par_iter().for_each
+    });  // End of batch processing
 
     // Explicit cleanup - drop class_indices before returning
     drop(class_indices);
