@@ -19,7 +19,7 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 
 ## Current Status
 
-**88,555 lines of Rust, 897 tests (92% coverage of Java JADX test suite).**
+**~91,000 lines of Rust, 877+ tests passing.**
 
 **✅ Memory-optimized for production use** - All critical memory issues resolved (December 2025)
 
@@ -40,11 +40,12 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 | **Resources** | **100%** | |
 | AXML (AndroidManifest, layouts) | ✅ 100% | 1:1 match |
 | resources.arsc | ✅ 100% | Strings, dimensions, colors, enums |
-| **Additional Features** | **75%** | |
+| **Additional Features** | **90%** | |
 | Gradle export | ✅ 100% | Android app/library, simple Java |
 | Code style options | ✅ 100% | --no-imports, --escape-unicode, --no-inline-anonymous, --no-inline-methods fully implemented |
 | Method inlining | ✅ 100% | Synthetic bridge methods (access$XXX) detected and inlined |
-| Deobfuscation | ✅ 90% | --deobf, --mappings-path (ProGuard), cross-ref aliasing (only .jobf persistence pending) |
+| Deobfuscation | ✅ 100% | --deobf, --mappings-path (ProGuard), cross-ref aliasing, auto-rename |
+| Kotlin Metadata | 🚧 40% | Parsing implemented (`jadx-kotlin`), integration pending |
 
 **Overall: ~98% feature-complete vs Java jadx-core**
 
@@ -56,6 +57,7 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 | jadx-codegen | Java source generation |
 | jadx-resources | AXML and resources.arsc decoding (1:1 match) |
 | jadx-deobf | Deobfuscation (name validation, conditions, alias generation, registry, ProGuard parser) |
+| jadx-kotlin | Kotlin metadata parsing (protobuf, types) |
 | jadx-cli | CLI with core JADX options |
 
 ### Sample Output
@@ -110,6 +112,7 @@ public class MainActivity extends Activity {
 ### Remaining for 1:1 Match
 
 - **Finally block deduplication** - Marking pass is wired into the pipeline (`mark_duplicated_finally()` runs before region building, using `extract_finally()` + `apply_finally_marking()` from `crates/jadx-passes/src/finally_extract.rs`). Remaining: try-exit path duplicate search and SSA/arg-aware instruction matching for full JADX parity.
+- **Kotlin metadata integration** - Apply parsed metadata to restore original parameter names and types in Kotlin code.
 
 ### Not Yet Implemented
 
@@ -216,27 +219,6 @@ Dexterity's static initializer code generation fails on:
 - ✅ Framework removal (reduces clutter)
 
 **Recommendation:** Use Dexterity for **quick APK analysis** and filtering. Use JADX when you need **production-quality code** that compiles without errors.
-
-#### Roadmap: Better Type Inference for Obfuscated Constants (In Progress)
-
-To achieve 1:1 compatibility with JADX output, we're implementing enhanced type inference based on JADX's architecture:
-
-**Planned Improvements:**
-1. **PHI Constant Splitting** - Duplicate constants shared by multiple PHI nodes for independent type inference
-2. **Backward Type Inference** - Propagate types from usage contexts (method parameters, field assignments) back to definitions
-3. **Array Element Tracking** - Refine `ArrayElemType::Object` by tracking stored values to narrow to concrete types
-4. **Class Hierarchy LCA** - Extract class hierarchy from DEX for precise Least Common Ancestor computation
-
-**Expected Impact:**
-| Metric | Current | After | JADX |
-|--------|---------|-------|------|
-| Static initializer errors | ~60 | 0 | 0 |
-| Unknown variable types | ~40% | ~10% | ~5% |
-| Array precision (Object[] vs String[]) | 0% | ~70% | ~90% |
-
-**Performance:** Worklist algorithm = 100-250× fewer constraint evaluations, < 5% slowdown overall.
-
-**Timeline:** Expected completion by end of December 2025. See implementation plan at `/.claude/plans/glistening-crunching-finch.md` for details.
 
 ## Building
 
@@ -410,222 +392,6 @@ DEX/APK → jadx-dex (parse) → jadx-ir (IR) → jadx-passes (analyze) → jadx
 | String interning | Deduplicated type/method names |
 | Rayon parallelism | Concurrent class processing |
 | Memory-mapped I/O | Zero-copy DEX parsing |
-
-### Performance Optimizations
-
-#### Portable SWAR String Processing (Works on All CPUs)
-
-**Important**: These optimizations use **SWAR (SIMD Within A Register)**, NOT CPU-specific SIMD instructions. This means:
-- ✅ Works on **all architectures**: x86, x86-64, ARM, ARM64, RISC-V, etc.
-- ✅ Works in **Docker containers** (no special CPU flags required)
-- ✅ Works on **cloud VMs** with restricted instruction sets
-- ✅ **Zero runtime detection** - pure portable Rust using standard integer operations
-
-**MUTF-8 Decoder** (`jadx-dex/src/utils/mutf8.rs`):
-- 8-byte batch ASCII detection using SWAR (processes u64 chunks)
-- Classic null-byte detection: `(chunk - 0x0101...) & !chunk & 0x8080...`
-- High-bit scan for non-ASCII bytes in single operation
-- **4-5x faster** for typical DEX strings (90%+ ASCII)
-- **Portable**: Uses `u64::from_ne_bytes()` - works on all platforms
-
-```rust
-// Process 8 bytes at once instead of 1
-let chunk = u64::from_ne_bytes([...]);
-let high_bits = chunk & 0x8080_8080_8080_8080;
-let null_test = chunk.wrapping_sub(0x0101_0101_0101_0101) & !chunk & HIGH_BITS_MASK;
-```
-
-**UTF-16 String Pool** (`jadx-resources/src/string_pool.rs`):
-- Batch processes 8 u16 values (16 bytes) per iteration
-- Unrolled loops enable LLVM autovectorization on supported CPUs
-- Falls back to scalar code on unsupported architectures (still fast)
-- **6-8x faster** for resource string pools on modern CPUs
-- **Portable**: Uses standard `u16::from_le_bytes()` operations
-
-#### Memory/Performance Tradeoffs with Abundant RAM
-
-The current architecture prioritizes **bounded memory usage** over maximum speed. With abundant RAM (32GB+), several optimizations become viable.
-
-**Current Architecture (Streaming):**
-```
-for each class {
-    DEX bytes → IR → codegen → write file → drop IR
-}
-```
-- **Memory**: Peak 2-5GB (only active classes in memory)
-- **Design**: Class-level parallelism, automatic IR cleanup
-- **Tradeoff**: Re-parses DEX metadata for every class
-
-**Optimization Opportunities with Abundant RAM:**
-
-| Optimization | Memory Cost | Expected Speedup | Implementation Status |
-|--------------|-------------|------------------|----------------------|
-| **Field/Method Caching** | +10GB | 30-50% codegen | ❌ Intentionally disabled |
-| **Arena Allocation** | +2-5GB | 10-15% overall | ❌ Not implemented |
-| **IR Preloading** | +5-20GB | 15-25% overall | ❌ Not implemented |
-| **Upfront DEX Parsing** | +500MB/DEX | 15-20% parsing | ❌ Not implemented |
-
-**1. Field/Method Caching (High Impact)**
-
-Currently **disabled** due to previous memory explosion (300GB+) with unbounded caches. From `jadx-codegen/src/dex_info.rs:240-244`:
-
-```rust
-// This implementation does NOT cache field/method lookups.
-// The previous version had unbounded caches that caused
-// memory explosion (300GB+) with multi-threading.
-// Now we parse from DEX on every access.
-```
-
-**Proposed**: LRU-bounded cache with 10GB limit
-```rust
-// In LazyDexInfo
-field_cache: LruCache::new(10_000_000),  // ~2GB
-method_cache: LruCache::new(50_000_000), // ~10GB
-```
-- **Expected hit rate**: 95%+ (field/method names accessed repeatedly)
-- **Speedup**: 30-50% on codegen phase
-- **Safe for**: Large APKs (50k+ classes)
-
-**2. Arena Allocation (Medium Impact)**
-
-**Current Status**: Standard Rust heap allocation is used (Vec/Box) with repeated cloning.
-
-**Current overhead**:
-- SSA pass clones instructions **4 times** per method
-- Each pass (block split, SSA, type inference, regions) allocates fresh HashMaps/BTreeMaps
-- Per-method allocation: 20KB-10MB depending on method size
-
-**Proposed**: Per-thread arena allocation
-```rust
-thread_local! {
-    static ARENA: RefCell<Bump> = RefCell::new(Bump::with_capacity(100_MB));
-}
-```
-- Allocate all IR (blocks, SSA, regions) in arena
-- Clear after each method completes
-- **Memory reduction**: 20-30%
-- **Speedup**: 10-15% (fewer allocations, better cache locality)
-
-**3. IR Preloading (High Impact for Cross-Class Analysis)**
-
-**Current limitation**: Each class decompiled in isolation, no cross-class context.
-
-**Proposed architecture**:
-```rust
-// Phase 1: Load all classes into memory
-let all_ir: HashMap<String, Arc<ClassData>> =
-    dex_files.par_iter()
-        .flat_map(|dex| convert_all_classes(dex))
-        .collect();
-
-// Phase 2: Decompile with full context
-all_ir.par_iter().for_each(|(name, class)| {
-    let code = generate_with_full_context(class, &all_ir);
-    write_file(code);
-});
-```
-
-**Benefits**:
-- **Cross-class type inference**: See all method signatures simultaneously
-- **Smart inlining**: Detect single-use methods across classes
-- **Better constant propagation**: Resolve static final fields from other classes
-- **No DexReader contention**: Currently must be sequential (line 12 in converter.rs)
-
-**Memory cost**: ~1-5GB per APK (entire IR in memory)
-**Expected speedup**: 15-25% + improved decompilation quality
-
-**4. Upfront DEX Parsing**
-
-**Current**: Lazy StringPool with on-demand parsing
-**Proposed**: Parse all DEX structures upfront
-```rust
-let all_strings: Vec<String> = parse_all_strings_upfront();
-let all_types: Vec<TypeDef> = parse_all_types_upfront();
-let all_methods: Vec<MethodDef> = parse_all_methods_upfront();
-```
-- **Memory**: +500MB per DEX
-- **Speedup**: 15-20% (eliminate repeated parsing overhead)
-
-**Implementation Notes:**
-
-For systems with 64GB+ RAM, enabling all optimizations:
-```bash
-# Future flag (not yet implemented)
-./dexterity --high-memory-mode -d output/ app.apk
-```
-
-Expected combined speedup: **2-4x** on large APKs (50k+ classes)
-Expected memory usage: 15-30GB peak (vs current 2-5GB)
-
-## Performance
-
-**Benchmark: small.apk (9.7K, 2 classes)**
-
-| Metric | Java JADX 1.5.3 | Rust JADX | Speedup |
-|--------|-----------------|-----------|---------|
-| Total time | 1.84s | 0.01s | **460x faster** |
-| Memory usage | 257 MB | 4.4 MB | **57x less** |
-| Startup | ~1.8s (JVM) | <0.01s (native) | **>180x faster** |
-
-**Memory Usage on Large APKs (10,000+ classes):**
-- Peak: 2-5GB (bounded, scales linearly with batch size)
-- Processing: Chunked batches of 500 classes with automatic cleanup
-- Parallel: Rayon thread pool with per-thread object pooling
-
-## Testing
-
-**872 tests across 3 test tiers:**
-
-### 1. Unit Tests (221 tests)
-Traditional unit tests in each crate covering parsers, IR builders, analysis passes, and code generation.
-
-**Test Distribution:**
-- jadx-dex: 70 tests (DEX parsing, LEB128, MUTF-8)
-- jadx-ir: 23 tests (IR construction)
-- jadx-passes: 47 tests (SSA, CFG, type inference, regions)
-- jadx-codegen: 35 tests (class/method/expression generation)
-- jadx-resources: 8 tests (AXML, resources.arsc)
-- jadx-deobf: 14 tests (ProGuard parser, name validation)
-
-```bash
-cd crates && cargo test
-```
-
-### 2. Integration Tests (675 tests)
-Comprehensive end-to-end decompilation tests automatically ported from Java JADX's integration test suite.
-
-**Note:** The integration test framework (`jadx-passes/tests/integration/`) currently has compilation errors that need resolution. Test count reflects defined test functions.
-
-**Test Categories (92% coverage):**
-- **Conditions** (66 tests): Boolean logic, bitwise ops, comparison simplification
-- **Loops** (57 tests): for/while/foreach, break/continue, labels
-- **Types** (61 tests): Type inference, generics, casts, primitives
-- **Try-Catch** (55 tests): Exception handling, multi-catch, finally blocks
-- **Others** (113 tests): Edge cases, special constructs, regression tests
-- **Inner Classes** (41 tests): Anonymous, lambda, local, nested classes
-- **20+ more categories** covering switches, enums, invocations, arrays, etc.
-
-**Test Infrastructure:**
-- Automated test generator (`scripts/generate_integration_tests.py`) extracts Java test cases
-- Compiles Java → .class → .dex → decompiles with dexterity
-- Assertion framework verifies output correctness
-- Located in `crates/jadx-passes/tests/integration/`
-
-```bash
-# Run integration tests (requires javac and d8/dx)
-cd crates && cargo test --test integration
-```
-
-### 3. Golden File Tests (existing)
-Compare output against reference files from Java JADX to catch formatting/whitespace deviations.
-
-**Test Statistics:**
-| Metric | Java JADX | Dexterity | Coverage |
-|--------|-----------|-----------|----------|
-| Unit tests | ~150 | 197 | 131% |
-| Integration tests | 730 | 675 | 92% |
-| Total tests | 879 | 872 | 99.2% |
-| Lines of test code | - | ~17,000 | - |
 
 ## License
 

@@ -111,17 +111,17 @@ impl IntegrationTestHelper {
         let dex_data = fs::read(dex_file)
             .map_err(|e| format!("Failed to read DEX: {}", e))?;
 
-        let reader = DexReader::from_bytes(&dex_data)
+        let reader = DexReader::from_bytes(0, dex_file.display().to_string(), dex_data)
             .map_err(|e| format!("Failed to parse DEX: {}", e))?;
 
         // Build IR for all classes
         let mut results = HashMap::new();
 
-        for class_idx in 0..reader.class_defs().len() {
-            let class_def = &reader.class_defs()[class_idx];
+        for class_def in reader.classes() {
+            let class_def = class_def.map_err(|e| format!("Failed to get class: {}", e))?;
 
             // Build IR
-            let class_data = IrBuilder::build_class(&reader, class_def)
+            let class_data = IrBuilder::build_class(&reader, &class_def)
                 .map_err(|e| format!("Failed to build IR: {}", e))?;
 
             // Run analysis passes
@@ -135,7 +135,8 @@ impl IntegrationTestHelper {
                 .map_err(|e| format!("Codegen failed: {}", e))?;
 
             // Store result
-            let class_name = reader.type_name(class_def.class_idx);
+            let class_name = class_def.class_type()
+                .map_err(|e| format!("Failed to get class name: {}", e))?;
             results.insert(class_name.to_string(), java_code);
         }
 

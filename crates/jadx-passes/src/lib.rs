@@ -8,6 +8,7 @@ pub mod cfg;
 pub mod conditionals;
 pub mod extract_field_init;
 pub mod finally_extract;
+pub mod kotlin_intrinsics;
 pub mod loops;
 pub mod method_inline;
 pub mod region_builder;
@@ -26,6 +27,7 @@ pub use conditionals::{
 };
 pub use extract_field_init::extract_field_init;
 pub use finally_extract::{apply_finally_marking, extract_finally, FinallyExtractInfo, InsnsSlice};
+pub use kotlin_intrinsics::process_kotlin_intrinsics;
 pub use loops::{detect_loops, LoopInfo};
 pub use method_inline::{
     analyze_method_for_inline, mark_methods_for_inline, should_skip_method,

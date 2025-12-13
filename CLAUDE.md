@@ -156,6 +156,50 @@ Note: Deobfuscation is cosmetic renaming (a.b.c → MainActivity.onCreate). The 
   - Implementation: `jadx-passes/src/extract_field_init.rs` (~320 lines)
   - Achieves 1:1 output compatibility with Java JADX
 
+## Type Inference Improvements (Roadmap)
+
+**Status:** 🚧 In Progress - Design phase complete, implementation starting
+
+To fix static initializer corruption on obfuscated code, we're implementing enhanced type inference:
+
+**Four Components:**
+1. **PHI Constant Splitting** - `jadx-passes/src/phi_const_split.rs` (NEW)
+   - Duplicate constants used by multiple PHI nodes
+   - Enables independent type inference per control flow path
+   - Based on JADX commit a7f315f596c6850c680711282e519f91b8ca5468
+
+2. **Class Hierarchy** - `jadx-ir/src/class_hierarchy.rs` (NEW)
+   - Extract superclass and interface relationships from DEX
+   - Compute LCA (Least Common Ancestor) for type unification
+   - Transitive subtype checking for precise type comparisons
+
+3. **Backward Type Inference** - Enhance `jadx-passes/src/type_inference.rs`
+   - Worklist algorithm instead of fixed iterations (100-250× fewer evaluations)
+   - Backward constraint propagation from usage contexts
+   - Subtype narrowing for method parameters and field types
+
+4. **Array Element Tracking** - Enhance `jadx-passes/src/type_inference.rs`
+   - Track values stored in arrays to refine `ArrayElemType::Object`
+   - FilledNewArray and FillArrayData support
+   - Conservative LCA for mixed element types
+
+**Expected Impact:**
+- Eliminates ~60 static initializer syntax errors on Badboy APK
+- Reduces Unknown variable types from ~40% to ~10%
+- Improves array type precision (Object[] → String[]) to ~70%
+- Performance: < 5% slowdown with 100-250× constraint reduction
+
+**Files to Modify (in order):**
+1. `jadx-ir/src/class_hierarchy.rs` (new) - Foundation
+2. `jadx-ir/src/lib.rs` - Export hierarchy module
+3. `jadx-passes/src/phi_const_split.rs` (new) - PHI splitting
+4. `jadx-passes/src/type_inference.rs` - Core enhancements (worklist, backward, array tracking)
+5. `jadx-passes/src/lib.rs` - Export split_phi_constants
+6. `jadx-cli/src/converter.rs` - Build hierarchy from DEX
+7. `jadx-cli/src/decompiler.rs` - Wire hierarchy and splitting into pipeline
+
+**See:** `/.claude/plans/glistening-crunching-finch.md` for full implementation plan with algorithms, edge cases, and test strategy.
+
 ## Framework Class Filtering
 
 The CLI filters out framework classes by default:
