@@ -274,10 +274,19 @@ fn count_variable_uses(blocks: &BTreeMap<u32, BasicBlock>, instructions: &[InsnN
     let mut counts: HashMap<(u16, u32), usize> = HashMap::new();
 
     for block in blocks.values() {
-        for &insn_idx in &block.insn_indices {
-            if let Some(insn) = instructions.get(insn_idx as usize) {
-                // Count uses in instruction arguments
+        // SSA blocks store instructions directly, pre-SSA blocks use insn_indices
+        if !block.instructions.is_empty() {
+            // SSA path: iterate over instructions in block
+            for insn_arc in &block.instructions {
+                let insn = insn_arc.lock().unwrap();
                 count_uses_in_insn(&insn.insn_type, &mut counts);
+            }
+        } else {
+            // Pre-SSA path: use insn_indices into instruction array
+            for &insn_idx in &block.insn_indices {
+                if let Some(insn) = instructions.get(insn_idx as usize) {
+                    count_uses_in_insn(&insn.insn_type, &mut counts);
+                }
             }
         }
     }
