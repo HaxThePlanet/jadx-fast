@@ -76,10 +76,17 @@ jadx-resources = { path = "jadx-resources" }
 jadx-deobf = { path = "jadx-deobf" }
 jadx-kotlin = { path = "jadx-kotlin" }
 
+# Fast release builds (default: cargo build --release)
 [profile.release]
-lto = true
-codegen-units = 1
+lto = "thin"           # Thin LTO - fast + good optimization
+codegen-units = 16     # Parallel codegen across all cores
 panic = "abort"
+
+# Maximum optimization for distribution (use: cargo build --profile dist)
+[profile.dist]
+inherits = "release"
+lto = true             # Full LTO for maximum performance
+codegen-units = 1      # Single unit for best optimization (slow!)
 
 [profile.bench]
 lto = true

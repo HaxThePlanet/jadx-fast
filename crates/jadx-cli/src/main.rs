@@ -226,13 +226,13 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     let file = std::fs::File::open(input)?;
     let mut archive = zip::ZipArchive::new(file)?;
 
-    let mut dex_files = Vec::new();
+    let mut dex_file_names = Vec::new();  // Only store names, not data
     let mut manifest_data: Option<Vec<u8>> = None;
     let mut arsc_data: Option<Vec<u8>> = None;
-    let mut xml_resources: Vec<(String, Vec<u8>)> = Vec::new();
-    let mut raw_files: Vec<(String, Vec<u8>)> = Vec::new();
+    let mut xml_resource_names: Vec<String> = Vec::new();  // Only store names
+    let mut raw_file_count = 0;
 
-    // Extract files from APK
+    // First pass: Extract resources immediately, collect DEX file names
     for i in 0..archive.len() {
         let mut entry = archive.by_index(i)?;
         let name = entry.name().to_string();
@@ -243,9 +243,8 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         }
 
         if name.ends_with(".dex") {
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            dex_files.push((name, data));
+            // Only store the name, we'll process it later
+            dex_file_names.push(name);
         } else if name == "AndroidManifest.xml" {
             let mut data = Vec::new();
             entry.read_to_end(&mut data)?;
@@ -255,25 +254,28 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             entry.read_to_end(&mut data)?;
             arsc_data = Some(data);
         } else if name.starts_with("res/") && name.ends_with(".xml") {
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            xml_resources.push((name, data));
-        } else if should_extract_raw_file(&name) {
-            // Extract raw files (META-INF, assets, etc.)
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            raw_files.push((name, data));
+            // Store name for later processing (need arsc first for resource name mappings)
+            xml_resource_names.push(name);
+        } else if !args.skip_resources && should_extract_raw_file(&name) {
+            // Extract raw files IMMEDIATELY to avoid memory accumulation
+            let out_path = out_res.join(&name);
+            if let Some(parent) = out_path.parent() {
+                std::fs::create_dir_all(parent)?;
+            }
+            let mut out_file = std::fs::File::create(&out_path)?;
+            std::io::copy(&mut entry, &mut out_file)?;
+            raw_file_count += 1;
         }
     }
 
-    tracing::info!("Found {} DEX file(s), {} resource XMLs", dex_files.len(), xml_resources.len());
+    tracing::info!("Found {} DEX file(s), {} resource XMLs", dex_file_names.len(), xml_resource_names.len());
 
     // Process resources (ARSC + AXML)
     if !args.skip_resources {
-        process_resources(out_res, manifest_data, arsc_data, xml_resources, raw_files)?;
+        process_resources_streaming(out_res, manifest_data, arsc_data, &xml_resource_names, raw_file_count, input)?;
     }
 
-    // Process source code (DEX)
+    // Process source code (DEX) - one at a time to minimize memory
     if !args.skip_sources {
         let progress = create_progress_bar(args);
         let mut total_classes = 0;
@@ -283,17 +285,32 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         // This mirrors Java JADX's InfoStorage behavior, ensuring that fields
         // with the same (class, name, type) are deduplicated across all DEX files
         let global_field_pool = Arc::new(GlobalFieldPool::new());
-        tracing::debug!("Created global field pool for {} DEX files", dex_files.len());
+        tracing::debug!("Created global field pool for {} DEX files", dex_file_names.len());
 
-        for (name, data) in &dex_files {
-            tracing::debug!("Processing DEX: {}", name);
-            match process_dex_bytes(data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
+        // Re-open archive to process DEX files one at a time
+        drop(archive);
+        let file = std::fs::File::open(input)?;
+        let mut archive = zip::ZipArchive::new(file)?;
+
+        for dex_name in &dex_file_names {
+            tracing::debug!("Processing DEX: {}", dex_name);
+
+            // Extract this DEX file
+            let mut dex_data = Vec::new();
+            let mut entry = archive.by_name(dex_name)?;
+            entry.read_to_end(&mut dex_data)?;
+
+            // Process it immediately
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
                 Ok(count) => total_classes += count,
                 Err(e) => {
-                    tracing::warn!("Failed to process {}: {}", name, e);
+                    tracing::warn!("Failed to process {}: {}", dex_name, e);
                     total_errors += 1;
                 }
             }
+
+            // Drop the DEX data before moving to next file
+            drop(dex_data);
         }
 
         if let Some(pb) = progress {
@@ -304,11 +321,123 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         tracing::info!(
             "Processed {} classes from {} DEX files ({} errors, {} deduplicated fields)",
             total_classes,
-            dex_files.len(),
+            dex_file_names.len(),
             total_errors,
             field_count
         );
     }
+
+    Ok(())
+}
+
+fn process_resources_streaming(
+    out_res: &PathBuf,
+    manifest_data: Option<Vec<u8>>,
+    arsc_data: Option<Vec<u8>>,
+    xml_resource_names: &[String],
+    raw_file_count: usize,
+    apk_path: &PathBuf,
+) -> Result<()> {
+    use jadx_resources::{ArscParser, AxmlParser};
+    use std::collections::HashMap;
+
+    tracing::info!("Processing resources ({} raw files)...", raw_file_count);
+
+    // Parse resources.arsc first to get resource name mappings
+    let mut res_names: HashMap<u32, String> = HashMap::new();
+    if let Some(ref data) = arsc_data {
+        tracing::debug!("Parsing resources.arsc ({} bytes)", data.len());
+        let mut arsc_parser = ArscParser::new();
+        match arsc_parser.parse(data) {
+            Ok(()) => {
+                res_names = arsc_parser.get_res_names();
+                tracing::info!("Parsed {} resource entries", res_names.len());
+
+                // Generate values/*.xml files
+                let values_dir = out_res.join("res").join("values");
+                std::fs::create_dir_all(&values_dir)?;
+
+                let values_files = arsc_parser.generate_values_xml();
+                let values_count = values_files.len();
+                for (filename, content) in values_files {
+                    let out_path = values_dir.join(&filename);
+                    std::fs::write(&out_path, &content)?;
+                    tracing::debug!("Wrote {}", filename);
+                }
+                tracing::info!("Generated {} values XML files", values_count);
+            }
+            Err(e) => {
+                tracing::warn!("Failed to parse resources.arsc: {}", e);
+            }
+        }
+    }
+
+    // Parse and write AndroidManifest.xml
+    if let Some(data) = manifest_data {
+        tracing::debug!("Parsing AndroidManifest.xml ({} bytes)", data.len());
+        let mut axml_parser = AxmlParser::new();
+        axml_parser.set_res_names(res_names.clone());
+
+        match axml_parser.parse(&data) {
+            Ok(xml) => {
+                let out_path = out_res.join("AndroidManifest.xml");
+                std::fs::write(&out_path, &xml)?;
+                tracing::info!("Wrote AndroidManifest.xml ({} bytes)", xml.len());
+            }
+            Err(e) => {
+                tracing::warn!("Failed to parse AndroidManifest.xml: {}", e);
+            }
+        }
+    }
+
+    // Process XML resources one at a time by re-opening the ZIP
+    let xml_count = xml_resource_names.len();
+    let mut xml_errors = 0;
+
+    if !xml_resource_names.is_empty() {
+        let file = std::fs::File::open(apk_path)?;
+        let mut archive = zip::ZipArchive::new(file)?;
+
+        for xml_name in xml_resource_names {
+            // Extract this XML file
+            let mut xml_data = Vec::new();
+            match archive.by_name(xml_name) {
+                Ok(mut entry) => {
+                    entry.read_to_end(&mut xml_data)?;
+
+                    // Parse it immediately
+                    let mut axml_parser = AxmlParser::new();
+                    axml_parser.set_res_names(res_names.clone());
+
+                    match axml_parser.parse(&xml_data) {
+                        Ok(xml) => {
+                            // Normalize config qualifiers (remove redundant -v21 for anydpi, etc.)
+                            let normalized_name = normalize_config_qualifier(xml_name);
+                            let out_path = out_res.join(&normalized_name);
+                            if let Some(parent) = out_path.parent() {
+                                std::fs::create_dir_all(parent)?;
+                            }
+                            std::fs::write(&out_path, &xml)?;
+                        }
+                        Err(e) => {
+                            tracing::debug!("Failed to parse {}: {}", xml_name, e);
+                            xml_errors += 1;
+                        }
+                    }
+
+                    // Drop the XML data before moving to next file
+                    drop(xml_data);
+                }
+                Err(e) => {
+                    tracing::warn!("Failed to extract {}: {}", xml_name, e);
+                    xml_errors += 1;
+                }
+            }
+        }
+    }
+
+    tracing::info!("Processed {} resource XMLs ({} errors)", xml_count, xml_errors);
+    tracing::info!("Extracted {} raw files", raw_file_count);
 
     Ok(())
 }
@@ -445,7 +574,7 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     let file = std::fs::File::open(input)?;
     let mut archive = zip::ZipArchive::new(file)?;
 
-    let mut dex_files: Vec<(String, Vec<u8>)> = Vec::new();
+    let mut dex_file_names: Vec<String> = Vec::new();
     let mut class_files: Vec<String> = Vec::new();
 
     // Scan JAR contents
@@ -458,10 +587,8 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
         }
 
         if name.ends_with(".dex") {
-            // Found DEX file - extract it
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            dex_files.push((name, data));
+            // Found DEX file - just store the name
+            dex_file_names.push(name);
         } else if name.ends_with(".class") && !name.contains("module-info") {
             // Track .class files
             class_files.push(name);
@@ -470,22 +597,37 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
 
     tracing::info!(
         "JAR contains {} DEX file(s), {} class file(s)",
-        dex_files.len(),
+        dex_file_names.len(),
         class_files.len()
     );
 
-    // Process any DEX files found
-    if !dex_files.is_empty() {
+    // Process any DEX files found - one at a time
+    if !dex_file_names.is_empty() {
         let progress = create_progress_bar(args);
         let mut total_classes = 0;
         let global_field_pool = Arc::new(GlobalFieldPool::new());
 
-        for (name, data) in &dex_files {
-            tracing::debug!("Processing DEX: {}", name);
-            match process_dex_bytes(data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
+        // Re-open archive to process DEX files one at a time
+        drop(archive);
+        let file = std::fs::File::open(input)?;
+        let mut archive = zip::ZipArchive::new(file)?;
+
+        for dex_name in &dex_file_names {
+            tracing::debug!("Processing DEX: {}", dex_name);
+
+            // Extract this DEX file
+            let mut dex_data = Vec::new();
+            let mut entry = archive.by_name(dex_name)?;
+            entry.read_to_end(&mut dex_data)?;
+
+            // Process it immediately
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
                 Ok(count) => total_classes += count,
-                Err(e) => tracing::warn!("Failed to process {}: {}", name, e),
+                Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
+
+            // Drop the DEX data before moving to next file
+            drop(dex_data);
         }
 
         if let Some(pb) = progress {
@@ -496,7 +638,7 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     }
 
     // Handle .class files
-    if !class_files.is_empty() && dex_files.is_empty() {
+    if !class_files.is_empty() && dex_file_names.is_empty() {
         // Try to find D8 or dx for conversion
         if let Some(converter) = find_dex_converter() {
             tracing::info!("Found DEX converter: {}", converter);
@@ -532,7 +674,7 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     let file = std::fs::File::open(input)?;
     let mut archive = zip::ZipArchive::new(file)?;
 
-    let mut dex_files: Vec<(String, Vec<u8>)> = Vec::new();
+    let mut dex_file_names: Vec<String> = Vec::new();
     let mut jar_files: Vec<(String, Vec<u8>)> = Vec::new();
     let mut manifest_data: Option<Vec<u8>> = None;
     let mut resource_files: Vec<(String, Vec<u8>)> = Vec::new();
@@ -547,9 +689,8 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         }
 
         if name.ends_with(".dex") {
-            let mut data = Vec::new();
-            entry.read_to_end(&mut data)?;
-            dex_files.push((name, data));
+            // Only store the name, we'll process it later
+            dex_file_names.push(name);
         } else if name.ends_with(".jar") {
             let mut data = Vec::new();
             entry.read_to_end(&mut data)?;
@@ -567,7 +708,7 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
 
     tracing::info!(
         "AAR contains {} DEX file(s), {} JAR file(s), {} resource file(s)",
-        dex_files.len(),
+        dex_file_names.len(),
         jar_files.len(),
         resource_files.len()
     );
@@ -594,18 +735,33 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         }
     }
 
-    // Process DEX files directly
-    if !args.skip_sources && !dex_files.is_empty() {
+    // Process DEX files directly - one at a time
+    if !args.skip_sources && !dex_file_names.is_empty() {
         let progress = create_progress_bar(args);
         let mut total_classes = 0;
         let global_field_pool = Arc::new(GlobalFieldPool::new());
 
-        for (name, data) in &dex_files {
-            tracing::debug!("Processing DEX: {}", name);
-            match process_dex_bytes(data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
+        // Re-open archive to process DEX files one at a time
+        drop(archive);
+        let file = std::fs::File::open(input)?;
+        let mut archive = zip::ZipArchive::new(file)?;
+
+        for dex_name in &dex_file_names {
+            tracing::debug!("Processing DEX: {}", dex_name);
+
+            // Extract this DEX file
+            let mut dex_data = Vec::new();
+            let mut entry = archive.by_name(dex_name)?;
+            entry.read_to_end(&mut dex_data)?;
+
+            // Process it immediately
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
                 Ok(count) => total_classes += count,
-                Err(e) => tracing::warn!("Failed to process {}: {}", name, e),
+                Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
+
+            // Drop the DEX data before moving to next file
+            drop(dex_data);
         }
 
         if let Some(pb) = progress {
@@ -616,7 +772,7 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     }
 
     // Process JAR files (typically classes.jar)
-    if !args.skip_sources && !jar_files.is_empty() && dex_files.is_empty() {
+    if !args.skip_sources && !jar_files.is_empty() && dex_file_names.is_empty() {
         // Write JARs to temp files and process them
         let temp_dir = std::env::temp_dir().join("dexterity-aar");
         std::fs::create_dir_all(&temp_dir)?;
@@ -726,12 +882,32 @@ fn process_dex_bytes(
     let dex = std::sync::Arc::new(DexReader::from_slice(0, "input.dex".to_string(), data)?);
 
     let class_count = dex.header.class_defs_size as usize;
+    let method_count = dex.header.method_ids_size as usize;
+
     tracing::info!(
         "DEX: {} classes, {} methods, {} strings",
         class_count,
-        dex.header.method_ids_size,
+        method_count,
         dex.header.string_ids_size
     );
+
+    // Auto-detect huge obfuscated APKs and warn about memory usage
+    // Heuristic: If avg methods/class > 50, it's likely obfuscated with huge classes
+    let avg_methods_per_class = if class_count > 0 { method_count / class_count } else { 0 };
+    if avg_methods_per_class > 50 {
+        let current_threads = rayon::current_num_threads();
+        tracing::warn!(
+            "⚠️  LARGE APK DETECTED: {} methods/class average (obfuscated?)",
+            avg_methods_per_class
+        );
+        tracing::warn!(
+            "⚠️  Using {} threads may cause high memory usage (~10-20GB per thread)",
+            current_threads
+        );
+        tracing::warn!(
+            "⚠️  If you hit OOM, reduce to: --threads-count 2"
+        );
+    }
 
     // Create LazyDexInfo for name resolution during code generation
     // This is O(1) - no data is loaded upfront (lazy loading like Java JADX)
@@ -878,10 +1054,14 @@ fn process_dex_bytes(
         }
     }
 
-    // Process all classes in parallel (following JADX's ExecutorService pattern)
-    // Rayon's thread pool automatically bounds parallelism to configured thread count
-    // Memory usage is limited by thread count, not artificial chunk size
+    // Process all classes in parallel - rayon automatically bounds by thread count
+    // Memory usage is limited by thread count (e.g., 10 threads = max 10 classes in-flight)
+    // For huge obfuscated APKs, reduce --threads-count to 2-4 to minimize memory
     let error_count = std::sync::atomic::AtomicUsize::new(0);
+
+    // Create Arc ONCE outside the loop - cloning Arc is cheap (just refcount bump)
+    // Previously this was cloning the entire hierarchy for every class = 70GB+ memory!
+    let hierarchy_arc = std::sync::Arc::new(class_hierarchy);
 
     class_indices.par_iter().for_each(|&idx| {
         // Fetch class name on-demand to avoid storing all names in memory
@@ -929,7 +1109,7 @@ fn process_dex_bytes(
                     inline_anonymous: args.inline_anonymous(),
                     add_debug_lines: args.add_debug_lines,
                     inline_methods: args.inline_methods(),
-                    hierarchy: Some(std::sync::Arc::new(class_hierarchy.clone())),
+                    hierarchy: Some(hierarchy_arc.clone()),  // Arc clone = cheap refcount bump
                 };
                 let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
                 jadx_codegen::generate_class_with_inner_classes(
@@ -960,7 +1140,7 @@ fn process_dex_bytes(
         if let Some(pb) = progress {
             pb.inc(1);
         }
-    });
+    });  // End of par_iter().for_each
 
     // Explicit cleanup - drop class_indices before returning
     drop(class_indices);
