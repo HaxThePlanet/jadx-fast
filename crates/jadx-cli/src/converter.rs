@@ -15,7 +15,7 @@ use jadx_ir::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility,
     ArgType, ClassData, FieldData, FieldValue, MethodData,
 };
-use jadx_passes::mark_methods_for_inline;
+use jadx_passes::{mark_methods_for_inline, extract_field_init};
 
 /// Convert a DEX ClassDef to IR ClassData
 pub fn convert_class(dex: &DexReader, class_def: &ClassDef<'_>) -> Result<ClassData> {
@@ -118,6 +118,9 @@ pub fn convert_class(dex: &DexReader, class_def: &ClassDef<'_>) -> Result<ClassD
 
     // Mark synthetic methods for inlining
     mark_methods_for_inline(&mut class_data.methods);
+
+    // Extract static field initializations from <clinit> method
+    extract_field_init(&mut class_data);
 
     Ok(class_data)
 }
