@@ -1066,7 +1066,9 @@ fn process_dex_bytes(
 
     // Calculate batch size: distribute classes evenly across threads
     let num_threads = rayon::current_num_threads();
-    let batch_size = std::cmp::max(1, (class_indices.len() + num_threads - 1) / num_threads);
+    // Use small batch size (4-8) to maximize work stealing and keep all cores busy
+    // Larger batches cause threads to block while processing sequential items
+    let batch_size = std::cmp::max(1, std::cmp::min(8, (class_indices.len() + num_threads - 1) / num_threads));
 
     // Process batches in parallel using rayon
     use rayon::prelude::*;
@@ -1109,7 +1111,7 @@ fn process_dex_bytes(
         // Generate code
         let java_code = match ir_result {
             Ok(mut ir_class) => {
-                // Load instructions before codegen
+                // Load instructions
                 for method in &mut ir_class.methods {
                     let _ = converter::load_method_instructions(method, &dex);
                 }
@@ -1136,9 +1138,6 @@ fn process_dex_bytes(
                 );
 
                 // Unload immediately after codegen to free memory
-                // This clears all_instructions (the largest consumer, 40-50MB per class)
-                // Arc<Mutex<>> block instructions are freed when BodyGenContext is dropped
-                // ExprGen pool size is limited to 4 instances per thread
                 ir_class.unload();
                 code
             }
