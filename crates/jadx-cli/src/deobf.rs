@@ -8,7 +8,7 @@
 //! - Store aliases in `AliasRegistry` with method signature keys (avoid overload collisions)
 //! - Apply aliases onto `jadx-ir` nodes before code generation
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::path::PathBuf;
 
 use anyhow::Result;
@@ -45,8 +45,9 @@ pub fn precompute_deobf_aliases(
 
     let provider = DeobfAliasProvider::new(args.deobf_max_length);
 
-    // Cache for Android R-class detection (top parent descriptor -> is_r)
-    let mut r_cache: HashMap<String, bool> = HashMap::new();
+    // Android R-class detection (precomputed, linear scan).
+    // The previous per-class scan was O(n^2) on real apps and can explode memory.
+    let android_r_tops = collect_android_r_tops(dex, &by_name);
 
     for (class_desc, idx) in by_name {
         let class_def = match dex.get_class(idx) {
@@ -55,7 +56,7 @@ pub fn precompute_deobf_aliases(
         };
 
         // Class rename (skip if Android R* class)
-        let is_r = is_android_r_class(dex, &class_desc, &mut r_cache);
+        let is_r = is_android_r_class(&class_desc, &android_r_tops);
         if !is_r
             && registry.get_class_alias(&class_desc).is_none()
             && should_rename_simple_name(simple_name_from_desc(&class_desc), args)
@@ -253,88 +254,78 @@ fn method_has_override_annotation(dex: &DexReader, class_def: &jadx_dex::section
     false
 }
 
-fn top_parent_descriptor(class_desc: &str) -> Option<String> {
-    let stripped = class_desc
-        .strip_prefix('L')
-        .unwrap_or(class_desc)
+#[derive(Debug, Default, Clone, Copy)]
+struct AndroidRFamilyState {
+    has_top: bool,
+    found_inner: bool,
+    invalid: bool,
+}
+
+fn strip_desc_to_internal(desc: &str) -> &str {
+    desc.strip_prefix('L')
+        .unwrap_or(desc)
         .strip_suffix(';')
-        .unwrap_or(class_desc);
-    let dollar = stripped.find('$')?;
-    Some(format!("L{};", &stripped[..dollar]))
+        .unwrap_or(desc)
 }
 
-fn is_android_r_class(dex: &DexReader, class_desc: &str, cache: &mut HashMap<String, bool>) -> bool {
-    let top = top_parent_descriptor(class_desc).unwrap_or_else(|| normalize_class_descriptor(class_desc));
-    if let Some(v) = cache.get(&top) {
-        return *v;
+fn top_parent_internal(internal: &str) -> &str {
+    match internal.find('$') {
+        Some(pos) => &internal[..pos],
+        None => internal,
     }
-
-    let is_r = is_android_r_top_class(dex, &top);
-    cache.insert(top, is_r);
-    is_r
 }
 
-fn is_android_r_top_class(dex: &DexReader, r_desc: &str) -> bool {
-    // Must be named exactly "R"
-    if simple_name_from_desc(r_desc) != "R" {
-        return false;
-    }
+fn simple_name_from_internal(internal: &str) -> &str {
+    internal.rsplit('/').next().unwrap_or(internal)
+}
 
-    // Find the class definition for R
-    let mut r_idx: Option<u32> = None;
-    for (i, cls_res) in dex.classes().enumerate() {
-        let cls = match cls_res {
-            Ok(c) => c,
-            Err(_) => continue,
-        };
-        let ty = match cls.class_type() {
-            Ok(t) => t,
-            Err(_) => continue,
-        };
-        if ty == r_desc {
-            r_idx = Some(i as u32);
-            break;
-        }
-    }
-    let Some(r_idx) = r_idx else {
-        return false;
-    };
+fn collect_android_r_tops(dex: &DexReader, classes: &[(String, u32)]) -> HashSet<String> {
+    // Map: top internal name (e.g., "com/example/R") -> family validation state.
+    let mut families: HashMap<String, AndroidRFamilyState> = HashMap::new();
 
-    let r_def = match dex.get_class(r_idx) {
-        Ok(c) => c,
-        Err(_) => return false,
-    };
+    for (class_desc, idx) in classes {
+        let internal = strip_desc_to_internal(class_desc);
+        let top_internal = top_parent_internal(internal);
 
-    // R top class should not define methods or fields (as per JADX check).
-    if let Ok(Some(data)) = r_def.class_data() {
-        if data.static_fields().next().is_some() || data.instance_fields().next().is_some() {
-            return false;
-        }
-        if data.direct_methods().next().is_some() || data.virtual_methods().next().is_some() {
-            return false;
-        }
-    }
-
-    // Validate inner classes: only constructors/clinit and int/int[] fields.
-    // If no inner classes are found, treat it as not an Android R class.
-    let r_prefix = r_desc.trim_end_matches(';').to_string() + "$";
-    let mut found_inner = false;
-
-    for cls_res in dex.classes() {
-        let cls = match cls_res {
-            Ok(c) => c,
-            Err(_) => continue,
-        };
-        let ty = match cls.class_type() {
-            Ok(t) => t,
-            Err(_) => continue,
-        };
-        if !ty.starts_with(&r_prefix) {
+        // Must be named exactly "R"
+        if simple_name_from_internal(top_internal) != "R" {
             continue;
         }
-        found_inner = true;
 
-        if let Ok(Some(data)) = cls.class_data() {
+        let state = match families.get_mut(top_internal) {
+            Some(s) => s,
+            None => {
+                families.insert(top_internal.to_string(), AndroidRFamilyState::default());
+                families.get_mut(top_internal).expect("just inserted")
+            }
+        };
+
+        if state.invalid {
+            continue;
+        }
+
+        let class_def = match dex.get_class(*idx) {
+            Ok(c) => c,
+            Err(_) => continue,
+        };
+
+        if internal == top_internal {
+            state.has_top = true;
+            if let Ok(Some(data)) = class_def.class_data() {
+                if data.static_fields().next().is_some()
+                    || data.instance_fields().next().is_some()
+                    || data.direct_methods().next().is_some()
+                    || data.virtual_methods().next().is_some()
+                {
+                    state.invalid = true;
+                }
+            }
+            continue;
+        }
+
+        // Inner classes: only constructors/clinit and int/int[] fields.
+        state.found_inner = true;
+        if let Ok(Some(data)) = class_def.class_data() {
             for method in data.direct_methods().chain(data.virtual_methods()) {
                 let m_id = match dex.get_method(method.method_idx) {
                     Ok(m) => m,
@@ -345,27 +336,46 @@ fn is_android_r_top_class(dex: &DexReader, r_desc: &str) -> bool {
                     Err(_) => continue,
                 };
                 if name != "<init>" && name != "<clinit>" {
-                    return false;
+                    state.invalid = true;
+                    break;
                 }
             }
 
-            for field in data.static_fields().chain(data.instance_fields()) {
-                let f_id = match dex.get_field(field.field_idx) {
-                    Ok(f) => f,
-                    Err(_) => continue,
-                };
-                let f_ty = match f_id.field_type() {
-                    Ok(t) => t,
-                    Err(_) => continue,
-                };
-                if !is_int_or_int_array(f_ty) {
-                    return false;
+            if !state.invalid {
+                for field in data.static_fields().chain(data.instance_fields()) {
+                    let f_id = match dex.get_field(field.field_idx) {
+                        Ok(f) => f,
+                        Err(_) => continue,
+                    };
+                    let f_ty = match f_id.field_type() {
+                        Ok(t) => t,
+                        Err(_) => continue,
+                    };
+                    if !is_int_or_int_array(f_ty) {
+                        state.invalid = true;
+                        break;
+                    }
                 }
             }
         }
     }
 
-    found_inner
+    families
+        .into_iter()
+        .filter_map(|(top_internal, state)| {
+            if state.has_top && state.found_inner && !state.invalid {
+                Some(top_internal)
+            } else {
+                None
+            }
+        })
+        .collect()
+}
+
+fn is_android_r_class(class_desc: &str, android_r_tops: &HashSet<String>) -> bool {
+    let internal = strip_desc_to_internal(class_desc);
+    let top_internal = top_parent_internal(internal);
+    android_r_tops.contains(top_internal)
 }
 
 fn is_int_or_int_array(desc: &str) -> bool {
@@ -377,4 +387,3 @@ fn is_int_or_int_array(desc: &str) -> bool {
     }
     desc.trim_start_matches('[') == "I"
 }
-

@@ -72,20 +72,37 @@ fn main() -> Result<()> {
     let start = Instant::now();
 
     tracing::info!("dexterity v{}", env!("CARGO_PKG_VERSION"));
-    tracing::info!(
-        "Processing {} input file(s) with {} thread(s)",
-        args.input.len(),
-        args.effective_threads()
-    );
 
-    // Configure rayon thread pool
-    if let Err(e) = rayon::ThreadPoolBuilder::new()
-        .num_threads(args.effective_threads())
-        .build_global()
-    {
-        tracing::warn!("Failed to configure rayon thread pool (may already be initialized): {}", e);
-        tracing::warn!("Using default rayon configuration instead");
+    // Configure rayon thread pool BEFORE any rayon code runs
+    // Note: build_global() can only be called once, so we set it early
+    let num_threads = args.effective_threads();
+
+    // First, try to configure via ThreadPoolBuilder (works if rayon isn't initialized yet)
+    let config_result = rayon::ThreadPoolBuilder::new()
+        .num_threads(num_threads)
+        .build_global();
+
+    match config_result {
+        Ok(_) => {
+            tracing::info!("Configured rayon with {} thread(s)", num_threads);
+        }
+        Err(_) => {
+            // If build_global() fails, rayon is already initialized
+            // Check if we got the requested thread count anyway
+            let actual_threads = rayon::current_num_threads();
+            if actual_threads != num_threads {
+                tracing::warn!("Rayon already initialized with {} thread(s), but requested {}", actual_threads, num_threads);
+                tracing::warn!("To use {} threads on next run, set: RAYON_NUM_THREADS={} dexterity [args]", num_threads, num_threads);
+            } else {
+                tracing::info!("Using existing rayon configuration with {} thread(s)", actual_threads);
+            }
+        }
     }
+
+    tracing::info!(
+        "Processing {} input file(s)",
+        args.input.len()
+    );
 
     // Process each input file
     for input in &args.input {
@@ -837,10 +854,11 @@ fn process_dex_bytes(
     }
 
     // Process classes in parallel with SMALL chunks for strict memory control
-    // Small chunks = only one class per thread in-flight at a time
-    // Chunk size: exactly num_threads to maximize CPU while minimizing memory
+    // Small chunks = minimize memory footprint by processing fewer classes at once
+    // Fixed chunk size of 2: process max 2 classes simultaneously regardless of thread count
+    // This keeps memory bounded and predictable
     let error_count = std::sync::atomic::AtomicUsize::new(0);
-    let chunk_size = num_threads; // One class per thread max
+    let chunk_size = 2; // Max 2 classes in-flight at once = bounded memory
 
     for chunk in class_indices.chunks(chunk_size) {
         chunk.par_iter().for_each(|&idx| {
@@ -949,12 +967,12 @@ fn create_progress_bar(args: &Args) -> Option<ProgressBar> {
 }
 
 /// Skip framework and generated classes (jadx-fast optimization)
-fn should_skip_class(_class_name: &str) -> bool {
-    false // Disabled for testing all classes
+fn should_skip_class(class_name: &str) -> bool {
+    should_skip_class_full(class_name)
 }
 
-#[allow(dead_code)]
 fn should_skip_class_full(class_name: &str) -> bool {
+    // Filter approved framework and library prefixes
     const SKIP_PREFIXES: &[&str] = &[
         "Landroid/",
         "Landroidx/",
@@ -963,18 +981,9 @@ fn should_skip_class_full(class_name: &str) -> bool {
         "Ljava/",
         "Ljavax/",
         "Lsun/",
-        "Ldalvik/",
         "Lcom/google/android/",
         "Lcom/android/internal/",
         "Lcom/android/support/",
-        "Lorg/apache/http/",
-        "Lorg/xmlpull/",
-        "Lorg/xml/sax/",
-        "Lorg/w3c/dom/",
-        "Lorg/json/",
-        "Lio/flutter/",
-        "Lcom/facebook/react/",
-        "Lcom/unity3d/",
     ];
 
     for prefix in SKIP_PREFIXES {
@@ -983,7 +992,7 @@ fn should_skip_class_full(class_name: &str) -> bool {
         }
     }
 
-    // Generated code patterns
+    // Filter generated code patterns
     class_name.contains("/R$")
         || class_name.ends_with("/R;")
         || class_name.ends_with("/BuildConfig;")
