@@ -235,10 +235,11 @@ impl Args {
         if self.threads > 0 {
             return self.threads;
         }
-        // Finally default to available parallelism
-        std::thread::available_parallelism()
-            .map(|p| p.get())
-            .unwrap_or(4)
+        // CRITICAL FIX: With batch processing (batch size 4), using all 56 cores causes
+        // 56 batches to run in parallel = 224 classes with loaded instructions = 256GB memory!
+        // Java JADX uses small batches with limited parallelism. Default to 4 cores max.
+        // Users can override with -j flag or RAYON_NUM_THREADS env var.
+        4
     }
 
     /// Validate arguments

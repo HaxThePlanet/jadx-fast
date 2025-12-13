@@ -15,7 +15,7 @@ use jadx_ir::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility,
     ArgType, ClassData, FieldData, FieldValue, MethodData,
 };
-use jadx_passes::{mark_methods_for_inline, extract_field_init};
+use jadx_passes::mark_methods_for_inline;
 
 /// Convert a DEX ClassDef to IR ClassData
 pub fn convert_class(
@@ -125,8 +125,11 @@ pub fn convert_class(
     // Mark synthetic methods for inlining
     mark_methods_for_inline(&mut class_data.methods);
 
-    // Extract static field initializations from <clinit> method
-    extract_field_init(&mut class_data);
+    // NOTE: extract_field_init is NOT called here because instructions are not yet loaded.
+    // Instructions are stored as BytecodeRef (lazy loading).
+    // extract_field_init must be called AFTER instructions are loaded in main.rs,
+    // right after load_method_instructions().
+    // See Java JADX pattern: ProcessClass.java processes classes AFTER load().
 
     Ok(class_data)
 }
