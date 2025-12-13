@@ -165,11 +165,13 @@ pub fn should_emit_annotation(annotation: &Annotation) -> bool {
     // Filter out some common internal annotations that shouldn't be emitted
     let type_name = &annotation.annotation_type;
     if type_name.contains("dalvik/annotation/")
-        || type_name.contains("kotlin/Metadata")
         || type_name.contains("kotlin/jvm/internal/SourceDebugExtension")
     {
         return false;
     }
+
+    // KEEP kotlin/Metadata annotations - they are important for Kotlin reflection
+    // This is different from other Kotlin internal annotations
 
     true
 }

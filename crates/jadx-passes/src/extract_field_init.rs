@@ -203,12 +203,11 @@ fn is_safe_init(field: &FieldData, value: &FieldValue) -> bool {
 }
 
 /// Extract a constant value from an instruction argument
-fn extract_constant_value(arg: &InsnArg, _method: &MethodData) -> Option<FieldValue> {
+fn extract_constant_value(arg: &InsnArg, method: &MethodData) -> Option<FieldValue> {
     match arg {
-        InsnArg::Register(_) => {
-            // Would need to trace back to a const instruction
-            // For now, skip register args (complex)
-            None
+        InsnArg::Register(reg) => {
+            // Trace back through instructions to find the const instruction that defined this register
+            trace_register_constant(reg.reg_num as usize, method)
         }
         InsnArg::Literal(lit) => {
             // Direct literal value (all int types are stored as Int(i64))
@@ -220,6 +219,82 @@ fn extract_constant_value(arg: &InsnArg, _method: &MethodData) -> Option<FieldVa
             })
         }
         _ => None,
+    }
+}
+
+/// Trace back through instructions to find the constant value assigned to a register
+fn trace_register_constant(reg_num: usize, method: &MethodData) -> Option<FieldValue> {
+    // Scan instructions backwards to find the last assignment to this register
+    for insn in method.instructions.iter().rev() {
+        match &insn.insn_type {
+            InsnType::Const { dest, value } if dest.reg_num == reg_num as u16 => {
+                // Found a const instruction that writes to our register
+                return Some(match value {
+                    jadx_ir::instructions::LiteralArg::Int(v) => {
+                        // Determine the actual type based on range
+                        if *v >= i32::MIN as i64 && *v <= i32::MAX as i64 {
+                            FieldValue::Int(*v as i32)
+                        } else {
+                            FieldValue::Long(*v)
+                        }
+                    }
+                    jadx_ir::instructions::LiteralArg::Float(v) => FieldValue::Float(*v),
+                    jadx_ir::instructions::LiteralArg::Double(v) => FieldValue::Double(*v),
+                    jadx_ir::instructions::LiteralArg::Null => FieldValue::Null,
+                });
+            }
+            InsnType::ConstString { dest, string_idx } if dest.reg_num == reg_num as u16 => {
+                // Found a const-string instruction
+                // We need to resolve the string from the DEX string pool
+                // For now, we can't do this without access to DexFile
+                // Return None to skip this (will be fixed when we add DexFile access)
+                return None;
+            }
+            InsnType::ConstClass { dest, type_idx } if dest.reg_num == reg_num as u16 => {
+                // Found a const-class instruction
+                // Similar issue - need DexFile to resolve type_idx
+                return None;
+            }
+            InsnType::Move { dest, src } if dest.reg_num == reg_num as u16 => {
+                // Register was moved from another register, follow the chain
+                if let InsnArg::Register(src_reg) = src {
+                    return trace_register_constant(src_reg.reg_num as usize, method);
+                } else if let InsnArg::Literal(lit) = src {
+                    return Some(match lit {
+                        jadx_ir::instructions::LiteralArg::Int(v) => FieldValue::Int(*v as i32),
+                        jadx_ir::instructions::LiteralArg::Float(v) => FieldValue::Float(*v),
+                        jadx_ir::instructions::LiteralArg::Double(v) => FieldValue::Double(*v),
+                        jadx_ir::instructions::LiteralArg::Null => FieldValue::Null,
+                    });
+                }
+            }
+            _ => {
+                // Check if this instruction writes to our register
+                // If so, it's not a simple constant, bail out
+                if insn_writes_to_register(&insn.insn_type, reg_num) {
+                    return None;
+                }
+            }
+        }
+    }
+
+    None
+}
+
+/// Check if an instruction writes to a specific register
+fn insn_writes_to_register(insn: &InsnType, reg_num: usize) -> bool {
+    match insn {
+        InsnType::Const { dest, .. }
+        | InsnType::ConstString { dest, .. }
+        | InsnType::ConstClass { dest, .. }
+        | InsnType::Move { dest, .. }
+        | InsnType::MoveResult { dest, .. }
+        | InsnType::MoveException { dest, .. }
+        | InsnType::InstanceOf { dest, .. }
+        | InsnType::ArrayLength { dest, .. }
+        | InsnType::NewInstance { dest, .. }
+        | InsnType::NewArray { dest, .. } => dest.reg_num == reg_num as u16,
+        _ => false,
     }
 }
 

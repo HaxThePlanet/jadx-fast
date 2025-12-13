@@ -245,6 +245,11 @@ impl ImportCollector {
         class: &ClassData,
         dex_info: Option<&std::sync::Arc<dyn DexInfoProvider>>
     ) {
+        // Class-level annotations (including @Metadata for Kotlin)
+        for annotation in &class.annotations {
+            self.add_internal_name(&annotation.annotation_type);
+        }
+
         // Superclass
         if let Some(ref superclass) = class.superclass {
             self.add_internal_name(superclass);
@@ -258,9 +263,17 @@ impl ImportCollector {
         // Fields
         for field in &class.static_fields {
             self.add_type(&field.field_type);
+            // Field annotations
+            for annotation in &field.annotations {
+                self.add_internal_name(&annotation.annotation_type);
+            }
         }
         for field in &class.instance_fields {
             self.add_type(&field.field_type);
+            // Field annotations
+            for annotation in &field.annotations {
+                self.add_internal_name(&annotation.annotation_type);
+            }
         }
 
         // Methods
@@ -268,6 +281,10 @@ impl ImportCollector {
             self.add_type(&method.return_type);
             for param in &method.arg_types {
                 self.add_type(param);
+            }
+            // Method annotations
+            for annotation in &method.annotations {
+                self.add_internal_name(&annotation.annotation_type);
             }
             // Collect types from method body instructions
             self.collect_from_instructions(&method.instructions, dex_info);
