@@ -8,6 +8,7 @@ members = [
     "jadx-cli",
     "jadx-resources",
     "jadx-deobf",
+    "jadx-kotlin",
 ]
 
 [workspace.package]
@@ -73,6 +74,7 @@ jadx-passes = { path = "jadx-passes" }
 jadx-codegen = { path = "jadx-codegen" }
 jadx-resources = { path = "jadx-resources" }
 jadx-deobf = { path = "jadx-deobf" }
+jadx-kotlin = { path = "jadx-kotlin" }
 
 [profile.release]
 lto = true

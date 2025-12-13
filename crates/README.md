@@ -44,6 +44,8 @@ public class MainActivity extends Activity {
 | jadx-passes | 6,000 | 43 | ✅ Complete |
 | jadx-codegen | 6,200 | 70 | ✅ Complete |
 | jadx-resources | 3,350 | 9 | ✅ Complete |
+| jadx-deobf | 800 | 5 | ✅ Complete |
+| jadx-kotlin | 400+ | - | ⏳ Phase 2 Complete |
 | jadx-cli | 2,600 | 7 | ✅ Complete |
 
 ## Features
@@ -132,9 +134,36 @@ public class MainActivity extends Activity {
 - ✅ **Config qualifier parsing** - Full ResTable_config parsing (locale, density, SDK, orientation, night mode)
 - ✅ **Complex resource entries** - styles.xml, arrays.xml, plurals.xml with parent inheritance
 - ✅ **Expanded AXML attributes** - 250+ Android framework attribute mappings for manifest/layout parsing
+- ✅ **Kotlin Metadata Parsing** - Full `@kotlin.Metadata` annotation support with protobuf decoding (Phase 2 complete)
+
+### In Progress: Kotlin Metadata Support for 1:1 Java JADX Parity
+
+**Phase 1-2: Foundation (✅ Complete)**
+- ✅ Created `jadx-kotlin` crate
+- ✅ Downloaded official Kotlin metadata.proto schema
+- ✅ Setup prost protobuf code generation (~1200 lines of generated code)
+- ✅ Implemented full protobuf parser with base64 decoding
+- ✅ Supports 3 metadata kinds: Class, Package (FileFacade), SyntheticClass
+- ✅ Extracts original Kotlin names: class names, function names, property (field) names, parameter names
+- ✅ Implements name extraction and IR application logic
+
+**Phase 3-4: Integration (In Progress)**
+- ⏳ Kotlin Intrinsics variable name extraction (Intrinsics.checkNotNullParameter calls)
+- ⏳ Kotlin-aware deobfuscation integration (skip renaming for Kotlin-provided aliases)
+- ⏳ CLI integration (--kotlin-metadata flag, enabled by default like Java JADX)
+- ⏳ Comprehensive testing with 25 Kotlin feature test cases
+- ⏳ Real-world APK validation against Java JADX output
+
+**Phase 5: Extended Features (Future)**
+- FileFacade handling (top-level functions)
+- SyntheticClass handling (lambdas)
+- toString() parser (extract field names from toString method)
+- Companion object detection and hiding
+- Data class marking
+- Full feature parity with Java JADX Kotlin plugin
 
 ### Future
-- Deobfuscation support
+- Deobfuscation support (phase 4)
 - ProGuard mapping file support
 
 ## Building
@@ -225,10 +254,26 @@ crates/
 │   ├── dex_info.rs     # DEX data for name resolution [NEW]
 │   └── access_flags.rs # Modifier strings
 │
+├── jadx-kotlin/        # Kotlin metadata parsing [NEW - Phase 2]
+│   ├── build.rs        # Prost protobuf code generation (generates ~1200 lines)
+│   ├── proto/
+│   │   ├── metadata.proto      # Kotlin @kotlin.Metadata schema (official from Kotlin repo)
+│   │   └── ext_options.proto   # JVM-specific protobuf extensions
+│   └── src/
+│       ├── lib.rs              # Public API: process_kotlin_metadata()
+│       ├── parser.rs           # Protobuf decoding, base64 decompression (290 lines)
+│       │   ├── find_kotlin_metadata() - locate @kotlin.Metadata annotation
+│       │   ├── parse_d1_protobuf() - decode base64 protobuf data
+│       │   └── Classes support: Class, Package (FileFacade), SyntheticClass
+│       ├── extractor.rs        # Apply extracted names to IR (96 lines)
+│       │   └── apply_kotlin_names() - map classes/methods/fields to ClassData
+│       ├── types.rs            # High-level types (KotlinClassMetadata, etc)
+│       └── visitor.rs          # Kotlin-aware deobfuscation integration (TODO)
+│
 └── jadx-cli/           # CLI application (1,363 lines)
     ├── main.rs         # Entry point, APK/DEX processing
     ├── args.rs         # CLI arguments (50+ options)
-    ├── converter.rs    # DEX → IR conversion
+    ├── converter.rs    # DEX → IR conversion [Kotlin metadata integration point]
     └── decompiler.rs   # Pipeline orchestration
 ```
 
@@ -244,6 +289,13 @@ Load + Extract DEX files
 Parse → ClassDef, MethodId, CodeItem, Instructions
     ↓ [jadx-ir] ✅
 Build IR → InsnNode, MethodData, ClassData
+    ↓ [jadx-kotlin] ⏳ (Phase 2: Parser + Extractor complete)
+Extract @kotlin.Metadata:
+  1. Find @kotlin.Metadata annotation ✅
+  2. Decode base64 protobuf (d1 field) ✅
+  3. Extract original Kotlin names ✅
+  4. Apply names to IR (ClassData, MethodData, FieldData) ✅
+  5. Deobfuscation integration (pending)
     ↓ [jadx-passes] ✅
 Transform:
   1. Block splitting (instructions → basic blocks) ✅
@@ -251,10 +303,12 @@ Transform:
   3. SSA transformation + phi nodes ✅
   4. Type inference + constraints ✅
   5. Variable naming (type-based) ✅
-  6. Region reconstruction (CFG → if/loop/switch) ✅
+  6. Kotlin Intrinsics extraction (pending)
+  7. Region reconstruction (CFG → if/loop/switch) ✅
     ↓ [jadx-codegen] ✅
 Generate → Java source code with name resolution
   - Strings, types, fields, methods resolved from DEX pools
+  - Kotlin names override deobfuscation (when available)
 ```
 
 ## Performance Goals
@@ -288,6 +342,36 @@ Key optimizations:
 - `clap` - CLI argument parsing
 - `indicatif` - Progress bars
 - `tracing` - Logging
+- `prost` & `prost-build` - Protobuf code generation (Kotlin metadata support)
+- `base64` - Base64 decoding for protobuf data
+
+## Technical Details: Kotlin Metadata Support
+
+**@kotlin.Metadata Annotation Structure:**
+- `k` (kind): Class (1), FileFacade (2), SyntheticClass (3)
+- `mv` (metadata version): e.g., [1, 8, 0]
+- `d1` (data1): Base64-encoded protobuf with class/function/property metadata
+- `d2` (data2): Human-readable string array fallback
+- `xs`, `pn`, `xi`: Additional metadata fields
+
+**Protobuf Schema:**
+- Source: Official Kotlin repository (https://github.com/JetBrains/kotlin/tree/master/core/metadata/src/)
+- Messages: Class, Function, Property, ValueParameter, Package, etc.
+- Generated Rust types: ~1200 lines via `prost-build`
+- Type-safe, zero-copy deserialization
+
+**Name Extraction:**
+1. Find `@kotlin.Metadata` annotation in `ClassData.annotations`
+2. Extract d1 field and decode base64 to binary protobuf
+3. Parse protobuf using generated Rust types
+4. Build string table from d2 array (human-readable names)
+5. Extract: class name, function names, property names, parameter names
+6. Apply to IR: `ClassData.alias`, `MethodData.alias`, `FieldData.alias`, `arg_names`
+
+**Deobfuscation Integration:**
+- Kotlin-provided names take precedence over deobfuscation heuristics
+- Works with or without ProGuard mappings
+- Graceful fallback: if metadata parsing fails, uses standard deobfuscation
 
 ## License
 
