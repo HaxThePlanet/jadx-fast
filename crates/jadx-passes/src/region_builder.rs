@@ -32,6 +32,7 @@
 //! Labels are generated for nested loops (e.g., `break loop_0;`)
 
 use std::collections::{BTreeMap, BTreeSet};
+use std::sync::{Arc, Mutex};
 
 use jadx_ir::instructions::{IfCondition, InsnType};
 use jadx_ir::regions::{CatchHandler, Condition, LoopKind, Region, RegionContent, SwitchCase};
@@ -270,7 +271,10 @@ pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[jadx_ir::TryBlock]) 
         let ends_with_throw = last_block
             .instructions
             .last()
-            .map(|insn| matches!(insn.insn_type, InsnType::Throw { .. }))
+            .map(|insn_arc| {
+                let insn = insn_arc.lock().unwrap();
+                matches!(insn.insn_type, InsnType::Throw { .. })
+            })
             .unwrap_or(false);
         if !ends_with_throw {
             continue;
@@ -369,9 +373,11 @@ pub fn detect_synchronized_blocks(cfg: &CFG) -> Vec<SyncInfo> {
 
     for block_id in cfg.block_ids() {
         if let Some(block) = cfg.get_block(block_id) {
-            for insn in &block.instructions {
+            for insn_arc in &block.instructions {
+                let insn = insn_arc.lock().unwrap();
                 if matches!(insn.insn_type, InsnType::MonitorEnter { .. }) {
                     // Found a monitor enter - find matching exits
+                    drop(insn); // Release lock before calling find_sync_region
                     if let Some(sync_info) = find_sync_region(cfg, block_id) {
                         syncs.push(sync_info);
                     }
@@ -398,7 +404,8 @@ fn find_sync_region(cfg: &CFG, enter_block: u32) -> Option<SyncInfo> {
 
         if let Some(block) = cfg.get_block(block_id) {
             // Check for MONITOR_EXIT
-            let has_exit = block.instructions.iter().any(|insn| {
+            let has_exit = block.instructions.iter().any(|insn_arc| {
+                let insn = insn_arc.lock().unwrap();
                 matches!(insn.insn_type, InsnType::MonitorExit { .. })
             });
 
@@ -826,7 +833,10 @@ impl<'a> RegionBuilder<'a> {
         let ends_with_throw = last_block
             .instructions
             .last()
-            .map(|insn| matches!(insn.insn_type, InsnType::Throw { .. }))
+            .map(|insn_arc| {
+                let insn = insn_arc.lock().unwrap();
+                matches!(insn.insn_type, InsnType::Throw { .. })
+            })
             .unwrap_or(false);
 
         if !ends_with_throw {
@@ -977,7 +987,8 @@ impl<'a> RegionBuilder<'a> {
     fn extract_simple_condition(&self, block_id: u32) -> Condition {
         if let Some(block) = self.cfg.get_block(block_id) {
             // Find the If instruction (usually the last one)
-            for insn in block.instructions.iter().rev() {
+            for insn_arc in block.instructions.iter().rev() {
+                let insn = insn_arc.lock().unwrap();
                 if let InsnType::If { condition, .. } = &insn.insn_type {
                     return Condition::simple_negated(block_id, condition.clone());
                 }
@@ -1165,7 +1176,8 @@ impl<'a> RegionBuilder<'a> {
     /// Check if a block is a switch statement
     fn is_switch_block(&self, block: u32) -> bool {
         if let Some(b) = self.cfg.get_block(block) {
-            if let Some(last) = b.instructions.last() {
+            if let Some(last_arc) = b.instructions.last() {
+                let last = last_arc.lock().unwrap();
                 return matches!(
                     last.insn_type,
                     InsnType::PackedSwitch { .. } | InsnType::SparseSwitch { .. }
@@ -1247,7 +1259,8 @@ impl<'a> RegionBuilder<'a> {
     /// Get switch keys from the instruction
     fn get_switch_info(&self, block: u32) -> Option<Vec<i32>> {
         let b = self.cfg.get_block(block)?;
-        let last = b.instructions.last()?;
+        let last_arc = b.instructions.last()?;
+        let last = last_arc.lock().unwrap();
 
         match &last.insn_type {
             InsnType::PackedSwitch {
@@ -1259,7 +1272,7 @@ impl<'a> RegionBuilder<'a> {
                 } else {
                     Some(
                         (0..targets.len())
-                            .map(|i| *first_key + i as i32)
+                            .map(|i| first_key + i as i32)
                             .collect(),
                     )
                 }
@@ -1367,7 +1380,10 @@ pub fn build_method_regions(blocks: &BTreeMap<u32, BasicBlock>, entry: u32) -> R
         .filter(|b| {
             b.instructions
                 .last()
-                .map(|i| matches!(i.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }))
+                .map(|i_arc| {
+                    let i = i_arc.lock().unwrap();
+                    matches!(i.insn_type, InsnType::Return { .. } | InsnType::Throw { .. })
+                })
                 .unwrap_or(false)
         })
         .map(|b| b.id)
@@ -1547,7 +1563,7 @@ mod tests {
 
         // Try block (id == address for this synthetic test)
         let mut b0 = BasicBlock::new(0, 0);
-        b0.instructions.push(InsnNode::new(InsnType::Nop, 0));
+        b0.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 0))));
         blocks.insert(0, b0);
 
         // Catch-all (finally) handler: 10 -> 11 -> 12 (throw)
@@ -1556,19 +1572,19 @@ mod tests {
         blocks.insert(10, b10);
 
         let mut b11 = BasicBlock::new(11, 11);
-        b11.instructions.push(InsnNode::new(InsnType::Nop, 11));
-        b11.instructions.push(InsnNode::new(InsnType::Nop, 12));
+        b11.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 11))));
+        b11.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 12))));
         b11.predecessors = vec![10];
         b11.successors = vec![12];
         blocks.insert(11, b11);
 
         let mut b12 = BasicBlock::new(12, 13);
-        b12.instructions.push(InsnNode::new(
+        b12.instructions.push(Arc::new(Mutex::new(InsnNode::new(
             InsnType::Throw {
                 exception: InsnArg::reg(0),
             },
             13,
-        ));
+        ))));
         b12.predecessors = vec![11];
         blocks.insert(12, b12);
 
@@ -1578,8 +1594,8 @@ mod tests {
         blocks.insert(20, b20);
 
         let mut b21 = BasicBlock::new(21, 21);
-        b21.instructions.push(InsnNode::new(InsnType::Nop, 21));
-        b21.instructions.push(InsnNode::new(InsnType::Nop, 22));
+        b21.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 21))));
+        b21.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 22))));
         b21.predecessors = vec![20];
         blocks.insert(21, b21);
 
@@ -1611,7 +1627,7 @@ mod tests {
             dup_block
                 .instructions
                 .iter()
-                .all(|i| i.has_flag(AFlag::DontGenerate)),
+                .all(|i| i.lock().unwrap().has_flag(AFlag::DontGenerate)),
             "expected duplicated finally instructions to be marked DONT_GENERATE"
         );
     }

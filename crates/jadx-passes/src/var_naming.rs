@@ -265,11 +265,13 @@ pub fn assign_var_names(
 
     // Build assignment map: (reg, version) -> instruction that assigns to it
     // (like JADX's SSAVar.getAssignInsn())
-    let mut assignment_map: HashMap<(u16, u32), &jadx_ir::instructions::InsnNode> = HashMap::new();
+    let mut assignment_map: HashMap<(u16, u32), std::sync::Arc<std::sync::Mutex<jadx_ir::instructions::InsnNode>>> = HashMap::new();
     for block in &ssa.blocks {
-        for insn in &block.instructions {
+        for insn_arc in &block.instructions {
+            let insn = insn_arc.lock().unwrap();
             if let Some((reg, version)) = get_insn_dest(&insn.insn_type) {
-                assignment_map.insert((reg, version), insn);
+                drop(insn); // Release lock before storing
+                assignment_map.insert((reg, version), insn_arc.clone());
             }
         }
     }
@@ -286,7 +288,8 @@ pub fn assign_var_names(
         }
 
         // Add instruction destinations
-        for insn in &block.instructions {
+        for insn_arc in &block.instructions {
+            let insn = insn_arc.lock().unwrap();
             if let Some(dest) = get_insn_dest(&insn.insn_type) {
                 if dest.0 < first_param_reg {
                     vars_to_name.push(dest);
@@ -303,7 +306,10 @@ pub fn assign_var_names(
     for (reg, version) in vars_to_name {
         // Try to get name from assignment instruction (like JADX's makeNameForSSAVar)
         let context_name = assignment_map.get(&(reg, version))
-            .and_then(|assign_insn| naming.name_from_instruction_context(assign_insn));
+            .and_then(|assign_insn_arc| {
+                let insn = assign_insn_arc.lock().unwrap();
+                naming.name_from_instruction_context(&insn)
+            });
 
         let name = if let Some(name) = context_name {
             // Got a name from instruction context (like makeNameFromInsn succeeded)

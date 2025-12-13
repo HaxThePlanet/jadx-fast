@@ -8,6 +8,7 @@
 //! 4. Rename variables with unique versions
 
 use std::collections::{HashMap, HashSet, VecDeque};
+use std::sync::{Arc, Mutex};
 
 use crate::block_split::{BasicBlock, BlockSplitResult};
 use jadx_ir::instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
@@ -31,8 +32,8 @@ pub struct SsaBlock {
     pub id: u32,
     /// Phi nodes at the start of this block
     pub phi_nodes: Vec<PhiNode>,
-    /// Instructions with renamed variables
-    pub instructions: Vec<InsnNode>,
+    /// Instructions with renamed variables (shared via Arc<Mutex<>> for memory efficiency)
+    pub instructions: Vec<Arc<Mutex<InsnNode>>>,
     pub successors: Vec<u32>,
     pub predecessors: Vec<u32>,
 }
@@ -235,7 +236,8 @@ fn intersect(
 fn find_defs(block: &BasicBlock) -> HashSet<u16> {
     let mut defs = HashSet::new();
 
-    for insn in &block.instructions {
+    for insn_arc in &block.instructions {
+        let insn = insn_arc.lock().unwrap();
         if let Some(reg) = get_def_register(&insn.insn_type) {
             defs.insert(reg);
         }
@@ -463,7 +465,8 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
         }
 
         // Rename uses and definitions in instructions
-        for insn in &mut block.instructions {
+        for insn_arc in &mut block.instructions {
+            let mut insn = insn_arc.lock().unwrap();
             // First rename uses (read current version from stack)
             rename_uses(&mut insn.insn_type, version_stack);
 
@@ -753,7 +756,8 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
         }
 
         // Rename uses and definitions in instructions
-        for insn in &mut block.instructions {
+        for insn_arc in &mut block.instructions {
+            let mut insn = insn_arc.lock().unwrap();
             rename_uses(&mut insn.insn_type, version_stack);
             if let Some(var) = get_def_register(&insn.insn_type) {
                 let version = version_counter.entry(var).or_insert(0);
@@ -832,14 +836,14 @@ mod tests {
 
         // Block 0: entry, defines v0
         let mut b0 = BasicBlock::new(0, 0);
-        b0.instructions.push(InsnNode::new(
+        b0.instructions.push(Arc::new(Mutex::new(InsnNode::new(
             InsnType::Const {
                 dest: RegisterArg::new(0),
                 value: jadx_ir::instructions::LiteralArg::Int(1),
             },
             0,
-        ));
-        b0.instructions.push(InsnNode::new(
+        ))));
+        b0.instructions.push(Arc::new(Mutex::new(InsnNode::new(
             InsnType::If {
                 condition: jadx_ir::instructions::IfCondition::Eq,
                 left: InsnArg::reg(0),
@@ -847,44 +851,44 @@ mod tests {
                 target: 2,
             },
             1,
-        ));
+        ))));
         b0.successors = vec![1, 2];
         blocks.insert(0, b0);
 
         // Block 1: defines v0 = 2
         let mut b1 = BasicBlock::new(1, 2);
-        b1.instructions.push(InsnNode::new(
+        b1.instructions.push(Arc::new(Mutex::new(InsnNode::new(
             InsnType::Const {
                 dest: RegisterArg::new(0),
                 value: jadx_ir::instructions::LiteralArg::Int(2),
             },
             2,
-        ));
+        ))));
         b1.successors = vec![3];
         b1.predecessors = vec![0];
         blocks.insert(1, b1);
 
         // Block 2: defines v0 = 3
         let mut b2 = BasicBlock::new(2, 3);
-        b2.instructions.push(InsnNode::new(
+        b2.instructions.push(Arc::new(Mutex::new(InsnNode::new(
             InsnType::Const {
                 dest: RegisterArg::new(0),
                 value: jadx_ir::instructions::LiteralArg::Int(3),
             },
             3,
-        ));
+        ))));
         b2.successors = vec![3];
         b2.predecessors = vec![0];
         blocks.insert(2, b2);
 
         // Block 3: uses v0, needs phi
         let mut b3 = BasicBlock::new(3, 4);
-        b3.instructions.push(InsnNode::new(
+        b3.instructions.push(Arc::new(Mutex::new(InsnNode::new(
             InsnType::Return {
                 value: Some(InsnArg::reg(0)),
             },
             4,
-        ));
+        ))));
         b3.predecessors = vec![1, 2];
         blocks.insert(3, b3);
 

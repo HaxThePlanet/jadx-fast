@@ -274,7 +274,8 @@ fn count_variable_uses(blocks: &BTreeMap<u32, BasicBlock>) -> HashMap<(u16, u32)
     let mut counts: HashMap<(u16, u32), usize> = HashMap::new();
 
     for block in blocks.values() {
-        for insn in &block.instructions {
+        for insn_arc in &block.instructions {
+            let insn = insn_arc.lock().unwrap();
             // Count uses in instruction arguments
             count_uses_in_insn(&insn.insn_type, &mut counts);
         }
@@ -810,7 +811,8 @@ fn detect_iterator_pattern(condition: &Condition, ctx: &BodyGenContext) -> Optio
     if let Condition::Simple { block, .. } = condition {
         if let Some(basic_block) = ctx.blocks.get(block) {
             // Look for an Invoke instruction calling hasNext()
-            for insn in basic_block.instructions.iter() {
+            for insn_arc in basic_block.instructions.iter() {
+                let insn = insn_arc.lock().unwrap();
                 // Check both Interface and Virtual invokes (ArrayList uses virtual, interface uses interface)
                 if let InsnType::Invoke { kind, method_idx, args } = &insn.insn_type {
                     if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
@@ -856,7 +858,8 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
     let block = ctx.blocks.get(&first_block)?;
 
     // Look for an Invoke calling next() on the iterator
-    for (i, insn) in block.instructions.iter().enumerate() {
+    for (i, insn_arc) in block.instructions.iter().enumerate() {
+        let insn = insn_arc.lock().unwrap();
         // Check both Interface and Virtual invokes
         if let InsnType::Invoke { kind, method_idx, args } = &insn.insn_type {
             if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
@@ -871,12 +874,15 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
 
                                 // Check next instruction for MoveResult
                                 if i + 1 < block.instructions.len() {
-                                    if let InsnType::MoveResult { dest } = &block.instructions[i + 1].insn_type {
+                                    let next_insn = block.instructions[i + 1].lock().unwrap();
+                                    if let InsnType::MoveResult { dest } = &next_insn.insn_type {
                                         item_var = ctx.expr_gen.get_var_name(dest);
+                                        drop(next_insn);
 
                                         // Check for CheckCast following MoveResult to get item type
                                         if i + 2 < block.instructions.len() {
-                                            if let InsnType::CheckCast { type_idx, .. } = &block.instructions[i + 2].insn_type {
+                                            let cast_insn = block.instructions[i + 2].lock().unwrap();
+                                            if let InsnType::CheckCast { type_idx, .. } = &cast_insn.insn_type {
                                                 if let Some(type_name) = ctx.expr_gen.get_type_value(*type_idx) {
                                                     let simple = type_name.rsplit('/').next().unwrap_or(&type_name);
                                                     item_type = Some(simple.to_string());
@@ -937,7 +943,8 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
             // Look up the block to find the If instruction with operands
             if let Some(basic_block) = ctx.blocks.get(block) {
                 // Find the If instruction (usually the last one)
-                for insn in basic_block.instructions.iter().rev() {
+                for insn_arc in basic_block.instructions.iter().rev() {
+                    let insn = insn_arc.lock().unwrap();
                     if let InsnType::If { condition: _, left, right, .. } = &insn.insn_type {
                         let left_str = ctx.expr_gen.gen_arg(left);
 
@@ -1188,10 +1195,24 @@ fn detect_simple_ternary(
 
     // Get non-control-flow instructions from each block
     let then_insns: Vec<_> = then_block.instructions.iter()
-        .filter(|i| !is_control_flow(&i.insn_type))
+        .filter_map(|i| {
+            let insn = i.lock().unwrap();
+            if !is_control_flow(&insn.insn_type) {
+                Some(i.clone())
+            } else {
+                None
+            }
+        })
         .collect();
     let else_insns: Vec<_> = else_block.instructions.iter()
-        .filter(|i| !is_control_flow(&i.insn_type))
+        .filter_map(|i| {
+            let insn = i.lock().unwrap();
+            if !is_control_flow(&insn.insn_type) {
+                Some(i.clone())
+            } else {
+                None
+            }
+        })
         .collect();
 
     // Allow up to 2 instructions if the last one is an assignment
@@ -1201,8 +1222,11 @@ fn detect_simple_ternary(
     }
 
     // Last instruction in each block must be an assignment to the same register
-    let then_insn = then_insns.last()?;
-    let else_insn = else_insns.last()?;
+    let then_insn_arc = then_insns.last()?;
+    let else_insn_arc = else_insns.last()?;
+
+    let then_insn = then_insn_arc.lock().unwrap();
+    let else_insn = else_insn_arc.lock().unwrap();
 
     let then_dest = get_insn_dest(&then_insn.insn_type)?;
     let else_dest = get_insn_dest(&else_insn.insn_type)?;
@@ -1229,14 +1253,22 @@ fn get_branch_assignment_info(region: &Region, ctx: &BodyGenContext) -> Option<(
     let block = ctx.blocks.get(&block_id)?;
 
     let insns: Vec<_> = block.instructions.iter()
-        .filter(|i| !is_control_flow(&i.insn_type))
+        .filter_map(|i| {
+            let insn = i.lock().unwrap();
+            if !is_control_flow(&insn.insn_type) {
+                Some(i.clone())
+            } else {
+                None
+            }
+        })
         .collect();
 
     if insns.is_empty() || insns.len() > 2 {
         return None;
     }
 
-    let last_insn = insns.last()?;
+    let last_insn_arc = insns.last()?;
+    let last_insn = last_insn_arc.lock().unwrap();
     let dest = get_insn_dest(&last_insn.insn_type)?;
     let value = get_insn_value_expr(&last_insn.insn_type, ctx)?;
 
@@ -1382,8 +1414,14 @@ fn ssa_blocks_to_map(ssa_result: &jadx_passes::ssa::SsaResult) -> BTreeMap<u32, 
     let mut map = BTreeMap::new();
     for ssa_block in &ssa_result.blocks {
         // Compute offsets from instructions
-        let start_offset = ssa_block.instructions.first().map(|i| i.offset).unwrap_or(0);
-        let end_offset = ssa_block.instructions.last().map(|i| i.offset + 1).unwrap_or(0);
+        let start_offset = ssa_block.instructions.first().map(|i| {
+            let insn = i.lock().unwrap();
+            insn.offset
+        }).unwrap_or(0);
+        let end_offset = ssa_block.instructions.last().map(|i| {
+            let insn = i.lock().unwrap();
+            insn.offset + 1
+        }).unwrap_or(0);
         let basic_block = BasicBlock {
             id: ssa_block.id,
             start_offset,
@@ -1404,8 +1442,14 @@ fn ssa_blocks_to_map_owned(ssa_result: jadx_passes::ssa::SsaResult) -> BTreeMap<
     let mut map = BTreeMap::new();
     for ssa_block in ssa_result.blocks {
         // Compute offsets from instructions
-        let start_offset = ssa_block.instructions.first().map(|i| i.offset).unwrap_or(0);
-        let end_offset = ssa_block.instructions.last().map(|i| i.offset + 1).unwrap_or(0);
+        let start_offset = ssa_block.instructions.first().map(|i| {
+            let insn = i.lock().unwrap();
+            insn.offset
+        }).unwrap_or(0);
+        let end_offset = ssa_block.instructions.last().map(|i| {
+            let insn = i.lock().unwrap();
+            insn.offset + 1
+        }).unwrap_or(0);
         let basic_block = BasicBlock {
             id: ssa_block.id,
             start_offset,
@@ -1546,7 +1590,8 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
         Region::Switch { header_block, cases, default } => {
             // Extract switch value from the header block's switch instruction
             let switch_value = ctx.blocks.get(header_block)
-                .and_then(|block| block.instructions.iter().rev().find_map(|insn| {
+                .and_then(|block| block.instructions.iter().rev().find_map(|insn_arc| {
+                    let insn = insn_arc.lock().unwrap();
                     match &insn.insn_type {
                         InsnType::PackedSwitch { value, .. } |
                         InsnType::SparseSwitch { value, .. } => Some(ctx.expr_gen.gen_arg(value)),
@@ -1652,7 +1697,8 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
         Region::Synchronized { enter_block, body } => {
             // Extract lock object from the MonitorEnter instruction in the enter block
             let lock_obj = ctx.blocks.get(enter_block)
-                .and_then(|block| block.instructions.iter().find_map(|insn| {
+                .and_then(|block| block.instructions.iter().find_map(|insn_arc| {
+                    let insn = insn_arc.lock().unwrap();
                     match &insn.insn_type {
                         InsnType::MonitorEnter { object } => Some(ctx.expr_gen.gen_arg(object)),
                         _ => None,
@@ -1698,7 +1744,8 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
     let insns: Vec<_> = block.instructions.iter().collect();
     let last_idx = insns.len().saturating_sub(1);
 
-    for (i, insn) in insns.iter().enumerate() {
+    for (i, insn_arc) in insns.iter().enumerate() {
+        let insn = insn_arc.lock().unwrap();
         // Skip instructions marked with DONT_GENERATE (duplicated finally code)
         if insn.has_flag(AFlag::DontGenerate) {
             continue;
@@ -1718,11 +1765,14 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
 
         // Check if next instruction is MoveResult (for invoke pairing)
         let next_is_move_result = insns.get(i + 1)
-            .map(|next| matches!(next.insn_type, InsnType::MoveResult { .. }))
+            .map(|next_arc| {
+                let next = next_arc.lock().unwrap();
+                matches!(next.insn_type, InsnType::MoveResult { .. })
+            })
             .unwrap_or(false);
 
         // Generate statement or expression
-        if !generate_insn_with_lookahead(insn, next_is_move_result, ctx, code) {
+        if !generate_insn_with_lookahead(&insn, next_is_move_result, ctx, code) {
             // Fallback: emit as comment
             code.start_line()
                 .add("/* ")
