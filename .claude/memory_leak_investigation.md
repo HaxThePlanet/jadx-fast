@@ -314,3 +314,20 @@ if mem_after > mem_before {
 3. Temporary data structures (not profiled)
 
 **Next action:** Profile with heaptrack to identify the actual bottleneck, then implement targeted fixes based on findings.
+
+---
+
+## ⚠️ KNOWN BUG: Magisk APK Memory Explosion
+
+**APK:** `Magisk-v28.0.apk` (11MB)
+
+**Issue:** This specific APK causes memory explosion during decompilation, regardless of SSA settings. The root cause is NOT the general memory leak issues documented above - it appears to be specific to this APK's structure.
+
+**Symptoms:**
+- Memory grows unboundedly during processing
+- Process hangs or OOMs even with linear body generation (no SSA)
+- Other APKs of similar or larger size work correctly
+
+**Workaround:** Do not use Magisk APK for testing memory issues. Use other APKs like `badboy.apk`, `aida64-v212.apk`, or `rootbeer-sample.apk` instead.
+
+**Status:** Under investigation. May be related to specific class structures, circular references, or resource handling unique to Magisk.

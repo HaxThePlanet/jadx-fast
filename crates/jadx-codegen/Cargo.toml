@@ -13,6 +13,7 @@ jadx-deobf.workspace = true
 itoa.workspace = true
 ryu.workspace = true
 thiserror.workspace = true
+dashmap = "5"
 
 [dev-dependencies]
 pretty_assertions.workspace = true

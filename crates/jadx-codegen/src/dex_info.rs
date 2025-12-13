@@ -30,7 +30,8 @@
 //! ```
 
 use std::collections::HashMap;
-use std::sync::{Arc, RwLock};
+use std::sync::Arc;
+use dashmap::DashMap;
 
 use crate::expr_gen::{ExprGen, FieldInfo, MethodInfo};
 use crate::type_gen::type_to_string;
@@ -50,11 +51,18 @@ use jadx_ir::types::ArgType;
 /// Key insight: Fields are identified by (class_name, field_name, field_type),
 /// NOT by DEX field index. When multiple DEX files reference the same field,
 /// they all get the same cached FieldInfo, enabling consistent name resolution.
-#[derive(Default)]
+///
+/// Uses DashMap for lock-free concurrent access - no global lock contention!
 pub struct GlobalFieldPool {
     /// Map from (class, name, type) tuple to canonical FieldInfo
-    /// Uses a custom key for deduplication across DEX boundaries
-    fields: RwLock<HashMap<FieldKey, FieldInfo>>,
+    /// Uses DashMap for lock-free concurrent access across all threads
+    fields: DashMap<FieldKey, FieldInfo>,
+}
+
+impl Default for GlobalFieldPool {
+    fn default() -> Self {
+        Self { fields: DashMap::new() }
+    }
 }
 
 /// Key for deduplicating fields across DEX files
@@ -75,6 +83,7 @@ impl GlobalFieldPool {
     /// Get or cache a field by its descriptor tuple
     /// If the same (class, name, type) already exists, return the cached instance.
     /// Otherwise, add it to the pool and return it.
+    /// Lock-free with DashMap - no global contention!
     pub fn get_or_cache(&self, field: FieldInfo) -> FieldInfo {
         let key = FieldKey {
             class_type: field.class_type.clone(),
@@ -82,13 +91,8 @@ impl GlobalFieldPool {
             field_type: type_to_string(&field.field_type),
         };
 
-        let mut pool = self.fields.write().unwrap();
-        if let Some(existing) = pool.get(&key) {
-            existing.clone()
-        } else {
-            pool.insert(key, field.clone());
-            field
-        }
+        // Use entry API for atomic get-or-insert
+        self.fields.entry(key).or_insert(field).clone()
     }
 
     /// Get cached field if it exists (without adding)
@@ -102,14 +106,13 @@ impl GlobalFieldPool {
             field_name: field_name.to_string(),
             field_type: field_type_str.to_string(),
         };
-        self.fields.read().unwrap().get(&key).cloned()
+        self.fields.get(&key).map(|v| v.clone())
     }
 
     /// Statistics for debugging
     #[allow(dead_code)]
     pub fn stats(&self) -> (usize, usize) {
-        let pool = self.fields.read().unwrap();
-        (pool.len(), 0)  // TODO: track memory usage if needed
+        (self.fields.len(), 0)  // TODO: track memory usage if needed
     }
 }
 
