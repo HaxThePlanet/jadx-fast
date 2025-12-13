@@ -1061,11 +1061,16 @@ impl<'a> RegionBuilder<'a> {
 
             // Check for nested structures
             if let Some(nested_loop) = self.find_nested_loop(block_id, loop_info) {
-                let body = self.build_loop_body(nested_loop);
+                // Extract proper condition from nested loop header instead of Unknown
+                let nested_condition = self.extract_condition(nested_loop.header);
+
+                // Recursively build nested loop body
+                let nested_body = self.build_loop_body(nested_loop);
+
                 contents.push(RegionContent::Region(Box::new(Region::Loop {
                     kind: nested_loop.kind,
-                    condition: Some(Condition::Unknown),
-                    body: Box::new(body),
+                    condition: Some(nested_condition),
+                    body: Box::new(nested_body),
                 })));
             } else if let Some(cond) = self.cond_map.get(&block_id).copied() {
                 // Nested conditional - check if fully contained in loop

@@ -358,7 +358,16 @@ pub fn merge_nested_conditions(
     let mut merged = MergedCondition::from_if_info(start);
 
     // Try to find nested conditions to merge
+    // Limit iterations to prevent infinite loops on cyclic conditions
+    const MAX_MERGES: usize = 100;
+    let mut merge_count = 0;
+
     loop {
+        // Safety check: avoid infinite loops
+        if merge_count >= MAX_MERGES {
+            break;
+        }
+
         let next_block = match merged.mode {
             MergeMode::And | MergeMode::Single => merged.then_block,
             MergeMode::Or => merged.else_block,
@@ -367,6 +376,11 @@ pub fn merge_nested_conditions(
         let Some(next) = next_block else {
             break;
         };
+
+        // Avoid re-merging the same block (cycle detection)
+        if merged.merged_blocks.contains(&next) {
+            break;
+        }
 
         // Find if there's a condition at the next block
         let next_cond = all_conditionals
@@ -380,6 +394,7 @@ pub fn merge_nested_conditions(
         // Check if we can merge
         if let Some(mode) = merged.can_merge(next_cond, cfg) {
             merged.merge(next_cond, mode);
+            merge_count += 1;
         } else {
             break;
         }
