@@ -44,7 +44,7 @@ use clap::Parser;
 use indicatif::{ProgressBar, ProgressStyle};
 use rayon::prelude::*;
 
-use jadx_codegen::{LazyDexInfo, DexInfoProvider, AliasAwareDexInfo};
+use jadx_codegen::{LazyDexInfo, DexInfoProvider, AliasAwareDexInfo, GlobalFieldPool};
 use jadx_ir::ClassData;
 use jadx_dex::DexReader;
 use jadx_kotlin;
@@ -52,6 +52,7 @@ use jadx_deobf::{
     AliasRegistry, parse_proguard_mapping,
 };
 use std::collections::HashMap;
+use std::sync::Arc;
 
 pub use args::*;
 
@@ -278,9 +279,15 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
         let mut total_classes = 0;
         let mut total_errors = 0;
 
+        // Create global field pool for multi-DEX deduplication
+        // This mirrors Java JADX's InfoStorage behavior, ensuring that fields
+        // with the same (class, name, type) are deduplicated across all DEX files
+        let global_field_pool = Arc::new(GlobalFieldPool::new());
+        tracing::debug!("Created global field pool for {} DEX files", dex_files.len());
+
         for (name, data) in &dex_files {
             tracing::debug!("Processing DEX: {}", name);
-            match process_dex_bytes(data, out_src, args, progress.as_ref()) {
+            match process_dex_bytes(data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
                 Ok(count) => total_classes += count,
                 Err(e) => {
                     tracing::warn!("Failed to process {}: {}", name, e);
@@ -293,11 +300,13 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             pb.finish_with_message("done");
         }
 
+        let (field_count, _) = global_field_pool.stats();
         tracing::info!(
-            "Processed {} classes from {} DEX files ({} errors)",
+            "Processed {} classes from {} DEX files ({} errors, {} deduplicated fields)",
             total_classes,
             dex_files.len(),
-            total_errors
+            total_errors,
+            field_count
         );
     }
 
@@ -412,7 +421,8 @@ fn process_dex(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
 
     let data = std::fs::read(input)?;
     let progress = create_progress_bar(args);
-    let count = process_dex_bytes(&data, out_src, args, progress.as_ref())?;
+    let global_field_pool = Arc::new(GlobalFieldPool::new());
+    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool))?;
 
     if let Some(pb) = progress {
         pb.finish_with_message("done");
@@ -468,10 +478,11 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     if !dex_files.is_empty() {
         let progress = create_progress_bar(args);
         let mut total_classes = 0;
+        let global_field_pool = Arc::new(GlobalFieldPool::new());
 
         for (name, data) in &dex_files {
             tracing::debug!("Processing DEX: {}", name);
-            match process_dex_bytes(data, out_src, args, progress.as_ref()) {
+            match process_dex_bytes(data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", name, e),
             }
@@ -587,10 +598,11 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     if !args.skip_sources && !dex_files.is_empty() {
         let progress = create_progress_bar(args);
         let mut total_classes = 0;
+        let global_field_pool = Arc::new(GlobalFieldPool::new());
 
         for (name, data) in &dex_files {
             tracing::debug!("Processing DEX: {}", name);
-            match process_dex_bytes(data, out_src, args, progress.as_ref()) {
+            match process_dex_bytes(data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool)) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", name, e),
             }
@@ -708,6 +720,7 @@ fn process_dex_bytes(
     out_src: &PathBuf,
     args: &Args,
     progress: Option<&ProgressBar>,
+    global_field_pool: Arc<GlobalFieldPool>,
 ) -> Result<usize> {
     // Wrap DexReader in Arc for sharing with LazyDexInfo
     let dex = std::sync::Arc::new(DexReader::from_slice(0, "input.dex".to_string(), data)?);
@@ -722,9 +735,10 @@ fn process_dex_bytes(
 
     // Create LazyDexInfo for name resolution during code generation
     // This is O(1) - no data is loaded upfront (lazy loading like Java JADX)
-    tracing::debug!("Creating lazy DEX info for name resolution...");
-    let dex_info = LazyDexInfo::new(std::sync::Arc::clone(&dex));
-    tracing::debug!("LazyDexInfo ready (on-demand loading enabled)");
+    // The global_field_pool enables deduplication of fields across all DEX files
+    tracing::debug!("Creating lazy DEX info with global field pool for name resolution...");
+    let dex_info = LazyDexInfo::new_with_pool(std::sync::Arc::clone(&dex), global_field_pool);
+    tracing::debug!("LazyDexInfo ready (on-demand loading with global deduplication enabled)");
 
     if let Some(pb) = progress {
         pb.set_length(class_count as u64);
@@ -864,15 +878,12 @@ fn process_dex_bytes(
         }
     }
 
-    // Process classes in parallel with SMALL chunks for strict memory control
-    // Small chunks = minimize memory footprint by processing fewer classes at once
-    // Fixed chunk size of 2: process max 2 classes simultaneously regardless of thread count
-    // This keeps memory bounded and predictable
+    // Process all classes in parallel (following JADX's ExecutorService pattern)
+    // Rayon's thread pool automatically bounds parallelism to configured thread count
+    // Memory usage is limited by thread count, not artificial chunk size
     let error_count = std::sync::atomic::AtomicUsize::new(0);
-    let chunk_size = 2; // Max 2 classes in-flight at once = bounded memory
 
-    for chunk in class_indices.chunks(chunk_size) {
-        chunk.par_iter().for_each(|&idx| {
+    class_indices.par_iter().for_each(|&idx| {
         // Fetch class name on-demand to avoid storing all names in memory
         let class_desc = dex.get_class(idx)
             .ok()
@@ -949,9 +960,7 @@ fn process_dex_bytes(
         if let Some(pb) = progress {
             pb.inc(1);
         }
-        });
-        // Chunk complete - memory freed before next batch
-    }
+    });
 
     // Explicit cleanup - drop class_indices before returning
     drop(class_indices);
