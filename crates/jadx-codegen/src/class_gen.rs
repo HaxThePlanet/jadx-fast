@@ -376,6 +376,8 @@ pub struct ClassGenConfig {
     pub add_debug_lines: bool,
     /// Inline synthetic bridge methods (access$XXX methods)
     pub inline_methods: bool,
+    /// Class hierarchy for improved type inference (LCA, subtype checking)
+    pub hierarchy: Option<std::sync::Arc<jadx_ir::ClassHierarchy>>,
 }
 
 impl Default for ClassGenConfig {
@@ -388,6 +390,7 @@ impl Default for ClassGenConfig {
             inline_anonymous: true,
             add_debug_lines: false,
             inline_methods: true,
+            hierarchy: None,
         }
     }
 }
@@ -764,7 +767,7 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
             }
         }
         code.newline();
-        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, code);
+        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), code);
     }
 }
 

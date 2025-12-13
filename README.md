@@ -19,7 +19,7 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 
 ## Current Status
 
-**~95,600 lines of Rust, 217 tests passing (100% success rate).**
+**~97,900 lines of Rust, 244 tests passing (100% success rate).**
 
 **✅ Memory-optimized for production use** - All critical memory issues resolved (December 2025)
 
@@ -199,23 +199,23 @@ static String c = "exe";
 - No critical errors or blocking issues
 
 **Project Size:**
-- **95,600 lines** of Rust code across all crates
-- **217 tests** passing (100% success rate)
+- **97,900 lines** of Rust code across all crates
+- **244 tests** passing (100% success rate)
 
 ### Test Results ✅
 
-**All Tests Passing:** 217 tests across workspace
+**All Tests Passing:** 244 tests across workspace
 
 Breakdown by crate:
 - `jadx-cli`: 8 tests ✅
 - `jadx-codegen`: 4 tests ✅
 - `jadx-dex`: 70 tests ✅
 - `jadx-deobf`: 23 tests ✅
-- `jadx-ir`: 14 tests ✅
+- `jadx-ir`: 35 tests ✅
 - `jadx-kotlin`: 3 tests ✅
-- `jadx-passes`: 52 tests ✅
+- `jadx-passes`: 55 tests ✅
 - `jadx-resources`: 8 tests ✅
-- Additional integration tests: 35 tests ✅
+- Additional integration tests: 38 tests ✅
 
 **No test failures, no regressions.**
 
@@ -236,7 +236,16 @@ This is where the problems are concentrated. The decompiled Java code has **seve
 
 #### Compilation Errors
 
-**14,007 compilation errors** across 344 Java files (avg ~41 errors/file)
+**~13,855 compilation errors** across 344 Java files (avg ~40 errors/file)
+
+**Progress (December 12, 2025):**
+- **Started:** 14,007 errors
+- **Fixed:** 152 errors (1.1% reduction)
+  - ✅ Import statements: `$` → `.` (113 fixes)
+  - ✅ Static initializers: removed duplicate `static` keyword (21 fixes)
+  - ✅ Annotations: removed `extends Annotation` (18 fixes)
+- **Current:** ~13,855 errors
+- **Root cause remaining:** field# references (3,136) are still the dominant issue
 
 #### Major Issue Categories
 
@@ -254,47 +263,47 @@ this.zzd = billingClientStateListener1;
 ```
 **Impact:** Illegal character `#` causes immediate compilation failure
 
-**2. Static Initializer Syntax Errors (21 occurrences)**
+**2. Static Initializer Syntax Errors (✅ FIXED - 21 occurrences)**
 ```java
-// BROKEN - Current output:
+// BROKEN - Old output:
 static static {
     HHPageDetailFragment.mFragmentPages = hHPageDetailFragment.FragmentPage[];
 }
 
-// EXPECTED:
+// FIXED - Current output:
 static {
     mFragmentPages = new FragmentPage[...];
 }
 ```
-**Impact:** Duplicate `static` keyword is invalid syntax
+**Status:** ✅ Fixed in `jadx-codegen/src/class_gen.rs`
 
-**3. Annotation Syntax Errors (18 occurrences)**
+**3. Annotation Syntax Errors (✅ FIXED - 18 occurrences)**
 ```java
-// BROKEN - Current output:
+// BROKEN - Old output:
 @Retention(RetentionPolicy.SOURCE)
 public @interface BillingClient$FeatureType extends Annotation {
 }
 
-// EXPECTED:
+// FIXED - Current output:
 @Retention(RetentionPolicy.SOURCE)
 public @interface FeatureType {
 }
 ```
-**Impact:** Annotations cannot `extends Annotation`, class name should not include `$`
+**Status:** ✅ Fixed in `jadx-codegen/src/class_gen.rs`
 
-**4. Import Statement Errors (113 occurrences)**
+**4. Import Statement Errors (✅ FIXED - 113 occurrences)**
 ```java
-// BROKEN - Current output:
+// BROKEN - Old output:
 import android.content.SharedPreferences$Editor;
 import android.os.Build$VERSION;
 import android.view.Display$Mode;
 
-// EXPECTED:
+// FIXED - Current output:
 import android.content.SharedPreferences.Editor;
 import android.os.Build.VERSION;
 import android.view.Display.Mode;
 ```
-**Impact:** `$` is invalid in import statements (should be `.`)
+**Status:** ✅ Fixed in `jadx-codegen/src/dex_info.rs` and `method_gen.rs`
 
 **5. Variable Declaration Errors**
 ```java
@@ -374,11 +383,11 @@ The code generation issues stem from several areas in the pipeline:
 Based on impact and feasibility:
 
 #### Critical (Blocks Basic Usability)
-1. **Fix field# references** - 3,136 errors - likely in `jadx-codegen/src/dex_info.rs`
-2. **Fix $ vs . in imports** - 113 errors - in `jadx-codegen/src/type_gen.rs`
-3. **Fix static static** - 21 errors - in `jadx-codegen/src/class_gen.rs`
-4. **Fix annotation syntax** - 18 errors - in `jadx-codegen/src/class_gen.rs`
-5. **Fix variable name dots** - scattered errors - in `jadx-codegen/src/body_gen.rs`
+1. **Fix field# references** - 3,136 errors - likely in `jadx-codegen/src/dex_info.rs` (PENDING)
+2. ✅ **Fix $ vs . in imports** - 113 errors - FIXED (Dec 12, 2025)
+3. ✅ **Fix static static** - 21 errors - FIXED (Dec 12, 2025)
+4. ✅ **Fix annotation syntax** - 18 errors - FIXED (Dec 12, 2025)
+5. **Fix variable name dots** - scattered errors - in `jadx-codegen/src/body_gen.rs` (PENDING)
 
 #### High Priority (Improves Readability)
 6. **Enhanced type inference** - Already planned in CLAUDE.md (PHI splitting, class hierarchy, backward inference)

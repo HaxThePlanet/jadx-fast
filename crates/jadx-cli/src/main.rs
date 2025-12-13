@@ -918,6 +918,7 @@ fn process_dex_bytes(
                     inline_anonymous: args.inline_anonymous(),
                     add_debug_lines: args.add_debug_lines,
                     inline_methods: args.inline_methods(),
+                    hierarchy: Some(std::sync::Arc::new(class_hierarchy.clone())),
                 };
                 let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
                 jadx_codegen::generate_class_with_inner_classes(

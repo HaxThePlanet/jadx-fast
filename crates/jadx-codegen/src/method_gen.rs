@@ -269,6 +269,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     imports: Option<&BTreeSet<String>>,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
+    hierarchy: Option<&jadx_ir::ClassHierarchy>,
     code: &mut W,
 ) {
     // Emit method annotations from DEX
@@ -323,13 +324,13 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     } else if method.is_class_init() {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     }
@@ -341,9 +342,10 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
     inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
+    hierarchy: Option<&jadx_ir::ClassHierarchy>,
     code: &mut W,
 ) {
-    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, code);
+    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, code);
 }
 
 /// Add method parameters

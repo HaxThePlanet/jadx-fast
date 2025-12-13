@@ -598,6 +598,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
     inner_classes: Option<&HashMap<String, std::sync::Arc<jadx_ir::ClassData>>>,
+    hierarchy: Option<&jadx_ir::ClassHierarchy>,
     code: &mut W,
 ) {
     if method.instructions.is_empty() {
@@ -635,8 +636,11 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     // SSA transformation - use owned version to avoid cloning instructions
     let ssa_result = transform_to_ssa_owned(block_result);
 
-    // Type inference on SSA form
-    let type_result = if let Some(ref dex) = dex_info {
+    // Type inference on SSA form (use hierarchy for better precision if available)
+    // Hierarchy enables LCA calculation for PHI nodes and subtype checking
+    let type_result = if let Some(h) = hierarchy {
+        jadx_passes::infer_types_with_hierarchy(&ssa_result, h)
+    } else if let Some(ref dex) = dex_info {
         let dex_clone = dex.clone();
         let dex_clone2 = dex.clone();
         let dex_clone3 = dex.clone();

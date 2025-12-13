@@ -128,6 +128,7 @@ pub fn generate_class_code(class: &ClassData, dex_info: Option<std::sync::Arc<dy
         inline_anonymous: true,
         add_debug_lines: false,
         inline_methods: true,
+        hierarchy: None,
     };
     generate_class_with_dex(class, &config, dex_info)
 }
