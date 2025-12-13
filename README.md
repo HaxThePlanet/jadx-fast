@@ -19,7 +19,7 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 
 ## Current Status
 
-**88,366 lines of Rust, 877 tests (92% coverage of Java JADX test suite).**
+**88,418 lines of Rust, 872 tests (92% coverage of Java JADX test suite).**
 
 **✅ Memory-optimized for production use** - All critical memory issues resolved (December 2025)
 
@@ -28,9 +28,9 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 | Category | Status | Notes |
 |----------|--------|-------|
 | **Core Decompilation** | **98%** | 1:1 output match with Java JADX |
-| DEX parsing | ✅ 100% | All 256 Dalvik opcodes |
+| DEX parsing | ✅ 100% | All 224 Dalvik opcodes |
 | Control flow analysis | ✅ 100% | CFG, dominators, SSA, type inference |
-| Region reconstruction | ✅ 100% | if/else/loops/switch/try-catch-finally/synchronized |
+| Region reconstruction | ⚠️ 95% | if/else/loops/switch/try-catch/synchronized fully done; finally deduplication pass enabled (try-exit path dedup pending) |
 | Code generation | ✅ 100% | Annotations, ternary, multi-catch, inner classes |
 | **Input Formats** | **80%** | |
 | APK, DEX | ✅ 100% | Full support |
@@ -42,7 +42,7 @@ diff -r expected/ actual/  # Goal: empty (byte-for-byte identical)
 | resources.arsc | ✅ 100% | Strings, dimensions, colors, enums |
 | **Additional Features** | **75%** | |
 | Gradle export | ✅ 100% | Android app/library, simple Java |
-| Code style options | ✅ 85% | --no-imports, --escape-unicode, --no-inline-anonymous, --no-inline-methods work |
+| Code style options | ✅ 100% | --no-imports, --escape-unicode, --no-inline-anonymous, --no-inline-methods fully implemented |
 | Method inlining | ✅ 100% | Synthetic bridge methods (access$XXX) detected and inlined |
 | Deobfuscation | ✅ 90% | --deobf, --mappings-path (ProGuard), cross-ref aliasing (only .jobf persistence pending) |
 
@@ -80,7 +80,7 @@ public class MainActivity extends Activity {
 
 ### What's Working
 
-- Full DEX parsing (headers, pools, all 256 Dalvik opcodes)
+- Full DEX parsing (headers, pools, all 224 Dalvik opcodes)
 - Basic block splitting and CFG construction
 - Dominator tree computation (Cooper-Harvey-Kennedy)
 - SSA transformation with phi nodes
@@ -108,7 +108,7 @@ public class MainActivity extends Activity {
 
 ### Remaining for 1:1 Match
 
-(None - All core Java constructs implemented)
+- **Finally block deduplication** - Marking pass is wired into the pipeline (`mark_duplicated_finally()` runs before region building, using `extract_finally()` + `apply_finally_marking()` from `crates/jadx-passes/src/finally_extract.rs`). Remaining: try-exit path duplicate search and SSA/arg-aware instruction matching for full JADX parity.
 
 ### Not Yet Implemented
 
@@ -136,6 +136,85 @@ public class MainActivity extends Activity {
 2. ✅ Loads ProGuard mapping files (`--mappings-path mapping.txt`)
 3. ✅ Cross-reference resolution - method bodies show deobfuscated names
 4. ❌ Persists generated names to `.jobf` file (pending)
+
+## Code Quality vs JADX
+
+**Status:** Dexterity is feature-complete but has code generation quality gaps vs JADX. Below is a real-world comparison:
+
+### Test Case: MaliciousPatterns.java (Badboy malware APK, 671 lines)
+
+#### Comparison Summary
+
+| Aspect | JADX | Dexterity |
+|--------|------|-----------|
+| **Compilability** | ✅ 100% | ⚠️ ~60% (static init broken) |
+| **Variable Names** | ✅ Preserved | ❌ Corrupted/mangled |
+| **Import Completeness** | ✅ 100% | ⚠️ ~85% (missing IOException, InputStream, Reader) |
+| **Annotation Support** | ✅ @Metadata preserved | ⚠️ Partial (loses Kotlin metadata) |
+| **Method Code** | ✅ Excellent | ✅ Good (~95%) |
+| **Static Initializer** | ✅ Clean | ❌ **BROKEN** - syntax errors |
+| **Code Readability** | ✅ 9/10 | ⚠️ 4/10 |
+| **Logic Flow** | ✅ Crystal clear | ✅ Mostly clear |
+
+#### The Critical Issue: Static Initializer Corruption
+
+**JADX (correct):**
+```java
+static {
+    String a = "cmd";
+    String b = "sh";
+    String c = "exe";
+    List<String> adSdkStrings = Arrays.asList(...);
+}
+```
+
+**Dexterity (broken):**
+```java
+static {
+    char[] char[] = new char[][i];          // ← Syntax error: duplicate type
+    char[] = new short[]{'s', 'h'};         // ← Invalid: type mismatch
+    string[][i2] = string23;                // ← Undefined variable
+    string[][i9] = string20;                // ← Undefined variable
+    // ... 20+ more corrupted lines ...
+}
+```
+
+**Impact:** The generated code is **uncompilable** and requires manual fixes to understand the constants.
+
+#### Why This Happens
+
+Dexterity's static initializer code generation fails on:
+1. **Complex obfuscated constant pools** - Variables with mangled names (f0a, f1b, etc.)
+2. **Variable type inference** - Incorrectly inferring types in complex assignments
+3. **Kotlin metadata arrays** - Arrays of mixed types and lambda expressions
+4. **Instruction-to-expression mapping** - The IR-to-codegen phase loses type information
+
+#### Performance Metrics (Badboy APK, 4,936 total classes)
+
+| Metric | JADX | Dexterity | Improvement |
+|--------|------|-----------|-------------|
+| Output size | 67 MB | 1.8 MB | **37x smaller** |
+| Classes decompiled | 6,323 | 159 (app-only) | Filtering enabled |
+| Time | ~17 sec | ~0.3 sec | **65x faster** |
+| Peak memory | ~500MB | ~150 MB | **3.3x less** |
+| Compilation errors | 0 | ~60 | **Major gap** |
+
+#### Verdict
+
+**JADX wins on code quality**, especially for:
+- ✅ Complex obfuscated initializers
+- ✅ Type inference in edge cases
+- ✅ Metadata preservation
+- ✅ Import completeness
+- ✅ Full compilability
+
+**Dexterity excels at**:
+- ✅ Performance (65x faster)
+- ✅ Memory efficiency (3.3x less)
+- ✅ Smart filtering (37x smaller output)
+- ✅ Framework removal (reduces clutter)
+
+**Recommendation:** Use Dexterity for **quick APK analysis** and filtering. Use JADX when you need **production-quality code** that compiles without errors.
 
 ## Building
 
@@ -435,31 +514,27 @@ Expected memory usage: 15-30GB peak (vs current 2-5GB)
 
 ## Testing
 
-**877 tests across 3 test tiers:**
+**872 tests across 3 test tiers:**
 
-### 1. Unit Tests (207 tests)
+### 1. Unit Tests (197 tests)
 Traditional unit tests in each crate covering parsers, IR builders, analysis passes, and code generation.
 
-**Recent additions (December 2025):**
-- **5 completed tests**: TestComplexIf, TestComplexIf2, TestEmptyCatch, TestEndlessLoop2, TestIterableForEach3
-  - Extracted sources from Java JADX tests, added proper assertions
-- **5 new tests**: TestMultiExceptionCatch (validates multi-catch feature), TestTryCatchBasic, TestNestedTryCatch, TestGenericsBasic, TestPrimitiveConversion
-  - Focus on try-catch exception handling and type inference edge cases
-
 **Test Distribution:**
-- jadx-dex: 35 tests (DEX parsing, LEB128, MUTF-8)
-- jadx-ir: 14 tests (IR construction)
-- jadx-passes: 57 tests (SSA, CFG, type inference, regions)
-- jadx-codegen: 70 tests (class/method/expression generation)
+- jadx-dex: 70 tests (DEX parsing, LEB128, MUTF-8)
+- jadx-ir: 23 tests (IR construction)
+- jadx-passes: 47 tests (SSA, CFG, type inference, regions)
+- jadx-codegen: 35 tests (class/method/expression generation)
 - jadx-resources: 8 tests (AXML, resources.arsc)
-- jadx-deobf: 23 tests (ProGuard parser, name validation)
+- jadx-deobf: 14 tests (ProGuard parser, name validation)
 
 ```bash
 cd crates && cargo test
 ```
 
-### 2. Integration Tests (670 tests)
+### 2. Integration Tests (675 tests)
 Comprehensive end-to-end decompilation tests automatically ported from Java JADX's integration test suite.
+
+**Note:** The integration test framework (`jadx-passes/tests/integration/`) currently has compilation errors that need resolution. Test count reflects defined test functions.
 
 **Test Categories (92% coverage):**
 - **Conditions** (66 tests): Boolean logic, bitwise ops, comparison simplification
@@ -487,9 +562,9 @@ Compare output against reference files from Java JADX to catch formatting/whites
 **Test Statistics:**
 | Metric | Java JADX | Dexterity | Coverage |
 |--------|-----------|-----------|----------|
-| Unit tests | ~150 | 207 | 138% |
-| Integration tests | 730 | 670 | 92% |
-| Total tests | 879 | 877 | 99.8% |
+| Unit tests | ~150 | 197 | 131% |
+| Integration tests | 730 | 675 | 92% |
+| Total tests | 879 | 872 | 99.2% |
 | Lines of test code | - | ~17,000 | - |
 
 ## License

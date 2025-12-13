@@ -36,7 +36,7 @@ use jadx_ir::types::ArgType;
 use jadx_ir::MethodData;
 use jadx_passes::block_split::{split_blocks, BasicBlock};
 use jadx_passes::cfg::CFG;
-use jadx_passes::region_builder::build_regions_with_try_catch;
+use jadx_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
 use jadx_passes::ssa::{transform_to_ssa, transform_to_ssa_owned};
 use jadx_passes::type_inference::{infer_types, TypeInferenceResult};
 
@@ -450,7 +450,10 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     }
 
     // Build CFG for dominance analysis (takes ownership, no clone needed)
-    let cfg = CFG::from_blocks(block_result);
+    let mut cfg = CFG::from_blocks(block_result);
+
+    // Mark duplicated finally code before region building (JADX compatibility)
+    mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
     // Build region tree for structured code with try-catch support
     // Region analysis only needs instruction types for control flow, not SSA info
@@ -531,7 +534,10 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
     }
 
     // Build CFG for dominance analysis (takes ownership, no clone needed)
-    let cfg = CFG::from_blocks(block_result);
+    let mut cfg = CFG::from_blocks(block_result);
+
+    // Mark duplicated finally code before region building (JADX compatibility)
+    mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
     // Build region tree for structured code with try-catch support
     // Region analysis only needs instruction types for control flow, not SSA info
@@ -614,7 +620,10 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     }
 
     // Build CFG for dominance analysis (takes ownership, no clone needed)
-    let cfg = CFG::from_blocks(block_result);
+    let mut cfg = CFG::from_blocks(block_result);
+
+    // Mark duplicated finally code before region building (JADX compatibility)
+    mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
     // Build region tree for structured code with try-catch support
     // Region analysis only needs instruction types for control flow, not SSA info

@@ -42,7 +42,7 @@ DEX bytes → jadx-dex (parsing) → jadx-ir (IR) → jadx-passes (analysis) →
 
 | Crate | Purpose |
 |-------|---------|
-| `jadx-dex` | DEX file parsing (header, strings, types, classes, methods, all 256 opcodes) |
+| `jadx-dex` | DEX file parsing (header, strings, types, classes, methods, all 224 Dalvik opcodes) |
 | `jadx-ir` | Intermediate representation (InsnNode, InsnType, ClassData, MethodData, regions) |
 | `jadx-passes` | Analysis passes (block split, CFG, dominators, SSA, type inference, loops, regions) |
 | `jadx-codegen` | Java source generation (class/method/field/expr/stmt) |
@@ -99,7 +99,7 @@ diff -r expected/ actual/
 
 ## Known Gaps (vs Java JADX)
 
-None currently identified. All major decompilation features are implemented.
+- **Finally block deduplication**: The marking pass is enabled (`mark_duplicated_finally()` runs before region building), but try-exit path duplicate search and SSA/arg-aware instruction matching are still pending for full JADX parity.
 
 ## Deobfuscation Roadmap
 

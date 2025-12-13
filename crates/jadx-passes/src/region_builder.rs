@@ -242,6 +242,46 @@ pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock])
     builder.make_method_region()
 }
 
+/// Mark duplicated finally code with `DONT_GENERATE` before region building.
+///
+/// This runs the finally extraction algorithm and applies instruction/block flags
+/// so codegen can skip duplicated finally sequences (1:1 with JADX behavior).
+pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[jadx_ir::TryBlock]) {
+    if try_blocks.is_empty() {
+        return;
+    }
+
+    let tries = detect_try_catch_regions(cfg, try_blocks);
+
+    for try_info in &tries {
+        // Catch-all handler (None type) is a candidate for finally.
+        let Some(catch_all_idx) = try_info.handlers.iter().position(|h| h.exception_type.is_none()) else {
+            continue;
+        };
+        let catch_all_handler = &try_info.handlers[catch_all_idx];
+
+        // Heuristic: finally handler ends with a throw (re-throw of stored exception).
+        let Some(last_block_id) = catch_all_handler.handler_blocks.iter().max().copied() else {
+            continue;
+        };
+        let Some(last_block) = cfg.get_block(last_block_id) else {
+            continue;
+        };
+        let ends_with_throw = last_block
+            .instructions
+            .last()
+            .map(|insn| matches!(insn.insn_type, InsnType::Throw { .. }))
+            .unwrap_or(false);
+        if !ends_with_throw {
+            continue;
+        }
+
+        if let Some(extract_info) = extract_finally(cfg, try_info, catch_all_handler) {
+            apply_finally_marking(&extract_info, cfg);
+        }
+    }
+}
+
 /// Detect try-catch regions from IR TryBlock information
 fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Vec<TryInfo> {
     let mut tries = Vec::with_capacity(try_blocks.len());
@@ -795,11 +835,6 @@ impl<'a> RegionBuilder<'a> {
         }
 
         // Run finally extraction algorithm
-        // Note: Full duplicate marking requires mutable CFG access.
-        // Infrastructure is implemented in finally_extract.rs.
-        // For production use, run extract_finally + apply_finally_marking before region building.
-        let _extract_info_opt = extract_finally(self.cfg, try_info, catch_all_handler);
-
         // Use simple finally detection (works for basic cases)
         // Mark handler blocks as processed
         for &block in &catch_all_handler.handler_blocks {
@@ -1347,7 +1382,10 @@ pub fn build_method_regions(blocks: &BTreeMap<u32, BasicBlock>, entry: u32) -> R
 mod tests {
     use super::*;
     use crate::block_split::split_blocks;
+    use crate::block_split::BlockSplitResult;
+    use jadx_ir::attributes::AFlag;
     use jadx_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType};
+    use jadx_ir::{ExceptionHandler, TryBlock};
 
     fn make_nop(offset: u32) -> InsnNode {
         InsnNode::new(InsnType::Nop, offset)
@@ -1495,6 +1533,81 @@ mod tests {
         assert!(
             !edge_insns.continues.is_empty(),
             "Should detect continue edge from inner condition"
+        );
+    }
+
+    #[test]
+    fn test_mark_duplicated_finally_marks_duplicate_handler_insns() {
+        let mut blocks = BTreeMap::new();
+
+        // Try block (id == address for this synthetic test)
+        let mut b0 = BasicBlock::new(0, 0);
+        b0.instructions.push(InsnNode::new(InsnType::Nop, 0));
+        blocks.insert(0, b0);
+
+        // Catch-all (finally) handler: 10 -> 11 -> 12 (throw)
+        let mut b10 = BasicBlock::new(10, 10);
+        b10.successors = vec![11];
+        blocks.insert(10, b10);
+
+        let mut b11 = BasicBlock::new(11, 11);
+        b11.instructions.push(InsnNode::new(InsnType::Nop, 11));
+        b11.instructions.push(InsnNode::new(InsnType::Nop, 12));
+        b11.predecessors = vec![10];
+        b11.successors = vec![12];
+        blocks.insert(11, b11);
+
+        let mut b12 = BasicBlock::new(12, 13);
+        b12.instructions.push(InsnNode::new(
+            InsnType::Throw {
+                exception: InsnArg::reg(0),
+            },
+            13,
+        ));
+        b12.predecessors = vec![11];
+        blocks.insert(12, b12);
+
+        // A catch handler with a duplicated copy of the finally code: 20 -> 21
+        let mut b20 = BasicBlock::new(20, 20);
+        b20.successors = vec![21];
+        blocks.insert(20, b20);
+
+        let mut b21 = BasicBlock::new(21, 21);
+        b21.instructions.push(InsnNode::new(InsnType::Nop, 21));
+        b21.instructions.push(InsnNode::new(InsnType::Nop, 22));
+        b21.predecessors = vec![20];
+        blocks.insert(21, b21);
+
+        let mut cfg = CFG::from_blocks(BlockSplitResult {
+            blocks,
+            entry_block: 0,
+            exit_blocks: vec![12],
+        });
+
+        let try_blocks = [TryBlock {
+            start_addr: 0,
+            end_addr: 1,
+            handlers: vec![
+                ExceptionHandler {
+                    exception_type: Some("Ljava/lang/Exception;".to_string()),
+                    handler_addr: 20,
+                },
+                ExceptionHandler {
+                    exception_type: None,
+                    handler_addr: 10,
+                },
+            ],
+        }];
+
+        mark_duplicated_finally(&mut cfg, &try_blocks);
+
+        let dup_block = cfg.get_block(21).expect("duplicate block missing");
+        assert!(
+            dup_block
+                .instructions
+                .iter()
+                .all(|i| i.has_flag(AFlag::DontGenerate)),
+            "expected duplicated finally instructions to be marked DONT_GENERATE"
         );
     }
 }

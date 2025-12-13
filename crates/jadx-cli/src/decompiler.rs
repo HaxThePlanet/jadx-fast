@@ -9,9 +9,10 @@
 use jadx_ir::regions::Region;
 use jadx_ir::{ClassData, MethodData};
 use jadx_passes::{
-    assign_var_names, split_blocks, transform_to_ssa, infer_types, build_regions,
+    assign_var_names, split_blocks, transform_to_ssa, infer_types,
     BlockSplitResult, CFG, SsaResult, TypeInferenceResult, VarNamingResult,
 };
+use jadx_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
 use jadx_codegen::{
     generate_body_with_dex, generate_class_with_dex,
     dex_info::DexInfoProvider,
@@ -57,7 +58,10 @@ pub fn decompile_method(method: &MethodData) -> Option<DecompiledMethod> {
     }
 
     // Stage 2: Build CFG
-    let cfg = CFG::from_blocks(blocks.clone());
+    let mut cfg = CFG::from_blocks(blocks.clone());
+
+    // Mark duplicated finally code before region building (JADX compatibility)
+    mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
     // Stage 3: SSA transformation
     let ssa = transform_to_ssa(&blocks);
@@ -71,7 +75,7 @@ pub fn decompile_method(method: &MethodData) -> Option<DecompiledMethod> {
     let var_names = assign_var_names(&ssa, &types, first_param_reg, num_params);
 
     // Stage 6: Region reconstruction
-    let regions = build_regions(&cfg);
+    let regions = build_regions_with_try_catch(&cfg, &method.try_blocks);
 
     Some(DecompiledMethod {
         blocks,
