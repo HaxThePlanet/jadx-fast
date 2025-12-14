@@ -1138,13 +1138,12 @@ fn process_dex_bytes(
                     hierarchy: Some(hierarchy_arc.clone()),
                 };
                 let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
-                // let code = jadx_codegen::generate_class_with_inner_classes(
-                //     &ir_class,
-                //     &config,
-                //     Some(dex_arc),
-                //     None,
-                // );
-                let code = String::new(); // DISABLED CODEGEN
+                let code = jadx_codegen::generate_class_with_inner_classes(
+                    &ir_class,
+                    &config,
+                    Some(dex_arc),
+                    None,
+                );
 
                 // Unload immediately after codegen to free memory
                 ir_class.unload();
