@@ -68,7 +68,8 @@ impl<'a> StmtGen<'a> {
     ) {
         code.start_line().add("return");
         if let Some(v) = value {
-            code.add(" ").add(&self.expr.gen_arg(v));
+            code.add(" ");
+            self.expr.write_arg(code, v);
         }
         code.add(";").newline();
     }
@@ -80,11 +81,9 @@ impl<'a> StmtGen<'a> {
         exception: &InsnArg,
         code: &mut W,
     ) {
-        code.start_line()
-            .add("throw ")
-            .add(&self.expr.gen_arg(exception))
-            .add(";")
-            .newline();
+        code.start_line().add("throw ");
+        self.expr.write_arg(code, exception);
+        code.add(";").newline();
     }
 
     /// Generate array put statement
@@ -96,14 +95,13 @@ impl<'a> StmtGen<'a> {
         value: &InsnArg,
         code: &mut W,
     ) {
-        code.start_line()
-            .add(&self.expr.gen_arg(array))
-            .add("[")
-            .add(&self.expr.gen_arg(index))
-            .add("] = ")
-            .add(&self.expr.gen_arg(value))
-            .add(";")
-            .newline();
+        code.start_line();
+        self.expr.write_arg(code, array);
+        code.add("[");
+        self.expr.write_arg(code, index);
+        code.add("] = ");
+        self.expr.write_arg(code, value);
+        code.add(";").newline();
     }
 
     /// Generate instance field put statement
@@ -115,14 +113,11 @@ impl<'a> StmtGen<'a> {
         value: &InsnArg,
         code: &mut W,
     ) {
-        code.start_line()
-            .add(&self.expr.gen_arg(object))
-            .add(".")
-            .add(field_name)
-            .add(" = ")
-            .add(&self.expr.gen_arg(value))
-            .add(";")
-            .newline();
+        code.start_line();
+        self.expr.write_arg(code, object);
+        code.add(".").add(field_name).add(" = ");
+        self.expr.write_arg(code, value);
+        code.add(";").newline();
     }
 
     /// Generate static field put statement
@@ -138,10 +133,9 @@ impl<'a> StmtGen<'a> {
             .add(class_name)
             .add(".")
             .add(field_name)
-            .add(" = ")
-            .add(&self.expr.gen_arg(value))
-            .add(";")
-            .newline();
+            .add(" = ");
+        self.expr.write_arg(code, value);
+        code.add(";").newline();
     }
 
     /// Generate method call as statement (ignoring return value)
@@ -163,11 +157,9 @@ impl<'a> StmtGen<'a> {
         object: &InsnArg,
         code: &mut W,
     ) {
-        code.start_line()
-            .add("synchronized (")
-            .add(&self.expr.gen_arg(object))
-            .add(") {")
-            .newline();
+        code.start_line().add("synchronized (");
+        self.expr.write_arg(code, object);
+        code.add(") {").newline();
         code.inc_indent();
     }
 
