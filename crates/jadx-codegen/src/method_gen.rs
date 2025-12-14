@@ -274,6 +274,8 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     hierarchy: Option<&jadx_ir::ClassHierarchy>,
     code: &mut W,
 ) {
+    use std::io::Write;
+    print!("  [Method:{}]", method.name); std::io::stdout().flush().unwrap();
     // Emit method annotations from DEX
     for annotation in &method.annotations {
         if should_emit_annotation(annotation) {

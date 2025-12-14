@@ -443,6 +443,8 @@ pub fn generate_class_with_inner_classes(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
 ) -> String {
+    use std::io::Write;
+    println!("DEBUG: generate_class_with_inner_classes start");
     let mut writer = SimpleCodeWriter::new();
     generate_class_to_writer_with_inner_classes(class, config, dex_info, inner_classes, &mut writer);
     writer.finish()
@@ -471,11 +473,14 @@ pub fn generate_class_to_writer_with_inner_classes<W: CodeWriter>(
     inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
     code: &mut W,
 ) {
+    use std::io::Write;
+    print!(" [Pkg]"); std::io::stdout().flush().unwrap();
     // Package declaration
     if let Some(pkg) = get_package(&class.class_type) {
         code.add("package ").add(&pkg).add(";").newline().newline();
     }
 
+    print!(" [ImpColl]"); std::io::stdout().flush().unwrap();
     // Collect imports (used for both import statements and short name resolution)
     let imports = if config.use_imports {
         let mut collector = ImportCollector::new(&class.class_type);
@@ -485,6 +490,7 @@ pub fn generate_class_to_writer_with_inner_classes<W: CodeWriter>(
         None
     };
 
+    print!(" [ImpGen]"); std::io::stdout().flush().unwrap();
     // Generate import statements
     if let Some(ref imp) = imports {
         if !imp.is_empty() {

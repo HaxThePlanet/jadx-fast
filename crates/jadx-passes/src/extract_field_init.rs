@@ -91,7 +91,10 @@ pub fn extract_field_init(class: &mut ClassData) {
 
     // Iteratively extract fields until no more can be extracted
     // This handles dependencies between static field initializations
-    loop {
+    // Limit iterations to prevent infinite loops (JADX has similar limits)
+    const MAX_EXTRACT_ITERATIONS: usize = 100;
+
+    for iteration in 0..MAX_EXTRACT_ITERATIONS {
         let method = &class.methods[clinit_idx];
         let inits = collect_field_inits(method, &class.static_fields);
 
@@ -108,6 +111,12 @@ pub fn extract_field_init(class: &mut ClassData) {
 
         // Apply the extracted initializations
         apply_field_inits(class, &filtered, clinit_idx);
+
+        // Safety check: if we've been iterating too long, bail out
+        if iteration >= MAX_EXTRACT_ITERATIONS - 1 {
+            tracing::warn!("extract_field_init hit iteration limit for class {}", class.class_type);
+            break;
+        }
     }
 }
 
@@ -224,6 +233,27 @@ fn extract_constant_value(arg: &InsnArg, method: &MethodData) -> Option<FieldVal
 
 /// Trace back through instructions to find the constant value assigned to a register
 fn trace_register_constant(reg_num: usize, method: &MethodData) -> Option<FieldValue> {
+    trace_register_constant_impl(reg_num, method, &mut HashSet::new(), 0)
+}
+
+/// Implementation with cycle detection and depth limiting
+fn trace_register_constant_impl(
+    reg_num: usize,
+    method: &MethodData,
+    visited: &mut HashSet<usize>,
+    depth: usize,
+) -> Option<FieldValue> {
+    // Prevent infinite recursion (limit depth to 20, matching JADX's conservative approach)
+    const MAX_TRACE_DEPTH: usize = 20;
+    if depth > MAX_TRACE_DEPTH {
+        return None;
+    }
+
+    // Detect cycles - if we've already visited this register, bail out
+    if !visited.insert(reg_num) {
+        return None; // Cycle detected
+    }
+
     // Get instructions (lazy loading support)
     let instructions = method.instructions()?;
 
@@ -261,7 +291,12 @@ fn trace_register_constant(reg_num: usize, method: &MethodData) -> Option<FieldV
             InsnType::Move { dest, src } if dest.reg_num == reg_num as u16 => {
                 // Register was moved from another register, follow the chain
                 if let InsnArg::Register(src_reg) = src {
-                    return trace_register_constant(src_reg.reg_num as usize, method);
+                    return trace_register_constant_impl(
+                        src_reg.reg_num as usize,
+                        method,
+                        visited,
+                        depth + 1,
+                    );
                 } else if let InsnArg::Literal(lit) = src {
                     return Some(match lit {
                         jadx_ir::instructions::LiteralArg::Int(v) => FieldValue::Int(*v as i32),
