@@ -521,7 +521,6 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
         }
     };
 
-    // Split into basic blocks (pass reference to avoid Vec clone)
     let block_result = split_blocks(insns);
 
     if block_result.blocks.is_empty() {
@@ -532,41 +531,27 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
         return;
     }
 
-    // Build CFG for dominance analysis (takes ownership, no clone needed)
     let mut cfg = CFG::from_blocks(block_result);
 
-    // Mark duplicated finally code before region building (JADX compatibility)
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
-    // Build region tree for structured code with try-catch support
-    // Region analysis only needs instruction types for control flow, not SSA info
     let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
 
-    // Extract blocks from CFG after region analysis
     let block_result = cfg.into_blocks();
 
-    // SSA transformation - use owned version to avoid cloning instructions
     let ssa_result = transform_to_ssa_owned(block_result);
 
-    // Type inference on SSA form
     let type_result = infer_types(&ssa_result);
 
-    // Create generation context with type info
     let mut ctx = BodyGenContext::from_method(method);
-    // Extract max_versions before consuming ssa_result (small HashMap, cheap to move)
     let max_versions = ssa_result.max_versions.clone();
-    // Use SSA blocks instead of CFG blocks to preserve SSA versions for proper variable naming
-    // Use owned version to avoid cloning instructions again
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
 
-    // Count variable uses for expression inlining
     ctx.use_counts = count_variable_uses(&ctx.blocks);
 
-    // Compute final variables from SSA - variables with max_version == 0 are final
     ctx.set_final_vars_from_max_versions(&max_versions);
 
-    // Apply inferred types and generate variable names
     apply_inferred_types(&mut ctx);
     generate_var_names(&mut ctx);
 
@@ -608,7 +593,6 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         }
     };
 
-    // Split into basic blocks (pass reference to avoid Vec clone)
     let block_result = split_blocks(insns);
 
     if block_result.blocks.is_empty() {
@@ -619,23 +603,16 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         return;
     }
 
-    // Build CFG for dominance analysis (takes ownership, no clone needed)
     let mut cfg = CFG::from_blocks(block_result);
 
-    // Mark duplicated finally code before region building (JADX compatibility)
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
-    // Build region tree for structured code with try-catch support
-    // Region analysis only needs instruction types for control flow, not SSA info
     let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
 
-    // Extract blocks from CFG after region analysis
     let block_result = cfg.into_blocks();
 
-    // SSA transformation - use owned version to avoid cloning instructions
     let ssa_result = transform_to_ssa_owned(block_result);
 
-    // Type inference on SSA form - use DEX lookups if available for better type accuracy
     let type_result = if let Some(ref dex) = dex_info {
         let dex_clone = dex.clone();
         let dex_clone2 = dex.clone();
@@ -650,24 +627,16 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         infer_types(&ssa_result)
     };
 
-    // Create generation context with type info and DEX data for name resolution
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
-    // Extract max_versions before consuming ssa_result
     let max_versions = ssa_result.max_versions.clone();
-    // Use SSA blocks instead of CFG blocks to preserve SSA versions for proper variable naming
-    // Use owned version to avoid cloning instructions again
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
-    // Set imports for using simple type names in variable declarations
     ctx.imports = imports.cloned();
 
-    // Count variable uses for expression inlining
     ctx.use_counts = count_variable_uses(&ctx.blocks);
 
-    // Compute final variables from SSA - variables with max_version == 0 are final
     ctx.set_final_vars_from_max_versions(&max_versions);
 
-    // Apply inferred types and generate variable names
     apply_inferred_types(&mut ctx);
     generate_var_names(&mut ctx);
 
@@ -724,7 +693,6 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         }
     };
 
-    // POTENTIAL: Split into basic blocks (pass reference to avoid Vec clone)
     let block_result = split_blocks(insns);
 
     if block_result.blocks.is_empty() {
@@ -735,7 +703,6 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         return;
     }
 
-    // POTENTIAL: Build CFG for dominance analysis (takes ownership, no clone needed)
     let mut cfg = CFG::from_blocks(block_result);
 
     // JADX EXPLOSION PREVENTION: Check block count before region building
@@ -752,22 +719,14 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         return;
     }
 
-    // POTENTIAL: Mark duplicated finally code before region building (JADX compatibility)
-    // TEMPORARY: Commented out to test if finally marking causes explosion
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
-    // POTENTIAL: Build region tree for structured code with try-catch support
-    // Region analysis only needs instruction types for control flow, not SSA info
     let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
     
-    // POTENTIAL: Extract blocks from CFG after region analysis
     let block_result = cfg.into_blocks();
 
-    // POTENTIAL: SSA transformation - use owned version to avoid cloning instructions
     let ssa_result = transform_to_ssa_owned(block_result);
 
-    // POTENTIAL: Type inference on SSA form (use hierarchy for better precision if available)
-    // Hierarchy enables LCA calculation for PHI nodes and subtype checking
     let type_result = if let Some(h) = hierarchy {
         jadx_passes::infer_types_with_hierarchy(&ssa_result, h)
     } else if let Some(ref dex) = dex_info {
@@ -784,38 +743,27 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         infer_types(&ssa_result)
     };
 
-    // CLEAN: Create generation context with type info and DEX data for name resolution
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
-    // CLEAN: Extract max_versions before consuming ssa_result
     let max_versions = ssa_result.max_versions.clone();
-    // CLEAN: Use owned version to avoid cloning instructions again
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
     ctx.imports = imports.cloned();
 
-    // POTENTIAL: Register inner classes for anonymous class inlining
-    // Using Arc avoids expensive deep cloning - just increment reference count
     if let Some(inner) = inner_classes {
         for (type_desc, class_data) in inner {
-            // Only register anonymous classes
             if is_anonymous_class(type_desc) {
                 ctx.anonymous_classes.insert(type_desc.clone(), class_data.clone());
             }
         }
     }
 
-    // POTENTIAL: Count variable uses for expression inlining
     ctx.use_counts = count_variable_uses(&ctx.blocks);
 
-    // POTENTIAL: Compute final variables from SSA - variables with max_version == 0 are final
     ctx.set_final_vars_from_max_versions(&max_versions);
 
-    // POTENTIAL: Apply inferred types and generate variable names
     apply_inferred_types(&mut ctx);
     generate_var_names(&mut ctx);
 
-    // POTENTIAL: Generate region code
-    // TEMPORARY: Region building disabled - use simple block generation as fallback
     generate_region(&region, &mut ctx, code);
 }
 
@@ -1515,8 +1463,7 @@ fn emit_ternary_assignment<W: CodeWriter>(
         .newline();
 }
 
-// Note: Condition setup removed due to memory issues
-// The proper fix requires rethinking how condition blocks are processed
+
 
 /// Convert CFG blocks to a map (borrowing around CFG internals)
 fn cfg_blocks_to_map(cfg: &CFG) -> BTreeMap<u32, BasicBlock> {
