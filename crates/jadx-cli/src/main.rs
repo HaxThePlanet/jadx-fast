@@ -1079,7 +1079,9 @@ fn process_dex_bytes(
 
     // Process classes in parallel using rayon
     use rayon::prelude::*;
-    class_indices.par_iter().for_each(|&idx| {
+    // Use batches of 48 to match JADX logic and reduce overhead
+    class_indices.par_chunks(48).for_each(|chunk| {
+        for &idx in chunk {
         // Fetch class name on-demand to avoid storing all names in memory
         let class_desc = dex.get_class(idx)
             .ok()
@@ -1165,6 +1167,7 @@ fn process_dex_bytes(
 
         if let Some(pb) = progress_ref {
             pb.inc(1);
+        }
         }
     });
 
