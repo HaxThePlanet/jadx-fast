@@ -37,7 +37,7 @@ use jadx_ir::MethodData;
 use jadx_passes::block_split::{split_blocks, BasicBlock};
 use jadx_passes::cfg::CFG;
 use jadx_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
-use jadx_passes::ssa::{transform_to_ssa, transform_to_ssa_owned};
+use jadx_passes::ssa::{transform_to_ssa, transform_to_ssa_owned, SsaResult, SsaBlock};
 use jadx_passes::type_inference::{infer_types, TypeInferenceResult};
 
 use crate::class_gen::is_anonymous_class;
@@ -619,7 +619,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         }
     };
 
-    // Split into basic blocks (pass reference to avoid Vec clone)
+    // POTENTIAL: Split into basic blocks (pass reference to avoid Vec clone)
     let block_result = split_blocks(insns);
 
     if block_result.blocks.is_empty() {
@@ -630,23 +630,23 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         return;
     }
 
-    // Build CFG for dominance analysis (takes ownership, no clone needed)
+    // POTENTIAL: Build CFG for dominance analysis (takes ownership, no clone needed)
     let mut cfg = CFG::from_blocks(block_result);
 
-    // Mark duplicated finally code before region building (JADX compatibility)
+    // POTENTIAL: Mark duplicated finally code before region building (JADX compatibility)
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
-    // Build region tree for structured code with try-catch support
+    // POTENTIAL: Build region tree for structured code with try-catch support
     // Region analysis only needs instruction types for control flow, not SSA info
     let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
 
-    // Extract blocks from CFG after region analysis
+    // POTENTIAL: Extract blocks from CFG after region analysis
     let block_result = cfg.into_blocks();
 
-    // SSA transformation - use owned version to avoid cloning instructions
+    // POTENTIAL: SSA transformation - use owned version to avoid cloning instructions
     let ssa_result = transform_to_ssa_owned(block_result);
 
-    // Type inference on SSA form (use hierarchy for better precision if available)
+    // POTENTIAL: Type inference on SSA form (use hierarchy for better precision if available)
     // Hierarchy enables LCA calculation for PHI nodes and subtype checking
     let type_result = if let Some(h) = hierarchy {
         jadx_passes::infer_types_with_hierarchy(&ssa_result, h)
@@ -664,16 +664,16 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         infer_types(&ssa_result)
     };
 
-    // Create generation context with type info and DEX data for name resolution
+    // CLEAN: Create generation context with type info and DEX data for name resolution
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
-    // Extract max_versions before consuming ssa_result
+    // CLEAN: Extract max_versions before consuming ssa_result
     let max_versions = ssa_result.max_versions.clone();
-    // Use owned version to avoid cloning instructions again
+    // CLEAN: Use owned version to avoid cloning instructions again
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
     ctx.imports = imports.cloned();
 
-    // Register inner classes for anonymous class inlining
+    // POTENTIAL: Register inner classes for anonymous class inlining
     // Using Arc avoids expensive deep cloning - just increment reference count
     if let Some(inner) = inner_classes {
         for (type_desc, class_data) in inner {
@@ -684,19 +684,18 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         }
     }
 
-    // Count variable uses for expression inlining
+    // POTENTIAL: Count variable uses for expression inlining
     ctx.use_counts = count_variable_uses(&ctx.blocks);
 
-    // Compute final variables from SSA - variables with max_version == 0 are final
+    // POTENTIAL: Compute final variables from SSA - variables with max_version == 0 are final
     ctx.set_final_vars_from_max_versions(&max_versions);
 
-    // Apply inferred types and generate variable names
+    // POTENTIAL: Apply inferred types and generate variable names
     apply_inferred_types(&mut ctx);
     generate_var_names(&mut ctx);
 
-    // MEMORY DEBUG: Comment out actual region code generation
-    // generate_region(&region, &mut ctx, code);
-    code.start_line().add("/* region generation disabled */").newline();
+    // POTENTIAL: Generate region code
+    generate_region(&region, &mut ctx, code);
 }
 
 /// Apply inferred types from type inference to the expression generator
@@ -1428,6 +1427,7 @@ fn ssa_blocks_to_map(ssa_result: &jadx_passes::ssa::SsaResult) -> BTreeMap<u32, 
             start_offset,
             end_offset,
             instructions: ssa_block.instructions.clone(),
+            insn_indices: Vec::new(),  // TODO: Populate with actual indices when Phase 3 is complete
             successors: ssa_block.successors.clone(),
             predecessors: ssa_block.predecessors.clone(),
             flags: 0,
@@ -1456,6 +1456,7 @@ fn ssa_blocks_to_map_owned(ssa_result: jadx_passes::ssa::SsaResult) -> BTreeMap<
             start_offset,
             end_offset,
             instructions: ssa_block.instructions, // Move, not clone!
+            insn_indices: Vec::new(),  // TODO: Populate with actual indices when Phase 3 is complete
             successors: ssa_block.successors,     // Move, not clone!
             predecessors: ssa_block.predecessors, // Move, not clone!
             flags: 0,
@@ -1469,12 +1470,8 @@ fn ssa_blocks_to_map_owned(ssa_result: jadx_passes::ssa::SsaResult) -> BTreeMap<
 fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
     match region {
         Region::Sequence(contents) => {
-            // MEMORY DEBUG: Comment out content generation
-            // for content in contents {
-            //     generate_content(content, ctx, code);
-            // }
-            for _ in contents {
-                code.start_line().add("// sequence content stub").newline();
+            for content in contents {
+                generate_content(content, ctx, code);
             }
         }
 
@@ -1728,12 +1725,31 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 fn generate_content<W: CodeWriter>(content: &RegionContent, ctx: &mut BodyGenContext, code: &mut W) {
     match content {
         RegionContent::Block(block_id) => {
-            // MEMORY DEBUG: Comment out block generation
-            // Clone the block to avoid borrow conflict with ctx
-            // if let Some(block) = ctx.blocks.get(block_id).cloned() {
-            //     generate_block(&block, ctx, code);
-            // }
-            code.start_line().add("// block stub").newline();
+            // OPTIMIZED: Release immutable borrow before taking mutable borrow
+            // Step 1: Extract just what we need while holding immutable ref (cheap field copies)
+            let (id, start, end, flags) = {
+                if let Some(b) = ctx.blocks.get(block_id) {
+                    (b.id, b.start_offset, b.end_offset, b.flags)
+                } else {
+                    return;
+                }
+            }; // <- immutable borrow ends here
+
+            // Step 2: Now we can safely use mutable ctx
+            // BUT we still need the instructions Vec - this requires a clone of the Arc pointers
+            // Which is just memory copies (8 bytes each), not cloning the actual InsnNode data
+            let instructions = ctx.blocks[block_id].instructions.clone();
+            let block_ref = BasicBlock {
+                id,
+                start_offset: start,
+                end_offset: end,
+                instructions,
+                insn_indices: Vec::new(),
+                successors: Vec::new(),
+                predecessors: Vec::new(),
+                flags,
+            };
+            generate_block(&block_ref, ctx, code);
         }
         RegionContent::Region(region) => {
             generate_region(region, ctx, code);
@@ -1748,10 +1764,11 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
         return;
     }
 
-    let insns: Vec<_> = block.instructions.iter().collect();
-    let last_idx = insns.len().saturating_sub(1);
+    let last_idx = block.instructions.len().saturating_sub(1);
 
-    for (i, insn_arc) in insns.iter().enumerate() {
+    // OPTIMIZED: Iterate directly without collecting into Vec
+    // This avoids allocating a Vec of Arc pointers which causes memory explosion
+    for (i, insn_arc) in block.instructions.iter().enumerate() {
         let insn = insn_arc.lock().unwrap();
         // Skip instructions marked with DONT_GENERATE (duplicated finally code)
         if insn.has_flag(AFlag::DontGenerate) {
@@ -1770,25 +1787,24 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
             }
         }
 
-        // Check if next instruction is MoveResult (for invoke pairing)
-        let next_is_move_result = insns.get(i + 1)
-            .map(|next_arc| {
-                let next = next_arc.lock().unwrap();
-                matches!(next.insn_type, InsnType::MoveResult { .. })
-            })
-            .unwrap_or(false);
+        // OPTIMIZED: Peek at next instruction without collecting
+        let next_is_move_result = if i + 1 < block.instructions.len() {
+            let next_arc = &block.instructions[i + 1];
+            let next = next_arc.lock().unwrap();
+            matches!(next.insn_type, InsnType::MoveResult { .. })
+        } else {
+            false
+        };
 
-        // MEMORY DEBUG: Comment out instruction generation
         // Generate statement or expression
-        // if !generate_insn_with_lookahead(&insn, next_is_move_result, ctx, code) {
-        //     // Fallback: emit as comment
-        //     code.start_line()
-        //         .add("/* ")
-        //         .add(&format!("{:?}", insn.insn_type))
-        //         .add(" */")
-        //         .newline();
-        // }
-        code.start_line().add("// insn stub").newline();
+        if !generate_insn_with_lookahead(&insn, next_is_move_result, ctx, code) {
+            // Fallback: emit as comment
+            code.start_line()
+                .add("/* ")
+                .add(&format!("{:?}", insn.insn_type))
+                .add(" */")
+                .newline();
+        }
     }
 }
 

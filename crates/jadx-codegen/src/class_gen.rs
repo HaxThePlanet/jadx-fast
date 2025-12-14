@@ -286,9 +286,8 @@ impl ImportCollector {
             for annotation in &method.annotations {
                 self.add_internal_name(&annotation.annotation_type);
             }
-            // MEMORY DEBUG: Comment out instruction collection - testing if this be the culprit!
-            // This calls dex.get_method() and dex.get_field() for every instruction
-            // which might be accumulating massive cache entries
+            // Collect types from method body instructions
+            // TEMPORARILY DISABLED TO TEST
             // if let Some(instructions) = method.instructions() {
             //     self.collect_from_instructions(instructions, dex_info);
             // }
@@ -792,9 +791,7 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
             }
         }
         code.newline();
-        // MEMORY DEBUG: Comment out actual method generation call
-        // generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), code);
-        code.start_line().add("// stub").newline();
+        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), code);
     }
 }
 

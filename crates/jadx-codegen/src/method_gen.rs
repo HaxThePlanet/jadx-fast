@@ -326,17 +326,13 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     } else if method.is_class_init() {
         code.add(" {").newline();
         code.inc_indent();
-        // MEMORY DEBUG: Comment out body generation - test if this be the beast!
-        // add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, code);
-        code.start_line().add("// body stub").newline();
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
         code.add(" {").newline();
         code.inc_indent();
-        // MEMORY DEBUG: Comment out body generation - test if this be the beast!
-        // add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, code);
-        code.start_line().add("// body stub").newline();
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     }

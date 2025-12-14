@@ -1064,13 +1064,18 @@ fn process_dex_bytes(
     let error_count = std::sync::atomic::AtomicUsize::new(0);
     let hierarchy_arc = std::sync::Arc::new(class_hierarchy);
 
-    // MEMORY DEBUG: Test only convert_class, skip codegen
+    // Process classes sequentially (memory-safe: one class at a time)
     for &idx in &class_indices {
         // Fetch class name on-demand to avoid storing all names in memory
         let class_desc = dex.get_class(idx)
             .ok()
             .and_then(|c| c.class_type().ok().map(|t| t.to_string()))
             .unwrap_or_else(|| format!("LUnknownClass{};", idx));
+
+        let out_path = {
+            let rel_path = deobf::class_output_rel_path(&class_desc, &alias_registry);
+            out_src.join(&rel_path)
+        };
 
         // Convert class to IR
         let ir_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
@@ -1095,10 +1100,10 @@ fn process_dex_bytes(
         }))
         .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_desc)));
 
-        // Generate code - ADD CODEGEN
-        match ir_result {
+        // Generate code
+        let java_code = match ir_result {
             Ok(mut ir_class) => {
-                // LOAD INSTRUCTIONS
+                // Load instructions before codegen
                 for method in &mut ir_class.methods {
                     let _ = converter::load_method_instructions(method, &dex);
                 }
@@ -1106,9 +1111,8 @@ fn process_dex_bytes(
                 // Extract static field initializations
                 jadx_passes::extract_field_init(&mut ir_class);
 
-                // ENABLE CODEGEN - TEST WITH use_imports DISABLED
                 let config = jadx_codegen::ClassGenConfig {
-                    use_imports: false,  // FORCE DISABLED - test if ImportCollector be the culprit
+                    use_imports: args.use_imports(),
                     show_debug: false,
                     fallback: args.effective_decompilation_mode() == DecompilationMode::Fallback,
                     escape_unicode: args.escape_unicode,
@@ -1118,7 +1122,7 @@ fn process_dex_bytes(
                     hierarchy: Some(hierarchy_arc.clone()),
                 };
                 let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
-                let _code = jadx_codegen::generate_class_with_inner_classes(
+                let code = jadx_codegen::generate_class_with_inner_classes(
                     &ir_class,
                     &config,
                     Some(dex_arc),
@@ -1127,19 +1131,31 @@ fn process_dex_bytes(
 
                 // Unload immediately after codegen to free memory
                 ir_class.unload();
+                code
             }
-            Err(_e) => {
+            Err(e) => {
                 error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-                // Skip writing error stub
+                format!(
+                    "// Failed to decompile: {}\nclass {} {{\n}}\n",
+                    e,
+                    class_desc.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown")
+                )
             }
         };
+
+        // Write to file
+        if let Err(e) = std::fs::write(&out_path, java_code) {
+            tracing::warn!("Failed to write {}: {}", out_path.display(), e);
+            error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        }
+
         if let Some(pb) = progress.as_ref() {
             pb.inc(1);
         }
     }
 
     if let Some(pb) = progress {
-        pb.finish_with_message("done (convert_class only)");
+        pb.finish_with_message("done");
     }
 
     // Explicit cleanup - drop class_indices before returning

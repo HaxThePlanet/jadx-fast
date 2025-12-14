@@ -21,6 +21,9 @@ pub struct BasicBlock {
     pub end_offset: u32,
     /// Instructions in this block (shared Arc<Mutex<>> to eliminate 5-20x cloning)
     pub instructions: Vec<Arc<Mutex<InsnNode>>>,
+    /// OPTIMIZED: Indices into central instruction pool (Phase 3 - zero-copy)
+    /// When available, use this instead of instructions to avoid Arc<Mutex<>> overhead
+    pub insn_indices: Vec<u32>,
     /// Successor block IDs
     pub successors: Vec<u32>,
     /// Predecessor block IDs
@@ -37,6 +40,7 @@ impl BasicBlock {
             start_offset,
             end_offset: start_offset,
             instructions: Vec::new(),
+            insn_indices: Vec::new(),
             successors: Vec::new(),
             predecessors: Vec::new(),
             flags: 0,
