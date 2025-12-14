@@ -235,11 +235,9 @@ impl Args {
         if self.threads > 0 {
             return self.threads;
         }
-        // CRITICAL FIX: With batch processing (batch size 4), using all 56 cores causes
-        // 56 batches to run in parallel = 224 classes with loaded instructions = 256GB memory!
-        // Java JADX uses small batches with limited parallelism. Default to 4 cores max.
-        // Users can override with -j flag or RAYON_NUM_THREADS env var.
-        4
+        // Java JADX uses small batches with limited parallelism (availableProcessors / 3)
+        // to prevent memory exhaustion on high-core machines.
+        std::cmp::max(1, num_cpus::get() / 3)
     }
 
     /// Validate arguments

@@ -1064,8 +1064,22 @@ fn process_dex_bytes(
     let error_count = std::sync::atomic::AtomicUsize::new(0);
     let hierarchy_arc = std::sync::Arc::new(class_hierarchy);
 
-    // Process classes sequentially (memory-safe: one class at a time)
-    for &idx in &class_indices {
+    // Extract args values for parallel closure
+    let debug_info = args.debug_info();
+    let process_kotlin = args.process_kotlin_metadata();
+    let use_imports = args.use_imports();
+    let fallback_mode = args.effective_decompilation_mode() == DecompilationMode::Fallback;
+    let escape_unicode = args.escape_unicode;
+    let inline_anonymous = args.inline_anonymous();
+    let add_debug_lines = args.add_debug_lines;
+    let inline_methods = args.inline_methods();
+
+    // Prepare progress bar for parallel use
+    let progress_ref = progress.as_ref();
+
+    // Process classes in parallel using rayon
+    use rayon::prelude::*;
+    class_indices.par_iter().for_each(|&idx| {
         // Fetch class name on-demand to avoid storing all names in memory
         let class_desc = dex.get_class(idx)
             .ok()
@@ -1082,10 +1096,10 @@ fn process_dex_bytes(
             dex.get_class(idx)
                 .map_err(|e| format!("Failed to get class: {}", e))
                 .and_then(|class| {
-                    converter::convert_class(&dex, &class, args.debug_info())
+                    converter::convert_class(&dex, &class, debug_info)
                         .map(|mut class_data| {
                             // Process Kotlin metadata annotations (extracts names)
-                            if args.process_kotlin_metadata() {
+                            if process_kotlin {
                                 if let Err(e) = jadx_kotlin::process_kotlin_metadata(&mut class_data) {
                                     tracing::debug!("Kotlin metadata processing failed for {}: {}", class_desc, e);
                                 }
@@ -1112,13 +1126,13 @@ fn process_dex_bytes(
                 jadx_passes::extract_field_init(&mut ir_class);
 
                 let config = jadx_codegen::ClassGenConfig {
-                    use_imports: args.use_imports(),
+                    use_imports,
                     show_debug: false,
-                    fallback: args.effective_decompilation_mode() == DecompilationMode::Fallback,
-                    escape_unicode: args.escape_unicode,
-                    inline_anonymous: args.inline_anonymous(),
-                    add_debug_lines: args.add_debug_lines,
-                    inline_methods: args.inline_methods(),
+                    fallback: fallback_mode,
+                    escape_unicode,
+                    inline_anonymous,
+                    add_debug_lines,
+                    inline_methods,
                     hierarchy: Some(hierarchy_arc.clone()),
                 };
                 let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
@@ -1149,10 +1163,10 @@ fn process_dex_bytes(
             error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
         }
 
-        if let Some(pb) = progress.as_ref() {
+        if let Some(pb) = progress_ref {
             pb.inc(1);
         }
-    }
+    });
 
     if let Some(pb) = progress {
         pb.finish_with_message("done");
