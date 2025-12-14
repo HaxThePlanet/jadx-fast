@@ -675,6 +675,10 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
     generate_region(&region, &mut ctx, code);
 }
 
+thread_local! {
+    static CODEGEN_DEPTH: std::cell::RefCell<usize> = std::cell::RefCell::new(0);
+}
+
 /// Generate method body from instructions with inner classes for anonymous class inlining
 ///
 /// When `inner_classes` is provided, anonymous inner class instantiations will have
@@ -687,6 +691,28 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     hierarchy: Option<&jadx_ir::ClassHierarchy>,
     code: &mut W,
 ) {
+    CODEGEN_DEPTH.with(|depth| {
+        let mut d = depth.borrow_mut();
+        *d += 1;
+        if *d > 50 { // Limit recursion depth
+             // Don't panic, just stop inlining? No, panic unwinds to catch_unwind in main (if added)
+             // JADX throws exception.
+             *d -= 1;
+             panic!("Codegen recursion limit reached (50) in {}", method.name);
+        }
+    });
+
+    struct DepthGuard;
+    impl Drop for DepthGuard {
+        fn drop(&mut self) {
+            CODEGEN_DEPTH.with(|depth| {
+                let mut d = depth.borrow_mut();
+                if *d > 0 { *d -= 1; }
+            });
+        }
+    }
+    let _guard = DepthGuard;
+
     let insns = match method.instructions() {
         Some(i) if !i.is_empty() => i,
         _ => {

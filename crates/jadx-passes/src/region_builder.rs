@@ -223,23 +223,15 @@ pub fn build_regions(cfg: &CFG) -> Region {
 
 /// Build regions with try-catch block information from IR
 pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Region {
-    // Detect loops and conditionals
-    let loops = detect_loops(cfg);
-    let conditionals = detect_conditionals(cfg, &loops);
-
-    // Detect synchronized blocks
-    let syncs = detect_synchronized_blocks(cfg);
-
-    // Convert IR try_blocks to TryInfo for CFG
+    // Convert try blocks to internal format
     let tries = detect_try_catch_regions(cfg, try_blocks);
 
-    // Detect merged condition chains (&&, ||)
-    let merged_conditions = find_condition_chains(&conditionals, cfg);
+    let loops = detect_loops(cfg);
+    let conditionals = detect_conditionals(cfg, &loops);
+    let syncs = detect_synchronized_blocks(cfg);
+    let merged = find_condition_chains(&conditionals, cfg);
 
-    // Create builder context with try-catch information and merged conditions
-    let mut builder = RegionBuilder::new(cfg, &loops, &conditionals, &syncs, &tries, &merged_conditions);
-
-    // Build from entry block
+    let mut builder = RegionBuilder::new(cfg, &loops, &conditionals, &syncs, &tries, &merged);
     builder.make_method_region()
 }
 
@@ -452,6 +444,10 @@ impl RegionStack {
 
     /// Push a new region level
     fn push(&mut self) {
+        // JADX: RegionStack.java:66
+        if self.exits.len() > 1000 {
+            panic!("Regions stack size limit reached");
+        }
         self.exits.push(BTreeSet::new());
     }
 
@@ -505,6 +501,10 @@ struct RegionBuilder<'a> {
     merged_blocks: BTreeSet<u32>,
     /// Region stack for exit tracking
     stack: RegionStack,
+    /// Number of regions created so far
+    regions_count: usize,
+    /// Maximum number of regions allowed (blocks * 100)
+    regions_limit: usize,
 }
 
 impl<'a> RegionBuilder<'a> {
@@ -563,6 +563,8 @@ impl<'a> RegionBuilder<'a> {
             merged_map,
             merged_blocks,
             stack: RegionStack::new(),
+            regions_count: 0,
+            regions_limit: cfg.block_ids().count() * 100,
         }
     }
 
@@ -574,6 +576,12 @@ impl<'a> RegionBuilder<'a> {
 
     /// Make a region starting from a block (like Java's makeRegion)
     fn make_region(&mut self, start_block: u32) -> Region {
+        // JADX: RegionMaker.java:68
+        self.regions_count += 1;
+        if self.regions_count > self.regions_limit {
+            panic!("Regions count limit reached");
+        }
+
         let mut contents = Vec::new();
 
         // Check if we've already hit an exit
@@ -589,6 +597,9 @@ impl<'a> RegionBuilder<'a> {
         let mut current = Some(start_block);
 
         while let Some(block_id) = current {
+            if contents.len() > 100_000 { // Safety limit
+                panic!("Region contents limit reached (100,000) at block {}", block_id);
+            }
             current = self.traverse(&mut contents, block_id);
         }
 

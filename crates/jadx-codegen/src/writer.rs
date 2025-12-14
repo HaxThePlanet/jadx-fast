@@ -66,6 +66,12 @@ impl CodeWriter for SimpleCodeWriter {
     }
 
     fn add(&mut self, s: &str) -> &mut Self {
+        if s.len() > 10_000_000 {
+             panic!("SimpleCodeWriter adding huge string! len={} start={:.50}...", s.len(), s);
+        }
+        if self.buf.len() > 100_000_000 { // 100MB limit check BEFORE allocation
+             panic!("SimpleCodeWriter limit exceeded (100MB) while adding: {:.50}...", s);
+        }
         if self.at_line_start {
             self.write_indent();
             self.at_line_start = false;

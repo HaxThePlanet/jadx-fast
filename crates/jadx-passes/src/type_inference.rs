@@ -690,7 +690,7 @@ impl TypeInference {
         // Multiple iterations until no changes
         let mut changed = true;
         let mut iterations = 0;
-        const MAX_ITERATIONS: usize = 100;
+        const MAX_ITERATIONS: usize = 25_000; // Increased limit for complex methods
 
         while changed && iterations < MAX_ITERATIONS {
             changed = false;

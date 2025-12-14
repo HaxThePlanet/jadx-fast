@@ -84,7 +84,14 @@ impl DominatorTree {
 
         // Iterative dominator computation
         let mut changed = true;
+        let mut iterations = 0;
+        let max_iterations = block_ids.len() * 10 + 1000; // Safety limit
+
         while changed {
+            iterations += 1;
+            if iterations > max_iterations {
+                panic!("Dominator tree computation limit reached");
+            }
             changed = false;
 
             for &b in &rpo {
