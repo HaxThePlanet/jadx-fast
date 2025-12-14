@@ -215,6 +215,20 @@ impl BodyGenContext {
         self.expr_gen.gen_arg(arg)
     }
 
+    /// OPTIMIZED: Write arg directly to CodeWriter without String allocation
+    /// This is the zero-allocation pattern following Java JADX design
+    pub fn write_arg_inline<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg) {
+        if let InsnArg::Register(reg) = arg {
+            // Check if we have an inlined expression for this register
+            if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
+                writer.add(&expr);
+                return;
+            }
+        }
+        // Fall back to direct write via ExprGen
+        self.expr_gen.write_arg(writer, arg);
+    }
+
     /// Set imports for using simple type names in variable declarations
     pub fn set_imports(&mut self, imports: Option<BTreeSet<String>>) {
         self.imports = imports;
@@ -2059,18 +2073,17 @@ fn generate_insn<W: CodeWriter>(
         InsnType::Return { value } => {
             code.start_line().add("return");
             if let Some(v) = value {
-                code.add(" ").add(&ctx.gen_arg_inline(v));
+                code.add(" ");
+                ctx.write_arg_inline(code, v);  // OPTIMIZED: direct write
             }
             code.add(";").newline();
             true
         }
 
         InsnType::Throw { exception } => {
-            code.start_line()
-                .add("throw ")
-                .add(&ctx.gen_arg_inline(exception))
-                .add(";")
-                .newline();
+            code.start_line().add("throw ");
+            ctx.write_arg_inline(code, exception);  // OPTIMIZED: direct write
+            code.add(";").newline();
             true
         }
 
@@ -2153,14 +2166,14 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::ArrayPut { array, index, value, .. } => {
-            code.start_line()
-                .add(&ctx.expr_gen.gen_arg(array))
-                .add("[")
-                .add(&ctx.expr_gen.gen_arg(index))
-                .add("] = ")
-                .add(&ctx.expr_gen.gen_arg(value))
-                .add(";")
-                .newline();
+            // OPTIMIZED: Direct write without String allocation
+            code.start_line();
+            ctx.expr_gen.write_arg(code, array);
+            code.add("[");
+            ctx.expr_gen.write_arg(code, index);
+            code.add("] = ");
+            ctx.expr_gen.write_arg(code, value);
+            code.add(";").newline();
             true
         }
 
@@ -2174,18 +2187,14 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::InstancePut { object, field_idx, value } => {
-            let obj_str = ctx.expr_gen.gen_arg(object);
-            let val_str = ctx.expr_gen.gen_arg(value);
+            // OPTIMIZED: Direct write without String allocation
             let field_name = ctx.expr_gen.get_field_name(*field_idx)
                 .unwrap_or_else(|| format!("field#{}", field_idx));
-            code.start_line()
-                .add(&obj_str)
-                .add(".")
-                .add(&field_name)
-                .add(" = ")
-                .add(&val_str)
-                .add(";")
-                .newline();
+            code.start_line();
+            ctx.expr_gen.write_arg(code, object);
+            code.add(".").add(&field_name).add(" = ");
+            ctx.expr_gen.write_arg(code, value);
+            code.add(";").newline();
             true
         }
 
@@ -2197,15 +2206,12 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::StaticPut { field_idx, value } => {
-            let val_str = ctx.expr_gen.gen_arg(value);
+            // OPTIMIZED: Direct write without String allocation
             let field_ref = ctx.expr_gen.get_static_field_ref(*field_idx)
                 .unwrap_or_else(|| format!("field#{}", field_idx));
-            code.start_line()
-                .add(&field_ref)
-                .add(" = ")
-                .add(&val_str)
-                .add(";")
-                .newline();
+            code.start_line().add(&field_ref).add(" = ");
+            ctx.expr_gen.write_arg(code, value);
+            code.add(";").newline();
             true
         }
 
@@ -2213,15 +2219,18 @@ fn generate_insn<W: CodeWriter>(
             if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
                 code.start_line().add(&expr).add(";").newline();
             } else {
-                // Fallback
-                let args_str: Vec<_> = args.iter().map(|a| ctx.expr_gen.gen_arg(a)).collect();
+                // OPTIMIZED: Direct write without Vec<String> allocation
                 code.start_line()
                     .add("method#")
                     .add(&method_idx.to_string())
-                    .add("(")
-                    .add(&args_str.join(", "))
-                    .add(");")
-                    .newline();
+                    .add("(");
+                for (i, a) in args.iter().enumerate() {
+                    if i > 0 {
+                        code.add(", ");
+                    }
+                    ctx.expr_gen.write_arg(code, a);
+                }
+                code.add(");").newline();
             }
             true
         }
@@ -2297,11 +2306,10 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::MonitorEnter { object } => {
-            code.start_line()
-                .add("synchronized (")
-                .add(&ctx.expr_gen.gen_arg(object))
-                .add(") {")
-                .newline();
+            // OPTIMIZED: Direct write without String allocation
+            code.start_line().add("synchronized (");
+            ctx.expr_gen.write_arg(code, object);
+            code.add(") {").newline();
             code.inc_indent();
             true
         }
