@@ -302,6 +302,37 @@ impl ExprGen {
         }
     }
 
+    /// OPTIMIZED: Write arg directly to CodeWriter without String allocation
+    /// This is the zero-allocation pattern following Java JADX design
+    pub fn write_arg<W: crate::writer::CodeWriter>(&self, writer: &mut W, arg: &InsnArg) {
+        match arg {
+            InsnArg::Register(reg) => {
+                writer.add(&self.get_var_name(reg));
+            }
+            InsnArg::Literal(lit) => {
+                self.write_literal(writer, lit);
+            }
+            InsnArg::Type(idx) => {
+                let type_name = self.get_type_value(*idx)
+                    .unwrap_or_else(|| format!("Type#{}", idx));
+                writer.add(&type_name);
+            }
+            InsnArg::Field(idx) => {
+                writer.add(&format!("field#{}", idx));
+            }
+            InsnArg::Method(idx) => {
+                writer.add(&format!("method#{}", idx));
+            }
+            InsnArg::String(idx) => {
+                if let Some(s) = self.get_string_value(*idx) {
+                    writer.add("\"").add(&escape_string(&s)).add("\"");
+                } else {
+                    writer.add(&format!("string#{}", idx));
+                }
+            }
+        }
+    }
+
     /// Generate literal expression
     pub fn gen_literal(&self, lit: &LiteralArg) -> String {
         match lit {
@@ -331,6 +362,40 @@ impl ExprGen {
                 }
             }
             LiteralArg::Null => "null".to_string(),
+        }
+    }
+
+    /// OPTIMIZED: Write literal directly to CodeWriter without String allocation
+    pub fn write_literal<W: crate::writer::CodeWriter>(&self, writer: &mut W, lit: &LiteralArg) {
+        match lit {
+            LiteralArg::Int(v) => {
+                if *v >= i32::MIN as i64 && *v <= i32::MAX as i64 {
+                    writer.add(&format!("{}", v));
+                } else {
+                    writer.add(&format!("{}L", v));
+                }
+            }
+            LiteralArg::Float(v) => {
+                if v.is_nan() {
+                    writer.add("Float.NaN");
+                } else if v.is_infinite() {
+                    if *v > 0.0 { writer.add("Float.POSITIVE_INFINITY"); } else { writer.add("Float.NEGATIVE_INFINITY"); }
+                } else {
+                    writer.add(&format!("{}f", v));
+                }
+            }
+            LiteralArg::Double(v) => {
+                if v.is_nan() {
+                    writer.add("Double.NaN");
+                } else if v.is_infinite() {
+                    if *v > 0.0 { writer.add("Double.POSITIVE_INFINITY"); } else { writer.add("Double.NEGATIVE_INFINITY"); }
+                } else {
+                    writer.add(&format!("{}d", v));
+                }
+            }
+            LiteralArg::Null => {
+                writer.add("null");
+            }
         }
     }
 
