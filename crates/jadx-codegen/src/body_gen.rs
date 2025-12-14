@@ -443,6 +443,71 @@ fn emit_assignment_with_hint<W: CodeWriter>(
         .newline();
 }
 
+/// OPTIMIZED: Emit assignment with direct write from InsnType - avoids String allocation
+/// For most cases, writes expression directly to CodeWriter. Only falls back to String
+/// allocation for the rare inlining case (variable used exactly once).
+fn emit_assignment_insn<W: CodeWriter>(
+    dest: &RegisterArg,
+    insn: &InsnType,
+    type_hint: Option<&ArgType>,
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) -> bool {
+    let reg = dest.reg_num;
+    let version = dest.ssa_version;
+
+    // Check if this variable should be inlined (used exactly once)
+    // This is the rare case where we need the String for deferred emission
+    if ctx.should_inline(reg, version) {
+        if let Some(expr_str) = ctx.expr_gen.gen_insn(insn) {
+            ctx.store_inline_expr(reg, version, expr_str);
+            return true;
+        }
+        return false;
+    }
+
+    let var_name = ctx.expr_gen.get_var_name(dest);
+
+    code.start_line();
+
+    // Check if we need to declare this variable
+    if !ctx.is_declared(reg, version) && !ctx.is_parameter(reg, version) {
+        let decl_type = ctx.get_inferred_type_versioned(reg, version)
+            .or_else(|| type_hint)
+            .or_else(|| {
+                if version != 0 {
+                    ctx.get_inferred_type_versioned(reg, 0)
+                } else {
+                    None
+                }
+            });
+
+        if ctx.is_final(reg, version) {
+            code.add("final ");
+        }
+
+        if let Some(arg_type) = decl_type {
+            let type_str = type_to_string_with_imports(arg_type, ctx.imports.as_ref());
+            code.add(&type_str).add(" ");
+        } else {
+            code.add("Object ");
+        }
+        ctx.mark_declared(reg, version);
+    }
+
+    code.add(&var_name).add(" = ");
+
+    // OPTIMIZED: Write expression directly without String allocation
+    if ctx.expr_gen.write_insn(code, insn) {
+        code.add(";").newline();
+        true
+    } else {
+        // Fallback for unsupported instruction types
+        code.add("/* unsupported */;").newline();
+        false
+    }
+}
+
 /// Generate method body from instructions
 pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     let insns = match method.instructions() {
@@ -1891,6 +1956,85 @@ fn generate_anonymous_class_inline<W: CodeWriter>(
 }
 
 /// Generate an invoke expression with inlined arguments
+/// OPTIMIZED: Write invoke expression directly to CodeWriter - avoids String allocation
+/// This is the hot path for all method calls
+fn write_invoke_with_inlining<W: CodeWriter>(
+    kind: &InvokeKind,
+    method_idx: u32,
+    args: &[InsnArg],
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) {
+    // Get method info for proper formatting
+    if let Some(info) = ctx.expr_gen.get_method_value(method_idx) {
+        let skip_count = if matches!(kind, InvokeKind::Static) { 0 } else { 1 };
+
+        match kind {
+            InvokeKind::Static => {
+                code.add(&info.class_name).add(".").add(&info.method_name).add("(");
+                for (i, a) in args.iter().enumerate() {
+                    if i > 0 { code.add(", "); }
+                    ctx.write_arg_inline(code, a);
+                }
+                code.add(")");
+            }
+            InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
+                if info.method_name == "<init>" {
+                    // Check receiver - need to determine if "this" or other
+                    let is_this = args.first().map(|a| {
+                        matches!(a, InsnArg::Register(r) if r.reg_num == 0 && r.ssa_version == 0)
+                    }).unwrap_or(false);
+
+                    if is_this {
+                        code.add("super(");
+                    } else {
+                        code.add("new ").add(&info.class_name).add("(");
+                    }
+                } else {
+                    if let Some(receiver) = args.first() {
+                        ctx.write_arg_inline(code, receiver);
+                        code.add(".");
+                    }
+                    code.add(&info.method_name).add("(");
+                }
+                for (i, a) in args.iter().skip(skip_count).enumerate() {
+                    if i > 0 { code.add(", "); }
+                    ctx.write_arg_inline(code, a);
+                }
+                code.add(")");
+            }
+            InvokeKind::Super => {
+                if info.method_name == "<init>" {
+                    code.add("super(");
+                } else {
+                    code.add("super.").add(&info.method_name).add("(");
+                }
+                for (i, a) in args.iter().skip(skip_count).enumerate() {
+                    if i > 0 { code.add(", "); }
+                    ctx.write_arg_inline(code, a);
+                }
+                code.add(")");
+            }
+            _ => {
+                code.add("method#").add(&method_idx.to_string()).add("(");
+                for (i, a) in args.iter().enumerate() {
+                    if i > 0 { code.add(", "); }
+                    ctx.write_arg_inline(code, a);
+                }
+                code.add(")");
+            }
+        }
+    } else {
+        // Fallback without method info
+        code.add("method#").add(&method_idx.to_string()).add("(");
+        for (i, a) in args.iter().enumerate() {
+            if i > 0 { code.add(", "); }
+            ctx.write_arg_inline(code, a);
+        }
+        code.add(")");
+    }
+}
+
 fn gen_invoke_with_inlining(
     kind: &InvokeKind,
     method_idx: u32,
@@ -1970,13 +2114,6 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                 None
                             };
 
-                            // Generate arguments with inlining (skip the receiver 'this')
-                            let args_str: Vec<_> = args.iter()
-                                .skip(1)
-                                .map(|a| ctx.gen_arg_inline(a))
-                                .collect();
-                            let constructor_args = args_str.join(", ");
-
                             // Check if this is an anonymous class we should inline
                             let is_anon = type_desc.as_ref()
                                 .map(|d| is_anonymous_class(d))
@@ -2014,6 +2151,14 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                     }
                                     code.add(&var_name).add(" = ");
 
+                                    // OPTIMIZED: Generate constructor args inline for anonymous class
+                                    // Need to build String for generate_anonymous_class_inline signature
+                                    let args_str: Vec<_> = args.iter()
+                                        .skip(1)
+                                        .map(|a| ctx.gen_arg_inline(a))
+                                        .collect();
+                                    let constructor_args = args_str.join(", ");
+
                                     // Generate the anonymous class body
                                     generate_anonymous_class_inline(
                                         anon_class.as_ref(),
@@ -2031,12 +2176,22 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                 }
                             }
 
-                            // Regular class instantiation
-                            let expr = format!("new {}({})", type_name, constructor_args);
+                            // OPTIMIZED: Regular class instantiation - direct write
+                            let reg = recv_reg.reg_num;
+                            let version = recv_reg.ssa_version;
+                            let var_name = ctx.expr_gen.get_var_name(recv_reg);
 
-                            // Create a synthetic RegisterArg for the destination
-                            let dest = RegisterArg::with_ssa(recv_reg.reg_num, recv_reg.ssa_version);
-                            emit_assignment(&dest, &expr, ctx, code);
+                            code.start_line();
+                            if !ctx.is_declared(reg, version) && !ctx.is_parameter(reg, version) {
+                                code.add(&type_name).add(" ");
+                                ctx.mark_declared(reg, version);
+                            }
+                            code.add(&var_name).add(" = new ").add(&type_name).add("(");
+                            for (i, a) in args.iter().skip(1).enumerate() {
+                                if i > 0 { code.add(", "); }
+                                ctx.write_arg_inline(code, a);
+                            }
+                            code.add(");").newline();
                             return true;
                         }
                     }
@@ -2045,14 +2200,15 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
         }
 
         // Normal invoke handling - use inlining for arguments
-        let expr = gen_invoke_with_inlining(kind, *method_idx, args, ctx);
-
         if next_is_move_result {
-            // Store expression for MoveResult to use
+            // Store expression for MoveResult to use (needs String)
+            let expr = gen_invoke_with_inlining(kind, *method_idx, args, ctx);
             ctx.last_invoke_expr = Some(expr);
         } else {
-            // No MoveResult follows: emit as statement (void return or discarded)
-            code.start_line().add(&expr).add(";").newline();
+            // OPTIMIZED: No MoveResult follows - write directly without String allocation
+            code.start_line();
+            write_invoke_with_inlining(kind, *method_idx, args, ctx, code);
+            code.add(";").newline();
         }
         return true;
     }
@@ -2101,19 +2257,16 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::ConstString { dest, string_idx } => {
-            // Use gen_insn to properly resolve the string value from DexInfo
-            let value = ctx.expr_gen.gen_insn(&insn.insn_type)
-                .unwrap_or_else(|| format!("string#{}", string_idx));
-            // String type hint
+        InsnType::ConstString { dest, .. } => {
+            // OPTIMIZED: Direct write with String type hint
             let string_type = ArgType::Object("java/lang/String".to_string());
-            emit_assignment_with_hint(dest, &value, Some(&string_type), ctx, code);
+            emit_assignment_insn(dest, &insn.insn_type, Some(&string_type), ctx, code);
             true
         }
 
-        InsnType::Move { dest, src } => {
-            let src_str = ctx.expr_gen.gen_arg(src);
-            emit_assignment(dest, &src_str, ctx, code);
+        InsnType::Move { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
             true
         }
 
@@ -2138,30 +2291,21 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::NewArray { dest, type_idx, size } => {
-            if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                emit_assignment(dest, &expr, ctx, code);
-            } else {
-                let size_str = ctx.expr_gen.gen_arg(size);
-                let value = format!("new Type#{}[{}]", type_idx, size_str);
-                emit_assignment(dest, &value, ctx, code);
-            }
+        InsnType::NewArray { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
             true
         }
 
-        InsnType::ArrayLength { dest, array } => {
-            let arr_str = ctx.expr_gen.gen_arg(array);
-            let value = format!("{}.length", arr_str);
-            // ArrayLength always returns int
-            emit_assignment_with_hint(dest, &value, Some(&ArgType::Int), ctx, code);
+        InsnType::ArrayLength { dest, .. } => {
+            // OPTIMIZED: Direct write with int type hint
+            emit_assignment_insn(dest, &insn.insn_type, Some(&ArgType::Int), ctx, code);
             true
         }
 
-        InsnType::ArrayGet { dest, array, index, .. } => {
-            let arr_str = ctx.expr_gen.gen_arg(array);
-            let idx_str = ctx.expr_gen.gen_arg(index);
-            let value = format!("{}[{}]", arr_str, idx_str);
-            emit_assignment(dest, &value, ctx, code);
+        InsnType::ArrayGet { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
             true
         }
 
@@ -2177,12 +2321,9 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::InstanceGet { dest, object, field_idx } => {
-            let obj_str = ctx.expr_gen.gen_arg(object);
-            let field_name = ctx.expr_gen.get_field_name(*field_idx)
-                .unwrap_or_else(|| format!("field#{}", field_idx));
-            let value = format!("{}.{}", obj_str, field_name);
-            emit_assignment(dest, &value, ctx, code);
+        InsnType::InstanceGet { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
             true
         }
 
@@ -2198,10 +2339,9 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::StaticGet { dest, field_idx } => {
-            let field_ref = ctx.expr_gen.get_static_field_ref(*field_idx)
-                .unwrap_or_else(|| format!("field#{}", field_idx));
-            emit_assignment(dest, &field_ref, ctx, code);
+        InsnType::StaticGet { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
             true
         }
 
@@ -2215,93 +2355,53 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::Invoke { kind: _, method_idx, args } => {
-            if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                code.start_line().add(&expr).add(";").newline();
-            } else {
-                // OPTIMIZED: Direct write without Vec<String> allocation
-                code.start_line()
-                    .add("method#")
-                    .add(&method_idx.to_string())
-                    .add("(");
-                for (i, a) in args.iter().enumerate() {
-                    if i > 0 {
-                        code.add(", ");
-                    }
-                    ctx.expr_gen.write_arg(code, a);
-                }
-                code.add(");").newline();
-            }
+        InsnType::Invoke { .. } => {
+            // OPTIMIZED: Direct write without String allocation
+            code.start_line();
+            ctx.expr_gen.write_insn(code, &insn.insn_type);
+            code.add(";").newline();
             true
         }
 
-        InsnType::Unary { dest, op: _, arg: _ } => {
-            if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                emit_assignment(dest, &expr, ctx, code);
-                true
-            } else {
-                false
-            }
-        }
-
-        InsnType::Binary { dest, op: _, left: _, right: _ } => {
-            if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                emit_assignment(dest, &expr, ctx, code);
-                true
-            } else {
-                false
-            }
-        }
-
-        InsnType::Cast { dest, cast_type: _, arg: _ } => {
-            if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                emit_assignment(dest, &expr, ctx, code);
-                true
-            } else {
-                false
-            }
-        }
-
-        InsnType::Compare { dest, op: _, left: _, right: _ } => {
-            if let Some(expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                emit_assignment(dest, &expr, ctx, code);
-                true
-            } else {
-                false
-            }
-        }
-
-        InsnType::InstanceOf { dest, object, type_idx } => {
-            let obj_str = ctx.expr_gen.gen_arg(object);
-            let type_name = ctx.expr_gen.get_type_value(*type_idx)
-                .unwrap_or_else(|| format!("Type#{}", type_idx));
-            let expr = format!("{} instanceof {}", obj_str, type_name);
-            emit_assignment(dest, &expr, ctx, code);
+        InsnType::Unary { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
             true
         }
 
-        InsnType::CheckCast { object, type_idx } => {
+        InsnType::Binary { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+            true
+        }
+
+        InsnType::Cast { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+            true
+        }
+
+        InsnType::Compare { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+            true
+        }
+
+        InsnType::InstanceOf { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+            true
+        }
+
+        InsnType::CheckCast { object, .. } => {
             // Check-cast is a runtime type check + cast
             // Generate as: var = (Type) var;
-            let obj_str = ctx.expr_gen.gen_arg(object);
-            if let Some(cast_expr) = ctx.expr_gen.gen_insn(&insn.insn_type) {
-                code.start_line()
-                    .add(&obj_str)
-                    .add(" = ")
-                    .add(&cast_expr)
-                    .add(";")
-                    .newline();
-            } else {
-                // Fallback with type index
-                code.start_line()
-                    .add(&obj_str)
-                    .add(" = (Type#")
-                    .add(&type_idx.to_string())
-                    .add(") ")
-                    .add(&obj_str)
-                    .add(";")
-                    .newline();
-            }
+            // OPTIMIZED: Direct write without String allocation
+            code.start_line();
+            ctx.expr_gen.write_arg(code, object);
+            code.add(" = ");
+            ctx.expr_gen.write_insn(code, &insn.insn_type);
+            code.add(";").newline();
             true
         }
 
@@ -2320,21 +2420,45 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::ConstClass { dest, type_idx } => {
-            let type_name = ctx.expr_gen.get_type_value(*type_idx)
-                .unwrap_or_else(|| format!("Type#{}", type_idx));
-            let expr = format!("{}.class", type_name);
-            emit_assignment(dest, &expr, ctx, code);
+        InsnType::ConstClass { dest, .. } => {
+            // OPTIMIZED: Direct write
+            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
             true
         }
 
         InsnType::FilledNewArray { dest, type_idx, args } => {
-            let args_str: Vec<_> = args.iter().map(|a| ctx.expr_gen.gen_arg(a)).collect();
+            // OPTIMIZED: Direct write avoiding Vec<String> allocation
             let type_name = ctx.expr_gen.get_type_value(*type_idx)
                 .unwrap_or_else(|| format!("Type#{}", type_idx));
-            let expr = format!("new {}[] {{ {} }}", type_name, args_str.join(", "));
             if let Some(d) = dest {
-                emit_assignment(d, &expr, ctx, code);
+                let reg = d.reg_num;
+                let version = d.ssa_version;
+
+                // Check inlining (rare case - needs String)
+                if ctx.should_inline(reg, version) {
+                    let args_str: Vec<_> = args.iter().map(|a| ctx.expr_gen.gen_arg(a)).collect();
+                    let expr = format!("new {}[] {{ {} }}", type_name, args_str.join(", "));
+                    ctx.store_inline_expr(reg, version, expr);
+                } else {
+                    let var_name = ctx.expr_gen.get_var_name(d);
+                    code.start_line();
+
+                    // Emit type declaration if needed
+                    if !ctx.is_declared(reg, version) && !ctx.is_parameter(reg, version) {
+                        if ctx.is_final(reg, version) {
+                            code.add("final ");
+                        }
+                        code.add(&type_name).add("[] ");
+                        ctx.mark_declared(reg, version);
+                    }
+
+                    code.add(&var_name).add(" = new ").add(&type_name).add("[] { ");
+                    for (i, a) in args.iter().enumerate() {
+                        if i > 0 { code.add(", "); }
+                        ctx.expr_gen.write_arg(code, a);
+                    }
+                    code.add(" };").newline();
+                }
             }
             true
         }

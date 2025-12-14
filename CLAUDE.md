@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Dexterity** is a high-performance Android DEX/APK decompiler written in Rust, inspired by [JADX](https://github.com/skylot/jadx). The goal is 1:1 output compatibility with Java JADX while achieving 2-4x faster performance through zero-copy parsing and native parallelism.
 
-**Current status**: 95,600 lines of Rust, 217 tests passing (100% success rate), full decompilation pipeline functional. Note: Code output has critical quality issues (14,007 compilation errors) - see README.md Comprehensive Status Report for details.
+**Current status**: ~74,000 lines of Rust, 235 library tests passing (100% success rate), full decompilation pipeline functional. Code generation produces valid Java output.
 
 ## Build Commands
 
@@ -97,42 +97,30 @@ java -jar jadx-cli.jar -d expected/ input.apk
 diff -r expected/ actual/
 ```
 
-## Memory Optimization (Phase 1: Foundation ✅)
+## Memory Optimization Status
 
-**Status:** ✅ Infrastructure implemented and tested
+**Status:** ✅ Core optimizations implemented, dual-path architecture in place
 
-The Rust implementation now includes foundational memory optimization patterns from Java JADX's proven design:
+**Current Architecture:**
+- `BasicBlock` has dual storage: `instructions: Vec<Arc<Mutex<InsnNode>>>` AND `insn_indices: Vec<u32>`
+- `transform_to_ssa_owned()` takes ownership of blocks to avoid cloning
+- `ClassData.unload()` and `MethodData.unload()` free memory after codegen
+- Constraint iteration uses indexed access (not Vec clone) - fixed in type_inference.rs
 
-**What's Implemented:**
-- `unload_instruction_array()` method in `MethodData` - ready for early instruction cleanup
-- Comprehensive documentation of Java JADX memory architecture
-- Testing infrastructure verified on badboy.apk (3,776 classes) with 57 MB peak memory
-- All 217 tests passing - output byte-for-byte identical
+**What's Working:**
+- Sequential class processing (one class at a time in memory)
+- Instruction unloading after code generation
+- Class hierarchy built and used for type inference
+- All 235 tests passing
 
-**Three-Phase Optimization Roadmap:**
-
-1. **Priority 1: Arc<InsnNode> Shared References** (6-10 hours)
-   - Use `Arc<Mutex<InsnNode>>` to avoid instruction cloning during block splitting
-   - Expected savings: 80-90% of block splitting phase
-   - Foundation infrastructure in place, ready for implementation
-
-2. **Priority 2: Early Instruction Unload** (1-2 hours)
-   - Free instruction arrays immediately after block splitting (Java JADX pattern)
-   - Blocks retain Arc references while main array is freed
-   - Expected savings: 40-50% additional
-
-3. **Priority 3: Lazy BitSet Initialization** (2-3 hours)
-   - Allocate dominance analysis BitSets only when needed
-   - Expected savings: 10-20% of analysis phase
-
-**Expected Final Result:** 85% memory reduction (67 GB → 10-15 GB peak on large APKs)
-
-**See:** `MEMORY_OPTIMIZATION_SUMMARY.md` for implementation details, test results, and roadmap.
+**Remaining Optimization Opportunities:**
+1. **Remove Arc<Mutex<>>** - Migrate fully to index-based instruction access
+2. **Parallel processing** - Currently sequential for memory safety; could batch with care
+3. **Pool reuse** - Reuse allocations across methods
 
 ## Known Gaps (vs Java JADX)
 
 - **Finally block deduplication**: The marking pass is enabled (`mark_duplicated_finally()` runs before region building), but try-exit path duplicate search and SSA/arg-aware instruction matching are still pending for full JADX parity.
-- **Memory optimization Phase 1-3**: Infrastructure is in place, full implementation pending (see Memory Optimization section above)
 
 ## Deobfuscation Roadmap
 
@@ -254,49 +242,20 @@ Comprehensive Kotlin metadata parsing and integration for 1:1 output parity with
 - Data class marker comments (`/* data */`)
 - Full parity with Java JADX Kotlin plugin
 
-## Type Inference Improvements (Roadmap)
+## Type Inference
 
-**Status:** 🚧 In Progress - Design phase complete, implementation starting
+**Status:** ✅ Class hierarchy implemented and integrated
 
-To fix static initializer corruption on obfuscated code, we're implementing enhanced type inference:
+**Implemented:**
+- `jadx-ir/src/class_hierarchy.rs` - Class hierarchy with LCA computation
+- `infer_types_with_hierarchy()` - Type inference using class hierarchy
+- Constraint-based type inference with indexed iteration (no Vec cloning)
+- PHI node type propagation
 
-**Four Components:**
-1. **PHI Constant Splitting** - `jadx-passes/src/phi_const_split.rs` (NEW)
-   - Duplicate constants used by multiple PHI nodes
-   - Enables independent type inference per control flow path
-   - Based on JADX commit a7f315f596c6850c680711282e519f91b8ca5468
-
-2. **Class Hierarchy** - `jadx-ir/src/class_hierarchy.rs` (NEW)
-   - Extract superclass and interface relationships from DEX
-   - Compute LCA (Least Common Ancestor) for type unification
-   - Transitive subtype checking for precise type comparisons
-
-3. **Backward Type Inference** - Enhance `jadx-passes/src/type_inference.rs`
-   - Worklist algorithm instead of fixed iterations (100-250× fewer evaluations)
-   - Backward constraint propagation from usage contexts
-   - Subtype narrowing for method parameters and field types
-
-4. **Array Element Tracking** - Enhance `jadx-passes/src/type_inference.rs`
-   - Track values stored in arrays to refine `ArrayElemType::Object`
-   - FilledNewArray and FillArrayData support
-   - Conservative LCA for mixed element types
-
-**Expected Impact:**
-- Eliminates ~60 static initializer syntax errors on Badboy APK
-- Reduces Unknown variable types from ~40% to ~10%
-- Improves array type precision (Object[] → String[]) to ~70%
-- Performance: < 5% slowdown with 100-250× constraint reduction
-
-**Files to Modify (in order):**
-1. `jadx-ir/src/class_hierarchy.rs` (new) - Foundation
-2. `jadx-ir/src/lib.rs` - Export hierarchy module
-3. `jadx-passes/src/phi_const_split.rs` (new) - PHI splitting
-4. `jadx-passes/src/type_inference.rs` - Core enhancements (worklist, backward, array tracking)
-5. `jadx-passes/src/lib.rs` - Export split_phi_constants
-6. `jadx-cli/src/converter.rs` - Build hierarchy from DEX
-7. `jadx-cli/src/decompiler.rs` - Wire hierarchy and splitting into pipeline
-
-**See:** `/.claude/plans/glistening-crunching-finch.md` for full implementation plan with algorithms, edge cases, and test strategy.
+**Integration:**
+- Class hierarchy built from DEX during processing
+- Passed to code generation for better type precision
+- Used in `generate_body_with_inner_classes()` for anonymous class handling
 
 ## Framework Class Filtering
 

@@ -414,7 +414,61 @@ pub fn reset(&mut self) {
 
 **Result:** HashMap capacity shrinks after large classes, preventing accumulation.
 
-#### Five Memory Optimizations Implemented
+#### Codegen Memory Explosion: String Allocation Pattern
+
+**Status:** 🚧 **IN PROGRESS** - Root cause identified, fix planned
+
+**Java JADX Pattern (InsnGen.java):**
+```java
+// Writes DIRECTLY to buffer - zero allocations
+public void addArg(ICodeWriter code, InsnArg arg) {
+    if (arg.isRegister()) {
+        code.add(nameGen.useArg(reg));  // Direct write
+    } else if (arg.isLiteral()) {
+        code.add(lit(arg));  // Direct write
+    }
+}
+
+// For invoke: writes each arg directly, no collection
+private void makeInvoke(InvokeNode insn, ICodeWriter code) {
+    addArg(code, insn.getArg(0));  // receiver
+    code.add(".");
+    code.add(methodName);
+    code.add("(");
+    for (int i = 1; i < insn.getArgsCount(); i++) {
+        if (i > 1) code.add(", ");
+        addArg(code, insn.getArg(i));  // Direct write per arg
+    }
+    code.add(")");
+}
+```
+
+**Rust Pattern (body_gen.rs) - PROBLEM:**
+```rust
+// Returns String - ALLOCATES every call
+fn gen_arg_inline(&mut self, arg: &InsnArg) -> String {
+    self.expr_gen.gen_arg(arg)  // String allocation
+}
+
+// For invoke: creates N Strings, then joins them
+fn gen_invoke_with_inlining(...) -> String {
+    let args_str: Vec<_> = args.iter()
+        .map(|a| ctx.gen_arg_inline(a))  // N String allocations
+        .collect();                        // Vec allocation
+    format!("{}.{}({})", class, method, args_str.join(", "))  // More allocations
+}
+```
+
+**The Explosion:**
+For a method with 100 invoke instructions, each with 5 args:
+- **Java**: 0 intermediate allocations (all direct writes)
+- **Rust**: 100 × (5 Strings + 1 Vec + 1 format!) = **700+ allocations per method**
+
+Multiply by 50,000 methods in a large APK = **35 million unnecessary String allocations**.
+
+**Fix:** Change `gen_X() -> String` to `write_X(&mut CodeWriter)` pattern - write directly to buffer like Java does.
+
+#### Seven Memory Optimizations Implemented
 
 1. **HashMap Capacity Shrinking** - ExprGen reset() now replaces oversized HashMaps
    - Prevents permanent allocation of worst-case capacity

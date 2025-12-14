@@ -551,6 +551,205 @@ impl ExprGen {
         }
     }
 
+    /// OPTIMIZED: Write instruction expression directly to CodeWriter without String allocation
+    /// Returns true if expression was written, false if instruction is a statement
+    pub fn write_insn<W: crate::writer::CodeWriter>(&self, writer: &mut W, insn: &InsnType) -> bool {
+        match insn {
+            InsnType::Const { value, .. } => {
+                self.write_literal(writer, value);
+                true
+            }
+
+            InsnType::ConstString { string_idx, .. } => {
+                if let Some(s) = self.get_string_value(*string_idx) {
+                    writer.add("\"").add(&escape_string(&s)).add("\"");
+                } else {
+                    writer.add(&format!("string#{}", string_idx));
+                }
+                true
+            }
+
+            InsnType::Move { src, .. } => {
+                self.write_arg(writer, src);
+                true
+            }
+
+            InsnType::ArrayLength { array, .. } => {
+                self.write_arg(writer, array);
+                writer.add(".length");
+                true
+            }
+
+            InsnType::ArrayGet { array, index, .. } => {
+                self.write_arg(writer, array);
+                writer.add("[");
+                self.write_arg(writer, index);
+                writer.add("]");
+                true
+            }
+
+            InsnType::Unary { op, arg, .. } => {
+                match op {
+                    UnaryOp::Neg => writer.add("-"),
+                    UnaryOp::Not => writer.add("~"),
+                };
+                self.write_arg(writer, arg);
+                true
+            }
+
+            InsnType::Binary { op, left, right, .. } => {
+                self.write_arg(writer, left);
+                writer.add(" ").add(binary_op_str(*op)).add(" ");
+                self.write_arg(writer, right);
+                true
+            }
+
+            InsnType::Cast { cast_type, arg, .. } => {
+                writer.add("(").add(cast_type_str(*cast_type)).add(")");
+                self.write_arg(writer, arg);
+                true
+            }
+
+            InsnType::Compare { left, right, .. } => {
+                writer.add("compare(");
+                self.write_arg(writer, left);
+                writer.add(", ");
+                self.write_arg(writer, right);
+                writer.add(")");
+                true
+            }
+
+            InsnType::InstanceOf { object, type_idx, .. } => {
+                self.write_arg(writer, object);
+                let name = self.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                writer.add(" instanceof ").add(&name);
+                true
+            }
+
+            InsnType::InstanceGet { object, field_idx, .. } => {
+                self.write_arg(writer, object);
+                if let Some(info) = self.get_field_value(*field_idx) {
+                    writer.add(".").add(&info.field_name);
+                } else {
+                    writer.add(&format!(".field#{}", field_idx));
+                }
+                true
+            }
+
+            InsnType::StaticGet { field_idx, .. } => {
+                if let Some(info) = self.get_field_value(*field_idx) {
+                    writer.add(&info.class_name).add(".").add(&info.field_name);
+                } else {
+                    writer.add(&format!("field#{}", field_idx));
+                }
+                true
+            }
+
+            InsnType::Invoke { kind, method_idx, args } => {
+                // Skip 'this' arg for non-static methods
+                let skip_receiver = !matches!(kind, InvokeKind::Static);
+
+                if let Some(info) = self.get_method_value(*method_idx) {
+                    match kind {
+                        InvokeKind::Static => {
+                            writer.add(&info.class_name).add(".").add(&info.method_name).add("(");
+                            for (i, a) in args.iter().enumerate() {
+                                if i > 0 { writer.add(", "); }
+                                self.write_arg(writer, a);
+                            }
+                            writer.add(")");
+                        }
+                        InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
+                            if let Some(receiver) = args.first() {
+                                let recv_name = self.gen_arg(receiver); // Need this for conditional logic
+                                if info.method_name == "<init>" {
+                                    if recv_name == "this" {
+                                        writer.add("super(");
+                                    } else {
+                                        writer.add("new ").add(&info.class_name).add("(");
+                                    }
+                                } else if recv_name == "this" {
+                                    writer.add(&info.method_name).add("(");
+                                } else {
+                                    self.write_arg(writer, receiver);
+                                    writer.add(".").add(&info.method_name).add("(");
+                                }
+                            }
+                            for (i, a) in args.iter().skip(if skip_receiver { 1 } else { 0 }).enumerate() {
+                                if i > 0 { writer.add(", "); }
+                                self.write_arg(writer, a);
+                            }
+                            writer.add(")");
+                        }
+                        InvokeKind::Super => {
+                            if info.method_name == "<init>" {
+                                writer.add("super(");
+                            } else {
+                                writer.add("super.").add(&info.method_name).add("(");
+                            }
+                            for (i, a) in args.iter().skip(if skip_receiver { 1 } else { 0 }).enumerate() {
+                                if i > 0 { writer.add(", "); }
+                                self.write_arg(writer, a);
+                            }
+                            writer.add(")");
+                        }
+                        _ => {
+                            writer.add(&format!("method#{}(", method_idx));
+                            for (i, a) in args.iter().enumerate() {
+                                if i > 0 { writer.add(", "); }
+                                self.write_arg(writer, a);
+                            }
+                            writer.add(")");
+                        }
+                    }
+                } else {
+                    writer.add(&format!("method#{}(", method_idx));
+                    for (i, a) in args.iter().enumerate() {
+                        if i > 0 { writer.add(", "); }
+                        self.write_arg(writer, a);
+                    }
+                    writer.add(")");
+                }
+                true
+            }
+
+            InsnType::CheckCast { object, type_idx } => {
+                let name = self.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                writer.add("(").add(&name).add(")");
+                self.write_arg(writer, object);
+                true
+            }
+
+            InsnType::NewInstance { type_idx, .. } => {
+                let name = self.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                writer.add("new ").add(&name).add("()");
+                true
+            }
+
+            InsnType::NewArray { size, type_idx, .. } => {
+                let name = self.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                let elem_name = name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';');
+                writer.add("new ").add(elem_name).add("[");
+                self.write_arg(writer, size);
+                writer.add("]");
+                true
+            }
+
+            InsnType::ConstClass { type_idx, .. } => {
+                let name = self.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+                writer.add(&name).add(".class");
+                true
+            }
+
+            _ => false, // Statements, not expressions
+        }
+    }
+
     /// Generate condition expression for If instruction
     pub fn gen_condition(&self, condition: IfCondition, left: &InsnArg, right: Option<&InsnArg>) -> String {
         let left_str = self.gen_arg(left);

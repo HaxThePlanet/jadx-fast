@@ -696,7 +696,12 @@ impl TypeInference {
             changed = false;
             iterations += 1;
 
-            for constraint in self.constraints.clone() {
+            // OPTIMIZED: Use indexed iteration to avoid cloning the entire Vec
+            // The original code cloned self.constraints every iteration (100x!)
+            let constraint_count = self.constraints.len();
+            for i in 0..constraint_count {
+                // Copy constraint data out to avoid borrow conflict with self methods
+                let constraint = self.constraints[i].clone();
                 match constraint {
                     Constraint::Equals(var, ty) => {
                         if self.unify_var_type(var, &ty) {
