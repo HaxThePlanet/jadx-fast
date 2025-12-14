@@ -2041,48 +2041,78 @@ fn gen_invoke_with_inlining(
     args: &[InsnArg],
     ctx: &mut BodyGenContext,
 ) -> String {
-    // Get method info for proper formatting
+    // OPTIMIZED: Build string directly without Vec<String> intermediate
+    // Estimate capacity: method call ~50 chars + ~10 chars per arg
+    let mut result = String::with_capacity(50 + args.len() * 10);
+
+    // Helper to append args directly to result string
+    fn append_args(result: &mut String, args: &[InsnArg], skip: usize, ctx: &mut BodyGenContext) {
+        for (i, arg) in args.iter().skip(skip).enumerate() {
+            if i > 0 { result.push_str(", "); }
+            result.push_str(&ctx.gen_arg_inline(arg));
+        }
+    }
+
     if let Some(info) = ctx.expr_gen.get_method_value(method_idx) {
-        // Generate arguments with inlining (skip 'this' for non-static)
         let skip_count = if matches!(kind, InvokeKind::Static) { 0 } else { 1 };
-        let args_str: Vec<_> = args.iter()
-            .skip(skip_count)
-            .map(|a| ctx.gen_arg_inline(a))
-            .collect();
 
         match kind {
             InvokeKind::Static => {
-                format!("{}.{}({})", info.class_name, info.method_name, args_str.join(", "))
+                result.push_str(&info.class_name);
+                result.push('.');
+                result.push_str(&info.method_name);
+                result.push('(');
+                append_args(&mut result, args, skip_count, ctx);
+                result.push(')');
             }
             InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
                 let receiver = args.first().map(|a| ctx.gen_arg_inline(a)).unwrap_or_default();
                 if info.method_name == "<init>" {
                     if receiver == "this" {
-                        format!("super({})", args_str.join(", "))
+                        result.push_str("super(");
                     } else {
-                        format!("new {}({})", info.class_name, args_str.join(", "))
+                        result.push_str("new ");
+                        result.push_str(&info.class_name);
+                        result.push('(');
                     }
                 } else {
-                    format!("{}.{}({})", receiver, info.method_name, args_str.join(", "))
+                    result.push_str(&receiver);
+                    result.push('.');
+                    result.push_str(&info.method_name);
+                    result.push('(');
                 }
+                append_args(&mut result, args, skip_count, ctx);
+                result.push(')');
             }
             InvokeKind::Super => {
                 if info.method_name == "<init>" {
-                    format!("super({})", args_str.join(", "))
+                    result.push_str("super(");
                 } else {
-                    format!("super.{}({})", info.method_name, args_str.join(", "))
+                    result.push_str("super.");
+                    result.push_str(&info.method_name);
+                    result.push('(');
                 }
+                append_args(&mut result, args, skip_count, ctx);
+                result.push(')');
             }
             _ => {
-                let args_str: Vec<_> = args.iter().map(|a| ctx.gen_arg_inline(a)).collect();
-                format!("method#{}({})", method_idx, args_str.join(", "))
+                result.push_str("method#");
+                result.push_str(&method_idx.to_string());
+                result.push('(');
+                append_args(&mut result, args, 0, ctx);
+                result.push(')');
             }
         }
     } else {
         // Fallback without method info
-        let args_str: Vec<_> = args.iter().map(|a| ctx.gen_arg_inline(a)).collect();
-        format!("method#{}({})", method_idx, args_str.join(", "))
+        result.push_str("method#");
+        result.push_str(&method_idx.to_string());
+        result.push('(');
+        append_args(&mut result, args, 0, ctx);
+        result.push(')');
     }
+
+    result
 }
 
 /// Generate code for an instruction with lookahead information
