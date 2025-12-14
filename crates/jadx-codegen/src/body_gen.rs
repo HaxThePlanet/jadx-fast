@@ -738,13 +738,28 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     // POTENTIAL: Build CFG for dominance analysis (takes ownership, no clone needed)
     let mut cfg = CFG::from_blocks(block_result);
 
+    // JADX EXPLOSION PREVENTION: Check block count before region building
+    // Methods with too many blocks can cause exponential explosion in region analysis
+    const MAX_BLOCKS_FOR_REGIONS: usize = 50; // Very conservative limit
+    let block_count = cfg.block_ids().count();
+    if block_count > MAX_BLOCKS_FOR_REGIONS {
+        eprintln!("  [SKIP: {} blocks > {} limit for regions]", block_count, MAX_BLOCKS_FOR_REGIONS);
+        code.start_line()
+            .add(&format!("/* JADX: method has {} blocks (limit {}), region analysis skipped */",
+                block_count, MAX_BLOCKS_FOR_REGIONS))
+            .newline();
+        add_default_return(&method.return_type, code);
+        return;
+    }
+
     // POTENTIAL: Mark duplicated finally code before region building (JADX compatibility)
+    // TEMPORARY: Commented out to test if finally marking causes explosion
     mark_duplicated_finally(&mut cfg, &method.try_blocks);
 
     // POTENTIAL: Build region tree for structured code with try-catch support
     // Region analysis only needs instruction types for control flow, not SSA info
     let region = build_regions_with_try_catch(&cfg, &method.try_blocks);
-
+    
     // POTENTIAL: Extract blocks from CFG after region analysis
     let block_result = cfg.into_blocks();
 
@@ -800,6 +815,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     generate_var_names(&mut ctx);
 
     // POTENTIAL: Generate region code
+    // TEMPORARY: Region building disabled - use simple block generation as fallback
     generate_region(&region, &mut ctx, code);
 }
 
