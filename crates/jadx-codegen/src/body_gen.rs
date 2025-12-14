@@ -2472,28 +2472,7 @@ fn generate_insn<W: CodeWriter>(
                     .add(" */")
                     .newline();
             } else {
-                // Generate array initialization using inline array literal
-                let array_name = ctx.expr_gen.gen_arg(array);
-
-                // Format values based on element width
-                let values: Vec<String> = data.iter().map(|value| {
-                    match element_width {
-                        1 => format!("{}", *value as i8),
-                        2 => {
-                            // Check if printable char
-                            let char_val = *value as u16;
-                            if char_val >= 32 && char_val < 127 && char_val != '\'' as u16 {
-                                format!("'{}'", char::from_u32(char_val as u32).unwrap_or('?'))
-                            } else {
-                                format!("{}", *value as i16)
-                            }
-                        }
-                        4 => format!("{}", *value as i32),
-                        8 => format!("{}L", value),
-                        _ => format!("{}", value),
-                    }
-                }).collect();
-
+                // OPTIMIZED: Write directly to CodeWriter - no Vec<String> allocation
                 // Determine element type from width
                 let elem_type = match element_width {
                     1 => "byte",
@@ -2503,31 +2482,51 @@ fn generate_insn<W: CodeWriter>(
                     _ => "int",
                 };
 
+                // Helper to write a single value directly to writer
+                fn write_array_value<W: CodeWriter>(code: &mut W, value: i64, element_width: u8) {
+                    match element_width {
+                        1 => { code.add(&(value as i8).to_string()); }
+                        2 => {
+                            let char_val = value as u16;
+                            if char_val >= 32 && char_val < 127 && char_val != '\'' as u16 {
+                                code.add("'");
+                                code.add(&char::from_u32(char_val as u32).unwrap_or('?').to_string());
+                                code.add("'");
+                            } else {
+                                code.add(&(value as i16).to_string());
+                            }
+                        }
+                        4 => { code.add(&(value as i32).to_string()); }
+                        8 => { code.add(&value.to_string()); code.add("L"); }
+                        _ => { code.add(&value.to_string()); }
+                    }
+                }
+
+                code.start_line();
+                ctx.expr_gen.write_arg(code, array);
+                code.add(" = new ").add(elem_type).add("[]{");
+
                 if data.len() <= 16 {
-                    // Compact inline literal
-                    code.start_line()
-                        .add(&array_name)
-                        .add(" = new ")
-                        .add(elem_type)
-                        .add("[]{")
-                        .add(&values.join(", "))
-                        .add("};")
-                        .newline();
+                    // Compact inline literal - write all on one line
+                    for (i, value) in data.iter().enumerate() {
+                        if i > 0 { code.add(", "); }
+                        write_array_value(code, *value, *element_width);
+                    }
+                    code.add("};").newline();
                 } else {
                     // Multi-line for large arrays
-                    code.start_line()
-                        .add(&array_name)
-                        .add(" = new ")
-                        .add(elem_type)
-                        .add("[]{")
-                        .newline();
+                    code.newline();
                     code.inc_indent();
-                    for chunk in values.chunks(10) {
-                        code.start_line()
-                            .add(&chunk.join(", "))
-                            .add(",")
-                            .newline();
+                    for (i, value) in data.iter().enumerate() {
+                        if i % 10 == 0 {
+                            if i > 0 { code.add(",").newline(); }
+                            code.start_line();
+                        } else {
+                            code.add(", ");
+                        }
+                        write_array_value(code, *value, *element_width);
                     }
+                    code.newline();
                     code.dec_indent();
                     code.start_line().add("};").newline();
                 }
