@@ -286,10 +286,12 @@ impl ImportCollector {
             for annotation in &method.annotations {
                 self.add_internal_name(&annotation.annotation_type);
             }
-            // Collect types from method body instructions (if loaded)
-            if let Some(instructions) = method.instructions() {
-                self.collect_from_instructions(instructions, dex_info);
-            }
+            // MEMORY DEBUG: Comment out instruction collection - testing if this be the culprit!
+            // This calls dex.get_method() and dex.get_field() for every instruction
+            // which might be accumulating massive cache entries
+            // if let Some(instructions) = method.instructions() {
+            //     self.collect_from_instructions(instructions, dex_info);
+            // }
         }
     }
 
