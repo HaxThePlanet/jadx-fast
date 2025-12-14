@@ -694,8 +694,9 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     apply_inferred_types(&mut ctx);
     generate_var_names(&mut ctx);
 
-    // Generate code from region tree
-    generate_region(&region, &mut ctx, code);
+    // MEMORY DEBUG: Comment out actual region code generation
+    // generate_region(&region, &mut ctx, code);
+    code.start_line().add("/* region generation disabled */").newline();
 }
 
 /// Apply inferred types from type inference to the expression generator
@@ -1468,8 +1469,12 @@ fn ssa_blocks_to_map_owned(ssa_result: jadx_passes::ssa::SsaResult) -> BTreeMap<
 fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
     match region {
         Region::Sequence(contents) => {
-            for content in contents {
-                generate_content(content, ctx, code);
+            // MEMORY DEBUG: Comment out content generation
+            // for content in contents {
+            //     generate_content(content, ctx, code);
+            // }
+            for _ in contents {
+                code.start_line().add("// sequence content stub").newline();
             }
         }
 
@@ -1723,10 +1728,12 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 fn generate_content<W: CodeWriter>(content: &RegionContent, ctx: &mut BodyGenContext, code: &mut W) {
     match content {
         RegionContent::Block(block_id) => {
+            // MEMORY DEBUG: Comment out block generation
             // Clone the block to avoid borrow conflict with ctx
-            if let Some(block) = ctx.blocks.get(block_id).cloned() {
-                generate_block(&block, ctx, code);
-            }
+            // if let Some(block) = ctx.blocks.get(block_id).cloned() {
+            //     generate_block(&block, ctx, code);
+            // }
+            code.start_line().add("// block stub").newline();
         }
         RegionContent::Region(region) => {
             generate_region(region, ctx, code);
@@ -1771,15 +1778,17 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
             })
             .unwrap_or(false);
 
+        // MEMORY DEBUG: Comment out instruction generation
         // Generate statement or expression
-        if !generate_insn_with_lookahead(&insn, next_is_move_result, ctx, code) {
-            // Fallback: emit as comment
-            code.start_line()
-                .add("/* ")
-                .add(&format!("{:?}", insn.insn_type))
-                .add(" */")
-                .newline();
-        }
+        // if !generate_insn_with_lookahead(&insn, next_is_move_result, ctx, code) {
+        //     // Fallback: emit as comment
+        //     code.start_line()
+        //         .add("/* ")
+        //         .add(&format!("{:?}", insn.insn_type))
+        //         .add(" */")
+        //         .newline();
+        // }
+        code.start_line().add("// insn stub").newline();
     }
 }
 

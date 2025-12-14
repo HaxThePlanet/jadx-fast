@@ -792,7 +792,9 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
             }
         }
         code.newline();
-        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), code);
+        // MEMORY DEBUG: Comment out actual method generation call
+        // generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), code);
+        code.start_line().add("// stub").newline();
     }
 }
 
