@@ -779,50 +779,63 @@ impl TypeInference {
             return false;
         }
 
-        if let Some(existing) = self.resolved.get(&var).cloned() {
-            // Already resolved - check compatibility
-            self.unify_types(&existing, ty)
-        } else {
-            // Not yet resolved
-            match ty {
-                InferredType::Var(other_var) => {
-                    // Propagate from other var if resolved
-                    if let Some(other_ty) = self.resolved.get(other_var).cloned() {
-                        self.resolved.insert(var, other_ty);
-                        true
-                    } else {
-                        false
-                    }
-                }
-                _ => {
-                    self.resolved.insert(var, ty.clone());
+        // OPTIMIZED: No clone needed for compatibility check since unify_types is &self
+        if let Some(existing) = self.resolved.get(&var) {
+            // Already resolved - check compatibility (no clone - unify_types is &self)
+            return self.unify_types(existing, ty);
+        }
+
+        // Not yet resolved
+        match ty {
+            InferredType::Var(other_var) => {
+                // Propagate from other var if resolved
+                // Must clone here because we insert into same map
+                if let Some(other_ty) = self.resolved.get(other_var).cloned() {
+                    self.resolved.insert(var, other_ty);
                     true
+                } else {
+                    false
                 }
+            }
+            _ => {
+                self.resolved.insert(var, ty.clone());
+                true
             }
         }
     }
 
     /// Unify two type variables
     fn unify_vars(&mut self, v1: TypeVar, v2: TypeVar) -> bool {
-        let t1 = self.resolved.get(&v1).cloned();
-        let t2 = self.resolved.get(&v2).cloned();
+        // OPTIMIZED: Avoid cloning when both resolved (just checking compatibility)
+        let has_t1 = self.resolved.contains_key(&v1);
+        let has_t2 = self.resolved.contains_key(&v2);
 
-        match (t1, t2) {
-            (Some(ty1), Some(ty2)) => self.unify_types(&ty1, &ty2),
-            (Some(ty), None) => {
+        match (has_t1, has_t2) {
+            (true, true) => {
+                // Both resolved - check compatibility (no clone - unify_types is &self)
+                let ty1 = self.resolved.get(&v1).unwrap();
+                let ty2 = self.resolved.get(&v2).unwrap();
+                self.unify_types(ty1, ty2)
+            }
+            (true, false) => {
+                // Only v1 resolved - clone and propagate to v2
+                let ty = self.resolved.get(&v1).unwrap().clone();
                 self.resolved.insert(v2, ty);
                 true
             }
-            (None, Some(ty)) => {
+            (false, true) => {
+                // Only v2 resolved - clone and propagate to v1
+                let ty = self.resolved.get(&v2).unwrap().clone();
                 self.resolved.insert(v1, ty);
                 true
             }
-            (None, None) => false,
+            (false, false) => false,
         }
     }
 
     /// Unify two types (check compatibility and potentially merge using hierarchy)
-    fn unify_types(&mut self, t1: &InferredType, t2: &InferredType) -> bool {
+    /// NOTE: &self because this only reads hierarchy - enables callers to avoid cloning
+    fn unify_types(&self, t1: &InferredType, t2: &InferredType) -> bool {
         match (t1, t2) {
             (InferredType::Concrete(a), InferredType::Concrete(b)) => {
                 // Use hierarchy-aware type comparison
