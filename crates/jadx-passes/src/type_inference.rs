@@ -720,23 +720,29 @@ impl TypeInference {
                         }
                     }
                     Constraint::ArrayOf(arr_var, elem_var) => {
+                        // OPTIMIZED: Clone only the inner ArgType, not whole InferredType
                         // If we know array type, infer element type
-                        if let Some(arr_ty) = self.resolved.get(&arr_var).cloned() {
-                            if let InferredType::Concrete(ArgType::Array(elem)) = arr_ty {
-                                let elem_ty = InferredType::Concrete(*elem);
-                                if self.unify_var_type(elem_var, &elem_ty) {
-                                    changed = true;
-                                }
+                        let elem_from_arr = if let Some(InferredType::Concrete(ArgType::Array(elem))) = self.resolved.get(&arr_var) {
+                            Some(elem.as_ref().clone())
+                        } else {
+                            None
+                        };
+                        if let Some(elem) = elem_from_arr {
+                            let elem_ty = InferredType::Concrete(elem);
+                            if self.unify_var_type(elem_var, &elem_ty) {
+                                changed = true;
                             }
                         }
                         // If we know element type, infer array type
-                        if let Some(elem_ty) = self.resolved.get(&elem_var).cloned() {
-                            if let InferredType::Concrete(elem) = elem_ty {
-                                let arr_ty =
-                                    InferredType::Concrete(ArgType::Array(Box::new(elem)));
-                                if self.unify_var_type(arr_var, &arr_ty) {
-                                    changed = true;
-                                }
+                        let elem_for_arr = if let Some(InferredType::Concrete(elem)) = self.resolved.get(&elem_var) {
+                            Some(elem.clone())
+                        } else {
+                            None
+                        };
+                        if let Some(elem) = elem_for_arr {
+                            let arr_ty = InferredType::Concrete(ArgType::Array(Box::new(elem)));
+                            if self.unify_var_type(arr_var, &arr_ty) {
+                                changed = true;
                             }
                         }
                     }
