@@ -20,7 +20,7 @@ This project reimplements `jadx-core` (the decompilation engine) in Rust. The go
 
 ## Current Status
 
-**~52,000 lines of Rust | 106 passing tests + 675 disabled | ~98% jadx-core parity**
+**~52,000 lines of Rust | 248 passing tests + 675 disabled | ~98% jadx-core parity**
 
 | Category | Status |
 |----------|--------|
@@ -32,7 +32,7 @@ This project reimplements `jadx-core` (the decompilation engine) in Rust. The go
 | Resources (AXML, arsc) | 100% - 1:1 match |
 | Kotlin support | 100% - Metadata, name restoration, intrinsics |
 | Deobfuscation | 100% - --deobf, ProGuard mappings |
-| Variable naming | 85% - JADX parity |
+| Variable naming | 100% - Full JADX parity |
 
 ### Performance (56 threads)
 
