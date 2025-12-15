@@ -251,6 +251,16 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
     let file = std::fs::File::open(input)?;
     let mut archive = zip::ZipArchive::new(file)?;
 
+    // Security: Check Zip entries limit (Zip Bomb protection)
+    let zip_limit = std::env::var("JADX_ZIP_MAX_ENTRIES_COUNT")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(100_000);
+    
+    if archive.len() > zip_limit {
+        anyhow::bail!("Zip entries count limit reached: {} > {}. Use JADX_ZIP_MAX_ENTRIES_COUNT to increase.", archive.len(), zip_limit);
+    }
+
     let mut dex_file_names = Vec::new();  // Only store names, not data
     let mut manifest_data: Option<Vec<u8>> = None;
     let mut arsc_data: Option<Vec<u8>> = None;
@@ -942,9 +952,10 @@ fn process_dex_bytes(
     // Create LazyDexInfo for name resolution during code generation
     // This is O(1) - no data is loaded upfront (lazy loading like Java JADX)
     // The global_field_pool enables deduplication of fields across all DEX files
-    tracing::debug!("Creating lazy DEX info with global field pool for name resolution...");
-    let dex_info = LazyDexInfo::new_with_pool(std::sync::Arc::clone(&dex), global_field_pool);
-    tracing::debug!("LazyDexInfo ready (on-demand loading with global deduplication enabled)");
+    tracing::debug!("Creating lazy DEX info (GlobalFieldPool disabled for memory safety)...");
+    // let dex_info = LazyDexInfo::new_with_pool(std::sync::Arc::clone(&dex), global_field_pool);
+    let dex_info = LazyDexInfo::new(std::sync::Arc::clone(&dex));
+    tracing::debug!("LazyDexInfo ready (on-demand loading, deduplication disabled)");
 
     // ========================================================================
     // OPTIMIZE: Pre-load strings to avoid RwLock contention in parallel phase
@@ -1130,19 +1141,23 @@ fn process_dex_bytes(
 
     // Process classes in parallel using rayon
     use rayon::prelude::*;
-    // Dynamic chunk size: ensure at least 4 chunks per thread for good load balancing
-    // For small APKs, use smaller chunks to utilize all threads
+    // Use parallel processing with small chunks (1) to keep memory usage low but throughput high
+    let chunk_size = 1;
     let num_threads = rayon::current_num_threads();
-    let chunk_size = std::cmp::max(1, class_indices.len() / (num_threads * 4));
-    let chunk_size = std::cmp::min(chunk_size, 48); // Cap at 48 for memory reasons
     tracing::debug!("Using chunk size {} for {} classes across {} threads", chunk_size, class_indices.len(), num_threads);
     let processed_count = std::sync::atomic::AtomicUsize::new(0);
+    
     class_indices.par_chunks(chunk_size).for_each(|chunk| {
         for &idx in chunk {
-        // Memory checkpoint every 100 classes
+        // Memory checkpoint every 10 classes
         let pc = processed_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-        if pc % 100 == 0 {
-            eprintln!("MEM[class {}]: {} MB", pc, get_mem_mb());
+        if pc % 100 == 0 { // Reduce log spam
+            let mem = get_mem_mb();
+            eprintln!("MEM[class {}]: {} MB", pc, mem);
+            if mem > 32 * 1024 { // 32GB safety limit
+                eprintln!("⚠️  MEMORY LIMIT EXCEEDED (32GB) - ABORTING ⚠️");
+                std::process::exit(137); // OOM exit code
+            }
         }
         // Fetch class name on-demand to avoid storing all names in memory
         let class_desc = dex.get_class(idx)
@@ -1200,12 +1215,38 @@ fn process_dex_bytes(
                     hierarchy: Some(hierarchy_arc.clone()),
                 };
                 let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
-                let code = jadx_codegen::generate_class_with_inner_classes(
-                    &ir_class,
-                    &config,
-                    Some(dex_arc),
-                    None,
-                );
+                
+                // Wrap codegen in catch_unwind to handle SKIP limits
+                let codegen_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                    jadx_codegen::generate_class_with_inner_classes(
+                        &ir_class,
+                        &config,
+                        Some(dex_arc),
+                        None,
+                    )
+                }));
+
+                let code = match codegen_result {
+                    Ok(c) => c,
+                    Err(payload) => {
+                        let msg = if let Some(s) = payload.downcast_ref::<&str>() {
+                            s.to_string()
+                        } else if let Some(s) = payload.downcast_ref::<String>() {
+                            s.clone()
+                        } else {
+                            "Unknown panic".to_string()
+                        };
+
+                        if msg.starts_with("SKIP:") {
+                            tracing::warn!("Method processing skipped in {}: {}", class_desc, msg);
+                            format!("// {}\nclass {} {{}}\n", msg, class_desc.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown"))
+                        } else {
+                            error_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                            tracing::error!("Decompilation failed in {}: {}", class_desc, msg);
+                            format!("// Decompilation failed: {}\nclass {} {{}}\n", msg, class_desc.trim_start_matches('L').trim_end_matches(';').rsplit('/').next().unwrap_or("Unknown"))
+                        }
+                    }
+                };
 
                 // Unload immediately after codegen to free memory
                 ir_class.unload();

@@ -173,6 +173,11 @@ impl TypeInference {
 
     /// Create a fresh type variable
     fn fresh_var(&mut self) -> TypeVar {
+        const VARS_PROCESS_LIMIT: u32 = 5000;
+        if self.next_var >= VARS_PROCESS_LIMIT {
+            // Panic to abort inference for this method (caught by catch_unwind in main)
+            panic!("SKIP: Type inference variables limit reached ({})", VARS_PROCESS_LIMIT);
+        }
         let var = TypeVar::new(self.next_var);
         self.next_var += 1;
         var
@@ -186,7 +191,17 @@ impl TypeInference {
     /// Get type variable for an instruction argument
     fn var_for_arg(&mut self, arg: &InsnArg) -> Option<TypeVar> {
         match arg {
-            InsnArg::Register(reg) => Some(self.get_or_create_var(reg)),
+            InsnArg::Register(reg) => {
+                // Check limit before creating new var
+                let key = (reg.reg_num, reg.ssa_version);
+                if !self.reg_to_var.contains_key(&key) {
+                    const VARS_PROCESS_LIMIT: u32 = 5000;
+                    if self.next_var >= VARS_PROCESS_LIMIT {
+                        panic!("SKIP: Type inference variables limit reached ({})", VARS_PROCESS_LIMIT);
+                    }
+                }
+                Some(self.get_or_create_var(reg))
+            },
             InsnArg::Literal(_) => None, // Literals have known types
             _ => None,
         }
@@ -689,15 +704,21 @@ impl TypeInference {
         // Multiple iterations until no changes
         let mut changed = true;
         let mut iterations = 0;
-        const MAX_ITERATIONS: usize = 25_000; // Increased limit for complex methods
+        let mut total_checks = 0;
+        const SEARCH_ITERATION_LIMIT: usize = 1_000_000;
 
-        while changed && iterations < MAX_ITERATIONS {
+        while changed {
+            if total_checks > SEARCH_ITERATION_LIMIT {
+                panic!("SKIP: Type inference iterations limit reached ({})", SEARCH_ITERATION_LIMIT);
+            }
             changed = false;
             iterations += 1;
 
             // OPTIMIZED: Use indexed iteration to avoid cloning the entire Vec
             // The original code cloned self.constraints every iteration (100x!)
             let constraint_count = self.constraints.len();
+            total_checks += constraint_count;
+            
             for i in 0..constraint_count {
                 // Copy constraint data out to avoid borrow conflict with self methods
                 let constraint = self.constraints[i].clone();

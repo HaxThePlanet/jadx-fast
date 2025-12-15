@@ -34,6 +34,8 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::sync::{Arc, Mutex};
 
+use tracing;
+
 use jadx_ir::instructions::{IfCondition, InsnType};
 use jadx_ir::regions::{CatchHandler, Condition, LoopKind, Region, RegionContent, SwitchCase};
 
@@ -223,6 +225,12 @@ pub fn build_regions(cfg: &CFG) -> Region {
 
 /// Build regions with try-catch block information from IR
 pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Region {
+    // 150 blocks hard limit (same as jadx-fast) to prevent infinite loops and memory explosion
+    let block_count = cfg.block_ids().count();
+    if block_count > 150 {
+        panic!("SKIP: {} blocks > 150 limit for regions", block_count);
+    }
+
     // Convert try blocks to internal format
     let tries = detect_try_catch_regions(cfg, try_blocks);
 
@@ -711,6 +719,7 @@ impl<'a> RegionBuilder<'a> {
     /// Build the body of a synchronized block
     fn build_sync_body(&mut self, sync_info: &SyncInfo) -> Region {
         let mut contents = Vec::new();
+        let mut visited = BTreeSet::new();
 
         // Get first block after the enter block
         let body_start = self.cfg
@@ -722,6 +731,12 @@ impl<'a> RegionBuilder<'a> {
             if sync_info.body_blocks.contains(&start) {
                 let mut current = Some(start);
                 while let Some(block_id) = current {
+                    if visited.contains(&block_id) {
+                        tracing::warn!("Infinite loop detected in synchronized block (block {}), breaking recursion", block_id);
+                        break; // Loop detected, break to avoid infinite allocation
+                    }
+                    visited.insert(block_id);
+
                     if sync_info.exit_blocks.contains(&block_id) {
                         break;
                     }

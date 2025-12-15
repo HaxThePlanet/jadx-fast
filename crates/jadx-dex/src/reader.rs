@@ -8,7 +8,7 @@ use memmap2::Mmap;
 
 use crate::error::{DexError, Result};
 use crate::header::DexHeader;
-use crate::sections::{ClassDef, FieldId, MethodId, ProtoId, StringPool};
+use crate::sections::{ClassDef, FieldId, MethodId, ProtoId};
 use crate::utils::{decode_mutf8, read_uleb128};
 
 /// A parsed DEX file
@@ -21,8 +21,6 @@ pub struct DexReader {
     data: DexData,
     /// Parsed header
     pub header: DexHeader,
-    /// String pool (lazily populated)
-    strings: StringPool,
 }
 
 /// DEX data storage - either memory-mapped or owned bytes
@@ -68,14 +66,12 @@ impl DexReader {
 
     fn from_data_internal(id: u32, input_file: String, data: DexData) -> Result<Self> {
         let header = DexHeader::parse(data.as_bytes())?;
-        let strings = StringPool::new();
-
+        
         Ok(DexReader {
             id,
             input_file,
             data,
             header,
-            strings,
         })
     }
 
@@ -84,9 +80,9 @@ impl DexReader {
         self.data.as_bytes()
     }
 
-    /// Get a string by index
-    pub fn get_string(&self, idx: u32) -> Result<&str> {
-        self.strings.get_or_load(idx, || self.load_string(idx))
+    /// Get a string by index (reads directly from DEX, no caching)
+    pub fn get_string(&self, idx: u32) -> Result<String> {
+        self.load_string(idx)
     }
 
     /// Load a string from the DEX file
@@ -114,7 +110,7 @@ impl DexReader {
     }
 
     /// Get a type name by index
-    pub fn get_type(&self, idx: u32) -> Result<&str> {
+    pub fn get_type(&self, idx: u32) -> Result<String> {
         if idx == crate::NO_INDEX {
             return Err(DexError::InvalidTypeIndex(idx));
         }
@@ -184,7 +180,7 @@ impl DexReader {
     }
 
     /// Read a type list at the given offset
-    pub fn read_type_list(&self, offset: u32) -> Result<Vec<&str>> {
+    pub fn read_type_list(&self, offset: u32) -> Result<Vec<String>> {
         if offset == 0 {
             return Ok(Vec::new());
         }

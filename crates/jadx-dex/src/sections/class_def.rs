@@ -38,19 +38,19 @@ impl<'a> ClassDef<'a> {
         Ok(ClassDef { reader, offset })
     }
 
-    /// Get the class type descriptor (e.g., "Ljava/lang/String;")
-    pub fn class_type(&self) -> Result<&str> {
+    /// Get the class type descriptor
+    pub fn class_type(&self) -> Result<String> {
         let type_idx = read_u32(self.reader.data(), self.offset);
         self.reader.get_type(type_idx)
     }
 
-    /// Get access flags
+    /// Get the access flags
     pub fn access_flags(&self) -> u32 {
         read_u32(self.reader.data(), self.offset + 4)
     }
 
-    /// Get superclass type descriptor, if any
-    pub fn superclass_type(&self) -> Result<Option<&str>> {
+    /// Get the superclass type descriptor (if any)
+    pub fn superclass_type(&self) -> Result<Option<String>> {
         let type_idx = read_u32(self.reader.data(), self.offset + 8);
         if type_idx == crate::NO_INDEX {
             Ok(None)
@@ -59,14 +59,14 @@ impl<'a> ClassDef<'a> {
         }
     }
 
-    /// Get interface type descriptors
-    pub fn interfaces(&self) -> Result<Vec<&str>> {
+    /// Get the list of implemented interfaces
+    pub fn interfaces(&self) -> Result<Vec<String>> {
         let interfaces_off = read_u32(self.reader.data(), self.offset + 12);
         self.reader.read_type_list(interfaces_off)
     }
 
-    /// Get source file name, if any
-    pub fn source_file(&self) -> Result<Option<&str>> {
+    /// Get the source file name (if any)
+    pub fn source_file(&self) -> Result<Option<String>> {
         let str_idx = read_u32(self.reader.data(), self.offset + 16);
         if str_idx == crate::NO_INDEX {
             Ok(None)

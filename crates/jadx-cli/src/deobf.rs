@@ -37,7 +37,7 @@ pub fn precompute_deobf_aliases(
         .iter()
         .filter_map(|&idx| {
             let class = dex.get_class(idx).ok()?;
-            let name = class.class_type().ok()?.to_string();
+            let name = class.class_type().ok()?;
             Some((name, idx))
         })
         .collect();
@@ -64,11 +64,11 @@ pub fn precompute_deobf_aliases(
             let mut cls_stub = ClassData::new(class_desc.clone(), class_def.access_flags());
 
             if let Ok(Some(super_type)) = class_def.superclass_type() {
-                cls_stub.superclass = Some(strip_descriptor(super_type).to_string());
+                cls_stub.superclass = Some(strip_descriptor(&super_type).to_string());
             }
             if let Ok(ifaces) = class_def.interfaces() {
                 for iface in ifaces {
-                    cls_stub.interfaces.push(strip_descriptor(iface).to_string());
+                    cls_stub.interfaces.push(strip_descriptor(&iface).to_string());
                 }
             }
 
@@ -89,16 +89,16 @@ pub fn precompute_deobf_aliases(
                     Err(_) => continue,
                 };
 
-                if registry.get_field_alias(&class_desc, field_name).is_some() {
+                if registry.get_field_alias(&class_desc, &field_name).is_some() {
                     continue;
                 }
-                if !should_rename_simple_name(field_name, args) {
+                if !should_rename_simple_name(&field_name, args) {
                     continue;
                 }
 
                 let fld_stub = FieldData::new(field_name.to_string(), field.access_flags, ArgType::Unknown);
                 let alias = provider.for_field(&fld_stub);
-                registry.set_field_alias(&class_desc, field_name, &alias);
+                registry.set_field_alias(&class_desc, &field_name, &alias);
             }
 
             // Methods: direct then virtual (matches DEX order)
@@ -124,20 +124,20 @@ pub fn precompute_deobf_aliases(
 
                 // If user mapping already provides an alias, keep it.
                 if registry
-                    .get_method_alias(&class_desc, method_name, &proto_desc)
+                    .get_method_alias(&class_desc, &method_name, &proto_desc)
                     .is_some()
                 {
                     continue;
                 }
 
-                if !should_rename_simple_name(method_name, args) {
+                if !should_rename_simple_name(&method_name, args) {
                     continue;
                 }
 
                 let is_override = method_has_override_annotation(dex, &class_def, method.method_idx);
                 let mth_stub = MethodData::new(method_name.to_string(), method.access_flags, ArgType::Void);
                 let alias = provider.for_method(&mth_stub, is_override);
-                registry.set_method_alias(&class_desc, method_name, &proto_desc, &alias);
+                registry.set_method_alias(&class_desc, &method_name, &proto_desc, &alias);
             }
         }
     }
@@ -230,10 +230,10 @@ fn method_proto_descriptor(method_id: &jadx_dex::sections::MethodId<'_>) -> Resu
     let mut out = String::with_capacity(2 + ret.len() + params.iter().map(|p| p.len()).sum::<usize>());
     out.push('(');
     for p in params {
-        out.push_str(p);
+        out.push_str(&p);
     }
     out.push(')');
-    out.push_str(ret);
+    out.push_str(&ret);
     Ok(out)
 }
 
@@ -351,7 +351,7 @@ fn collect_android_r_tops(dex: &DexReader, classes: &[(String, u32)]) -> HashSet
                         Ok(t) => t,
                         Err(_) => continue,
                     };
-                    if !is_int_or_int_array(f_ty) {
+                    if !is_int_or_int_array(&f_ty) {
                         state.invalid = true;
                         break;
                     }

@@ -81,7 +81,8 @@ jadx-kotlin = { path = "jadx-kotlin" }
 [profile.release]
 lto = "thin"           # Thin LTO - fast + good optimization
 codegen-units = 16     # Parallel codegen across all cores
-panic = "abort"
+# panic = "abort"      # DISABLED to allow catch_unwind for SKIP limits
+debug = true
 
 # Maximum optimization for distribution (use: cargo build --profile dist)
 [profile.dist]

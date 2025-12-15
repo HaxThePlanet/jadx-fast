@@ -31,20 +31,20 @@ impl<'a> FieldId<'a> {
         Ok(FieldId { reader, offset })
     }
 
-    /// Get the defining class type descriptor
-    pub fn class_type(&self) -> Result<&str> {
+    /// Get the class type descriptor
+    pub fn class_type(&self) -> Result<String> {
         let type_idx = read_u16(self.reader.data(), self.offset) as u32;
         self.reader.get_type(type_idx)
     }
 
     /// Get the field type descriptor
-    pub fn field_type(&self) -> Result<&str> {
+    pub fn field_type(&self) -> Result<String> {
         let type_idx = read_u16(self.reader.data(), self.offset + 2) as u32;
         self.reader.get_type(type_idx)
     }
 
     /// Get the field name
-    pub fn name(&self) -> Result<&str> {
+    pub fn name(&self) -> Result<String> {
         let name_idx = read_u32(self.reader.data(), self.offset + 4);
         self.reader.get_string(name_idx)
     }

@@ -24,19 +24,19 @@ pub fn convert_class(
     class_def: &ClassDef<'_>,
     process_debug_info: bool,
 ) -> Result<ClassData> {
-    let class_type = class_def.class_type()?.to_string();
+    let class_type = class_def.class_type()?;
     let access_flags = class_def.access_flags();
 
     let mut class_data = ClassData::new(class_type, access_flags);
 
     // Superclass
     if let Some(super_type) = class_def.superclass_type()? {
-        class_data.superclass = Some(strip_descriptor(super_type).to_string());
+        class_data.superclass = Some(strip_descriptor(&super_type).to_string());
     }
 
     // Interfaces
     for iface in class_def.interfaces()? {
-        class_data.interfaces.push(strip_descriptor(iface).to_string());
+        class_data.interfaces.push(strip_descriptor(&iface).to_string());
     }
 
     // Source file
@@ -149,9 +149,9 @@ pub fn convert_class(
 fn convert_field(dex: &DexReader, encoded: &EncodedField) -> Result<FieldData> {
     let field_id = dex.get_field(encoded.field_idx)?;
 
-    let name = field_id.name()?.to_string();
+    let name = field_id.name()?;
     let field_type_str = field_id.field_type()?;
-    let field_type = parse_type_descriptor(field_type_str);
+    let field_type = parse_type_descriptor(&field_type_str);
 
     let field = FieldData::new(name, encoded.access_flags, field_type);
     // Initial value is set by caller after convert_field returns
@@ -196,7 +196,7 @@ fn convert_encoded_value(dex: &DexReader, encoded: &EncodedValue) -> Option<Fiel
                 let class_type = field_id.class_type().ok()?;
                 let field_name = field_id.name().ok()?;
                 Some(FieldValue::Enum(
-                    strip_descriptor(class_type).to_string(),
+                    strip_descriptor(&class_type).to_string(),
                     field_name.to_string(),
                 ))
             })
@@ -207,7 +207,7 @@ fn convert_encoded_value(dex: &DexReader, encoded: &EncodedValue) -> Option<Fiel
                 let class_type = field_id.class_type().ok()?;
                 let field_name = field_id.name().ok()?;
                 Some(FieldValue::Field(
-                    strip_descriptor(class_type).to_string(),
+                    strip_descriptor(&class_type).to_string(),
                     field_name.to_string(),
                 ))
             })
@@ -240,7 +240,7 @@ fn convert_encoded_annotation(
 ) -> Option<Annotation> {
     // Resolve annotation type name
     let type_name = dex.get_type(encoded.type_idx).ok()?;
-    let annotation_type = strip_descriptor(type_name).to_string();
+    let annotation_type = strip_descriptor(&type_name).to_string();
 
     let mut annotation = Annotation::new(annotation_type, visibility);
 
@@ -273,6 +273,7 @@ fn convert_annotation_value(dex: &DexReader, encoded: &EncodedValue) -> Option<A
         EncodedValue::Type(idx) => {
             dex.get_type(*idx)
                 .ok()
+                .as_ref()
                 .map(|s| AnnotationValue::Type(strip_descriptor(s).to_string()))
         }
         EncodedValue::Enum(field_idx) => {
@@ -280,7 +281,7 @@ fn convert_annotation_value(dex: &DexReader, encoded: &EncodedValue) -> Option<A
                 let class_type = field_id.class_type().ok()?;
                 let field_name = field_id.name().ok()?;
                 Some(AnnotationValue::Enum(
-                    strip_descriptor(class_type).to_string(),
+                    strip_descriptor(&class_type).to_string(),
                     field_name.to_string(),
                 ))
             })
@@ -517,15 +518,15 @@ fn convert_method(
     let method_id = dex.get_method(encoded.method_idx)?;
     let proto = method_id.proto()?;
 
-    let name = method_id.name()?.to_string();
+    let name = method_id.name()?;
     let return_type_str = proto.return_type()?;
-    let return_type = parse_type_descriptor(return_type_str);
+    let return_type = parse_type_descriptor(&return_type_str);
 
     let mut method = MethodData::new(name, encoded.access_flags, return_type);
 
     // Parameters
     for param_type_str in proto.parameters()? {
-        method.arg_types.push(parse_type_descriptor(param_type_str));
+        method.arg_types.push(parse_type_descriptor(&param_type_str));
     }
 
     // Parse code_item for instructions
@@ -594,6 +595,7 @@ fn convert_try_catch_blocks(
                 // Resolve type name from type_idx
                 let exception_type = dex.get_type(pair.type_idx)
                     .ok()
+                    .as_ref()
                     .map(|t| strip_descriptor(t).to_string());
 
                 handlers.push(ExceptionHandler {
@@ -648,13 +650,14 @@ pub fn build_class_hierarchy(dex: &DexReader, class_indices: &[u32]) -> jadx_ir:
         if let Ok(class_def) = dex.get_class(idx) {
             // Get class name
             if let Ok(class_type) = class_def.class_type() {
-                let class_name = strip_descriptor(class_type).to_string();
+                let class_name = strip_descriptor(&class_type).to_string();
 
                 // Get superclass
                 let superclass = class_def
                     .superclass_type()
                     .ok()
                     .flatten()
+                    .as_ref()
                     .map(|s| strip_descriptor(s).to_string());
 
                 // Get interfaces
@@ -663,7 +666,7 @@ pub fn build_class_hierarchy(dex: &DexReader, class_indices: &[u32]) -> jadx_ir:
                     .ok()
                     .unwrap_or_default()
                     .into_iter()
-                    .map(|s| strip_descriptor(s).to_string())
+                    .map(|s| strip_descriptor(&s).to_string())
                     .collect();
 
                 // Add to hierarchy

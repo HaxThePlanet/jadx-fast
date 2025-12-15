@@ -31,20 +31,20 @@ impl<'a> ProtoId<'a> {
         Ok(ProtoId { reader, offset })
     }
 
-    /// Get the shorty descriptor (compact type signature)
-    pub fn shorty(&self) -> Result<&str> {
+    /// Get the shorty descriptor
+    pub fn shorty(&self) -> Result<String> {
         let shorty_idx = read_u32(self.reader.data(), self.offset);
         self.reader.get_string(shorty_idx)
     }
 
     /// Get the return type descriptor
-    pub fn return_type(&self) -> Result<&str> {
+    pub fn return_type(&self) -> Result<String> {
         let return_type_idx = read_u32(self.reader.data(), self.offset + 4);
         self.reader.get_type(return_type_idx)
     }
 
-    /// Get the parameter type descriptors
-    pub fn parameters(&self) -> Result<Vec<&str>> {
+    /// Get the parameter types
+    pub fn parameters(&self) -> Result<Vec<String>> {
         let params_off = read_u32(self.reader.data(), self.offset + 8);
         self.reader.read_type_list(params_off)
     }
