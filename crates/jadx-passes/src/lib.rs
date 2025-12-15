@@ -25,7 +25,7 @@ pub use conditionals::{
     detect_conditionals, detect_ternary_assignment, find_condition_chains, is_ternary_candidate,
     merge_nested_conditions, IfInfo, MergeMode, MergedCondition, TernaryInfo,
 };
-pub use extract_field_init::extract_field_init;
+pub use extract_field_init::{extract_field_init, extract_instance_field_init};
 pub use finally_extract::{apply_finally_marking, extract_finally, FinallyExtractInfo, InsnsSlice};
 pub use kotlin_intrinsics::process_kotlin_intrinsics;
 pub use loops::{detect_loops, LoopInfo};

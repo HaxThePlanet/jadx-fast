@@ -703,7 +703,7 @@ impl FieldData {
 }
 
 /// Field initial value
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum FieldValue {
     Byte(i8),
     Short(i16),

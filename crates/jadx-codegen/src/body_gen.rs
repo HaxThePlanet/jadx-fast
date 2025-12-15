@@ -2426,12 +2426,19 @@ fn generate_insn<W: CodeWriter>(
 
         InsnType::InstancePut { object, field_idx, value } => {
             // OPTIMIZED: Direct write without String allocation
-            let field_name = ctx.expr_gen.get_field_name(*field_idx)
+            // Get field info for both name and type (for proper boolean literal formatting)
+            let field_info = ctx.expr_gen.get_field_value(*field_idx);
+            let field_name = field_info.as_ref()
+                .map(|f| f.field_name.clone())
                 .unwrap_or_else(|| format!("field#{}", field_idx));
+            let field_type = field_info
+                .map(|f| f.field_type)
+                .unwrap_or(ArgType::Unknown);
             code.start_line();
             ctx.expr_gen.write_arg(code, object);
             code.add(".").add(&field_name).add(" = ");
-            ctx.expr_gen.write_arg(code, value);
+            // Use typed writer for proper boolean literal formatting (0 -> false, 1 -> true)
+            ctx.expr_gen.write_arg_with_type(code, value, &field_type);
             code.add(";").newline();
             true
         }
@@ -2444,10 +2451,17 @@ fn generate_insn<W: CodeWriter>(
 
         InsnType::StaticPut { field_idx, value } => {
             // OPTIMIZED: Direct write without String allocation
-            let field_ref = ctx.expr_gen.get_static_field_ref(*field_idx)
+            // Get field info for both name and type (for proper boolean literal formatting)
+            let field_info = ctx.expr_gen.get_field_value(*field_idx);
+            let field_ref = field_info.as_ref()
+                .map(|f| format!("{}.{}", f.class_name, f.field_name))
                 .unwrap_or_else(|| format!("field#{}", field_idx));
+            let field_type = field_info
+                .map(|f| f.field_type)
+                .unwrap_or(ArgType::Unknown);
             code.start_line().add(&field_ref).add(" = ");
-            ctx.expr_gen.write_arg(code, value);
+            // Use typed writer for proper boolean literal formatting (0 -> false, 1 -> true)
+            ctx.expr_gen.write_arg_with_type(code, value, &field_type);
             code.add(";").newline();
             true
         }

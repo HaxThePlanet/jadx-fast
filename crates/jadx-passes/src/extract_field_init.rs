@@ -363,6 +363,176 @@ fn apply_field_inits(class: &mut ClassData, inits: &[FieldInitInfo], clinit_idx:
     }
 }
 
+/// Information about an instance field initialization instruction
+#[derive(Debug, Clone)]
+struct InstanceFieldInitInfo {
+    /// Index of the field being initialized (in instance_fields array)
+    field_idx: usize,
+    /// The value being assigned
+    value: FieldValue,
+    /// Index of the instruction in the method
+    insn_idx: usize,
+}
+
+/// Extract instance field initializations from constructor methods
+///
+/// This function moves common field initializations from constructors to field declarations.
+/// A field initialization is only extracted if it appears in ALL constructors with the same value.
+///
+/// Based on Java JADX's `moveCommonFieldsInit()` in ExtractFieldInit.java
+pub fn extract_instance_field_init(class: &mut ClassData) {
+    // Skip if no instance fields
+    if class.instance_fields.is_empty() {
+        return;
+    }
+
+    // Find all constructors
+    let constructor_indices: Vec<usize> = class.methods.iter()
+        .enumerate()
+        .filter(|(_, m)| m.is_constructor())
+        .map(|(idx, _)| idx)
+        .collect();
+
+    if constructor_indices.is_empty() {
+        return;
+    }
+
+    // Collect field inits from each constructor
+    let mut all_inits: Vec<Vec<InstanceFieldInitInfo>> = Vec::new();
+
+    for &constructor_idx in &constructor_indices {
+        let method = &class.methods[constructor_idx];
+        let inits = collect_instance_field_inits(method, &class.instance_fields);
+
+        if inits.is_empty() {
+            // If any constructor has no field inits, we can't extract anything
+            return;
+        }
+
+        all_inits.push(inits);
+    }
+
+    // Find common field inits (same field, same value across ALL constructors)
+    let common_inits = find_common_field_inits(&all_inits, &class.instance_fields);
+
+    if common_inits.is_empty() {
+        return;
+    }
+
+    // Apply the common initializations to fields
+    for init in &common_inits {
+        if init.field_idx < class.instance_fields.len() {
+            class.instance_fields[init.field_idx].initial_value = Some(init.value.clone());
+        }
+    }
+
+    // Remove the IPUT instructions from all constructors
+    for (i, &constructor_idx) in constructor_indices.iter().enumerate() {
+        let method = &mut class.methods[constructor_idx];
+        let instructions = method.get_instructions_mut();
+
+        // Get indices to remove for this constructor
+        let indices_to_remove: HashSet<usize> = all_inits[i].iter()
+            .filter(|init| common_inits.iter().any(|c| c.field_idx == init.field_idx))
+            .map(|init| init.insn_idx)
+            .collect();
+
+        // Remove in reverse order to maintain indices
+        let mut indices: Vec<usize> = indices_to_remove.into_iter().collect();
+        indices.sort_by(|a, b| b.cmp(a));
+
+        for idx in indices {
+            if idx < instructions.len() {
+                instructions.remove(idx);
+            }
+        }
+    }
+}
+
+/// Collect IPUT instructions that initialize instance fields
+fn collect_instance_field_inits(method: &MethodData, fields: &[FieldData]) -> Vec<InstanceFieldInitInfo> {
+    let mut inits = Vec::new();
+
+    let instructions = match method.instructions() {
+        Some(insns) => insns,
+        None => return inits,
+    };
+
+    // Scan all instructions for IPUT operations
+    for (insn_idx, insn) in instructions.iter().enumerate() {
+        if let InsnType::InstancePut { object, field_idx, value } = &insn.insn_type {
+            // Check that the object is 'this' (first parameter register)
+            // In Dalvik, 'this' is typically in the last register for instance methods
+            if !is_this_register(object, method) {
+                continue;
+            }
+
+            let field_idx_usize = *field_idx as usize;
+
+            // Skip if field already has an initial value
+            if field_idx_usize < fields.len() && fields[field_idx_usize].initial_value.is_some() {
+                continue;
+            }
+
+            // Try to extract a constant value from the IPUT
+            if let Some(field_value) = extract_constant_value(value, method) {
+                inits.push(InstanceFieldInitInfo {
+                    field_idx: field_idx_usize,
+                    value: field_value,
+                    insn_idx,
+                });
+            }
+        }
+    }
+
+    inits
+}
+
+/// Check if an instruction argument refers to 'this'
+fn is_this_register(arg: &InsnArg, method: &MethodData) -> bool {
+    if let InsnArg::Register(reg) = arg {
+        // For instance methods, 'this' is in the last ins_count registers
+        // The first parameter (this) is at regs_count - ins_count
+        let this_reg = method.regs_count.saturating_sub(method.ins_count);
+        return reg.reg_num == this_reg;
+    }
+    false
+}
+
+/// Find field inits that are common across ALL constructors
+fn find_common_field_inits(all_inits: &[Vec<InstanceFieldInitInfo>], fields: &[FieldData]) -> Vec<InstanceFieldInitInfo> {
+    if all_inits.is_empty() {
+        return Vec::new();
+    }
+
+    // Use the first constructor's inits as reference
+    let reference = &all_inits[0];
+    let mut common = Vec::new();
+
+    for init in reference {
+        // Check if this field init appears in ALL other constructors with the same value
+        let is_common = all_inits.iter().skip(1).all(|other_inits| {
+            other_inits.iter().any(|other| {
+                other.field_idx == init.field_idx && other.value == init.value
+            })
+        });
+
+        // Also check that the field is not initialized multiple times in any constructor
+        let not_duplicated = all_inits.iter().all(|inits| {
+            inits.iter().filter(|i| i.field_idx == init.field_idx).count() == 1
+        });
+
+        // Only extract if this is an instance field (not static)
+        let is_instance_field = init.field_idx < fields.len() && !fields[init.field_idx].is_static();
+
+        if is_common && not_duplicated && is_instance_field {
+            common.push(init.clone());
+        }
+    }
+
+    common
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

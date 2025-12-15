@@ -1228,8 +1228,10 @@ fn process_dex_bytes(
                     let _ = converter::load_method_instructions(method, &dex);
                 }
 
-                // Extract static field initializations
+                // Extract static field initializations from <clinit>
                 jadx_passes::extract_field_init(&mut ir_class);
+                // Extract instance field initializations from constructors
+                jadx_passes::extract_instance_field_init(&mut ir_class);
 
                 let config = jadx_codegen::ClassGenConfig {
                     use_imports,

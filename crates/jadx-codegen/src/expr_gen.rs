@@ -24,6 +24,7 @@ use jadx_ir::instructions::{
 use jadx_ir::types::ArgType;
 
 use crate::dex_info::DexInfoProvider;
+use crate::type_gen::literal_to_string;
 
 /// Expression generation context
 ///
@@ -330,6 +331,19 @@ impl ExprGen {
                     writer.add(&format!("string#{}", idx));
                 }
             }
+        }
+    }
+
+    /// Write arg directly to CodeWriter with target type awareness
+    /// This ensures proper literal formatting: 0 -> false for boolean fields
+    pub fn write_arg_with_type<W: crate::writer::CodeWriter>(&self, writer: &mut W, arg: &InsnArg, target_type: &ArgType) {
+        match arg {
+            InsnArg::Literal(LiteralArg::Int(v)) => {
+                // Use type-aware literal formatting (0 -> false, 1 -> true for booleans)
+                writer.add(&literal_to_string(*v, target_type));
+            }
+            // All other cases delegate to the regular write_arg
+            _ => self.write_arg(writer, arg),
         }
     }
 
