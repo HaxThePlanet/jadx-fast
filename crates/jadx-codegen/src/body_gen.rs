@@ -86,6 +86,12 @@ pub struct BodyGenContext {
     /// Variables that are final (only assigned once)
     /// A variable is final if max_versions[reg] == 0 (never reassigned after initial assignment)
     pub final_vars: HashSet<(u16, u32)>,
+    /// Current class type (internal format like "com/example/MyClass")
+    /// Used to distinguish super() vs this() in constructor calls
+    pub current_class_type: Option<String>,
+    /// Phi node destinations that need early declaration at method start
+    /// These are variables that merge values from multiple branches
+    pub phi_declarations: HashSet<(u16, u32)>,
 }
 
 impl Drop for BodyGenContext {
@@ -170,6 +176,8 @@ impl BodyGenContext {
             inlined_exprs: HashMap::new(),
             anonymous_classes,
             final_vars: HashSet::new(),
+            current_class_type: None,
+            phi_declarations: HashSet::new(),
         }
     }
 
@@ -196,6 +204,12 @@ impl BodyGenContext {
     /// Store an expression for potential inlining
     pub fn store_inline_expr(&mut self, reg: u16, version: u32, expr: String) {
         self.inlined_exprs.insert((reg, version), expr);
+    }
+
+    /// Set the current class type (internal format like "com/example/MyClass")
+    /// Used to distinguish super() vs this() in constructor calls
+    pub fn set_current_class_type(&mut self, class_type: String) {
+        self.current_class_type = Some(class_type);
     }
 
     /// Get inlined expression if available, removing it from storage
@@ -370,6 +384,67 @@ fn count_uses_in_insn(insn: &InsnType, counts: &mut HashMap<(u16, u32), usize>) 
         | InsnType::NewInstance { .. } | InsnType::MoveResult { .. }
         | InsnType::MoveException { .. } | InsnType::StaticGet { .. }
         | InsnType::Goto { .. } | InsnType::Break { .. } | InsnType::Continue { .. } => {}
+    }
+}
+
+/// Collect phi node destinations from SSA result
+/// These variables need early declaration at method start since phi "assignments" aren't emitted
+fn collect_phi_destinations(ssa_result: &jadx_passes::ssa::SsaResult) -> HashSet<(u16, u32)> {
+    let mut phi_dests = HashSet::new();
+    for block in &ssa_result.blocks {
+        for phi in &block.phi_nodes {
+            // Skip 'this' parameter (reg 0, version 0 for instance methods)
+            if phi.dest.reg_num == 0 && phi.dest.ssa_version == 0 {
+                continue;
+            }
+            phi_dests.insert((phi.dest.reg_num, phi.dest.ssa_version));
+        }
+    }
+    phi_dests
+}
+
+/// Emit declarations for phi variables at method start
+/// Like Java JADX's DeclareVariablesAttr, this ensures variables used before
+/// their first "real" assignment are declared
+fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) {
+    if ctx.phi_declarations.is_empty() {
+        return;
+    }
+
+    // Sort for deterministic output
+    let mut phi_vars: Vec<_> = ctx.phi_declarations.iter().copied().collect();
+    phi_vars.sort();
+
+    for (reg, version) in phi_vars {
+        // Skip if already declared (e.g., parameter)
+        if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
+            continue;
+        }
+
+        // Get the type from type inference
+        let var_type = ctx.get_inferred_type_versioned(reg, version)
+            .or_else(|| ctx.get_inferred_type_versioned(reg, 0))
+            .cloned()
+            .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
+
+        // Get variable name using a temp RegisterArg
+        let temp_reg = RegisterArg { reg_num: reg, ssa_version: version };
+        let var_name = ctx.expr_gen.get_var_name(&temp_reg);
+
+        // Emit declaration
+        code.start_line();
+
+        // Use imports-aware type formatting if available
+        let type_str = if let Some(ref imports) = ctx.imports {
+            type_to_string_with_imports(&var_type, Some(imports))
+        } else {
+            type_to_string(&var_type)
+        };
+
+        code.add(&type_str).add(" ").add(&var_name).add(";").newline();
+
+        // Mark as declared
+        ctx.mark_declared(reg, version);
     }
 }
 
@@ -550,6 +625,8 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     let mut ctx = BodyGenContext::from_method(method);
     let max_versions = ssa_result.max_versions.clone();
+    // Collect phi destinations before consuming SSA result
+    ctx.phi_declarations = collect_phi_destinations(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
 
@@ -559,6 +636,9 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     apply_inferred_types(&mut ctx);
     apply_var_names_from_pass(&var_names, &mut ctx);
+
+    // Emit declarations for phi variables at method start
+    emit_phi_declarations(&mut ctx, code);
 
     // Generate code from region tree
     generate_region(&region, &mut ctx, code);
@@ -661,6 +741,7 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
             num_params,
             Some(&method_lookup),
             Some(&type_lookup),
+            method.debug_info.as_ref(),
         )
     } else {
         jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
@@ -668,6 +749,8 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
 
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
     let max_versions = ssa_result.max_versions.clone();
+    // Collect phi destinations before consuming SSA result
+    ctx.phi_declarations = collect_phi_destinations(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
     ctx.imports = imports.cloned();
@@ -678,6 +761,9 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
 
     apply_inferred_types(&mut ctx);
     apply_var_names_from_pass(&var_names, &mut ctx);
+
+    // Emit declarations for phi variables at method start
+    emit_phi_declarations(&mut ctx, code);
 
     // Generate code from region tree
     generate_region(&region, &mut ctx, code);
@@ -691,12 +777,15 @@ thread_local! {
 ///
 /// When `inner_classes` is provided, anonymous inner class instantiations will have
 /// their method bodies inlined instead of just `new AnonymousClass()`.
+///
+/// The `current_class_type` parameter is used to distinguish `super()` vs `this()` in constructors.
 pub fn generate_body_with_inner_classes<W: CodeWriter>(
     method: &MethodData,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
     inner_classes: Option<&HashMap<String, std::sync::Arc<jadx_ir::ClassData>>>,
     hierarchy: Option<&jadx_ir::ClassHierarchy>,
+    current_class_type: Option<&str>,
     code: &mut W,
 ) {
     CODEGEN_DEPTH.with(|depth| {
@@ -811,6 +900,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
             num_params,
             Some(&method_lookup),
             Some(&type_lookup),
+            method.debug_info.as_ref(),
         )
     } else {
         jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
@@ -818,9 +908,16 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
 
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
     let max_versions = ssa_result.max_versions.clone();
+    // Collect phi destinations before consuming SSA result
+    ctx.phi_declarations = collect_phi_destinations(&ssa_result);
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
     ctx.type_info = Some(type_result);
     ctx.imports = imports.cloned();
+
+    // Set current class type for super() vs this() detection in constructors
+    if let Some(class_type) = current_class_type {
+        ctx.set_current_class_type(class_type.to_string());
+    }
 
     if let Some(inner) = inner_classes {
         for (type_desc, class_data) in inner {
@@ -836,6 +933,9 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
 
     apply_inferred_types(&mut ctx);
     apply_var_names_from_pass(&var_names, &mut ctx);
+
+    // Emit declarations for phi variables at method start
+    emit_phi_declarations(&mut ctx, code);
 
     generate_region(&region, &mut ctx, code);
 }
@@ -951,6 +1051,10 @@ fn type_to_var_name(ty: &ArgType) -> String {
             }
         }
         ArgType::Wildcard { .. } => "w".to_string(),
+        ArgType::TypeVariable(name) => {
+            // Type variables like T, E, K, V - lowercase the name
+            name.to_lowercase()
+        }
     }
 }
 
@@ -2029,13 +2133,27 @@ fn write_invoke_with_inlining<W: CodeWriter>(
             }
             InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
                 if info.method_name == "<init>" {
-                    // Check receiver - need to determine if "this" or other
-                    let is_this = args.first().map(|a| {
-                        matches!(a, InsnArg::Register(r) if r.reg_num == 0 && r.ssa_version == 0)
-                    }).unwrap_or(false);
+                    // Check receiver - determine if it's "this" by variable name
+                    let is_this = if let Some(InsnArg::Register(reg)) = args.first() {
+                        ctx.expr_gen.get_var_name(reg) == "this"
+                    } else {
+                        false
+                    };
 
                     if is_this {
-                        code.add("super(");
+                        // Constructor call on 'this' - could be super() or this()
+                        // Compare target class with current class to determine which
+                        let is_same_class = ctx.current_class_type.as_ref()
+                            .map(|current| current == &info.class_type)
+                            .unwrap_or(false);
+
+                        if is_same_class {
+                            // Same class → this() constructor chaining
+                            code.add("this(");
+                        } else {
+                            // Different class → super() call
+                            code.add("super(");
+                        }
                     } else {
                         code.add("new ").add(&info.class_name).add("(");
                     }

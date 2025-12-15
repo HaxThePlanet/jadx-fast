@@ -117,6 +117,8 @@ pub fn convert_class(
                         }
                     }
                 }
+                // Apply signature annotation to get generic type info
+                apply_signature_to_method(&mut method_data);
                 class_data.methods.push(method_data);
             }
         }
@@ -132,6 +134,8 @@ pub fn convert_class(
                         }
                     }
                 }
+                // Apply signature annotation to get generic type info
+                apply_signature_to_method(&mut method_data);
                 class_data.methods.push(method_data);
             }
         }
@@ -162,6 +166,87 @@ fn convert_field(dex: &DexReader, encoded: &EncodedField) -> Result<FieldData> {
     field.dex_field_idx = Some(encoded.field_idx);
     // Initial value is set by caller after convert_field returns
     Ok(field)
+}
+
+/// Apply signature annotation to method types if present
+/// Parses dalvik.annotation.Signature to extract generic type information for methods
+fn apply_signature_to_method(method: &mut MethodData) {
+    // Find Signature annotation
+    let signature_str = method.annotations.iter().find_map(|annot| {
+        if annot.annotation_type == "dalvik/annotation/Signature" {
+            // Get the "value" element which is an array of strings
+            annot.elements.iter().find_map(|elem| {
+                if elem.name == "value" {
+                    if let AnnotationValue::Array(values) = &elem.value {
+                        let parts: Vec<&str> = values.iter().filter_map(|v| {
+                            if let AnnotationValue::String(s) = v {
+                                Some(s.as_str())
+                            } else {
+                                None
+                            }
+                        }).collect();
+                        return Some(parts.join(""));
+                    }
+                }
+                None
+            })
+        } else {
+            None
+        }
+    });
+
+    if let Some(sig) = signature_str {
+        parse_method_signature(&sig, method);
+    }
+}
+
+/// Parse a method signature string and update method types
+/// Format: <TypeParams>(ArgTypes)ReturnType
+/// Example: <T:Ljava/lang/Object;>(Ljava/util/List<TT;>;)TT;
+fn parse_method_signature(sig: &str, method: &mut MethodData) {
+    let mut chars = sig.chars().peekable();
+
+    // Skip type parameters for now (e.g., <T:Ljava/lang/Object;>)
+    // TODO: Parse and store type parameters in method.type_parameters
+    if chars.peek() == Some(&'<') {
+        let mut depth = 0;
+        while let Some(&c) = chars.peek() {
+            chars.next();
+            if c == '<' {
+                depth += 1;
+            } else if c == '>' {
+                depth -= 1;
+                if depth == 0 {
+                    break;
+                }
+            }
+        }
+    }
+
+    // Parse argument types: (ArgType1ArgType2...)
+    if chars.peek() == Some(&'(') {
+        chars.next(); // consume '('
+        let mut arg_types = Vec::new();
+        while chars.peek() != Some(&')') && chars.peek().is_some() {
+            if let Some(arg_type) = parse_type_from_signature(&mut chars) {
+                arg_types.push(arg_type);
+            } else {
+                break;
+            }
+        }
+        if chars.peek() == Some(&')') {
+            chars.next(); // consume ')'
+            // Only update if we parsed the expected number of args
+            if arg_types.len() == method.arg_types.len() {
+                method.arg_types = arg_types;
+            }
+        }
+    }
+
+    // Parse return type
+    if let Some(return_type) = parse_type_from_signature(&mut chars) {
+        method.return_type = return_type;
+    }
 }
 
 /// Apply signature annotation to field type if present
@@ -295,8 +380,7 @@ fn parse_type_from_signature(chars: &mut std::iter::Peekable<std::str::Chars>) -
                 chars.next();
                 var_name.push(c);
             }
-            // For now, treat type variables as Object with the variable name
-            Some(ArgType::Object(var_name))
+            Some(ArgType::TypeVariable(var_name))
         }
         _ => None,
     }
@@ -692,10 +776,27 @@ fn convert_method(
                 outs_count: code_item.outs_size,
             });
 
-            // Extract parameter names from debug info
+            // Extract debug info (parameter names, local variables, line numbers)
             if process_debug_info {
-                if let Ok(param_names) = code_item.get_parameter_names() {
-                    method.arg_names = param_names;
+                if let Ok(Some(full_debug)) = code_item.parse_full_debug_info() {
+                    // Parameter names (resolve string indices)
+                    method.arg_names = full_debug.param_names.iter()
+                        .map(|idx| idx.and_then(|i| dex.get_string(i).ok().map(|s| (*s).to_string())))
+                        .collect();
+
+                    // Full debug info with local variables (for variable naming)
+                    method.debug_info = Some(jadx_ir::DebugInfo {
+                        line_numbers: full_debug.line_numbers,
+                        local_vars: full_debug.local_vars.into_iter()
+                            .map(|v| jadx_ir::LocalVar {
+                                name: v.name,
+                                type_desc: v.type_desc,
+                                reg: v.reg,
+                                start_addr: v.start_addr,
+                                end_addr: v.end_addr,
+                            })
+                            .collect(),
+                    });
                 }
             }
 

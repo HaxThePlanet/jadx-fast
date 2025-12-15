@@ -7,12 +7,145 @@
 //!
 //! Based on JADX's variable naming strategy for 1:1 output compatibility.
 
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap, HashSet, VecDeque};
 
+use jadx_ir::info::DebugInfo;
 use jadx_ir::types::ArgType;
 
 use crate::ssa::SsaResult;
 use crate::type_inference::TypeInferenceResult;
+
+/// Check if a name is a valid Java identifier and printable
+/// (like JADX's NameMapper.isValidAndPrintable)
+fn is_valid_identifier(name: &str) -> bool {
+    if name.is_empty() {
+        return false;
+    }
+
+    // Check reserved words
+    const RESERVED: &[&str] = &[
+        "abstract", "assert", "boolean", "break", "byte", "case", "catch",
+        "char", "class", "const", "continue", "default", "do", "double",
+        "else", "enum", "extends", "false", "final", "finally", "float",
+        "for", "goto", "if", "implements", "import", "instanceof", "int",
+        "interface", "long", "native", "new", "null", "package", "private",
+        "protected", "public", "return", "short", "static", "strictfp",
+        "super", "switch", "synchronized", "this", "throw", "throws",
+        "transient", "true", "try", "void", "volatile", "while", "_",
+    ];
+
+    if RESERVED.contains(&name) {
+        return false;
+    }
+
+    // Check valid Java identifier
+    let mut chars = name.chars();
+    if let Some(first) = chars.next() {
+        if !first.is_alphabetic() && first != '_' && first != '$' {
+            return false;
+        }
+    }
+
+    for c in chars {
+        if !c.is_alphanumeric() && c != '_' && c != '$' {
+            return false;
+        }
+    }
+
+    // Check printable (ASCII 32-126)
+    name.chars().all(|c| (32..=126).contains(&(c as u32)))
+}
+
+/// Get variable name from debug info by register and instruction offset
+/// (like JADX's DebugInfoApplyVisitor)
+fn get_debug_name(debug_info: Option<&DebugInfo>, reg: u16, insn_offset: u32) -> Option<String> {
+    let debug = debug_info?;
+
+    for local_var in &debug.local_vars {
+        if local_var.reg == reg
+           && local_var.start_addr <= insn_offset
+           && insn_offset <= local_var.end_addr
+        {
+            // Validate name (like JADX's NameMapper.isValidAndPrintable)
+            if is_valid_identifier(&local_var.name) {
+                return Some(local_var.name.clone());
+            }
+        }
+    }
+    None
+}
+
+/// Build CodeVar groups from SSA result by following PHI node connections.
+/// This mirrors JADX's InitCodeVariables.collectConnectedVars() - all SSA variables
+/// connected through PHI nodes should share the same name.
+///
+/// Returns a map: (reg, version) -> code_var_index
+/// Variables with the same index should get the same name.
+fn build_code_vars(ssa: &SsaResult) -> HashMap<(u16, u32), usize> {
+    let mut ssa_to_code_var: HashMap<(u16, u32), usize> = HashMap::new();
+    let mut next_code_var_idx = 0usize;
+
+    // Build adjacency list from PHI nodes
+    // For each PHI: dest is connected to all sources
+    let mut phi_connections: HashMap<(u16, u32), HashSet<(u16, u32)>> = HashMap::new();
+
+    for block in &ssa.blocks {
+        for phi in &block.phi_nodes {
+            let dest = (phi.dest.reg_num, phi.dest.ssa_version);
+
+            for (_, source) in &phi.sources {
+                let src = (source.reg_num, source.ssa_version);
+
+                // Bidirectional connection (like JADX's collectConnectedVars)
+                phi_connections.entry(dest).or_default().insert(src);
+                phi_connections.entry(src).or_default().insert(dest);
+            }
+        }
+    }
+
+    // BFS to find connected components - each component becomes one CodeVar
+    let mut visited: HashSet<(u16, u32)> = HashSet::new();
+
+    for block in &ssa.blocks {
+        for phi in &block.phi_nodes {
+            let start = (phi.dest.reg_num, phi.dest.ssa_version);
+            if visited.contains(&start) {
+                continue;
+            }
+
+            // BFS to find all connected SSA vars
+            let mut connected: Vec<(u16, u32)> = Vec::new();
+            let mut queue: VecDeque<(u16, u32)> = VecDeque::new();
+            queue.push_back(start);
+
+            while let Some(current) = queue.pop_front() {
+                if visited.contains(&current) {
+                    continue;
+                }
+                visited.insert(current);
+                connected.push(current);
+
+                if let Some(neighbors) = phi_connections.get(&current) {
+                    for neighbor in neighbors {
+                        if !visited.contains(neighbor) {
+                            queue.push_back(*neighbor);
+                        }
+                    }
+                }
+            }
+
+            // Assign all connected vars to the same CodeVar index
+            let code_var_idx = next_code_var_idx;
+            next_code_var_idx += 1;
+
+            for ssa_var in connected {
+                ssa_to_code_var.insert(ssa_var, code_var_idx);
+            }
+        }
+    }
+
+    ssa_to_code_var
+}
 
 /// Result of variable naming pass
 #[derive(Debug, Clone)]
@@ -332,7 +465,7 @@ pub fn assign_var_names(
     first_param_reg: u16,
     num_params: u16,
 ) -> VarNamingResult {
-    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, None, None)
+    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, None, None, None)
 }
 
 /// Assign names to all variables in an SSA result with optional method/type lookups
@@ -343,6 +476,7 @@ pub fn assign_var_names_with_lookups<'a>(
     num_params: u16,
     method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
     type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
+    debug_info: Option<&'a DebugInfo>,
 ) -> VarNamingResult {
     let mut naming = VarNaming::with_lookups(first_param_reg, method_lookup, type_lookup);
 
@@ -359,13 +493,19 @@ pub fn assign_var_names_with_lookups<'a>(
         naming.mark_used(&name);
     }
 
-    // Build assignment map: (reg, version) -> (block_idx, insn_idx)
+    // Build CodeVar groups from PHI nodes (like JADX's InitCodeVariables)
+    // Variables connected through PHI nodes should share the same name
+    let code_var_map = build_code_vars(ssa);
+    let mut code_var_names: HashMap<usize, String> = HashMap::new();
+
+    // Build assignment map: (reg, version) -> (block_idx, insn_idx, insn_offset)
     // (like JADX's SSAVar.getAssignInsn())
-    let mut assignment_map: HashMap<(u16, u32), (usize, usize)> = HashMap::with_capacity(estimated_vars);
+    // Also stores instruction offset for debug info lookup
+    let mut assignment_map: HashMap<(u16, u32), (usize, usize, u32)> = HashMap::with_capacity(estimated_vars);
     for (block_idx, block) in ssa.blocks.iter().enumerate() {
         for (insn_idx, insn) in block.instructions.iter().enumerate() {
             if let Some((reg, version)) = get_insn_dest(&insn.insn_type) {
-                assignment_map.insert((reg, version), (block_idx, insn_idx));
+                assignment_map.insert((reg, version), (block_idx, insn_idx, insn.offset));
             }
         }
     }
@@ -397,36 +537,63 @@ pub fn assign_var_names_with_lookups<'a>(
 
     // Assign names (following JADX's guessName and makeNameForSSAVar logic)
     for (reg, version) in vars_to_name {
-        // Try to get name from assignment instruction (like JADX's makeNameForSSAVar)
-        let context_name = assignment_map.get(&(reg, version))
-            .and_then(|&(block_idx, insn_idx)| {
-                let block = &ssa.blocks[block_idx];
-                let insn = &block.instructions[insn_idx];
+        // Check if this variable belongs to a CodeVar group that already has a name
+        // (PHI-connected variables share the same name like JADX's CodeVar)
+        if let Some(&code_var_idx) = code_var_map.get(&(reg, version)) {
+            if let Some(existing_name) = code_var_names.get(&code_var_idx) {
+                names.insert((reg, version), existing_name.clone());
+                continue;
+            }
+        }
 
-                // For MoveResult, look at the previous instruction (should be Invoke)
-                if matches!(insn.insn_type, jadx_ir::instructions::InsnType::MoveResult { .. }) {
-                    if insn_idx > 0 {
-                        let prev_insn = &block.instructions[insn_idx - 1];
-                        // Try to get name from the preceding Invoke instruction
-                        if let Some(name) = naming.name_from_instruction_context(prev_insn) {
-                            return Some(name);
+        // Get instruction offset for debug info lookup
+        let insn_offset = assignment_map.get(&(reg, version)).map(|&(_, _, off)| off).unwrap_or(0);
+
+        // Priority 1: Debug info name (like JADX's DebugInfoApplyVisitor)
+        let debug_name = get_debug_name(debug_info, reg, insn_offset);
+
+        // Priority 2: Context-based name from assignment instruction
+        let context_name = if debug_name.is_none() {
+            assignment_map.get(&(reg, version))
+                .and_then(|&(block_idx, insn_idx, _)| {
+                    let block = &ssa.blocks[block_idx];
+                    let insn = &block.instructions[insn_idx];
+
+                    // For MoveResult, look at the previous instruction (should be Invoke)
+                    if matches!(insn.insn_type, jadx_ir::instructions::InsnType::MoveResult { .. }) {
+                        if insn_idx > 0 {
+                            let prev_insn = &block.instructions[insn_idx - 1];
+                            // Try to get name from the preceding Invoke instruction
+                            if let Some(name) = naming.name_from_instruction_context(prev_insn) {
+                                return Some(name);
+                            }
                         }
                     }
-                }
 
-                naming.name_from_instruction_context(insn)
-            });
+                    naming.name_from_instruction_context(insn)
+                })
+        } else {
+            None
+        };
 
-        let name = if let Some(name) = context_name {
+        let name = if let Some(name) = debug_name {
+            // Got name from debug info (highest priority)
+            naming.make_unique(&name)
+        } else if let Some(name) = context_name {
             // Got a name from instruction context (like makeNameFromInsn succeeded)
             name
         } else if let Some(arg_type) = type_info.types.get(&(reg, version)) {
             // Fall back to type-based naming (like JADX's makeNameForType)
             naming.name_for_type(arg_type)
         } else {
-            // Last resort: use vN naming
-            naming.make_unique(&format!("v{}", reg))
+            // Last resort: use register-based naming (like JADX's NameGen.getFallbackName)
+            naming.make_unique(&format!("r{}", reg))
         };
+
+        // If this variable belongs to a CodeVar group, save the name for other members
+        if let Some(&code_var_idx) = code_var_map.get(&(reg, version)) {
+            code_var_names.insert(code_var_idx, name.clone());
+        }
 
         names.insert((reg, version), name);
     }

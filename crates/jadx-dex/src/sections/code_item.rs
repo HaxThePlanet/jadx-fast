@@ -257,6 +257,215 @@ impl<'a> CodeItem<'a> {
             None => Ok(Vec::new()),
         }
     }
+
+    /// Parse full debug info including local variables
+    /// This mirrors JADX's DebugInfoParser for extracting variable names
+    pub fn parse_full_debug_info(&self) -> Result<Option<FullDebugInfo>> {
+        if self.debug_info_off == 0 {
+            return Ok(None);
+        }
+
+        let data = self.reader.data();
+        let off = self.debug_info_off as usize;
+
+        if off >= data.len() {
+            return Ok(None);
+        }
+
+        // Debug bytecode constants (from DEX format spec)
+        const DBG_END_SEQUENCE: u8 = 0x00;
+        const DBG_ADVANCE_PC: u8 = 0x01;
+        const DBG_ADVANCE_LINE: u8 = 0x02;
+        const DBG_START_LOCAL: u8 = 0x03;
+        const DBG_START_LOCAL_EXTENDED: u8 = 0x04;
+        const DBG_END_LOCAL: u8 = 0x05;
+        const DBG_RESTART_LOCAL: u8 = 0x06;
+        // const DBG_SET_PROLOGUE_END: u8 = 0x07;
+        // const DBG_SET_EPILOGUE_BEGIN: u8 = 0x08;
+        // const DBG_SET_FILE: u8 = 0x09;
+        const DBG_FIRST_SPECIAL: u8 = 0x0a;
+        const DBG_LINE_BASE: i32 = -4;
+        const DBG_LINE_RANGE: i32 = 15;
+
+        // Read line_start (uleb128)
+        let (line_start, mut pos) = read_uleb128(&data[off..])?;
+        pos += off;
+
+        // Read parameters_size (uleb128)
+        let (params_size, len) = read_uleb128(&data[pos..])?;
+        pos += len;
+
+        // Read parameter names
+        let mut param_names = Vec::with_capacity(params_size as usize);
+        for _ in 0..params_size {
+            let (string_idx, len) = read_uleb128(&data[pos..])?;
+            pos += len;
+            let name_idx = if string_idx == 0 { None } else { Some(string_idx - 1) };
+            param_names.push(name_idx);
+        }
+
+        // Parse debug bytecode to extract local variables and line numbers
+        let mut local_vars: Vec<LocalVarEntry> = Vec::new();
+        let mut line_numbers: Vec<(u32, u32)> = Vec::new();
+
+        // Track active locals by register (for END_LOCAL)
+        let mut active_locals: std::collections::HashMap<u16, LocalVarEntry> = std::collections::HashMap::new();
+
+        let mut addr: u32 = 0;
+        let mut line: i32 = line_start as i32;
+
+        // Safety limit to avoid infinite loops on malformed data
+        let max_iterations = self.insns_size as usize * 2 + 1000;
+        let mut iterations = 0;
+
+        loop {
+            iterations += 1;
+            if iterations > max_iterations || pos >= data.len() {
+                break;
+            }
+
+            let opcode = data[pos];
+            pos += 1;
+
+            match opcode {
+                DBG_END_SEQUENCE => {
+                    // End all active locals at the method end
+                    for (_, mut var) in active_locals.drain() {
+                        var.end_addr = self.insns_size;
+                        local_vars.push(var);
+                    }
+                    break;
+                }
+
+                DBG_ADVANCE_PC => {
+                    let (delta, len) = read_uleb128(&data[pos..])?;
+                    pos += len;
+                    addr = addr.saturating_add(delta);
+                }
+
+                DBG_ADVANCE_LINE => {
+                    let (delta, len) = crate::utils::read_sleb128(&data[pos..])?;
+                    pos += len;
+                    line = line.saturating_add(delta);
+                }
+
+                DBG_START_LOCAL => {
+                    let (reg, len) = read_uleb128(&data[pos..])?;
+                    pos += len;
+                    let (name_idx, len) = read_uleb128(&data[pos..])?;
+                    pos += len;
+                    let (type_idx, len) = read_uleb128(&data[pos..])?;
+                    pos += len;
+
+                    // End previous local at this register if exists
+                    if let Some(mut prev) = active_locals.remove(&(reg as u16)) {
+                        prev.end_addr = addr;
+                        local_vars.push(prev);
+                    }
+
+                    // Get name and type strings
+                    let name = if name_idx > 0 {
+                        self.reader.get_string(name_idx - 1).ok().map(|s| (*s).to_string())
+                    } else { None };
+                    let type_desc = if type_idx > 0 {
+                        self.reader.get_type(type_idx - 1).ok().map(|s| s.to_string())
+                    } else { None };
+
+                    if let (Some(n), Some(t)) = (name, type_desc) {
+                        active_locals.insert(reg as u16, LocalVarEntry {
+                            reg: reg as u16,
+                            name: n,
+                            type_desc: t,
+                            start_addr: addr,
+                            end_addr: self.insns_size, // default to method end
+                        });
+                    }
+                }
+
+                DBG_START_LOCAL_EXTENDED => {
+                    let (reg, len) = read_uleb128(&data[pos..])?;
+                    pos += len;
+                    let (name_idx, len) = read_uleb128(&data[pos..])?;
+                    pos += len;
+                    let (type_idx, len) = read_uleb128(&data[pos..])?;
+                    pos += len;
+                    let (_sig_idx, len) = read_uleb128(&data[pos..])?; // signature (ignored)
+                    pos += len;
+
+                    // End previous local at this register if exists
+                    if let Some(mut prev) = active_locals.remove(&(reg as u16)) {
+                        prev.end_addr = addr;
+                        local_vars.push(prev);
+                    }
+
+                    // Get name and type strings
+                    let name = if name_idx > 0 {
+                        self.reader.get_string(name_idx - 1).ok().map(|s| (*s).to_string())
+                    } else { None };
+                    let type_desc = if type_idx > 0 {
+                        self.reader.get_type(type_idx - 1).ok().map(|s| s.to_string())
+                    } else { None };
+
+                    if let (Some(n), Some(t)) = (name, type_desc) {
+                        active_locals.insert(reg as u16, LocalVarEntry {
+                            reg: reg as u16,
+                            name: n,
+                            type_desc: t,
+                            start_addr: addr,
+                            end_addr: self.insns_size,
+                        });
+                    }
+                }
+
+                DBG_END_LOCAL => {
+                    let (reg, len) = read_uleb128(&data[pos..])?;
+                    pos += len;
+
+                    if let Some(mut var) = active_locals.remove(&(reg as u16)) {
+                        var.end_addr = addr;
+                        local_vars.push(var);
+                    }
+                }
+
+                DBG_RESTART_LOCAL => {
+                    let (reg, len) = read_uleb128(&data[pos..])?;
+                    pos += len;
+
+                    // Find the most recent local for this register and restart it
+                    // (This is a simplified handling - full impl would track history)
+                    if let Some(last) = local_vars.iter().rev().find(|v| v.reg == reg as u16) {
+                        active_locals.insert(reg as u16, LocalVarEntry {
+                            reg: reg as u16,
+                            name: last.name.clone(),
+                            type_desc: last.type_desc.clone(),
+                            start_addr: addr,
+                            end_addr: self.insns_size,
+                        });
+                    }
+                }
+
+                op if op >= DBG_FIRST_SPECIAL => {
+                    // Special opcode: encodes line and address delta
+                    let adjusted = (op - DBG_FIRST_SPECIAL) as i32;
+                    addr = addr.saturating_add((adjusted / DBG_LINE_RANGE) as u32);
+                    line = line.saturating_add(DBG_LINE_BASE + (adjusted % DBG_LINE_RANGE));
+                    line_numbers.push((addr, line as u32));
+                }
+
+                _ => {
+                    // Unknown opcode (0x07, 0x08, 0x09) - just skip
+                    // These don't have arguments
+                }
+            }
+        }
+
+        Ok(Some(FullDebugInfo {
+            line_start,
+            param_names,
+            local_vars,
+            line_numbers,
+        }))
+    }
 }
 
 /// Parsed debug_info_item
@@ -266,6 +475,34 @@ pub struct DebugInfoItem {
     pub line_start: u32,
     /// Parameter name string indices (None = no name)
     pub param_names: Vec<Option<u32>>,
+}
+
+/// Full debug info including local variables (like JADX's DebugInfoParser)
+#[derive(Debug, Clone)]
+pub struct FullDebugInfo {
+    /// Initial line number
+    pub line_start: u32,
+    /// Parameter name string indices (None = no name)
+    pub param_names: Vec<Option<u32>>,
+    /// Local variable entries
+    pub local_vars: Vec<LocalVarEntry>,
+    /// Line number mapping (address -> line)
+    pub line_numbers: Vec<(u32, u32)>,
+}
+
+/// Local variable debug entry
+#[derive(Debug, Clone)]
+pub struct LocalVarEntry {
+    /// Register number
+    pub reg: u16,
+    /// Variable name
+    pub name: String,
+    /// Type descriptor
+    pub type_desc: String,
+    /// Start address (code unit)
+    pub start_addr: u32,
+    /// End address (code unit)
+    pub end_addr: u32,
 }
 
 impl std::fmt::Debug for CodeItem<'_> {
