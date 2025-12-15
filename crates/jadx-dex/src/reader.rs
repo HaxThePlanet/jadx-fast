@@ -3,6 +3,8 @@
 //! Provides the primary interface for parsing DEX files.
 
 use std::path::Path;
+use std::collections::HashMap;
+use std::sync::RwLock;
 
 use memmap2::Mmap;
 
@@ -21,6 +23,8 @@ pub struct DexReader {
     data: DexData,
     /// Parsed header
     pub header: DexHeader,
+    /// String cache (lazily populated, thread-safe)
+    strings: RwLock<HashMap<u32, String>>,
 }
 
 /// DEX data storage - either memory-mapped or owned bytes
@@ -72,6 +76,7 @@ impl DexReader {
             input_file,
             data,
             header,
+            strings: RwLock::new(HashMap::new()),
         })
     }
 
@@ -82,7 +87,25 @@ impl DexReader {
 
     /// Get a string by index (reads directly from DEX, no caching)
     pub fn get_string(&self, idx: u32) -> Result<String> {
-        self.load_string(idx)
+        // Check cache first (read lock)
+        {
+            let strings = self.strings.read().unwrap();
+            if let Some(s) = strings.get(&idx) {
+                return Ok(s.clone()); // Return clone from cache
+            }
+        }
+
+        // Not in cache, load and insert (write lock)
+        let s = self.load_string(idx)?;
+        let mut strings = self.strings.write().unwrap();
+
+        // Double-check pattern - another thread may have inserted
+        if let Some(existing_s) = strings.get(&idx) {
+            return Ok(existing_s.clone());
+        }
+
+        strings.insert(idx, s.clone());
+        Ok(s)
     }
 
     /// Load a string from the DEX file

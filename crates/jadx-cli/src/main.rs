@@ -41,6 +41,14 @@ use std::time::Instant;
 
 use anyhow::{Context, Result};
 
+// Use jemalloc for better performance on high-core systems
+#[cfg(not(target_env = "msvc"))]
+use tikv_jemallocator::Jemalloc;
+
+#[cfg(not(target_env = "msvc"))]
+#[global_allocator]
+static GLOBAL: Jemalloc = Jemalloc;
+
 // Memory tracking for debugging
 fn get_mem_mb() -> usize {
     std::fs::read_to_string("/proc/self/statm")
