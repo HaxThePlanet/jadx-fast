@@ -344,7 +344,8 @@ fn count_uses_in_insn(insn: &InsnType, counts: &mut HashMap<(u16, u32), usize>) 
             count_arg(right);
         }
         InsnType::InstanceOf { object, .. } => count_arg(object),
-        InsnType::CheckCast { object, .. } => count_arg(object),
+        // CheckCast is inlined - don't count as use since it stores cast expression for later use
+        InsnType::CheckCast { .. } => {}
         InsnType::MonitorEnter { object } | InsnType::MonitorExit { object } => count_arg(object),
         InsnType::FilledNewArray { args, .. } => {
             for arg in args {
@@ -2225,18 +2226,15 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                             // The object being initialized is 'this', not a newly created object
                             if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
                                 if method_info.method_name == "<init>" {
-                                    let recv_expr = ctx.expr_gen.gen_arg(&InsnArg::Register(*recv_reg));
-
                                     // Build argument list (skip receiver which is first arg)
                                     let arg_strs: Vec<_> = args.iter()
                                         .skip(1)
                                         .map(|a| ctx.gen_arg_inline(a))
                                         .collect();
 
-                                    // Emit: super.methodName(args) or this.methodName(args)
+                                    // Emit super(args) - constructor calling parent constructor
                                     code.start_line();
-                                    code.add(&recv_expr).add(".").add(&method_info.method_name)
-                                        .add("(").add(&arg_strs.join(", ")).add(");");
+                                    code.add("super(").add(&arg_strs.join(", ")).add(");");
                                     code.newline();
 
                                     return true;
@@ -2313,17 +2311,37 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::Move { dest, .. } => {
-            // OPTIMIZED: Direct write
-            emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
-            true
+        InsnType::Move { dest, src } => {
+            // Check if this variable is used only once - if so, inline it
+            let reg = dest.reg_num;
+            let version = dest.ssa_version;
+
+            if ctx.should_inline(reg, version) {
+                // Get the source expression (which might itself be inlined)
+                let src_expr = ctx.gen_arg_inline(src);
+                ctx.store_inline_expr(reg, version, src_expr);
+                true // Don't emit anything, will be inlined at use site
+            } else {
+                // Multi-use variable - emit normal assignment
+                emit_assignment_insn(dest, &insn.insn_type, None, ctx, code);
+                true
+            }
         }
 
         InsnType::MoveResult { dest } => {
             // Use the stored invoke expression from the previous invoke
             let expr = ctx.last_invoke_expr.take()
                 .unwrap_or_else(|| "/* result */".to_string());
-            emit_assignment(dest, &expr, ctx, code);
+
+            let reg = dest.reg_num;
+            let version = dest.ssa_version;
+
+            // If single use, store for inlining instead of emitting assignment
+            if ctx.should_inline(reg, version) {
+                ctx.store_inline_expr(reg, version, expr);
+            } else {
+                emit_assignment(dest, &expr, ctx, code);
+            }
             true
         }
 
@@ -2442,16 +2460,25 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::CheckCast { object, .. } => {
-            // Check-cast is a runtime type check + cast
-            // Generate as: var = (Type) var;
-            // OPTIMIZED: Direct write without String allocation
-            code.start_line();
-            ctx.expr_gen.write_arg(code, object);
-            code.add(" = ");
-            ctx.expr_gen.write_insn(code, &insn.insn_type);
-            code.add(";").newline();
-            true
+        InsnType::CheckCast { object, type_idx } => {
+            // Check-cast in Dalvik modifies the register in place (no new SSA version)
+            // Instead of emitting a statement, store the cast expression for inlining at use site
+            // So: v0 = (Type)v0; use(v0) becomes: use((Type)originalExpr)
+            if let InsnArg::Register(reg) = object {
+                let type_name = ctx.expr_gen.get_type_value(*type_idx)
+                    .unwrap_or_else(|| format!("Type#{}", type_idx));
+
+                // Get the original expression or variable name
+                let original_expr = ctx.take_inline_expr(reg.reg_num, reg.ssa_version)
+                    .unwrap_or_else(|| ctx.expr_gen.get_var_name(reg));
+
+                // Create cast expression
+                let cast_expr = format!("({}){}", type_name, original_expr);
+
+                // Store for inlining at use site
+                ctx.store_inline_expr(reg.reg_num, reg.ssa_version, cast_expr);
+            }
+            true // Instruction handled (nothing emitted)
         }
 
         InsnType::MonitorEnter { object } => {
