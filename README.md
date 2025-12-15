@@ -1,4 +1,12 @@
-# Dexterity
+```
+      ____  _______  _________ ______ ____  ____________  __
+     / __ \/ ____/ |/ /_  __// ____// __ \/  _/_  __/\ \/ /
+    / / / / __/  |   / / /  / __/  / /_/ // /  / /    \  /
+   / /_/ / /___ /   | / /  / /___ / _, _// /  / /     / /
+  /_____/_____//_/|_|/_/  /_____//_/ |_/___/ /_/     /_/
+
+  ⚡ High-performance Android decompiler written in Rust 🦀
+```
 
 A high-performance Android DEX/APK decompiler written in Rust, inspired by [JADX](https://github.com/skylot/jadx).
 
@@ -12,7 +20,7 @@ This project reimplements `jadx-core` (the decompilation engine) in Rust. The go
 
 ## Current Status
 
-**~52,000 lines of Rust | ~245 tests | ~98% jadx-core parity**
+**~52,000 lines of Rust | 106 passing tests + 675 disabled | ~98% jadx-core parity**
 
 | Category | Status |
 |----------|--------|
