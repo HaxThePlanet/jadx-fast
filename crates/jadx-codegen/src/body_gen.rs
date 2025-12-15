@@ -2643,18 +2643,15 @@ fn generate_insn<W: CodeWriter>(
             true // Instruction handled (nothing emitted)
         }
 
-        InsnType::MonitorEnter { object } => {
-            // OPTIMIZED: Direct write without String allocation
-            code.start_line().add("synchronized (");
-            ctx.expr_gen.write_arg(code, object);
-            code.add(") {").newline();
-            code.inc_indent();
+        InsnType::MonitorEnter { object: _ } => {
+            // MonitorEnter is handled at the region level (Region::Synchronized)
+            // Don't emit code here - just mark as handled
             true
         }
 
         InsnType::MonitorExit { object: _ } => {
-            code.dec_indent();
-            code.start_line().add("}").newline();
+            // MonitorExit is handled at the region level (Region::Synchronized)
+            // Don't emit code here - just mark as handled
             true
         }
 

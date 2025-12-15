@@ -408,7 +408,11 @@ fn find_sync_region(cfg: &CFG, enter_block: u32) -> Option<SyncInfo> {
 
             if has_exit {
                 exit_blocks.insert(block_id);
-                // Don't continue past exit blocks
+                // IMPORTANT: Also add to body_blocks - the exit block may contain
+                // actual body code BEFORE the monitor-exit instruction.
+                // The code generator will skip the MONITOR_EXIT instruction itself.
+                body_blocks.insert(block_id);
+                // Don't continue past exit blocks (don't add successors)
                 continue;
             }
 
@@ -719,87 +723,38 @@ impl<'a> RegionBuilder<'a> {
         (region, exit_block)
     }
 
-    /// Build the body of a synchronized block using worklist algorithm
-    /// This properly handles nested loops, conditionals, and other control flow
+    /// Build the body of a synchronized block.
+    /// For single-block sync: directly include the block (MONITOR_ENTER/EXIT are filtered in codegen).
+    /// For multi-block sync: use make_region to handle all nested control flow.
     fn build_sync_body(&mut self, sync_info: &SyncInfo) -> Region {
-        let mut contents = Vec::new();
-        let mut visited = BTreeSet::new();
+        // Handle single-block synchronized: when MONITOR_ENTER and MONITOR_EXIT
+        // are in the same block, the body IS that block (instructions between them).
+        let is_single_block = sync_info.exit_blocks.contains(&sync_info.enter_block);
 
-        // Get first block after the enter block that's in the body
+        if is_single_block {
+            // Single-block sync: the body is the enter block itself.
+            // Note: The enter block is already marked as processed by process_synchronized,
+            // so we can't use make_region here. Instead, directly include the block content.
+            // The MONITOR_ENTER and MONITOR_EXIT instructions are filtered out during code generation.
+            return Region::Sequence(vec![RegionContent::Block(sync_info.enter_block)]);
+        }
+
+        // Multi-block sync: find first successor in body_blocks and use make_region
         let body_start = self.cfg
             .successors(sync_info.enter_block)
             .iter()
-            .find(|&&s| sync_info.body_blocks.contains(&s))
+            .find(|&&s| sync_info.body_blocks.contains(&s) && !self.processed.contains(&s))
             .copied();
 
         let Some(start) = body_start else {
-            return Region::Sequence(contents);
+            return Region::Sequence(vec![]);
         };
 
-        let mut worklist = vec![start];
-
-        while let Some(block_id) = worklist.pop() {
-            if visited.contains(&block_id) {
-                continue;
-            }
-            if !sync_info.body_blocks.contains(&block_id) {
-                continue;
-            }
-            if sync_info.exit_blocks.contains(&block_id) {
-                continue;
-            }
-
-            visited.insert(block_id);
-
-            // Check for nested loops within synchronized block
-            if let Some(nested_loop) = self.find_nested_loop_in_sync(block_id, sync_info) {
-                let nested_condition = self.extract_condition(nested_loop.header);
-                let nested_body = self.build_loop_body(nested_loop);
-
-                contents.push(RegionContent::Region(Box::new(Region::Loop {
-                    kind: nested_loop.kind,
-                    condition: Some(nested_condition),
-                    body: Box::new(nested_body),
-                })));
-
-                // Mark all loop blocks as visited to avoid double-processing
-                for &b in &nested_loop.blocks {
-                    visited.insert(b);
-                }
-            } else if let Some(cond) = self.cond_map.get(&block_id).copied() {
-                // Nested conditional - check if fully contained in sync body
-                if cond.then_blocks.iter().all(|b| sync_info.body_blocks.contains(b))
-                    && cond.else_blocks.iter().all(|b| sync_info.body_blocks.contains(b))
-                {
-                    let (if_region, _) = self.process_if(cond);
-                    contents.push(RegionContent::Region(Box::new(if_region)));
-                    // Mark conditional blocks as visited
-                    visited.insert(cond.condition_block);
-                    for &b in &cond.then_blocks {
-                        visited.insert(b);
-                    }
-                    for &b in &cond.else_blocks {
-                        visited.insert(b);
-                    }
-                } else {
-                    contents.push(RegionContent::Block(block_id));
-                }
-            } else {
-                contents.push(RegionContent::Block(block_id));
-            }
-
-            // Add successors that are in sync body but not exit blocks
-            for &succ in self.cfg.successors(block_id) {
-                if sync_info.body_blocks.contains(&succ)
-                    && !sync_info.exit_blocks.contains(&succ)
-                    && !visited.contains(&succ)
-                {
-                    worklist.push(succ);
-                }
-            }
-        }
-
-        Region::Sequence(contents)
+        // Use the main make_region method to build the body.
+        // The exit block was already added to the stack by process_synchronized,
+        // so make_region will stop at the sync boundary automatically.
+        // This properly handles all nested control flow: if/else, loops, try-catch, etc.
+        self.make_region(start)
     }
 
     /// Find a nested loop starting at this block within a synchronized region

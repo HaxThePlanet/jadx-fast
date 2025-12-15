@@ -211,13 +211,15 @@ impl<'a> StmtGen<'a> {
                 true
             }
 
-            InsnType::MonitorEnter { object } => {
-                self.gen_monitor_enter(object, code);
+            InsnType::MonitorEnter { object: _ } => {
+                // MonitorEnter is handled at the region level (Region::Synchronized)
+                // Don't emit code here - just mark as handled
                 true
             }
 
-            InsnType::MonitorExit { object } => {
-                self.gen_monitor_exit(object, code);
+            InsnType::MonitorExit { object: _ } => {
+                // MonitorExit is handled at the region level (Region::Synchronized)
+                // Don't emit code here - just mark as handled
                 true
             }
 

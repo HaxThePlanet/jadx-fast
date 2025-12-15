@@ -4,6 +4,28 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Synchronized Block Body Generation Fix (Dec 15)
+
+**Fixed empty synchronized block bodies:**
+
+1. **Exit Block Inclusion**
+   - Exit blocks (containing MONITOR_EXIT) now included in `body_blocks`
+   - Previously, body code in exit blocks was being discarded entirely
+   - File: `jadx-passes/src/region_builder.rs`
+
+2. **Duplicate Wrapper Prevention**
+   - MonitorEnter/MonitorExit instructions no longer emit code
+   - Region::Synchronized handles the wrapper, instructions are control flow markers only
+   - Files: `jadx-codegen/src/body_gen.rs`, `jadx-codegen/src/stmt_gen.rs`
+
+3. **Single-Block Sync Handling**
+   - Special case for synchronized blocks where enter==exit block
+   - Body content now properly extracted from the enter block itself
+
+**Results:**
+- Simple synchronized methods (like `a()`) now generate proper body code
+- Complex nested control flow (if-return, try-catch inside sync) still needs work
+
 ### Deobfuscation: Full JADX Feature Parity (Dec 15)
 
 **4 features implemented for complete `--deobf` parity:**
