@@ -357,7 +357,7 @@ impl LazyDexInfo {
 
     /// Get a type name by index, converting descriptor to simple name
     pub fn get_type_name(&self, idx: u32) -> Option<String> {
-        self.dex.get_type(idx).ok().map(|desc| descriptor_to_java_name(desc))
+        self.dex.get_type(idx).ok().as_ref().map(|desc| descriptor_to_java_name(desc))
     }
 
     /// Get type descriptor by index (raw form like "Ljava/lang/String;")
@@ -387,10 +387,10 @@ impl LazyDexInfo {
         let field_type_desc = field.field_type().ok()?;
 
         let field_info = FieldInfo {
-            class_name: descriptor_to_simple_name(class_type),
-            class_type: descriptor_to_internal_name(class_type),
+            class_name: descriptor_to_simple_name(&class_type),
+            class_type: descriptor_to_internal_name(&class_type),
             field_name: field_name.to_string(),
-            field_type: parse_type_descriptor(field_type_desc),
+            field_type: parse_type_descriptor(&field_type_desc),
         };
 
         // Deduplicate via global pool if available
@@ -409,15 +409,16 @@ impl LazyDexInfo {
         let proto = method.proto().ok()?;
 
         let return_type = proto.return_type()
+            .as_ref()
             .map(|d| parse_type_descriptor(d))
             .unwrap_or(ArgType::Void);
         let param_types: Vec<ArgType> = proto.parameters()
-            .map(|params| params.into_iter().map(|d| parse_type_descriptor(d)).collect())
+            .map(|params| params.into_iter().map(|d| parse_type_descriptor(&d)).collect())
             .unwrap_or_default();
 
         Some(MethodInfo {
-            class_name: descriptor_to_simple_name(class_type),
-            class_type: descriptor_to_internal_name(class_type),
+            class_name: descriptor_to_simple_name(&class_type),
+            class_type: descriptor_to_internal_name(&class_type),
             method_name: method_name.to_string(),
             return_type,
             param_types,
@@ -431,7 +432,7 @@ impl LazyDexInfo {
 
     /// Get type by index as ArgType (for type inference)
     pub fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
-        self.dex.get_type(idx).ok().and_then(|desc| descriptor_to_argtype(desc))
+        self.dex.get_type(idx).ok().as_ref().and_then(|desc| descriptor_to_argtype(desc))
     }
 
     /// Get method return type by index (for type inference)

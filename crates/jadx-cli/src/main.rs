@@ -1141,8 +1141,10 @@ fn process_dex_bytes(
 
     // Process classes in parallel using rayon
     use rayon::prelude::*;
-    // Use parallel processing with small chunks (1) to keep memory usage low but throughput high
-    let chunk_size = 1;
+    // Use parallel processing with optimized batch size
+    // Now that memory leaks are fixed and limits are in place, we can increase chunk size
+    // to reduce Rayon scheduling overhead and improve throughput.
+    let chunk_size = 16;
     let num_threads = rayon::current_num_threads();
     tracing::debug!("Using chunk size {} for {} classes across {} threads", chunk_size, class_indices.len(), num_threads);
     let processed_count = std::sync::atomic::AtomicUsize::new(0);
