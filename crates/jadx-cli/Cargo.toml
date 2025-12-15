@@ -1,6 +1,6 @@
 [package]
 name = "jadx-cli"
-description = "Command-line interface for Dexterity - a fast Android DEX/APK decompiler"
+description = "Command-line interface for jadx-rust - a fast Android DEX/APK decompiler"
 version.workspace = true
 edition.workspace = true
 license.workspace = true

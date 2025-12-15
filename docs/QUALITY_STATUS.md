@@ -1,6 +1,8 @@
 # Decompilation Quality Status
 
-**Status:** ~98% feature-complete vs Java jadx-core
+**Goal:** Match Java JADX decompilation output quality
+
+**Status:** ~98% feature-complete, with known quality gaps in complex control flow
 
 ## Feature Comparison
 
@@ -34,19 +36,17 @@
 
 ## Performance Comparison
 
-| Metric | Dexterity | Java JADX | Result |
-|--------|-----------|-----------|--------|
-| Small APK (10KB) | 0.15s | 1.86s | **12x faster** |
-| Large APK (14MB) | 10.8s | 9.19s | Comparable |
-| Core utilization | 92.5% | ~30% | **3x better** |
-| Memory (huge APKs) | Bounded | High | **Stable** |
-| Decompilation errors | 0 | Variable | **More stable** |
+| APK Size | jadx-rust | Java JADX | Result |
+|----------|-----------|-----------|--------|
+| Small (10KB) | 0.01s / 6MB | 1.85s / 275MB | **185x faster** |
+| Medium (11MB) | 3.59s / 304MB | 14.97s / 5.5GB | **4x faster** |
+| Large (55MB) | 0.90s / 85MB | 11.93s / 3.4GB | **13x faster** |
 
 ## Code Quality Examples
 
 ### Example: Simple Activity
 
-Both JADX and Dexterity produce:
+Both JADX and jadx-rust produce:
 ```java
 package io.github.skylot.android.smallapp;
 
@@ -78,7 +78,7 @@ public void processData(long l, Throwable th, Integer num, Class cls) {
 }
 ```
 
-**Dexterity (98% parity):**
+**jadx-rust (98% parity):**
 ```java
 public void processData(long l, Throwable th, Integer num, Class cls) {
     StringBuilder sb = new StringBuilder();
@@ -108,7 +108,7 @@ public class CameraProp {
 
 ### Example: Generic Types
 
-Dexterity parses dalvik.annotation.Signature to preserve generic type information:
+jadx-rust parses dalvik.annotation.Signature to preserve generic type information:
 ```java
 // Field generics
 private final List<Throwable> exceptions;
@@ -233,16 +233,109 @@ cd crates && cargo build --release -p jadx-cli
 ./target/release/dexterity -j 8 -d output/ app.apk
 ```
 
-## Dexterity vs Java JADX Summary
+### Example: JNIBridge (Known Quality Gap)
 
-**Dexterity excels at:**
+Complex reflection code with try-catch blocks shows where jadx-rust diverges from JADX output quality. The goal is to match JADX's decompilation output.
+
+**JADX (target quality):**
+```java
+private static class a implements InvocationHandler {
+    private Object f4a = new Object[0];
+    private long b;
+    private Constructor c;
+
+    public a(long j) throws NoSuchMethodException, SecurityException {
+        this.b = j;
+        try {
+            Constructor declaredConstructor = MethodHandles.Lookup.class.getDeclaredConstructor(Class.class, Integer.TYPE);
+            this.c = declaredConstructor;
+            declaredConstructor.setAccessible(true);
+        } catch (NoClassDefFoundError unused) {
+            this.c = null;
+        } catch (NoSuchMethodException unused2) {
+            this.c = null;
+        }
+    }
+
+    @Override
+    public final Object invoke(Object obj, Method method, Object[] objArr) {
+        synchronized (this.f4a) {
+            long j = this.b;
+            if (j == 0) { return null; }
+            try {
+                return JNIBridge.invoke(j, method.getDeclaringClass(), method, objArr);
+            } catch (NoSuchMethodError e) {
+                if (this.c == null) {
+                    System.err.println("JNIBridge error: ...");
+                    throw e;
+                }
+                if ((method.getModifiers() & 1024) == 0) {
+                    return a(obj, method, objArr);
+                }
+                throw e;
+            }
+        }
+    }
+}
+```
+
+**jadx-rust (current output):**
+```java
+final class a implements InvocationHandler {
+    private Object a;
+    private long b;
+    private Constructor c;
+
+    public a(long l) {
+        super();
+        int i = 0;
+        this.a = r1;
+        this.b = l;
+        final int v4 = 0;
+        Class[] arr = new Class[][i2];
+        arr[i] = cls2;
+        // ... missing try-catch blocks
+    }
+
+    @Override
+    public final Object invoke(Object object, Method method1, Object[] object2Arr2) {
+        synchronized (r0) {
+            return 0;
+        }
+    }
+}
+```
+
+**Quality gaps vs JADX:**
+
+| Aspect | JADX | jadx-rust |
+|--------|------|-----------|
+| Variable names | Resolved (`f4a`, `j`, `objArr`) | Unresolved (`r0`, `r1`, `i2`, `cls2`) |
+| Null checks | `object != null` | `object != 0` |
+| Try-catch blocks | Full reconstruction | Missing |
+| Method bodies | Complete logic | Truncated |
+| Field initializers | `new Object[0]` | Missing |
+| Synchronized blocks | Proper monitor variable | Wrong variable reference |
+
+These gaps indicate areas for improvement in variable resolution and control flow reconstruction to achieve JADX-quality output.
+
+## jadx-rust vs Java JADX Summary
+
+**Goal:** Produce output that matches Java JADX quality for readability and analysis.
+
+**Current jadx-rust strengths:**
 - Raw speed (10-12x faster on small APKs)
-- Zero-error decompilation
 - Resource efficiency and memory stability
 - Complete class extraction including synthetics
+- Simple to moderate complexity code
 
-**Java JADX excels at:**
-- Slightly more readable output in edge cases
+**Areas needing work to match JADX:**
+- Complex control flow with try-catch (see JNIBridge example)
+- Variable resolution in reflection-heavy code
+- Synchronized block variable references
+- Field initializer extraction in complex constructors
+
+**JADX-only features (not planned):**
 - Warning/rename comments
 - R.java generation
 - Synthetic class deduplication

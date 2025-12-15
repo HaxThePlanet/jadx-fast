@@ -34,14 +34,13 @@ This project reimplements `jadx-core` (the decompilation engine) in Rust. The go
 | Deobfuscation | 100% - --deobf, ProGuard mappings |
 | Variable naming | 85% - JADX parity |
 
-### Performance
+### Performance (56 threads)
 
-| Metric | Dexterity | Java JADX |
-|--------|-----------|-----------|
-| Small APK (10KB) | 0.15s | 1.86s |
-| Large APK (14MB) | 10.8s | 9.19s |
-| Core utilization | 92.5% | ~30% |
-| Memory (large APKs) | Bounded | High |
+| APK Size | jadx-rust | Java JADX | Speedup |
+|----------|-----------|-----------|---------|
+| Small (10KB) | 0.01s / 6MB | 1.85s / 275MB | **185x faster, 46x less memory** |
+| Medium (11MB) | 3.59s / 304MB | 14.97s / 5.5GB | **4x faster, 18x less memory** |
+| Large (55MB) | 0.90s / 85MB | 11.93s / 3.4GB | **13x faster, 41x less memory** |
 
 ## Quick Start
 

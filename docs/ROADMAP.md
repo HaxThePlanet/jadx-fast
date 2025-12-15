@@ -113,7 +113,7 @@ Parse smali assembly files directly.
 
 ### Algorithm Differences
 
-| Feature | Java JADX | Dexterity | Status |
+| Feature | Java JADX | jadx-rust | Status |
 |---------|-----------|-----------|--------|
 | Constraint solving | Iterative bound merging | Fixed-iteration unification | Gap |
 | Type comparison | 8-value TypeCompareEnum | Simple equality + basic | Done |
@@ -123,7 +123,7 @@ Parse smali assembly files directly.
 
 ### Variable Naming Differences
 
-| Type | JADX | Dexterity | Status |
+| Type | JADX | jadx-rust | Status |
 |------|------|-----------|--------|
 | long | `l` | `l` | Done |
 | Throwable | `th` | `th` | Done |
