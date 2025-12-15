@@ -271,9 +271,8 @@ impl Args {
         if self.threads > 0 {
             return self.threads;
         }
-        // Java JADX uses small batches with limited parallelism (availableProcessors / 3)
-        // to prevent memory exhaustion on high-core machines.
-        std::cmp::max(1, num_cpus::get() / 3)
+        // Default to all available CPUs
+        num_cpus::get()
     }
 
     /// Validate arguments
