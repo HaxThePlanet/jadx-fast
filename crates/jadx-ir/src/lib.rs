@@ -11,6 +11,7 @@ pub mod instructions;
 pub mod nodes;
 pub mod regions;
 pub mod types;
+pub mod kotlin_metadata;
 
 // Re-exports
 pub use arena::ArenaId;
@@ -23,3 +24,4 @@ pub use info::{
 };
 pub use instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
 pub use types::{ArgType, TypeCompare, compare_types};
+pub use kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};

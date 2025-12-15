@@ -15,6 +15,7 @@ use jadx_ir::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility,
     ArgType, ClassData, FieldData, FieldValue, MethodData,
 };
+use jadx_ir::kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};
 use jadx_passes::mark_methods_for_inline;
 
 /// Convert a DEX ClassDef to IR ClassData
@@ -51,6 +52,16 @@ pub fn convert_class(
         for annot_item in annots {
             if let Some(annotation) = convert_annotation_item(dex, &annot_item) {
                 class_data.annotations.push(annotation);
+            }
+        }
+
+        // After all annotations are added, check for Kotlin metadata
+        for annotation in &class_data.annotations {
+            if annotation.annotation_type == KOTLIN_METADATA_ANNOTATION {
+                if let Some(metadata) = KotlinMetadata::from_annotation(annotation) {
+                    class_data.set_kotlin_metadata(metadata);
+                    break; // Found Kotlin metadata, no need to check other annotations
+                }
             }
         }
     }

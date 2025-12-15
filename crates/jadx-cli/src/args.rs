@@ -8,14 +8,14 @@ use clap::{Parser, ValueEnum};
 
 /// Android DEX/APK decompiler
 #[derive(Parser, Debug)]
-#[command(name = "jadx-rust")]
+#[command(name = "dexterity")]
 #[command(author = "jadx-rust contributors")]
 #[command(version, disable_version_flag = true)]
 #[command(about = "Dex to Java decompiler", long_about = None)]
 #[command(after_help = "Examples:
-  jadx-rust -d output/ app.apk
-  jadx-rust --deobf -d output/ app.apk
-  jadx-rust -j 16 -d output/ classes.dex")]
+  dexterity -d output/ app.apk
+  dexterity --deobf -d output/ app.apk
+  dexterity -j 16 -d output/ classes.dex")]
 pub struct Args {
     /// Input files (.apk, .dex, .jar, .class, .smali, .zip, .aar, .arsc, .aab, .xapk, .apkm)
     #[arg(required_unless_present = "version")]
@@ -214,6 +214,15 @@ pub struct Args {
     /// Turn off output (set log level to quiet)
     #[arg(short = 'q', long = "quiet")]
     pub quiet: bool,
+
+    // === External Tool Options ===
+    /// Path to knox-vision executable or script
+    #[arg(long = "knox-vision-path")]
+    pub knox_vision_path: Option<PathBuf>,
+
+    /// Enable knox-vision integration
+    #[arg(long = "enable-knox-vision")]
+    pub enable_knox_vision: bool,
 
     /// Print version
     #[arg(long = "version")]

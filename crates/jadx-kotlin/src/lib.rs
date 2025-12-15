@@ -19,9 +19,22 @@ pub mod proto {
 
 use anyhow::Result;
 use jadx_ir::ClassData;
+use jadx_ir::kotlin_metadata::get_class_alias;
 
 /// Process Kotlin metadata for a class, extracting and applying names
 pub fn process_kotlin_metadata(cls: &mut ClassData) -> Result<()> {
+    // Attempt to extract class alias from Kotlin metadata (d2 array)
+    // This runs before protobuf parsing to ensure we have the correct class name
+    // even if protobuf parsing fails or is incomplete.
+    if let Some(alias_info) = get_class_alias(cls) {
+        if cls.alias.is_none() {
+            cls.alias = Some(alias_info.name);
+        }
+        if cls.pkg_alias.is_none() {
+            cls.pkg_alias = Some(alias_info.pkg);
+        }
+    }
+
     // Find @kotlin.Metadata annotation
     let metadata_annot = match parser::find_kotlin_metadata(&cls.annotations) {
         Some(a) => a,

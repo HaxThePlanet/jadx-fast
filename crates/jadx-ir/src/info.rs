@@ -20,6 +20,7 @@
 
 use crate::instructions::InsnNode;
 use crate::types::ArgType;
+use crate::kotlin_metadata::KotlinMetadata;
 
 /// Processing state for classes and methods (mirrors Java JADX's ProcessState)
 ///
@@ -526,6 +527,7 @@ pub struct ClassData {
     /// This eliminates the 5-20x memory cloning that happens during block splitting.
     /// Reduces peak per-class memory from 7-12 GB to ~2-3 GB.
     pub all_instructions: Vec<InsnNode>,
+    pub kotlin_metadata: Option<KotlinMetadata>,
 }
 
 impl ClassData {
@@ -545,6 +547,7 @@ impl ClassData {
             instance_fields: Vec::new(),
             annotations: Vec::new(),
             all_instructions: Vec::new(),  // NEW: shared instruction pool (starts empty)
+            kotlin_metadata: None,
         }
     }
 
@@ -642,6 +645,14 @@ impl ClassData {
         indices.iter()
             .filter_map(|&idx| self.get_instruction(idx))
             .collect()
+    }
+
+    pub fn get_kotlin_metadata(&self) -> Option<&KotlinMetadata> {
+        self.kotlin_metadata.as_ref()
+    }
+
+    pub fn set_kotlin_metadata(&mut self, metadata: KotlinMetadata) {
+        self.kotlin_metadata = Some(metadata);
     }
 }
 

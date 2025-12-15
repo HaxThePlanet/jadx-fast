@@ -71,6 +71,16 @@ fn main() -> Result<()> {
     // Validate args
     args.validate()?;
 
+    // Handle Knox-Vision integration if enabled
+    if args.enable_knox_vision {
+        if let Some(ref path) = args.knox_vision_path {
+            tracing::info!("Knox-Vision integration enabled. Path: {}", path.display());
+            // TODO: Add actual integration logic here (e.g., call knox-vision tool)
+        } else {
+            tracing::warn!("Knox-Vision integration enabled, but --knox-vision-path was not provided.");
+        }
+    }
+
     let start = Instant::now();
 
     tracing::info!("dexterity v{}", env!("CARGO_PKG_VERSION"));
