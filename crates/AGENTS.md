@@ -13,14 +13,14 @@
 
 ```
 crates/
-├── jadx-dex/       # DEX parsing (695 lines)
-├── jadx-ir/        # IR types & class hierarchy (3,838 lines)
-├── jadx-passes/    # Decompilation passes (8,511 lines)
-├── jadx-codegen/   # Java code generation (7,805 lines)
+├── jadx-dex/       # DEX parsing (3,836 lines)
+├── jadx-ir/        # IR types & class hierarchy (3,841 lines)
+├── jadx-passes/    # Decompilation passes (9,202 lines)
+├── jadx-codegen/   # Java code generation (7,973 lines)
 ├── jadx-resources/ # AXML & resources.arsc (4,032 lines)
 ├── jadx-deobf/     # Deobfuscation (1,628 lines)
 ├── jadx-kotlin/    # Kotlin metadata parsing (597 lines)
-└── jadx-cli/       # CLI application (3,984 lines)
+└── jadx-cli/       # CLI application (4,207 lines)
 ```
 
 ### jadx-dex (DEX Parsing)
