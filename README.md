@@ -692,4 +692,4 @@ Apache-2.0 (same as JADX)
 ## Credits
 
 - [skylot/jadx](https://github.com/skylot/jadx) - The original JADX project
-- Built with assistance from Claude (Anthropic)
+- Built with assistance from Claude (Anthropic)Performance comparison against jadx-java added to commit history.
