@@ -43,3 +43,30 @@ cliff.toml
 jadx-gui/src/main/resources/logback.xml
 compare/
 decompilation-reference-jadx-java/
+
+# Large binary files
+*.apk
+*.aar
+*.so
+*.dylib
+*.dll
+*.exe
+*.bin
+
+# Build and dist directories
+dist/
+release/
+*.tar.gz
+*.zip
+
+# Test and coverage artifacts
+coverage/
+*.profraw
+*.profdata
+
+# Large cache and temp files
+.cache/
+*.swp
+*.swo
+*~
+.#*
