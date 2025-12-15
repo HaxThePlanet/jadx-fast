@@ -928,21 +928,21 @@ fn process_dex_bytes(
     tracing::debug!("LazyDexInfo ready (on-demand loading with global deduplication enabled)");
 
     // ========================================================================
-    // OPTIMIZE: Pre-load all strings to avoid RwLock contention in parallel phase
-    // Without this, all threads compete for StringPool lock during code generation
-    // Strings are accessed constantly (class names, methods, fields, descriptors)
+    // OPTIMIZE: Pre-load strings to avoid RwLock contention in parallel phase
+    // Only for small DEX files (<100k strings) to avoid memory explosion on huge APKs
     // ========================================================================
     let string_count = dex.header.string_ids_size as usize;
-    if string_count > 0 {
+    const MAX_PRELOAD_STRINGS: usize = 100_000;
+    if string_count > 0 && string_count <= MAX_PRELOAD_STRINGS {
         tracing::debug!("Pre-loading {} strings from DEX to avoid lock contention...", string_count);
         let preload_start = std::time::Instant::now();
         for idx in 0..string_count {
-            if let Ok(_) = dex.get_string(idx as u32) {
-                // Just load - caching happens automatically in StringPool
-            }
+            let _ = dex.get_string(idx as u32);
         }
         let preload_elapsed = preload_start.elapsed();
         tracing::debug!("Strings pre-loaded in {:.2}ms", preload_elapsed.as_secs_f64() * 1000.0);
+    } else if string_count > MAX_PRELOAD_STRINGS {
+        tracing::debug!("Skipping string pre-load ({} strings > {} limit)", string_count, MAX_PRELOAD_STRINGS);
     }
 
     if let Some(pb) = progress {

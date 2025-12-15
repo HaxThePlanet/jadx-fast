@@ -128,7 +128,102 @@ fn check_insns_match(...,
 
 ## 🎨 Code Quality Improvements (2025-12-14)
 
-### Overview
+### Latest Session: Expression Inlining (Following JADX Patterns)
+
+Five additional improvements implemented to match JADX output quality:
+
+#### Fix #5: super() Emission ✅ FIXED
+**File**: `jadx-codegen/src/body_gen.rs:2235-2238`
+
+**Problem**: Constructor fallback emitted `recv_expr.<init>()` producing broken `this.<init>()`.
+
+**Solution**: Changed to emit proper `super()`:
+```rust
+// Before (broken)
+code.add(&recv_expr).add(".").add(&method_info.method_name)...
+
+// After (correct)
+code.add("super(").add(&arg_strs.join(", ")).add(");");
+```
+
+#### Fix #6: CheckCast Inlining ✅ FIXED
+**File**: `jadx-codegen/src/body_gen.rs:2446-2464`
+
+**Problem**: CheckCast emitted separate statements like `v0 = (ComponentActivity)v0;`
+
+**Solution**: Store cast expression for inlining at use site:
+```rust
+// Before
+v0 = (ComponentActivity)v0;
+use(v0);
+
+// After
+use((ComponentActivity)originalExpr);
+```
+
+#### Fix #7: Move Inlining ✅ FIXED
+**File**: `jadx-codegen/src/body_gen.rs:2317-2331`
+
+**Problem**: Single-use Move instructions created unnecessary intermediate variables.
+
+**Solution**: Inline single-use variables at use site:
+```rust
+if ctx.should_inline(reg, version) {
+    let src_expr = ctx.gen_arg_inline(src);
+    ctx.store_inline_expr(reg, version, src_expr);
+}
+```
+
+#### Fix #8: MoveResult Inlining ✅ FIXED
+**File**: `jadx-codegen/src/body_gen.rs:2334-2348`
+
+**Problem**: Invoke results always created variables even when used once.
+
+**Solution**: Inline single-use invoke results:
+```rust
+if ctx.should_inline(reg, version) {
+    ctx.store_inline_expr(reg, version, expr);
+}
+```
+
+#### Fix #9: CheckCast Use Count Exclusion ✅ FIXED
+**File**: `jadx-codegen/src/body_gen.rs:347-348`
+
+**Problem**: CheckCast was counted as a "use", preventing Move inlining.
+
+**Solution**: Don't count CheckCast as a use since it stores expression for later:
+```rust
+// CheckCast is inlined - don't count as use
+InsnType::CheckCast { .. } => {}
+```
+
+### Result: onCreate Method Transformation
+
+**Before (broken, 8+ lines)**:
+```java
+super.onCreate(savedInstanceState);
+Object v0 = this;
+v0 = (ComponentActivity)v0;
+EdgeToEdge.enable$default(v0, i2, i2, 3, i2);
+Object v02 = this;
+v02 = (ComponentActivity)v02;
+...
+```
+
+**After (clean, 4 lines)**:
+```java
+super.onCreate(savedInstanceState);
+final int i2 = 0;
+EdgeToEdge.enable$default((ComponentActivity)this, i2, i2, 3, i2);
+ComponentActivityKt.setContent$default((ComponentActivity)this, i2, ...);
+```
+
+### Remaining Issue: Constructor Field Init
+The `registerForActivityResult` invoke is missing from constructor output, causing undefined `v02`. Proper fix requires implementing JADX's `ExtractFieldInit` pass to move field initialization to declarations.
+
+---
+
+### Previous Session Overview
 Four critical fixes were implemented to close the quality gap between Rust JADX and Java JADX output:
 
 ### Fix #1: Import Collection from Method Bodies ✅ FIXED
@@ -495,7 +590,13 @@ The incomplete refactoring left code in a half-migrated state:
 - [x] **Constructor super() calls fixed**
 - [x] **JADX-compatible variable naming implemented**
 - [x] **Type-aware condition generation added**
+- [x] **super() emission fixed (was this.<init>())**
+- [x] **CheckCast inlining implemented**
+- [x] **Move inlining for single-use variables**
+- [x] **MoveResult inlining for single-use invoke results**
 - [x] **Documentation updated (2025-12-14)**
+- [ ] Fix constructor field init (registerForActivityResult missing)
+- [ ] Implement JADX's ExtractFieldInit pass for field declarations
 - [ ] Investigate and fix large APK hang (if still occurs)
 - [ ] Implement memory optimization Phase 1
 - [ ] Implement memory optimization Phase 2
@@ -520,21 +621,30 @@ The incomplete refactoring left code in a half-migrated state:
 
 **NOW**: ✅ Decompiler works with significantly improved output quality
 - Import statements: **WORKING**
-- Constructors: **FIXED**
+- Constructors: **super() FIXED**
 - Variable naming: **JADX-compatible**
 - Conditions: **Type-aware**
+- Expression inlining: **CheckCast, Move, MoveResult WORKING**
 
 **TESTING**: badboy-x86.apk (62 classes) decompiles in 3.2s
 
+**QUALITY**: onCreate methods now produce clean output:
+```java
+// Before: 8+ lines with redundant variables and casts
+// After: 4 lines with inline casts like (ComponentActivity)this
+```
+
 **NEXT PRIORITIES**:
-1. 🎨 Further quality improvements (comments, annotations)
-2. 🔧 Fix large APK hang (if still occurs)
-3. 💾 Optimize memory (13-19 hours)
+1. 🔧 Fix constructor field init (registerForActivityResult missing)
+2. 🎨 Implement ExtractFieldInit pass (move field init to declarations)
+3. 🔧 Fix large APK hang (if still occurs)
+4. 💾 Optimize memory (13-19 hours)
 
 **RESULT**: 🚀 Rust JADX approaching Java JADX quality
 
 ---
 
 **Status**: ✅ Ready for use with quality improvements
-**Latest**: Four critical quality fixes implemented (2025-12-14)
-**Timeline**: Comment system (12-16 hrs) + Memory optimization (13-19 hrs)
+**Latest**: Nine quality fixes implemented (2025-12-14)
+**Files Modified**: `jadx-codegen/src/body_gen.rs`
+**Timeline**: ExtractFieldInit pass + Comment system (12-16 hrs) + Memory optimization (13-19 hrs)
