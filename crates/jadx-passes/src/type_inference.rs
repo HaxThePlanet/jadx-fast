@@ -810,10 +810,11 @@ impl TypeInference {
             return false;
         }
 
-        // OPTIMIZED: No clone needed for compatibility check since unify_types is &self
-        if let Some(existing) = self.resolved.get(&var) {
-            // Already resolved - check compatibility (no clone - unify_types is &self)
-            return self.unify_types(existing, ty);
+        // Already resolved - no change needed
+        // NOTE: Previously this called unify_types() which returns true for "compatible"
+        // but the solver expects true only for "changed". This caused infinite loops.
+        if self.resolved.contains_key(&var) {
+            return false;
         }
 
         // Not yet resolved
@@ -843,10 +844,10 @@ impl TypeInference {
 
         match (has_t1, has_t2) {
             (true, true) => {
-                // Both resolved - check compatibility (no clone - unify_types is &self)
-                let ty1 = self.resolved.get(&v1).unwrap();
-                let ty2 = self.resolved.get(&v2).unwrap();
-                self.unify_types(ty1, ty2)
+                // Both resolved - no change needed
+                // NOTE: Previously called unify_types() which returns true for "compatible"
+                // but the solver expects true only for "changed". This caused infinite loops.
+                false
             }
             (true, false) => {
                 // Only v1 resolved - clone and propagate to v2
@@ -937,7 +938,7 @@ impl TypeInference {
 
     /// Get all resolved types as (reg_num, ssa_version) -> ArgType
     pub fn get_all_types(&self) -> HashMap<(u16, u32), ArgType> {
-        let mut result = HashMap::new();
+        let mut result = HashMap::with_capacity(self.reg_to_var.len());
         for (&key, &var) in &self.reg_to_var {
             if let Some(ty) = self.resolved.get(&var) {
                 if let Some(arg_ty) = ty.to_arg_type() {

@@ -442,8 +442,6 @@ pub fn generate_class_with_inner_classes(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
 ) -> String {
-    use std::io::Write;
-    println!("DEBUG: generate_class_with_inner_classes start");
     let mut writer = SimpleCodeWriter::new();
     generate_class_to_writer_with_inner_classes(class, config, dex_info, inner_classes, &mut writer);
     writer.finish()
@@ -779,6 +777,7 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
     use crate::method_gen::generate_method_with_inner_classes;
     use jadx_ir::MethodInlineAttr;
 
+    let mut first_method = true;
     for method in &class.methods {
         // Skip default constructors that just call super() - implicit in Java
         if is_default_constructor(method) {
@@ -795,7 +794,11 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
                 }
             }
         }
-        code.newline();
+        // Add blank line between methods, but not before the first method (unless there are fields)
+        if !first_method {
+            code.newline();
+        }
+        first_method = false;
         generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), code);
     }
 }

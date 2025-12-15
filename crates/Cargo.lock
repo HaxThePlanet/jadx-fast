@@ -594,6 +594,7 @@ dependencies = [
 name = "jadx-codegen"
 version = "1.0.0"
 dependencies = [
+ "dashmap",
  "itoa",
  "jadx-deobf",
  "jadx-dex",

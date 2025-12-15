@@ -622,11 +622,13 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         let dex_clone = dex.clone();
         let dex_clone2 = dex.clone();
         let dex_clone3 = dex.clone();
+
+        // Lookups use LazyDexInfo's internal DashMap caching for performance
         jadx_passes::infer_types_with_context(
             &ssa_result,
-            move |idx| dex_clone.get_type_name(idx).map(|s| ArgType::Object(s)),
-            move |idx| dex_clone2.get_field(idx).map(|f| f.field_type.clone()),
-            move |idx| dex_clone3.get_method(idx).map(|m| (m.param_types.clone(), m.return_type.clone())),
+            move |idx| dex_clone.get_type_as_argtype(idx),
+            move |idx| dex_clone2.get_field_type(idx),
+            move |idx| dex_clone3.get_method_return_type(idx),
         )
     } else {
         infer_types(&ssa_result)
@@ -770,11 +772,13 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         let dex_clone = dex.clone();
         let dex_clone2 = dex.clone();
         let dex_clone3 = dex.clone();
+
+        // Lookups use LazyDexInfo's internal DashMap caching for performance
         jadx_passes::infer_types_with_context(
             &ssa_result,
-            move |idx| dex_clone.get_type_name(idx).map(|s| ArgType::Object(s)),
-            move |idx| dex_clone2.get_field(idx).map(|f| f.field_type.clone()),
-            move |idx| dex_clone3.get_method(idx).map(|m| (m.param_types.clone(), m.return_type.clone())),
+            move |idx| dex_clone.get_type_as_argtype(idx),
+            move |idx| dex_clone2.get_field_type(idx),
+            move |idx| dex_clone3.get_method_return_type(idx),
         )
     } else {
         infer_types(&ssa_result)

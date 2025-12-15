@@ -345,7 +345,13 @@ pub fn assign_var_names_with_lookups<'a>(
     type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
 ) -> VarNamingResult {
     let mut naming = VarNaming::with_lookups(first_param_reg, method_lookup, type_lookup);
-    let mut names = HashMap::new();
+
+    // Estimate capacity based on SSA result size
+    let estimated_vars = ssa.blocks.iter()
+        .map(|b| b.instructions.len() + b.phi_nodes.len())
+        .sum::<usize>();
+
+    let mut names = HashMap::with_capacity(estimated_vars);
 
     // Reserve parameter names (they're already set up)
     for i in 0..num_params {
@@ -355,7 +361,7 @@ pub fn assign_var_names_with_lookups<'a>(
 
     // Build assignment map: (reg, version) -> (block_idx, insn_idx)
     // (like JADX's SSAVar.getAssignInsn())
-    let mut assignment_map: HashMap<(u16, u32), (usize, usize)> = HashMap::new();
+    let mut assignment_map: HashMap<(u16, u32), (usize, usize)> = HashMap::with_capacity(estimated_vars);
     for (block_idx, block) in ssa.blocks.iter().enumerate() {
         for (insn_idx, insn) in block.instructions.iter().enumerate() {
             if let Some((reg, version)) = get_insn_dest(&insn.insn_type) {
@@ -365,7 +371,7 @@ pub fn assign_var_names_with_lookups<'a>(
     }
 
     // Collect all (reg, version) pairs that need names
-    let mut vars_to_name: Vec<(u16, u32)> = Vec::new();
+    let mut vars_to_name: Vec<(u16, u32)> = Vec::with_capacity(estimated_vars);
 
     for block in &ssa.blocks {
         // Add phi node destinations

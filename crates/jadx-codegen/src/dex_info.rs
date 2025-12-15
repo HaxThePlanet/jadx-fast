@@ -32,6 +32,7 @@
 use std::collections::HashMap;
 use std::sync::Arc;
 
+use dashmap::DashMap;
 use parking_lot::RwLock;
 
 use crate::expr_gen::{ExprGen, FieldInfo, MethodInfo};
@@ -335,6 +336,12 @@ pub struct LazyDexInfo {
     dex: Arc<DexReader>,
     /// Optional global field pool for multi-DEX deduplication
     global_field_pool: Option<Arc<GlobalFieldPool>>,
+    /// Cache for method lookups (hot path for type inference)
+    method_cache: DashMap<u32, Option<MethodInfo>>,
+    /// Cache for type-as-argtype lookups (hot path for type inference)
+    type_argtype_cache: DashMap<u32, Option<ArgType>>,
+    /// Cache for method return type lookups (hot path for type inference)
+    method_return_cache: DashMap<u32, Option<(Vec<ArgType>, ArgType)>>,
 }
 
 impl LazyDexInfo {
@@ -343,7 +350,13 @@ impl LazyDexInfo {
     /// This is O(1) - no data is loaded upfront.
     /// Use `new_with_pool()` for multi-DEX deduplication.
     pub fn new(dex: Arc<DexReader>) -> Self {
-        LazyDexInfo { dex, global_field_pool: None }
+        LazyDexInfo {
+            dex,
+            global_field_pool: None,
+            method_cache: DashMap::with_capacity(256),
+            type_argtype_cache: DashMap::with_capacity(256),
+            method_return_cache: DashMap::with_capacity(256),
+        }
     }
 
     /// Create a new LazyDexInfo wrapping a DexReader with a global field pool
@@ -351,7 +364,13 @@ impl LazyDexInfo {
     /// The global pool enables deduplication of fields across multiple DEX files.
     /// This is O(1) - no data is loaded upfront.
     pub fn new_with_pool(dex: Arc<DexReader>, pool: Arc<GlobalFieldPool>) -> Self {
-        LazyDexInfo { dex, global_field_pool: Some(pool) }
+        LazyDexInfo {
+            dex,
+            global_field_pool: Some(pool),
+            method_cache: DashMap::with_capacity(256),
+            type_argtype_cache: DashMap::with_capacity(256),
+            method_return_cache: DashMap::with_capacity(256),
+        }
     }
 
     /// Get a string by index (lazy - reads from DEX on-demand)
@@ -405,28 +424,40 @@ impl LazyDexInfo {
         })
     }
 
-    /// Get method info by index (parsed on-demand, not cached)
+    /// Get method info by index (cached for performance)
     pub fn get_method(&self, idx: u32) -> Option<MethodInfo> {
-        let method = self.dex.get_method(idx).ok()?;
-        let class_type = method.class_type().ok()?;
-        let method_name = method.name().ok()?;
-        let proto = method.proto().ok()?;
+        // Check cache first
+        if let Some(cached) = self.method_cache.get(&idx) {
+            return cached.clone();
+        }
 
-        let return_type = proto.return_type()
-            .as_ref()
-            .map(|d| parse_type_descriptor(d))
-            .unwrap_or(ArgType::Void);
-        let param_types: Vec<ArgType> = proto.parameters()
-            .map(|params| params.into_iter().map(|d| parse_type_descriptor(&d)).collect())
-            .unwrap_or_default();
+        // Parse on-demand
+        let result = (|| {
+            let method = self.dex.get_method(idx).ok()?;
+            let class_type = method.class_type().ok()?;
+            let method_name = method.name().ok()?;
+            let proto = method.proto().ok()?;
 
-        Some(MethodInfo {
-            class_name: descriptor_to_simple_name(&class_type),
-            class_type: descriptor_to_internal_name(&class_type),
-            method_name: method_name.to_string(),
-            return_type,
-            param_types,
-        })
+            let return_type = proto.return_type()
+                .as_ref()
+                .map(|d| parse_type_descriptor(d))
+                .unwrap_or(ArgType::Void);
+            let param_types: Vec<ArgType> = proto.parameters()
+                .map(|params| params.into_iter().map(|d| parse_type_descriptor(&d)).collect())
+                .unwrap_or_default();
+
+            Some(MethodInfo {
+                class_name: descriptor_to_simple_name(&class_type),
+                class_type: descriptor_to_internal_name(&class_type),
+                method_name: method_name.to_string(),
+                return_type,
+                param_types,
+            })
+        })();
+
+        // Cache the result
+        self.method_cache.insert(idx, result.clone());
+        result
     }
 
     /// Get field type by index (for type inference)
@@ -434,14 +465,34 @@ impl LazyDexInfo {
         self.get_field(idx).map(|f| f.field_type)
     }
 
-    /// Get type by index as ArgType (for type inference)
+    /// Get type by index as ArgType (for type inference, cached)
     pub fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
-        self.dex.get_type(idx).ok().as_ref().and_then(|desc| descriptor_to_argtype(desc))
+        // Check cache first
+        if let Some(cached) = self.type_argtype_cache.get(&idx) {
+            return cached.clone();
+        }
+
+        // Parse on-demand
+        let result = self.dex.get_type(idx).ok().as_ref().and_then(|desc| descriptor_to_argtype(desc));
+
+        // Cache the result
+        self.type_argtype_cache.insert(idx, result.clone());
+        result
     }
 
-    /// Get method return type by index (for type inference)
+    /// Get method return type by index (for type inference, cached)
     pub fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
-        self.get_method(idx).map(|m| (m.param_types, m.return_type))
+        // Check cache first
+        if let Some(cached) = self.method_return_cache.get(&idx) {
+            return cached.clone();
+        }
+
+        // Get from method and cache
+        let result = self.get_method(idx).map(|m| (m.param_types, m.return_type));
+
+        // Cache the result
+        self.method_return_cache.insert(idx, result.clone());
+        result
     }
 
     /// Populate an ExprGen with lookups from this DEX info
