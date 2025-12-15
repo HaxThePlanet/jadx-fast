@@ -48,7 +48,7 @@ use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_else_if,
     gen_if_header, gen_while_header,
 };
-use crate::type_gen::{type_to_string, type_to_string_with_imports};
+use crate::type_gen::{literal_to_string, type_to_string, type_to_string_with_imports};
 use crate::writer::CodeWriter;
 
 /// Context for generating method body code
@@ -635,7 +635,34 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
     // Use sophisticated variable naming from jadx-passes (JADX-compatible)
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
     let num_params = method.arg_types.len() as u16;
-    let var_names = jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params);
+
+    // Create lookup closures for better variable naming when dex_info is available
+    let var_names = if let Some(ref dex) = dex_info {
+        let dex_for_method = dex.clone();
+        let dex_for_type = dex.clone();
+
+        let method_lookup = move |idx: u32| {
+            dex_for_method.get_method(idx).map(|m| jadx_passes::MethodNameInfo {
+                method_name: m.method_name.clone(),
+                class_name: m.class_name.clone(),
+            })
+        };
+
+        let type_lookup = move |idx: u32| {
+            dex_for_type.get_type_name(idx)
+        };
+
+        jadx_passes::assign_var_names_with_lookups(
+            &ssa_result,
+            &type_result,
+            first_param_reg,
+            num_params,
+            Some(&method_lookup),
+            Some(&type_lookup),
+        )
+    } else {
+        jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
+    };
 
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
     let max_versions = ssa_result.max_versions.clone();
@@ -756,7 +783,34 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     // Use sophisticated variable naming from jadx-passes (JADX-compatible)
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
     let num_params = method.arg_types.len() as u16;
-    let var_names = jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params);
+
+    // Create lookup closures for better variable naming when dex_info is available
+    let var_names = if let Some(ref dex) = dex_info {
+        let dex_for_method = dex.clone();
+        let dex_for_type = dex.clone();
+
+        let method_lookup = move |idx: u32| {
+            dex_for_method.get_method(idx).map(|m| jadx_passes::MethodNameInfo {
+                method_name: m.method_name.clone(),
+                class_name: m.class_name.clone(),
+            })
+        };
+
+        let type_lookup = move |idx: u32| {
+            dex_for_type.get_type_name(idx)
+        };
+
+        jadx_passes::assign_var_names_with_lookups(
+            &ssa_result,
+            &type_result,
+            first_param_reg,
+            num_params,
+            Some(&method_lookup),
+            Some(&type_lookup),
+        )
+    } else {
+        jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
+    };
 
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
     let max_versions = ssa_result.max_versions.clone();
@@ -1982,9 +2036,19 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                         code.add("new ").add(&info.class_name).add("(");
                     }
                 } else {
-                    if let Some(receiver) = args.first() {
-                        ctx.write_arg_inline(code, receiver);
-                        code.add(".");
+                    // For instance methods, check if receiver is 'this' - if so, omit it
+                    // Java doesn't require explicit 'this.' prefix for instance method calls
+                    let is_this_receiver = if let Some(InsnArg::Register(reg)) = args.first() {
+                        ctx.expr_gen.get_var_name(reg) == "this"
+                    } else {
+                        false
+                    };
+
+                    if !is_this_receiver {
+                        if let Some(receiver) = args.first() {
+                            ctx.write_arg_inline(code, receiver);
+                            code.add(".");
+                        }
                     }
                     code.add(&info.method_name).add("(");
                 }
@@ -2241,15 +2305,27 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::Const { dest, value } => {
-            let val_str = ctx.expr_gen.gen_literal(value);
-            // Type hint from literal type
-            let type_hint = match value {
+            // Check if type inference determined this register is boolean
+            let inferred_type = ctx.type_info.as_ref()
+                .and_then(|ti| ti.types.get(&(dest.reg_num, dest.ssa_version)))
+                .cloned();
+
+            // Use inferred type if available, otherwise fall back to literal type
+            let type_hint = inferred_type.clone().or_else(|| match value {
                 LiteralArg::Int(v) if *v >= i32::MIN as i64 && *v <= i32::MAX as i64 => Some(ArgType::Int),
                 LiteralArg::Int(_) => Some(ArgType::Long),
                 LiteralArg::Float(_) => Some(ArgType::Float),
                 LiteralArg::Double(_) => Some(ArgType::Double),
                 LiteralArg::Null => None, // null can be any object type
+            });
+
+            // Generate literal using type-aware function for proper boolean/char handling
+            let val_str = if let (Some(ref ty), LiteralArg::Int(v)) = (&type_hint, value) {
+                literal_to_string(*v, ty)
+            } else {
+                ctx.expr_gen.gen_literal(value)
             };
+
             emit_assignment_with_hint(dest, &val_str, type_hint.as_ref(), ctx, code);
             true
         }

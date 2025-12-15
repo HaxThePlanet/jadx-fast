@@ -21,23 +21,50 @@ pub struct VarNamingResult {
     pub names: HashMap<(u16, u32), String>,
 }
 
+/// Method info for variable naming
+pub struct MethodNameInfo {
+    pub method_name: String,
+    pub class_name: String,
+}
+
 /// Variable naming context
-pub struct VarNaming {
+pub struct VarNaming<'a> {
     /// Used names at each scope level
     used_names: HashSet<String>,
     /// Counter for each base name (to generate unique suffixes)
     name_counters: HashMap<String, u32>,
     /// Parameter register start (parameters already have names)
     first_param_reg: u16,
+    /// Method lookup: method_idx -> (method_name, class_name)
+    method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
+    /// Type lookup: type_idx -> type_name (internal format like "java/lang/StringBuilder")
+    type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
 }
 
-impl VarNaming {
+impl<'a> VarNaming<'a> {
     /// Create a new variable naming context
     pub fn new(first_param_reg: u16) -> Self {
         VarNaming {
             used_names: HashSet::new(),
             name_counters: HashMap::new(),
             first_param_reg,
+            method_lookup: None,
+            type_lookup: None,
+        }
+    }
+
+    /// Create a new variable naming context with lookups
+    pub fn with_lookups(
+        first_param_reg: u16,
+        method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
+        type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
+    ) -> Self {
+        VarNaming {
+            used_names: HashSet::new(),
+            name_counters: HashMap::new(),
+            first_param_reg,
+            method_lookup,
+            type_lookup,
         }
     }
 
@@ -217,9 +244,6 @@ impl VarNaming {
 
     /// Try to generate a name from instruction context (like JADX's makeNameFromInsn)
     /// Returns None if no suitable context-based name can be generated
-    ///
-    /// Note: This currently handles cases that don't require DexInfo lookup.
-    /// TODO: Add method invocation and constructor handling when DexInfo is available
     fn name_from_instruction_context(
         &mut self,
         insn: &jadx_ir::instructions::InsnNode,
@@ -237,24 +261,90 @@ impl VarNaming {
                 Some(self.make_unique("str"))
             }
 
-            // TODO: Add these when DexInfo is wired through:
-            // - Invoke: cut prefixes from method names (getUser -> user)
-            // - NewInstance: use class name (new Builder() -> builder)
+            // Method invocation - extract name from method name
+            // e.g., getUser() -> "user", createBuilder() -> "builder"
+            InsnType::Invoke { method_idx, .. } => {
+                if let Some(lookup) = &self.method_lookup {
+                    if let Some(info) = lookup(*method_idx) {
+                        if let Some(base) = Self::extract_name_from_method(&info.method_name) {
+                            return Some(self.make_unique(&base));
+                        }
+                    }
+                }
+                None
+            }
+
+            // NewInstance - use class name for variable name
+            // e.g., new StringBuilder() -> "sb", new MyClass() -> "myClass"
+            InsnType::NewInstance { type_idx, .. } => {
+                if let Some(lookup) = &self.type_lookup {
+                    if let Some(type_name) = lookup(*type_idx) {
+                        let base = Self::extract_class_name_base(&type_name);
+                        return Some(self.make_unique(base));
+                    }
+                }
+                None
+            }
 
             // For other instructions, return None to fall back to type-based naming
             _ => None,
         }
     }
+
+    /// Extract a variable name from a method name by stripping common prefixes
+    /// Following JADX's cutPrefix logic in NameGen.java
+    fn extract_name_from_method(method_name: &str) -> Option<String> {
+        // Skip constructors
+        if method_name == "<init>" || method_name == "<clinit>" {
+            return None;
+        }
+
+        // Try common prefixes in order (like JADX's INVOKE_PREFIXES)
+        let prefixes = ["get", "set", "put", "is", "has", "can", "to", "create", "new", "make", "build"];
+
+        for prefix in prefixes {
+            if method_name.starts_with(prefix) && method_name.len() > prefix.len() {
+                let rest = &method_name[prefix.len()..];
+                // Check if the next character is uppercase (proper camelCase)
+                if rest.chars().next().map(|c| c.is_ascii_uppercase()).unwrap_or(false) {
+                    // Convert first char to lowercase
+                    let mut chars = rest.chars();
+                    if let Some(first) = chars.next() {
+                        let rest_str: String = chars.collect();
+                        let result = format!("{}{}", first.to_lowercase(), rest_str);
+                        // Skip very short names
+                        if result.len() >= 2 {
+                            return Some(result);
+                        }
+                    }
+                }
+            }
+        }
+
+        None
+    }
 }
 
-/// Assign names to all variables in an SSA result
+/// Assign names to all variables in an SSA result (without lookups)
 pub fn assign_var_names(
     ssa: &SsaResult,
     type_info: &TypeInferenceResult,
     first_param_reg: u16,
     num_params: u16,
 ) -> VarNamingResult {
-    let mut naming = VarNaming::new(first_param_reg);
+    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, None, None)
+}
+
+/// Assign names to all variables in an SSA result with optional method/type lookups
+pub fn assign_var_names_with_lookups<'a>(
+    ssa: &SsaResult,
+    type_info: &TypeInferenceResult,
+    first_param_reg: u16,
+    num_params: u16,
+    method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
+    type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
+) -> VarNamingResult {
+    let mut naming = VarNaming::with_lookups(first_param_reg, method_lookup, type_lookup);
     let mut names = HashMap::new();
 
     // Reserve parameter names (they're already set up)
@@ -304,7 +394,20 @@ pub fn assign_var_names(
         // Try to get name from assignment instruction (like JADX's makeNameForSSAVar)
         let context_name = assignment_map.get(&(reg, version))
             .and_then(|&(block_idx, insn_idx)| {
-                let insn = &ssa.blocks[block_idx].instructions[insn_idx];
+                let block = &ssa.blocks[block_idx];
+                let insn = &block.instructions[insn_idx];
+
+                // For MoveResult, look at the previous instruction (should be Invoke)
+                if matches!(insn.insn_type, jadx_ir::instructions::InsnType::MoveResult { .. }) {
+                    if insn_idx > 0 {
+                        let prev_insn = &block.instructions[insn_idx - 1];
+                        // Try to get name from the preceding Invoke instruction
+                        if let Some(name) = naming.name_from_instruction_context(prev_insn) {
+                            return Some(name);
+                        }
+                    }
+                }
+
                 naming.name_from_instruction_context(insn)
             });
 
@@ -496,5 +599,47 @@ mod tests {
         // "i" is taken, so we should get "i2"
         let name = naming.name_for_type(&ArgType::Int);
         assert_eq!(name, "i2");
+    }
+
+    #[test]
+    fn test_extract_name_from_method() {
+        // Test getter methods
+        assert_eq!(VarNaming::extract_name_from_method("getUser"), Some("user".to_string()));
+        assert_eq!(VarNaming::extract_name_from_method("getUserName"), Some("userName".to_string()));
+
+        // Test setter methods
+        assert_eq!(VarNaming::extract_name_from_method("setName"), Some("name".to_string()));
+
+        // Test "is" prefix (boolean getters)
+        assert_eq!(VarNaming::extract_name_from_method("isActive"), Some("active".to_string()));
+        assert_eq!(VarNaming::extract_name_from_method("isEnabled"), Some("enabled".to_string()));
+
+        // Test "has" prefix
+        assert_eq!(VarNaming::extract_name_from_method("hasPermission"), Some("permission".to_string()));
+
+        // Test "create" prefix
+        assert_eq!(VarNaming::extract_name_from_method("createBuilder"), Some("builder".to_string()));
+
+        // Test "to" prefix
+        assert_eq!(VarNaming::extract_name_from_method("toString"), Some("string".to_string()));
+        assert_eq!(VarNaming::extract_name_from_method("toArray"), Some("array".to_string()));
+
+        // Test methods that shouldn't match
+        assert_eq!(VarNaming::extract_name_from_method("getName"), Some("name".to_string()));
+
+        // Test constructors (should not match)
+        assert_eq!(VarNaming::extract_name_from_method("<init>"), None);
+        assert_eq!(VarNaming::extract_name_from_method("<clinit>"), None);
+
+        // Test methods without prefixes (should not match)
+        assert_eq!(VarNaming::extract_name_from_method("calculate"), None);
+        assert_eq!(VarNaming::extract_name_from_method("process"), None);
+
+        // Test short names (should not match - result too short)
+        assert_eq!(VarNaming::extract_name_from_method("getId"), None); // "d" too short
+        assert_eq!(VarNaming::extract_name_from_method("getX"), None); // "x" too short
+
+        // Test non-camelCase (should not match)
+        assert_eq!(VarNaming::extract_name_from_method("getuser"), None); // lowercase after prefix
     }
 }
