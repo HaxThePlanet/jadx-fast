@@ -71,7 +71,7 @@ impl<'a> ClassDef<'a> {
         if str_idx == crate::NO_INDEX {
             Ok(None)
         } else {
-            self.reader.get_string(str_idx).map(Some)
+            self.reader.get_string_owned(str_idx).map(Some)
         }
     }
 

@@ -247,7 +247,7 @@ impl<'a> CodeItem<'a> {
                 let mut names = Vec::with_capacity(info.param_names.len());
                 for name_idx in info.param_names {
                     let name = match name_idx {
-                        Some(idx) => self.reader.get_string(idx).ok().map(|s| s.to_string()),
+                        Some(idx) => self.reader.get_string(idx).ok().map(|s| (*s).to_string()),
                         None => None,
                     };
                     names.push(name);

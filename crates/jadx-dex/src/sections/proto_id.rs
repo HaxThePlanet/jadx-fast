@@ -34,7 +34,7 @@ impl<'a> ProtoId<'a> {
     /// Get the shorty descriptor
     pub fn shorty(&self) -> Result<String> {
         let shorty_idx = read_u32(self.reader.data(), self.offset);
-        self.reader.get_string(shorty_idx)
+        self.reader.get_string_owned(shorty_idx)
     }
 
     /// Get the return type descriptor

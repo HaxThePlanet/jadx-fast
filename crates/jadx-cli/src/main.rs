@@ -966,19 +966,22 @@ fn process_dex_bytes(
     tracing::debug!("LazyDexInfo ready (on-demand loading, deduplication disabled)");
 
     // ========================================================================
-    // OPTIMIZE: Pre-load strings to avoid RwLock contention in parallel phase
-    // Only for small DEX files (<100k strings) to avoid memory explosion on huge APKs
+    // OPTIMIZE: Parallel string pre-loading using DashMap's lock-free concurrency
+    // With DashMap, multiple threads can populate the cache simultaneously without
+    // contention, making parallel pre-loading much faster than sequential.
+    // Only for DEX files with <100k strings to avoid memory explosion on huge APKs.
     // ========================================================================
     let string_count = dex.header.string_ids_size as usize;
     const MAX_PRELOAD_STRINGS: usize = 100_000;
     if string_count > 0 && string_count <= MAX_PRELOAD_STRINGS {
-        tracing::debug!("Pre-loading {} strings from DEX to avoid lock contention...", string_count);
+        tracing::debug!("Pre-loading {} strings from DEX in parallel...", string_count);
         let preload_start = std::time::Instant::now();
-        for idx in 0..string_count {
-            let _ = dex.get_string(idx as u32);
-        }
+        // Parallel pre-loading using rayon - DashMap handles concurrent inserts efficiently
+        (0..string_count as u32).into_par_iter().for_each(|idx| {
+            let _ = dex.get_string(idx);
+        });
         let preload_elapsed = preload_start.elapsed();
-        tracing::debug!("Strings pre-loaded in {:.2}ms", preload_elapsed.as_secs_f64() * 1000.0);
+        tracing::debug!("Strings pre-loaded in {:.2}ms (parallel)", preload_elapsed.as_secs_f64() * 1000.0);
     } else if string_count > MAX_PRELOAD_STRINGS {
         tracing::debug!("Skipping string pre-load ({} strings > {} limit)", string_count, MAX_PRELOAD_STRINGS);
     }

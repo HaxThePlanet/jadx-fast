@@ -13,6 +13,7 @@ string-interner.workspace = true
 rayon.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
+dashmap.workspace = true
 
 [dev-dependencies]
 pretty_assertions.workspace = true

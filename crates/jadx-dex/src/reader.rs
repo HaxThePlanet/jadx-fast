@@ -3,9 +3,9 @@
 //! Provides the primary interface for parsing DEX files.
 
 use std::path::Path;
-use std::collections::HashMap;
-use std::sync::RwLock;
+use std::sync::Arc;
 
+use dashmap::DashMap;
 use memmap2::Mmap;
 
 use crate::error::{DexError, Result};
@@ -23,8 +23,8 @@ pub struct DexReader {
     data: DexData,
     /// Parsed header
     pub header: DexHeader,
-    /// String cache (lazily populated, thread-safe)
-    strings: RwLock<HashMap<u32, String>>,
+    /// String cache (lock-free concurrent hashmap for high-performance parallel access)
+    strings: DashMap<u32, Arc<str>>,
 }
 
 /// DEX data storage - either memory-mapped or owned bytes
@@ -70,13 +70,13 @@ impl DexReader {
 
     fn from_data_internal(id: u32, input_file: String, data: DexData) -> Result<Self> {
         let header = DexHeader::parse(data.as_bytes())?;
-        
+
         Ok(DexReader {
             id,
             input_file,
             data,
             header,
-            strings: RwLock::new(HashMap::new()),
+            strings: DashMap::new(),
         })
     }
 
@@ -85,27 +85,28 @@ impl DexReader {
         self.data.as_bytes()
     }
 
-    /// Get a string by index (reads directly from DEX, no caching)
-    pub fn get_string(&self, idx: u32) -> Result<String> {
-        // Check cache first (read lock)
-        {
-            let strings = self.strings.read().unwrap();
-            if let Some(s) = strings.get(&idx) {
-                return Ok(s.clone()); // Return clone from cache
-            }
+    /// Get a string by index (lock-free concurrent access via DashMap)
+    ///
+    /// Returns `Arc<str>` for zero-copy sharing across threads.
+    /// First access decodes the MUTF-8 string from DEX and caches it.
+    /// Subsequent accesses return a cheap Arc clone (just a pointer bump).
+    pub fn get_string(&self, idx: u32) -> Result<Arc<str>> {
+        // Lock-free read from DashMap (most common case)
+        if let Some(s) = self.strings.get(&idx) {
+            return Ok(Arc::clone(&*s));
         }
 
-        // Not in cache, load and insert (write lock)
-        let s = self.load_string(idx)?;
-        let mut strings = self.strings.write().unwrap();
-
-        // Double-check pattern - another thread may have inserted
-        if let Some(existing_s) = strings.get(&idx) {
-            return Ok(existing_s.clone());
-        }
-
-        strings.insert(idx, s.clone());
+        // Not in cache - load and insert
+        // DashMap handles concurrent insertions safely
+        let s: Arc<str> = self.load_string(idx)?.into();
+        self.strings.insert(idx, Arc::clone(&s));
         Ok(s)
+    }
+
+    /// Get a string as an owned String (convenience method for callers that need String)
+    #[inline]
+    pub fn get_string_owned(&self, idx: u32) -> Result<String> {
+        Ok(self.get_string(idx)?.to_string())
     }
 
     /// Load a string from the DEX file
@@ -145,7 +146,7 @@ impl DexReader {
         let type_ids_off = self.header.type_ids_off as usize;
         let str_idx = read_u32(data, type_ids_off + (idx as usize * 4));
 
-        self.get_string(str_idx)
+        self.get_string_owned(str_idx)
     }
 
     /// Get class count

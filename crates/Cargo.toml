@@ -29,6 +29,8 @@ fixedbitset = "0.5"
 smallvec = { version = "1.13", features = ["union"] }
 string-interner = "0.17"
 indexmap = "2.7"
+dashmap = "5.5"
+parking_lot = "0.12"
 
 # Parallelism
 rayon = "1.10"

@@ -46,6 +46,6 @@ impl<'a> FieldId<'a> {
     /// Get the field name
     pub fn name(&self) -> Result<String> {
         let name_idx = read_u32(self.reader.data(), self.offset + 4);
-        self.reader.get_string(name_idx)
+        self.reader.get_string_owned(name_idx)
     }
 }
