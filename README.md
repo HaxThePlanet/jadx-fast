@@ -55,14 +55,20 @@ cd crates && cargo build --release -p jadx-cli
 # With deobfuscation
 ./target/release/dexterity --deobf -d output/ app.apk
 
+# ProGuard mapping
+./target/release/dexterity --deobf --mappings-path mapping.txt -d output/ app.apk
+
+# Whitelist packages from deobfuscation
+./target/release/dexterity --deobf --deobf-whitelist "android.support.v4.*" -d output/ app.apk
+
+# Save/load deobfuscation aliases (JOBF file)
+./target/release/dexterity --deobf --deobf-cfg-file-mode read-or-save -d output/ app.apk
+
 # Gradle project export
 ./target/release/dexterity -e -d output/ app.apk
 
 # Parallel threads (default: all cores)
 ./target/release/dexterity -j 8 -d output/ app.apk
-
-# ProGuard mapping
-./target/release/dexterity --deobf --mappings-path mapping.txt -d output/ app.apk
 ```
 
 ## Sample Output
@@ -121,7 +127,6 @@ APK/DEX -> jadx-dex -> jadx-ir -> jadx-passes -> jadx-codegen -> Java Source
 ## Not Yet Implemented
 
 - Smali file (`.smali`) processing
-- `.jobf` file persistence (`--deobf-cfg-file`)
 - Warning/rename comments (`/* JADX WARNING: ... */`)
 
 ## License

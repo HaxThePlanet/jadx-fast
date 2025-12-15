@@ -166,7 +166,7 @@ pub struct Args {
     #[arg(long = "deobf-use-sourcename", hide = true)]
     pub deobf_use_sourcename: bool,
 
-    /// Deobfuscation whitelist patterns (JADX compatibility stub - not yet implemented)
+    /// Deobfuscation whitelist patterns (e.g., "android.support.v4.*", "com.example.MyClass")
     #[arg(long = "deobf-whitelist", action = clap::ArgAction::Append)]
     pub deobf_whitelist: Vec<String>,
 

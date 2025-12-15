@@ -159,6 +159,28 @@ impl AliasRegistry {
         self.fields.clear();
         self.methods.clear();
     }
+
+    // === Iterators for JOBF serialization ===
+
+    /// Iterate over all package aliases
+    pub fn iter_packages(&self) -> dashmap::iter::Iter<'_, String, String> {
+        self.packages.iter()
+    }
+
+    /// Iterate over all class aliases
+    pub fn iter_classes(&self) -> dashmap::iter::Iter<'_, String, String> {
+        self.classes.iter()
+    }
+
+    /// Iterate over all field aliases
+    pub fn iter_fields(&self) -> dashmap::iter::Iter<'_, (String, String), String> {
+        self.fields.iter()
+    }
+
+    /// Iterate over all method aliases
+    pub fn iter_methods(&self) -> dashmap::iter::Iter<'_, (String, String, String), String> {
+        self.methods.iter()
+    }
 }
 
 #[cfg(test)]

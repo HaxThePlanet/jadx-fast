@@ -1400,6 +1400,23 @@ fn process_dex_bytes(
         errors
     );
 
+    // Save JOBF file if deobfuscation is enabled and mode allows saving
+    if args.deobfuscation {
+        let should_save = match args.deobf_cfg_file_mode {
+            crate::args::DeobfCfgFileMode::ReadOrSave | crate::args::DeobfCfgFileMode::Overwrite => true,
+            _ => false,
+        };
+        if should_save {
+            let jobf_path = args.deobf_cfg_file.clone().unwrap_or_else(|| {
+                // Default: output directory with deobf.jobf name
+                out_src.join("deobf.jobf")
+            });
+            if let Err(e) = deobf::save_jobf_file(&jobf_path, &alias_registry) {
+                tracing::warn!("Failed to save JOBF file {}: {}", jobf_path.display(), e);
+            }
+        }
+    }
+
     Ok(count)
 }
 
