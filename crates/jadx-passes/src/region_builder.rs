@@ -263,10 +263,7 @@ pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[jadx_ir::TryBlock]) 
         let ends_with_throw = last_block
             .instructions
             .last()
-            .map(|insn_arc| {
-                let insn = insn_arc.lock().unwrap();
-                matches!(insn.insn_type, InsnType::Throw { .. })
-            })
+            .map(|insn| matches!(insn.insn_type, InsnType::Throw { .. }))
             .unwrap_or(false);
         if !ends_with_throw {
             continue;
@@ -365,11 +362,9 @@ pub fn detect_synchronized_blocks(cfg: &CFG) -> Vec<SyncInfo> {
 
     for block_id in cfg.block_ids() {
         if let Some(block) = cfg.get_block(block_id) {
-            for insn_arc in &block.instructions {
-                let insn = insn_arc.lock().unwrap();
+            for insn in &block.instructions {
                 if matches!(insn.insn_type, InsnType::MonitorEnter { .. }) {
                     // Found a monitor enter - find matching exits
-                    drop(insn); // Release lock before calling find_sync_region
                     if let Some(sync_info) = find_sync_region(cfg, block_id) {
                         syncs.push(sync_info);
                     }
@@ -396,8 +391,7 @@ fn find_sync_region(cfg: &CFG, enter_block: u32) -> Option<SyncInfo> {
 
         if let Some(block) = cfg.get_block(block_id) {
             // Check for MONITOR_EXIT
-            let has_exit = block.instructions.iter().any(|insn_arc| {
-                let insn = insn_arc.lock().unwrap();
+            let has_exit = block.instructions.iter().any(|insn| {
                 matches!(insn.insn_type, InsnType::MonitorExit { .. })
             });
 
@@ -844,10 +838,7 @@ impl<'a> RegionBuilder<'a> {
         let ends_with_throw = last_block
             .instructions
             .last()
-            .map(|insn_arc| {
-                let insn = insn_arc.lock().unwrap();
-                matches!(insn.insn_type, InsnType::Throw { .. })
-            })
+            .map(|insn| matches!(insn.insn_type, InsnType::Throw { .. }))
             .unwrap_or(false);
 
         if !ends_with_throw {
@@ -998,8 +989,7 @@ impl<'a> RegionBuilder<'a> {
     fn extract_simple_condition(&self, block_id: u32) -> Condition {
         if let Some(block) = self.cfg.get_block(block_id) {
             // Find the If instruction (usually the last one)
-            for insn_arc in block.instructions.iter().rev() {
-                let insn = insn_arc.lock().unwrap();
+            for insn in block.instructions.iter().rev() {
                 if let InsnType::If { condition, .. } = &insn.insn_type {
                     return Condition::simple_negated(block_id, condition.clone());
                 }
@@ -1187,8 +1177,7 @@ impl<'a> RegionBuilder<'a> {
     /// Check if a block is a switch statement
     fn is_switch_block(&self, block: u32) -> bool {
         if let Some(b) = self.cfg.get_block(block) {
-            if let Some(last_arc) = b.instructions.last() {
-                let last = last_arc.lock().unwrap();
+            if let Some(last) = b.instructions.last() {
                 return matches!(
                     last.insn_type,
                     InsnType::PackedSwitch { .. } | InsnType::SparseSwitch { .. }
@@ -1270,8 +1259,7 @@ impl<'a> RegionBuilder<'a> {
     /// Get switch keys from the instruction
     fn get_switch_info(&self, block: u32) -> Option<Vec<i32>> {
         let b = self.cfg.get_block(block)?;
-        let last_arc = b.instructions.last()?;
-        let last = last_arc.lock().unwrap();
+        let last = b.instructions.last()?;
 
         match &last.insn_type {
             InsnType::PackedSwitch {
@@ -1391,10 +1379,7 @@ pub fn build_method_regions(blocks: &BTreeMap<u32, BasicBlock>, entry: u32) -> R
         .filter(|b| {
             b.instructions
                 .last()
-                .map(|i_arc| {
-                    let i = i_arc.lock().unwrap();
-                    matches!(i.insn_type, InsnType::Return { .. } | InsnType::Throw { .. })
-                })
+                .map(|i| matches!(i.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }))
                 .unwrap_or(false)
         })
         .map(|b| b.id)
@@ -1638,7 +1623,7 @@ mod tests {
             dup_block
                 .instructions
                 .iter()
-                .all(|i| i.lock().unwrap().has_flag(AFlag::DontGenerate)),
+                .all(|i| i.has_flag(AFlag::DontGenerate)),
             "expected duplicated finally instructions to be marked DONT_GENERATE"
         );
     }

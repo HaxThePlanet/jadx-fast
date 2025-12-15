@@ -590,3 +590,88 @@ Still some issues but VASTLY improved from before (which was complete nonsense).
 **Session Complete**: 2025-12-14
 **Result**: ✅ **Significant quality improvements achieved**
 **Next Session**: Focus on comment system or remaining edge cases
+
+---
+
+## 🔴 Memory Optimization Session (2025-12-14, Continued)
+
+### Problem Statement
+Dexterity explodes to 100GB+ memory on APKs >35MB while Java JADX handles them efficiently. The baseline memory usage is unsustainable for large APKs.
+
+### Initial Hypothesis: Arc<Mutex<>> Overhead
+**Theory**: Every instruction wrapped in `Arc<Mutex<InsnNode>>` adds ~56 bytes overhead:
+- `Arc` = 16 bytes (pointer + strong/weak counts)
+- `Mutex` = ~40 bytes (pthread_mutex_t on Linux)
+- For 10 million instructions: 560MB just for wrapping
+
+### Attempted Fix: Remove Arc<Mutex<>> Wrappers
+
+**Files Modified**:
+1. `jadx-passes/src/block_split.rs` - Changed `Vec<Arc<Mutex<InsnNode>>>` → `Vec<InsnNode>`
+2. `jadx-passes/src/ssa.rs` - Same change for SsaBlock
+3. `jadx-passes/src/cfg.rs` - Updated instruction access
+4. `jadx-passes/src/type_inference.rs` - Removed `.lock().unwrap()` patterns
+5. `jadx-passes/src/region_builder.rs` - Same
+6. `jadx-passes/src/conditionals.rs` - Same
+7. `jadx-passes/src/finally_extract.rs` - Same
+8. `jadx-passes/src/var_naming.rs` - Changed to use indices instead of Arc refs
+9. `jadx-codegen/src/body_gen.rs` - ~20 occurrences fixed
+
+**Result**: ❌ **Did NOT fix the memory explosion**
+
+Test with 35MB APK (ulimit 150GB):
+- Memory still grew to 105GB before hitting limit
+- Error: "memory allocation of 1073741824 bytes failed" (1GB allocation)
+
+### Why Arc<Mutex<>> Removal May Have Made It Worse
+
+**Before**: `Vec<Arc<Mutex<InsnNode>>>` - cloning = increment ref count (8 bytes)
+**After**: `Vec<InsnNode>` - cloning = copy entire instruction (100-500 bytes)
+
+Found 3 places doing `.instructions.clone()`:
+1. `body_gen.rs:1513` - SSA blocks to map
+2. `body_gen.rs:1815` - during code generation
+3. `ssa.rs:439` - during SSA transformation
+
+Each clone now copies ALL instruction data instead of just Arc pointers!
+
+### Root Cause Analysis: Incomplete
+
+The Arc<Mutex<>> overhead (~560MB) cannot explain 100GB+ usage. The real cause is likely:
+
+1. **Unknown** - Need to identify what's allocating 1GB at once
+2. **Possible**: Multiple full copies of all instructions through pipeline
+3. **Possible**: Some data structure growing unboundedly
+4. **Missing**: Java JADX may have code limiters we don't have
+
+### Next Steps for Memory Optimization
+
+1. **Investigate Java JADX source** for code size limits/thresholds
+2. **Add profiling** to identify where memory is being allocated
+3. **Consider lazy processing** - don't load all instructions upfront
+4. **Consider streaming** - process methods one at a time, don't keep all in memory
+5. **May need to revert** Arc<Mutex<>> removal since cloning is now worse
+
+### Current State
+
+- Build: ✅ Compiles successfully
+- Small APKs: ⚠️ Untested after Arc removal (memory still explodes)
+- Large APKs: ❌ 100GB+ memory, crashes
+
+### Files Changed (Memory Work)
+
+```
+jadx-passes/src/block_split.rs     - Struct change + method updates
+jadx-passes/src/ssa.rs             - Struct change + method updates
+jadx-passes/src/cfg.rs             - Minor updates
+jadx-passes/src/type_inference.rs  - Removed lock patterns
+jadx-passes/src/region_builder.rs  - Removed lock patterns
+jadx-passes/src/conditionals.rs    - Removed lock patterns
+jadx-passes/src/finally_extract.rs - Removed lock patterns
+jadx-passes/src/var_naming.rs      - Changed to index-based refs
+jadx-codegen/src/body_gen.rs       - ~20 lock pattern removals
+```
+
+---
+
+**Memory Session Status**: 🔴 **Incomplete - Real cause not yet identified**

@@ -162,6 +162,14 @@ pub struct Args {
     #[arg(long = "deobf-res-name-source", value_enum, default_value = "auto")]
     pub resource_name_source: ResourceNameSource,
 
+    /// Use source file name for class alias (JADX compatibility, maps to use-source-name-as-class-name-alias)
+    #[arg(long = "deobf-use-sourcename", hide = true)]
+    pub deobf_use_sourcename: bool,
+
+    /// Deobfuscation whitelist patterns (JADX compatibility stub - not yet implemented)
+    #[arg(long = "deobf-whitelist", action = clap::ArgAction::Append)]
+    pub deobf_whitelist: Vec<String>,
+
     /// Use source name as class name alias
     #[arg(long = "use-source-name-as-class-name-alias", value_enum)]
     pub use_source_name_as_alias: Option<UseSourceNameAlias>,
@@ -183,6 +191,25 @@ pub struct Args {
     /// Code comments level
     #[arg(long = "comments-level", value_enum, default_value = "info")]
     pub comments_level: CommentsLevel,
+
+    // === Resource options (JADX compatibility) ===
+    /// Disable pretty printing of XML resources (JADX compatibility stub)
+    #[arg(long = "no-xml-pretty-print")]
+    pub no_xml_pretty_print: bool,
+
+    /// Use file headers to detect resource file extensions (JADX compatibility stub)
+    #[arg(long = "use-headers-for-detect-resource-extensions")]
+    pub use_headers_for_resource_ext: bool,
+
+    // === Kotlin options (JADX compatibility) ===
+    /// Use Kotlin method parameter names for variable naming
+    #[arg(long = "use-kotlin-methods-for-var-names", value_enum)]
+    pub use_kotlin_methods_for_var_names: Option<KotlinVarNamesMode>,
+
+    // === Plugin options (JADX compatibility) ===
+    /// Plugin options in format key=value (JADX -P compatibility stub)
+    #[arg(short = 'P', action = clap::ArgAction::Append, value_parser = parse_plugin_option)]
+    pub plugin_options: Vec<(String, String)>,
 
     // === Export options ===
     /// Save as gradle project
@@ -480,4 +507,20 @@ pub enum RenameFlag {
     Valid,
     /// Remove non-printable chars
     Printable,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
+pub enum KotlinVarNamesMode {
+    /// Apply Kotlin method names for variables
+    Apply,
+    /// Don't apply Kotlin method names
+    Ignore,
+}
+
+/// Parse plugin option in format "key=value"
+fn parse_plugin_option(s: &str) -> Result<(String, String), String> {
+    match s.split_once('=') {
+        Some((key, value)) => Ok((key.to_string(), value.to_string())),
+        None => Err(format!("Invalid plugin option '{}': expected format 'key=value'", s)),
+    }
 }

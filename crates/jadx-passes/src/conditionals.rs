@@ -480,25 +480,13 @@ pub fn detect_ternary_assignment(
 
     // Find last assignment in then block (excluding control flow)
     let then_assign = then_block.instructions.iter().rev()
-        .find(|insn_arc| {
-            let insn = insn_arc.lock().unwrap();
-            !is_control_flow_insn(&insn.insn_type)
-        })
-        .and_then(|insn_arc| {
-            let insn = insn_arc.lock().unwrap();
-            get_assignment_dest(&insn.insn_type)
-        });
+        .find(|insn| !is_control_flow_insn(&insn.insn_type))
+        .and_then(|insn| get_assignment_dest(&insn.insn_type));
 
     // Find last assignment in else block
     let else_assign = else_block.instructions.iter().rev()
-        .find(|insn_arc| {
-            let insn = insn_arc.lock().unwrap();
-            !is_control_flow_insn(&insn.insn_type)
-        })
-        .and_then(|insn_arc| {
-            let insn = insn_arc.lock().unwrap();
-            get_assignment_dest(&insn.insn_type)
-        });
+        .find(|insn| !is_control_flow_insn(&insn.insn_type))
+        .and_then(|insn| get_assignment_dest(&insn.insn_type));
 
     // Both must assign to the same register
     match (then_assign, else_assign) {

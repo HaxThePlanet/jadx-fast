@@ -678,8 +678,7 @@ impl TypeInference {
                 self.collect_from_phi(phi);
             }
             // Then instructions
-            for insn_arc in &block.instructions {
-                let insn = insn_arc.lock().unwrap();
+            for insn in &block.instructions {
                 self.collect_from_insn(&insn.insn_type);
             }
         }

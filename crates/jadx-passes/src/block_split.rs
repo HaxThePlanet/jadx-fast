@@ -5,7 +5,6 @@
 //! where control flow enters at the beginning and leaves at the end.
 
 use std::collections::{BTreeMap, BTreeSet};
-use std::sync::{Arc, Mutex};
 
 use jadx_ir::attributes::AFlag;
 use jadx_ir::instructions::{InsnNode, InsnType};
@@ -19,11 +18,8 @@ pub struct BasicBlock {
     pub start_offset: u32,
     /// Ending offset (exclusive)
     pub end_offset: u32,
-    /// Instructions in this block (shared Arc<Mutex<>> to eliminate 5-20x cloning)
-    pub instructions: Vec<Arc<Mutex<InsnNode>>>,
-    /// OPTIMIZED: Indices into central instruction pool (Phase 3 - zero-copy)
-    /// When available, use this instead of instructions to avoid Arc<Mutex<>> overhead
-    pub insn_indices: Vec<u32>,
+    /// Instructions in this block (owned, no Arc/Mutex overhead)
+    pub instructions: Vec<InsnNode>,
     /// Successor block IDs
     pub successors: Vec<u32>,
     /// Predecessor block IDs
@@ -40,7 +36,6 @@ impl BasicBlock {
             start_offset,
             end_offset: start_offset,
             instructions: Vec::new(),
-            insn_indices: Vec::new(),
             successors: Vec::new(),
             predecessors: Vec::new(),
             flags: 0,
@@ -52,9 +47,14 @@ impl BasicBlock {
         self.instructions.is_empty()
     }
 
-    /// Get the last instruction (returns Arc to locked instruction)
-    pub fn last_insn(&self) -> Option<Arc<Mutex<InsnNode>>> {
-        self.instructions.last().cloned()
+    /// Get the last instruction
+    pub fn last_insn(&self) -> Option<&InsnNode> {
+        self.instructions.last()
+    }
+
+    /// Get the last instruction mutably
+    pub fn last_insn_mut(&mut self) -> Option<&mut InsnNode> {
+        self.instructions.last_mut()
     }
 
     /// Check if a flag is set
@@ -163,13 +163,8 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
         }
     }
 
-    // Second pass: wrap instructions in Arc<Mutex<>> for sharing across blocks
-    // This ELIMINATES the 5-20x cloning problem that caused 50GB+ memory usage!
-    let instructions_arc: Vec<Arc<Mutex<InsnNode>>> = instructions
-        .iter()
-        .map(|i| Arc::new(Mutex::new(i.clone())))  // Single clone here, then Arc shares
-        .collect();
-
+    // Second pass: distribute instructions directly to blocks (no Arc/Mutex overhead)
+    // Each instruction is cloned once into its block - simple and memory-efficient
     let mut blocks = BTreeMap::new();
     let mut current_block: Option<BasicBlock> = None;
     let mut block_id = 0u32;
@@ -194,10 +189,10 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
             block_id += 1;
         }
 
-        // Add shared instruction reference to current block (cheap Arc clone, not deep!)
+        // Clone instruction directly into block (single clone, no Arc overhead)
         if let Some(ref mut block) = current_block {
             block.end_offset = offset + 1; // Approximate
-            block.instructions.push(Arc::clone(&instructions_arc[idx]));
+            block.instructions.push(insn.clone());
         }
     }
 
@@ -236,8 +231,7 @@ pub fn split_blocks(instructions: &[InsnNode]) -> BlockSplitResult {
     let exit_blocks: Vec<u32> = blocks
         .values()
         .filter(|block| {
-            block.last_insn().map_or(false, |insn_arc| {
-                let insn = insn_arc.lock().unwrap();
+            block.last_insn().map_or(false, |insn| {
                 matches!(insn.insn_type, InsnType::Return { .. } | InsnType::Throw { .. })
             })
         })
@@ -272,8 +266,7 @@ fn compute_successors(
 ) -> Vec<u32> {
     let mut successors = Vec::new();
 
-    if let Some(last_insn_arc) = block.last_insn() {
-        let last_insn = last_insn_arc.lock().unwrap();
+    if let Some(last_insn) = block.last_insn() {
         match &last_insn.insn_type {
             InsnType::Goto { target } => {
                 if let Some(&target_block) = offset_to_block.get(target) {

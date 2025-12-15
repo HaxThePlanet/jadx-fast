@@ -288,8 +288,7 @@ fn count_variable_uses(blocks: &BTreeMap<u32, BasicBlock>) -> HashMap<(u16, u32)
     let mut counts: HashMap<(u16, u32), usize> = HashMap::new();
 
     for block in blocks.values() {
-        for insn_arc in &block.instructions {
-            let insn = insn_arc.lock().unwrap();
+        for insn in &block.instructions {
             // Count uses in instruction arguments
             count_uses_in_insn(&insn.insn_type, &mut counts);
         }
@@ -718,7 +717,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
 
     // JADX EXPLOSION PREVENTION: Check block count before region building
     // Methods with too many blocks can cause exponential explosion in region analysis
-    const MAX_BLOCKS_FOR_REGIONS: usize = 50; // Very conservative limit
+    const MAX_BLOCKS_FOR_REGIONS: usize = 150; // Increased from 50
     let block_count = cfg.block_ids().count();
     if block_count > MAX_BLOCKS_FOR_REGIONS {
         eprintln!("  [SKIP: {} blocks > {} limit for regions]", block_count, MAX_BLOCKS_FOR_REGIONS);
@@ -903,8 +902,7 @@ fn detect_iterator_pattern(condition: &Condition, ctx: &BodyGenContext) -> Optio
     if let Condition::Simple { block, .. } = condition {
         if let Some(basic_block) = ctx.blocks.get(block) {
             // Look for an Invoke instruction calling hasNext()
-            for insn_arc in basic_block.instructions.iter() {
-                let insn = insn_arc.lock().unwrap();
+            for insn in basic_block.instructions.iter() {
                 // Check both Interface and Virtual invokes (ArrayList uses virtual, interface uses interface)
                 if let InsnType::Invoke { kind, method_idx, args } = &insn.insn_type {
                     if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
@@ -950,8 +948,7 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
     let block = ctx.blocks.get(&first_block)?;
 
     // Look for an Invoke calling next() on the iterator
-    for (i, insn_arc) in block.instructions.iter().enumerate() {
-        let insn = insn_arc.lock().unwrap();
+    for (i, insn) in block.instructions.iter().enumerate() {
         // Check both Interface and Virtual invokes
         if let InsnType::Invoke { kind, method_idx, args } = &insn.insn_type {
             if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
@@ -966,14 +963,13 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
 
                                 // Check next instruction for MoveResult
                                 if i + 1 < block.instructions.len() {
-                                    let next_insn = block.instructions[i + 1].lock().unwrap();
+                                    let next_insn = &block.instructions[i + 1];
                                     if let InsnType::MoveResult { dest } = &next_insn.insn_type {
                                         item_var = ctx.expr_gen.get_var_name(dest);
-                                        drop(next_insn);
 
                                         // Check for CheckCast following MoveResult to get item type
                                         if i + 2 < block.instructions.len() {
-                                            let cast_insn = block.instructions[i + 2].lock().unwrap();
+                                            let cast_insn = &block.instructions[i + 2];
                                             if let InsnType::CheckCast { type_idx, .. } = &cast_insn.insn_type {
                                                 if let Some(type_name) = ctx.expr_gen.get_type_value(*type_idx) {
                                                     let simple = type_name.rsplit('/').next().unwrap_or(&type_name);
@@ -1035,8 +1031,7 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
             // Look up the block to find the If instruction with operands
             if let Some(basic_block) = ctx.blocks.get(block) {
                 // Find the If instruction (usually the last one)
-                for insn_arc in basic_block.instructions.iter().rev() {
-                    let insn = insn_arc.lock().unwrap();
+                for insn in basic_block.instructions.iter().rev() {
                     if let InsnType::If { condition: _, left, right, .. } = &insn.insn_type {
                         let left_str = ctx.expr_gen.gen_arg(left);
 
@@ -1316,24 +1311,10 @@ fn detect_simple_ternary(
 
     // Get non-control-flow instructions from each block
     let then_insns: Vec<_> = then_block.instructions.iter()
-        .filter_map(|i| {
-            let insn = i.lock().unwrap();
-            if !is_control_flow(&insn.insn_type) {
-                Some(i.clone())
-            } else {
-                None
-            }
-        })
+        .filter(|i| !is_control_flow(&i.insn_type))
         .collect();
     let else_insns: Vec<_> = else_block.instructions.iter()
-        .filter_map(|i| {
-            let insn = i.lock().unwrap();
-            if !is_control_flow(&insn.insn_type) {
-                Some(i.clone())
-            } else {
-                None
-            }
-        })
+        .filter(|i| !is_control_flow(&i.insn_type))
         .collect();
 
     // Allow up to 2 instructions if the last one is an assignment
@@ -1343,11 +1324,8 @@ fn detect_simple_ternary(
     }
 
     // Last instruction in each block must be an assignment to the same register
-    let then_insn_arc = then_insns.last()?;
-    let else_insn_arc = else_insns.last()?;
-
-    let then_insn = then_insn_arc.lock().unwrap();
-    let else_insn = else_insn_arc.lock().unwrap();
+    let then_insn = then_insns.last()?;
+    let else_insn = else_insns.last()?;
 
     let then_dest = get_insn_dest(&then_insn.insn_type)?;
     let else_dest = get_insn_dest(&else_insn.insn_type)?;
@@ -1374,22 +1352,14 @@ fn get_branch_assignment_info(region: &Region, ctx: &BodyGenContext) -> Option<(
     let block = ctx.blocks.get(&block_id)?;
 
     let insns: Vec<_> = block.instructions.iter()
-        .filter_map(|i| {
-            let insn = i.lock().unwrap();
-            if !is_control_flow(&insn.insn_type) {
-                Some(i.clone())
-            } else {
-                None
-            }
-        })
+        .filter(|i| !is_control_flow(&i.insn_type))
         .collect();
 
     if insns.is_empty() || insns.len() > 2 {
         return None;
     }
 
-    let last_insn_arc = insns.last()?;
-    let last_insn = last_insn_arc.lock().unwrap();
+    let last_insn = insns.last()?;
     let dest = get_insn_dest(&last_insn.insn_type)?;
     let value = get_insn_value_expr(&last_insn.insn_type, ctx)?;
 
@@ -1534,20 +1504,13 @@ fn ssa_blocks_to_map(ssa_result: &jadx_passes::ssa::SsaResult) -> BTreeMap<u32, 
     let mut map = BTreeMap::new();
     for ssa_block in &ssa_result.blocks {
         // Compute offsets from instructions
-        let start_offset = ssa_block.instructions.first().map(|i| {
-            let insn = i.lock().unwrap();
-            insn.offset
-        }).unwrap_or(0);
-        let end_offset = ssa_block.instructions.last().map(|i| {
-            let insn = i.lock().unwrap();
-            insn.offset + 1
-        }).unwrap_or(0);
+        let start_offset = ssa_block.instructions.first().map(|i| i.offset).unwrap_or(0);
+        let end_offset = ssa_block.instructions.last().map(|i| i.offset + 1).unwrap_or(0);
         let basic_block = BasicBlock {
             id: ssa_block.id,
             start_offset,
             end_offset,
             instructions: ssa_block.instructions.clone(),
-            insn_indices: Vec::new(),  // TODO: Populate with actual indices when Phase 3 is complete
             successors: ssa_block.successors.clone(),
             predecessors: ssa_block.predecessors.clone(),
             flags: 0,
@@ -1563,20 +1526,13 @@ fn ssa_blocks_to_map_owned(ssa_result: jadx_passes::ssa::SsaResult) -> BTreeMap<
     let mut map = BTreeMap::new();
     for ssa_block in ssa_result.blocks {
         // Compute offsets from instructions
-        let start_offset = ssa_block.instructions.first().map(|i| {
-            let insn = i.lock().unwrap();
-            insn.offset
-        }).unwrap_or(0);
-        let end_offset = ssa_block.instructions.last().map(|i| {
-            let insn = i.lock().unwrap();
-            insn.offset + 1
-        }).unwrap_or(0);
+        let start_offset = ssa_block.instructions.first().map(|i| i.offset).unwrap_or(0);
+        let end_offset = ssa_block.instructions.last().map(|i| i.offset + 1).unwrap_or(0);
         let basic_block = BasicBlock {
             id: ssa_block.id,
             start_offset,
             end_offset,
             instructions: ssa_block.instructions, // Move, not clone!
-            insn_indices: Vec::new(),  // TODO: Populate with actual indices when Phase 3 is complete
             successors: ssa_block.successors,     // Move, not clone!
             predecessors: ssa_block.predecessors, // Move, not clone!
             flags: 0,
@@ -1712,8 +1668,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
         Region::Switch { header_block, cases, default } => {
             // Extract switch value from the header block's switch instruction
             let switch_value = ctx.blocks.get(header_block)
-                .and_then(|block| block.instructions.iter().rev().find_map(|insn_arc| {
-                    let insn = insn_arc.lock().unwrap();
+                .and_then(|block| block.instructions.iter().rev().find_map(|insn| {
                     match &insn.insn_type {
                         InsnType::PackedSwitch { value, .. } |
                         InsnType::SparseSwitch { value, .. } => Some(ctx.expr_gen.gen_arg(value)),
@@ -1819,8 +1774,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
         Region::Synchronized { enter_block, body } => {
             // Extract lock object from the MonitorEnter instruction in the enter block
             let lock_obj = ctx.blocks.get(enter_block)
-                .and_then(|block| block.instructions.iter().find_map(|insn_arc| {
-                    let insn = insn_arc.lock().unwrap();
+                .and_then(|block| block.instructions.iter().find_map(|insn| {
                     match &insn.insn_type {
                         InsnType::MonitorEnter { object } => Some(ctx.expr_gen.gen_arg(object)),
                         _ => None,
@@ -1864,7 +1818,6 @@ fn generate_content<W: CodeWriter>(content: &RegionContent, ctx: &mut BodyGenCon
                 start_offset: start,
                 end_offset: end,
                 instructions,
-                insn_indices: Vec::new(),
                 successors: Vec::new(),
                 predecessors: Vec::new(),
                 flags,
@@ -1886,10 +1839,8 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
 
     let last_idx = block.instructions.len().saturating_sub(1);
 
-    // OPTIMIZED: Iterate directly without collecting into Vec
-    // This avoids allocating a Vec of Arc pointers which causes memory explosion
-    for (i, insn_arc) in block.instructions.iter().enumerate() {
-        let insn = insn_arc.lock().unwrap();
+    // Iterate directly without Arc/Mutex overhead
+    for (i, insn) in block.instructions.iter().enumerate() {
         // Skip instructions marked with DONT_GENERATE (duplicated finally code)
         if insn.has_flag(AFlag::DontGenerate) {
             continue;
@@ -1907,17 +1858,16 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
             }
         }
 
-        // OPTIMIZED: Peek at next instruction without collecting
+        // Peek at next instruction without overhead
         let next_is_move_result = if i + 1 < block.instructions.len() {
-            let next_arc = &block.instructions[i + 1];
-            let next = next_arc.lock().unwrap();
+            let next = &block.instructions[i + 1];
             matches!(next.insn_type, InsnType::MoveResult { .. })
         } else {
             false
         };
 
         // Generate statement or expression
-        if !generate_insn_with_lookahead(&insn, next_is_move_result, ctx, code) {
+        if !generate_insn_with_lookahead(insn, next_is_move_result, ctx, code) {
             // Fallback: emit as comment
             code.start_line()
                 .add("/* ")

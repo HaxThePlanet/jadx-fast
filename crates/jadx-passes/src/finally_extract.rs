@@ -14,7 +14,6 @@
 //! - Marks duplicate instructions with DONT_GENERATE flag
 
 use std::collections::BTreeSet;
-use std::sync::{Arc, Mutex};
 
 use jadx_ir::attributes::AFlag;
 use jadx_ir::instructions::{InsnNode, InsnType};
@@ -244,8 +243,7 @@ fn cut_path_ends(cfg: &CFG, handler_blocks: &mut Vec<u32>) {
         .iter()
         .filter(|&&id| {
             if let Some(block) = cfg.get_block(id) {
-                if let Some(last_insn_arc) = block.last_insn() {
-                    let last_insn = last_insn_arc.lock().unwrap();
+                if let Some(last_insn) = block.last_insn() {
                     matches!(last_insn.insn_type, InsnType::Throw { .. })
                 } else {
                     false
@@ -452,18 +450,16 @@ fn is_start_block(
 /// Based on Java JADX checkInsns() (line 477-487)
 fn check_insns_match(
     extract_info: &mut FinallyExtractInfo,
-    dup_insns: &[Arc<Mutex<InsnNode>>],
-    finally_insns: &[Arc<Mutex<InsnNode>>],
+    dup_insns: &[InsnNode],
+    finally_insns: &[InsnNode],
     delta: usize,
 ) -> bool {
     let indices: Vec<usize> = (delta..delta + finally_insns.len()).collect();
     extract_info.set_cur_dup_insns(indices, delta);
 
-    for (i, finally_insn_arc) in finally_insns.iter().enumerate().rev() {
-        let dup_insn_arc = &dup_insns[delta + i];
-        let dup_insn = dup_insn_arc.lock().unwrap();
-        let finally_insn = finally_insn_arc.lock().unwrap();
-        if !same_insns(&dup_insn, &finally_insn) {
+    for (i, finally_insn) in finally_insns.iter().enumerate().rev() {
+        let dup_insn = &dup_insns[delta + i];
+        if !same_insns(dup_insn, finally_insn) {
             return false;
         }
     }
@@ -530,8 +526,7 @@ fn mark_slice(slice: &InsnsSlice, flag: AFlag, cfg: &mut CFG) {
     // Mark each instruction
     for &(block_id, insn_idx) in &slice.insns_list {
         if let Some(block) = cfg.get_block_mut(block_id) {
-            if let Some(insn_arc) = block.instructions.get_mut(insn_idx) {
-                let mut insn = insn_arc.lock().unwrap();
+            if let Some(insn) = block.instructions.get_mut(insn_idx) {
                 insn.add_flag(flag);
             }
         }
@@ -540,8 +535,7 @@ fn mark_slice(slice: &InsnsSlice, flag: AFlag, cfg: &mut CFG) {
     // If all instructions in a block are marked, mark the block too
     for &block_id in &slice.blocks {
         if let Some(block) = cfg.get_block_mut(block_id) {
-            let all_marked = block.instructions.iter().all(|insn_arc| {
-                let insn = insn_arc.lock().unwrap();
+            let all_marked = block.instructions.iter().all(|insn| {
                 insn.has_flag(flag)
             });
             if all_marked {

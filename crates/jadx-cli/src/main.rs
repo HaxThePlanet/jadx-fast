@@ -40,6 +40,21 @@ use std::path::PathBuf;
 use std::time::Instant;
 
 use anyhow::{Context, Result};
+
+// Memory tracking for debugging
+fn get_mem_mb() -> usize {
+    std::fs::read_to_string("/proc/self/statm")
+        .ok()
+        .and_then(|s| s.split_whitespace().next()?.parse::<usize>().ok())
+        .map(|pages| pages * 4096 / 1024 / 1024)
+        .unwrap_or(0)
+}
+
+macro_rules! mem_checkpoint {
+    ($msg:expr) => {
+        eprintln!("MEM[{}]: {} MB", $msg, get_mem_mb());
+    };
+}
 use clap::Parser;
 use indicatif::{ProgressBar, ProgressStyle};
 use rayon::prelude::*;
@@ -888,9 +903,13 @@ fn process_dex_bytes(
     progress: Option<&ProgressBar>,
     global_field_pool: Arc<GlobalFieldPool>,
 ) -> Result<usize> {
+    mem_checkpoint!("before DexReader");
+
     // Wrap DexReader in Arc for sharing with LazyDexInfo
     // (DexReader already holds the bytes internally, no need to duplicate)
     let dex = std::sync::Arc::new(DexReader::from_slice(0, "input.dex".to_string(), data)?);
+
+    mem_checkpoint!("after DexReader");
 
     let class_count = dex.header.class_defs_size as usize;
     let method_count = dex.header.method_ids_size as usize;
@@ -945,6 +964,8 @@ fn process_dex_bytes(
         tracing::debug!("Skipping string pre-load ({} strings > {} limit)", string_count, MAX_PRELOAD_STRINGS);
     }
 
+    mem_checkpoint!("after string preload");
+
     if let Some(pb) = progress {
         pb.set_length(class_count as u64);
     }
@@ -992,6 +1013,8 @@ fn process_dex_bytes(
 
     let count = class_indices.len();
     tracing::info!("Processing {} classes ({} outer, {} inner)", count, outer_count, inner_count);
+
+    mem_checkpoint!("before parallel processing");
 
     // ========================================================================
     // STREAMING PROCESSING (like Java JADX)
@@ -1113,8 +1136,14 @@ fn process_dex_bytes(
     let chunk_size = std::cmp::max(1, class_indices.len() / (num_threads * 4));
     let chunk_size = std::cmp::min(chunk_size, 48); // Cap at 48 for memory reasons
     tracing::debug!("Using chunk size {} for {} classes across {} threads", chunk_size, class_indices.len(), num_threads);
+    let processed_count = std::sync::atomic::AtomicUsize::new(0);
     class_indices.par_chunks(chunk_size).for_each(|chunk| {
         for &idx in chunk {
+        // Memory checkpoint every 100 classes
+        let pc = processed_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        if pc % 100 == 0 {
+            eprintln!("MEM[class {}]: {} MB", pc, get_mem_mb());
+        }
         // Fetch class name on-demand to avoid storing all names in memory
         let class_desc = dex.get_class(idx)
             .ok()

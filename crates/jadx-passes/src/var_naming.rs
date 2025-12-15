@@ -263,15 +263,13 @@ pub fn assign_var_names(
         naming.mark_used(&name);
     }
 
-    // Build assignment map: (reg, version) -> instruction that assigns to it
+    // Build assignment map: (reg, version) -> (block_idx, insn_idx)
     // (like JADX's SSAVar.getAssignInsn())
-    let mut assignment_map: HashMap<(u16, u32), std::sync::Arc<std::sync::Mutex<jadx_ir::instructions::InsnNode>>> = HashMap::new();
-    for block in &ssa.blocks {
-        for insn_arc in &block.instructions {
-            let insn = insn_arc.lock().unwrap();
+    let mut assignment_map: HashMap<(u16, u32), (usize, usize)> = HashMap::new();
+    for (block_idx, block) in ssa.blocks.iter().enumerate() {
+        for (insn_idx, insn) in block.instructions.iter().enumerate() {
             if let Some((reg, version)) = get_insn_dest(&insn.insn_type) {
-                drop(insn); // Release lock before storing
-                assignment_map.insert((reg, version), insn_arc.clone());
+                assignment_map.insert((reg, version), (block_idx, insn_idx));
             }
         }
     }
@@ -288,8 +286,7 @@ pub fn assign_var_names(
         }
 
         // Add instruction destinations
-        for insn_arc in &block.instructions {
-            let insn = insn_arc.lock().unwrap();
+        for insn in &block.instructions {
             if let Some(dest) = get_insn_dest(&insn.insn_type) {
                 if dest.0 < first_param_reg {
                     vars_to_name.push(dest);
@@ -306,9 +303,9 @@ pub fn assign_var_names(
     for (reg, version) in vars_to_name {
         // Try to get name from assignment instruction (like JADX's makeNameForSSAVar)
         let context_name = assignment_map.get(&(reg, version))
-            .and_then(|assign_insn_arc| {
-                let insn = assign_insn_arc.lock().unwrap();
-                naming.name_from_instruction_context(&insn)
+            .and_then(|&(block_idx, insn_idx)| {
+                let insn = &ssa.blocks[block_idx].instructions[insn_idx];
+                naming.name_from_instruction_context(insn)
             });
 
         let name = if let Some(name) = context_name {
