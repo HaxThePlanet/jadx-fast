@@ -111,7 +111,7 @@ APK/DEX -> jadx-dex -> jadx-ir -> jadx-passes -> jadx-codegen -> Java Source
 
 ## Key Features
 
-- **Full multi-core parallelism** - 92.5% core utilization via rayon
+- **Full multi-core parallelism** - Rayon-based parallel processing
 - **Lock-free caching** - DashMap for concurrent string cache
 - **Lazy instruction loading** - Bounded memory for huge APKs
 - **jemalloc allocator** - Optimized for high-concurrency workloads
