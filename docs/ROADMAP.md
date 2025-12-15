@@ -96,12 +96,18 @@ Establish continuous integration to prevent test rot.
 ### .smali Input Support
 Parse smali assembly files directly.
 
-### .jobf Persistence
-Save/load deobfuscation mappings (`--deobf-cfg-file`).
-
 ### Additional Mapping Formats
 - Tiny format parser
 - Enigma format parser
+
+## Completed Features
+
+### Deobfuscation (100% Complete)
+- ~~.jobf Persistence~~ **Done** - `--deobf-cfg-file` and `--deobf-cfg-file-mode`
+- ~~Package renaming~~ **Done** - Short segments renamed (a/b → p000a/p001b)
+- ~~Collision detection~~ **Done** - Classes matching package names force-renamed
+- ~~Whitelist support~~ **Done** - `--deobf-whitelist "pattern"`
+- ~~ProGuard mappings~~ **Done** - `--mappings-path`
 
 ## Type Inference Gap Analysis
 
@@ -143,6 +149,7 @@ Save/load deobfuscation mappings (`--deobf-cfg-file`).
 
 | Metric | Current | Target |
 |--------|---------|--------|
+| Deobfuscation parity | 100% | 100% |
 | Variable naming parity | 98% | 100% |
 | Generic type support | 95% | 100% |
 | Unknown variable types | ~40% | ~10% |

@@ -31,7 +31,6 @@
 | Rename comments | Not implemented | `/* renamed from: ... */` |
 | Finally deduplication | Partial | Marking pass done |
 | .smali input | Not implemented | Not planned |
-| .jobf persistence | Not implemented | `--deobf-cfg-file` |
 
 ## Performance Comparison
 
@@ -217,6 +216,15 @@ cd crates && cargo build --release -p jadx-cli
 
 # With deobfuscation
 ./target/release/dexterity --deobf -d output/ app.apk
+
+# ProGuard mapping file
+./target/release/dexterity --deobf --mappings-path mapping.txt -d output/ app.apk
+
+# Whitelist packages from deobfuscation
+./target/release/dexterity --deobf --deobf-whitelist "android.support.v4.*" -d output/ app.apk
+
+# Save/load deobfuscation aliases (JOBF file)
+./target/release/dexterity --deobf --deobf-cfg-file-mode read-or-save -d output/ app.apk
 
 # Gradle project export
 ./target/release/dexterity -e -d output/ app.apk
