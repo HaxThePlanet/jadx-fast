@@ -18,7 +18,7 @@ use jadx_ir::{Annotation, AnnotationVisibility, ArgType, ClassData, FieldData, F
 use crate::access_flags::{self, AccessContext};
 use crate::dex_info::DexInfoProvider;
 use crate::method_gen::{generate_method, generate_method_with_dex};
-use crate::type_gen::{escape_string, get_package, get_simple_name, literal_to_string, type_to_string};
+use crate::type_gen::{get_package, literal_to_string, type_to_string};
 use crate::writer::{CodeWriter, SimpleCodeWriter};
 
 // Import annotation generation functions from method_gen
@@ -551,7 +551,7 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
     code.inc_indent();
 
     // Fields (use simple names when imports available)
-    add_fields(class, imports.as_ref(), code);
+    add_fields(class, imports.as_ref(), config.escape_unicode, code);
 
     // Nested inner classes (generated after fields, before methods for Java convention)
     if let Some(nested) = nested_inner_classes {
@@ -666,7 +666,7 @@ fn add_inner_class_declaration<W: CodeWriter>(
     code.inc_indent();
 
     // Fields
-    add_fields(class, imports, code);
+    add_fields(class, imports, config.escape_unicode, code);
 
     // Methods
     add_methods_with_inner_classes(class, config, imports, dex_info, inner_classes, code);
@@ -765,26 +765,36 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
 }
 
 /// Add field declarations
-fn add_fields<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, code: &mut W) {
-    let has_fields = !class.static_fields.is_empty() || !class.instance_fields.is_empty();
+fn add_fields<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, escape_unicode: bool, code: &mut W) {
+    let is_enum = class.is_enum();
+
+    // Filter out synthetic enum fields
+    let static_fields: Vec<_> = class.static_fields.iter()
+        .filter(|f| !is_enum_synthetic_field(f, is_enum))
+        .collect();
+    let instance_fields: Vec<_> = class.instance_fields.iter()
+        .filter(|f| !is_enum_synthetic_field(f, is_enum))
+        .collect();
+
+    let has_fields = !static_fields.is_empty() || !instance_fields.is_empty();
 
     if has_fields {
         code.newline();
     }
 
     // Static fields first
-    for field in &class.static_fields {
-        add_field(field, imports, code);
+    for field in static_fields {
+        add_field(field, imports, escape_unicode, code);
     }
 
     // Instance fields
-    for field in &class.instance_fields {
-        add_field(field, imports, code);
+    for field in instance_fields {
+        add_field(field, imports, escape_unicode, code);
     }
 }
 
 /// Add a single field declaration
-fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>>, code: &mut W) {
+fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>>, escape_unicode: bool, code: &mut W) {
     // Emit field annotations
     for annotation in &field.annotations {
         if should_emit_annotation(annotation) {
@@ -812,14 +822,14 @@ fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>
     // Initial value
     if let Some(ref value) = field.initial_value {
         code.add(" = ");
-        add_field_value(value, &field.field_type, code);
+        add_field_value(value, &field.field_type, escape_unicode, code);
     }
 
     code.add(";").newline();
 }
 
 /// Add field initial value
-fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &jadx_ir::ArgType, code: &mut W) {
+fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &jadx_ir::ArgType, escape_unicode: bool, code: &mut W) {
     match value {
         FieldValue::Byte(v) => code.add(&literal_to_string(*v as i64, &jadx_ir::ArgType::Byte)),
         FieldValue::Short(v) => code.add(&literal_to_string(*v as i64, &jadx_ir::ArgType::Short)),
@@ -828,7 +838,7 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &jadx_ir::ArgT
         FieldValue::Long(v) => code.add(&literal_to_string(*v, &jadx_ir::ArgType::Long)),
         FieldValue::Float(v) => code.add(&format!("{}f", v)),
         FieldValue::Double(v) => code.add(&format!("{}d", v)),
-        FieldValue::String(s) => code.add(&escape_string(s)),
+        FieldValue::String(s) => code.add(&crate::type_gen::escape_string_with_unicode(s, escape_unicode)),
         FieldValue::Type(t) => {
             code.add(&type_to_string(&jadx_ir::ArgType::Object(t.clone())));
             code.add(".class")
@@ -846,7 +856,7 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &jadx_ir::ArgT
                 if i > 0 {
                     code.add(", ");
                 }
-                add_field_value(v, &elem_type, code);
+                add_field_value(v, &elem_type, escape_unicode, code);
             }
             code.add("}")
         }
@@ -921,6 +931,59 @@ fn is_default_constructor(method: &jadx_ir::MethodData) -> bool {
     has_super_init && has_return
 }
 
+/// Check if a method is a synthetic enum method that should be filtered
+/// Enums have auto-generated values() and valueOf() methods
+fn is_enum_synthetic_method(method: &jadx_ir::MethodData, is_enum_class: bool) -> bool {
+    if !is_enum_class {
+        return false;
+    }
+
+    // Check for values() method: public static EnumType[] values()
+    if method.name == "values" && method.arg_types.is_empty() {
+        // Should have array return type matching enum
+        return true;
+    }
+
+    // Check for valueOf() method: public static EnumType valueOf(String)
+    if method.name == "valueOf" && method.arg_types.len() == 1 {
+        if let jadx_ir::ArgType::Object(name) = &method.arg_types[0] {
+            if name == "java/lang/String" {
+                return true;
+            }
+        }
+    }
+
+    // Check for enum constructor: private <init>(String, int)
+    if method.is_constructor() {
+        // Enum constructors have (String name, int ordinal, ...) parameters
+        // The first two args are the implicit name and ordinal
+        if method.arg_types.len() >= 2 {
+            let first_is_string = matches!(&method.arg_types[0], jadx_ir::ArgType::Object(n) if n == "java/lang/String");
+            let second_is_int = matches!(&method.arg_types[1], jadx_ir::ArgType::Int);
+            if first_is_string && second_is_int {
+                return true;
+            }
+        }
+    }
+
+    false
+}
+
+/// Check if a field is a synthetic enum field that should be filtered
+/// Enums have auto-generated $VALUES field
+fn is_enum_synthetic_field(field: &jadx_ir::FieldData, is_enum_class: bool) -> bool {
+    if !is_enum_class {
+        return false;
+    }
+
+    // Filter $VALUES field (array holding all enum values)
+    if field.name == "$VALUES" {
+        return true;
+    }
+
+    false
+}
+
 /// Add method declarations
 #[allow(dead_code)]
 fn add_methods<W: CodeWriter>(class: &ClassData, config: &ClassGenConfig, code: &mut W) {
@@ -950,10 +1013,15 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
     use crate::method_gen::generate_method_with_inner_classes;
     use jadx_ir::MethodInlineAttr;
 
+    let is_enum = class.is_enum();
     let mut first_method = true;
     for method in &class.methods {
         // Skip default constructors that just call super() - implicit in Java
         if is_default_constructor(method) {
+            continue;
+        }
+        // Skip synthetic enum methods (values(), valueOf(), enum constructors)
+        if is_enum_synthetic_method(method, is_enum) {
             continue;
         }
         // Skip synthetic methods that will be inlined (when inline_methods is enabled)

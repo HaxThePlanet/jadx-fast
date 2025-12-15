@@ -242,6 +242,12 @@ pub fn generate_method_with_dex<W: CodeWriter>(
         add_parameters(method, imports, code);
     }
 
+    // Throws clause (except for static initializer)
+    if !method.is_class_init() {
+        let throws = get_throws_from_annotations(&method.annotations);
+        add_throws_clause(&throws, imports, code);
+    }
+
     // Method body
     if method.is_abstract() || method.is_native() {
         // Abstract/native methods have no body
@@ -323,19 +329,25 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
         add_parameters(method, imports, code);
     }
 
+    // Throws clause (except for static initializer)
+    if !method.is_class_init() {
+        let throws = get_throws_from_annotations(&method.annotations);
+        add_throws_clause(&throws, imports, code);
+    }
+
     // Method body
     if method.is_abstract() || method.is_native() {
         code.add(";").newline();
     } else if method.is_class_init() {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), code);
         code.dec_indent();
         code.start_line().add("}").newline();
     }
@@ -348,9 +360,48 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     imports: Option<&BTreeSet<String>>,
     inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
     hierarchy: Option<&jadx_ir::ClassHierarchy>,
+    current_class_type: Option<&str>,
     code: &mut W,
 ) {
-    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, code);
+    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, current_class_type, code);
+}
+
+/// Extract throws types from dalvik/annotation/Throws annotation
+fn get_throws_from_annotations(annotations: &[Annotation]) -> Vec<String> {
+    for annotation in annotations {
+        if annotation.annotation_type == "dalvik/annotation/Throws" {
+            // The throws annotation has a single "value" element containing an array of Type values
+            for elem in &annotation.elements {
+                if elem.name == "value" {
+                    if let AnnotationValue::Array(values) = &elem.value {
+                        return values.iter().filter_map(|v| {
+                            if let AnnotationValue::Type(type_name) = v {
+                                Some(type_name.clone())
+                            } else {
+                                None
+                            }
+                        }).collect();
+                    }
+                }
+            }
+        }
+    }
+    Vec::new()
+}
+
+/// Add throws clause to method signature
+fn add_throws_clause<W: CodeWriter>(throws: &[String], imports: Option<&BTreeSet<String>>, code: &mut W) {
+    if throws.is_empty() {
+        return;
+    }
+    code.add(" throws ");
+    for (i, exception) in throws.iter().enumerate() {
+        if i > 0 {
+            code.add(", ");
+        }
+        // Use simple name if imported
+        code.add(&type_to_string_with_imports(&ArgType::Object(exception.clone()), imports));
+    }
 }
 
 /// Add method parameters

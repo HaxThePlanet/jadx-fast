@@ -109,6 +109,37 @@ Parse smali assembly files directly.
 - ~~Whitelist support~~ **Done** - `--deobf-whitelist "pattern"`
 - ~~ProGuard mappings~~ **Done** - `--mappings-path`
 
+### CLI Flags Status
+
+#### Fully Working Flags
+| Flag | Status | Notes |
+|------|--------|-------|
+| `--deobf` | ✅ Working | Enables deobfuscation |
+| `--deobf-min/max` | ✅ Working | Min/max name length for renaming |
+| `--rename-flags` | ✅ Working | case/valid/printable filters |
+| `--no-imports` | ✅ Working | Use fully qualified names |
+| `--no-debug-info` | ✅ Working | Skip debug info parsing |
+| `--inline-methods` | ✅ Working | Controls synthetic method inlining |
+| `--escape-unicode` | ✅ Working | Escape non-ASCII chars as \uXXXX |
+| `--export-gradle` | ✅ Working | Export as Gradle project |
+| `--no-src` | ✅ Working | Skip source decompilation |
+| `--no-res` | ✅ Working | Skip resource extraction |
+| `-j/--threads-count` | ✅ Working | Thread pool size |
+| `-d/--output-dir` | ✅ Working | Output directory |
+| `--log-level` | ✅ Working | Logging verbosity |
+| `--decompilation-mode` | ✅ Working | auto/restructure/simple/fallback |
+| `--kotlin-metadata` | ✅ Working | Process @Metadata annotations |
+
+#### Stub Flags (Defined but Not Implemented)
+| Flag | Status | Notes |
+|------|--------|-------|
+| `--show-bad-code` | ⚠️ Stub | Add flag check to error handling |
+| `--comments-level` | ⚠️ Stub | Add comment generation for error/warn levels |
+| `--use-kotlin-methods-for-var-names` | ⚠️ Stub | Wire up Kotlin param names to var_naming |
+| `--no-replace-consts` | ⚠️ No-op | Const replacement not implemented yet |
+| `--respect-bytecode-access-modifiers` | ⚠️ No-op | Modifiers already preserved |
+| `--no-xml-pretty-print` | ⚠️ No-op | XML already not pretty-printed |
+
 ## Type Inference Gap Analysis
 
 ### Algorithm Differences

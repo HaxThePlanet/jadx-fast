@@ -36,6 +36,7 @@ pub fn arg_type_to_descriptor(ty: &ArgType) -> String {
         }
         ArgType::Wildcard { inner: Some(inner), .. } => arg_type_to_descriptor(inner),
         ArgType::Wildcard { inner: None, .. } => "Ljava/lang/Object;".to_string(),
+        ArgType::TypeVariable(_) => "Ljava/lang/Object;".to_string(), // Type erasure
         ArgType::Unknown => "Ljava/lang/Object;".to_string(),
     }
 }

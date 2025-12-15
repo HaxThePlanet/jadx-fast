@@ -248,6 +248,11 @@ impl BodyGenContext {
         self.imports = imports;
     }
 
+    /// Set escape unicode mode (escape non-ASCII chars as \uXXXX in strings)
+    pub fn set_escape_unicode(&mut self, escape_unicode: bool) {
+        self.expr_gen.set_escape_unicode(escape_unicode);
+    }
+
     /// Get the inferred type for a register, if available
     pub fn get_inferred_type(&self, reg: u16) -> Option<&ArgType> {
         self.type_info.as_ref().and_then(|ti| ti.types.get(&(reg, 0)))

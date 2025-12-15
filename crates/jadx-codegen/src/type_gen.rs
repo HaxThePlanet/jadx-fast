@@ -43,6 +43,7 @@ pub fn type_to_string_with_imports(ty: &ArgType, imports: Option<&std::collectio
                 _ => "?".to_string(),
             }
         }
+        ArgType::TypeVariable(name) => name.clone(),
         ArgType::Unknown => "/* unknown */".to_string(),
     }
 }

@@ -32,6 +32,9 @@ pub enum ArgType {
         inner: Option<Box<ArgType>>,
     },
 
+    /// Type variable (e.g., T, E, K, V)
+    TypeVariable(String),
+
     /// Unknown type (for type inference)
     Unknown,
 }

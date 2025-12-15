@@ -103,6 +103,8 @@ pub struct TypeInference {
     method_lookup: Option<Box<dyn Fn(u32) -> Option<(Vec<ArgType>, ArgType)> + Send + Sync>>,
     /// Class hierarchy for subtype checking and LCA
     hierarchy: Option<ClassHierarchy>,
+    /// Last invoke return type (for MoveResult pairing)
+    last_invoke_return: Option<ArgType>,
 }
 
 impl Default for TypeInference {
@@ -122,6 +124,7 @@ impl TypeInference {
             field_lookup: None,
             method_lookup: None,
             hierarchy: None,
+            last_invoke_return: None,
         }
     }
 
@@ -293,10 +296,13 @@ impl TypeInference {
             }
 
             InsnType::MoveResult { dest } => {
-                // Type comes from previous invoke - handled separately
+                // Type comes from previous invoke
                 let dest_var = self.get_or_create_var(dest);
-                // Mark as needing resolution from invoke context
-                self.add_constraint(Constraint::Equals(dest_var, InferredType::Unknown));
+                // Use the return type from the preceding Invoke instruction
+                let return_type = self.last_invoke_return.take()
+                    .map(InferredType::Concrete)
+                    .unwrap_or(InferredType::Unknown);
+                self.add_constraint(Constraint::Equals(dest_var, return_type));
             }
 
             InsnType::MoveException { dest } => {
@@ -506,9 +512,9 @@ impl TypeInference {
             }
 
             InsnType::Invoke { method_idx, args, .. } => {
-                // Method signature determines arg types
+                // Method signature determines arg types and return type
                 if let Some(ref lookup) = self.method_lookup {
-                    if let Some((param_types, _return_ty)) = lookup(*method_idx) {
+                    if let Some((param_types, return_ty)) = lookup(*method_idx) {
                         for (arg, expected_ty) in args.iter().zip(param_types.iter()) {
                             if let Some(arg_var) = self.var_for_arg(arg) {
                                 self.add_constraint(Constraint::Subtype(
@@ -517,6 +523,8 @@ impl TypeInference {
                                 ));
                             }
                         }
+                        // Store return type for subsequent MoveResult
+                        self.last_invoke_return = Some(return_ty);
                     }
                 }
             }

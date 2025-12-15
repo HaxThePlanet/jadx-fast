@@ -50,6 +50,8 @@ pub struct ExprGen {
     method_info: HashMap<u32, MethodInfo>,
     /// Optional DEX info provider for lazy lookups
     pub dex_provider: Option<Arc<dyn DexInfoProvider>>,
+    /// Escape non-ASCII characters in strings as \uXXXX
+    pub escape_unicode: bool,
 }
 
 /// Field information
@@ -92,6 +94,7 @@ impl ExprGen {
             field_info: HashMap::new(),
             method_info: HashMap::new(),
             dex_provider: None,
+            escape_unicode: false,
         }
     }
 
@@ -105,7 +108,13 @@ impl ExprGen {
             field_info: HashMap::new(),
             method_info: HashMap::new(),
             dex_provider: Some(dex_provider),
+            escape_unicode: false,
         }
+    }
+
+    /// Set escape unicode mode (escape non-ASCII chars as \uXXXX)
+    pub fn set_escape_unicode(&mut self, escape: bool) {
+        self.escape_unicode = escape;
     }
 
     /// Set the DEX info provider for lazy lookups
@@ -298,7 +307,7 @@ impl ExprGen {
             InsnArg::Field(idx) => format!("field#{}", idx),
             InsnArg::Method(idx) => format!("method#{}", idx),
             InsnArg::String(idx) => self.get_string_value(*idx)
-                .map(|s| format!("\"{}\"", escape_string(&s)))
+                .map(|s| format!("\"{}\"", escape_string_inner(&s, self.escape_unicode)))
                 .unwrap_or_else(|| format!("string#{}", idx)),
         }
     }
@@ -326,7 +335,7 @@ impl ExprGen {
             }
             InsnArg::String(idx) => {
                 if let Some(s) = self.get_string_value(*idx) {
-                    writer.add("\"").add(&escape_string(&s)).add("\"");
+                    writer.add("\"").add(&escape_string_inner(&s, self.escape_unicode)).add("\"");
                 } else {
                     writer.add(&format!("string#{}", idx));
                 }
@@ -420,7 +429,7 @@ impl ExprGen {
 
             InsnType::ConstString { string_idx, .. } => {
                 Some(self.get_string_value(*string_idx)
-                    .map(|s| format!("\"{}\"", escape_string(&s)))
+                    .map(|s| format!("\"{}\"", escape_string_inner(&s, self.escape_unicode)))
                     .unwrap_or_else(|| format!("string#{}", string_idx)))
             }
 
@@ -576,7 +585,7 @@ impl ExprGen {
 
             InsnType::ConstString { string_idx, .. } => {
                 if let Some(s) = self.get_string_value(*string_idx) {
-                    writer.add("\"").add(&escape_string(&s)).add("\"");
+                    writer.add("\"").add(&escape_string_inner(&s, self.escape_unicode)).add("\"");
                 } else {
                     writer.add(&format!("string#{}", string_idx));
                 }
@@ -844,8 +853,11 @@ fn maybe_paren(s: &str) -> String {
     }
 }
 
-/// Escape string for Java source
-fn escape_string(s: &str) -> String {
+/// Escape string for Java source with optional unicode escaping
+///
+/// When `escape_unicode` is true, non-ASCII characters are escaped as \uXXXX.
+/// When false, UTF-8 characters are preserved for readability.
+fn escape_string_inner(s: &str, escape_unicode: bool) -> String {
     let mut result = String::with_capacity(s.len());
     for c in s.chars() {
         match c {
@@ -857,10 +869,27 @@ fn escape_string(s: &str) -> String {
             c if c.is_control() => {
                 result.push_str(&format!("\\u{:04x}", c as u32));
             }
+            c if escape_unicode && !c.is_ascii() => {
+                // Escape non-ASCII characters as \uXXXX
+                if (c as u32) <= 0xFFFF {
+                    result.push_str(&format!("\\u{:04x}", c as u32));
+                } else {
+                    // Surrogate pair for chars > 0xFFFF
+                    let code = c as u32 - 0x10000;
+                    let high = ((code >> 10) + 0xD800) as u16;
+                    let low = ((code & 0x3FF) + 0xDC00) as u16;
+                    result.push_str(&format!("\\u{:04x}\\u{:04x}", high, low));
+                }
+            }
             c => result.push(c),
         }
     }
     result
+}
+
+/// Escape string for Java source (backward compatible, no unicode escaping)
+fn escape_string(s: &str) -> String {
+    escape_string_inner(s, false)
 }
 
 #[cfg(test)]
