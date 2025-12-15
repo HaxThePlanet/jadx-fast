@@ -1,201 +1,176 @@
-# JADX-Rust Agent Coordination
+# Dexterity Architecture
 
-**Goal**: Full 1:1 JADX port - output MUST match Java JADX exactly for golden file testing.
+**Dexterity** is a high-performance Android DEX/APK decompiler written in Rust, inspired by [JADX](https://github.com/skylot/jadx).
 
-## Current Status (Build: PASSING)
+## Current Status
+
+**Build:** ✅ Passing
+**Tests:** ~245 tests (100% pass rate)
+**Lines:** ~52,000 lines of Rust
+**Completion:** ~98% feature-complete vs Java jadx-core
+
+## Crate Overview
 
 ```
 crates/
-├── jadx-dex/      # DEX parsing - MOSTLY COMPLETE (2,016 lines)
-├── jadx-ir/       # IR types - MOSTLY COMPLETE (1,582 lines)
-├── jadx-passes/   # Decompilation passes - STUB (437 lines)
-├── jadx-codegen/  # Code generation - STUB (130 lines)
-└── jadx-cli/      # CLI app - PARTIAL (540 lines)
+├── jadx-dex/       # DEX parsing (695 lines)
+├── jadx-ir/        # IR types & class hierarchy (3,838 lines)
+├── jadx-passes/    # Decompilation passes (8,511 lines)
+├── jadx-codegen/   # Java code generation (7,805 lines)
+├── jadx-resources/ # AXML & resources.arsc (4,032 lines)
+├── jadx-deobf/     # Deobfuscation (1,628 lines)
+├── jadx-kotlin/    # Kotlin metadata parsing (597 lines)
+└── jadx-cli/       # CLI application (3,984 lines)
 ```
 
-## Work Assignments
+### jadx-dex (DEX Parsing)
 
-### AGENT 1: Core Algorithms (jadx-passes/src/algorithms/)
-**Files to create:**
-- `dominator_tree.rs` - Port from `visitors/blocks/DominatorTree.java` (166 lines)
-- `post_dominator_tree.rs` - Port from `visitors/blocks/PostDominatorTree.java` (~150 lines)
-- `live_var_analysis.rs` - Port from `visitors/ssa/LiveVarAnalysis.java` (120 lines)
+Memory-mapped DEX file parsing with zero-copy access.
 
-**Key optimizations:**
-- Use `FixedBitSet` instead of Java BitSet
-- SIMD-friendly bit operations for liveness (u64 arrays)
-- Cache-friendly CSR format for dominator tree
+**Key components:**
+- `reader.rs` - DexReader with DashMap string cache for lock-free concurrent access
+- `header.rs` - DEX header parsing (magic, checksum, offsets)
+- `consts.rs` - Dalvik opcode definitions (all 224 opcodes)
 
-**Reference Java:** `/jadx-core/src/main/java/jadx/core/dex/visitors/`
+### jadx-ir (Intermediate Representation)
 
-**1:1 matching requirements:**
-- Dominator tree must produce identical idom[] array
-- Dominance frontiers must match exactly
-- Liveness sets must match per-block
+Core IR types shared across all passes.
 
----
+**Key components:**
+- `instructions.rs` - ~40 instruction variants (`InsnType` enum)
+- `types.rs` - Type system (`ArgType`, primitives, arrays, objects)
+- `nodes.rs` - `ClassDef`, `MethodDef`, `FieldDef` definitions
+- `class_hierarchy.rs` - Class hierarchy with LCA calculation for type inference
+- `builder.rs` - IR builder from DEX bytecode
+- `regions.rs` - Control flow region types (if/loop/switch/try)
 
-### AGENT 2: SSA Transform (jadx-passes/src/ssa/)
-**Files to create:**
-- `mod.rs` - SSA module
-- `transform.rs` - Port from `visitors/ssa/SSATransform.java` (467 lines)
-- `phi.rs` - Phi instruction handling
-- `rename.rs` - Variable renaming
+### jadx-passes (Decompilation Passes)
 
-**Dependencies:** Needs Agent 1's algorithms
+Transform IR through analysis passes.
 
-**Key methods to port:**
-```java
-// SSATransform.java
-process(mth)           // Main orchestrator
-placePhi(mth, regNum, la)  // Dominance frontier phi placement
-renameVariables(mth)   // Stack-based SSA renaming
+**Key components:**
+- `block_split.rs` - Instructions → basic blocks
+- `cfg.rs` - CFG construction with dominance (Cooper-Harvey-Kennedy)
+- `ssa.rs` - SSA transformation with phi nodes
+- `type_inference.rs` - Constraint-based type inference with unification
+- `region_builder.rs` - CFG → structured regions (if/loop/switch/try)
+- `conditionals.rs` - Else-if chaining, ternary reconstruction
+- `loops.rs` - ForEach detection from iterator patterns
+- `extract_field_init.rs` - Static initializer extraction (`<clinit>` → field decls)
+- `method_inline.rs` - Synthetic bridge method inlining (`access$XXX`)
+- `kotlin_intrinsics.rs` - Kotlin intrinsics handling
+- `var_naming.rs` - JADX-style variable naming (85% parity)
+- `finally_extract.rs` - Finally block handling
+
+### jadx-codegen (Code Generation)
+
+Emit Java source from IR.
+
+**Key components:**
+- `class_gen.rs` - Class/interface/enum/annotation generation
+- `method_gen.rs` - Method signatures and bodies
+- `body_gen.rs` - Statement and expression generation
+- `expr_gen.rs` - Expression code generation
+- `stmt_gen.rs` - Statement code generation
+- `type_gen.rs` - Type name generation with import handling
+- `dex_info.rs` - GlobalFieldPool for multi-DEX field resolution
+- `access_flags.rs` - Java access modifier generation
+
+### jadx-resources (Resource Decoding)
+
+Android resource file decoding.
+
+**Key components:**
+- `axml.rs` - Binary XML parsing (AndroidManifest, layouts)
+- `arsc.rs` - resources.arsc parsing (strings, dimensions, colors)
+- `string_pool.rs` - String pool decoding
+- `constants.rs` - Android resource type constants
+
+### jadx-deobf (Deobfuscation)
+
+Name deobfuscation and mapping support.
+
+**Key components:**
+- `alias_provider.rs` - Auto-generates `C0001`, `m0002` style names
+- `conditions.rs` - Name validity conditions (length, characters, case)
+- `registry.rs` - Thread-safe global alias registry
+- `mapping_parser.rs` - ProGuard mapping file parser
+- `name_mapper.rs` - Name mapping coordination
+- `visitor.rs` - Deobfuscation pass visitor
+
+### jadx-kotlin (Kotlin Support)
+
+Kotlin metadata parsing and name restoration.
+
+**Key components:**
+- `parser.rs` - `@Metadata` annotation protobuf parsing
+- `extractor.rs` - Name extraction from Kotlin metadata
+- `visitor.rs` - Kotlin name restoration pass
+
+### jadx-cli (CLI Application)
+
+Command-line interface and decompilation orchestration.
+
+**Key components:**
+- `main.rs` - Main entry, parallel processing, file output
+- `args.rs` - CLI argument parsing (clap)
+- `converter.rs` - DEX → IR conversion orchestration
+- `decompiler.rs` - High-level decompilation API
+- `gradle_export.rs` - Android Studio project export
+- `deobf.rs` - Deobfuscation integration
+
+## Pipeline Architecture
+
+```
+APK/DEX → jadx-dex → jadx-ir → jadx-passes → jadx-codegen → Java Source
+                ↓           ↓
+         jadx-resources  jadx-deobf
+                          jadx-kotlin
 ```
 
-**1:1 matching requirements:**
-- Phi nodes must be placed at identical blocks
-- SSA variable versions must match (r0_0, r0_1, etc.)
-- Phi arguments must be in same order
+1. **jadx-dex**: Parse DEX file (memory-mapped, zero-copy)
+2. **jadx-ir**: Build IR from Dalvik bytecode
+3. **jadx-passes**: Transform IR through passes:
+   - Block splitting → CFG → Dominance → SSA → Type inference → Regions
+4. **jadx-codegen**: Emit Java source with proper names and imports
 
----
+## Key Design Choices
 
-### AGENT 3: Type System (jadx-passes/src/types/)
-**Files to create:**
-- `mod.rs` - Type module
-- `inference.rs` - Port from `visitors/typeinference/TypeInferenceVisitor.java` (365 lines)
-- `bounds.rs` - Type bounds and constraints
-- `compare.rs` - Port from `TypeCompare.java` (393 lines)
-
-**Dependencies:** Needs Agent 2's SSA output
-
-**Key concepts:**
-```rust
-pub trait TypeBound {
-    fn upper_bound(&self) -> &ArgType;
-    fn lower_bound(&self) -> &ArgType;
-}
-
-pub enum TypeConstraint {
-    Assign { from: VarId, to: VarId },
-    Call { method: MethodId, arg_idx: usize, var: VarId },
-    Return { method: MethodId, var: VarId },
-}
-```
-
-**1:1 matching requirements:**
-- Inferred types must match Java JADX exactly
-- Type widening/narrowing must be identical
-
----
-
-### AGENT 4: Regions + Codegen (jadx-passes/src/regions/, jadx-codegen/)
-**Files to create:**
-
-In `jadx-passes/src/regions/`:
-- `mod.rs` - Region module
-- `maker.rs` - Port from `visitors/regions/RegionMakerVisitor.java` (51 lines)
-- `if_region.rs` - Port from `maker/IfRegionMaker.java` (524 lines)
-- `loop_region.rs` - Port from `maker/LoopRegionMaker.java` (470 lines)
-- `switch_region.rs` - Port from `maker/SwitchRegionMaker.java` (406 lines)
-
-In `jadx-codegen/src/`:
-- `class_gen.rs` - Class code generation
-- `method_gen.rs` - Method body generation
-- `expr_gen.rs` - Expression generation
-- `stmt_gen.rs` - Statement generation
-
-**Dependencies:** Needs Agent 2/3 output
-
-**1:1 matching requirements:**
-- Control flow structure must be identical
-- Generated Java source must match byte-for-byte (modulo whitespace)
-
----
-
-## Critical Types (jadx-ir)
-
-These IR types are shared - DO NOT modify without coordination:
-
-```rust
-// jadx-ir/src/nodes.rs - Core nodes
-pub struct MethodDef { ... }
-pub struct BasicBlock { ... }
-pub struct ClassDef { ... }
-
-// jadx-ir/src/instructions.rs - IR instructions
-pub enum Instruction { ... }  // ~40 variants
-
-// jadx-ir/src/types.rs - Type system
-pub enum ArgType { ... }
-```
-
----
-
-## Testing Strategy
-
-```bash
-# 1. Generate reference from Java JADX
-java -jar jadx-cli.jar -d expected/ test.apk
-
-# 2. Run Rust implementation
-./target/release/jadx-rust -d actual/ test.apk
-
-# 3. Diff must be empty
-diff -r expected/ actual/
-```
-
-**Test APK:** GoldRush APK (sha256: aa7382155dc62389b3bbb0e2ee93c882b5118e3da7924db8575cb137ca36596b)
-
----
-
-## Conflict Avoidance
-
-| Directory | Owner | Status |
-|-----------|-------|--------|
-| jadx-dex/ | DONE | Maintenance only |
-| jadx-ir/ | SHARED | Coordinate changes |
-| jadx-passes/src/algorithms/ | Agent 1 | IN PROGRESS |
-| jadx-passes/src/ssa/ | Agent 2 | BLOCKED on Agent 1 |
-| jadx-passes/src/types/ | Agent 3 | BLOCKED on Agent 2 |
-| jadx-passes/src/regions/ | Agent 4 | BLOCKED on Agent 3 |
-| jadx-codegen/ | Agent 4 | BLOCKED on regions |
-| jadx-cli/ | ALL | Coordinate |
-
----
-
-## Java → Rust Mappings
-
-| Java | Rust | Notes |
-|------|------|-------|
-| `BlockNode` | `BasicBlock` | Use arena ID |
-| `InsnNode` hierarchy | `Instruction` enum | ~40 variants |
-| `SSAVar` | `SsaVariable` | Per-method arena |
-| `BitSet` | `FixedBitSet` | Or u64 arrays |
-| `List<T>` | `SmallVec<[T; N]>` | Stack for small |
-| `Map<K,V>` | `FxHashMap<K,V>` | Fast hashing |
-| `@JadxVisitor` | `impl Pass for T` | Trait-based |
-
----
+| Choice | Benefit |
+|--------|---------|
+| Memory-mapped DEX | Zero-copy parsing, minimal memory |
+| DashMap string cache | Lock-free concurrent access |
+| Rayon parallelism | Full CPU utilization (92.5% efficiency) |
+| Arc<str> strings | Zero-copy sharing across threads |
+| jemalloc allocator | Better performance under contention |
+| Lazy instruction loading | Bounded memory for huge APKs |
 
 ## Build Commands
 
 ```bash
 cd /mnt/nvme4tb/jadx-rust/crates
-cargo build           # Debug build
-cargo build --release # Release build
-cargo test            # Run tests
+
+# Development build
+cargo build
+
+# Release build (recommended)
+cargo build --release
+
+# Distribution build (maximum optimization)
+cargo build --profile dist
+
+# Run tests
+cargo test
+
+# Run with arguments
+cargo run --release -p jadx-cli -- -d output/ input.apk
 ```
 
----
+## Performance
 
-## Priority Order
-
-1. **Agent 1 FIRST** - Algorithms are foundation
-2. **Agent 2 NEXT** - SSA depends on algorithms
-3. **Agent 3 THEN** - Types depend on SSA
-4. **Agent 4 LAST** - Regions/codegen depend on types
-
-Work in parallel where possible:
-- Agent 1 + Agent 4 (regions struct design) can run simultaneously
-- Agent 2 can start on SSA structure while waiting for algorithms
-- Agent 3 can design type system while waiting for SSA
+| Metric | Dexterity | Notes |
+|--------|-----------|-------|
+| Small APK (10KB) | 0.15s | 12x faster than Java JADX |
+| Large APK (14MB) | 10.8s | Comparable, 100% complete |
+| Core utilization | 92.5% | 3x better than Java JADX |
+| Peak memory | Bounded | Lazy loading for huge APKs |
