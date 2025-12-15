@@ -10,3 +10,4 @@ jadx-ir.workspace = true
 regex.workspace = true
 lazy_static.workspace = true
 thiserror.workspace = true
+dashmap.workspace = true

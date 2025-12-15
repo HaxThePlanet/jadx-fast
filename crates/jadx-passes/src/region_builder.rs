@@ -225,10 +225,13 @@ pub fn build_regions(cfg: &CFG) -> Region {
 
 /// Build regions with try-catch block information from IR
 pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Region {
-    // 150 blocks hard limit (same as jadx-fast) to prevent infinite loops and memory explosion
+    // OPTIMIZATION: Increased block limit from 150 to 500
+    // The original 150 limit was overly conservative and caused many SKIP warnings on obfuscated code.
+    // With modern memory limits (32GB safety check in place), we can safely handle 500+ blocks.
+    // This allows decompilation of more complex real-world methods.
     let block_count = cfg.block_ids().count();
-    if block_count > 150 {
-        panic!("SKIP: {} blocks > 150 limit for regions", block_count);
+    if block_count > 500 {
+        panic!("SKIP: {} blocks > 500 limit for regions", block_count);
     }
 
     // Convert try blocks to internal format

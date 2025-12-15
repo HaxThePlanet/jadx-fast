@@ -609,6 +609,7 @@ dependencies = [
 name = "jadx-deobf"
 version = "1.0.0"
 dependencies = [
+ "dashmap",
  "jadx-ir",
  "lazy_static",
  "regex",
