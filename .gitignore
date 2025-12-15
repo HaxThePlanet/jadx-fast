@@ -42,3 +42,4 @@ quark.json
 cliff.toml
 jadx-gui/src/main/resources/logback.xml
 compare/
+decompilation-reference-jadx-java/

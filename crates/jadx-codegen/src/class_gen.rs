@@ -287,10 +287,9 @@ impl ImportCollector {
                 self.add_internal_name(&annotation.annotation_type);
             }
             // Collect types from method body instructions
-            // TEMPORARILY DISABLED TO TEST
-            // if let Some(instructions) = method.instructions() {
-            //     self.collect_from_instructions(instructions, dex_info);
-            // }
+            if let Some(instructions) = method.instructions() {
+                self.collect_from_instructions(instructions, dex_info);
+            }
         }
     }
 

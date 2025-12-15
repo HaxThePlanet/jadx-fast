@@ -543,6 +543,11 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     let type_result = infer_types(&ssa_result);
 
+    // Use sophisticated variable naming from jadx-passes (JADX-compatible)
+    let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
+    let num_params = method.arg_types.len() as u16;
+    let var_names = jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params);
+
     let mut ctx = BodyGenContext::from_method(method);
     let max_versions = ssa_result.max_versions.clone();
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
@@ -553,7 +558,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     ctx.set_final_vars_from_max_versions(&max_versions);
 
     apply_inferred_types(&mut ctx);
-    generate_var_names(&mut ctx);
+    apply_var_names_from_pass(&var_names, &mut ctx);
 
     // Generate code from region tree
     generate_region(&region, &mut ctx, code);
@@ -627,6 +632,11 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         infer_types(&ssa_result)
     };
 
+    // Use sophisticated variable naming from jadx-passes (JADX-compatible)
+    let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
+    let num_params = method.arg_types.len() as u16;
+    let var_names = jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params);
+
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
     let max_versions = ssa_result.max_versions.clone();
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
@@ -638,7 +648,7 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
     ctx.set_final_vars_from_max_versions(&max_versions);
 
     apply_inferred_types(&mut ctx);
-    generate_var_names(&mut ctx);
+    apply_var_names_from_pass(&var_names, &mut ctx);
 
     // Generate code from region tree
     generate_region(&region, &mut ctx, code);
@@ -743,6 +753,11 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         infer_types(&ssa_result)
     };
 
+    // Use sophisticated variable naming from jadx-passes (JADX-compatible)
+    let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
+    let num_params = method.arg_types.len() as u16;
+    let var_names = jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params);
+
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
     let max_versions = ssa_result.max_versions.clone();
     ctx.blocks = ssa_blocks_to_map_owned(ssa_result);
@@ -762,7 +777,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     ctx.set_final_vars_from_max_versions(&max_versions);
 
     apply_inferred_types(&mut ctx);
-    generate_var_names(&mut ctx);
+    apply_var_names_from_pass(&var_names, &mut ctx);
 
     generate_region(&region, &mut ctx, code);
 }
@@ -773,6 +788,13 @@ fn apply_inferred_types(ctx: &mut BodyGenContext) {
         for ((reg, version), arg_type) in &type_info.types {
             ctx.expr_gen.set_var_type(*reg, *version, arg_type.clone());
         }
+    }
+}
+
+/// Apply variable names from jadx-passes var_naming result (JADX-compatible)
+fn apply_var_names_from_pass(var_names: &jadx_passes::VarNamingResult, ctx: &mut BodyGenContext) {
+    for ((reg, version), name) in &var_names.names {
+        ctx.expr_gen.set_var_name(*reg, *version, name.clone());
     }
 }
 
@@ -1017,15 +1039,44 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                     if let InsnType::If { condition: _, left, right, .. } = &insn.insn_type {
                         let left_str = ctx.expr_gen.gen_arg(left);
 
-                        // Check if this is a zero-comparison (commonly used for booleans)
+                        // Get type of left operand for type-aware condition generation
+                        let left_type = if let InsnArg::Register(reg) = left {
+                            ctx.type_info.as_ref()
+                                .and_then(|ti| ti.types.get(&(reg.reg_num, reg.ssa_version)))
+                                .cloned()
+                        } else {
+                            None
+                        };
+
+                        // Check if this is a zero-comparison (commonly used for booleans and null checks)
                         let is_zero_compare = right.is_none() || matches!(right, Some(r) if is_zero_literal(r));
 
                         if is_zero_compare {
-                            // Simplify boolean comparisons: x == 0 -> !x, x != 0 -> x
                             let effective_op = if *negated { negate_op(op) } else { *op };
+
+                            // Check type to decide comparison format
+                            let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)));
+                            let is_boolean = matches!(left_type, Some(ArgType::Boolean));
+
                             match effective_op {
-                                IfCondition::Eq => return format!("!{}", wrap_if_complex(&left_str)),
-                                IfCondition::Ne => return left_str,
+                                IfCondition::Eq => {
+                                    if is_object {
+                                        return format!("{} == null", left_str);
+                                    } else if is_boolean {
+                                        return format!("!{}", wrap_if_complex(&left_str));
+                                    } else {
+                                        return format!("{} == 0", left_str);
+                                    }
+                                }
+                                IfCondition::Ne => {
+                                    if is_object {
+                                        return format!("{} != null", left_str);
+                                    } else if is_boolean {
+                                        return left_str;
+                                    } else {
+                                        return format!("{} != 0", left_str);
+                                    }
+                                }
                                 _ => {
                                     // For other ops (lt, gt, etc.), keep explicit comparison
                                     let op_str = if_condition_to_string(op, *negated);
@@ -2169,6 +2220,28 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                             }
                             code.add(");").newline();
                             return true;
+                        } else {
+                            // Fallback: No pending new-instance means this is a super()/this() call in a constructor
+                            // The object being initialized is 'this', not a newly created object
+                            if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
+                                if method_info.method_name == "<init>" {
+                                    let recv_expr = ctx.expr_gen.gen_arg(&InsnArg::Register(*recv_reg));
+
+                                    // Build argument list (skip receiver which is first arg)
+                                    let arg_strs: Vec<_> = args.iter()
+                                        .skip(1)
+                                        .map(|a| ctx.gen_arg_inline(a))
+                                        .collect();
+
+                                    // Emit: super.methodName(args) or this.methodName(args)
+                                    code.start_line();
+                                    code.add(&recv_expr).add(".").add(&method_info.method_name)
+                                        .add("(").add(&arg_strs.join(", ")).add(");");
+                                    code.newline();
+
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }
