@@ -1117,11 +1117,49 @@ fn process_dex_bytes(
         dex_info
     };
 
-    // NOTE: inner_to_outer and class_name_to_idx HashMaps were removed
-    // as they were allocated but never used, wasting memory
+    // Build inner class grouping: outer_class_type -> Vec<(idx, inner_class_type)>
+    // This allows us to nest inner classes inside their outer class during code generation
+    let inner_class_map: std::collections::HashMap<String, Vec<(u32, String)>> = {
+        let mut map: std::collections::HashMap<String, Vec<(u32, String)>> = std::collections::HashMap::new();
+        for &idx in &class_indices {
+            if let Ok(class) = dex.get_class(idx) {
+                if let Ok(class_type) = class.class_type() {
+                    let class_desc = class_type.to_string();
+                    if jadx_codegen::is_inner_class(&class_desc) {
+                        if let Some(outer) = jadx_codegen::get_outer_class(&class_desc) {
+                            map.entry(outer).or_default().push((idx, class_desc));
+                        }
+                    }
+                }
+            }
+        }
+        map
+    };
+
+    // Filter to only outer classes (inner classes will be nested inside their outer class)
+    let outer_class_indices: Vec<u32> = class_indices
+        .iter()
+        .filter(|&&idx| {
+            dex.get_class(idx)
+                .ok()
+                .and_then(|c| c.class_type().ok().map(|t| !jadx_codegen::is_inner_class(&t.to_string())))
+                .unwrap_or(true)
+        })
+        .copied()
+        .collect();
+
+    let inner_class_count = class_indices.len() - outer_class_indices.len();
+    tracing::info!(
+        "Processing {} outer classes ({} inner classes will be nested)",
+        outer_class_indices.len(),
+        inner_class_count
+    );
+
+    // Share the inner class map across threads
+    let inner_class_map = std::sync::Arc::new(inner_class_map);
 
     if let Some(pb) = progress {
-        pb.set_length(count as u64);
+        pb.set_length(outer_class_indices.len() as u64);
     }
 
     // OPTIMIZATION: Parallelize directory creation
@@ -1172,10 +1210,11 @@ fn process_dex_bytes(
     // contains expensive classes), let rayon's work-stealing queue distribute work on-demand.
     // Result: Eliminates load imbalance on obfuscated APKs with giant classes.
     let num_threads = rayon::current_num_threads();
-    tracing::debug!("Using work-stealing load balancing for {} classes across {} threads", class_indices.len(), num_threads);
+    tracing::debug!("Using work-stealing load balancing for {} outer classes across {} threads", outer_class_indices.len(), num_threads);
     let processed_count = std::sync::atomic::AtomicUsize::new(0);
 
-    class_indices.par_iter().for_each(|&idx| {
+    // Process only outer classes - inner classes are nested inside
+    outer_class_indices.par_iter().for_each(|&idx| {
         // Memory checkpoint every 100 classes
         let pc = processed_count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
         if pc % 100 == 0 { // Reduce log spam
@@ -1220,6 +1259,41 @@ fn process_dex_bytes(
         }))
         .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_desc)));
 
+        // Convert inner classes to IR (if any)
+        let nested_inner_classes: Vec<jadx_ir::ClassData> = inner_class_map
+            .get(&class_desc)
+            .map(|inners| {
+                inners.iter().filter_map(|(inner_idx, inner_desc)| {
+                    std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                        dex.get_class(*inner_idx)
+                            .ok()
+                            .and_then(|inner_class| {
+                                converter::convert_class(&dex, &inner_class, debug_info)
+                                    .ok()
+                                    .map(|mut inner_data| {
+                                        // Process Kotlin metadata
+                                        if process_kotlin {
+                                            let _ = jadx_kotlin::process_kotlin_metadata(&mut inner_data);
+                                        }
+                                        // Apply aliases
+                                        deobf::apply_aliases_from_registry(&mut inner_data, &alias_registry);
+                                        // Load instructions
+                                        for method in &mut inner_data.methods {
+                                            let _ = converter::load_method_instructions(method, &dex);
+                                        }
+                                        // Extract field initializations
+                                        jadx_passes::extract_field_init(&mut inner_data);
+                                        jadx_passes::extract_instance_field_init(&mut inner_data);
+                                        inner_data
+                                    })
+                            })
+                    }))
+                    .ok()
+                    .flatten()
+                }).collect()
+            })
+            .unwrap_or_default();
+
         // Generate code
         let java_code = match ir_result {
             Ok(mut ir_class) => {
@@ -1244,14 +1318,20 @@ fn process_dex_bytes(
                     hierarchy: Some(hierarchy_arc.clone()),
                 };
                 let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
-                
+
                 // Wrap codegen in catch_unwind to handle SKIP limits
+                let nested_slice = if nested_inner_classes.is_empty() {
+                    None
+                } else {
+                    Some(nested_inner_classes.as_slice())
+                };
                 let codegen_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-                    jadx_codegen::generate_class_with_inner_classes(
+                    jadx_codegen::generate_class_with_nested_inner_classes(
                         &ir_class,
                         &config,
                         Some(dex_arc),
                         None,
+                        nested_slice,
                     )
                 }));
 

@@ -9,7 +9,7 @@ use jadx_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassD
 use crate::access_flags::{self, flags::*, AccessContext};
 use crate::body_gen::{generate_body, generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes};
 use crate::dex_info::DexInfoProvider;
-use crate::type_gen::{get_simple_name, type_to_string_with_imports};
+use crate::type_gen::{get_innermost_name, get_simple_name, type_to_string_with_imports};
 use crate::writer::CodeWriter;
 
 /// Check if a method should have @Override annotation (heuristic fallback)
@@ -223,8 +223,8 @@ pub fn generate_method_with_dex<W: CodeWriter>(
 
     // Return type and name
     if method.is_constructor() {
-        // Constructor - use class simple name, no return type
-        let class_name = get_simple_name(&class.class_type);
+        // Constructor - use innermost class name (handles inner classes)
+        let class_name = get_innermost_name(&class.class_type);
         code.add(class_name);
     } else if method.is_class_init() {
         // Static initializer
@@ -305,7 +305,8 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
 
     // Return type and name
     if method.is_constructor() {
-        let class_name = get_simple_name(&class.class_type);
+        // Constructor - use innermost class name (handles inner classes)
+        let class_name = get_innermost_name(&class.class_type);
         code.add(class_name);
     } else if method.is_class_init() {
         // Static initializer

@@ -130,6 +130,15 @@ pub fn get_simple_name(internal: &str) -> &str {
     stripped.rsplit('/').next().unwrap_or(stripped)
 }
 
+/// Get the innermost class name (for inner classes, returns just the inner part)
+/// e.g., "Lcom/example/Outer$Inner;" -> "Inner"
+/// e.g., "Lcom/example/Outer;" -> "Outer"
+pub fn get_innermost_name(internal: &str) -> &str {
+    let simple = get_simple_name(internal);
+    // For inner classes like Outer$Inner, return just Inner
+    simple.rsplit('$').next().unwrap_or(simple)
+}
+
 /// Get the package name from an internal class name
 pub fn get_package(internal: &str) -> Option<String> {
     let stripped = strip_descriptor(internal);

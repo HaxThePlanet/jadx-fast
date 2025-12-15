@@ -217,6 +217,11 @@ impl ImportCollector {
             return;
         }
 
+        // Skip dalvik.annotation.* (system annotations not visible to user code)
+        if stripped.starts_with("dalvik/annotation/") {
+            return;
+        }
+
         // Skip same package
         if let Some(ref pkg) = self.current_package {
             if let Some(type_pkg) = get_package_internal(stripped) {
@@ -436,14 +441,30 @@ pub fn generate_class_with_dex(
 ///
 /// When `inner_classes` is provided, anonymous inner class instantiations are inlined
 /// with their full body (methods) instead of just `new AnonymousClass()`.
+///
+/// When `nested_inner_classes` is provided, those classes are generated as nested
+/// declarations inside the outer class body (Java-style inner class output).
 pub fn generate_class_with_inner_classes(
     class: &ClassData,
     config: &ClassGenConfig,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
 ) -> String {
+    generate_class_with_nested_inner_classes(class, config, dex_info, inner_classes, None)
+}
+
+/// Generate Java source code for a class with nested inner classes
+///
+/// `nested_inner_classes` - Classes to generate as nested declarations inside this class
+pub fn generate_class_with_nested_inner_classes(
+    class: &ClassData,
+    config: &ClassGenConfig,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
+    nested_inner_classes: Option<&[ClassData]>,
+) -> String {
     let mut writer = SimpleCodeWriter::new();
-    generate_class_to_writer_with_inner_classes(class, config, dex_info, inner_classes, &mut writer);
+    generate_class_to_writer_with_nested_inner_classes(class, config, dex_info, inner_classes, nested_inner_classes, &mut writer);
     writer.finish()
 }
 
@@ -470,34 +491,55 @@ pub fn generate_class_to_writer_with_inner_classes<W: CodeWriter>(
     inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
     code: &mut W,
 ) {
-    use std::io::Write;
-    print!(" [Pkg]"); std::io::stdout().flush().unwrap();
-    // Package declaration
-    if let Some(pkg) = get_package(&class.class_type) {
-        code.add("package ").add(&pkg).add(";").newline().newline();
+    generate_class_to_writer_with_nested_inner_classes(class, config, dex_info, inner_classes, None, code)
+}
+
+/// Generate Java source code for a class into a writer with nested inner classes
+pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
+    class: &ClassData,
+    config: &ClassGenConfig,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
+    nested_inner_classes: Option<&[ClassData]>,
+    code: &mut W,
+) {
+    let is_nested = is_inner_class(&class.class_type);
+
+    // Package declaration (only for top-level classes)
+    if !is_nested {
+        if let Some(pkg) = get_package(&class.class_type) {
+            code.add("package ").add(&pkg).add(";").newline().newline();
+        }
     }
 
-    print!(" [ImpColl]"); std::io::stdout().flush().unwrap();
     // Collect imports (used for both import statements and short name resolution)
-    let imports = if config.use_imports {
+    // Also collect from nested inner classes
+    let imports = if config.use_imports && !is_nested {
         let mut collector = ImportCollector::new(&class.class_type);
         collector.collect_from_class_with_dex(class, dex_info.as_ref());
+        // Collect imports from nested inner classes too
+        if let Some(nested) = nested_inner_classes {
+            for inner in nested {
+                collector.collect_from_class_with_dex(inner, dex_info.as_ref());
+            }
+        }
         Some(collector.imports.clone())
     } else {
         None
     };
 
-    print!(" [ImpGen]"); std::io::stdout().flush().unwrap();
-    // Generate import statements
-    if let Some(ref imp) = imports {
-        if !imp.is_empty() {
-            for name in imp {
-                // Replace / with . for package separators
-                // Replace $ with . for inner classes (Build$VERSION -> Build.VERSION)
-                let import_name = name.replace('/', ".").replace('$', ".");
-                code.add("import ").add(&import_name).add(";").newline();
+    // Generate import statements (only for top-level classes)
+    if !is_nested {
+        if let Some(ref imp) = imports {
+            if !imp.is_empty() {
+                for name in imp {
+                    // Replace / with . for package separators
+                    // Replace $ with . for inner classes (Build$VERSION -> Build.VERSION)
+                    let import_name = name.replace('/', ".").replace('$', ".");
+                    code.add("import ").add(&import_name).add(";").newline();
+                }
+                code.newline();
             }
-            code.newline();
         }
     }
 
@@ -511,12 +553,143 @@ pub fn generate_class_to_writer_with_inner_classes<W: CodeWriter>(
     // Fields (use simple names when imports available)
     add_fields(class, imports.as_ref(), code);
 
+    // Nested inner classes (generated after fields, before methods for Java convention)
+    if let Some(nested) = nested_inner_classes {
+        add_nested_inner_classes(nested, config, imports.as_ref(), dex_info.clone(), inner_classes, code);
+    }
+
     // Methods (pass DEX info for name resolution in method bodies)
     // inner_classes uses Arc<ClassData> to avoid cloning - O(1) reference count increment
     add_methods_with_inner_classes(class, config, imports.as_ref(), dex_info, inner_classes, code);
 
     code.dec_indent();
     code.start_line().add("}").newline();
+}
+
+/// Add nested inner class declarations
+fn add_nested_inner_classes<W: CodeWriter>(
+    nested_classes: &[ClassData],
+    config: &ClassGenConfig,
+    imports: Option<&BTreeSet<String>>,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
+    code: &mut W,
+) {
+    for inner_class in nested_classes {
+        // Skip anonymous inner classes (they should be inlined at instantiation site)
+        if is_anonymous_class(&inner_class.class_type) {
+            continue;
+        }
+        code.newline();
+        // Generate the inner class declaration (recursively handles its own inner classes)
+        add_inner_class_declaration(inner_class, config, imports, dex_info.clone(), inner_classes, code);
+    }
+}
+
+/// Add a single inner class declaration (used for nested inner classes)
+fn add_inner_class_declaration<W: CodeWriter>(
+    class: &ClassData,
+    config: &ClassGenConfig,
+    imports: Option<&BTreeSet<String>>,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<ClassData>>>,
+    code: &mut W,
+) {
+    // Emit class-level annotations
+    for annotation in &class.annotations {
+        if should_emit_annotation(annotation) {
+            code.start_line();
+            generate_annotation(annotation, code);
+            code.newline();
+        }
+    }
+
+    // Get inner class simple name (after the last $)
+    let simple_name = get_inner_class_simple_name(&class.class_type);
+
+    let mut flags = class.access_flags;
+
+    // Interfaces are implicitly abstract and static
+    if access_flags::is_interface(flags) {
+        flags &= !(access_flags::flags::ACC_ABSTRACT | access_flags::flags::ACC_STATIC);
+    }
+    // Enums are implicitly final
+    if access_flags::is_enum(flags) {
+        flags &= !(access_flags::flags::ACC_FINAL | access_flags::flags::ACC_ABSTRACT);
+    }
+
+    // Modifiers
+    code.start_line();
+    let mods = access_flags::access_flags_to_string(flags, AccessContext::Class);
+    if !mods.is_empty() {
+        code.add(&mods);
+    }
+
+    // Class type keyword
+    let keyword = access_flags::class_type_keyword(class.access_flags);
+    code.add(keyword).add(" ");
+
+    // Class name (simple name for inner classes)
+    code.add(&simple_name);
+
+    // Extends
+    if let Some(ref superclass) = class.superclass {
+        // Don't show "extends Object"
+        if superclass != "java/lang/Object"
+            && !(access_flags::is_annotation(class.access_flags) && superclass == "java/lang/annotation/Annotation") {
+            code.add(" extends ");
+            let ty = ArgType::Object(superclass.clone());
+            code.add(&type_to_string_with_imports(&ty, imports));
+        }
+    }
+
+    // Implements (skip entirely for annotations)
+    if !class.interfaces.is_empty() && !access_flags::is_annotation(class.access_flags) {
+        if access_flags::is_interface(class.access_flags) {
+            code.add(" extends ");
+        } else {
+            code.add(" implements ");
+        }
+        let ifaces: Vec<_> = class
+            .interfaces
+            .iter()
+            .map(|i| {
+                let ty = ArgType::Object(i.clone());
+                type_to_string_with_imports(&ty, imports)
+            })
+            .collect();
+        code.add(&ifaces.join(", "));
+    }
+
+    // Class body
+    code.add(" {").newline();
+    code.inc_indent();
+
+    // Fields
+    add_fields(class, imports, code);
+
+    // Methods
+    add_methods_with_inner_classes(class, config, imports, dex_info, inner_classes, code);
+
+    code.dec_indent();
+    code.start_line().add("}").newline();
+}
+
+/// Get the simple name of an inner class (the part after the last $)
+fn get_inner_class_simple_name(class_type: &str) -> String {
+    let stripped = class_type
+        .strip_prefix('L')
+        .unwrap_or(class_type)
+        .strip_suffix(';')
+        .unwrap_or(class_type);
+
+    if let Some(dollar_pos) = stripped.rfind('$') {
+        stripped[dollar_pos + 1..].to_string()
+    } else if let Some(slash_pos) = stripped.rfind('/') {
+        stripped[slash_pos + 1..].to_string()
+    } else {
+        stripped.to_string()
+    }
 }
 
 use crate::type_gen::type_to_string_with_imports;

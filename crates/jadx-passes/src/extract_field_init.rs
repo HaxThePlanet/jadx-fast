@@ -89,6 +89,12 @@ pub fn extract_field_init(class: &mut ClassData) {
         None => return, // No static initializer
     };
 
+    // Build mapping from DEX field_idx to our field array index
+    let dex_to_array_idx: std::collections::HashMap<u32, usize> = class.static_fields.iter()
+        .enumerate()
+        .filter_map(|(idx, f)| f.dex_field_idx.map(|dex_idx| (dex_idx, idx)))
+        .collect();
+
     // Iteratively extract fields until no more can be extracted
     // This handles dependencies between static field initializations
     // Limit iterations to prevent infinite loops (JADX has similar limits)
@@ -96,7 +102,7 @@ pub fn extract_field_init(class: &mut ClassData) {
 
     for iteration in 0..MAX_EXTRACT_ITERATIONS {
         let method = &class.methods[clinit_idx];
-        let inits = collect_field_inits(method, &class.static_fields);
+        let inits = collect_field_inits(method, &class.static_fields, &dex_to_array_idx);
 
         if inits.is_empty() {
             break; // No more fields to extract
@@ -120,8 +126,49 @@ pub fn extract_field_init(class: &mut ClassData) {
     }
 }
 
+/// Convert a FieldValue to match the declared field type
+/// Handles boolean (int 0/1 -> false/true), float (int bits -> float), etc.
+fn convert_value_to_field_type(value: &FieldValue, field_type: &jadx_ir::ArgType) -> FieldValue {
+    use jadx_ir::ArgType;
+
+    match (value, field_type) {
+        // Boolean: int 0 -> false, any non-zero -> true
+        (FieldValue::Int(v), ArgType::Boolean) => {
+            FieldValue::Boolean(*v != 0)
+        }
+        // Float: int bits -> float (e.g., -1082130432 -> -1.0f)
+        (FieldValue::Int(v), ArgType::Float) => {
+            let f = f32::from_bits(*v as u32);
+            FieldValue::Float(f)
+        }
+        // Double: long bits -> double
+        (FieldValue::Long(v), ArgType::Double) => {
+            let d = f64::from_bits(*v as u64);
+            FieldValue::Double(d)
+        }
+        // Int to byte/short/char - keep as Int, code gen will handle
+        (FieldValue::Int(_), ArgType::Byte | ArgType::Short | ArgType::Char) => {
+            value.clone()
+        }
+        // Int 0 to Object/Array is null (Dalvik represents null as 0)
+        (FieldValue::Int(0), ArgType::Object(_) | ArgType::Array(_) | ArgType::Generic { .. }) => {
+            FieldValue::Null
+        }
+        // Object null stays null
+        (FieldValue::Null, ArgType::Object(_) | ArgType::Array(_) | ArgType::Generic { .. }) => {
+            FieldValue::Null
+        }
+        // Default: keep as-is
+        _ => value.clone(),
+    }
+}
+
 /// Collect SPUT instructions that initialize static fields
-fn collect_field_inits(method: &MethodData, fields: &[FieldData]) -> Vec<FieldInitInfo> {
+fn collect_field_inits(
+    method: &MethodData,
+    fields: &[FieldData],
+    dex_to_array_idx: &std::collections::HashMap<u32, usize>,
+) -> Vec<FieldInitInfo> {
     let mut inits = Vec::new();
 
     // Get instructions (lazy loading support)
@@ -133,17 +180,23 @@ fn collect_field_inits(method: &MethodData, fields: &[FieldData]) -> Vec<FieldIn
     // Scan all instructions for SPUT operations
     for (insn_idx, insn) in instructions.iter().enumerate() {
         if let InsnType::StaticPut { field_idx, value } = &insn.insn_type {
-            let field_idx_usize = *field_idx as usize;
+            // Map DEX field_idx to our array index
+            let array_idx = match dex_to_array_idx.get(field_idx) {
+                Some(&idx) => idx,
+                None => continue, // Field not in this class
+            };
 
             // Skip if this field already has an initial value (might have been extracted already)
-            if field_idx_usize < fields.len() && fields[field_idx_usize].initial_value.is_some() {
+            if fields[array_idx].initial_value.is_some() {
                 continue;
             }
 
             // Try to extract a constant value from the SPUT
-            if let Some(field_value) = extract_constant_value(value, method) {
+            if let Some(mut field_value) = extract_constant_value(value, method, insn_idx) {
+                // Convert value to correct type based on field declaration
+                field_value = convert_value_to_field_type(&field_value, &fields[array_idx].field_type);
                 inits.push(FieldInitInfo {
-                    field_idx: field_idx_usize,
+                    field_idx: array_idx,
                     value: field_value,
                     insn_idx,
                 });
@@ -212,11 +265,13 @@ fn is_safe_init(field: &FieldData, value: &FieldValue) -> bool {
 }
 
 /// Extract a constant value from an instruction argument
-fn extract_constant_value(arg: &InsnArg, method: &MethodData) -> Option<FieldValue> {
+/// insn_idx: the index of the IPUT/SPUT instruction we're analyzing (to limit search scope)
+fn extract_constant_value(arg: &InsnArg, method: &MethodData, insn_idx: usize) -> Option<FieldValue> {
     match arg {
         InsnArg::Register(reg) => {
             // Trace back through instructions to find the const instruction that defined this register
-            trace_register_constant(reg.reg_num as usize, method)
+            // Only look at instructions BEFORE the current one
+            trace_register_constant(reg.reg_num as usize, method, insn_idx)
         }
         InsnArg::Literal(lit) => {
             // Direct literal value (all int types are stored as Int(i64))
@@ -232,14 +287,17 @@ fn extract_constant_value(arg: &InsnArg, method: &MethodData) -> Option<FieldVal
 }
 
 /// Trace back through instructions to find the constant value assigned to a register
-fn trace_register_constant(reg_num: usize, method: &MethodData) -> Option<FieldValue> {
-    trace_register_constant_impl(reg_num, method, &mut HashSet::new(), 0)
+/// up_to_idx: only look at instructions with index < up_to_idx
+fn trace_register_constant(reg_num: usize, method: &MethodData, up_to_idx: usize) -> Option<FieldValue> {
+    trace_register_constant_impl(reg_num, method, up_to_idx, &mut HashSet::new(), 0)
 }
 
 /// Implementation with cycle detection and depth limiting
+/// up_to_idx: only look at instructions with index < up_to_idx
 fn trace_register_constant_impl(
     reg_num: usize,
     method: &MethodData,
+    up_to_idx: usize,
     visited: &mut HashSet<usize>,
     depth: usize,
 ) -> Option<FieldValue> {
@@ -257,8 +315,9 @@ fn trace_register_constant_impl(
     // Get instructions (lazy loading support)
     let instructions = method.instructions()?;
 
-    // Scan instructions backwards to find the last assignment to this register
-    for insn in instructions.iter().rev() {
+    // Scan instructions backwards from up_to_idx to find the last assignment to this register
+    // Only look at instructions BEFORE the IPUT/SPUT we're analyzing
+    for (idx, insn) in instructions.iter().enumerate().take(up_to_idx).rev() {
         match &insn.insn_type {
             InsnType::Const { dest, value } if dest.reg_num == reg_num as u16 => {
                 // Found a const instruction that writes to our register
@@ -294,6 +353,7 @@ fn trace_register_constant_impl(
                     return trace_register_constant_impl(
                         src_reg.reg_num as usize,
                         method,
+                        idx, // Use the move instruction index as the new limit
                         visited,
                         depth + 1,
                     );
@@ -386,6 +446,12 @@ pub fn extract_instance_field_init(class: &mut ClassData) {
         return;
     }
 
+    // Build mapping from DEX field_idx to our field array index
+    let dex_to_array_idx: std::collections::HashMap<u32, usize> = class.instance_fields.iter()
+        .enumerate()
+        .filter_map(|(idx, f)| f.dex_field_idx.map(|dex_idx| (dex_idx, idx)))
+        .collect();
+
     // Find all constructors
     let constructor_indices: Vec<usize> = class.methods.iter()
         .enumerate()
@@ -402,7 +468,7 @@ pub fn extract_instance_field_init(class: &mut ClassData) {
 
     for &constructor_idx in &constructor_indices {
         let method = &class.methods[constructor_idx];
-        let inits = collect_instance_field_inits(method, &class.instance_fields);
+        let inits = collect_instance_field_inits(method, &class.instance_fields, &dex_to_array_idx);
 
         if inits.is_empty() {
             // If any constructor has no field inits, we can't extract anything
@@ -450,7 +516,11 @@ pub fn extract_instance_field_init(class: &mut ClassData) {
 }
 
 /// Collect IPUT instructions that initialize instance fields
-fn collect_instance_field_inits(method: &MethodData, fields: &[FieldData]) -> Vec<InstanceFieldInitInfo> {
+fn collect_instance_field_inits(
+    method: &MethodData,
+    fields: &[FieldData],
+    dex_to_array_idx: &std::collections::HashMap<u32, usize>,
+) -> Vec<InstanceFieldInitInfo> {
     let mut inits = Vec::new();
 
     let instructions = match method.instructions() {
@@ -467,17 +537,23 @@ fn collect_instance_field_inits(method: &MethodData, fields: &[FieldData]) -> Ve
                 continue;
             }
 
-            let field_idx_usize = *field_idx as usize;
+            // Map DEX field_idx to our array index
+            let array_idx = match dex_to_array_idx.get(field_idx) {
+                Some(&idx) => idx,
+                None => continue, // Field not in this class (could be inherited)
+            };
 
             // Skip if field already has an initial value
-            if field_idx_usize < fields.len() && fields[field_idx_usize].initial_value.is_some() {
+            if fields[array_idx].initial_value.is_some() {
                 continue;
             }
 
             // Try to extract a constant value from the IPUT
-            if let Some(field_value) = extract_constant_value(value, method) {
+            if let Some(mut field_value) = extract_constant_value(value, method, insn_idx) {
+                // Convert value to correct type based on field declaration
+                field_value = convert_value_to_field_type(&field_value, &fields[array_idx].field_type);
                 inits.push(InstanceFieldInitInfo {
-                    field_idx: field_idx_usize,
+                    field_idx: array_idx,
                     value: field_value,
                     insn_idx,
                 });

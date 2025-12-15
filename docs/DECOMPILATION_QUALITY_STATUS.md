@@ -16,6 +16,10 @@ This document outlines the current quality of Dexterity's decompilation output c
 | Anonymous classes | ✅ Complete | Body inlining for Runnable, listeners, etc. |
 | Exception handling | ✅ Complete | Multi-catch, try-with-resources, throws |
 | Static initializers | ✅ Complete | `<clinit>` extraction to field declarations |
+| Instance field init | ✅ Complete | Constructor extraction to field declarations |
+| Inner class nesting | ✅ Complete | Nested inside outer class (not separate files) |
+| Generic types | ✅ Complete | Signature annotation parsing (List<T>, Map<K,V>) |
+| Type-correct literals | ✅ Complete | boolean=false, float=-1.0f, null for objects |
 | Kotlin support | ✅ Complete | Metadata parsing, name restoration, intrinsics |
 
 ## Feature Comparison
@@ -26,6 +30,7 @@ This document outlines the current quality of Dexterity's decompilation output c
 |---------|-----------|-----------|--------|
 | Import statements | ✅ | ✅ | Full package resolution |
 | Inner class imports | `Outer.Inner` | `Outer.Inner` | ✅ $ → . conversion |
+| Inner class nesting | ✅ | ✅ | Nested inside outer class |
 | Control flow (if/else) | ✅ | ✅ | Else-if chaining |
 | Control flow (loops) | ✅ | ✅ | while, for, do-while, forEach |
 | Control flow (switch) | ✅ | ✅ | Including string switches |
@@ -34,11 +39,14 @@ This document outlines the current quality of Dexterity's decompilation output c
 | Variable naming | Excellent | Good (85%) | Type-based naming |
 | Type casts | ✅ | ✅ | Explicit and implicit |
 | Annotations | ✅ | ✅ | Full support |
-| Anonymous classes | ✅ | ✅ | Body inlining |
+| Anonymous classes | ✅ | ✅ | Body inlining, filtered from declarations |
 | Lambda expressions | ✅ | ✅ | Synthetic method detection |
 | Ternary operators | ✅ | ✅ | Including chained |
 | Break/continue labels | ✅ | ✅ | Nested loop support |
-| Static field init | ✅ | ✅ | `<clinit>` extraction |
+| Static field init | ✅ | ✅ | `<clinit>` extraction to declarations |
+| Instance field init | ✅ | ✅ | Constructor extraction to declarations |
+| Generic types | ✅ | ✅ | Signature annotation parsing |
+| Type-correct literals | ✅ | ✅ | boolean, float, null conversion |
 | Synthetic inlining | ✅ | ✅ | `access$XXX` methods |
 | Kotlin intrinsics | ✅ | ✅ | `checkNotNullParameter` etc. |
 | Kotlin names | ✅ | ✅ | From @Metadata |
@@ -51,7 +59,8 @@ This document outlines the current quality of Dexterity's decompilation output c
 | Rename comments | ✅ | ❌ | `/* renamed from: ... */` |
 | Finally deduplication | ✅ | ⚠️ Partial | Marking pass done |
 | Some variable names | Excellent | Good | ~15% gap remaining |
-| Edge case type inference | Excellent | Good | Rare cases |
+| Static modifier on inner classes | ✅ | ⚠️ Partial | Some inner classes missing `static` |
+| Float format | `-1.0f` | `-1f` | Minor style difference |
 
 ## Code Quality Examples
 
@@ -112,6 +121,42 @@ public void processData(long l, Throwable th, Integer num, Class cls) {
 ```
 ✅ 85% naming parity achieved
 
+### Example 4: Inner Class with Field Initializers
+
+**JADX:**
+```java
+public static class CameraProp {
+    public boolean cam1Works = false;
+    public int picWidth = -1;
+    public float picRes = -1.0f;
+    public String focusModes = null;
+}
+```
+
+**Dexterity:**
+```java
+public class CameraProp {
+    public boolean cam1Works = false;
+    public int picWidth = -1;
+    public float picRes = -1f;
+    public String focusModes = null;
+}
+```
+✅ Type-correct field initializers in declarations (not constructor body)
+
+### Example 5: Generic Types
+
+**JADX:**
+```java
+public List<CameraProp> cameraList = new ArrayList();
+```
+
+**Dexterity:**
+```java
+public List<CameraSingleTon.CameraProp> cameraList;
+```
+✅ Generic types preserved from Signature annotation
+
 ## Performance vs Quality
 
 | Metric | Java JADX | Dexterity |
@@ -124,9 +169,17 @@ public void processData(long l, Throwable th, Integer num, Class cls) {
 
 ## Conclusion
 
-Dexterity produces high-quality decompiled Java code that is largely indistinguishable from Java JADX output for most use cases. The remaining gaps are primarily cosmetic (warning comments, some variable names) rather than functional.
+Dexterity produces high-quality decompiled Java code that is largely indistinguishable from Java JADX output for most use cases. Key quality features include:
+
+- **Field initializers in declarations** - Both static and instance fields with type-correct values
+- **Inner class nesting** - Proper nesting inside outer classes, not separate files
+- **Generic types** - Preserved from Signature annotations
+- **Type-correct literals** - `false` instead of `0`, `-1.0f` instead of bit patterns, `null` for objects
+
+The remaining gaps are primarily cosmetic (warning comments, float format style, some variable names) rather than functional.
 
 For detailed progress tracking, see:
 - `COMPLETE_PROGRESS_SUMMARY.md` - Full implementation progress
 - `VARIABLE_NAMING_IMPROVEMENTS.md` - Variable naming details
 - `TYPE_INFERENCE_PROGRESS.md` - Type system progress
+- `QUALITY_IMPROVEMENTS_2025-12-14.md` - Recent quality improvements

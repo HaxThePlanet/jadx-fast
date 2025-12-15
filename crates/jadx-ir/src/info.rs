@@ -671,6 +671,8 @@ pub struct FieldData {
     pub initial_value: Option<FieldValue>,
     /// Annotations on this field
     pub annotations: Vec<Annotation>,
+    /// DEX field index (for mapping instructions back to fields)
+    pub dex_field_idx: Option<u32>,
 }
 
 impl FieldData {
@@ -683,6 +685,7 @@ impl FieldData {
             field_type,
             initial_value: None,
             annotations: Vec::new(),
+            dex_field_idx: None,
         }
     }
 

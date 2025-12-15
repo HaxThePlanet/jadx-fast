@@ -27,7 +27,8 @@ pub mod writer;
 // Re-exports for convenience
 pub use body_gen::{generate_body, generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes, BodyGenContext};
 pub use class_gen::{
-    generate_class, generate_class_with_dex, generate_class_with_inner_classes, ClassGenConfig,
+    generate_class, generate_class_with_dex, generate_class_with_inner_classes,
+    generate_class_with_nested_inner_classes, ClassGenConfig,
     // Inner class utilities
     get_inner_class_info, get_outer_class, group_by_outer_class,
     is_anonymous_class, is_inner_class, is_lambda_class, is_sam_interface,

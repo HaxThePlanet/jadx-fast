@@ -83,6 +83,8 @@ pub fn convert_class(
                         }
                     }
                 }
+                // Apply signature annotation to get generic type info
+                apply_signature_to_field(&mut field_data);
                 class_data.static_fields.push(field_data);
             }
         }
@@ -98,6 +100,8 @@ pub fn convert_class(
                         }
                     }
                 }
+                // Apply signature annotation to get generic type info
+                apply_signature_to_field(&mut field_data);
                 class_data.instance_fields.push(field_data);
             }
         }
@@ -153,9 +157,149 @@ fn convert_field(dex: &DexReader, encoded: &EncodedField) -> Result<FieldData> {
     let field_type_str = field_id.field_type()?;
     let field_type = parse_type_descriptor(&field_type_str);
 
-    let field = FieldData::new(name, encoded.access_flags, field_type);
+    let mut field = FieldData::new(name, encoded.access_flags, field_type);
+    // Store DEX field index for mapping instructions back to fields
+    field.dex_field_idx = Some(encoded.field_idx);
     // Initial value is set by caller after convert_field returns
     Ok(field)
+}
+
+/// Apply signature annotation to field type if present
+/// Parses dalvik.annotation.Signature to extract generic type information
+fn apply_signature_to_field(field: &mut FieldData) {
+    // Find Signature annotation
+    let signature_str = field.annotations.iter().find_map(|annot| {
+        if annot.annotation_type == "dalvik/annotation/Signature" {
+            // Get the "value" element which is an array of strings
+            annot.elements.iter().find_map(|elem| {
+                if elem.name == "value" {
+                    if let AnnotationValue::Array(values) = &elem.value {
+                        let parts: Vec<&str> = values.iter().filter_map(|v| {
+                            if let AnnotationValue::String(s) = v {
+                                Some(s.as_str())
+                            } else {
+                                None
+                            }
+                        }).collect();
+                        return Some(parts.join(""));
+                    }
+                }
+                None
+            })
+        } else {
+            None
+        }
+    });
+
+    if let Some(sig) = signature_str {
+        if let Some(generic_type) = parse_signature(&sig) {
+            field.field_type = generic_type;
+        }
+    }
+}
+
+/// Parse a Java signature string into ArgType
+/// Handles generic types like "Ljava/util/List<Lcom/example/Item;>;"
+fn parse_signature(sig: &str) -> Option<ArgType> {
+    let mut chars = sig.chars().peekable();
+    parse_type_from_signature(&mut chars)
+}
+
+fn parse_type_from_signature(chars: &mut std::iter::Peekable<std::str::Chars>) -> Option<ArgType> {
+    match chars.next()? {
+        'V' => Some(ArgType::Void),
+        'Z' => Some(ArgType::Boolean),
+        'B' => Some(ArgType::Byte),
+        'C' => Some(ArgType::Char),
+        'S' => Some(ArgType::Short),
+        'I' => Some(ArgType::Int),
+        'J' => Some(ArgType::Long),
+        'F' => Some(ArgType::Float),
+        'D' => Some(ArgType::Double),
+        '[' => {
+            // Array type
+            let elem = parse_type_from_signature(chars)?;
+            Some(ArgType::Array(Box::new(elem)))
+        }
+        'L' => {
+            // Object type, possibly with generics
+            let mut class_name = String::new();
+            let mut generic_params = Vec::new();
+
+            while let Some(&c) = chars.peek() {
+                match c {
+                    ';' => {
+                        chars.next();
+                        break;
+                    }
+                    '<' => {
+                        chars.next();
+                        // Parse generic type parameters
+                        while let Some(&gc) = chars.peek() {
+                            if gc == '>' {
+                                chars.next();
+                                break;
+                            }
+                            if let Some(param) = parse_type_from_signature(chars) {
+                                generic_params.push(param);
+                            }
+                        }
+                    }
+                    _ => {
+                        chars.next();
+                        class_name.push(c);
+                    }
+                }
+            }
+
+            if generic_params.is_empty() {
+                Some(ArgType::Object(class_name))
+            } else {
+                Some(ArgType::Generic {
+                    base: class_name,
+                    params: generic_params,
+                })
+            }
+        }
+        '+' => {
+            // ? extends Type (wildcard upper bound)
+            let inner = parse_type_from_signature(chars);
+            Some(ArgType::Wildcard {
+                bound: jadx_ir::types::WildcardBound::Extends,
+                inner: inner.map(Box::new),
+            })
+        }
+        '-' => {
+            // ? super Type (wildcard lower bound)
+            let inner = parse_type_from_signature(chars);
+            Some(ArgType::Wildcard {
+                bound: jadx_ir::types::WildcardBound::Super,
+                inner: inner.map(Box::new),
+            })
+        }
+        '*' => {
+            // Unbounded wildcard (?)
+            Some(ArgType::Wildcard {
+                bound: jadx_ir::types::WildcardBound::Unbounded,
+                inner: None,
+            })
+        }
+        'T' => {
+            // Type variable (e.g., TT;)
+            let mut var_name = String::new();
+            while let Some(&c) = chars.peek() {
+                if c == ';' {
+                    chars.next();
+                    break;
+                }
+                chars.next();
+                var_name.push(c);
+            }
+            // For now, treat type variables as Object with the variable name
+            Some(ArgType::Object(var_name))
+        }
+        _ => None,
+    }
 }
 
 /// Convert a DEX EncodedValue to IR FieldValue
