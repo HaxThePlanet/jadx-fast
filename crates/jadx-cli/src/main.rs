@@ -927,6 +927,24 @@ fn process_dex_bytes(
     let dex_info = LazyDexInfo::new_with_pool(std::sync::Arc::clone(&dex), global_field_pool);
     tracing::debug!("LazyDexInfo ready (on-demand loading with global deduplication enabled)");
 
+    // ========================================================================
+    // OPTIMIZE: Pre-load all strings to avoid RwLock contention in parallel phase
+    // Without this, all threads compete for StringPool lock during code generation
+    // Strings are accessed constantly (class names, methods, fields, descriptors)
+    // ========================================================================
+    let string_count = dex.header.string_ids_size as usize;
+    if string_count > 0 {
+        tracing::debug!("Pre-loading {} strings from DEX to avoid lock contention...", string_count);
+        let preload_start = std::time::Instant::now();
+        for idx in 0..string_count {
+            if let Ok(_) = dex.get_string(idx as u32) {
+                // Just load - caching happens automatically in StringPool
+            }
+        }
+        let preload_elapsed = preload_start.elapsed();
+        tracing::debug!("Strings pre-loaded in {:.2}ms", preload_elapsed.as_secs_f64() * 1000.0);
+    }
+
     if let Some(pb) = progress {
         pb.set_length(class_count as u64);
     }
@@ -1089,8 +1107,13 @@ fn process_dex_bytes(
 
     // Process classes in parallel using rayon
     use rayon::prelude::*;
-    // Use batches of 48 to match JADX logic and reduce overhead
-    class_indices.par_chunks(48).for_each(|chunk| {
+    // Dynamic chunk size: ensure at least 4 chunks per thread for good load balancing
+    // For small APKs, use smaller chunks to utilize all threads
+    let num_threads = rayon::current_num_threads();
+    let chunk_size = std::cmp::max(1, class_indices.len() / (num_threads * 4));
+    let chunk_size = std::cmp::min(chunk_size, 48); // Cap at 48 for memory reasons
+    tracing::debug!("Using chunk size {} for {} classes across {} threads", chunk_size, class_indices.len(), num_threads);
+    class_indices.par_chunks(chunk_size).for_each(|chunk| {
         for &idx in chunk {
         // Fetch class name on-demand to avoid storing all names in memory
         let class_desc = dex.get_class(idx)
