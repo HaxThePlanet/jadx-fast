@@ -611,7 +611,7 @@ See `docs/LLM_AGENT_GUIDE.md` for complete workflow. Key steps:
 - `docs/TESTING_GUIDE.md` - How to test and validate changes
 - `docs/PROGRESS.md` - Track completed work and quality metrics
 
-**Current Focus:** Fix 12 critical/high-priority issues to move from 77.1% to 90%+ quality
+**Current Focus:** Fix 9 remaining issues (3 CRITICAL resolved) to move from 77.1% to 90%+ quality
 
 ### Test Parity with Java JADX
 
@@ -647,9 +647,9 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | fallback | 2 | 2 | 0 | Done |
 | jbc | 1 | 1 | 0 | Done |
 | sample | - | 5 | 0 | Done |
-| **TOTAL** | **577** | **680** | **0** | Complete |
+| **TOTAL** | **577** | **683** | **0** | Complete |
 
-Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests passing, 0 TODOs remaining.
+Rust tests are in `crates/dexterity-cli/tests/integration/` - 683 integration tests passing, 0 TODOs remaining.
 
 ### Implementation TODOs
 
