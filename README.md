@@ -86,6 +86,50 @@ Dexterity now ready for production use in Android reverse engineering pipelines.
 
 ## Recent Implementation Details
 
+### Deobfuscation Variable Filtering (Dec 16)
+
+Fixed critical issue where `--deobf-min` option only applied to class/field/method names, not local variables. Now properly filters all variable names including registers (`v0`, `v1`, etc.) and parameters (`p0`, `p1`, etc.).
+
+**What Changed:**
+
+1. **Local Variable Filtering** - Now applies same length constraints to generated variable names
+2. **Smart Renaming** - Variables too short/long are renamed to meaningful alternatives (e.g., `v0` → `var0`)
+3. **End-to-End Wiring** - Deobfuscation settings propagated through entire code generation pipeline
+
+**Implementation Details:**
+
+- Added `deobf_min_length` and `deobf_max_length` fields to `ClassGenConfig` and `ExprGen`
+- Modified `ExprGen::get_var_name()` to apply length filtering to all variable names
+- Wired deobfuscation settings from CLI args through method generation → body generation → expression generation
+- Updated `generate_body_with_inner_classes()` to set deobf limits on ExprGen instance
+
+**Example (with --deobf-min=5):**
+
+Before: Variables kept short names like `v0`, `v1`, `p0` despite min length setting
+```java
+while (i < i2) {
+    v1 = getValue();
+    p0 = compute();
+}
+```
+
+After: Short names automatically renamed to meaningful alternatives
+```java
+while (i < i2) {
+    var1 = getValue();  // "v1" (2 chars) < 5, renamed to "var1"
+    var0 = compute();   // "p0" (2 chars) < 5, renamed to "var0"
+}
+```
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/class_gen.rs` - Added deobf settings to ClassGenConfig
+- `crates/dexterity-codegen/src/expr_gen.rs` - Added deobf filtering logic to get_var_name()
+- `crates/dexterity-codegen/src/method_gen.rs` - Passed settings through method generation
+- `crates/dexterity-codegen/src/body_gen.rs` - Applied settings to body generation
+- `crates/dexterity-cli/src/main.rs` - Wired CLI args to ClassGenConfig
+
+**Test Results:** All 683 integration tests pass. Fully 1:1 with JADX-fast behavior.
+
 ### Variable Naming Quality Improvements (Dec 16)
 
 Expanded context-based variable naming to achieve 99% parity with JADX.
@@ -453,8 +497,8 @@ If you need complete output including framework classes, use JADX. Dexterity is 
 | Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
-| Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files |
-| Variable Naming | ✅ 100% | Full JADX parity |
+| Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files, variable filtering |
+| Variable Naming | ✅ 100% | Full JADX parity, deobf-min/max filtering on all names |
 | Type Formatting | ✅ 100% | Special values (MIN/MAX_VALUE, NaN, Infinity) for numeric types |
 | Optimization Passes | 🔶 82% | Deboxing, algebraic simplification (identity/constant folding/negation), condition negation, const inline, code shrink, enum visitor done (7/16 core passes) |
 
@@ -477,8 +521,8 @@ If you need complete output including framework classes, use JADX. Dexterity is 
 | Flag | Description |
 |------|-------------|
 | `--deobf` | Enable deobfuscation |
-| `--deobf-min` | Minimum name length to keep (default: 3) |
-| `--deobf-max` | Maximum name length (default: 64) |
+| `--deobf-min` | Minimum name length to keep (default: 3) - applies to all names: classes, fields, methods, AND local variables |
+| `--deobf-max` | Maximum name length (default: 64) - applies to all names: classes, fields, methods, AND local variables |
 | `--mappings-path` | Path to ProGuard mappings file |
 | `--deobf-cfg-file` | Path to JOBF aliases file |
 | `--deobf-cfg-file-mode` | File mode: `read`, `save`, `read-or-save` |

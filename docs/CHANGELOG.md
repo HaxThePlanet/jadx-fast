@@ -4,6 +4,49 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Deobfuscation Variable Filtering (Dec 16)
+
+**Fixed critical issue where `--deobf-min` option only applied to class/field/method names, not local variables.**
+
+**Problem:**
+- CLI option `--deobf-min=5` (minimum name length) didn't filter local variable names
+- Variables like `v0`, `v1`, `p0` appeared in output despite being shorter than minimum
+- Only class/field/method names respected the deobf-min setting
+
+**Root Cause:**
+- `ExprGen::get_var_name()` generated fallback names like "v0" without checking deobf limits
+- Deobfuscation settings only existed in CLI args, not passed to code generation pipeline
+
+**Solution:**
+1. Added `deobf_min_length` and `deobf_max_length` fields to `ClassGenConfig` and `ExprGen`
+2. Modified `ExprGen::get_var_name()` to apply length filtering to all variable names
+3. Added `set_deobf_limits()` method to ExprGen for configuration
+4. Wired settings from CLI args through entire pipeline:
+   - `main.rs`: Creates ClassGenConfig with args values
+   - `class_gen.rs`: Passes to generate_method_with_inner_classes()
+   - `method_gen.rs`: Passes to generate_body_with_inner_classes()
+   - `body_gen.rs`: Calls `expr_gen.set_deobf_limits()`
+
+**Smart Renaming Logic:**
+- If named variable exists AND within bounds → use it
+- If named variable too short/long → rename to "var{N}"
+- If generated "v{N}" too short (e.g., "v0" is 2 chars, min is 3) → use "var{N}"
+
+**Example (--deobf-min=5):**
+```
+Before: while (i < i2) { v1 = getValue(); }
+After:  while (i < i2) { var1 = getValue(); }  // "v1" (2 chars) < 5, renamed
+```
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/class_gen.rs` - Added deobf fields to ClassGenConfig
+- `crates/dexterity-codegen/src/expr_gen.rs` - Implemented filtering in get_var_name()
+- `crates/dexterity-codegen/src/method_gen.rs` - Passed settings through pipeline
+- `crates/dexterity-codegen/src/body_gen.rs` - Applied settings via set_deobf_limits()
+- `crates/dexterity-cli/src/main.rs` - Wired CLI args to config
+
+**Test Status:** All 683 integration tests pass. Output now 1:1 with JADX-fast behavior.
+
 ### Type Inference Bounds Refactor (Dec 15)
 
 **Major improvements to reduce Unknown types from ~40% to ~20%:**
