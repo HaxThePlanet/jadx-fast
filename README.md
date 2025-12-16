@@ -510,7 +510,7 @@ If you need complete output including framework classes, use JADX. Dexterity is 
 | DEX Parsing | ✅ 100% | All 224 Dalvik opcodes |
 | Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
 | Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
-| Code Generation | 🔶 99% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion, compare qualification, condition simplification done; only for-each disabled |
+| Code Generation | ✅ 100% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion, compare qualification, condition simplification, for-each loops all done |
 | Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
@@ -778,41 +778,15 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | **Post-Processing** |
 | If optimization | No | `IfRegionVisitor` | **TODO** |
 | Clean regions pass | No | `CleanRegions` | **TODO** |
-| Loop visitor | Codegen-time detection | `LoopRegionVisitor` | Partial (for-each disabled) |
+| Loop visitor | Codegen-time detection | `LoopRegionVisitor` | ✅ Done |
 
-**Feature Completeness: ~85%** - For-loop recognition, ternary detection, and smart break insertion now implemented.
-
-### Known Limitations
-
-**For-each loop detection is disabled**: The current region builder doesn't always include all body blocks in the loop region, causing for-each loops to generate with empty bodies. Indexed for-loops (`for(int i=0; i<n; i++)`) work correctly, but for-each patterns over arrays and iterables are disabled and fall back to while loops.
-
-**Root cause**: For-each detection happens at code generation time, but the loop body region may not contain all the blocks that belong to the loop body. JADX solves this with a dedicated `LoopRegionVisitor` pass that runs BEFORE code generation, marking iterator instructions (`hasNext()`, `next()`) with `AFlag.DONT_GENERATE`.
-
-**Workaround needed**: Implement a proper `LoopRegionVisitor` pass that:
-1. Runs after region building but before code generation
-2. Detects for-each patterns (iterator and array-based)
-3. Marks the iterator variable and `next()` calls with `DontGenerate` flag
-4. Transforms the loop region to `LoopKind::ForEach` with proper element variable
-
-Until this is implemented, iterator-based loops generate as:
-```java
-while (iterator.hasNext()) {
-    Object item = iterator.next();
-    // body
-}
-```
-Instead of:
-```java
-for (Object item : collection) {
-    // body
-}
-```
+**Feature Completeness: ~90%** - For-loop recognition, for-each detection, ternary detection, and smart break insertion now implemented.
 
 ### Implementation Status
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Core pipeline | ~95% | Parsing, SSA, type inference, regions, codegen all working; for-each disabled |
+| Core pipeline | ~98% | Parsing, SSA, type inference, regions, codegen, for-each all working |
 | Optimization passes | ~70% | Deboxing, arithmetic simplification, const inlining, code shrink, enum visitor done |
 | Tooling/extras | ~20% | CLI only, no GUI/plugins/IDE |
 
