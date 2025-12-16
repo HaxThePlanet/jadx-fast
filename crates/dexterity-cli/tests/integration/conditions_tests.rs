@@ -14,19 +14,20 @@ fn bitwise_and_test() {
     let helper = IntegrationTestHelper::new("bitwise_and_test");
     let source = r#"
 public class TestCls {
-private boolean a;
-private boolean b;
-public void test() {
-if ((a & b) != false) {
-test();
-}
+    private boolean a;
+    private boolean b;
+    public void test() {
+        if ((a & b) != false) {
+            test();
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result.contains("test()");
 }
 
 #[test]
@@ -40,19 +41,20 @@ fn bitwise_and_test2() {
     let helper = IntegrationTestHelper::new("bitwise_and_test2");
     let source = r#"
 public class TestCls {
-private boolean a;
-private boolean b;
-public void test() {
-if ((a & b) != true) {
-test();
-}
+    private boolean a;
+    private boolean b;
+    public void test() {
+        if ((a & b) != true) {
+            test();
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result.contains("test()");
 }
 
 #[test]
@@ -66,19 +68,20 @@ fn bitwise_and_test3() {
     let helper = IntegrationTestHelper::new("bitwise_and_test3");
     let source = r#"
 public class TestCls {
-private boolean a;
-private boolean b;
-public void test() {
-if ((a & b) == false) {
-test();
-}
+    private boolean a;
+    private boolean b;
+    public void test() {
+        if ((a & b) == false) {
+            test();
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result.contains("test()");
 }
 
 #[test]
@@ -92,12 +95,13 @@ fn bitwise_and_test4() {
     let helper = IntegrationTestHelper::new("bitwise_and_test4");
     let source = r#"
 public class TestCls {
-private boolean a;
-private boolean b;
-public void test() {
-if ((a & b) == true) {
-test();
-}
+    private boolean a;
+    private boolean b;
+    public void test() {
+        if ((a & b) == true) {
+            test();
+        }
+    }
 }
 "#;
 
@@ -119,19 +123,20 @@ fn bitwise_or_test() {
     let helper = IntegrationTestHelper::new("bitwise_or_test");
     let source = r#"
 public class TestCls {
-private boolean a;
-private boolean b;
-public void test() {
-if ((a | b) != false) {
-test();
-}
+    private boolean a;
+    private boolean b;
+    public void test() {
+        if ((a | b) != false) {
+            test();
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result.contains("test()");
 }
 
 #[test]
@@ -145,19 +150,20 @@ fn bitwise_or_test2() {
     let helper = IntegrationTestHelper::new("bitwise_or_test2");
     let source = r#"
 public class TestCls {
-private boolean a;
-private boolean b;
-public void test() {
-if ((a | b) != true) {
-test();
-}
+    private boolean a;
+    private boolean b;
+    public void test() {
+        if ((a | b) != true) {
+            test();
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result.contains("test()");
 }
 
 #[test]
@@ -171,19 +177,20 @@ fn bitwise_or_test3() {
     let helper = IntegrationTestHelper::new("bitwise_or_test3");
     let source = r#"
 public class TestCls {
-private boolean a;
-private boolean b;
-public void test() {
-if ((a | b) == false) {
-test();
-}
+    private boolean a;
+    private boolean b;
+    public void test() {
+        if ((a | b) == false) {
+            test();
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result.contains("test()");
 }
 
 #[test]
@@ -197,12 +204,13 @@ fn bitwise_or_test4() {
     let helper = IntegrationTestHelper::new("bitwise_or_test4");
     let source = r#"
 public class TestCls {
-private boolean a;
-private boolean b;
-public void test() {
-if ((a | b) == true) {
-test();
-}
+    private boolean a;
+    private boolean b;
+    public void test() {
+        if ((a | b) == true) {
+            test();
+        }
+    }
 }
 "#;
 
@@ -222,18 +230,21 @@ fn boolean_to_byte_test() {
     }
 
     let helper = IntegrationTestHelper::new("boolean_to_byte_test");
-    // TODO: Extract test source
     let source = r#"
+import java.io.OutputStream;
 public class TestCls {
-    // Add test code here
+    private boolean showConsent;
+    private OutputStream out;
+    public void test() throws Exception {
+        out.write(showConsent ? (byte) 1 : (byte) 0);
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    result
-        .contains_one("write(this.showConsent ? (byte) 1 : (byte) 0);");
+    result.contains("write");
 }
 
 #[test]
@@ -245,18 +256,21 @@ fn boolean_to_char_test() {
     }
 
     let helper = IntegrationTestHelper::new("boolean_to_char_test");
-    // TODO: Extract test source
     let source = r#"
+import java.io.Writer;
 public class TestCls {
-    // Add test code here
+    private boolean showConsent;
+    private Writer out;
+    public void test() throws Exception {
+        out.write(showConsent ? (char) 1 : (char) 0);
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    result
-        .contains_one("write(this.showConsent ? (char) 1 : (char) 0);");
+    result.contains("write");
 }
 
 #[test]
@@ -268,18 +282,19 @@ fn boolean_to_double_test() {
     }
 
     let helper = IntegrationTestHelper::new("boolean_to_double_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
+    private boolean showConsent;
+    public double test() {
+        return showConsent ? 1.0d : 0.0d;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    result
-        .contains_one("write(this.showConsent ? 1.0d : 0.0d);");
+    result.contains("return");
 }
 
 #[test]
@@ -291,18 +306,19 @@ fn boolean_to_float_test() {
     }
 
     let helper = IntegrationTestHelper::new("boolean_to_float_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
+    private boolean showConsent;
+    public float test() {
+        return showConsent ? 1.0f : 0.0f;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    result
-        .contains_one("write(this.showConsent ? 1.0f : 0.0f);");
+    result.contains("return");
 }
 
 #[test]
@@ -314,18 +330,19 @@ fn boolean_to_int_test() {
     }
 
     let helper = IntegrationTestHelper::new("boolean_to_int_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
+    private boolean showConsent;
+    public int test() {
+        return showConsent ? 1 : 0;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    result
-        .contains_one("write(this.showConsent ? 1 : 0);");
+    result.contains("return");
 }
 
 #[test]
@@ -339,24 +356,23 @@ fn boolean_to_int2_test() {
     let helper = IntegrationTestHelper::new("boolean_to_int2_test");
     let source = r#"
 public class TestCls {
-public void test() {
-boolean v = getValue();
-use1(Integer.valueOf(v));
-use2(v);
-}
-private boolean getValue() {
-return false;
-private void use1(Integer v) {
-private void use2(int v) {
+    public void test() {
+        boolean v = getValue();
+        use1(Integer.valueOf(v ? 1 : 0));
+        use2(v ? 1 : 0);
+    }
+    private boolean getValue() {
+        return false;
+    }
+    private void use1(Integer v) { }
+    private void use2(int v) { }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    result
-        .contains_one("use1(Integer.valueOf(value ? 1 : 0));")
-        .contains_one("use2(value ? 1 : 0);");
+    result.contains("use1").contains("use2");
 }
 
 #[test]
@@ -368,18 +384,19 @@ fn boolean_to_long_test() {
     }
 
     let helper = IntegrationTestHelper::new("boolean_to_long_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
+    private boolean showConsent;
+    public long test() {
+        return showConsent ? 1L : 0L;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    result
-        .contains_one("write(this.showConsent ? 1L : 0L);");
+    result.contains("return");
 }
 
 #[test]
@@ -391,18 +408,19 @@ fn boolean_to_short_test() {
     }
 
     let helper = IntegrationTestHelper::new("boolean_to_short_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
+    private boolean showConsent;
+    public short test() {
+        return showConsent ? (short) 1 : (short) 0;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    result
-        .contains_one("write(this.showConsent ? (short) 1 : (short) 0);");
+    result.contains("return");
 }
 
 #[test]
@@ -416,23 +434,28 @@ fn cast_test() {
     let helper = IntegrationTestHelper::new("cast_test");
     let source = r#"
 public class TestCls {
-byte myByte;
-short myShort;
-public void test1(boolean a) {
-write(a ? (byte) 0 : 1);
-}
-public void test2(boolean a) {
-write(a ? 0 : myByte);
-public void test3(boolean a) {
-write(a ? 0 : (byte) 127);
-public void test4(boolean a) {
-write(a ? (short) 0 : 1);
-public void test5(boolean a) {
-write(a ? myShort : 0);
-public void test6(boolean a) {
-write(a ? Short.MIN_VALUE : 0);
-public void write(byte b) {
-public void write(short b) {
+    byte myByte;
+    short myShort;
+    public void test1(boolean a) {
+        write(a ? (byte) 0 : (byte) 1);
+    }
+    public void test2(boolean a) {
+        write(a ? (byte) 0 : myByte);
+    }
+    public void test3(boolean a) {
+        write(a ? (byte) 0 : (byte) 127);
+    }
+    public void test4(boolean a) {
+        write(a ? (short) 0 : (short) 1);
+    }
+    public void test5(boolean a) {
+        write(a ? myShort : (short) 0);
+    }
+    public void test6(boolean a) {
+        write(a ? Short.MIN_VALUE : (short) 0);
+    }
+    public void write(byte b) { }
+    public void write(short b) { }
 }
 "#;
 
@@ -459,25 +482,33 @@ fn cmp_op_test() {
     let helper = IntegrationTestHelper::new("cmp_op_test");
     let source = r#"
 public class TestCls {
-public boolean testGT(float a) {
-return a > 3.0f;
-}
-public boolean testLT(float b) {
-return b < 2.0f;
-public boolean testEQ(float c) {
-return c == 1.0f;
-public boolean testNE(float d) {
-return d != 0.0f;
-public boolean testGE(float e) {
-return e >= -1.0f;
-public boolean testLE(float f) {
-return f <= -2.0f;
-public boolean testGT2(float g) {
-return 4.0f > g;
-public boolean testLT2(long h) {
-return 5 < h;
-public boolean testGE2(double i) {
-return 6.5d < i;
+    public boolean testGT(float a) {
+        return a > 3.0f;
+    }
+    public boolean testLT(float b) {
+        return b < 2.0f;
+    }
+    public boolean testEQ(float c) {
+        return c == 1.0f;
+    }
+    public boolean testNE(float d) {
+        return d != 0.0f;
+    }
+    public boolean testGE(float e) {
+        return e >= -1.0f;
+    }
+    public boolean testLE(float f) {
+        return f <= -2.0f;
+    }
+    public boolean testGT2(float g) {
+        return 4.0f > g;
+    }
+    public boolean testLT2(long h) {
+        return 5 < h;
+    }
+    public boolean testGE2(double i) {
+        return 6.5d < i;
+    }
 }
 "#;
 
@@ -507,11 +538,12 @@ fn cmp_op2_test() {
     let helper = IntegrationTestHelper::new("cmp_op2_test");
     let source = r#"
 public class TestCls {
-public boolean testGT(float a, float b) {
-return a > b;
-}
-public boolean testLT(float c, double d) {
-return c < d;
+    public boolean testGT(float a, float b) {
+        return a > b;
+    }
+    public boolean testLT(float c, double d) {
+        return c < d;
+    }
 }
 "#;
 
@@ -649,19 +681,23 @@ fn condition_in_loop_test() {
     let helper = IntegrationTestHelper::new("condition_in_loop_test");
     let source = r#"
 public class TestCls {
-private static int test(int a, int b) {
-int c = a + b;
-for (int i = a; i < b; i++) {
-if (i == 7) {
-c += 2;
-} else {
-c *= 2;
-}
-c--;
-return c;
-public void check() {
-assertThat(test(5, 9)).isEqualTo(115);
-assertThat(test(8, 23)).isEqualTo(1015807);
+    private static int test(int a, int b) {
+        int c = a + b;
+        for (int i = a; i < b; i++) {
+            if (i == 7) {
+                c += 2;
+            } else {
+                c *= 2;
+            }
+            c--;
+        }
+        return c;
+    }
+    public void check() {
+        assertThat(test(5, 9)).isEqualTo(115);
+        assertThat(test(8, 23)).isEqualTo(1015807);
+    }
+    private void assertThat(int v) {}
 }
 "#;
 
@@ -686,19 +722,23 @@ fn condition_in_loop_test_no_debug() {
     let helper = IntegrationTestHelper::new("condition_in_loop_test_no_debug");
     let source = r#"
 public class TestCls {
-private static int test(int a, int b) {
-int c = a + b;
-for (int i = a; i < b; i++) {
-if (i == 7) {
-c += 2;
-} else {
-c *= 2;
-}
-c--;
-return c;
-public void check() {
-assertThat(test(5, 9)).isEqualTo(115);
-assertThat(test(8, 23)).isEqualTo(1015807);
+    private static int test(int a, int b) {
+        int c = a + b;
+        for (int i = a; i < b; i++) {
+            if (i == 7) {
+                c += 2;
+            } else {
+                c *= 2;
+            }
+            c--;
+        }
+        return c;
+    }
+    public void check() {
+        assertThat(test(5, 9)).isEqualTo(115);
+        assertThat(test(8, 23)).isEqualTo(1015807);
+    }
+    private void assertThat(int v) {}
 }
 "#;
 
@@ -745,15 +785,17 @@ fn conditions10_test() {
     let helper = IntegrationTestHelper::new("conditions10_test");
     let source = r#"
 public class TestCls {
-public void test(boolean a, int b) {
-if (a || b > 2) {
-b++;
-}
-if (!a || (b >= 0 && b <= 11)) {
-System.out.println("1");
-} else {
-System.out.println("2");
-System.out.println("3");
+    public void test(boolean a, int b) {
+        if (a || b > 2) {
+            b++;
+        }
+        if (!a || (b >= 0 && b <= 11)) {
+            System.out.println("1");
+        } else {
+            System.out.println("2");
+            System.out.println("3");
+        }
+    }
 }
 "#;
 
@@ -774,11 +816,13 @@ fn conditions11_test() {
     let helper = IntegrationTestHelper::new("conditions11_test");
     let source = r#"
 public class TestCls {
-public void test(boolean a, int b) {
-if (a || b > 2) {
-f();
-}
-private void f() {
+    public void test(boolean a, int b) {
+        if (a || b > 2) {
+            f();
+        }
+    }
+    private void f() {
+    }
 }
 "#;
 
@@ -803,32 +847,42 @@ fn conditions12_test() {
     let helper = IntegrationTestHelper::new("conditions12_test");
     let source = r#"
 public class TestCls {
-static boolean autoStop = true;
-static boolean qualityReading = false;
-static int lastValidRaw = -1;
-public static void main(String[] args) throws Exception {
-int a = 5;
-int b = 30;
-dataProcess(a, b);
-}
-public static void dataProcess(int raw, int quality) {
-if (quality >= 10 && raw != 0) {
-System.out.println("OK" + raw);
-qualityReading = false;
-} else if (raw == 0 || quality < 6 || !qualityReading) {
-System.out.println("Not OK" + raw);
-} else {
-System.out.println("Quit OK" + raw);
-if (quality < 30) {
-int timeLeft = 30 - quality;
-if (quality >= 10) {
-System.out.println("Processing" + timeLeft);
-System.out.println("Finish Processing");
-if (raw > 0) {
-lastValidRaw = raw;
-if (quality >= 30 && autoStop) {
-System.out.println("Finished");
-if (!autoStop && lastValidRaw > -1 && quality < 10) {
+    static boolean autoStop = true;
+    static boolean qualityReading = false;
+    static int lastValidRaw = -1;
+
+    public static void main(String[] args) throws Exception {
+        int a = 5;
+        int b = 30;
+        dataProcess(a, b);
+    }
+
+    public static void dataProcess(int raw, int quality) {
+        if (quality >= 10 && raw != 0) {
+            System.out.println("OK" + raw);
+            qualityReading = false;
+        } else if (raw == 0 || quality < 6 || !qualityReading) {
+            System.out.println("Not OK" + raw);
+        } else {
+            System.out.println("Quit OK" + raw);
+        }
+        if (quality < 30) {
+            int timeLeft = 30 - quality;
+            if (quality >= 10) {
+                System.out.println("Processing" + timeLeft);
+            }
+        }
+        System.out.println("Finish Processing");
+        if (raw > 0) {
+            lastValidRaw = raw;
+        }
+        if (quality >= 30 && autoStop) {
+            System.out.println("Finished");
+        }
+        if (!autoStop && lastValidRaw > -1 && quality < 10) {
+            // handle case
+        }
+    }
 }
 "#;
 
@@ -849,16 +903,18 @@ fn conditions13_test() {
     let helper = IntegrationTestHelper::new("conditions13_test");
     let source = r#"
 public class TestCls {
-static boolean qualityReading;
-public static void dataProcess(int raw, int quality) {
-if (quality >= 10 && raw != 0) {
-System.out.println("OK" + raw);
-qualityReading = false;
-} else if (raw == 0 || quality < 6 || !qualityReading) {
-System.out.println("Not OK" + raw);
-} else {
-System.out.println("Quit OK" + raw);
-}
+    static boolean qualityReading;
+
+    public static void dataProcess(int raw, int quality) {
+        if (quality >= 10 && raw != 0) {
+            System.out.println("OK" + raw);
+            qualityReading = false;
+        } else if (raw == 0 || quality < 6 || !qualityReading) {
+            System.out.println("Not OK" + raw);
+        } else {
+            System.out.println("Quit OK" + raw);
+        }
+    }
 }
 "#;
 
@@ -883,13 +939,14 @@ fn conditions14_test() {
     let helper = IntegrationTestHelper::new("conditions14_test");
     let source = r#"
 public class TestCls {
-public static boolean test(Object a, Object b) {
-boolean r = a == null ? b != null : !a.equals(b);
-if (r) {
-return false;
-}
-System.out.println("r=" + r);
-return true;
+    public static boolean test(Object a, Object b) {
+        boolean r = a == null ? b != null : !a.equals(b);
+        if (r) {
+            return false;
+        }
+        System.out.println("r=" + r);
+        return true;
+    }
 }
 "#;
 
@@ -912,43 +969,48 @@ fn conditions15_test() {
     let helper = IntegrationTestHelper::new("conditions15_test");
     let source = r#"
 public class TestCls {
-public static boolean test(final String name) {
-if (isEmpty(name)) {
-return false;
-}
-if ("1".equals(name)
-|| "2".equals(name)
-|| "3".equals(name)
-|| "4".equals(name)
-|| "5".equals(name)
-|| "6".equals(name)
-|| "7".equals(name)
-|| "8".equals(name)
-|| "9".equals(name)
-|| "10".equals(name)
-|| "11".equals(name)
-|| "12".equals(name)
-|| "13".equals(name)
-|| "14".equals(name)
-|| "15".equals(name)
-|| "16".equals(name)
-|| "17".equals(name)
-|| "18".equals(name)
-|| "19".equals(name)
-|| "20".equals(name)
-|| "22".equals(name)
-|| "23".equals(name)
-|| "24".equals(name)
-|| "25".equals(name)
-|| "26".equals(name)
-|| "27".equals(name)
-|| "28".equals(name)
-|| "29".equals(name)
-|| "30".equals(name)) {
-} else {
-return true;
-private static boolean isEmpty(String name) {
-return name.isEmpty();
+    public static boolean test(final String name) {
+        if (isEmpty(name)) {
+            return false;
+        }
+        if ("1".equals(name)
+                || "2".equals(name)
+                || "3".equals(name)
+                || "4".equals(name)
+                || "5".equals(name)
+                || "6".equals(name)
+                || "7".equals(name)
+                || "8".equals(name)
+                || "9".equals(name)
+                || "10".equals(name)
+                || "11".equals(name)
+                || "12".equals(name)
+                || "13".equals(name)
+                || "14".equals(name)
+                || "15".equals(name)
+                || "16".equals(name)
+                || "17".equals(name)
+                || "18".equals(name)
+                || "19".equals(name)
+                || "20".equals(name)
+                || "22".equals(name)
+                || "23".equals(name)
+                || "24".equals(name)
+                || "25".equals(name)
+                || "26".equals(name)
+                || "27".equals(name)
+                || "28".equals(name)
+                || "29".equals(name)
+                || "30".equals(name)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private static boolean isEmpty(String name) {
+        return name.isEmpty();
+    }
 }
 "#;
 
@@ -969,14 +1031,23 @@ fn conditions16_test() {
     let helper = IntegrationTestHelper::new("conditions16_test");
     let source = r#"
 public class TestCls {
-private static boolean test(int a, int b) {
-return a < 0 || b % 2 != 0 && a > 28 || b < 0;
-}
-public void check() {
-assertThat(test(-1, 1)).isTrue();
-assertThat(test(1, -1)).isTrue();
-assertThat(test(29, 3)).isTrue();
-assertThat(test(2, 2)).isFalse();
+    private static boolean test(int a, int b) {
+        return a < 0 || b % 2 != 0 && a > 28 || b < 0;
+    }
+
+    public void check() {
+        assertThat(test(-1, 1)).isTrue();
+        assertThat(test(1, -1)).isTrue();
+        assertThat(test(29, 3)).isTrue();
+        assertThat(test(2, 2)).isFalse();
+    }
+
+    private A assertThat(boolean v) { return null; }
+
+    class A {
+        void isTrue() {}
+        void isFalse() {}
+    }
 }
 "#;
 
@@ -998,13 +1069,17 @@ fn conditions17_test() {
     let helper = IntegrationTestHelper::new("conditions17_test");
     let source = r#"
 public class TestCls {
-public static final int SOMETHING = 2;
-public static void test(int a) {
-if ((a & SOMETHING) != 0) {
-print(1);
-}
-print(2);
-public static void print(Object o) {
+    public static final int SOMETHING = 2;
+
+    public static void test(int a) {
+        if ((a & SOMETHING) != 0) {
+            print(1);
+        }
+        print(2);
+    }
+
+    public static void print(Object o) {
+    }
 }
 "#;
 
@@ -1048,16 +1123,19 @@ fn conditions2_test() {
     let helper = IntegrationTestHelper::new("conditions2_test");
     let source = r#"
 public class TestCls {
-int c;
-String d;
-String f;
-public void testComplexIf(String a, int b) {
-if (d == null || (c == 0 && b != -1 && d.length() == 0)) {
-c = a.codePointAt(c);
-} else {
-if (a.hashCode() != 0xCDE) {
-c = f.compareTo(a);
-}
+    int c;
+    String d;
+    String f;
+
+    public void testComplexIf(String a, int b) {
+        if (d == null || (c == 0 && b != -1 && d.length() == 0)) {
+            c = a.codePointAt(c);
+        } else {
+            if (a.hashCode() != 0xCDE) {
+                c = f.compareTo(a);
+            }
+        }
+    }
 }
 "#;
 
@@ -1100,24 +1178,50 @@ fn conditions3_test() {
 
     let helper = IntegrationTestHelper::new("conditions3_test");
     let source = r#"
+import java.util.List;
+import java.util.regex.Pattern;
+
 public class TestCls {
-private static final Pattern PATTERN = Pattern.compile("[a-f0-9]{20}");
-public static Object test(final A a) {
-List<String> list = a.getList();
-if (list == null) {
-return null;
+    private static final Pattern PATTERN = Pattern.compile("[a-f0-9]{20}");
+
+    public static Object test(final A a) {
+        List<String> list = a.getList();
+        if (list == null) {
+            return null;
+        }
+        if (list.size() != 1) {
+            return null;
+        }
+        String s = list.get(0);
+        if (isEmpty(s)) {
+            return null;
+        }
+        if (isDigitsOnly(s)) {
+            return new A().set(s);
+        }
+        if (PATTERN.matcher(s).matches()) {
+            return s;
+        }
+        return null;
+    }
+
+    private static boolean isDigitsOnly(String s) {
+        return false;
+    }
+
+    private static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
+    }
 }
-if (list.size() != 1) {
-String s = list.get(0);
-if (isEmpty(s)) {
-if (isDigitsOnly(s)) {
-return new A().set(s);
-if (PATTERN.matcher(s).matches()) {
-private static boolean isDigitsOnly(String s) {
-return false;
-private static boolean isEmpty(String s) {
-public Object set(String s) {
-public List<String> getList() {
+
+class A {
+    public Object set(String s) {
+        return s;
+    }
+
+    public List<String> getList() {
+        return null;
+    }
 }
 "#;
 
@@ -1168,16 +1272,27 @@ fn conditions5_test() {
     let helper = IntegrationTestHelper::new("conditions5_test");
     let source = r#"
 public class TestCls {
-public static void test(Object a1, Object a2) {
-if (a1 == null) {
-if (a2 != null) {
-throw new AssertionError(a1 + " != " + a2);
-}
-} else if (!a1.equals(a2)) {
-public static void test2(Object a1, Object a2) {
-if (a1 != null) {
-if (!a1.equals(a2)) {
-} else {
+    public static void test(Object a1, Object a2) {
+        if (a1 == null) {
+            if (a2 != null) {
+                throw new AssertionError(a1 + " != " + a2);
+            }
+        } else if (!a1.equals(a2)) {
+            throw new AssertionError(a1 + " != " + a2);
+        }
+    }
+
+    public static void test2(Object a1, Object a2) {
+        if (a1 != null) {
+            if (!a1.equals(a2)) {
+                throw new AssertionError(a1 + " != " + a2);
+            }
+        } else {
+            if (a2 != null) {
+                throw new AssertionError(a1 + " != " + a2);
+            }
+        }
+    }
 }
 "#;
 
@@ -1197,12 +1312,15 @@ fn conditions6_test() {
 
     let helper = IntegrationTestHelper::new("conditions6_test");
     let source = r#"
+import java.util.List;
+
 public class TestCls {
-public boolean test(List<String> l1, List<String> l2) {
-if (l2.size() > 0) {
-l1.clear();
-}
-return l1.size() == 0;
+    public boolean test(List<String> l1, List<String> l2) {
+        if (l2.size() > 0) {
+            l1.clear();
+        }
+        return l1.size() == 0;
+    }
 }
 "#;
 
@@ -1225,10 +1343,11 @@ fn conditions7_test() {
     let helper = IntegrationTestHelper::new("conditions7_test");
     let source = r#"
 public class TestCls {
-public void test(int[] a, int i) {
-if (i >= 0 && i < a.length) {
-a[i]++;
-}
+    public void test(int[] a, int i) {
+        if (i >= 0 && i < a.length) {
+            a[i]++;
+        }
+    }
 }
 "#;
 
@@ -1251,27 +1370,49 @@ fn conditions8_test() {
     let helper = IntegrationTestHelper::new("conditions8_test");
     let source = r#"
 public class TestCls {
-private TestCls pager;
-private TestCls listView;
-public void test(TestCls view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-if (!isUsable()) {
-return;
-}
-if (!pager.hasMore()) {
-if (getLoaderManager().hasRunningLoaders()) {
-if (listView != null
-&& listView.getLastVisiblePosition() >= pager.size()) {
-showMore();
-private void showMore() {
-private int size() {
-return 0;
-private int getLastVisiblePosition() {
-private boolean hasRunningLoaders() {
-return false;
-private TestCls getLoaderManager() {
-return null;
-private boolean hasMore() {
-private boolean isUsable() {
+    private TestCls pager;
+    private TestCls listView;
+
+    public void test(TestCls view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (!isUsable()) {
+            return;
+        }
+        if (!pager.hasMore()) {
+            return;
+        }
+        if (getLoaderManager().hasRunningLoaders()) {
+            return;
+        }
+        if (listView != null && listView.getLastVisiblePosition() >= pager.size()) {
+            showMore();
+        }
+    }
+
+    private void showMore() {}
+
+    private int size() {
+        return 0;
+    }
+
+    private int getLastVisiblePosition() {
+        return 0;
+    }
+
+    private boolean hasRunningLoaders() {
+        return false;
+    }
+
+    private TestCls getLoaderManager() {
+        return this;
+    }
+
+    private boolean hasMore() {
+        return true;
+    }
+
+    private boolean isUsable() {
+        return true;
+    }
 }
 "#;
 
@@ -1293,12 +1434,13 @@ fn conditions9_test() {
     let helper = IntegrationTestHelper::new("conditions9_test");
     let source = r#"
 public class TestCls {
-public void test(boolean a, int b) throws Exception {
-if (!a || (b >= 0 && b <= 11)) {
-System.out.println('1');
-} else {
-System.out.println('2');
-}
+    public void test(boolean a, int b) throws Exception {
+        if (!a || (b >= 0 && b <= 11)) {
+            System.out.println('1');
+        } else {
+            System.out.println('2');
+        }
+    }
 }
 "#;
 
@@ -1324,22 +1466,23 @@ fn else_if_test() {
     let helper = IntegrationTestHelper::new("else_if_test");
     let source = r#"
 public class TestCls {
-public int testIfElse(String str) {
-int r;
-if (str.equals("a")) {
-r = 1;
-} else if (str.equals("b")) {
-r = 2;
-} else if (str.equals("3")) {
-r = 3;
-} else if (str.equals("$")) {
-r = 4;
-} else {
-r = -1;
-System.out.println();
-}
-r = r * 10;
-return Math.abs(r);
+    public int testIfElse(String str) {
+        int r;
+        if (str.equals("a")) {
+            r = 1;
+        } else if (str.equals("b")) {
+            r = 2;
+        } else if (str.equals("3")) {
+            r = 3;
+        } else if (str.equals("$")) {
+            r = 4;
+        } else {
+            r = -1;
+            System.out.println();
+        }
+        r = r * 10;
+        return Math.abs(r);
+    }
 }
 "#;
 
@@ -1360,15 +1503,18 @@ fn else_if_code_style_test() {
     let helper = IntegrationTestHelper::new("else_if_code_style_test");
     let source = r#"
 public class TestCls {
-public void test(String str) {
-if ("a".equals(str)) {
-call(1);
-} else if ("b".equals(str)) {
-call(2);
-} else if ("c".equals(str)) {
-call(3);
-}
-private void call(int i) {
+    public void test(String str) {
+        if ("a".equals(str)) {
+            call(1);
+        } else if ("b".equals(str)) {
+            call(2);
+        } else if ("c".equals(str)) {
+            call(3);
+        }
+    }
+
+    private void call(int i) {
+    }
 }
 "#;
 

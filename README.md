@@ -68,7 +68,7 @@ Current focus areas for reaching JADX parity:
 |----------|------|--------|--------|
 | **1** | Enable 675 integration tests | Visibility into what's broken, regression prevention | 🔄 In Progress |
 | **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% | ✅ Done (Dec 15) |
-| **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | |
+| **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
 | **4** | For-loop recognition | Convert while loops to for/for-each patterns | |
 | **5** | Ternary detection | Convert if-else to `? :` expressions | |
 
@@ -179,7 +179,7 @@ Dexterity  │  112  │  3.88s │  9,607
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files |
 | Variable Naming | ✅ 100% | Full JADX parity |
-| Optimization Passes | 🔶 30% | Missing shrinking, simplification, deboxing |
+| Optimization Passes | 🔶 40% | Deboxing done; missing shrinking, simplification |
 
 ## CLI Reference
 
@@ -410,7 +410,7 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | Core pipeline | ~85% | Parsing, SSA, type inference, regions, codegen work |
-| Optimization passes | ~30% | Missing shrinking, simplification, deboxing |
+| Optimization passes | ~40% | Deboxing done; missing shrinking, simplification |
 | Tooling/extras | ~20% | CLI only, no GUI/plugins/IDE |
 
 ### Missing Decompiler Passes (High Priority)
@@ -419,7 +419,7 @@ The region builder transforms flat control flow graphs into hierarchical region 
 |------|---------|
 | `CodeShrinkVisitor` | Remove redundant code, unused variables |
 | `SimplifyVisitor` | Simplify expressions, optimize conditionals |
-| `DeboxingVisitor` | Remove Integer.valueOf(), Boolean.valueOf() |
+| ~~`DeboxingVisitor`~~ | ~~Remove Integer.valueOf(), Boolean.valueOf()~~ ✅ Done |
 | `ConstInlineVisitor` | Inline constant values |
 | `EnumVisitor` | Enum class reconstruction |
 | `TernaryMod` | Ternary expression conversion |
@@ -462,7 +462,6 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | Rename comments | `/* renamed from: X */` annotations |
 | JSON IR export | Full JSON intermediate representation |
 | Source maps | IDE source mapping output |
-| Boxing optimization | Clean up redundant boxing in output |
 | Debug line comments | Inline bytecode offset comments |
 
 ### Not Planned
