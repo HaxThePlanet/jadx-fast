@@ -68,8 +68,29 @@ Current focus areas for reaching JADX parity:
 | **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
 | **4** | For-loop recognition | Convert while loops to for/for-each patterns | ✅ Done (Dec 15) |
 | **5** | Ternary detection | Convert if-else to `? :` expressions | ✅ Done (Dec 15) |
-| **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR | ✅ Done (Dec 15) |
+| **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR, increment/decrement patterns (`i++`, `i--`, `i += N`) | ✅ Done (Dec 15) |
 | **7** | Constant inlining | Inline single-use constants into expressions | ✅ Done (Dec 15) |
+
+## Recent Implementation Details
+
+### Increment/Decrement Pattern Detection
+
+A new optimization pass detects common arithmetic patterns and transforms them into idiomatic Java increment/decrement operations. This improves code readability by converting verbose arithmetic expressions into compact forms.
+
+**Patterns Detected:**
+- `dest = var + 1` (where dest register equals var register) → `var++`
+- `dest = var - 1` (where dest register equals var register) → `var--`
+- `dest = 1 + var` (commutative addition) → `var++`
+- `dest = var + N` (for other constant values N) → `var += N`
+- `dest = var - N` (for other constant values N) → `var -= N`
+
+**Implementation:** File: `/crates/dexterity-codegen/src/body_gen.rs:637-729`
+
+The detection function `detect_increment_decrement` runs in two contexts:
+1. For inlined expressions (used exactly once)
+2. For regular assignment statements
+
+**Test Coverage:** A comprehensive unit test `test_increment_decrement_pattern_detection` verifies all pattern variants and edge cases.
 
 ## Quick Start
 
@@ -172,7 +193,7 @@ Dexterity  │  112  │  3.88s │  9,607
 | DEX Parsing | ✅ 100% | All 224 Dalvik opcodes |
 | Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
 | Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
-| Code Generation | 🔶 95% | Ternary, multi-catch, inner classes done; for-each disabled |
+| Code Generation | 🔶 95% | Ternary, multi-catch, inner classes, increment/decrement patterns done; for-each disabled |
 | Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
@@ -513,14 +534,14 @@ All test suites are passing with 100% success rate.
 | dexterity-cli (unit) | 8 | 8 | 0 | ✅ All Passing |
 | dexterity-cli (golden) | 4 | 4 | 0 | ✅ All Passing |
 | dexterity-cli (framework) | 3 | 3 | 0 | ✅ All Passing |
-| dexterity-codegen | 74 | 74 | 0 | ✅ All Passing |
+| dexterity-codegen | 75 | 75 | 0 | ✅ All Passing |
 | dexterity-deobf | 23 | 23 | 0 | ✅ All Passing |
 | dexterity-dex | 35 | 35 | 0 | ✅ All Passing |
 | dexterity-ir | 40 | 40 | 0 | ✅ All Passing |
 | dexterity-kotlin | 3 | 3 | 0 | ✅ All Passing |
 | dexterity-passes | 77 | 77 | 0 | ✅ All Passing |
 | dexterity-resources | 8 | 8 | 0 | ✅ All Passing |
-| **TOTAL** | **958** | **958** | **0** | **✅ 100% Pass Rate** |
+| **TOTAL** | **959** | **959** | **0** | **✅ 100% Pass Rate** |
 
 ### Integration Test Categories
 
