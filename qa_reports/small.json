@@ -1,0 +1,38 @@
+{
+  "test_case": "small",
+  "jadx_metrics": {
+    "file_count": 2,
+    "total_loc": 36,
+    "avg_loc_per_class": 18.0,
+    "total_methods": 1,
+    "total_fields": 1,
+    "avg_variable_quality": 1.0,
+    "avg_method_quality": 1.0,
+    "avg_package_quality": 1.0,
+    "total_defects": 0,
+    "defect_breakdown": {}
+  },
+  "dexterity_metrics": {
+    "file_count": 1,
+    "total_loc": 12,
+    "avg_loc_per_class": 12.0,
+    "total_methods": 1,
+    "total_fields": 0,
+    "avg_variable_quality": 1.0,
+    "avg_method_quality": 1.0,
+    "avg_package_quality": 1.0,
+    "total_defects": 0,
+    "defect_breakdown": {}
+  },
+  "missing_classes": [
+    "io/github/skylot/android/smallapp/MainActivity.java",
+    "io/github/skylot/android/smallapp/R.java"
+  ],
+  "per_class_comparison": [],
+  "summary": {
+    "completeness_score": 50.0,
+    "code_quality_score": 100.0,
+    "defect_score": 100.0,
+    "overall_score": 90.0
+  }
+}

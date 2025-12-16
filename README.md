@@ -63,16 +63,62 @@ Current focus areas for reaching JADX parity:
 
 | Priority | Task | Impact | Status |
 |----------|------|--------|--------|
-| **1** | Complete 683 integration tests | All test sources and assertions filled in | ✅ Done (Dec 15) |
-| **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% | ✅ Done (Dec 15) |
-| **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
-| **4** | For-loop recognition | Convert while loops to for/for-each patterns | ✅ Done (Dec 15) |
-| **5** | Ternary detection | Convert if-else to `? :` expressions | ✅ Done (Dec 15) |
-| **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR, increment/decrement patterns (`i++`, `i--`, `i += N`), bitwise-to-logical conversion, algebraic identities (`x+0`→`x`, `x*0`→`0`) | ✅ Done (Dec 15) |
-| **7** | Constant inlining | Inline single-use constants into expressions | ✅ Done (Dec 15) |
-| **8** | Condition simplification | Negate conditions intelligently (`!(a < b)` → `a >= b`), double negation elimination | ✅ Done (Dec 15) |
+| **1** | Complete 683 integration tests | All test sources and assertions filled in | Done (Dec 15) |
+| **2** | Type inference bounds refactor | Reduces Unknown types from ~40% to ~20% | Done (Dec 15) |
+| **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | Done (Dec 15) |
+| **4** | For-loop recognition | Convert while loops to for/for-each patterns | Done (Dec 15) |
+| **5** | Ternary detection | Convert if-else to `? :` expressions | Done (Dec 15) |
+| **6** | Arithmetic simplification | Clean up `x + (-1)` to `x - 1`, boolean XOR, increment/decrement patterns (`i++`, `i--`, `i += N`), bitwise-to-logical conversion, algebraic identities (`x+0` to `x`, `x*0` to `0`) | Done (Dec 15) |
+| **7** | Constant inlining | Inline single-use constants into expressions | Done (Dec 15) |
+| **8** | Condition simplification | Negate conditions intelligently (`!(a < b)` to `a >= b`), double negation elimination | Done (Dec 15) |
+| **9** | Switch statement completeness | Fix empty switch bodies, proper case collection, default case handling | Done (Dec 16) |
 
 ## Recent Implementation Details
+
+### Switch Statement Completeness (Dec 16)
+
+Fixed critical issues with switch statement decompilation that caused empty switch bodies and missing cases.
+
+**Root Causes Fixed:**
+
+1. **Missing switch successors in CFG** (`block_split.rs`): The `compute_successors()` function was not handling PackedSwitch and SparseSwitch instructions - they fell through to the default case which only added the next block. Now properly adds all case targets and the default (fallthrough) block.
+
+2. **Flawed merge point detection** (`region_builder.rs`): The `find_switch_merge()` function used a reachable-set-intersection algorithm that failed when cases terminated (return/throw). Replaced with a dominance-based approach using immediate post-dominator (ipdom) and dominance frontier analysis.
+
+3. **Incomplete case body collection** (`region_builder.rs`): The `collect_case_blocks()` function only followed single successors. Rewrote to use BFS traversal to collect all blocks reachable from case entry bounded by merge point.
+
+4. **Incorrect default case detection** (`region_builder.rs`): Fixed logic to properly identify the default case as the last successor (fallthrough block) that does not have a corresponding key in the switch info.
+
+**Before:**
+```java
+switch (i) {
+}
+ProtocolException protocolException = new ProtocolException(...);
+throw protocolException;
+```
+
+**After:**
+```java
+switch (i) {
+    case 8:
+        // ... proper case body ...
+    case 9:
+        this.frameCallback.onReadPing(this.controlFrameBuffer.readByteString());
+        break;
+    case 10:
+        this.frameCallback.onReadPong(this.controlFrameBuffer.readByteString());
+        break;
+    default:
+        ProtocolException protocolException = new ProtocolException(...);
+        throw protocolException;
+}
+```
+
+**Files Changed:**
+- `crates/dexterity-passes/src/block_split.rs` - Added PackedSwitch/SparseSwitch handling in `compute_successors()`
+- `crates/dexterity-passes/src/region_builder.rs` - Rewrote `find_switch_merge()`, `collect_case_blocks()`, and default case detection
+
+**Test Results:** All 683 integration tests pass.
 
 ### Increment/Decrement Pattern Detection
 

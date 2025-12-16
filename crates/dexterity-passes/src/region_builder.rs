@@ -1248,17 +1248,28 @@ impl<'a> RegionBuilder<'a> {
                 Region::Sequence(contents)
             };
 
-            // Get key for this case
-            let key = switch_info
-                .as_ref()
-                .and_then(|info| info.get(i))
-                .copied()
-                .unwrap_or(i as i32);
+            // Determine if this is the default case
+            // For packed/sparse switches, default is the fallthrough block (last successor)
+            // which doesn't have a corresponding key in switch_info
+            let is_default = if let Some(ref info) = switch_info {
+                // If we have switch info, default is the successor without a corresponding key
+                // The last successor is always the default (fallthrough) block
+                i == succs.len() - 1 || i >= info.len()
+            } else {
+                // No switch info - last successor is default
+                i == succs.len() - 1
+            };
 
-            // Check if this is the default case (usually last successor for packed switch)
-            if i == succs.len() - 1 && switch_info.is_none() {
+            if is_default {
                 default_case = Some(Box::new(case_region));
             } else {
+                // Get key for this case
+                let key = switch_info
+                    .as_ref()
+                    .and_then(|info| info.get(i))
+                    .copied()
+                    .unwrap_or(i as i32);
+
                 cases.push(SwitchCase {
                     keys: vec![key],
                     region: Box::new(case_region),
@@ -1309,15 +1320,182 @@ impl<'a> RegionBuilder<'a> {
     }
 
     /// Find the merge point for a switch statement
+    ///
+    /// Uses a dominance-based approach (like JADX's calcSwitchOut):
+    /// 1. Primary: Use immediate post-dominator of the switch block
+    /// 2. Fallback: Use dominance frontier union of non-terminating cases
+    /// 3. Handle terminating cases (return/throw) which don't contribute to merge
     fn find_switch_merge(&self, switch_block: u32, targets: &[u32]) -> Option<u32> {
         if targets.is_empty() {
             return None;
         }
 
-        // Collect all blocks reachable from each case
+        // Convert targets to a set for quick lookup
+        let target_set: BTreeSet<u32> = targets.iter().copied().collect();
+
+        // Strategy 1: Use immediate post-dominator (most reliable)
+        // The ipdom is the first block that ALL paths from the switch must pass through
+        if let Some(ipdom) = self.cfg.ipdom(switch_block) {
+            // Validate: ipdom should not be a case target itself (unless it's the only target)
+            // and should not be the switch block
+            if ipdom != switch_block && (!target_set.contains(&ipdom) || targets.len() == 1) {
+                // Check if ipdom is reachable from any non-terminating case
+                let has_non_terminating = targets.iter().any(|&t| {
+                    !self.is_terminating_case(t, switch_block, ipdom)
+                });
+
+                if has_non_terminating {
+                    return Some(ipdom);
+                }
+            }
+        }
+
+        // Strategy 2: Find merge via dominance frontier union
+        // Collect blocks in dominance frontier of each case target
+        let mut frontier_union: BTreeSet<u32> = BTreeSet::new();
+        let mut non_terminating_count = 0;
+
+        for &target in targets {
+            // Skip targets that terminate (return/throw) without reaching a common merge
+            if self.case_terminates_early(target, switch_block) {
+                continue;
+            }
+            non_terminating_count += 1;
+
+            // Add dominance frontier blocks
+            let df = self.cfg.dominance_frontier(target);
+            for block in df {
+                if block != switch_block {
+                    frontier_union.insert(block);
+                }
+            }
+        }
+
+        // If all cases terminate, there's no merge point
+        if non_terminating_count == 0 {
+            return None;
+        }
+
+        // Filter frontier to find valid merge candidates
+        // A valid merge point should:
+        // 1. Not be one of the case targets
+        // 2. Be reachable from at least one non-terminating case
+        let valid_merges: Vec<u32> = frontier_union
+            .into_iter()
+            .filter(|&b| !target_set.contains(&b))
+            .collect();
+
+        if valid_merges.len() == 1 {
+            return Some(valid_merges[0]);
+        }
+
+        // Multiple candidates: choose the one closest to switch (smallest block ID in RPO)
+        // This typically gives us the earliest merge point
+        if !valid_merges.is_empty() {
+            return valid_merges.into_iter().min();
+        }
+
+        // Strategy 3: Fallback - find first common reachable block from non-terminating cases
+        self.find_common_reachable(switch_block, targets)
+    }
+
+    /// Check if a case target terminates early (return/throw without reaching merge)
+    fn case_terminates_early(&self, target: u32, switch_block: u32) -> bool {
+        let mut visited = BTreeSet::new();
+        let mut worklist = vec![target];
+
+        while let Some(block) = worklist.pop() {
+            if !visited.insert(block) {
+                continue;
+            }
+
+            // Check if block terminates
+            if let Some(b) = self.cfg.get_block(block) {
+                if let Some(last) = b.instructions.last() {
+                    if matches!(last.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }) {
+                        // This path terminates - continue checking other paths
+                        continue;
+                    }
+                }
+            }
+
+            // Get successors
+            let succs = self.cfg.successors(block);
+            if succs.is_empty() {
+                // Dead end (likely unreachable)
+                continue;
+            }
+
+            // If we can reach a block that's not the switch and has multiple predecessors,
+            // this case doesn't terminate early - it reaches a merge point
+            for &succ in succs {
+                if succ == switch_block {
+                    // Loop back to switch - ignore
+                    continue;
+                }
+
+                let preds = self.cfg.predecessors(succ);
+                if preds.len() > 1 {
+                    // Found a merge point - this case doesn't terminate early
+                    return false;
+                }
+
+                if !visited.contains(&succ) {
+                    worklist.push(succ);
+                }
+            }
+        }
+
+        // All paths from this target terminate (return/throw)
+        true
+    }
+
+    /// Check if a case is terminating (ends with return/throw without reaching ipdom)
+    fn is_terminating_case(&self, target: u32, switch_block: u32, ipdom: u32) -> bool {
+        let mut visited = BTreeSet::new();
+        let mut worklist = vec![target];
+
+        while let Some(block) = worklist.pop() {
+            if !visited.insert(block) {
+                continue;
+            }
+
+            // Reached ipdom - not terminating
+            if block == ipdom {
+                return false;
+            }
+
+            // Check if block terminates
+            if let Some(b) = self.cfg.get_block(block) {
+                if let Some(last) = b.instructions.last() {
+                    if matches!(last.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }) {
+                        continue; // This path terminates, check other paths
+                    }
+                }
+            }
+
+            // Add successors (except back to switch)
+            for &succ in self.cfg.successors(block) {
+                if succ != switch_block && !visited.contains(&succ) {
+                    worklist.push(succ);
+                }
+            }
+        }
+
+        // Never reached ipdom - all paths terminate
+        true
+    }
+
+    /// Fallback: Find first common reachable block from non-terminating cases
+    fn find_common_reachable(&self, switch_block: u32, targets: &[u32]) -> Option<u32> {
+        // Collect reachable blocks from each non-terminating case
         let mut case_reaches: Vec<BTreeSet<u32>> = Vec::new();
 
         for &target in targets {
+            if self.case_terminates_early(target, switch_block) {
+                continue;
+            }
+
             let mut reachable = BTreeSet::new();
             let mut worklist = vec![target];
             let mut visited = BTreeSet::new();
@@ -1337,55 +1515,76 @@ impl<'a> RegionBuilder<'a> {
                 }
             }
 
-            case_reaches.push(reachable);
+            if !reachable.is_empty() {
+                case_reaches.push(reachable);
+            }
         }
 
-        // Find common blocks (intersection of all reachable sets)
         if case_reaches.is_empty() {
             return None;
         }
 
+        // Find common blocks (intersection of all reachable sets)
         let mut common = case_reaches[0].clone();
         for reaches in case_reaches.iter().skip(1) {
             common = common.intersection(reaches).copied().collect();
         }
 
+        // Remove case targets from common set
+        let target_set: BTreeSet<u32> = targets.iter().copied().collect();
+        common = common.difference(&target_set).copied().collect();
+
         // The merge point is the earliest common block
-        // (lowest ID, assuming blocks are numbered in order)
         common.into_iter().next()
     }
 
     /// Collect blocks belonging to a switch case until the merge point
+    ///
+    /// This uses a BFS traversal to collect ALL blocks reachable from the case start
+    /// that are bounded by the merge point. This properly handles:
+    /// - Nested if/else within cases
+    /// - Nested loops within cases
+    /// - Complex control flow patterns
     fn collect_case_blocks(&self, start: u32, merge: Option<u32>) -> Vec<u32> {
         let mut blocks = Vec::new();
-        let mut current = Some(start);
         let mut visited = BTreeSet::new();
+        let mut worklist = vec![start];
 
-        while let Some(block_id) = current {
-            if visited.contains(&block_id) {
-                break;
+        while let Some(block_id) = worklist.pop() {
+            // Skip if already visited
+            if !visited.insert(block_id) {
+                continue;
             }
+
+            // Stop at merge point (don't include it in case)
             if merge == Some(block_id) {
-                break;
+                continue;
             }
 
-            visited.insert(block_id);
+            // Add this block to the case
             blocks.push(block_id);
 
-            // Follow single successor or stop at branch
-            let succs = self.cfg.successors(block_id);
-            current = if succs.len() == 1 {
-                let next = succs[0];
-                if merge != Some(next) {
-                    Some(next)
-                } else {
-                    None
+            // Check if this block terminates (return/throw)
+            let terminates = self.cfg.get_block(block_id)
+                .and_then(|b| b.instructions.last())
+                .map(|insn| matches!(insn.insn_type, InsnType::Return { .. } | InsnType::Throw { .. }))
+                .unwrap_or(false);
+
+            if terminates {
+                // Don't follow successors of terminating blocks
+                continue;
+            }
+
+            // Add all successors to worklist
+            for &succ in self.cfg.successors(block_id) {
+                if !visited.contains(&succ) && merge != Some(succ) {
+                    worklist.push(succ);
                 }
-            } else {
-                None
-            };
+            }
         }
 
+        // Sort blocks by ID for consistent ordering
+        blocks.sort();
         blocks
     }
 }

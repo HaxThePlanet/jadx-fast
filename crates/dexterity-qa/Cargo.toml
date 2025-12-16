@@ -1,0 +1,18 @@
+[package]
+name = "dexterity-qa"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+clap = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+regex = { workspace = true }
+lazy_static = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+rayon = { workspace = true }
+walkdir = "2.4"
+csv = "1.3"

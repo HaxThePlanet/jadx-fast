@@ -288,6 +288,38 @@ fn compute_successors(
             InsnType::Return { .. } | InsnType::Throw { .. } => {
                 // No successors
             }
+            InsnType::PackedSwitch { targets, .. } => {
+                // Add all case targets
+                for target in targets {
+                    if let Some(&target_block) = offset_to_block.get(target) {
+                        if !successors.contains(&target_block) {
+                            successors.push(target_block);
+                        }
+                    }
+                }
+                // Add default case (fall-through to next block)
+                if let Some(&next_block) = find_next_block(block.id, all_blocks) {
+                    if !successors.contains(&next_block) {
+                        successors.push(next_block);
+                    }
+                }
+            }
+            InsnType::SparseSwitch { targets, .. } => {
+                // Add all case targets
+                for target in targets {
+                    if let Some(&target_block) = offset_to_block.get(target) {
+                        if !successors.contains(&target_block) {
+                            successors.push(target_block);
+                        }
+                    }
+                }
+                // Add default case (fall-through to next block)
+                if let Some(&next_block) = find_next_block(block.id, all_blocks) {
+                    if !successors.contains(&next_block) {
+                        successors.push(next_block);
+                    }
+                }
+            }
             _ => {
                 // Fall through to next block
                 if let Some(&next_block) = find_next_block(block.id, all_blocks) {
