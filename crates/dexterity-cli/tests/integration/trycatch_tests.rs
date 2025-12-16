@@ -537,24 +537,8 @@ public class TestCls {
 
 #[test]
 fn loop_in_try_catch_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("loop_in_try_catch_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -731,49 +715,14 @@ public class TestCls {
 
 #[test]
 fn nested_try_catch4_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("nested_try_catch4_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .does_not_contain("?? ");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
 fn nested_try_catch5_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("nested_try_catch5_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .does_not_contain("?? ")
-        .count_string(3, "throw ");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -808,25 +757,8 @@ Thread.sleep(50L);
 
 #[test]
 fn try_catch10_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("try_catch10_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .count_string(3, "return false;");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -996,22 +928,24 @@ fn try_catch7_test_no_debug() {
     let helper = IntegrationTestHelper::new("try_catch7_test_no_debug");
     let source = r#"
 public class TestCls {
-public Exception test() {
-Exception e = new Exception();
-try {
-Thread.sleep(50);
-} catch (Exception ex) {
-e = ex;
-}
-e.printStackTrace();
-return e;
+    public Exception test() {
+        Exception e = new Exception();
+        try {
+            Thread.sleep(50);
+        } catch (Exception ex) {
+            e = ex;
+        }
+        e.printStackTrace();
+        return e;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} catch (Exception e");
 }
 
 #[test]
@@ -1188,25 +1122,8 @@ assertThat(test(null)).isTrue();
 
 #[test]
 fn try_catch_finally10_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("try_catch_finally10_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .does_not_contain("boolean z = null;");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -1430,26 +1347,8 @@ public class TestCls {
 
 #[test]
 fn try_catch_finally15_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("try_catch_finally15_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("this.zza.transact(i, parcel, parcelObtain, 0);")
-        .does_not_contain("parcel = Parcel.obtain();");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -1908,25 +1807,8 @@ assertThat(test("n", "0xabX")).isEqualTo("Failed to parse number");
 
 #[test]
 fn try_catch_last_insn_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("try_catch_last_insn_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("return call();");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -1963,24 +1845,8 @@ public class TestCls {
 
 #[test]
 fn try_catch_multi_exception2_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("try_catch_multi_exception2_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -1992,17 +1858,26 @@ fn try_catch_no_move_exc_test() {
     }
 
     let helper = IntegrationTestHelper::new("try_catch_no_move_exc_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
+    private static void test(AutoCloseable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (Exception ignored) {
+            }
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("if (closeable != null) {")
+        .contains_one("try {")
+        .contains_one("closeable.close();");
 }
 
 #[test]
@@ -2014,10 +1889,17 @@ fn try_catch_no_move_exc2_test() {
     }
 
     let helper = IntegrationTestHelper::new("try_catch_no_move_exc2_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
+    private static void test(AutoCloseable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (Exception unused) {
+            }
+            System.nanoTime();
+        }
+    }
 }
 "#;
 
@@ -2025,7 +1907,9 @@ public class TestCls {
         .expect("Decompilation failed");
 
     result
-        .contains_one("try {");
+        .contains_one("try {")
+        .contains_one("} catch (Exception unused) {")
+        .contains("System.nanoTime();");
 }
 
 #[test]
@@ -2037,10 +1921,18 @@ fn try_catch_start_on_move_test() {
     }
 
     let helper = IntegrationTestHelper::new("try_catch_start_on_move_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
+    private static void test(String s) {
+        try {
+            call(s);
+        } catch (Exception unused) {
+            System.out.println("Failed call for " + s);
+        }
+    }
+
+    private static void call(String s) {
+    }
 }
 "#;
 
@@ -2049,7 +1941,8 @@ public class TestCls {
 
     result
         .contains_one("try {")
-        .contains_one("} catch (Exception e) {");
+        .contains_one("} catch (Exception e) {")
+        .contains("System.out.println(\"Failed call for \"");
 }
 
 #[test]
@@ -2061,10 +1954,24 @@ fn try_with_empty_catch_test() {
     }
 
     let helper = IntegrationTestHelper::new("try_with_empty_catch_test");
-    // TODO: Extract test source
     let source = r#"
-public class TestCls {
-    // Add test code here
+import java.util.Properties;
+
+public class TestCls extends Exception {
+    private static final long serialVersionUID = -5723049816464070603L;
+    private Properties field;
+
+    public TestCls(String str) {
+        super(str);
+        Properties properties = null;
+        try {
+            if (str.contains("properties")) {
+                properties = new Properties();
+            }
+        } catch (Exception unused) {
+        }
+        this.field = properties;
+    }
 }
 "#;
 
@@ -2078,48 +1985,14 @@ public class TestCls {
 
 #[test]
 fn try_with_empty_catch_triple_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("try_with_empty_catch_triple_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
 fn unreachable_catch_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("unreachable_catch_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains("IOException")
-        .contains("Collections.unmodifiableMap");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -2228,23 +2101,6 @@ public class TestCls {
 
 #[test]
 fn unreachable_catch2_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("unreachable_catch2_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .does_not_contain("break;");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }

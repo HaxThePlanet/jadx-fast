@@ -324,7 +324,12 @@ this.f++;
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("for (int i = 0; i < a.length; i++) {")
+        .contains_one("if (i < b) {")
+        .contains_one("break;")
+        .contains_one("this.f++;")
+        .count_string(0, "else");
 }
 
 #[test]
@@ -1370,110 +1375,32 @@ fn loop_restore_test() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("loop_restore_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
 fn loop_restore2_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("loop_restore2_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("while (1 == 0) {");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
 fn loop_restore3_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("loop_restore3_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .count_string(3, "while (");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
 fn multi_entry_loop_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("multi_entry_loop_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("while (true) {");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
 fn multi_entry_loop2_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("multi_entry_loop2_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("while (true) {");
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
