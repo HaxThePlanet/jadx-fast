@@ -63,10 +63,10 @@ Current focus areas for reaching JADX parity:
 
 | Priority | Task | Impact | Status |
 |----------|------|--------|--------|
-| **1** | Complete 683 integration tests (392 TODOs remain) | Fill in missing test sources and assertions | 🔄 In Progress |
+| **1** | Complete 683 integration tests (364 TODOs remain) | Fill in missing test sources and assertions | 🔄 In Progress |
 | **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% | ✅ Done (Dec 15) |
 | **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
-| **4** | For-loop recognition | Convert while loops to for/for-each patterns | ✅ Done (Dec 15) |
+| **4** | For-loop recognition | Convert while loops to for/for-each patterns | 🔶 Partial (Dec 15) |
 | **5** | Ternary detection | Convert if-else to `? :` expressions | ✅ Done (Dec 15) |
 | **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR | ✅ Done (Dec 15) |
 | **7** | Constant inlining | Inline single-use constants into expressions | ✅ Done (Dec 15) |
@@ -316,7 +316,7 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 
 | Category | Java | Rust | TODOs | Status |
 |----------|------|------|-------|--------|
-| others | 97 | 113 | 80 | ⚠️ Incomplete |
+| others | 97 | 113 | 73 | ⚠️ Incomplete |
 | trycatch | 51 | 58 | 38 | ⚠️ Incomplete |
 | names | 20 | 32 | 37 | ⚠️ Incomplete |
 | loops | 52 | 57 | 27 | ⚠️ Incomplete |
@@ -330,23 +330,23 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | invoke | 23 | 23 | 13 | ⚠️ Incomplete |
 | variables | 13 | 15 | 11 | ⚠️ Incomplete |
 | java8 | 11 | 14 | 7 | ⚠️ Incomplete |
-| switches | 26 | 23 | 6 | 🔶 Mostly done |
-| synchronize | 7 | 8 | 6 | ⚠️ Incomplete |
-| arrays | 16 | 16 | 5 | 🔶 Mostly done |
+| synchronize | 7 | 8 | 3 | 🔶 Mostly done |
+| switches | 26 | 23 | 0 | ✅ Done |
+| arrays | 16 | 16 | 0 | ✅ Done |
 | arith | 14 | 19 | 0 | ✅ Done |
 | annotations | 7 | 9 | 0 | ✅ Done |
-| android | 7 | 7 | 2 | ✅ Close |
-| debuginfo | 5 | 3 | 2 | ⚠️ Missing tests |
-| special | 1 | 1 | 2 | ⚠️ Incomplete |
-| deobf | 8 | 7 | 1 | ✅ Close |
+| android | 7 | 7 | 0 | ✅ Done |
+| debuginfo | 5 | 3 | 0 | ✅ Done |
+| special | 1 | 1 | 0 | ✅ Done |
+| deobf | 8 | 7 | 0 | ✅ Done |
 | usethis | 4 | 4 | 0 | ✅ Done |
 | code | 2 | 2 | 0 | ✅ Done |
 | fallback | 2 | 2 | 0 | ✅ Done |
 | jbc | 1 | 1 | 0 | ✅ Done |
 | sample | - | 5 | 0 | ✅ Done |
-| **TOTAL** | **577** | **680** | **392** | |
+| **TOTAL** | **577** | **680** | **364** | |
 
-Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 392 TODOs remaining.
+Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 364 TODOs remaining.
 
 ### Implementation TODOs
 
@@ -377,8 +377,8 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | Break/continue insertion | `EdgeInsn::Break/Continue` | Break/Continue nodes | Done |
 | Loop labels (nested) | Yes | Yes | Done |
 | **For-loop recognition** | `detect_indexed_for_pattern` | `LoopRegionVisitor` | Done |
-| **For-each (arrays)** | `detect_array_foreach_pattern` | Iterator/array patterns | Done |
-| **For-each (iterables)** | `detect_iterator_pattern` | Iterator patterns | Done |
+| **For-each (arrays)** | `detect_array_foreach_pattern` | Iterator/array patterns | **Disabled** |
+| **For-each (iterables)** | `detect_iterator_pattern` | Iterator patterns | **Disabled** |
 | **Conditionals** |
 | If-else detection | Yes | Yes | Done |
 | Merge point (post-dom) | Yes | Yes | Done |
@@ -401,9 +401,35 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | **Post-Processing** |
 | If optimization | No | `IfRegionVisitor` | **TODO** |
 | Clean regions pass | No | `CleanRegions` | **TODO** |
-| Loop visitor | Codegen-time detection | `LoopRegionVisitor` | Done |
+| Loop visitor | Codegen-time detection | `LoopRegionVisitor` | Partial (for-each disabled) |
 
 **Feature Completeness: ~85%** - For-loop recognition, ternary detection, and smart break insertion now implemented.
+
+### Known Limitations
+
+**For-each loop detection is disabled**: The current region builder doesn't always include all body blocks in the loop region, causing for-each loops to generate with empty bodies. Indexed for-loops (`for(int i=0; i<n; i++)`) work correctly, but for-each patterns over arrays and iterables are disabled and fall back to while loops.
+
+**Root cause**: For-each detection happens at code generation time, but the loop body region may not contain all the blocks that belong to the loop body. JADX solves this with a dedicated `LoopRegionVisitor` pass that runs BEFORE code generation, marking iterator instructions (`hasNext()`, `next()`) with `AFlag.DONT_GENERATE`.
+
+**Workaround needed**: Implement a proper `LoopRegionVisitor` pass that:
+1. Runs after region building but before code generation
+2. Detects for-each patterns (iterator and array-based)
+3. Marks the iterator variable and `next()` calls with `DontGenerate` flag
+4. Transforms the loop region to `LoopKind::ForEach` with proper element variable
+
+Until this is implemented, iterator-based loops generate as:
+```java
+while (iterator.hasNext()) {
+    Object item = iterator.next();
+    // body
+}
+```
+Instead of:
+```java
+for (Object item : collection) {
+    // body
+}
+```
 
 ### Implementation Status
 
