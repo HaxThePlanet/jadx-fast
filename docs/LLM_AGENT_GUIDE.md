@@ -388,16 +388,31 @@ Each fixed issue moves the needle:
 - Medium fixes: +1-3% improvement
 - Large fixes: +3-5% improvement
 
-**Recent Progress (Dec 16, 2025):**
+**Current Issue Status (Dec 16, 2025):**
+
+| Priority | Resolved | Remaining |
+|----------|----------|-----------|
+| CRITICAL | 4 (+1 partial) | 2 |
+| HIGH | 1 | 3 |
+| MEDIUM | 0 | 2 |
+
+**Total: 5 resolved, 7 remaining** to reach 90%+ quality target.
+
+**Recent Progress (Dec 16, 2025 - commit afef269):**
 - CRITICAL-001: Undefined loop variables - FIXED
 - CRITICAL-003: Type mismatch (null as 0) - FIXED
 - CRITICAL-005: Logic inversion in null checks - FIXED
+- HIGH-002: Duplicate variable declarations - FIXED
+- CRITICAL-004: Type comparison (== 0 vs == null) - PARTIAL (method parameters fixed)
 
-**Remaining blockers preventing production use:**
+**Remaining blockers preventing production use (7 issues):**
 1. Undefined variables in nested scopes (CRITICAL-002)
-2. Type mismatches in comparisons (CRITICAL-004)
-3. Missing method bodies (CRITICAL-006)
-4. Register-based names (HIGH-001, high quality impact)
+2. Missing method bodies (CRITICAL-006)
+3. Register-based names (HIGH-001, high quality impact)
+4. Missing static modifier (HIGH-003)
+5. Unreachable code not removed (HIGH-004)
+6. Verbose type names (MEDIUM-001)
+7. Missing exception imports (MEDIUM-002)
 
 Fixing any of these helps move toward production readiness.
 

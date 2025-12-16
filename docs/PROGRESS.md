@@ -38,6 +38,16 @@ Currently preventing medium/large APKs from production use:
 
 ## Issues Resolved
 
+**Current Issue Status (Dec 16, 2025):**
+
+| Priority | Resolved | Remaining |
+|----------|----------|-----------|
+| CRITICAL | 4 (+1 partial) | 2 |
+| HIGH | 1 | 3 |
+| MEDIUM | 0 | 2 |
+
+**Total: 5 resolved, 7 remaining** to reach 90%+ quality target.
+
 ### CRITICAL (P1) Issues: 3/6 Resolved (1 Partial)
 
 - [x] CRITICAL-001: Undefined variable `i2` in loop bounds - FIXED Dec 16
@@ -50,7 +60,7 @@ Currently preventing medium/large APKs from production use:
 ### HIGH (P2) Issues: 1/4 Resolved
 
 - [ ] HIGH-001: Register-based variable names (v2, v3, v6)
-- [x] HIGH-002: Duplicate variable declarations - FIXED Dec 16
+- [x] HIGH-002: Duplicate variable declarations - FIXED Dec 16 (commit afef269)
 - [ ] HIGH-003: Missing `static` modifier on inner classes
 - [ ] HIGH-004: Unreachable code not removed
 
@@ -339,11 +349,29 @@ When you fix an issue, document it here:
 
 ## Current Bottleneck
 
+**Current Issue Status (Dec 16, 2025):**
+
+| Priority | Resolved | Remaining |
+|----------|----------|-----------|
+| CRITICAL | 4 (+1 partial) | 2 |
+| HIGH | 1 | 3 |
+| MEDIUM | 0 | 2 |
+
+**Total: 5 resolved, 7 remaining** to reach 90%+ quality target.
+
+**Recent fixes (commit afef269):**
+- HIGH-002: Duplicate Variable Declarations - RESOLVED
+- CRITICAL-004: Type Comparison (== 0 vs == null) - PARTIAL (method parameters fixed)
+
 With CRITICAL-001, CRITICAL-003, CRITICAL-005, HIGH-002, and CRITICAL-004 (partial) now fixed, the remaining blockers are:
 
 1. **CRITICAL-002**: Undefined variable `v2` in nested scopes
-2. **CRITICAL-004**: Type mismatch - Local variables still need type inference (method parameters fixed)
-3. **CRITICAL-006**: Missing method bodies
+2. **CRITICAL-006**: Missing method bodies
+3. **HIGH-001**: Register-based variable names (v2, v3, v6)
+4. **HIGH-003**: Missing `static` modifier on inner classes
+5. **HIGH-004**: Unreachable code not removed
+6. **MEDIUM-001**: Fully qualified names instead of imports
+7. **MEDIUM-002**: Missing exception type imports
 
 **Recommendation for Next Agent:**
 Focus on CRITICAL-002 or CRITICAL-006 as they have the most compilation impact.

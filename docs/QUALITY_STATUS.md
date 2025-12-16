@@ -68,39 +68,71 @@
 
 ### Critical Issues Status (Dec 16, 2025 Analysis)
 
-**RESOLVED ISSUES (3 of 6 CRITICAL fixed):**
+**Current Issue Status:**
 
-1. ✅ **Undefined Variables** - FIXED
+| Priority | Resolved | Remaining |
+|----------|----------|-----------|
+| CRITICAL | 4 (+1 partial) | 2 |
+| HIGH | 1 | 3 |
+| MEDIUM | 0 | 2 |
+
+**Total: 5 resolved, 7 remaining** to reach 90%+ quality target.
+
+**RESOLVED ISSUES (4 CRITICAL + 1 HIGH fixed, 1 CRITICAL partial):**
+
+1. ✅ **CRITICAL-001: Undefined Variables** - FIXED
    - Example: `while (i < i2)` where i2 was undefined
    - Fix: Added `gen_arg_with_inline_peek()` and `emit_condition_block_prelude()` in body_gen.rs
    - Result: Loop conditions now correctly emit setup instructions
 
-2. ✅ **Type Mismatches (null as 0)** - FIXED
+2. ✅ **CRITICAL-003: Type Mismatches (null as 0)** - FIXED
    - `return 0;` for object types now correctly generates `return null;`
    - Fix: Added type-aware null detection in return statement handling
    - Result: Object-returning methods generate correct null literals
 
-3. ✅ **Logic Inversions** - FIXED
+3. ✅ **CRITICAL-005: Logic Inversions** - FIXED
    - `if (context != null)` now correctly generates `if (context == null)`
    - Fix: Modified `find_branch_blocks()` in conditionals.rs, added `negate_condition` field
    - Result: Null-check-then-throw patterns generate correct logic
 
-**REMAINING ISSUES:**
+4. ✅ **HIGH-002: Duplicate Variable Declarations** - FIXED
+   - Same variable declared multiple times in same scope
+   - Fix: Added `declared_names: HashSet<String>` to BodyGenContext in body_gen.rs
+   - Added `is_name_declared()` and `mark_name_declared()` methods
+   - Result: No more duplicate `int i;` / `int i = 0;` declarations
 
-4. **Register-Based Names** - Variable naming failure
+5. 🔶 **CRITICAL-004: Type Comparison (== 0 vs == null)** - PARTIAL
+   - Method parameters now correctly generate `== null` instead of `== 0`
+   - Fix: Added fallback to `expr_gen.get_var_type()` in `generate_condition()`
+   - Remaining: Local variables still need deeper type inference work
+
+**REMAINING ISSUES (7 total: 2 CRITICAL, 3 HIGH, 2 MEDIUM):**
+
+6. **CRITICAL-002: Undefined Nested Variables** - Variable not defined in nested scopes
+   - `v2` in nested scopes not in scope
+   - Root cause: Variables in nested scopes not properly tracked
+
+7. **CRITICAL-006: Missing Code** - Incomplete output
+   - Missing method bodies, missing modifiers
+   - Count: 3+ methods, 2+ structural issues
+   - Root cause: Code generation failures
+
+8. **HIGH-001: Register-Based Names** - Variable naming failure
    - `v2`, `v3`, `v6` instead of meaningful names
    - Count: 50+ variables
    - Root cause: SSA-to-source name recovery incomplete
 
-5. **Duplicate Declarations** - Scope tracking failure
-   - Same variable declared multiple times in same scope
-   - Count: 23+ instances
-   - Root cause: Variable scope resolution broken
+9. **HIGH-003: Missing Static Modifier** - Inner classes missing `static`
+   - Root cause: Class member resolution not tracking static properly
 
-6. **Missing Code** - Incomplete output
-   - Missing method bodies, missing modifiers
-   - Count: 3+ methods, 2+ structural issues
-   - Root cause: Code generation failures
+10. **HIGH-004: Unreachable Code** - Dead code not removed
+    - Root cause: Code generation not skipping unreachable blocks
+
+11. **MEDIUM-001: Verbose Type Names** - Fully qualified names used
+    - Root cause: Import optimization not applied
+
+12. **MEDIUM-002: Missing Exception Imports** - Exception types not imported
+    - Root cause: Import generation incomplete
 
 **Impact:** Medium/large APKs at ~70% quality - mostly compiles, logic issues largely resolved. 7 issues remain for 90%+ target.
 

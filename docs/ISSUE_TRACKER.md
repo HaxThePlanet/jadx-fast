@@ -610,12 +610,22 @@ catch (JSONException e) {  // JSONException not imported - won't compile
 
 ## Issue Statistics
 
+**Current Issue Status (Dec 16, 2025):**
+
+| Priority | Resolved | Remaining |
+|----------|----------|-----------|
+| CRITICAL | 4 (+1 partial) | 2 |
+| HIGH | 1 | 3 |
+| MEDIUM | 0 | 2 |
+
+**Total: 5 resolved, 7 remaining** to reach 90%+ quality target.
+
 | Priority | Count | Status | Total Time Est. |
 |----------|-------|--------|-----------------|
 | CRITICAL (P1) | 6 | 2 OPEN, 3 RESOLVED, 1 PARTIAL | 4-8 hours remaining |
 | HIGH (P2) | 4 | 3 OPEN, 1 RESOLVED | 5-8 hours |
 | MEDIUM (P3) | 2 | OPEN | 2-3 hours |
-| **Total** | **12** | **5 OPEN, 5 RESOLVED, 1 PARTIAL** | **11-19 hours remaining** |
+| **Total** | **12** | **7 OPEN, 5 RESOLVED** | **11-19 hours remaining** |
 
 ## Progress Summary
 
@@ -624,7 +634,7 @@ catch (JSONException e) {  // JSONException not imported - won't compile
 | CRITICAL | 2 | 0 | 1 | 3 | 6 |
 | HIGH | 3 | 0 | 0 | 1 | 4 |
 | MEDIUM | 2 | 0 | 0 | 0 | 2 |
-| **Total** | **5** | **0** | **1** | **5** | **12** |
+| **Total** | **7** | **0** | **(1 incl.)** | **5** | **12** |
 
 ## Recent Changes
 

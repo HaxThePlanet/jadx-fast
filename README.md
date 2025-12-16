@@ -590,13 +590,13 @@ cargo test
 
 ### Autonomous LLM Development
 
-Comprehensive documentation enables autonomous LLM agents to work toward JADX parity. Estimated 20-33 hours of work to reach 90%+ production-ready quality.
+Comprehensive documentation enables autonomous LLM agents to work toward JADX parity. Estimated 12-21 hours of work to reach 90%+ production-ready quality.
 
 **Quick Start for Autonomous Agents:**
 
 See `docs/LLM_AGENT_GUIDE.md` for complete workflow. Key steps:
 
-1. **Read Issues:** Open `docs/ISSUE_TRACKER.md` - 12 issues (5 RESOLVED, 7 OPEN: 2 CRITICAL + 1 partial, 3 HIGH, 2 MEDIUM)
+1. **Read Issues:** Open `docs/ISSUE_TRACKER.md` - 12 issues total (5 RESOLVED, 7 OPEN: 2 CRITICAL + 3 HIGH + 2 MEDIUM)
 2. **Find Code:** Use `docs/CODE_NAVIGATION.md` to locate source files
 3. **Understand Algorithm:** Review `docs/ALGORITHM_REFERENCES.md` for high-level explanations
 4. **Implement Fix:** Follow code patterns and testing requirements
@@ -611,7 +611,19 @@ See `docs/LLM_AGENT_GUIDE.md` for complete workflow. Key steps:
 - `docs/TESTING_GUIDE.md` - How to test and validate changes
 - `docs/PROGRESS.md` - Track completed work and quality metrics
 
-**Current Focus:** Fix 7 remaining issues (5 resolved: 3 CRITICAL + 1 CRITICAL partial + 1 HIGH) to move from 77.1% to 90%+ quality
+**Current Issue Status (Dec 16, 2025):**
+
+| Priority | Resolved | Remaining |
+|----------|----------|-----------|
+| CRITICAL | 4 (+1 partial) | 2 |
+| HIGH | 1 | 3 |
+| MEDIUM | 0 | 2 |
+
+**Total: 5 resolved, 7 remaining** to reach 90%+ quality target.
+
+**Recent fixes (commit afef269):**
+- HIGH-002: Duplicate Variable Declarations - RESOLVED
+- CRITICAL-004: Type Comparison (== 0 vs == null) - PARTIAL (method parameters fixed)
 
 ### Test Parity with Java JADX
 
