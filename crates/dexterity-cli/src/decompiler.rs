@@ -11,7 +11,7 @@
 use dexterity_ir::regions::Region;
 use dexterity_ir::MethodData;
 use dexterity_passes::{
-    assign_var_names, split_blocks, transform_to_ssa, infer_types,
+    assign_var_names, split_blocks, transform_to_ssa, infer_types, simplify_instructions,
     BlockSplitResult, CFG, SsaResult, TypeInferenceResult, VarNamingResult,
 };
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
@@ -70,7 +70,7 @@ pub fn decompile_method(
     // Stage 4: SSA transformation
     // Take blocks from CFG after dominance analysis (avoids clone)
     let blocks = cfg.take_blocks();
-    let ssa = transform_to_ssa(&blocks);
+    let mut ssa = transform_to_ssa(&blocks);
 
     // Stage 5: Type inference (use hierarchy if available for better precision)
     let types = if let Some(h) = hierarchy {
@@ -78,6 +78,13 @@ pub fn decompile_method(
     } else {
         infer_types(&ssa)
     };
+
+    // Stage 5.5: Simplify instructions (arithmetic, boolean XOR)
+    // Convert types to std HashMap for simplify pass
+    let type_map: std::collections::HashMap<(u16, u32), _> = types.types.iter()
+        .map(|(k, v)| (*k, v.clone()))
+        .collect();
+    let _ = simplify_instructions(&mut ssa, Some(&type_map));
 
     // Stage 6: Variable naming
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);

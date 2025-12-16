@@ -67,15 +67,19 @@ fn empty_finally_test() {
 
     let helper = IntegrationTestHelper::new("empty_finally_test");
     let source = r#"
+import java.io.FileInputStream;
+import java.io.IOException;
+
 public class TestCls {
-public void test(FileInputStream f1) {
-try {
-f1.close();
-} catch (IOException e) {
-// do nothing
-} finally {
-// ignore
-}
+    public void test(FileInputStream f1) {
+        try {
+            f1.close();
+        } catch (IOException e) {
+            // do nothing
+        } finally {
+            // ignore
+        }
+    }
 }
 "#;
 
@@ -96,28 +100,35 @@ fn finally_test() {
     let helper = IntegrationTestHelper::new("finally_test");
     let source = r#"
 public class TestCls {
-private static final String DISPLAY_NAME = "name";
-String test(Context context, Object uri) {
-Cursor cursor = null;
-try {
-String[] projection = { DISPLAY_NAME };
-cursor = context.query(uri, projection);
-int columnIndex = cursor.getColumnIndexOrThrow(DISPLAY_NAME);
-cursor.moveToFirst();
-return cursor.getString(columnIndex);
-} finally {
-if (cursor != null) {
-cursor.close();
-}
-private class Context {
-public Cursor query(Object o, String[] s) {
-return null;
-private class Cursor {
-public void close() {
-public void moveToFirst() {
-public int getColumnIndexOrThrow(String s) {
-return 0;
-public String getString(int i) {
+    private static final String DISPLAY_NAME = "name";
+
+    String test(Context context, Object uri) {
+        Cursor cursor = null;
+        try {
+            String[] projection = { DISPLAY_NAME };
+            cursor = context.query(uri, projection);
+            int columnIndex = cursor.getColumnIndexOrThrow(DISPLAY_NAME);
+            cursor.moveToFirst();
+            return cursor.getString(columnIndex);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    private class Context {
+        public Cursor query(Object o, String[] s) {
+            return null;
+        }
+    }
+
+    private class Cursor {
+        public void close() {}
+        public void moveToFirst() {}
+        public int getColumnIndexOrThrow(String s) { return 0; }
+        public String getString(int i) { return null; }
+    }
 }
 "#;
 
@@ -137,27 +148,44 @@ fn finally2_test() {
 
     let helper = IntegrationTestHelper::new("finally2_test");
     let source = r#"
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
 public class TestCls {
-public Result test(byte[] data) throws IOException {
-InputStream inputStream = null;
-try {
-inputStream = getInputStream(data);
-decode(inputStream);
-return new Result(400);
-} finally {
-closeQuietly(inputStream);
-}
-public static final class Result {
-private final int mCode;
-public Result(int code) {
-mCode = code;
-public int getCode() {
-return mCode;
-private InputStream getInputStream(byte[] data) throws IOException {
-return new ByteArrayInputStream(data);
-private int decode(InputStream inputStream) throws IOException {
-return inputStream.available();
-private void closeQuietly(InputStream is) {
+    public Result test(byte[] data) throws IOException {
+        InputStream inputStream = null;
+        try {
+            inputStream = getInputStream(data);
+            decode(inputStream);
+            return new Result(400);
+        } finally {
+            closeQuietly(inputStream);
+        }
+    }
+
+    public static final class Result {
+        private final int mCode;
+
+        public Result(int code) {
+            mCode = code;
+        }
+
+        public int getCode() {
+            return mCode;
+        }
+    }
+
+    private InputStream getInputStream(byte[] data) throws IOException {
+        return new ByteArrayInputStream(data);
+    }
+
+    private int decode(InputStream inputStream) throws IOException {
+        return inputStream.available();
+    }
+
+    private void closeQuietly(InputStream is) {
+    }
 }
 "#;
 
@@ -180,29 +208,46 @@ fn finally3_test() {
 
     let helper = IntegrationTestHelper::new("finally3_test");
     let source = r#"
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+
 public class TestCls {
-public byte[] bytes;
-public byte[] test() throws Exception {
-InputStream inputStream = null;
-try {
-if (bytes == null) {
-if (!validate()) {
-return null;
-}
-inputStream = getInputStream();
-bytes = read(inputStream);
-return convert(bytes);
-} finally {
-close(inputStream);
-private byte[] convert(byte[] bytes) throws Exception {
-return new byte[0];
-private boolean validate() throws Exception {
-return false;
-private InputStream getInputStream() throws Exception {
-return new ByteArrayInputStream(new byte[] {});
-private byte[] read(InputStream in) throws Exception {
-return new byte[] {};
-private static void close(InputStream is) {
+    public byte[] bytes;
+
+    public byte[] test() throws Exception {
+        InputStream inputStream = null;
+        try {
+            if (bytes == null) {
+                if (!validate()) {
+                    return null;
+                }
+                inputStream = getInputStream();
+                bytes = read(inputStream);
+            }
+            return convert(bytes);
+        } finally {
+            close(inputStream);
+        }
+    }
+
+    private byte[] convert(byte[] bytes) throws Exception {
+        return new byte[0];
+    }
+
+    private boolean validate() throws Exception {
+        return false;
+    }
+
+    private InputStream getInputStream() throws Exception {
+        return new ByteArrayInputStream(new byte[] {});
+    }
+
+    private byte[] read(InputStream in) throws Exception {
+        return new byte[] {};
+    }
+
+    private static void close(InputStream is) {
+    }
 }
 "#;
 
@@ -222,29 +267,46 @@ fn finally3_test2_no_debug() {
 
     let helper = IntegrationTestHelper::new("finally3_test2_no_debug");
     let source = r#"
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+
 public class TestCls {
-public byte[] bytes;
-public byte[] test() throws Exception {
-InputStream inputStream = null;
-try {
-if (bytes == null) {
-if (!validate()) {
-return null;
-}
-inputStream = getInputStream();
-bytes = read(inputStream);
-return convert(bytes);
-} finally {
-close(inputStream);
-private byte[] convert(byte[] bytes) throws Exception {
-return new byte[0];
-private boolean validate() throws Exception {
-return false;
-private InputStream getInputStream() throws Exception {
-return new ByteArrayInputStream(new byte[] {});
-private byte[] read(InputStream in) throws Exception {
-return new byte[] {};
-private static void close(InputStream is) {
+    public byte[] bytes;
+
+    public byte[] test() throws Exception {
+        InputStream inputStream = null;
+        try {
+            if (bytes == null) {
+                if (!validate()) {
+                    return null;
+                }
+                inputStream = getInputStream();
+                bytes = read(inputStream);
+            }
+            return convert(bytes);
+        } finally {
+            close(inputStream);
+        }
+    }
+
+    private byte[] convert(byte[] bytes) throws Exception {
+        return new byte[0];
+    }
+
+    private boolean validate() throws Exception {
+        return false;
+    }
+
+    private InputStream getInputStream() throws Exception {
+        return new ByteArrayInputStream(new byte[] {});
+    }
+
+    private byte[] read(InputStream in) throws Exception {
+        return new byte[] {};
+    }
+
+    private static void close(InputStream is) {
+    }
 }
 "#;
 
@@ -264,29 +326,46 @@ fn finally3_test_smali() {
 
     let helper = IntegrationTestHelper::new("finally3_test_smali");
     let source = r#"
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+
 public class TestCls {
-public byte[] bytes;
-public byte[] test() throws Exception {
-InputStream inputStream = null;
-try {
-if (bytes == null) {
-if (!validate()) {
-return null;
-}
-inputStream = getInputStream();
-bytes = read(inputStream);
-return convert(bytes);
-} finally {
-close(inputStream);
-private byte[] convert(byte[] bytes) throws Exception {
-return new byte[0];
-private boolean validate() throws Exception {
-return false;
-private InputStream getInputStream() throws Exception {
-return new ByteArrayInputStream(new byte[] {});
-private byte[] read(InputStream in) throws Exception {
-return new byte[] {};
-private static void close(InputStream is) {
+    public byte[] bytes;
+
+    public byte[] test() throws Exception {
+        InputStream inputStream = null;
+        try {
+            if (bytes == null) {
+                if (!validate()) {
+                    return null;
+                }
+                inputStream = getInputStream();
+                bytes = read(inputStream);
+            }
+            return convert(bytes);
+        } finally {
+            close(inputStream);
+        }
+    }
+
+    private byte[] convert(byte[] bytes) throws Exception {
+        return new byte[0];
+    }
+
+    private boolean validate() throws Exception {
+        return false;
+    }
+
+    private InputStream getInputStream() throws Exception {
+        return new ByteArrayInputStream(new byte[] {});
+    }
+
+    private byte[] read(InputStream in) throws Exception {
+        return new byte[] {};
+    }
+
+    private static void close(InputStream is) {
+    }
 }
 "#;
 
@@ -308,23 +387,36 @@ fn finally_extract_test() {
     let helper = IntegrationTestHelper::new("finally_extract_test");
     let source = r#"
 public class TestCls {
-private int result = 0;
-public String test() {
-boolean success = false;
-try {
-String value = call();
-result++;
-success = true;
-return value;
-} finally {
-if (!success) {
-result -= 2;
-}
-private String call() {
-return "call";
-public void check() {
-test();
-assertThat(result).isEqualTo(1);
+    private int result = 0;
+
+    public String test() {
+        boolean success = false;
+        try {
+            String value = call();
+            result++;
+            success = true;
+            return value;
+        } finally {
+            if (!success) {
+                result -= 2;
+            }
+        }
+    }
+
+    private String call() {
+        return "call";
+    }
+
+    public void check() {
+        test();
+        assertThat(result).isEqualTo(1);
+    }
+
+    private A assertThat(int i) { return null; }
+
+    class A {
+        A isEqualTo(int i) { return this; }
+    }
 }
 "#;
 
@@ -345,23 +437,36 @@ fn finally_extract_test_no_debug() {
     let helper = IntegrationTestHelper::new("finally_extract_test_no_debug");
     let source = r#"
 public class TestCls {
-private int result = 0;
-public String test() {
-boolean success = false;
-try {
-String value = call();
-result++;
-success = true;
-return value;
-} finally {
-if (!success) {
-result -= 2;
-}
-private String call() {
-return "call";
-public void check() {
-test();
-assertThat(result).isEqualTo(1);
+    private int result = 0;
+
+    public String test() {
+        boolean success = false;
+        try {
+            String value = call();
+            this.result++;
+            success = true;
+            return value;
+        } finally {
+            if (!success) {
+                result -= 2;
+            }
+        }
+    }
+
+    private String call() {
+        return "call";
+    }
+
+    public void check() {
+        test();
+        assertThat(result).isEqualTo(1);
+    }
+
+    private A assertThat(int i) { return null; }
+
+    class A {
+        A isEqualTo(int i) { return this; }
+    }
 }
 "#;
 
@@ -382,20 +487,26 @@ fn inline_in_catch_test() {
 
     let helper = IntegrationTestHelper::new("inline_in_catch_test");
     let source = r#"
+import java.io.File;
+
 public class TestCls {
-private File dir;
-public int test() {
-File output = null;
-try {
-output = File.createTempFile("f", "a", dir);
-if (!output.exists()) {
-return 1;
-}
-return 0;
-} catch (Exception e) {
-if (output != null) {
-output.delete();
-return 2;
+    private File dir;
+
+    public int test() {
+        File output = null;
+        try {
+            output = File.createTempFile("f", "a", dir);
+            if (!output.exists()) {
+                return 1;
+            }
+            return 0;
+        } catch (Exception e) {
+            if (output != null) {
+                output.delete();
+            }
+            return 2;
+        }
+    }
 }
 "#;
 
@@ -439,13 +550,17 @@ fn multi_exception_catch_test() {
 
     let helper = IntegrationTestHelper::new("multi_exception_catch_test");
     let source = r#"
+import java.security.ProviderException;
+import java.time.DateTimeException;
+
 public class TestCls {
-public void test() {
-try {
-System.out.println("Test");
-} catch (ProviderException | DateTimeException e) {
-throw new RuntimeException(e);
-}
+    public void test() {
+        try {
+            System.out.println("Test");
+        } catch (ProviderException | DateTimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 "#;
 
@@ -469,13 +584,17 @@ fn multi_exception_catch2_test() {
 
     let helper = IntegrationTestHelper::new("multi_exception_catch2_test");
     let source = r#"
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public class TestCls {
-public void test(Constructor<?> constructor) {
-try {
-constructor.newInstance();
-} catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
-e.printStackTrace();
-}
+    public void test(Constructor<?> constructor) {
+        try {
+            constructor.newInstance();
+        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
 }
 "#;
 
@@ -495,13 +614,17 @@ fn multi_exception_catch2_test_no_debug() {
 
     let helper = IntegrationTestHelper::new("multi_exception_catch2_test_no_debug");
     let source = r#"
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public class TestCls {
-public void test(Constructor<?> constructor) {
-try {
-constructor.newInstance();
-} catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
-e.printStackTrace();
-}
+    public void test(Constructor<?> constructor) {
+        try {
+            constructor.newInstance();
+        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
 }
 "#;
 
@@ -521,13 +644,17 @@ fn multi_exception_catch_same_jump_test() {
 
     let helper = IntegrationTestHelper::new("multi_exception_catch_same_jump_test");
     let source = r#"
+import java.security.ProviderException;
+import java.time.DateTimeException;
+
 public class TestCls {
-public void test() {
-try {
-System.out.println("Test");
-} catch (ProviderException | DateTimeException e) {
-throw new RuntimeException(e);
-}
+    public void test() {
+        try {
+            System.out.println("Test");
+        } catch (ProviderException | DateTimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 "#;
 
@@ -552,15 +679,18 @@ fn nested_try_catch_test() {
     let helper = IntegrationTestHelper::new("nested_try_catch_test");
     let source = r#"
 public class TestCls {
-public void test() {
-try {
-Thread.sleep(1L);
-Thread.sleep(2L);
-} catch (InterruptedException ignored) {
-System.out.println(2);
-}
-} catch (Exception ignored) {
-System.out.println(1);
+    public void test() {
+        try {
+            try {
+                Thread.sleep(1L);
+                Thread.sleep(2L);
+            } catch (InterruptedException e) {
+                System.out.println(2);
+            }
+        } catch (Exception e2) {
+            System.out.println(1);
+        }
+    }
 }
 "#;
 

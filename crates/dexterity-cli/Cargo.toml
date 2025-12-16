@@ -26,6 +26,7 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 zip.workspace = true
 tikv-jemallocator = "0.6"
+rustc-hash.workspace = true
 
 [dev-dependencies]
 pretty_assertions.workspace = true

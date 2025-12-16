@@ -12,6 +12,7 @@ pub mod kotlin_intrinsics;
 pub mod loops;
 pub mod method_inline;
 pub mod region_builder;
+pub mod simplify;
 pub mod ssa;
 pub mod type_inference;
 pub mod var_naming;
@@ -43,6 +44,7 @@ pub use type_inference::{
     TypeVar,
 };
 pub use var_naming::{assign_var_names, assign_var_names_with_lookups, MethodNameInfo, VarNaming, VarNamingResult};
+pub use simplify::{simplify_instructions, SimplifyResult};
 
 /// Pass trait for decompilation passes
 pub trait Pass: Send + Sync {

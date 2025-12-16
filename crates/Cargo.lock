@@ -380,6 +380,7 @@ dependencies = [
  "num_cpus",
  "pretty_assertions",
  "rayon",
+ "rustc-hash",
  "tempfile",
  "tikv-jemallocator",
  "tracing",

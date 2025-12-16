@@ -14,13 +14,14 @@ fn variables2_test() {
     let helper = IntegrationTestHelper::new("variables2_test");
     let source = r#"
 public class TestCls {
-public Object test(Object s) {
-Object store = s != null ? s : null;
-if (store == null) {
-store = new Object();
-s = store;
-}
-return store;
+    public Object test(Object s) {
+        Object store = s != null ? s : null;
+        if (store == null) {
+            store = new Object();
+            s = store;
+        }
+        return store;
+    }
 }
 "#;
 
@@ -42,13 +43,14 @@ fn variables2_test_no_debug() {
     let helper = IntegrationTestHelper::new("variables2_test_no_debug");
     let source = r#"
 public class TestCls {
-public Object test(Object s) {
-Object store = s != null ? s : null;
-if (store == null) {
-store = new Object();
-s = store;
-}
-return store;
+    public Object test(Object obj) {
+        Object obj2 = obj != null ? obj : null;
+        if (obj2 == null) {
+            obj2 = new Object();
+            obj = obj2;
+        }
+        return obj2;
+    }
 }
 "#;
 
@@ -70,15 +72,16 @@ fn variables3_test() {
     let helper = IntegrationTestHelper::new("variables3_test");
     let source = r#"
 public class TestCls {
-String test(Object s) {
-int i;
-if (s == null) {
-i = 2;
-} else {
-i = 3;
-s = null;
-}
-return s + " " + i;
+    String test(Object s) {
+        int i;
+        if (s == null) {
+            i = 2;
+        } else {
+            i = 3;
+            s = null;
+        }
+        return s + " " + i;
+    }
 }
 "#;
 
@@ -203,24 +206,38 @@ fn variables5_test() {
     let helper = IntegrationTestHelper::new("variables5_test");
     let source = r#"
 public class TestCls {
-public String f = "str//ing";
-private boolean enabled;
-private void testIfInLoop() {
-int i = 0;
-for (int i2 = 0; i2 < f.length(); i2++) {
-char ch = f.charAt(i2);
-if (ch == '/') {
-i++;
-if (i == 2) {
-setEnabled(true);
-return;
-}
-setEnabled(false);
-private void setEnabled(boolean b) {
-this.enabled = b;
-public void check() {
-testIfInLoop();
-assertThat(enabled).isTrue();
+    public String f = "str//ing";
+    private boolean enabled;
+
+    private void testIfInLoop() {
+        int i = 0;
+        for (int i2 = 0; i2 < f.length(); i2++) {
+            char ch = f.charAt(i2);
+            if (ch == '/') {
+                i++;
+                if (i == 2) {
+                    setEnabled(true);
+                    return;
+                }
+            }
+        }
+        setEnabled(false);
+    }
+
+    private void setEnabled(boolean b) {
+        this.enabled = b;
+    }
+
+    public void check() {
+        testIfInLoop();
+        assertThat(enabled).isTrue();
+    }
+
+    private A assertThat(boolean b) { return null; }
+
+    class A {
+        void isTrue() {}
+    }
 }
 "#;
 
@@ -291,18 +308,37 @@ fn variables_definitions_test() {
 
     let helper = IntegrationTestHelper::new("variables_definitions_test");
     let source = r#"
-public class TestCls {
-private static Logger log;
-private ClassNode cls;
-private List<IDexTreeVisitor> passes;
-public void test() {
-try {
-cls.load();
-for (IDexTreeVisitor pass : this.passes) {
-DepthTraversal.visit(pass, cls);
+import java.util.List;
+
+class Logger {
+    void error(String msg, Object... args) {}
 }
-} catch (Exception e) {
-log.error("Decode exception: {}", cls, e);
+
+class ClassNode {
+    void load() {}
+}
+
+interface IDexTreeVisitor {}
+
+class DepthTraversal {
+    static void visit(IDexTreeVisitor pass, ClassNode cls) {}
+}
+
+public class TestCls {
+    private static Logger log;
+    private ClassNode cls;
+    private List<IDexTreeVisitor> passes;
+
+    public void test() {
+        try {
+            cls.load();
+            for (IDexTreeVisitor pass : this.passes) {
+                DepthTraversal.visit(pass, cls);
+            }
+        } catch (Exception e) {
+            log.error("Decode exception: {}", cls, e);
+        }
+    }
 }
 "#;
 
@@ -324,15 +360,20 @@ fn variables_definitions2_test() {
 
     let helper = IntegrationTestHelper::new("variables_definitions2_test");
     let source = r#"
+import java.util.List;
+
 public class TestCls {
-public static int test(List<String> list) {
-int i = 0;
-if (list != null) {
-for (String str : list) {
-if (str.isEmpty()) {
-i++;
-}
-return i;
+    public static int test(List<String> list) {
+        int i = 0;
+        if (list != null) {
+            for (String str : list) {
+                if (str.isEmpty()) {
+                    i++;
+                }
+            }
+        }
+        return i;
+    }
 }
 "#;
 
@@ -383,31 +424,47 @@ fn variables_if_else_chain_test() {
     let helper = IntegrationTestHelper::new("variables_if_else_chain_test");
     let source = r#"
 public class TestCls {
-String used;
-public String test(int a) {
-if (a == 0) {
-use("zero");
-} else if (a == 1) {
-String r = m(a);
-if (r != null) {
-use(r);
-}
-} else if (a == 2) {
-} else {
-return "miss";
-return null;
-public String m(int a) {
-return "hit" + a;
-public void use(String s) {
-used = s;
-public void check() {
-test(0);
-assertThat(used).isEqualTo("zero");
-test(1);
-assertThat(used).isEqualTo("hit1");
-test(2);
-assertThat(used).isEqualTo("hit2");
-assertThat(test(5)).isEqualTo("miss");
+    String used;
+
+    public String test(int a) {
+        if (a == 0) {
+            use("zero");
+        } else if (a == 1) {
+            String r = m(a);
+            if (r != null) {
+                use(r);
+            }
+        } else if (a == 2) {
+            use("two");
+        } else {
+            return "miss";
+        }
+        return null;
+    }
+
+    public String m(int a) {
+        return "hit" + a;
+    }
+
+    public void use(String s) {
+        used = s;
+    }
+
+    public void check() {
+        test(0);
+        assertThat(used).isEqualTo("zero");
+        test(1);
+        assertThat(used).isEqualTo("hit1");
+        test(2);
+        assertThat(used).isEqualTo("hit2");
+        assertThat(test(5)).isEqualTo("miss");
+    }
+
+    private A assertThat(String s) { return null; }
+
+    class A {
+        A isEqualTo(String s) { return this; }
+    }
 }
 "#;
 

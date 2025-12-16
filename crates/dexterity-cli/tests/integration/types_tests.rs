@@ -14,14 +14,18 @@ fn array_types_test() {
     let helper = IntegrationTestHelper::new("array_types_test");
     let source = r#"
 public class TestCls {
-public void test() {
-Exception e = new Exception();
-System.out.println(e);
-use(new Object[] { e });
-}
-public void use(Object[] arr) {
-public void check() {
-test();
+    public void test() {
+        Exception e = new Exception();
+        System.out.println(e);
+        use(new Object[] { e });
+    }
+
+    public void use(Object[] arr) {
+    }
+
+    public void check() {
+        test();
+    }
 }
 "#;
 
@@ -43,14 +47,18 @@ fn array_types_test_no_debug() {
     let helper = IntegrationTestHelper::new("array_types_test_no_debug");
     let source = r#"
 public class TestCls {
-public void test() {
-Exception e = new Exception();
-System.out.println(e);
-use(new Object[] { e });
-}
-public void use(Object[] arr) {
-public void check() {
-test();
+    public void test() {
+        Exception e = new Exception();
+        System.out.println(e);
+        use(new Object[] { e });
+    }
+
+    public void use(Object[] arr) {
+    }
+
+    public void check() {
+        test();
+    }
 }
 "#;
 
@@ -96,26 +104,43 @@ fn const_type_inference_test() {
     let helper = IntegrationTestHelper::new("const_type_inference_test");
     let source = r#"
 public class TestCls {
-private final int a;
-public TestCls() {
-this(0);
-}
-public TestCls(int a) {
-this.a = a;
-public boolean equals(Object obj) {
-if (obj == this) {
-return true;
-if (obj != null) {
-if (getClass() == obj.getClass()) {
-TestCls other = (TestCls) obj;
-return this.a == other.a;
-return false;
-public void check() {
-TestCls seven = new TestCls(7);
-assertThat(seven).isEqualTo(seven);
-assertThat(seven).isNotEqualTo(null);
-TestCls six = new TestCls(6);
-assertThat(six).isNotEqualTo(seven);
+    private final int a;
+
+    public TestCls() {
+        this(0);
+    }
+
+    public TestCls(int a) {
+        this.a = a;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj != null) {
+            if (getClass() == obj.getClass()) {
+                TestCls other = (TestCls) obj;
+                return this.a == other.a;
+            }
+        }
+        return false;
+    }
+
+    public void check() {
+        TestCls seven = new TestCls(7);
+        assertThat(seven).isEqualTo(seven);
+        assertThat(seven).isNotEqualTo(null);
+        TestCls six = new TestCls(6);
+        assertThat(six).isNotEqualTo(seven);
+    }
+
+    private A assertThat(Object o) { return null; }
+
+    class A {
+        A isEqualTo(Object o) { return this; }
+        A isNotEqualTo(Object o) { return this; }
+    }
 }
 "#;
 
@@ -137,26 +162,43 @@ fn const_type_inference_test2() {
     let helper = IntegrationTestHelper::new("const_type_inference_test2");
     let source = r#"
 public class TestCls {
-private final int a;
-public TestCls() {
-this(0);
-}
-public TestCls(int a) {
-this.a = a;
-public boolean equals(Object obj) {
-if (obj == this) {
-return true;
-if (obj != null) {
-if (getClass() == obj.getClass()) {
-TestCls other = (TestCls) obj;
-return this.a == other.a;
-return false;
-public void check() {
-TestCls seven = new TestCls(7);
-assertThat(seven).isEqualTo(seven);
-assertThat(seven).isNotEqualTo(null);
-TestCls six = new TestCls(6);
-assertThat(six).isNotEqualTo(seven);
+    private final int a;
+
+    public TestCls() {
+        this(0);
+    }
+
+    public TestCls(int a) {
+        this.a = a;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj != null) {
+            if (getClass() == obj.getClass()) {
+                TestCls other = (TestCls) obj;
+                return this.a == other.a;
+            }
+        }
+        return false;
+    }
+
+    public void check() {
+        TestCls seven = new TestCls(7);
+        assertThat(seven).isEqualTo(seven);
+        assertThat(seven).isNotEqualTo(null);
+        TestCls six = new TestCls(6);
+        assertThat(six).isNotEqualTo(seven);
+    }
+
+    private A assertThat(Object o) { return null; }
+
+    class A {
+        A isEqualTo(Object o) { return this; }
+        A isNotEqualTo(Object o) { return this; }
+    }
 }
 "#;
 
@@ -177,13 +219,17 @@ fn field_access_test() {
     let helper = IntegrationTestHelper::new("field_access_test");
     let source = r#"
 public class TestCls {
-private String field;
-static <T extends TestCls> T testPut(T t) {
-((TestCls) t).field = "";
-return t;
-}
-static <T extends TestCls> T testGet(T t) {
-System.out.println(((TestCls) t).field);
+    private String field;
+
+    static <T extends TestCls> T testPut(T t) {
+        ((TestCls) t).field = "";
+        return t;
+    }
+
+    static <T extends TestCls> T testGet(T t) {
+        System.out.println(((TestCls) t).field);
+        return t;
+    }
 }
 "#;
 
@@ -204,27 +250,37 @@ fn field_cast_test() {
 
     let helper = IntegrationTestHelper::new("field_cast_test");
     let source = r#"
-public class TestCls {
-public boolean publicField;
-boolean packagePrivateField;
-protected boolean protectedField;
-private boolean privateField;
+class A {
+    public boolean publicField;
+    boolean packagePrivateField;
+    protected boolean protectedField;
+    private boolean privateField;
 }
-public void test() {
-((A) this).publicField = false;
-((A) this).protectedField = false;
-((A) this).packagePrivateField = false;
-((A) this).privateField = false; // cast to 'A' needed only here
-public void test(B b) {
-((A) b).publicField = false;
-((A) b).protectedField = false;
-((A) b).packagePrivateField = false;
-((A) b).privateField = false; // cast to 'A' needed only here
-public <T extends B> void test(T t) {
-((A) t).publicField = false;
-((A) t).protectedField = false;
-((A) t).packagePrivateField = false;
-((A) t).privateField = false; // cast to 'A' needed only here
+
+class B extends A {
+}
+
+public class TestCls extends B {
+    public void test() {
+        ((A) this).publicField = false;
+        ((A) this).protectedField = false;
+        ((A) this).packagePrivateField = false;
+        ((A) this).privateField = false;
+    }
+
+    public void test(B b) {
+        ((A) b).publicField = false;
+        ((A) b).protectedField = false;
+        ((A) b).packagePrivateField = false;
+        ((A) b).privateField = false;
+    }
+
+    public <T extends B> void test(T t) {
+        ((A) t).publicField = false;
+        ((A) t).protectedField = false;
+        ((A) t).packagePrivateField = false;
+        ((A) t).privateField = false;
+    }
 }
 "#;
 
@@ -248,17 +304,23 @@ fn generics_test() {
     }
 
     let helper = IntegrationTestHelper::new("generics_test");
-    // TODO: Extract test source
+    // From JADX TestGenerics.java
     let source = r#"
-public class TestCls {
-    // Add test code here
+public class TestCls<T> {
+    public T data;
+
+    public TestCls<T> data(T t) {
+        this.data = t;
+        return this;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("TestCls<T> data(T t) {");
 }
 
 #[test]
@@ -269,11 +331,19 @@ fn generics_test2() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("generics_test2");
-    // TODO: Extract test source
+    // This is the noDebug variant of TestGenerics
+    let mut helper = IntegrationTestHelper::new("generics_test2");
+    helper.no_debug_info();
+
+    // From JADX TestGenerics.java
     let source = r#"
-public class TestCls {
-    // Add test code here
+public class TestCls<T> {
+    public T data;
+
+    public TestCls<T> data(T t) {
+        this.data = t;
+        return this;
+    }
 }
 "#;
 
@@ -319,21 +389,31 @@ fn generics3_test() {
 
     let helper = IntegrationTestHelper::new("generics3_test");
     let source = r#"
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class TestCls {
-public static void test() {
-List<String> classes = getClasses();
-Collections.sort(classes);
-int passed = 0;
-for (String cls : classes) {
-if (runTest(cls)) {
-passed++;
-}
-int failed = classes.size() - passed;
-System.out.println("failed: " + failed);
-private static boolean runTest(String clsName) {
-return false;
-private static List<String> getClasses() {
-return new ArrayList<>();
+    public static void test() {
+        List<String> classes = getClasses();
+        Collections.sort(classes);
+        int passed = 0;
+        for (String cls : classes) {
+            if (runTest(cls)) {
+                passed++;
+            }
+        }
+        int failed = classes.size() - passed;
+        System.out.println("failed: " + failed);
+    }
+
+    private static boolean runTest(String clsName) {
+        return false;
+    }
+
+    private static List<String> getClasses() {
+        return new ArrayList<>();
+    }
 }
 "#;
 
@@ -356,21 +436,31 @@ fn generics3_test_no_debug() {
 
     let helper = IntegrationTestHelper::new("generics3_test_no_debug");
     let source = r#"
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class TestCls {
-public static void test() {
-List<String> classes = getClasses();
-Collections.sort(classes);
-int passed = 0;
-for (String cls : classes) {
-if (runTest(cls)) {
-passed++;
-}
-int failed = classes.size() - passed;
-System.out.println("failed: " + failed);
-private static boolean runTest(String clsName) {
-return false;
-private static List<String> getClasses() {
-return new ArrayList<>();
+    public static void test() {
+        List<String> classes = getClasses();
+        Collections.sort(classes);
+        int passed = 0;
+        for (String cls : classes) {
+            if (runTest(cls)) {
+                passed++;
+            }
+        }
+        int failed = classes.size() - passed;
+        System.out.println("failed: " + failed);
+    }
+
+    private static boolean runTest(String clsName) {
+        return false;
+    }
+
+    private static List<String> getClasses() {
+        return new ArrayList<>();
+    }
 }
 "#;
 
@@ -392,17 +482,29 @@ fn generics4_test() {
     let helper = IntegrationTestHelper::new("generics4_test");
     let source = r#"
 public class TestCls {
-public void overload(IList<? super T> list) {
-}
-public void overload(T t) {
-public interface IList<T> {
-void list(T t);
-@Override
-public void list(Object o) {
-public Inner<Object> test() {
-Inner<Object> inner = new Inner<>();
-inner.overload(new ObjIList());
-return inner;
+    public interface IList<T> {
+        void list(T t);
+    }
+
+    public static class Inner<T> {
+        public void overload(IList<? super T> list) {
+        }
+
+        public void overload(T t) {
+        }
+    }
+
+    public static class ObjIList implements IList<Object> {
+        @Override
+        public void list(Object o) {
+        }
+    }
+
+    public Inner<Object> test() {
+        Inner<Object> inner = new Inner<>();
+        inner.overload(new ObjIList());
+        return inner;
+    }
 }
 "#;
 
@@ -427,17 +529,29 @@ fn generics4_test_omit_cast() {
     let helper = IntegrationTestHelper::new("generics4_test_omit_cast");
     let source = r#"
 public class TestCls {
-public void overload(IList<? super T> list) {
-}
-public void overload(T t) {
-public interface IList<T> {
-void list(T t);
-@Override
-public void list(Object o) {
-public Inner<Object> test() {
-Inner<Object> inner = new Inner<>();
-inner.overload(new ObjIList());
-return inner;
+    public interface IList<T> {
+        void list(T t);
+    }
+
+    public static class Inner<T> {
+        public void overload(IList<? super T> list) {
+        }
+
+        public void overload(T t) {
+        }
+    }
+
+    public static class ObjIList implements IList<Object> {
+        @Override
+        public void list(Object o) {
+        }
+    }
+
+    public Inner<Object> test() {
+        Inner<Object> inner = new Inner<>();
+        inner.overload(new ObjIList());
+        return inner;
+    }
 }
 "#;
 
@@ -458,20 +572,30 @@ fn generics5_test() {
 
     let helper = IntegrationTestHelper::new("generics5_test");
     let source = r#"
+import java.util.Map;
+import java.util.HashMap;
+
 public class TestCls {
-private InheritableThreadLocal<Map<String, String>> inheritableThreadLocal;
-public void test(String key, String val) {
-if (key == null) {
-throw new IllegalArgumentException("key cannot be null");
-}
-Map<String, String> map = this.inheritableThreadLocal.get();
-if (map == null) {
-map = new HashMap<>();
-this.inheritableThreadLocal.set(map);
-map.put(key, val);
-public void remove(String key) {
-if (map != null) {
-map.remove(key);
+    private InheritableThreadLocal<Map<String, String>> inheritableThreadLocal = new InheritableThreadLocal<>();
+
+    public void test(String key, String val) {
+        if (key == null) {
+            throw new IllegalArgumentException("key cannot be null");
+        }
+        Map<String, String> map = this.inheritableThreadLocal.get();
+        if (map == null) {
+            map = new HashMap<>();
+            this.inheritableThreadLocal.set(map);
+        }
+        map.put(key, val);
+    }
+
+    public void remove(String key) {
+        Map<String, String> map = this.inheritableThreadLocal.get();
+        if (map != null) {
+            map.remove(key);
+        }
+    }
 }
 "#;
 
@@ -490,11 +614,59 @@ fn generics6_test() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("generics6_test");
-    // TODO: Extract test source
+    // noDebugInfo test from JADX TestGenerics6.java
+    let mut helper = IntegrationTestHelper::new("generics6_test");
+    helper.no_debug_info();
+
     let source = r#"
-public class TestCls {
-    // Add test code here
+import java.util.Iterator;
+import java.util.Map;
+
+public class TestCls<K, V> implements Iterable<Map.Entry<K, V>> {
+    public V test(K key, V v) {
+        Entry<K, V> entry = get(key);
+        if (entry != null) {
+            return entry.mValue;
+        }
+        put(key, v);
+        return null;
+    }
+
+    protected Entry<K, V> get(K k) {
+        return null;
+    }
+
+    protected Entry<K, V> put(K key, V v) {
+        return null;
+    }
+
+    @Override
+    public Iterator<Map.Entry<K, V>> iterator() {
+        return null;
+    }
+
+    static class Entry<K, V> implements Map.Entry<K, V> {
+        final V mValue;
+
+        Entry(K key, V value) {
+            this.mValue = value;
+        }
+
+        @Override
+        public K getKey() {
+            return null;
+        }
+
+        @Override
+        public V getValue() {
+            return null;
+        }
+
+        @Override
+        public V setValue(V value) {
+            return null;
+        }
+    }
 }
 "#;
 
@@ -514,11 +686,24 @@ fn generics7_test() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("generics7_test");
-    // TODO: Extract test source
+    // noDebugInfo test from JADX TestGenerics7.java
+    let mut helper = IntegrationTestHelper::new("generics7_test");
+    helper.no_debug_info();
+
     let source = r#"
-public class TestCls {
-    // Add test code here
+public class TestCls<T> {
+    private Object[] elements = new Object[1];
+
+    @SuppressWarnings("unchecked")
+    public final T test(int i) {
+        Object[] arr = this.elements;
+        T obj = (T) arr[i];
+        arr[i] = null;
+        if (obj == null) {
+            throw new NullPointerException();
+        }
+        return obj;
+    }
 }
 "#;
 
@@ -537,11 +722,35 @@ fn generics8_test() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("generics8_test");
-    // TODO: Extract test source
+    // noDebugInfo test from JADX TestGenerics8.java
+    let mut helper = IntegrationTestHelper::new("generics8_test");
+    helper.no_debug_info();
+
     let source = r#"
-public class TestCls {
-    // Add test code here
+public class TestCls<T> {
+    public abstract static class Class2<S extends I1 & I2> extends Parent2<S> {
+        public void test() {
+            S s = get();
+            s.i1();
+            s.i2();
+        }
+    }
+
+    static class Parent2<T extends I1> {
+        T t;
+
+        protected T get() {
+            return t;
+        }
+    }
+
+    interface I1 {
+        void i1();
+    }
+
+    interface I2 {
+        void i2();
+    }
 }
 "#;
 
@@ -630,10 +839,13 @@ fn interfaces_cast_test() {
 
     let helper = IntegrationTestHelper::new("interfaces_cast_test");
     let source = r#"
+import java.io.Closeable;
+import java.io.IOException;
+
 public class TestCls {
-public Runnable test(Closeable obj) throws IOException {
-return (Runnable) obj;
-}
+    public Runnable test(Closeable closeable) throws IOException {
+        return (Runnable) closeable;
+    }
 }
 "#;
 
@@ -707,14 +919,22 @@ fn primitives_in_if_test() {
     let helper = IntegrationTestHelper::new("primitives_in_if_test");
     let source = r#"
 public class TestCls {
-public boolean test(String str) {
-short sh = Short.parseShort(str);
-int i = Integer.parseInt(str);
-System.out.println(sh + " vs " + i);
-return sh == i;
-}
-public void check() {
-assertThat(test("1")).isTrue();
+    public boolean test(String str) {
+        short sh = Short.parseShort(str);
+        int i = Integer.parseInt(str);
+        System.out.println(sh + " vs " + i);
+        return sh == i;
+    }
+
+    public void check() {
+        assertThat(test("1")).isTrue();
+    }
+
+    private A assertThat(boolean b) { return null; }
+
+    class A {
+        void isTrue() {}
+    }
 }
 "#;
 
@@ -738,14 +958,22 @@ fn primitives_in_if_test2() {
     let helper = IntegrationTestHelper::new("primitives_in_if_test2");
     let source = r#"
 public class TestCls {
-public boolean test(String str) {
-short sh = Short.parseShort(str);
-int i = Integer.parseInt(str);
-System.out.println(sh + " vs " + i);
-return sh == i;
-}
-public void check() {
-assertThat(test("1")).isTrue();
+    public boolean test(String str) {
+        short sh = Short.parseShort(str);
+        int i = Integer.parseInt(str);
+        System.out.println(sh + " vs " + i);
+        return sh == i;
+    }
+
+    public void check() {
+        assertThat(test("1")).isTrue();
+    }
+
+    private A assertThat(boolean b) { return null; }
+
+    class A {
+        void isTrue() {}
+    }
 }
 "#;
 
@@ -767,22 +995,38 @@ fn type_inheritance_test() {
     let helper = IntegrationTestHelper::new("type_inheritance_test");
     let source = r#"
 public class TestCls {
-public interface IRoot {
-}
-public interface IBase extends IRoot {
-public void b() {
-public static void test(boolean z) {
-IBase impl;
-if (z) {
-impl = new A();
-} else {
-B b = new B();
-b.b();
-impl = b; // this move is removed in no-debug byte-code
-useBase(impl);
-useRoot(impl);
-private static void useRoot(IRoot root) {
-private static void useBase(IBase base) {
+    public interface IRoot {
+    }
+
+    public interface IBase extends IRoot {
+    }
+
+    public static class A implements IBase {
+    }
+
+    public static class B implements IBase {
+        public void b() {
+        }
+    }
+
+    public static void test(boolean z) {
+        IBase impl;
+        if (z) {
+            impl = new A();
+        } else {
+            B b = new B();
+            b.b();
+            impl = b;
+        }
+        useBase(impl);
+        useRoot(impl);
+    }
+
+    private static void useRoot(IRoot root) {
+    }
+
+    private static void useBase(IBase base) {
+    }
 }
 "#;
 
@@ -807,22 +1051,38 @@ fn type_inheritance_test_no_debug() {
     let helper = IntegrationTestHelper::new("type_inheritance_test_no_debug");
     let source = r#"
 public class TestCls {
-public interface IRoot {
-}
-public interface IBase extends IRoot {
-public void b() {
-public static void test(boolean z) {
-IBase impl;
-if (z) {
-impl = new A();
-} else {
-B b = new B();
-b.b();
-impl = b; // this move is removed in no-debug byte-code
-useBase(impl);
-useRoot(impl);
-private static void useRoot(IRoot root) {
-private static void useBase(IBase base) {
+    public interface IRoot {
+    }
+
+    public interface IBase extends IRoot {
+    }
+
+    public static class A implements IBase {
+    }
+
+    public static class B implements IBase {
+        public void b() {
+        }
+    }
+
+    public static void test(boolean z) {
+        IBase impl;
+        if (z) {
+            impl = new A();
+        } else {
+            B b = new B();
+            b.b();
+            impl = b;
+        }
+        useBase(impl);
+        useRoot(impl);
+    }
+
+    private static void useRoot(IRoot root) {
+    }
+
+    private static void useBase(IBase base) {
+    }
 }
 "#;
 
@@ -893,20 +1153,34 @@ fn type_resolver11_test() {
 
     let helper = IntegrationTestHelper::new("type_resolver11_test");
     let source = r#"
+import java.util.Arrays;
+
 public class TestCls {
-public Void test(Object... objects) {
-int val = (Integer) objects[0];
-String str = (String) objects[1];
-call(str, str, val, val);
-return null;
-}
-private void call(String a, String b, int... val) {
-private boolean test2(String s1, String... args) {
-String str = Arrays.toString(args);
-return s1.length() + str.length() > 0;
-public void check() {
-test(1, "str");
-assertThat(test2("1", "2", "34")).isTrue();
+    public Void test(Object... objects) {
+        int val = (Integer) objects[0];
+        String str = (String) objects[1];
+        call(str, str, val, val);
+        return null;
+    }
+
+    private void call(String a, String b, int... val) {
+    }
+
+    private boolean test2(String s1, String... args) {
+        String str = Arrays.toString(args);
+        return s1.length() + str.length() > 0;
+    }
+
+    public void check() {
+        test(1, "str");
+        assertThat(test2("1", "2", "34")).isTrue();
+    }
+
+    private A assertThat(boolean b) { return null; }
+
+    class A {
+        void isTrue() {}
+    }
 }
 "#;
 
@@ -928,20 +1202,34 @@ fn type_resolver11_test_no_debug() {
 
     let helper = IntegrationTestHelper::new("type_resolver11_test_no_debug");
     let source = r#"
+import java.util.Arrays;
+
 public class TestCls {
-public Void test(Object... objects) {
-int val = (Integer) objects[0];
-String str = (String) objects[1];
-call(str, str, val, val);
-return null;
-}
-private void call(String a, String b, int... val) {
-private boolean test2(String s1, String... args) {
-String str = Arrays.toString(args);
-return s1.length() + str.length() > 0;
-public void check() {
-test(1, "str");
-assertThat(test2("1", "2", "34")).isTrue();
+    public Void test(Object... objArr) {
+        int val = (Integer) objArr[0];
+        String str = (String) objArr[1];
+        call(str, str, val, val);
+        return null;
+    }
+
+    private void call(String a, String b, int... val) {
+    }
+
+    private boolean test2(String s1, String... args) {
+        String str = Arrays.toString(args);
+        return s1.length() + str.length() > 0;
+    }
+
+    public void check() {
+        test(1, "str");
+        assertThat(test2("1", "2", "34")).isTrue();
+    }
+
+    private A assertThat(boolean b) { return null; }
+
+    class A {
+        void isTrue() {}
+    }
 }
 "#;
 
@@ -962,10 +1250,21 @@ fn type_resolver12_test() {
     }
 
     let helper = IntegrationTestHelper::new("type_resolver12_test");
-    // TODO: Extract test source
+    // From JADX TestTypeResolver12.java
     let source = r#"
-public class TestCls {
-    // Add test code here
+import java.lang.ref.WeakReference;
+
+public abstract class TestCls<T> {
+    private WeakReference<T> ref;
+
+    public void test(String str) {
+        T obj = this.ref.get();
+        if (obj != null) {
+            call(obj, str);
+        }
+    }
+
+    public abstract void call(T t, String str);
 }
 "#;
 
@@ -984,11 +1283,24 @@ fn type_resolver12_test_no_debug() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("type_resolver12_test_no_debug");
-    // TODO: Extract test source
+    let mut helper = IntegrationTestHelper::new("type_resolver12_test_no_debug");
+    helper.no_debug_info();
+
+    // From JADX TestTypeResolver12.java - noDebug variant
     let source = r#"
-public class TestCls {
-    // Add test code here
+import java.lang.ref.WeakReference;
+
+public abstract class TestCls<T> {
+    private WeakReference<T> ref;
+
+    public void test(String str) {
+        T obj = this.ref.get();
+        if (obj != null) {
+            call(obj, str);
+        }
+    }
+
+    public abstract void call(T t, String str);
 }
 "#;
 
@@ -1010,16 +1322,24 @@ fn type_resolver13_test() {
 
     let helper = IntegrationTestHelper::new("type_resolver13_test");
     let source = r#"
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+
 public class TestCls {
-private static final Set<?> CONST = new HashSet<>();
-private Map<Set<?>, List<?>> map = new HashMap<>();
-@SuppressWarnings("unchecked")
-public <T> List<T> test(Set<T> type) {
-List<?> obj = this.map.get(type == null ? CONST : type);
-if (obj != null) {
-return (List<T>) obj;
-}
-return null;
+    private static final Set<?> CONST = new HashSet<>();
+    private Map<Set<?>, List<?>> map = new HashMap<>();
+
+    @SuppressWarnings("unchecked")
+    public <T> List<T> test(Set<T> type) {
+        List<?> obj = this.map.get(type == null ? CONST : type);
+        if (obj != null) {
+            return (List<T>) obj;
+        }
+        return null;
+    }
 }
 "#;
 
@@ -1065,11 +1385,13 @@ fn type_resolver15_test() {
     let helper = IntegrationTestHelper::new("type_resolver15_test");
     let source = r#"
 public class TestCls {
-private void test(boolean z) {
-useInt(z ? 0 : 8);
-useInt(!z ? 1 : 0); // replaced with xor in smali test
-}
-private void useInt(int i) {
+    private void test(boolean z) {
+        useInt(z ? 0 : 8);
+        useInt(!z ? 1 : 0);
+    }
+
+    private void useInt(int i) {
+    }
 }
 "#;
 
@@ -1092,11 +1414,13 @@ fn type_resolver15_test_smali() {
     let helper = IntegrationTestHelper::new("type_resolver15_test_smali");
     let source = r#"
 public class TestCls {
-private void test(boolean z) {
-useInt(z ? 0 : 8);
-useInt(!z ? 1 : 0); // replaced with xor in smali test
-}
-private void useInt(int i) {
+    private void test(boolean z) {
+        useInt(z ? 0 : 8);
+        useInt(!z ? 1 : 0);
+    }
+
+    private void useInt(int i) {
+    }
 }
 "#;
 
@@ -1118,20 +1442,30 @@ fn type_resolver16_test() {
 
     let helper = IntegrationTestHelper::new("type_resolver16_test");
     let source = r#"
+import java.util.List;
+import java.util.Set;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.function.Function;
+
 public class TestCls {
-public final <T, K> List<T> test(List<? extends T> list,
-Set<? extends T> set, Function<? super T, ? extends K> function) {
-if (set != null) {
-List<? extends T> union = list != null ? union(list, set, function) : null;
-if (union != null) {
-list = union;
-}
-return list != null ? (List<T>) list : emptyList();
-public static <T, K> List<T> union(
-Collection<? extends T> collection,
-Iterable<? extends T> iterable,
-Function<? super T, ? extends K> function) {
-return null;
+    public final <T, K> List<T> test(List<? extends T> list,
+            Set<? extends T> set, Function<? super T, ? extends K> function) {
+        if (set != null) {
+            List<? extends T> listUnion = list != null ? union(list, set, function) : null;
+            if (listUnion != null) {
+                list = listUnion;
+            }
+        }
+        return list != null ? (List<T>) list : Collections.emptyList();
+    }
+
+    public static <T, K> List<T> union(
+            Collection<? extends T> collection,
+            Iterable<? extends T> iterable,
+            Function<? super T, ? extends K> function) {
+        return null;
+    }
 }
 "#;
 
@@ -1152,20 +1486,30 @@ fn type_resolver16_test_smali() {
 
     let helper = IntegrationTestHelper::new("type_resolver16_test_smali");
     let source = r#"
+import java.util.List;
+import java.util.Set;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.function.Function;
+
 public class TestCls {
-public final <T, K> List<T> test(List<? extends T> list,
-Set<? extends T> set, Function<? super T, ? extends K> function) {
-if (set != null) {
-List<? extends T> union = list != null ? union(list, set, function) : null;
-if (union != null) {
-list = union;
-}
-return list != null ? (List<T>) list : emptyList();
-public static <T, K> List<T> union(
-Collection<? extends T> collection,
-Iterable<? extends T> iterable,
-Function<? super T, ? extends K> function) {
-return null;
+    public final <T, K> List<T> test(List<? extends T> list,
+            Set<? extends T> set, Function<? super T, ? extends K> function) {
+        if (set != null) {
+            List<? extends T> listUnion = list != null ? union(list, set, function) : null;
+            if (listUnion != null) {
+                list = listUnion;
+            }
+        }
+        return list != null ? (List<T>) list : Collections.emptyList();
+    }
+
+    public static <T, K> List<T> union(
+            Collection<? extends T> collection,
+            Iterable<? extends T> iterable,
+            Function<? super T, ? extends K> function) {
+        return null;
+    }
 }
 "#;
 
@@ -1234,17 +1578,25 @@ fn type_resolver19_test() {
     let helper = IntegrationTestHelper::new("type_resolver19_test");
     let source = r#"
 public class TestCls {
-public static int[] test(byte[] bArr) {
-int[] iArr = new int[bArr.length];
-for (int i = 0; i < bArr.length; i++) {
-iArr[i] = bArr[i];
-}
-return iArr;
-public static int[] test2(byte[] bArr) {
-int i2 = bArr[i];
-if (i2 < 0) {
-i2 = (int) ((long) i2 & 0xFFFF_FFFFL);
-iArr[i] = i2;
+    public static int[] test(byte[] bArr) {
+        int[] iArr = new int[bArr.length];
+        for (int i = 0; i < bArr.length; i++) {
+            iArr[i] = bArr[i];
+        }
+        return iArr;
+    }
+
+    public static int[] test2(byte[] bArr) {
+        int[] iArr = new int[bArr.length];
+        for (int i = 0; i < bArr.length; i++) {
+            int i2 = bArr[i];
+            if (i2 < 0) {
+                i2 = (int) ((long) i2 & 0xFFFF_FFFFL);
+            }
+            iArr[i] = i2;
+        }
+        return iArr;
+    }
 }
 "#;
 
@@ -1266,12 +1618,15 @@ fn type_resolver2_test() {
 
     let helper = IntegrationTestHelper::new("type_resolver2_test");
     let source = r#"
+import java.io.IOException;
+
 public class TestCls {
-public static boolean test(Object obj) throws IOException {
-if (obj != null) {
-return true;
-}
-throw new IOException();
+    public static boolean test(Object obj) throws IOException {
+        if (obj != null) {
+            return true;
+        }
+        throw new IOException();
+    }
 }
 "#;
 
@@ -1292,29 +1647,53 @@ fn type_resolver20_test_smali() {
 
     let helper = IntegrationTestHelper::new("type_resolver20_test_smali");
     let source = r#"
+import java.util.Arrays;
+import java.util.List;
+import java.util.Iterator;
+
 public class TestCls {
-public interface Sequence<T> {
-Iterator<T> iterator();
-}
-public static <T extends Comparable<? super T>> T max(Sequence<? extends T> seq) {
-Iterator<? extends T> it = seq.iterator();
-if (!it.hasNext()) {
-return null;
-T t = it.next();
-while (it.hasNext()) {
-T next = it.next();
-if (t.compareTo(next) < 0) {
-t = next;
-return t;
-private final List<T> list;
-@SafeVarargs
-public ArraySeq(T... arr) {
-this.list = Arrays.asList(arr);
-@Override
-public Iterator<T> iterator() {
-return list.iterator();
-public void check() {
-assertThat(max(new ArraySeq<>(2, 5, 3, 4))).isEqualTo(5);
+    public interface Sequence<T> {
+        Iterator<T> iterator();
+    }
+
+    public static <T extends Comparable<? super T>> T max(Sequence<? extends T> seq) {
+        Iterator<? extends T> it = seq.iterator();
+        if (!it.hasNext()) {
+            return null;
+        }
+        T t = it.next();
+        while (it.hasNext()) {
+            T next = it.next();
+            if (t.compareTo(next) < 0) {
+                t = next;
+            }
+        }
+        return t;
+    }
+
+    public static class ArraySeq<T> implements Sequence<T> {
+        private final List<T> list;
+
+        @SafeVarargs
+        public ArraySeq(T... arr) {
+            this.list = Arrays.asList(arr);
+        }
+
+        @Override
+        public Iterator<T> iterator() {
+            return list.iterator();
+        }
+    }
+
+    public void check() {
+        assertThat(max(new ArraySeq<>(2, 5, 3, 4))).isEqualTo(5);
+    }
+
+    private A assertThat(Object o) { return null; }
+
+    class A {
+        A isEqualTo(Object o) { return this; }
+    }
 }
 "#;
 
@@ -1360,14 +1739,20 @@ fn type_resolver24_test_smali() {
     let helper = IntegrationTestHelper::new("type_resolver24_test_smali");
     let source = r#"
 public class TestCls {
-public void test() {
-((T1) null).foo1();
-((T2) null).foo2();
-}
-static class T1 {
-public void foo1() {
-static class T2 {
-public void foo2() {
+    public void test() {
+        ((T1) null).foo1();
+        ((T2) null).foo2();
+    }
+
+    static class T1 {
+        public void foo1() {
+        }
+    }
+
+    static class T2 {
+        public void foo2() {
+        }
+    }
 }
 "#;
 
@@ -1416,12 +1801,13 @@ fn type_resolver3_test() {
     let helper = IntegrationTestHelper::new("type_resolver3_test");
     let source = r#"
 public class TestCls {
-public int test(String s1, String s2) {
-int cmp = s2.compareTo(s1);
-if (cmp != 0) {
-return cmp;
-}
-return s1.length() == s2.length() ? 0 : s1.length() < s2.length() ? -1 : 1;
+    public int test(String s1, String s2) {
+        int cmp = s2.compareTo(s1);
+        if (cmp != 0) {
+            return cmp;
+        }
+        return s1.length() == s2.length() ? 0 : s1.length() < s2.length() ? -1 : 1;
+    }
 }
 "#;
 
@@ -1442,12 +1828,13 @@ fn type_resolver3_test2() {
     let helper = IntegrationTestHelper::new("type_resolver3_test2");
     let source = r#"
 public class TestCls {
-public int test(String s1, String s2) {
-int cmp = s2.compareTo(s1);
-if (cmp != 0) {
-return cmp;
-}
-return s1.length() == s2.length() ? 0 : s1.length() < s2.length() ? -1 : 1;
+    public int test(String s1, String s2) {
+        int cmp = s2.compareTo(s1);
+        if (cmp != 0) {
+            return cmp;
+        }
+        return s1.length() == s2.length() ? 0 : s1.length() < s2.length() ? -1 : 1;
+    }
 }
 "#;
 
@@ -1467,21 +1854,34 @@ fn type_resolver4_test() {
 
     let helper = IntegrationTestHelper::new("type_resolver4_test");
     let source = r#"
+import java.util.Arrays;
+
 public class TestCls {
-private static String test(byte[] strArray, int offset) {
-int len = strArray.length;
-int start = offset + f(strArray, offset);
-int end = start;
-while (end + 1 < len && (strArray[end] != 0 || strArray[end + 1] != 0)) {
-end += 2;
-}
-byte[] arr = Arrays.copyOfRange(strArray, start, end);
-return new String(arr);
-private static int f(byte[] strArray, int offset) {
-return 0;
-public void check() {
-String test = test(("1234" + "utfstr\0\0" + "4567").getBytes(), 4);
-assertThat(test).isEqualTo("utfstr");
+    private static String test(byte[] strArray, int offset) {
+        int len = strArray.length;
+        int start = offset + f(strArray, offset);
+        int end = start;
+        while (end + 1 < len && (strArray[end] != 0 || strArray[end + 1] != 0)) {
+            end += 2;
+        }
+        byte[] arr = Arrays.copyOfRange(strArray, start, end);
+        return new String(arr);
+    }
+
+    private static int f(byte[] strArray, int offset) {
+        return 0;
+    }
+
+    public void check() {
+        String test = test(("1234" + "utfstr\0\0" + "4567").getBytes(), 4);
+        assertThat(test).isEqualTo("utfstr");
+    }
+
+    private A assertThat(String s) { return null; }
+
+    class A {
+        A isEqualTo(String s) { return this; }
+    }
 }
 "#;
 
@@ -1502,21 +1902,34 @@ fn type_resolver4_test2() {
 
     let helper = IntegrationTestHelper::new("type_resolver4_test2");
     let source = r#"
+import java.util.Arrays;
+
 public class TestCls {
-private static String test(byte[] strArray, int offset) {
-int len = strArray.length;
-int start = offset + f(strArray, offset);
-int end = start;
-while (end + 1 < len && (strArray[end] != 0 || strArray[end + 1] != 0)) {
-end += 2;
-}
-byte[] arr = Arrays.copyOfRange(strArray, start, end);
-return new String(arr);
-private static int f(byte[] strArray, int offset) {
-return 0;
-public void check() {
-String test = test(("1234" + "utfstr\0\0" + "4567").getBytes(), 4);
-assertThat(test).isEqualTo("utfstr");
+    private static String test(byte[] strArray, int offset) {
+        int len = strArray.length;
+        int start = offset + f(strArray, offset);
+        int end = start;
+        while (end + 1 < len && (strArray[end] != 0 || strArray[end + 1] != 0)) {
+            end += 2;
+        }
+        byte[] arr = Arrays.copyOfRange(strArray, start, end);
+        return new String(arr);
+    }
+
+    private static int f(byte[] strArray, int offset) {
+        return 0;
+    }
+
+    public void check() {
+        String test = test(("1234" + "utfstr\0\0" + "4567").getBytes(), 4);
+        assertThat(test).isEqualTo("utfstr");
+    }
+
+    private A assertThat(String s) { return null; }
+
+    class A {
+        A isEqualTo(String s) { return this; }
+    }
 }
 "#;
 
@@ -1561,12 +1974,15 @@ fn type_resolver6_test() {
     let helper = IntegrationTestHelper::new("type_resolver6_test");
     let source = r#"
 public class TestCls {
-public final Object obj;
-public TestCls(boolean b) {
-this.obj = b ? this : makeObj();
-}
-public Object makeObj() {
-return new Object();
+    public final Object obj;
+
+    public TestCls(boolean b) {
+        this.obj = b ? this : makeObj();
+    }
+
+    public Object makeObj() {
+        return new Object();
+    }
 }
 "#;
 
@@ -1588,12 +2004,15 @@ fn type_resolver6_test_no_debug() {
     let helper = IntegrationTestHelper::new("type_resolver6_test_no_debug");
     let source = r#"
 public class TestCls {
-public final Object obj;
-public TestCls(boolean b) {
-this.obj = b ? this : makeObj();
-}
-public Object makeObj() {
-return new Object();
+    public final Object obj;
+
+    public TestCls(boolean b) {
+        this.obj = b ? this : makeObj();
+    }
+
+    public Object makeObj() {
+        return new Object();
+    }
 }
 "#;
 
@@ -1612,10 +2031,26 @@ fn type_resolver6a_test() {
     }
 
     let helper = IntegrationTestHelper::new("type_resolver6a_test");
-    // TODO: Extract test source
+    // From JADX TestTypeResolver6a.java
     let source = r#"
-public class TestCls {
-    // Add test code here
+public class TestCls implements Runnable {
+    public final Runnable runnable;
+
+    public TestCls(boolean b) {
+        this.runnable = b ? this : makeRunnable();
+    }
+
+    public Runnable makeRunnable() {
+        return new Runnable() {
+            @Override
+            public void run() {
+            }
+        };
+    }
+
+    @Override
+    public void run() {
+    }
 }
 "#;
 
@@ -1634,18 +2069,36 @@ fn type_resolver6a_test_no_debug() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("type_resolver6a_test_no_debug");
-    // TODO: Extract test source
+    let mut helper = IntegrationTestHelper::new("type_resolver6a_test_no_debug");
+    helper.no_debug_info();
+
+    // From JADX TestTypeResolver6a.java - noDebug variant
     let source = r#"
-public class TestCls {
-    // Add test code here
+public class TestCls implements Runnable {
+    public final Runnable runnable;
+
+    public TestCls(boolean b) {
+        this.runnable = b ? this : makeRunnable();
+    }
+
+    public Runnable makeRunnable() {
+        return new Runnable() {
+            @Override
+            public void run() {
+            }
+        };
+    }
+
+    @Override
+    public void run() {
+    }
 }
 "#;
 
-    let result = helper.test_decompilation(source)
+    let _result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    // noDebug variant just checks it compiles, no specific assertions
 }
 
 #[test]
@@ -1659,20 +2112,28 @@ fn type_resolver7_test() {
     let helper = IntegrationTestHelper::new("type_resolver7_test");
     let source = r#"
 public class TestCls {
-public void test(boolean a, boolean b) {
-Object obj = null;
-if (a) {
-use(b ? (Exception) getObj() : (Exception) obj);
-} else {
-Runnable r = (Runnable) obj;
-if (b) {
-r = (Runnable) getObj();
-}
-use(r);
-private Object getObj() {
-return null;
-private void use(Exception e) {
-private void use(Runnable r) {
+    public void test(boolean a, boolean b) {
+        Object obj = null;
+        if (a) {
+            use(b ? (Exception) getObj() : (Exception) obj);
+        } else {
+            Runnable r = (Runnable) obj;
+            if (b) {
+                r = (Runnable) getObj();
+            }
+            use(r);
+        }
+    }
+
+    private Object getObj() {
+        return null;
+    }
+
+    private void use(Exception e) {
+    }
+
+    private void use(Runnable r) {
+    }
 }
 "#;
 
@@ -1695,20 +2156,28 @@ fn type_resolver7_test_no_debug() {
     let helper = IntegrationTestHelper::new("type_resolver7_test_no_debug");
     let source = r#"
 public class TestCls {
-public void test(boolean a, boolean b) {
-Object obj = null;
-if (a) {
-use(b ? (Exception) getObj() : (Exception) obj);
-} else {
-Runnable r = (Runnable) obj;
-if (b) {
-r = (Runnable) getObj();
-}
-use(r);
-private Object getObj() {
-return null;
-private void use(Exception e) {
-private void use(Runnable r) {
+    public void test(boolean a, boolean b) {
+        Object obj = null;
+        if (a) {
+            use(b ? (Exception) getObj() : (Exception) obj);
+        } else {
+            Runnable r = (Runnable) obj;
+            if (b) {
+                r = (Runnable) getObj();
+            }
+            use(r);
+        }
+    }
+
+    private Object getObj() {
+        return null;
+    }
+
+    private void use(Exception e) {
+    }
+
+    private void use(Runnable r) {
+    }
 }
 "#;
 
@@ -1729,11 +2198,13 @@ fn type_resolver9_test() {
     let helper = IntegrationTestHelper::new("type_resolver9_test");
     let source = r#"
 public class TestCls {
-public int test(byte b) {
-return 16777216 * b;
-}
-public int test2(byte[] array, int offset) {
-return array[offset] * 128 + (array[offset + 1] & 0xFF);
+    public int test(byte b) {
+        return 16777216 * b;
+    }
+
+    public int test2(byte[] array, int offset) {
+        return array[offset] * 128 + (array[offset + 1] & 0xFF);
+    }
 }
 "#;
 
@@ -1756,11 +2227,13 @@ fn type_resolver9_test_no_debug() {
     let helper = IntegrationTestHelper::new("type_resolver9_test_no_debug");
     let source = r#"
 public class TestCls {
-public int test(byte b) {
-return 16777216 * b;
-}
-public int test2(byte[] array, int offset) {
-return array[offset] * 128 + (array[offset + 1] & 0xFF);
+    public int test(byte b) {
+        return 16777216 * b;
+    }
+
+    public int test2(byte[] array, int offset) {
+        return array[offset] * 128 + (array[offset + 1] & 0xFF);
+    }
 }
 "#;
 

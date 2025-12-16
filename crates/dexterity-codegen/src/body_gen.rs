@@ -1346,27 +1346,61 @@ fn body_has_meaningful_content(body: &Region, foreach_info: &ForEachInfo, ctx: &
     count_meaningful_in_region(body, foreach_info.skip_block, foreach_info.skip_start, foreach_info.skip_count, ctx) > 0
 }
 
-/// Check if body has multiple blocks or nested regions (not just a single block)
-/// This helps avoid generating for-each when the region builder hasn't properly
-/// included all body blocks in the loop region
-fn body_has_multiple_elements(body: &Region) -> bool {
-    match body {
-        Region::Sequence(contents) => {
-            // Multiple items = good
-            if contents.len() > 1 {
-                return true;
-            }
-            // Single item - check if it's a nested region with content
-            if let Some(RegionContent::Region(r)) = contents.first() {
-                return body_has_multiple_elements(r);
-            }
+/// Check if body has content beyond just the skip_block
+/// A block only counts if it has non-control-flow instructions
+fn body_has_meaningful_structure(body: &Region, skip_block: u32, ctx: &BodyGenContext) -> bool {
+    fn block_has_content(block_id: u32, skip_block: u32, ctx: &BodyGenContext) -> bool {
+        // Skip block doesn't count (its content will be skipped)
+        if block_id == skip_block {
+            return false;
+        }
+        // Check if block has any non-control-flow instructions
+        if let Some(block) = ctx.blocks.get(&block_id) {
+            block.instructions.iter().any(|insn| !is_control_flow(&insn.insn_type))
+        } else {
             false
         }
-        // Non-sequence regions (If, Loop, Switch, etc.) are considered meaningful
-        // as they contain nested structure
-        Region::If { .. } | Region::Switch { .. } | Region::TryCatch { .. } | Region::Synchronized { .. } => true,
-        Region::Loop { body, .. } => body_has_multiple_elements(body),
     }
+
+    fn count_meaningful_blocks(region: &Region, skip_block: u32, ctx: &BodyGenContext) -> usize {
+        match region {
+            Region::Sequence(contents) => {
+                contents.iter().map(|c| match c {
+                    RegionContent::Block(b) => if block_has_content(*b, skip_block, ctx) { 1 } else { 0 },
+                    RegionContent::Region(r) => count_meaningful_blocks(r, skip_block, ctx),
+                }).sum()
+            }
+            Region::If { then_region, else_region, .. } => {
+                let then_count = count_meaningful_blocks(then_region, skip_block, ctx);
+                let else_count = else_region.as_ref()
+                    .map(|r| count_meaningful_blocks(r, skip_block, ctx))
+                    .unwrap_or(0);
+                then_count + else_count
+            }
+            Region::Loop { body, .. } => count_meaningful_blocks(body, skip_block, ctx),
+            Region::Switch { cases, default, .. } => {
+                let case_count: usize = cases.iter()
+                    .map(|c| count_meaningful_blocks(&c.region, skip_block, ctx))
+                    .sum();
+                let default_count = default.as_ref()
+                    .map(|r| count_meaningful_blocks(r, skip_block, ctx))
+                    .unwrap_or(0);
+                case_count + default_count
+            }
+            Region::TryCatch { try_region, handlers, finally } => {
+                let try_count = count_meaningful_blocks(try_region, skip_block, ctx);
+                let catch_count: usize = handlers.iter()
+                    .map(|c| count_meaningful_blocks(&c.region, skip_block, ctx))
+                    .sum();
+                let finally_count = finally.as_ref()
+                    .map(|r| count_meaningful_blocks(r, skip_block, ctx))
+                    .unwrap_or(0);
+                try_count + catch_count + finally_count
+            }
+            Region::Synchronized { body, .. } => count_meaningful_blocks(body, skip_block, ctx),
+        }
+    }
+    count_meaningful_blocks(body, skip_block, ctx) > 0
 }
 
 /// Generate else or else-if chain
@@ -1971,14 +2005,20 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             match kind {
                 LoopKind::While | LoopKind::For => {
-                    // Check if this While loop is actually a ForEach (iterator pattern)
+                    // TODO: For-each detection currently disabled - region builder doesn't always
+                    // include all body blocks in the loop region, causing empty for-each bodies.
+                    // Proper fix: Add a LoopRegionVisitor pass (like JADX) that marks iterator
+                    // instructions with DONT_GENERATE flag BEFORE region building/code generation.
+                    // For now, always generate while loops for correctness.
+                    #[allow(clippy::if_same_then_else, unreachable_code)]
+                    if false {
                     if let Some(cond) = condition {
                         if let Some((iter_reg, iter_str)) = detect_iterator_pattern(cond, ctx) {
                             if let Some(foreach_info) = detect_next_call(body, iter_reg, ctx) {
                                 // Only generate for-each if body has meaningful content after skipping
                                 // Also check that body has multiple blocks or nested regions (not just the iterator block)
                                 if body_has_meaningful_content(body, &foreach_info, ctx)
-                                    && body_has_multiple_elements(body) {
+                                    && body_has_meaningful_structure(body, foreach_info.skip_block, ctx) {
                                     // Generate for-each style syntax
                                     let item_type = foreach_info.item_type.as_deref().unwrap_or("Object");
                                     let collection = iter_str.replace(".hasNext()", "")
@@ -2013,6 +2053,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                             }
                         }
                     }
+                    } // End of disabled for-each detection (if false)
                     gen_while_header(&condition_str, code);
                     generate_region(body, ctx, code);
                     gen_close_block(code);
@@ -2035,7 +2076,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                                 // Only generate for-each if body has meaningful content after skipping
                                 // Also check that body has multiple blocks or nested regions
                                 if body_has_meaningful_content(body, &foreach_info, ctx)
-                                    && body_has_multiple_elements(body) {
+                                    && body_has_meaningful_structure(body, foreach_info.skip_block, ctx) {
                                     let item_type = foreach_info.item_type.as_deref().unwrap_or("Object");
                                     let collection = iter_str.replace(".hasNext()", "")
                                         .trim_end()

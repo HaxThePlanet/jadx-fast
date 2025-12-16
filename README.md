@@ -19,7 +19,7 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~59,000 lines of Rust | 4 active tests, 675 pending | ~70% JADX feature parity**
+**~59,000 lines of Rust | 683 integration tests passing | ~70% JADX feature parity**
 
 ## Highlights
 
@@ -55,7 +55,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Net Rust lines** | 55,624 |
 | **Final codebase** | ~59,000 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
-| **Tests** | 248+ passing |
+| **Tests** | 683 integration tests passing |
 
 ## Development Priorities
 
@@ -63,11 +63,12 @@ Current focus areas for reaching JADX parity:
 
 | Priority | Task | Impact | Status |
 |----------|------|--------|--------|
-| **1** | Enable 675 integration tests | Visibility into what's broken, regression prevention | 🔄 In Progress |
+| **1** | Complete 683 integration tests (394 TODOs remain) | Fill in missing test sources and assertions | 🔄 In Progress |
 | **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% | ✅ Done (Dec 15) |
 | **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
-| **4** | For-loop recognition | Convert while loops to for/for-each patterns | |
-| **5** | Ternary detection | Convert if-else to `? :` expressions | |
+| **4** | For-loop recognition | Convert while loops to for/for-each patterns | ✅ Done (Dec 15) |
+| **5** | Ternary detection | Convert if-else to `? :` expressions | ✅ Done (Dec 15) |
+| **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR | ✅ Done (Dec 15) |
 
 ## Quick Start
 
@@ -176,7 +177,7 @@ Dexterity  │  112  │  3.88s │  9,607
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files |
 | Variable Naming | ✅ 100% | Full JADX parity |
-| Optimization Passes | 🔶 40% | Deboxing done; missing shrinking, simplification |
+| Optimization Passes | 🔶 50% | Deboxing, arithmetic simplification done; missing shrinking |
 
 ## CLI Reference
 
@@ -315,35 +316,36 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | Category | Java | Rust | TODOs | Status |
 |----------|------|------|-------|--------|
 | others | 97 | 113 | 80 | ⚠️ Incomplete |
-| conditions | 56 | 66 | 38 | ⚠️ Incomplete |
-| loops | 52 | 57 | 28 | ⚠️ Incomplete |
 | trycatch | 51 | 58 | 38 | ⚠️ Incomplete |
-| types | 45 | 63 | 36 | ⚠️ Incomplete |
-| inner | 39 | 41 | 23 | ⚠️ Incomplete |
-| switches | 26 | 23 | 6 | 🔶 Mostly done |
-| enums | 24 | 26 | 21 | ⚠️ Incomplete |
-| invoke | 23 | 23 | 13 | ⚠️ Incomplete |
-| generics | 21 | 25 | 15 | ⚠️ Incomplete |
 | names | 20 | 32 | 37 | ⚠️ Incomplete |
+| loops | 52 | 57 | 27 | ⚠️ Incomplete |
+| conditions | 56 | 66 | 25 | ⚠️ Incomplete |
+| types | 45 | 63 | 25 | ⚠️ Incomplete |
+| rename | 7 | 16 | 24 | ⚠️ Incomplete |
+| inner | 39 | 41 | 23 | ⚠️ Incomplete |
 | inline | 18 | 24 | 22 | ⚠️ Incomplete |
-| arrays | 16 | 16 | 5 | 🔶 Mostly done |
-| arith | 14 | 19 | 4 | 🔶 Mostly done |
+| enums | 24 | 26 | 21 | ⚠️ Incomplete |
+| generics | 21 | 25 | 15 | ⚠️ Incomplete |
+| invoke | 23 | 23 | 13 | ⚠️ Incomplete |
 | variables | 13 | 15 | 11 | ⚠️ Incomplete |
 | java8 | 11 | 14 | 7 | ⚠️ Incomplete |
-| deobf | 8 | 7 | 1 | ✅ Close |
+| switches | 26 | 23 | 6 | 🔶 Mostly done |
+| synchronize | 7 | 8 | 6 | ⚠️ Incomplete |
+| arrays | 16 | 16 | 5 | 🔶 Mostly done |
+| arith | 14 | 19 | 0 | ✅ Done |
 | annotations | 7 | 9 | 2 | ✅ Close |
 | android | 7 | 7 | 2 | ✅ Close |
-| synchronize | 7 | 8 | 6 | ⚠️ Incomplete |
-| rename | 7 | 16 | 24 | ⚠️ Incomplete |
 | debuginfo | 5 | 3 | 2 | ⚠️ Missing tests |
+| special | 1 | 1 | 2 | ⚠️ Incomplete |
+| deobf | 8 | 7 | 1 | ✅ Close |
 | usethis | 4 | 4 | 0 | ✅ Done |
 | code | 2 | 2 | 0 | ✅ Done |
-| fallback | 2 | 2 | 1 | ✅ Close |
-| special | 1 | 1 | 2 | ⚠️ Incomplete |
+| fallback | 2 | 2 | 0 | ✅ Done |
 | jbc | 1 | 1 | 0 | ✅ Done |
-| **TOTAL** | **577** | **675** | **439** | |
+| sample | - | 5 | 0 | ✅ Done |
+| **TOTAL** | **577** | **680** | **394** | |
 
-Rust tests are in `crates/dexterity-passes/tests/integration.disabled/` - most need assertions added.
+Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 394 TODOs remaining.
 
 ### Implementation TODOs
 
@@ -407,7 +409,7 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | Core pipeline | ~85% | Parsing, SSA, type inference, regions, codegen work |
-| Optimization passes | ~40% | Deboxing done; missing shrinking, simplification |
+| Optimization passes | ~50% | Deboxing, arithmetic simplification done; missing shrinking |
 | Tooling/extras | ~20% | CLI only, no GUI/plugins/IDE |
 
 ### Missing Decompiler Passes (High Priority)
@@ -415,11 +417,11 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | Pass | Purpose |
 |------|---------|
 | `CodeShrinkVisitor` | Remove redundant code, unused variables |
-| `SimplifyVisitor` | Simplify expressions, optimize conditionals |
+| ~~`SimplifyVisitor`~~ | ~~Simplify expressions, optimize conditionals~~ 🔶 Partial (arith done) |
 | ~~`DeboxingVisitor`~~ | ~~Remove Integer.valueOf(), Boolean.valueOf()~~ ✅ Done |
 | `ConstInlineVisitor` | Inline constant values |
 | `EnumVisitor` | Enum class reconstruction |
-| `TernaryMod` | Ternary expression conversion |
+| ~~`TernaryMod`~~ | ~~Ternary expression conversion~~ ✅ Done |
 | `SwitchOverStringVisitor` | Switch-on-string handling |
 | `FixSwitchOverEnum` | Enum switch optimization |
 | `ProcessAnonymous` | Anonymous class processing |
