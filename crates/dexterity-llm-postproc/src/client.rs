@@ -1,17 +1,18 @@
-//! Anthropic Claude API client
+//! LLM API client supporting both Anthropic Claude and Ollama
 
 use anyhow::{anyhow, Result};
 use reqwest::Client as HttpClient;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use tokio::sync::RwLock;
-
-const CLAUDE_API_URL: &str = "https://api.anthropic.com/v1/messages";
+use crate::config::LLMBackend;
 
 #[derive(Clone)]
 pub struct ClaudeClient {
+    backend: LLMBackend,
     api_key: String,
     model: String,
+    api_endpoint: String,
     http_client: Arc<HttpClient>,
     // Track usage for quota management
     usage: Arc<RwLock<Usage>>,
@@ -24,8 +25,9 @@ struct Usage {
     output_tokens: u64,
 }
 
+// Anthropic API structures
 #[derive(Serialize)]
-struct ClaudeRequest {
+struct AnthropicRequest {
     model: String,
     max_tokens: u32,
     messages: Vec<Message>,
@@ -38,14 +40,14 @@ struct Message {
 }
 
 #[derive(Deserialize)]
-struct ClaudeResponse {
+struct AnthropicResponse {
     content: Vec<ResponseContent>,
     usage: ResponseUsage,
 }
 
 #[derive(Deserialize)]
 struct ResponseContent {
-    text: String,
+    text: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -54,26 +56,60 @@ struct ResponseUsage {
     output_tokens: u64,
 }
 
-impl ClaudeClient {
-    /// Create a new Claude API client
-    pub fn new(api_key: String, model: String) -> Result<Self> {
-        if api_key.is_empty() {
-            return Err(anyhow!("API key is empty"));
-        }
+// Ollama API structures (OpenAI-compatible)
+#[derive(Serialize)]
+struct OllamaRequest {
+    model: String,
+    messages: Vec<Message>,
+    stream: bool,
+}
 
+#[derive(Deserialize)]
+struct OllamaResponse {
+    message: OllamaMessage,
+    #[serde(default)]
+    usage: OllamaUsage,
+}
+
+#[derive(Deserialize)]
+struct OllamaMessage {
+    content: String,
+}
+
+#[derive(Deserialize)]
+struct OllamaUsage {
+    #[serde(default)]
+    prompt_tokens: u64,
+    #[serde(default)]
+    completion_tokens: u64,
+}
+
+impl ClaudeClient {
+    /// Create a new LLM client (auto-detects Ollama or Anthropic)
+    pub fn new(backend: LLMBackend, api_key: String, model: String, api_endpoint: String) -> Result<Self> {
         let http_client = HttpClient::new();
 
         Ok(Self {
+            backend,
             api_key,
             model,
+            api_endpoint,
             http_client: Arc::new(http_client),
             usage: Arc::new(RwLock::new(Usage::default())),
         })
     }
 
-    /// Call Claude API with a prompt
+    /// Call the LLM API with a prompt
     pub async fn call(&self, system_prompt: &str, user_message: &str) -> Result<String> {
-        let request = ClaudeRequest {
+        match self.backend {
+            LLMBackend::Anthropic => self.call_anthropic(system_prompt, user_message).await,
+            LLMBackend::Ollama => self.call_ollama(system_prompt, user_message).await,
+        }
+    }
+
+    /// Call Anthropic Claude API
+    async fn call_anthropic(&self, system_prompt: &str, user_message: &str) -> Result<String> {
+        let request = AnthropicRequest {
             model: self.model.clone(),
             max_tokens: 4096,
             messages: vec![
@@ -89,14 +125,14 @@ impl ClaudeClient {
 
         let response = self
             .http_client
-            .post(CLAUDE_API_URL)
+            .post(&self.api_endpoint)
             .header("x-api-key", &self.api_key)
             .header("anthropic-version", "2023-06-01")
             .header("content-type", "application/json")
             .json(&request)
             .send()
             .await
-            .map_err(|e| anyhow!("API request failed: {}", e))?;
+            .map_err(|e| anyhow!("Anthropic API request failed: {}", e))?;
 
         if !response.status().is_success() {
             let status = response.status();
@@ -104,13 +140,13 @@ impl ClaudeClient {
                 .text()
                 .await
                 .unwrap_or_else(|_| "unknown error".to_string());
-            return Err(anyhow!("API error {}: {}", status, text));
+            return Err(anyhow!("Anthropic API error {}: {}", status, text));
         }
 
-        let claude_response: ClaudeResponse = response
+        let claude_response: AnthropicResponse = response
             .json()
             .await
-            .map_err(|e| anyhow!("Failed to parse response: {}", e))?;
+            .map_err(|e| anyhow!("Failed to parse Anthropic response: {}", e))?;
 
         // Track usage
         {
@@ -121,10 +157,71 @@ impl ClaudeClient {
         }
 
         if claude_response.content.is_empty() {
-            return Err(anyhow!("Empty response from API"));
+            return Err(anyhow!("Empty response from Anthropic API"));
         }
 
-        Ok(claude_response.content[0].text.clone())
+        let text = claude_response.content[0]
+            .text
+            .as_ref()
+            .ok_or_else(|| anyhow!("No text in Anthropic response"))?;
+
+        Ok(text.clone())
+    }
+
+    /// Call Ollama API (OpenAI-compatible)
+    async fn call_ollama(&self, system_prompt: &str, user_message: &str) -> Result<String> {
+        let request = OllamaRequest {
+            model: self.model.clone(),
+            messages: vec![
+                Message {
+                    role: "system".to_string(),
+                    content: system_prompt.to_string(),
+                },
+                Message {
+                    role: "user".to_string(),
+                    content: user_message.to_string(),
+                },
+            ],
+            stream: false,
+        };
+
+        // Build Ollama API endpoint
+        let ollama_url = format!("{}/api/chat", self.api_endpoint);
+
+        tracing::debug!("Calling Ollama at {} with model {}", ollama_url, self.model);
+
+        let response = self
+            .http_client
+            .post(&ollama_url)
+            .header("content-type", "application/json")
+            .json(&request)
+            .send()
+            .await
+            .map_err(|e| anyhow!("Ollama API request failed: {}", e))?;
+
+        if !response.status().is_success() {
+            let status = response.status();
+            let text = response
+                .text()
+                .await
+                .unwrap_or_else(|_| "unknown error".to_string());
+            return Err(anyhow!("Ollama API error {}: {}", status, text));
+        }
+
+        let ollama_response: OllamaResponse = response
+            .json()
+            .await
+            .map_err(|e| anyhow!("Failed to parse Ollama response: {}", e))?;
+
+        // Track usage
+        {
+            let mut usage = self.usage.write().await;
+            usage.requests += 1;
+            usage.input_tokens += ollama_response.usage.prompt_tokens;
+            usage.output_tokens += ollama_response.usage.completion_tokens;
+        }
+
+        Ok(ollama_response.message.content)
     }
 
     /// Get usage statistics
