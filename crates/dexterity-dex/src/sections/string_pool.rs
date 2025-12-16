@@ -1,7 +1,7 @@
 //! String pool for DEX strings
 
-use std::collections::HashMap;
-use std::sync::RwLock;
+use parking_lot::RwLock;
+use rustc_hash::FxHashMap;
 
 use crate::error::Result;
 
@@ -10,16 +10,13 @@ use crate::error::Result;
 /// Uses interior mutability to allow lazy loading while keeping
 /// the DexReader immutably borrowed. Thread-safe for parallel access.
 pub struct StringPool {
-    strings: RwLock<HashMap<u32, String>>,
+    strings: RwLock<FxHashMap<u32, String>>,
 }
-
-// Safety: StringPool only contains RwLock<HashMap> which is Send+Sync
-unsafe impl Sync for StringPool {}
 
 impl StringPool {
     pub fn new() -> Self {
         StringPool {
-            strings: RwLock::new(HashMap::new()),
+            strings: RwLock::new(FxHashMap::default()),
         }
     }
 
@@ -30,7 +27,7 @@ impl StringPool {
     {
         // Check if already loaded (read lock)
         {
-            let strings = self.strings.read().unwrap();
+            let strings = self.strings.read();
             if let Some(s) = strings.get(&idx) {
                 // Safety: We never remove strings, so this reference is stable
                 return Ok(unsafe { &*(s.as_str() as *const str) });
@@ -39,7 +36,7 @@ impl StringPool {
 
         // Load and insert (write lock)
         let s = load()?;
-        let mut strings = self.strings.write().unwrap();
+        let mut strings = self.strings.write();
 
         // Double-check pattern - another thread may have inserted
         if !strings.contains_key(&idx) {
@@ -53,18 +50,18 @@ impl StringPool {
 
     /// Get a string if it's already loaded
     pub fn get(&self, idx: u32) -> Option<&str> {
-        let strings = self.strings.read().unwrap();
+        let strings = self.strings.read();
         strings.get(&idx).map(|s| unsafe { &*(s.as_str() as *const str) })
     }
 
     /// Number of cached strings
     pub fn len(&self) -> usize {
-        self.strings.read().unwrap().len()
+        self.strings.read().len()
     }
 
     /// Check if empty
     pub fn is_empty(&self) -> bool {
-        self.strings.read().unwrap().is_empty()
+        self.strings.read().is_empty()
     }
 }
 

@@ -1,6 +1,6 @@
 //! Class code generation
 //!
-//! Generates Java source code for classes using jadx-ir types.
+//! Generates Java source code for classes using dexterity-ir types.
 //!
 //! ## Inner Class Support
 //!

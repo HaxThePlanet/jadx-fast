@@ -293,7 +293,7 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
     // Build a map of address -> block_id for fast lookups
     let mut addr_to_block: BTreeMap<u32, u32> = BTreeMap::new();
     for block_id in cfg.block_ids() {
-        // Block ID is the instruction address in jadx-rust
+        // Block ID is the instruction address in dexterity
         addr_to_block.insert(block_id, block_id);
     }
 

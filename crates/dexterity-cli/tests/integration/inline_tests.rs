@@ -1,11 +1,16 @@
 //! Inline integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/inline/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn const_inline_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("const_inline_test");
     let source = r#"
 public class TestCls {
@@ -31,6 +36,12 @@ return true;
 
 #[test]
 fn getter_inline_negative_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("getter_inline_negative_test");
     // TODO: Extract test source
     let source = r#"
@@ -48,6 +59,12 @@ public class TestCls {
 
 #[test]
 fn inline_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inline_test");
     let source = r#"
 public class TestCls {
@@ -67,6 +84,12 @@ return false;
 
 #[test]
 fn inline2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inline2_test");
     let source = r#"
 public class TestCls {
@@ -90,6 +113,12 @@ return b;
 
 #[test]
 fn inline3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inline3_test");
     let source = r#"
 public class TestCls {
@@ -115,6 +144,12 @@ super(a, a);
 
 #[test]
 fn inline6_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inline6_test");
     let source = r#"
 public class TestCls {
@@ -137,6 +172,12 @@ System.out.println(System.nanoTime() - start);
 
 #[test]
 fn inline7_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inline7_test");
     // TODO: Extract test source
     let source = r#"
@@ -156,6 +197,12 @@ public class TestCls {
 
 #[test]
 fn instance_lambda_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("instance_lambda_test");
     let source = r#"
 public class TestCls {
@@ -185,6 +232,12 @@ return null;
 
 #[test]
 fn instance_lambda_test_smali_disable_inline() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("instance_lambda_test_smali_disable_inline");
     let source = r#"
 public class TestCls {
@@ -214,6 +267,12 @@ return null;
 
 #[test]
 fn instance_lambda_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("instance_lambda_test_smali");
     let source = r#"
 public class TestCls {
@@ -245,6 +304,12 @@ return null;
 
 #[test]
 fn issue86_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("issue86_test");
     let source = r#"
 public class TestCls {
@@ -312,6 +377,12 @@ private static final long serialVersionUID = -4358405506584551910L;
 
 #[test]
 fn method_inline_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("method_inline_test");
     // TODO: Extract test source
     let source = r#"
@@ -331,6 +402,12 @@ public class TestCls {
 
 #[test]
 fn overlap_synthetic_methods_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("overlap_synthetic_methods_test_smali");
     // TODO: Extract test source
     let source = r#"
@@ -347,6 +424,12 @@ public class TestCls {
 
 #[test]
 fn overlap_synthetic_methods_test_smali_no_rename() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("overlap_synthetic_methods_test_smali_no_rename");
     // TODO: Extract test source
     let source = r#"
@@ -363,6 +446,12 @@ public class TestCls {
 
 #[test]
 fn override_bridge_merge_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("override_bridge_merge_test");
     // TODO: Extract test source
     let source = r#"
@@ -379,6 +468,12 @@ public class TestCls {
 
 #[test]
 fn override_bridge_merge_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("override_bridge_merge_test_smali");
     // TODO: Extract test source
     let source = r#"
@@ -395,6 +490,12 @@ public class TestCls {
 
 #[test]
 fn synthetic_class_inline_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synthetic_class_inline_test");
     // TODO: Extract test source
     let source = r#"
@@ -411,6 +512,12 @@ public class TestCls {
 
 #[test]
 fn synthetic_inline_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synthetic_inline_test");
     let source = r#"
 public class TestCls {
@@ -444,6 +551,12 @@ return func();
 
 #[test]
 fn synthetic_inline2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synthetic_inline2_test");
     // TODO: Extract test source
     let source = r#"
@@ -464,6 +577,12 @@ public class TestCls {
 
 #[test]
 fn synthetic_inline2_test_top_class() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synthetic_inline2_test_top_class");
     // TODO: Extract test source
     let source = r#"
@@ -480,6 +599,12 @@ public class TestCls {
 
 #[test]
 fn synthetic_inline3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synthetic_inline3_test");
     let source = r#"
 public class TestCls {
@@ -505,6 +630,12 @@ return null;
 
 #[test]
 fn synthetic_inline3_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synthetic_inline3_test_smali");
     let source = r#"
 public class TestCls {
@@ -534,6 +665,12 @@ return null;
 
 #[test]
 fn ternary_cast_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary_cast_test");
     let source = r#"
 public class TestCls {
@@ -555,6 +692,12 @@ assertThat(test(false, "a", "b")).isEqualTo("b");
 
 #[test]
 fn ternary_cast_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary_cast_test_no_debug");
     let source = r#"
 public class TestCls {

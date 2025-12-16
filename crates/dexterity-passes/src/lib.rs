@@ -1,4 +1,4 @@
-//! Decompilation passes for jadx-rust
+//! Decompilation passes for dexterity
 //!
 //! This crate contains the visitor passes that transform the IR.
 

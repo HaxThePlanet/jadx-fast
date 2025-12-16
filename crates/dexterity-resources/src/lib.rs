@@ -1,4 +1,4 @@
-//! Android resource decoding for jadx-rust
+//! Android resource decoding for dexterity
 //!
 //! This crate provides parsers for Android binary resource formats:
 //! - **AXML**: Binary XML format used for AndroidManifest.xml and compiled layouts

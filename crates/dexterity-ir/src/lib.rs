@@ -1,4 +1,4 @@
-//! Intermediate representation types for jadx-rust
+//! Intermediate representation types for dexterity
 //!
 //! This crate defines the core IR data structures used throughout the decompiler.
 

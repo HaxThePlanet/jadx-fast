@@ -1,4 +1,4 @@
-//! Java source code generator for jadx-rust
+//! Java source code generator for dexterity
 //!
 //! This crate generates Java source code from the IR.
 //!

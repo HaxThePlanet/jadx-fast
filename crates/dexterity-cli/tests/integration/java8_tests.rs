@@ -1,11 +1,16 @@
 //! Java8 integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/java8/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn lambda_args_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_args_test");
     let source = r#"
 public class TestCls {
@@ -29,6 +34,12 @@ private void call2(BiFunction<Integer, Integer, Integer> func) {
 
 #[test]
 fn lambda_constructor_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_constructor_test");
     let source = r#"
 public class TestCls {
@@ -49,6 +60,12 @@ assertThat(test().get()).isInstanceOf(RuntimeException.class);
 
 #[test]
 fn lambda_constructor_test_fallback() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_constructor_test_fallback");
     let source = r#"
 public class TestCls {
@@ -70,6 +87,12 @@ assertThat(test().get()).isInstanceOf(RuntimeException.class);
 
 #[test]
 fn lambda_in_array_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_in_array_test");
     let source = r#"
 public class TestCls {
@@ -93,6 +116,12 @@ assertThat(test()).hasSize(2);
 
 #[test]
 fn lambda_instance_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_instance_test");
     let source = r#"
 public class TestCls {
@@ -127,6 +156,12 @@ assertThat(testMthRef2().apply(13)).isEqualTo("13");
 
 #[test]
 fn lambda_instance_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_instance_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -157,6 +192,12 @@ assertThat(testMthRef2().apply(13)).isEqualTo("13");
 
 #[test]
 fn lambda_instance_test_fallback() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_instance_test_fallback");
     let source = r#"
 public class TestCls {
@@ -187,6 +228,12 @@ assertThat(testMthRef2().apply(13)).isEqualTo("13");
 
 #[test]
 fn lambda_instance2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_instance2_test");
     let source = r#"
 public class TestCls {
@@ -213,6 +260,12 @@ assertThat(field).isEqualTo("num=7");
 
 #[test]
 fn lambda_instance3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_instance3_test");
     // TODO: Extract test source
     let source = r#"
@@ -232,6 +285,12 @@ public class TestCls {
 
 #[test]
 fn lambda_instance3_test_raung() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_instance3_test_raung");
     // TODO: Extract test source
     let source = r#"
@@ -250,6 +309,12 @@ public class TestCls {
 
 #[test]
 fn lambda_return_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_return_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -277,6 +342,12 @@ f1.apply();
 
 #[test]
 fn lambda_static_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_static_test");
     let source = r#"
 public class TestCls {
@@ -316,6 +387,12 @@ assertThat(test5().apply("1")).isEqualTo(2);
 
 #[test]
 fn lambda_static_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_static_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -352,6 +429,12 @@ assertThat(test5().apply("1")).isEqualTo(2);
 
 #[test]
 fn lambda_static_test_fallback() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("lambda_static_test_fallback");
     let source = r#"
 public class TestCls {

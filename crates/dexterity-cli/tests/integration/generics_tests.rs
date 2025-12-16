@@ -1,11 +1,16 @@
 //! Generics integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/generics/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn class_signature_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("class_signature_test");
     // TODO: Extract test source
     let source = r#"
@@ -24,6 +29,12 @@ public class TestCls {
 
 #[test]
 fn constructor_generics_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("constructor_generics_test");
     let source = r#"
 public class TestCls {
@@ -43,6 +54,12 @@ return map.get("test");
 
 #[test]
 fn constructor_generics_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("constructor_generics_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -61,6 +78,12 @@ return map.get("test");
 
 #[test]
 fn generic8_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generic8_test");
     let source = r#"
 public class TestCls {
@@ -84,6 +107,12 @@ return n.intValue() % 2 == 0;
 
 #[test]
 fn generic_fields_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generic_fields_test");
     let source = r#"
 public class TestCls {
@@ -108,6 +137,12 @@ return amount.val + " " + amount.cur;
 
 #[test]
 fn generics_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics_test");
     let source = r#"
 public class TestCls {
@@ -130,6 +165,12 @@ public static void mthSuper(List<? super A> list) {
 
 #[test]
 fn generics2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics2_test");
     let source = r#"
 public class TestCls {
@@ -155,6 +196,12 @@ return null;
 
 #[test]
 fn generics2_test_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics2_test_debug");
     let source = r#"
 public class TestCls {
@@ -182,6 +229,12 @@ return null;
 
 #[test]
 fn generics3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics3_test");
     let source = r#"
 public class TestCls {
@@ -205,6 +258,12 @@ public static void mthExtendsString(List<? super String> list) {
 
 #[test]
 fn generics4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics4_test");
     let source = r#"
 public class TestCls {
@@ -225,6 +284,12 @@ return a[a.length - i];
 
 #[test]
 fn generics6_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics6_test");
     let source = r#"
 public class TestCls {
@@ -250,6 +315,12 @@ public void f() {
 
 #[test]
 fn generics7_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics7_test");
     let source = r#"
 public class TestCls {
@@ -271,6 +342,12 @@ public void declare(Object cls) {
 
 #[test]
 fn generics8_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics8_test");
     // TODO: Extract test source
     let source = r#"
@@ -288,6 +365,12 @@ public class TestCls {
 
 #[test]
 fn generics_in_args_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics_in_args_test");
     let source = r#"
 public class TestCls {
@@ -312,6 +395,12 @@ private static void use(List<?> l) {
 
 #[test]
 fn generics_in_args_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics_in_args_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -336,6 +425,12 @@ private static void use(List<?> l) {
 
 #[test]
 fn generics_mth_override_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("generics_mth_override_test");
     let source = r#"
 public class TestCls {
@@ -360,6 +455,12 @@ public Object method(Object x) {
 
 #[test]
 fn import_generic_map_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("import_generic_map_test");
     // TODO: Extract test source
     let source = r#"
@@ -376,6 +477,12 @@ public class TestCls {
 
 #[test]
 fn method_override_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("method_override_test");
     // TODO: Extract test source
     let source = r#"
@@ -392,6 +499,12 @@ public class TestCls {
 
 #[test]
 fn missing_generics_types2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("missing_generics_types2_test");
     // TODO: Extract test source
     let source = r#"
@@ -412,6 +525,12 @@ public class TestCls {
 
 #[test]
 fn missing_generics_types2_test_types() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("missing_generics_types2_test_types");
     // TODO: Extract test source
     let source = r#"
@@ -430,6 +549,12 @@ public class TestCls {
 
 #[test]
 fn outer_generic_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("outer_generic_test");
     let source = r#"
 public class TestCls {
@@ -470,6 +595,12 @@ private void use(Object obj) {
 
 #[test]
 fn synthetic_override_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synthetic_override_test");
     // TODO: Extract test source
     let source = r#"
@@ -488,6 +619,12 @@ public class TestCls {
 
 #[test]
 fn type_vars_from_outer_class_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("type_vars_from_outer_class_test");
     let source = r#"
 public class TestCls {
@@ -526,6 +663,12 @@ public void use(Object a, Object b) {
 
 #[test]
 fn type_vars_from_super_class_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("type_vars_from_super_class_test");
     let source = r#"
 public class TestCls {
@@ -549,6 +692,12 @@ return str;
 
 #[test]
 fn usage_in_generics_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("usage_in_generics_test");
     let source = r#"
 public class TestCls {

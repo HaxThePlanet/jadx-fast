@@ -7,6 +7,7 @@
 //! 3. Resolve type variables to concrete types using unification
 
 use std::collections::HashMap;
+use rustc_hash::FxHashMap;
 
 use dexterity_ir::instructions::{
     ArrayElemType, BinaryOp, CastType, CompareOp, InsnArg, InsnType, LiteralArg, RegisterArg,
@@ -90,11 +91,11 @@ pub struct TypeInference {
     /// Next type variable ID
     next_var: u32,
     /// Register (reg_num, ssa_version) -> TypeVar mapping
-    reg_to_var: HashMap<(u16, u32), TypeVar>,
+    reg_to_var: FxHashMap<(u16, u32), TypeVar>,
     /// Collected constraints
     constraints: Vec<Constraint>,
     /// Resolved types (TypeVar -> InferredType)
-    resolved: HashMap<TypeVar, InferredType>,
+    resolved: FxHashMap<TypeVar, InferredType>,
     /// Type lookup table for DEX indices (provided externally)
     type_lookup: Option<Box<dyn Fn(u32) -> Option<ArgType> + Send + Sync>>,
     /// Field type lookup (field_idx -> field type)
@@ -117,9 +118,9 @@ impl TypeInference {
     pub fn new() -> Self {
         TypeInference {
             next_var: 0,
-            reg_to_var: HashMap::new(),
+            reg_to_var: FxHashMap::default(),
             constraints: Vec::new(),
-            resolved: HashMap::new(),
+            resolved: FxHashMap::default(),
             type_lookup: None,
             field_lookup: None,
             method_lookup: None,
@@ -1050,7 +1051,8 @@ pub fn infer_types_with_hierarchy(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::ssa::{PhiNode, SsaBlock};
+    use crate::ssa::{PhiNode, SsaBlock, SsaResult};
+    use rustc_hash::{FxHashMap, FxHashSet};
 
     fn make_simple_ssa() -> SsaResult {
         use dexterity_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg};
@@ -1085,9 +1087,9 @@ mod tests {
 
         SsaResult {
             blocks,
-            dominators: HashMap::new(),
-            dom_frontiers: HashMap::new(),
-            max_versions: HashMap::from([(0, 1), (1, 1)]),
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::from_iter([(0, 1), (1, 1)]),
         }
     }
 
@@ -1153,9 +1155,9 @@ mod tests {
 
         let ssa = SsaResult {
             blocks,
-            dominators: HashMap::new(),
-            dom_frontiers: HashMap::new(),
-            max_versions: HashMap::from([(0, 3)]),
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::from_iter([(0, 3)]),
         };
 
         let result = infer_types(&ssa);
@@ -1186,9 +1188,9 @@ mod tests {
 
         let ssa = SsaResult {
             blocks,
-            dominators: HashMap::new(),
-            dom_frontiers: HashMap::new(),
-            max_versions: HashMap::from([(0, 1)]),
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::from_iter([(0, 1)]),
         };
 
         let result = infer_types(&ssa);
@@ -1229,9 +1231,9 @@ mod tests {
 
         let ssa = SsaResult {
             blocks,
-            dominators: HashMap::new(),
-            dom_frontiers: HashMap::new(),
-            max_versions: HashMap::from([(0, 1), (1, 1)]),
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::from_iter([(0, 1), (1, 1)]),
         };
 
         let result = infer_types(&ssa);
@@ -1244,9 +1246,9 @@ mod tests {
     fn test_empty_ssa() {
         let ssa = SsaResult {
             blocks: vec![],
-            dominators: HashMap::new(),
-            dom_frontiers: HashMap::new(),
-            max_versions: HashMap::new(),
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::default(),
         };
 
         let result = infer_types(&ssa);

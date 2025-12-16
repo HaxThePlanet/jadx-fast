@@ -1,11 +1,16 @@
 //! Android integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/android/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn r_field_access_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("r_field_access_test");
     // TODO: Extract test source
     let source = r#"
@@ -23,6 +28,12 @@ public class TestCls {
 
 #[test]
 fn r_field_restore_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("r_field_restore_test");
     let source = r#"
 public class TestCls {
@@ -42,6 +53,12 @@ return 2131230730;
 
 #[test]
 fn r_field_restore2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("r_field_restore2_test");
     let source = r#"
 public class TestCls {
@@ -60,6 +77,12 @@ return 2131230730;
 
 #[test]
 fn r_field_restore3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("r_field_restore3_test");
     let source = r#"
 public class TestCls {
@@ -91,6 +114,12 @@ int bind();
 
 #[test]
 fn res_const_replace_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("res_const_replace_test");
     let source = r#"
 public class TestCls {
@@ -110,6 +139,12 @@ return 0x0101013f; // android.R.attr.minWidth
 
 #[test]
 fn res_const_replace2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("res_const_replace2_test");
     let source = r#"
 public class TestCls {
@@ -135,6 +170,12 @@ return 0;
 
 #[test]
 fn res_const_replace3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("res_const_replace3_test");
     let source = r#"
 public class TestCls {

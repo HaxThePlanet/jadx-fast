@@ -1,11 +1,16 @@
 //! Deobf integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/deobf/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn dont_rename_clsp_overridden_method_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("dont_rename_clsp_overridden_method_test");
     let source = r#"
 public class TestCls {
@@ -24,6 +29,12 @@ public void run() {
 
 #[test]
 fn field_from_inner_class_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("field_from_inner_class_test");
     // TODO: Extract test source
     let source = r#"
@@ -43,6 +54,12 @@ public class TestCls {
 
 #[test]
 fn inherited_method_rename_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inherited_method_rename_test");
     let source = r#"
 public class TestCls {
@@ -67,6 +84,12 @@ a.call();
 
 #[test]
 fn mth_rename_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("mth_rename_test");
     let source = r#"
 public class TestCls {
@@ -88,6 +111,12 @@ a.a();
 
 #[test]
 fn rename_overridden_method_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("rename_overridden_method_test");
     let source = r#"
 public class TestCls {
@@ -111,6 +140,12 @@ public void m() {
 
 #[test]
 fn rename_overridden_method2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("rename_overridden_method2_test");
     let source = r#"
 public class TestCls {
@@ -134,6 +169,12 @@ return 2;
 
 #[test]
 fn rename_overridden_method3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("rename_overridden_method3_test");
     let source = r#"
 public class TestCls {

@@ -1,11 +1,16 @@
 //! Fallback integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/fallback/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn fallback_many_nops_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("fallback_many_nops_test");
     // TODO: Extract test source
     let source = r#"
@@ -25,6 +30,12 @@ public class TestCls {
 
 #[test]
 fn fallback_mode_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("fallback_mode_test");
     let source = r#"
 public class TestCls {

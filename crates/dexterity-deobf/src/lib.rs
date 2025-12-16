@@ -1,4 +1,4 @@
-//! Deobfuscation support for jadx-rust
+//! Deobfuscation support for dexterity
 //!
 //! This crate provides:
 //! - Name validation (NameMapper)

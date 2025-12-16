@@ -7,7 +7,8 @@
 //! 3. Place phi nodes at dominance frontiers
 //! 4. Rename variables with unique versions
 
-use std::collections::{HashMap, HashSet, VecDeque};
+use std::collections::VecDeque;
+use rustc_hash::{FxHashMap, FxHashSet};
 
 use crate::block_split::{BasicBlock, BlockSplitResult};
 use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
@@ -18,11 +19,11 @@ pub struct SsaResult {
     /// Blocks with phi nodes inserted and variables renamed
     pub blocks: Vec<SsaBlock>,
     /// Dominator tree (block_id -> immediate dominator)
-    pub dominators: HashMap<u32, u32>,
+    pub dominators: FxHashMap<u32, u32>,
     /// Dominance frontiers for each block
-    pub dom_frontiers: HashMap<u32, HashSet<u32>>,
+    pub dom_frontiers: FxHashMap<u32, FxHashSet<u32>>,
     /// Maximum SSA version for each register
-    pub max_versions: HashMap<u16, u32>,
+    pub max_versions: FxHashMap<u16, u32>,
 }
 
 /// A block in SSA form
@@ -50,9 +51,9 @@ pub struct PhiNode {
 /// This is efficient for reducible CFGs (most structured programs)
 pub struct DominatorTree {
     /// Immediate dominator for each block (block_id -> idom_id)
-    pub idom: HashMap<u32, u32>,
+    pub idom: FxHashMap<u32, u32>,
     /// Children in dominator tree
-    pub children: HashMap<u32, Vec<u32>>,
+    pub children: FxHashMap<u32, Vec<u32>>,
     /// Entry block
     pub entry: u32,
 }
@@ -65,20 +66,20 @@ impl DominatorTree {
 
         if block_ids.is_empty() {
             return DominatorTree {
-                idom: HashMap::new(),
-                children: HashMap::new(),
+                idom: FxHashMap::default(),
+                children: FxHashMap::default(),
                 entry,
             };
         }
 
         // Compute reverse postorder
         let rpo = reverse_postorder(blocks, entry);
-        let rpo_index: HashMap<u32, usize> = rpo.iter().enumerate()
+        let rpo_index: FxHashMap<u32, usize> = rpo.iter().enumerate()
             .map(|(i, &b)| (b, i))
             .collect();
 
         // Initialize dominators
-        let mut idom: HashMap<u32, u32> = HashMap::new();
+        let mut idom: FxHashMap<u32, u32> = FxHashMap::default();
         idom.insert(entry, entry); // Entry dominates itself
 
         // Iterative dominator computation
@@ -135,7 +136,7 @@ impl DominatorTree {
         }
 
         // Build children map
-        let mut children: HashMap<u32, Vec<u32>> = HashMap::new();
+        let mut children: FxHashMap<u32, Vec<u32>> = FxHashMap::default();
         for (&block, &dom) in &idom {
             if block != dom {
                 children.entry(dom).or_default().push(block);
@@ -164,11 +165,11 @@ impl DominatorTree {
     }
 
     /// Compute dominance frontier for all blocks
-    pub fn compute_frontiers(&self, blocks: &BlockSplitResult) -> HashMap<u32, HashSet<u32>> {
-        let mut frontiers: HashMap<u32, HashSet<u32>> = HashMap::new();
+    pub fn compute_frontiers(&self, blocks: &BlockSplitResult) -> FxHashMap<u32, FxHashSet<u32>> {
+        let mut frontiers: FxHashMap<u32, FxHashSet<u32>> = FxHashMap::default();
 
         for &block_id in blocks.blocks.keys() {
-            frontiers.insert(block_id, HashSet::new());
+            frontiers.insert(block_id, FxHashSet::default());
         }
 
         for (&block_id, block) in &blocks.blocks {
@@ -192,10 +193,10 @@ impl DominatorTree {
 
 /// Compute reverse postorder traversal
 fn reverse_postorder(blocks: &BlockSplitResult, entry: u32) -> Vec<u32> {
-    let mut visited = HashSet::new();
+    let mut visited = FxHashSet::default();
     let mut postorder = Vec::new();
 
-    fn dfs(block_id: u32, blocks: &BlockSplitResult, visited: &mut HashSet<u32>, postorder: &mut Vec<u32>) {
+    fn dfs(block_id: u32, blocks: &BlockSplitResult, visited: &mut FxHashSet<u32>, postorder: &mut Vec<u32>) {
         if visited.contains(&block_id) {
             return;
         }
@@ -219,8 +220,8 @@ fn reverse_postorder(blocks: &BlockSplitResult, entry: u32) -> Vec<u32> {
 fn intersect(
     mut b1: u32,
     mut b2: u32,
-    idom: &HashMap<u32, u32>,
-    rpo_index: &HashMap<u32, usize>,
+    idom: &FxHashMap<u32, u32>,
+    rpo_index: &FxHashMap<u32, usize>,
 ) -> u32 {
     let mut f1 = rpo_index.get(&b1).copied().unwrap_or(0);
     let mut f2 = rpo_index.get(&b2).copied().unwrap_or(0);
@@ -239,8 +240,8 @@ fn intersect(
 }
 
 /// Find all registers defined in a block
-fn find_defs(block: &BasicBlock) -> HashSet<u16> {
-    let mut defs = HashSet::new();
+fn find_defs(block: &BasicBlock) -> FxHashSet<u16> {
+    let mut defs = FxHashSet::default();
 
     for insn in &block.instructions {
         if let Some(reg) = get_def_register(&insn.insn_type) {
@@ -353,9 +354,9 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
     if blocks.blocks.is_empty() {
         return SsaResult {
             blocks: Vec::new(),
-            dominators: HashMap::new(),
-            dom_frontiers: HashMap::new(),
-            max_versions: HashMap::new(),
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::default(),
         };
     }
 
@@ -366,8 +367,8 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
     let dom_frontiers = dom_tree.compute_frontiers(blocks);
 
     // Step 3: Find all variable definitions per block
-    let mut defs_per_block: HashMap<u32, HashSet<u16>> = HashMap::new();
-    let mut all_vars: HashSet<u16> = HashSet::new();
+    let mut defs_per_block: FxHashMap<u32, FxHashSet<u16>> = FxHashMap::default();
+    let mut all_vars: FxHashSet<u16> = FxHashSet::default();
 
     for (&block_id, block) in &blocks.blocks {
         let defs = find_defs(block);
@@ -377,7 +378,7 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
 
     // Step 4: Place phi nodes
     // For each variable, find blocks where phi is needed
-    let mut phi_placements: HashMap<u32, HashSet<u16>> = HashMap::new();
+    let mut phi_placements: FxHashMap<u32, FxHashSet<u16>> = FxHashMap::default();
 
     for &var in &all_vars {
         // Blocks that define this variable
@@ -388,7 +389,7 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
             .collect();
 
         let mut worklist: VecDeque<u32> = def_blocks.iter().copied().collect();
-        let mut processed: HashSet<u32> = HashSet::new();
+        let mut processed: FxHashSet<u32> = FxHashSet::default();
 
         while let Some(block_id) = worklist.pop_front() {
             if let Some(frontier) = dom_frontiers.get(&block_id) {
@@ -407,8 +408,8 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
     }
 
     // Step 5: Rename variables
-    let mut version_counter: HashMap<u16, u32> = HashMap::new();
-    let mut version_stack: HashMap<u16, Vec<u32>> = HashMap::new();
+    let mut version_counter: FxHashMap<u16, u32> = FxHashMap::default();
+    let mut version_stack: FxHashMap<u16, Vec<u32>> = FxHashMap::default();
 
     // Initialize stacks with version 0 (parameter/initial values)
     for &var in &all_vars {
@@ -417,7 +418,7 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
     }
 
     // Create SSA blocks
-    let mut ssa_blocks: HashMap<u32, SsaBlock> = HashMap::new();
+    let mut ssa_blocks: FxHashMap<u32, SsaBlock> = FxHashMap::default();
 
     for (&block_id, block) in &blocks.blocks {
         let phi_vars = phi_placements.get(&block_id).cloned().unwrap_or_default();
@@ -445,10 +446,10 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
     // Rename in dominator tree order
     fn rename_block(
         block_id: u32,
-        ssa_blocks: &mut HashMap<u32, SsaBlock>,
+        ssa_blocks: &mut FxHashMap<u32, SsaBlock>,
         dom_tree: &DominatorTree,
-        version_counter: &mut HashMap<u16, u32>,
-        version_stack: &mut HashMap<u16, Vec<u32>>,
+        version_counter: &mut FxHashMap<u16, u32>,
+        version_stack: &mut FxHashMap<u16, Vec<u32>>,
         _blocks: &BlockSplitResult,
     ) {
         let block = match ssa_blocks.get_mut(&block_id) {
@@ -537,8 +538,8 @@ pub fn transform_to_ssa(blocks: &BlockSplitResult) -> SsaResult {
 }
 
 /// Rename uses in an instruction to their current SSA versions
-fn rename_uses(insn_type: &mut InsnType, version_stack: &HashMap<u16, Vec<u32>>) {
-    fn rename_arg(arg: &mut InsnArg, version_stack: &HashMap<u16, Vec<u32>>) {
+fn rename_uses(insn_type: &mut InsnType, version_stack: &FxHashMap<u16, Vec<u32>>) {
+    fn rename_arg(arg: &mut InsnArg, version_stack: &FxHashMap<u16, Vec<u32>>) {
         if let InsnArg::Register(reg) = arg {
             let version = version_stack
                 .get(&reg.reg_num)
@@ -638,9 +639,9 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
     if blocks.blocks.is_empty() {
         return SsaResult {
             blocks: Vec::new(),
-            dominators: HashMap::new(),
-            dom_frontiers: HashMap::new(),
-            max_versions: HashMap::new(),
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::default(),
         };
     }
 
@@ -651,8 +652,8 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
     let dom_frontiers = dom_tree.compute_frontiers(&blocks);
 
     // Step 3: Find all variable definitions per block
-    let mut defs_per_block: HashMap<u32, HashSet<u16>> = HashMap::new();
-    let mut all_vars: HashSet<u16> = HashSet::new();
+    let mut defs_per_block: FxHashMap<u32, FxHashSet<u16>> = FxHashMap::default();
+    let mut all_vars: FxHashSet<u16> = FxHashSet::default();
 
     for (&block_id, block) in &blocks.blocks {
         let defs = find_defs(block);
@@ -661,7 +662,7 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
     }
 
     // Step 4: Place phi nodes
-    let mut phi_placements: HashMap<u32, HashSet<u16>> = HashMap::new();
+    let mut phi_placements: FxHashMap<u32, FxHashSet<u16>> = FxHashMap::default();
 
     for &var in &all_vars {
         let def_blocks: Vec<u32> = defs_per_block
@@ -671,7 +672,7 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
             .collect();
 
         let mut worklist: VecDeque<u32> = def_blocks.iter().copied().collect();
-        let mut processed: HashSet<u32> = HashSet::new();
+        let mut processed: FxHashSet<u32> = FxHashSet::default();
 
         while let Some(block_id) = worklist.pop_front() {
             if let Some(frontier) = dom_frontiers.get(&block_id) {
@@ -687,8 +688,8 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
     }
 
     // Step 5: Rename variables
-    let mut version_counter: HashMap<u16, u32> = HashMap::new();
-    let mut version_stack: HashMap<u16, Vec<u32>> = HashMap::new();
+    let mut version_counter: FxHashMap<u16, u32> = FxHashMap::default();
+    let mut version_stack: FxHashMap<u16, Vec<u32>> = FxHashMap::default();
 
     for &var in &all_vars {
         version_counter.insert(var, 0);
@@ -696,7 +697,7 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
     }
 
     // Create SSA blocks by MOVING data from original blocks (no clone!)
-    let mut ssa_blocks: HashMap<u32, SsaBlock> = HashMap::new();
+    let mut ssa_blocks: FxHashMap<u32, SsaBlock> = FxHashMap::default();
     let entry_block = blocks.entry_block;
 
     // Take blocks out of the BlockSplitResult to avoid borrowing issues
@@ -728,7 +729,7 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
 
     // Create a temporary structure for rename_block that provides successor info
     // We need this because rename_block needs to look up successors
-    let successor_map: HashMap<u32, Vec<u32>> = ssa_blocks
+    let successor_map: FxHashMap<u32, Vec<u32>> = ssa_blocks
         .iter()
         .map(|(&id, b)| (id, b.successors.clone()))
         .collect();
@@ -736,11 +737,11 @@ pub fn transform_to_ssa_owned(mut blocks: BlockSplitResult) -> SsaResult {
     // Rename in dominator tree order
     fn rename_block_owned(
         block_id: u32,
-        ssa_blocks: &mut HashMap<u32, SsaBlock>,
+        ssa_blocks: &mut FxHashMap<u32, SsaBlock>,
         dom_tree: &DominatorTree,
-        version_counter: &mut HashMap<u16, u32>,
-        version_stack: &mut HashMap<u16, Vec<u32>>,
-        successor_map: &HashMap<u32, Vec<u32>>,
+        version_counter: &mut FxHashMap<u16, u32>,
+        version_stack: &mut FxHashMap<u16, Vec<u32>>,
+        successor_map: &FxHashMap<u32, Vec<u32>>,
     ) {
         let block = match ssa_blocks.get_mut(&block_id) {
             Some(b) => b,

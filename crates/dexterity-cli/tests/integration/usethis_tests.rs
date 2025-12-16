@@ -1,11 +1,16 @@
 //! Usethis integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/usethis/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn dont_inline_this_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("dont_inline_this_test");
     let source = r#"
 public class TestCls {
@@ -35,6 +40,12 @@ private void method() {
 
 #[test]
 fn inline_this_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inline_this_test");
     let source = r#"
 public class TestCls {
@@ -62,6 +73,12 @@ private void method() {
 
 #[test]
 fn inline_this2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inline_this2_test");
     let source = r#"
 public class TestCls {
@@ -92,6 +109,12 @@ private void method() {
 
 #[test]
 fn redundant_this_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("redundant_this_test");
     let source = r#"
 public class TestCls {

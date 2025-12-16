@@ -19,14 +19,14 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~54,000 lines of Rust | 248 tests | 99% JADX parity**
+**~54,000 lines of Rust | 4 active tests, 675 pending | ~70% JADX feature parity**
 
 ## Highlights
 
 - **Up to 185x faster** than Java JADX on small APKs
 - **Up to 46x less memory** usage compared to Java JADX
-- **Full JADX compatibility** - output matches Java JADX
-- **All input formats** - APK, DEX, JAR, AAR, ZIP
+- **High JADX compatibility** - core decompilation matches Java JADX
+- **Common input formats** - APK, DEX, JAR, AAR, ZIP
 - **Complete deobfuscation** - ProGuard mappings, JOBF persistence
 - **Kotlin support** - metadata parsing, name restoration
 - **Multi-core parallel** - scales to 56+ threads
@@ -70,15 +70,16 @@ Benchmarks on 56-thread system:
 
 | Category | Status | Details |
 |----------|--------|---------|
-| DEX Parsing | 100% | All 224 Dalvik opcodes |
-| Control Flow | 100% | CFG, dominators, SSA, type inference |
-| Region Reconstruction | 100% | if/else, loops, switch, try-catch, synchronized, finally |
-| Code Generation | 100% | Annotations, ternary, multi-catch, inner classes |
-| Input Formats | 100% | APK, DEX, JAR, AAR, ZIP |
-| Resources | 100% | AXML and resources.arsc (1:1 match) |
-| Kotlin Support | 100% | Metadata, name restoration, intrinsics |
-| Deobfuscation | 100% | --deobf, ProGuard mappings, JOBF files |
-| Variable Naming | 100% | Full JADX parity |
+| DEX Parsing | ✅ 100% | All 224 Dalvik opcodes |
+| Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
+| Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
+| Code Generation | 🔶 80% | Annotations, ternary, multi-catch, inner classes |
+| Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
+| Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
+| Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
+| Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files |
+| Variable Naming | ✅ 100% | Full JADX parity |
+| Optimization Passes | 🔶 30% | Missing shrinking, simplification, deboxing |
 
 ## CLI Reference
 
@@ -210,28 +211,122 @@ cd crates
 cargo test
 ```
 
-### TODOs
+### Test Parity with Java JADX
 
-#### Implementation
+Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/jadx/tests/integration/`.
+
+| Category | Java | Rust | TODOs | Status |
+|----------|------|------|-------|--------|
+| others | 97 | 113 | 80 | ⚠️ Incomplete |
+| conditions | 56 | 66 | 38 | ⚠️ Incomplete |
+| loops | 52 | 57 | 28 | ⚠️ Incomplete |
+| trycatch | 51 | 58 | 38 | ⚠️ Incomplete |
+| types | 45 | 63 | 36 | ⚠️ Incomplete |
+| inner | 39 | 41 | 23 | ⚠️ Incomplete |
+| switches | 26 | 23 | 6 | 🔶 Mostly done |
+| enums | 24 | 26 | 21 | ⚠️ Incomplete |
+| invoke | 23 | 23 | 13 | ⚠️ Incomplete |
+| generics | 21 | 25 | 15 | ⚠️ Incomplete |
+| names | 20 | 32 | 37 | ⚠️ Incomplete |
+| inline | 18 | 24 | 22 | ⚠️ Incomplete |
+| arrays | 16 | 16 | 5 | 🔶 Mostly done |
+| arith | 14 | 19 | 4 | 🔶 Mostly done |
+| variables | 13 | 15 | 11 | ⚠️ Incomplete |
+| java8 | 11 | 14 | 7 | ⚠️ Incomplete |
+| deobf | 8 | 7 | 1 | ✅ Close |
+| annotations | 7 | 9 | 2 | ✅ Close |
+| android | 7 | 7 | 2 | ✅ Close |
+| synchronize | 7 | 8 | 6 | ⚠️ Incomplete |
+| rename | 7 | 16 | 24 | ⚠️ Incomplete |
+| debuginfo | 5 | 3 | 2 | ⚠️ Missing tests |
+| usethis | 4 | 4 | 0 | ✅ Done |
+| code | 2 | 2 | 0 | ✅ Done |
+| fallback | 2 | 2 | 1 | ✅ Close |
+| special | 1 | 1 | 2 | ⚠️ Incomplete |
+| jbc | 1 | 1 | 0 | ✅ Done |
+| **TOTAL** | **577** | **675** | **439** | |
+
+Rust tests are in `crates/dexterity-passes/tests/integration.disabled/` - most need assertions added.
+
+### Implementation TODOs
 
 | File | Description |
 |------|-------------|
-| `dexterity-ir/src/info.rs:386` | Implement lazy loading by decoding instructions from bytecode_ref |
-| `dexterity-ir/src/kotlin_metadata.rs:158` | Implement package part count and class existence check |
 | `dexterity-cli/src/converter.rs:210` | Parse and store type parameters in method.type_parameters |
 | `dexterity-cli/src/converter.rs:770` | Multi-DEX support (currently hardcoded to dex_idx: 0) |
 | `dexterity-cli/src/gradle_export.rs` | Gradle export dependencies handling (3 locations) |
-| `dexterity-codegen/src/dex_info.rs:117` | Track memory usage if needed |
 | `dexterity-passes/src/type_inference.rs:665` | Compute LCA of all phi sources after initial resolution |
 
-#### Tests
+## Comparison with Java JADX
 
-675 disabled tests in `crates/dexterity-passes/tests/integration.disabled/` need assertions and test source extraction.
+### Implementation Status
 
-## Not Yet Implemented
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Core pipeline | ~70% | Parsing, SSA, type inference, regions, codegen work |
+| Optimization passes | ~30% | Missing shrinking, simplification, deboxing |
+| Tooling/extras | ~20% | CLI only, no GUI/plugins/IDE |
 
-- Smali file (`.smali`) processing
-- Rename comments (`/* renamed from: ... */`)
+### Missing Decompiler Passes (High Priority)
+
+| Pass | Purpose |
+|------|---------|
+| `CodeShrinkVisitor` | Remove redundant code, unused variables |
+| `SimplifyVisitor` | Simplify expressions, optimize conditionals |
+| `DeboxingVisitor` | Remove Integer.valueOf(), Boolean.valueOf() |
+| `ConstInlineVisitor` | Inline constant values |
+| `EnumVisitor` | Enum class reconstruction |
+| `TernaryMod` | Ternary expression conversion |
+| `SwitchOverStringVisitor` | Switch-on-string handling |
+| `FixSwitchOverEnum` | Enum switch optimization |
+| `ProcessAnonymous` | Anonymous class processing |
+| `ExtractFieldInit` | Field initializer extraction |
+| `MethodInvokeVisitor` | Method invocation resolution |
+| `ResolveJavaJSR` | JSR/RET instruction handling |
+| `OverrideMethodVisitor` | Override and inheritance analysis |
+| `ShadowFieldVisitor` | Shadow field detection |
+| `GenericTypesVisitor` | Generic type inference |
+| `DebugInfoApplyVisitor` | Debug info application |
+
+### Missing Input Formats
+
+| Format | Description |
+|--------|-------------|
+| AAB | Android App Bundle |
+| APKM | APK Media Container |
+| APKS | Split APKs bundle |
+| XAPK | XAPK format |
+| Smali | Smali source input |
+| Java class → DEX | Java bytecode conversion |
+
+### Missing CLI Options
+
+| Option | Purpose |
+|--------|---------|
+| `--show-bad-code` | Visualize problematic code |
+| `--add-debug-lines` | Add debug line comments |
+| `--comments-level` | Control comment verbosity |
+| `--integer-format` | Hex/decimal format control |
+| `-P` plugin options | Plugin configuration |
+
+### Missing Code Generation Features
+
+| Feature | Description |
+|---------|-------------|
+| Rename comments | `/* renamed from: X */` annotations |
+| JSON IR export | Full JSON intermediate representation |
+| Source maps | IDE source mapping output |
+| Boxing optimization | Clean up redundant boxing in output |
+| Debug line comments | Inline bytecode offset comments |
+
+### Not Planned
+
+| Feature | Reason |
+|---------|--------|
+| GUI | CLI-focused tool |
+| IDE plugins | Out of scope |
+| Script/plugin system | Out of scope |
+| DOT graph export | Low priority |
 
 ## License
 

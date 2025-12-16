@@ -1,6 +1,6 @@
 //! Type to Java source code conversion
 //!
-//! Converts jadx-ir types to Java type strings.
+//! Converts dexterity-ir types to Java type strings.
 
 use dexterity_ir::ArgType;
 

@@ -4,6 +4,31 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Performance Optimizations (Dec 15)
+
+**~7% speedup on large APKs through data structure optimizations:**
+
+1. **FxHashMap for Hot Paths** - Replaced `std::collections::HashMap` with `rustc_hash::FxHashMap`
+   - SSA transformation (`ssa.rs`) - dominators, frontiers, versions
+   - Type inference (`type_inference.rs`) - register mapping, resolved types
+   - FxHashMap uses faster non-cryptographic hash (vs SipHash)
+
+2. **parking_lot::RwLock for String Pool** - Replaced `std::sync::RwLock`
+   - No poisoning overhead, faster scheduling
+   - Combined with FxHashMap for string cache
+   - File: `dexterity-dex/src/sections/string_pool.rs`
+
+3. **Cache Clone Elimination** - Removed DashMap caching for type/method lookups
+   - Direct DEX parsing faster than cache lookup + clone for unique indices
+   - Removed `type_argtype_cache` and `method_return_cache` from `LazyDexInfo`
+   - File: `dexterity-codegen/src/dex_info.rs`
+
+**Benchmark Results:**
+- APK: Gold Rush 3D (647MB APK, 79MB DEX)
+- SHA256: `aa7382155dc62389b3bbb0e2ee93c882b5118e3da7924db8575cb137ca36596b`
+- Before: 20.85s
+- After: 19.45s (~6.7% faster)
+
 ### Finally Deduplication Complete (Dec 15)
 
 **Completed the finally block extraction algorithm:**

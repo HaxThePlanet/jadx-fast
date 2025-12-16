@@ -1,11 +1,16 @@
 //! Trycatch integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/trycatch/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn empty_catch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("empty_catch_test");
     // Tests empty catch blocks in enum switch map generation
     // Source adapted from jadx-core/src/test/smali/trycatch/TestEmptyCatch.smali
@@ -54,6 +59,12 @@ public class TestCls {
 
 #[test]
 fn empty_finally_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("empty_finally_test");
     let source = r#"
 public class TestCls {
@@ -76,6 +87,12 @@ f1.close();
 
 #[test]
 fn finally_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("finally_test");
     let source = r#"
 public class TestCls {
@@ -112,6 +129,12 @@ public String getString(int i) {
 
 #[test]
 fn finally2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("finally2_test");
     let source = r#"
 public class TestCls {
@@ -149,6 +172,12 @@ private void closeQuietly(InputStream is) {
 
 #[test]
 fn finally3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("finally3_test");
     let source = r#"
 public class TestCls {
@@ -185,6 +214,12 @@ private static void close(InputStream is) {
 
 #[test]
 fn finally3_test2_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("finally3_test2_no_debug");
     let source = r#"
 public class TestCls {
@@ -221,6 +256,12 @@ private static void close(InputStream is) {
 
 #[test]
 fn finally3_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("finally3_test_smali");
     let source = r#"
 public class TestCls {
@@ -258,6 +299,12 @@ private static void close(InputStream is) {
 
 #[test]
 fn finally_extract_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("finally_extract_test");
     let source = r#"
 public class TestCls {
@@ -289,6 +336,12 @@ assertThat(result).isEqualTo(1);
 
 #[test]
 fn finally_extract_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("finally_extract_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -321,6 +374,12 @@ assertThat(result).isEqualTo(1);
 
 #[test]
 fn inline_in_catch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inline_in_catch_test");
     let source = r#"
 public class TestCls {
@@ -350,6 +409,12 @@ return 2;
 
 #[test]
 fn loop_in_try_catch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("loop_in_try_catch_test");
     // TODO: Extract test source
     let source = r#"
@@ -366,6 +431,12 @@ public class TestCls {
 
 #[test]
 fn multi_exception_catch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("multi_exception_catch_test");
     let source = r#"
 public class TestCls {
@@ -390,6 +461,12 @@ throw new RuntimeException(e);
 
 #[test]
 fn multi_exception_catch2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("multi_exception_catch2_test");
     let source = r#"
 public class TestCls {
@@ -410,6 +487,12 @@ e.printStackTrace();
 
 #[test]
 fn multi_exception_catch2_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("multi_exception_catch2_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -430,6 +513,12 @@ e.printStackTrace();
 
 #[test]
 fn multi_exception_catch_same_jump_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("multi_exception_catch_same_jump_test");
     let source = r#"
 public class TestCls {
@@ -454,6 +543,12 @@ throw new RuntimeException(e);
 
 #[test]
 fn nested_try_catch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("nested_try_catch_test");
     let source = r#"
 public class TestCls {
@@ -483,6 +578,12 @@ System.out.println(1);
 
 #[test]
 fn nested_try_catch4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("nested_try_catch4_test");
     // TODO: Extract test source
     let source = r#"
@@ -500,6 +601,12 @@ public class TestCls {
 
 #[test]
 fn nested_try_catch5_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("nested_try_catch5_test");
     // TODO: Extract test source
     let source = r#"
@@ -518,6 +625,12 @@ public class TestCls {
 
 #[test]
 fn try_catch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_test");
     let source = r#"
 public class TestCls {
@@ -542,6 +655,12 @@ Thread.sleep(50L);
 
 #[test]
 fn try_catch10_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch10_test");
     // TODO: Extract test source
     let source = r#"
@@ -559,6 +678,12 @@ public class TestCls {
 
 #[test]
 fn try_catch2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch2_test");
     let source = r#"
 public class TestCls {
@@ -582,6 +707,12 @@ return false;
 
 #[test]
 fn try_catch6_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch6_test");
     let source = r#"
 public class TestCls {
@@ -613,6 +744,12 @@ assertThat(test(new Object())).isTrue();
 
 #[test]
 fn try_catch6_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch6_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -645,6 +782,12 @@ assertThat(test(new Object())).isTrue();
 
 #[test]
 fn try_catch7_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch7_test");
     let source = r#"
 public class TestCls {
@@ -668,6 +811,12 @@ return e;
 
 #[test]
 fn try_catch7_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch7_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -691,6 +840,12 @@ return e;
 
 #[test]
 fn try_catch8_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch8_test");
     let source = r#"
 public class TestCls {
@@ -724,6 +879,12 @@ assertThat(e.getMessage()).isNull();
 
 #[test]
 fn try_catch8_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch8_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -759,6 +920,12 @@ assertThat(e.getMessage()).isNull();
 
 #[test]
 fn try_catch_finally_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally_test");
     let source = r#"
 public class TestCls {
@@ -794,6 +961,12 @@ assertThat(test(null)).isTrue();
 
 #[test]
 fn try_catch_finally_test_without_finally() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally_test_without_finally");
     let source = r#"
 public class TestCls {
@@ -828,6 +1001,12 @@ assertThat(test(null)).isTrue();
 
 #[test]
 fn try_catch_finally10_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally10_test");
     // TODO: Extract test source
     let source = r#"
@@ -845,6 +1024,12 @@ public class TestCls {
 
 #[test]
 fn try_catch_finally11_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally11_test");
     let source = r#"
 public class TestCls {
@@ -875,6 +1060,12 @@ assertThat(t.count).isEqualTo(102);
 
 #[test]
 fn try_catch_finally12_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally12_test");
     let source = r#"
 public class TestCls {
@@ -931,6 +1122,12 @@ assertThat(runTest(3, 2)).isEqualTo("call-iae-finally");
 
 #[test]
 fn try_catch_finally12_test_without_finally() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally12_test_without_finally");
     let source = r#"
 public class TestCls {
@@ -987,6 +1184,12 @@ assertThat(runTest(3, 2)).isEqualTo("call-iae-finally");
 
 #[test]
 fn try_catch_finally15_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally15_test");
     // TODO: Extract test source
     let source = r#"
@@ -1005,6 +1208,12 @@ public class TestCls {
 
 #[test]
 fn try_catch_finally2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally2_test");
     let source = r#"
 public class TestCls {
@@ -1035,6 +1244,12 @@ private void writeString(DataOutputStream out, String name) {
 
 #[test]
 fn try_catch_finally3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally3_test");
     let source = r#"
 public class TestCls {
@@ -1064,6 +1279,12 @@ cls.unload();
 
 #[test]
 fn try_catch_finally4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally4_test");
     let source = r#"
 public class TestCls {
@@ -1090,6 +1311,12 @@ file.delete();
 
 #[test]
 fn try_catch_finally5_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally5_test");
     let source = r#"
 public class TestCls {
@@ -1130,6 +1357,12 @@ void close();
 
 #[test]
 fn try_catch_finally6_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally6_test");
     let source = r#"
 public class TestCls {
@@ -1154,6 +1387,12 @@ private static void call() {
 
 #[test]
 fn try_catch_finally6_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally6_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -1179,6 +1418,12 @@ private static void call() {
 
 #[test]
 fn try_catch_finally7_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally7_test");
     let source = r#"
 public class TestCls {
@@ -1220,6 +1465,12 @@ test("r");
 
 #[test]
 fn try_catch_finally7_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally7_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -1257,6 +1508,12 @@ test("r");
 
 #[test]
 fn try_catch_finally8_test2() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally8_test2");
     let source = r#"
 public class TestCls {
@@ -1289,6 +1546,12 @@ file.delete();
 
 #[test]
 fn try_catch_finally9_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_finally9_test");
     let source = r#"
 public class TestCls {
@@ -1314,6 +1577,12 @@ input.close();
 
 #[test]
 fn try_catch_in_if_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_in_if_test");
     let source = r#"
 public class TestCls {
@@ -1351,6 +1620,12 @@ assertThat(test("n", "0xabX")).isEqualTo("Failed to parse number");
 
 #[test]
 fn try_catch_last_insn_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_last_insn_test");
     // TODO: Extract test source
     let source = r#"
@@ -1368,6 +1643,12 @@ public class TestCls {
 
 #[test]
 fn try_catch_multi_exception_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_multi_exception_test");
     let source = r#"
 public class TestCls {
@@ -1388,6 +1669,12 @@ throw new RuntimeException(e);
 
 #[test]
 fn try_catch_multi_exception2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_multi_exception2_test");
     // TODO: Extract test source
     let source = r#"
@@ -1404,6 +1691,12 @@ public class TestCls {
 
 #[test]
 fn try_catch_no_move_exc_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_no_move_exc_test");
     // TODO: Extract test source
     let source = r#"
@@ -1420,6 +1713,12 @@ public class TestCls {
 
 #[test]
 fn try_catch_no_move_exc2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_no_move_exc2_test");
     // TODO: Extract test source
     let source = r#"
@@ -1437,6 +1736,12 @@ public class TestCls {
 
 #[test]
 fn try_catch_start_on_move_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_start_on_move_test");
     // TODO: Extract test source
     let source = r#"
@@ -1455,6 +1760,12 @@ public class TestCls {
 
 #[test]
 fn try_with_empty_catch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_with_empty_catch_test");
     // TODO: Extract test source
     let source = r#"
@@ -1473,6 +1784,12 @@ public class TestCls {
 
 #[test]
 fn try_with_empty_catch_triple_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_with_empty_catch_triple_test");
     // TODO: Extract test source
     let source = r#"
@@ -1489,6 +1806,12 @@ public class TestCls {
 
 #[test]
 fn unreachable_catch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("unreachable_catch_test");
     // TODO: Extract test source
     let source = r#"
@@ -1506,7 +1829,13 @@ public class TestCls {
 }
 
 #[test]
-fn multi_exception_catch_test() {
+fn multi_exception_catch_test_2() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("multi_exception_catch_test");
     // Tests multi-catch syntax (catch (Type1 | Type2 e))
     // CLAUDE.md documents multi-catch as implemented - this validates that feature
@@ -1537,6 +1866,12 @@ public class TestCls {
 
 #[test]
 fn try_catch_basic_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("try_catch_basic_test");
     // Foundation test for basic try-catch functionality
     let source = r#"
@@ -1561,7 +1896,13 @@ public class TestCls {
 }
 
 #[test]
-fn nested_try_catch_test() {
+fn nested_try_catch_test_2() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("nested_try_catch_test");
     // Tests nested try-catch blocks
     let source = r#"
@@ -1593,6 +1934,12 @@ public class TestCls {
 
 #[test]
 fn unreachable_catch2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("unreachable_catch2_test");
     // TODO: Extract test source
     let source = r#"

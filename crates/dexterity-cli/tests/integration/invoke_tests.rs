@@ -1,11 +1,16 @@
 //! Invoke integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/invoke/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn cast_in_overloaded_accessor_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("cast_in_overloaded_accessor_test");
     // TODO: Extract test source
     let source = r#"
@@ -22,6 +27,12 @@ public class TestCls {
 
 #[test]
 fn cast_in_overloaded_invoke_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("cast_in_overloaded_invoke_test");
     let source = r#"
 public class TestCls {
@@ -65,6 +76,12 @@ assertThat(c).isEqualTo(111);
 
 #[test]
 fn cast_in_overloaded_invoke_test_n_y_i() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("cast_in_overloaded_invoke_test_n_y_i");
     let source = r#"
 public class TestCls {
@@ -106,6 +123,12 @@ assertThat(c).isEqualTo(111);
 
 #[test]
 fn cast_in_overloaded_invoke2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("cast_in_overloaded_invoke2_test");
     // TODO: Extract test source
     let source = r#"
@@ -122,6 +145,12 @@ public class TestCls {
 
 #[test]
 fn cast_in_overloaded_invoke3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("cast_in_overloaded_invoke3_test");
     let source = r#"
 public class TestCls {
@@ -140,6 +169,12 @@ OuterCls.call((String) null);
 
 #[test]
 fn cast_in_overloaded_invoke4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("cast_in_overloaded_invoke4_test");
     let source = r#"
 public class TestCls {
@@ -158,6 +193,12 @@ return str.replace('\n', ' ');
 
 #[test]
 fn constructor_with_moves_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("constructor_with_moves_test");
     // TODO: Extract test source
     let source = r#"
@@ -174,6 +215,12 @@ public class TestCls {
 
 #[test]
 fn hierarchy_overloaded_invoke_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("hierarchy_overloaded_invoke_test");
     let source = r#"
 public class TestCls {
@@ -225,6 +272,12 @@ assertThat(c).isEqualTo(12);
 
 #[test]
 fn inherited_static_invoke_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inherited_static_invoke_test");
     let source = r#"
 public class TestCls {
@@ -245,6 +298,12 @@ return B.a(); // not A.a()
 
 #[test]
 fn invoke1_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("invoke1_test");
     let source = r#"
 public class TestCls {
@@ -286,6 +345,12 @@ return null;
 
 #[test]
 fn invoke_in_catch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("invoke_in_catch_test");
     let source = r#"
 public class TestCls {
@@ -311,6 +376,12 @@ throw new IOException();
 
 #[test]
 fn invoke_with_wide_vars_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("invoke_with_wide_vars_test");
     let source = r#"
 public class TestCls {
@@ -335,6 +406,12 @@ private long rangeCall(long a, int b, double c, byte d) {
 
 #[test]
 fn overloaded_method_invoke_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("overloaded_method_invoke_test");
     let source = r#"
 public class TestCls {
@@ -374,6 +451,12 @@ assertThat(c).isEqualTo(23212);
 
 #[test]
 fn overloaded_method_invoke2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("overloaded_method_invoke2_test");
     // TODO: Extract test source
     let source = r#"
@@ -392,6 +475,12 @@ public class TestCls {
 
 #[test]
 fn polymorphic_invoke_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("polymorphic_invoke_test_smali");
     let source = r#"
 public class TestCls {
@@ -420,6 +509,12 @@ assertThat(test()).isEqualTo("3");
 
 #[test]
 fn raw_custom_invoke_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("raw_custom_invoke_test");
     let source = r#"
 public class TestCls {
@@ -451,6 +546,12 @@ assertThat(test()).isEqualTo("3.0");
 
 #[test]
 fn raw_custom_invoke_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("raw_custom_invoke_test_smali");
     let source = r#"
 public class TestCls {
@@ -482,6 +583,12 @@ assertThat(test()).isEqualTo("3.0");
 
 #[test]
 fn super_invoke_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("super_invoke_test");
     // TODO: Extract test source
     let source = r#"
@@ -499,6 +606,12 @@ public class TestCls {
 
 #[test]
 fn super_invoke_unknown_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("super_invoke_unknown_test");
     let source = r#"
 public class TestCls {
@@ -519,6 +632,12 @@ return super.doSomething();
 
 #[test]
 fn super_invoke_unknown_test_top_cls() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("super_invoke_unknown_test_top_cls");
     let source = r#"
 public class TestCls {
@@ -539,6 +658,12 @@ return super.doSomething();
 
 #[test]
 fn super_invoke_with_generics_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("super_invoke_with_generics_test");
     let source = r#"
 public class TestCls {
@@ -564,6 +689,12 @@ super(e);
 
 #[test]
 fn var_arg_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("var_arg_test");
     let source = r#"
 public class TestCls {
@@ -586,6 +717,12 @@ test3(new int[] { 5, 8 });
 
 #[test]
 fn var_arg2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("var_arg2_test");
     let source = r#"
 public class TestCls {

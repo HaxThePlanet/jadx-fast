@@ -1,11 +1,16 @@
 //! Code integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/code/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn array_access_reorder_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("array_access_reorder_test");
     let source = r#"
 public class TestCls {
@@ -36,6 +41,12 @@ assertThat(test(new int[] { 1, 2, 3 })).isEqualTo(new int[] { -15, -10, -5 });
 
 #[test]
 fn code_comment_style_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("code_comment_style_test");
     let source = r#"
 public class TestCls {

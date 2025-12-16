@@ -1,6 +1,6 @@
 //! DEX to IR converter
 //!
-//! Converts jadx-dex types to jadx-ir types for code generation.
+//! Converts dexterity-dex types to dexterity-ir types for code generation.
 
 use anyhow::Result;
 use dexterity_dex::DexReader;

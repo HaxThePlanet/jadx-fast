@@ -28,7 +28,8 @@ crates/
 Memory-mapped DEX file parsing with zero-copy access.
 
 **Key components:**
-- `reader.rs` - DexReader with DashMap string cache for lock-free concurrent access
+- `reader.rs` - DexReader with lock-free concurrent access
+- `string_pool.rs` - parking_lot::RwLock + FxHashMap for fast string caching
 - `header.rs` - DEX header parsing (magic, checksum, offsets)
 - `consts.rs` - Dalvik opcode definitions (all 224 opcodes)
 
@@ -51,8 +52,8 @@ Transform IR through analysis passes.
 **Key components:**
 - `block_split.rs` - Instructions → basic blocks
 - `cfg.rs` - CFG construction with dominance (Cooper-Harvey-Kennedy)
-- `ssa.rs` - SSA transformation with phi nodes
-- `type_inference.rs` - Constraint-based type inference with unification
+- `ssa.rs` - SSA transformation with phi nodes (FxHashMap for fast lookups)
+- `type_inference.rs` - Constraint-based type inference with unification (FxHashMap)
 - `region_builder.rs` - CFG → structured regions (if/loop/switch/try)
 - `conditionals.rs` - Else-if chaining, ternary reconstruction
 - `loops.rs` - ForEach detection from iterator patterns

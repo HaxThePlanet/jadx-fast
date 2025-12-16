@@ -1,4 +1,4 @@
-//! Kotlin metadata parsing and processing for jadx-rust
+//! Kotlin metadata parsing and processing for dexterity
 //!
 //! This crate provides support for parsing `@kotlin.Metadata` annotations
 //! to extract original Kotlin names (classes, fields, methods, parameters)

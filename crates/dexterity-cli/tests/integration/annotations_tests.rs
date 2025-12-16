@@ -1,11 +1,16 @@
 //! Annotations integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/annotations/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn annotations_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("annotations_test");
     let source = r#"
 public class TestCls {
@@ -46,6 +51,12 @@ public void methodD() {
 
 #[test]
 fn annotations2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("annotations2_test");
     let source = r#"
 public class TestCls {
@@ -71,6 +82,12 @@ float f();
 
 #[test]
 fn annotations_mix_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("annotations_mix_test");
     let source = r#"
 public class TestCls {
@@ -133,6 +150,12 @@ test();
 
 #[test]
 fn annotations_mix_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("annotations_mix_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -194,6 +217,12 @@ test();
 
 #[test]
 fn annotations_mix_test_declaration() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("annotations_mix_test_declaration");
     let source = r#"
 public class TestCls {
@@ -257,6 +286,12 @@ test();
 
 #[test]
 fn annotations_rename_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("annotations_rename_test");
     let source = r#"
 public class TestCls {
@@ -284,6 +319,12 @@ assertThat(annotation.x()).isEqualTo(5);
 
 #[test]
 fn annotations_rename_def_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("annotations_rename_def_test");
     let source = r#"
 public class TestCls {
@@ -308,6 +349,12 @@ void test() {
 
 #[test]
 fn annotations_usage_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("annotations_usage_test");
     let source = r#"
 public class TestCls {
@@ -333,6 +380,12 @@ void test2(@A(c = B.class) Integer value) {
 
 #[test]
 fn param_annotations_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("param_annotations_test");
     let source = r#"
 public class TestCls {

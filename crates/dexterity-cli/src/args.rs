@@ -9,7 +9,7 @@ use clap::{Parser, ValueEnum};
 /// Android DEX/APK decompiler
 #[derive(Parser, Debug)]
 #[command(name = "dexterity")]
-#[command(author = "jadx-rust contributors")]
+#[command(author = "dexterity contributors")]
 #[command(version, disable_version_flag = true)]
 #[command(about = "Dex to Java decompiler", long_about = None)]
 #[command(after_help = "Examples:

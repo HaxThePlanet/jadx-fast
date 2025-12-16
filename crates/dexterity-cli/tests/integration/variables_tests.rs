@@ -1,11 +1,16 @@
 //! Variables integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/variables/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn variables2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables2_test");
     let source = r#"
 public class TestCls {
@@ -28,6 +33,12 @@ return store;
 
 #[test]
 fn variables2_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables2_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -50,6 +61,12 @@ return store;
 
 #[test]
 fn variables3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables3_test");
     let source = r#"
 public class TestCls {
@@ -77,6 +94,12 @@ return s + " " + i;
 
 #[test]
 fn variables4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables4_test");
     let source = r#"
 public class TestCls {
@@ -121,6 +144,12 @@ return false;
 
 #[test]
 fn variables4_test2() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables4_test2");
     let source = r#"
 public class TestCls {
@@ -165,6 +194,12 @@ return false;
 
 #[test]
 fn variables5_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables5_test");
     let source = r#"
 public class TestCls {
@@ -199,6 +234,12 @@ assertThat(enabled).isTrue();
 
 #[test]
 fn variables6_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables6_test");
     // TODO: Extract test source
     let source = r#"
@@ -218,6 +259,12 @@ public class TestCls {
 
 #[test]
 fn variables_decl_annotation_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables_decl_annotation_test");
     // TODO: Extract test source
     let source = r#"
@@ -236,6 +283,12 @@ public class TestCls {
 
 #[test]
 fn variables_definitions_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables_definitions_test");
     let source = r#"
 public class TestCls {
@@ -263,6 +316,12 @@ log.error("Decode exception: {}", cls, e);
 
 #[test]
 fn variables_definitions2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables_definitions2_test");
     let source = r#"
 public class TestCls {
@@ -289,6 +348,12 @@ return i;
 
 #[test]
 fn variables_generic_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables_generic_test");
     // TODO: Extract test source
     let source = r#"
@@ -309,6 +374,12 @@ public class TestCls {
 
 #[test]
 fn variables_if_else_chain_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables_if_else_chain_test");
     let source = r#"
 public class TestCls {
@@ -348,6 +419,12 @@ assertThat(test(5)).isEqualTo("miss");
 
 #[test]
 fn variables_in_loop_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables_in_loop_test");
     // TODO: Extract test source
     let source = r#"
@@ -367,6 +444,12 @@ public class TestCls {
 
 #[test]
 fn variables_usage_with_loops_test_enhanced_for() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables_usage_with_loops_test_enhanced_for");
     // TODO: Extract test source
     let source = r#"
@@ -383,6 +466,12 @@ public class TestCls {
 
 #[test]
 fn variables_usage_with_loops_test_for_loop() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables_usage_with_loops_test_for_loop");
     // TODO: Extract test source
     let source = r#"

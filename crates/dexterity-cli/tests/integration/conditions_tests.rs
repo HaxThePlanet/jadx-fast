@@ -1,11 +1,16 @@
 //! Conditions integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/conditions/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn bitwise_and_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("bitwise_and_test");
     let source = r#"
 public class TestCls {
@@ -26,6 +31,12 @@ test();
 
 #[test]
 fn bitwise_and_test2() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("bitwise_and_test2");
     let source = r#"
 public class TestCls {
@@ -46,6 +57,12 @@ test();
 
 #[test]
 fn bitwise_and_test3() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("bitwise_and_test3");
     let source = r#"
 public class TestCls {
@@ -66,6 +83,12 @@ test();
 
 #[test]
 fn bitwise_and_test4() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("bitwise_and_test4");
     let source = r#"
 public class TestCls {
@@ -87,6 +110,12 @@ test();
 
 #[test]
 fn bitwise_or_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("bitwise_or_test");
     let source = r#"
 public class TestCls {
@@ -107,6 +136,12 @@ test();
 
 #[test]
 fn bitwise_or_test2() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("bitwise_or_test2");
     let source = r#"
 public class TestCls {
@@ -127,6 +162,12 @@ test();
 
 #[test]
 fn bitwise_or_test3() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("bitwise_or_test3");
     let source = r#"
 public class TestCls {
@@ -147,6 +188,12 @@ test();
 
 #[test]
 fn bitwise_or_test4() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("bitwise_or_test4");
     let source = r#"
 public class TestCls {
@@ -168,6 +215,12 @@ test();
 
 #[test]
 fn boolean_to_byte_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("boolean_to_byte_test");
     // TODO: Extract test source
     let source = r#"
@@ -185,6 +238,12 @@ public class TestCls {
 
 #[test]
 fn boolean_to_char_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("boolean_to_char_test");
     // TODO: Extract test source
     let source = r#"
@@ -202,6 +261,12 @@ public class TestCls {
 
 #[test]
 fn boolean_to_double_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("boolean_to_double_test");
     // TODO: Extract test source
     let source = r#"
@@ -219,6 +284,12 @@ public class TestCls {
 
 #[test]
 fn boolean_to_float_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("boolean_to_float_test");
     // TODO: Extract test source
     let source = r#"
@@ -236,6 +307,12 @@ public class TestCls {
 
 #[test]
 fn boolean_to_int_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("boolean_to_int_test");
     // TODO: Extract test source
     let source = r#"
@@ -253,6 +330,12 @@ public class TestCls {
 
 #[test]
 fn boolean_to_int2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("boolean_to_int2_test");
     let source = r#"
 public class TestCls {
@@ -278,6 +361,12 @@ private void use2(int v) {
 
 #[test]
 fn boolean_to_long_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("boolean_to_long_test");
     // TODO: Extract test source
     let source = r#"
@@ -295,6 +384,12 @@ public class TestCls {
 
 #[test]
 fn boolean_to_short_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("boolean_to_short_test");
     // TODO: Extract test source
     let source = r#"
@@ -312,6 +407,12 @@ public class TestCls {
 
 #[test]
 fn cast_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("cast_test");
     let source = r#"
 public class TestCls {
@@ -349,6 +450,12 @@ public void write(short b) {
 
 #[test]
 fn cmp_op_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("cmp_op_test");
     let source = r#"
 public class TestCls {
@@ -391,6 +498,12 @@ return 6.5d < i;
 
 #[test]
 fn cmp_op2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("cmp_op2_test");
     let source = r#"
 public class TestCls {
@@ -412,6 +525,12 @@ return c < d;
 
 #[test]
 fn complex_if_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("complex_if_test");
     // Tests that multiple chained if conditions are properly combined into OR expression
     // Source adapted from jadx-core/src/test/smali/conditions/TestComplexIf.smali
@@ -447,6 +566,12 @@ public class TestCls {
 
 #[test]
 fn complex_if2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("complex_if2_test");
     // Tests complex nested conditions with null checks and string equality
     // Source adapted from jadx-core/src/test/java/jadx/tests/integration/conditions/TestComplexIf2.java
@@ -491,6 +616,12 @@ class LoaderUtils {
 
 #[test]
 fn complex_if3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("complex_if3_test");
     // TODO: Extract test source
     let source = r#"
@@ -509,6 +640,12 @@ public class TestCls {
 
 #[test]
 fn condition_in_loop_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("condition_in_loop_test");
     let source = r#"
 public class TestCls {
@@ -540,6 +677,12 @@ assertThat(test(8, 23)).isEqualTo(1015807);
 
 #[test]
 fn condition_in_loop_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("condition_in_loop_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -568,6 +711,12 @@ assertThat(test(8, 23)).isEqualTo(1015807);
 
 #[test]
 fn conditions_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions_test");
     let source = r#"
 public class TestCls {
@@ -587,6 +736,12 @@ return (a && b) || c;
 
 #[test]
 fn conditions10_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions10_test");
     let source = r#"
 public class TestCls {
@@ -610,6 +765,12 @@ System.out.println("3");
 
 #[test]
 fn conditions11_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions11_test");
     let source = r#"
 public class TestCls {
@@ -633,6 +794,12 @@ private void f() {
 
 #[test]
 fn conditions12_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions12_test");
     let source = r#"
 public class TestCls {
@@ -673,6 +840,12 @@ if (!autoStop && lastValidRaw > -1 && quality < 10) {
 
 #[test]
 fn conditions13_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions13_test");
     let source = r#"
 public class TestCls {
@@ -701,6 +874,12 @@ System.out.println("Quit OK" + raw);
 
 #[test]
 fn conditions14_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions14_test");
     let source = r#"
 public class TestCls {
@@ -724,6 +903,12 @@ return true;
 
 #[test]
 fn conditions15_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions15_test");
     let source = r#"
 public class TestCls {
@@ -775,6 +960,12 @@ return name.isEmpty();
 
 #[test]
 fn conditions16_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions16_test");
     let source = r#"
 public class TestCls {
@@ -798,6 +989,12 @@ assertThat(test(2, 2)).isFalse();
 
 #[test]
 fn conditions17_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions17_test");
     let source = r#"
 public class TestCls {
@@ -820,6 +1017,12 @@ public static void print(Object o) {
 
 #[test]
 fn conditions18_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions18_test");
     // TODO: Extract test source
     let source = r#"
@@ -836,6 +1039,12 @@ public class TestCls {
 
 #[test]
 fn conditions2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions2_test");
     let source = r#"
 public class TestCls {
@@ -860,6 +1069,12 @@ c = f.compareTo(a);
 
 #[test]
 fn conditions21_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions21_test");
     // TODO: Extract test source
     let source = r#"
@@ -877,6 +1092,12 @@ public class TestCls {
 
 #[test]
 fn conditions3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions3_test");
     let source = r#"
 public class TestCls {
@@ -911,6 +1132,12 @@ public List<String> getList() {
 
 #[test]
 fn conditions4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions4_test");
     let source = r#"
 public class TestCls {
@@ -932,6 +1159,12 @@ return inRange ? num + 1 : num;
 
 #[test]
 fn conditions5_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions5_test");
     let source = r#"
 public class TestCls {
@@ -956,6 +1189,12 @@ if (!a1.equals(a2)) {
 
 #[test]
 fn conditions6_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions6_test");
     let source = r#"
 public class TestCls {
@@ -977,6 +1216,12 @@ return l1.size() == 0;
 
 #[test]
 fn conditions7_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions7_test");
     let source = r#"
 public class TestCls {
@@ -997,6 +1242,12 @@ a[i]++;
 
 #[test]
 fn conditions8_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions8_test");
     let source = r#"
 public class TestCls {
@@ -1033,6 +1284,12 @@ private boolean isUsable() {
 
 #[test]
 fn conditions9_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("conditions9_test");
     let source = r#"
 public class TestCls {
@@ -1058,6 +1315,12 @@ System.out.println('2');
 
 #[test]
 fn else_if_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("else_if_test");
     let source = r#"
 public class TestCls {
@@ -1088,6 +1351,12 @@ return Math.abs(r);
 
 #[test]
 fn else_if_code_style_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("else_if_code_style_test");
     let source = r#"
 public class TestCls {
@@ -1111,6 +1380,12 @@ private void call(int i) {
 
 #[test]
 fn if_code_style_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("if_code_style_test");
     let source = r#"
 public class TestCls {
@@ -1164,6 +1439,12 @@ public long readLong() {
 
 #[test]
 fn if_code_style_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("if_code_style_test_smali");
     let source = r#"
 public class TestCls {
@@ -1217,6 +1498,12 @@ public long readLong() {
 
 #[test]
 fn if_code_style2_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("if_code_style2_test_smali");
     // TODO: Extract test source
     let source = r#"
@@ -1233,6 +1520,12 @@ public class TestCls {
 
 #[test]
 fn inner_assign_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_assign_test");
     let source = r#"
 public class TestCls {
@@ -1267,6 +1560,12 @@ assertThat(runTest("1234567")).isEqualTo("bad, str: 1234567");
 
 #[test]
 fn inner_assign2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_assign2_test");
     let source = r#"
 public class TestCls {
@@ -1302,6 +1601,12 @@ assertThat(testWrap("c", "d")).isFalse();
 
 #[test]
 fn inner_assign3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_assign3_test");
     // TODO: Extract test source
     let source = r#"
@@ -1320,6 +1625,12 @@ public class TestCls {
 
 #[test]
 fn nested_if_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("nested_if_test");
     let source = r#"
 public class TestCls {
@@ -1347,6 +1658,12 @@ return true;
 
 #[test]
 fn nested_if2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("nested_if2_test");
     let source = r#"
 public class TestCls {
@@ -1377,6 +1694,12 @@ return delta == 0;
 
 #[test]
 fn out_block_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("out_block_test");
     // TODO: Extract test source
     let source = r#"
@@ -1394,6 +1717,12 @@ public class TestCls {
 
 #[test]
 fn simple_conditions_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("simple_conditions_test");
     let source = r#"
 public class TestCls {
@@ -1415,6 +1744,12 @@ return a[0] || a[1] || a[2] || a[3];
 
 #[test]
 fn ternary_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary_test");
     let source = r#"
 public class TestCls {
@@ -1441,6 +1776,12 @@ private static void checkTrue(boolean v) {
 
 #[test]
 fn ternary2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary2_test");
     let source = r#"
 public class TestCls {
@@ -1464,6 +1805,12 @@ throw new AssertionError("Must be false");
 
 #[test]
 fn ternary3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary3_test");
     let source = r#"
 public class TestCls {
@@ -1490,6 +1837,12 @@ return arg.toString();
 
 #[test]
 fn ternary4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary4_test");
     // TODO: Extract test source
     let source = r#"
@@ -1508,6 +1861,12 @@ public class TestCls {
 
 #[test]
 fn ternary_in_if_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary_in_if_test");
     let source = r#"
 public class TestCls {
@@ -1530,6 +1889,12 @@ return (!a ? c : b) ? 1 : 2;
 
 #[test]
 fn ternary_in_if2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary_in_if2_test");
     let source = r#"
 public class TestCls {
@@ -1561,6 +1926,12 @@ this.b = null;
 
 #[test]
 fn ternary_in_if2_test2() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary_in_if2_test2");
     // TODO: Extract test source
     let source = r#"
@@ -1577,6 +1948,12 @@ public class TestCls {
 
 #[test]
 fn ternary_in_if3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary_in_if3_test");
     // TODO: Extract test source
     let source = r#"
@@ -1593,6 +1970,12 @@ public class TestCls {
 
 #[test]
 fn ternary_one_branch_in_constructor_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary_one_branch_in_constructor_test");
     let source = r#"
 public class TestCls {
@@ -1614,6 +1997,12 @@ public TestCls(int i) {
 
 #[test]
 fn ternary_one_branch_in_constructor_test2() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary_one_branch_in_constructor_test2");
     let source = r#"
 public class TestCls {
@@ -1633,6 +2022,12 @@ public TestCls2(String a, String b) {
 
 #[test]
 fn ternary_one_branch_in_constructor2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("ternary_one_branch_in_constructor2_test");
     // TODO: Extract test source
     let source = r#"

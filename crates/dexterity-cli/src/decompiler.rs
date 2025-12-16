@@ -1,10 +1,10 @@
 //! Decompiler orchestration
 //!
 //! This module coordinates the full decompilation pipeline:
-//! 1. DEX parsing (jadx-dex)
-//! 2. IR construction (jadx-ir)
-//! 3. Decompilation passes (jadx-passes)
-//! 4. Code generation (jadx-codegen)
+//! 1. DEX parsing (dexterity-dex)
+//! 2. IR construction (dexterity-ir)
+//! 3. Decompilation passes (dexterity-passes)
+//! 4. Code generation (dexterity-codegen)
 
 use dexterity_ir::regions::Region;
 use dexterity_ir::{ClassData, MethodData};

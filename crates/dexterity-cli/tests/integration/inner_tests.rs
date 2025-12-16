@@ -1,11 +1,16 @@
 //! Inner integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/inner/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn anonymous_class_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class_test");
     let source = r#"
 public class TestCls {
@@ -33,6 +38,12 @@ return files.length;
 
 #[test]
 fn anonymous_class_test_no_inline() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class_test_no_inline");
     let source = r#"
 public class TestCls {
@@ -57,6 +68,12 @@ return files.length;
 
 #[test]
 fn anonymous_class10_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class10_test");
     let source = r#"
 public class TestCls {
@@ -85,6 +102,12 @@ public abstract void m();
 
 #[test]
 fn anonymous_class11_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class11_test");
     let source = r#"
 public class TestCls {
@@ -121,6 +144,12 @@ private void print3(int i, long l) {
 
 #[test]
 fn anonymous_class12_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class12_test");
     let source = r#"
 public class TestCls {
@@ -147,6 +176,12 @@ inner = null;
 
 #[test]
 fn anonymous_class13_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class13_test");
     let source = r#"
 public class TestCls {
@@ -165,6 +200,12 @@ new TestCls() {
 
 #[test]
 fn anonymous_class14_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class14_test");
     // TODO: Extract test source
     let source = r#"
@@ -183,6 +224,12 @@ public class TestCls {
 
 #[test]
 fn anonymous_class15_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class15_test");
     let source = r#"
 public class TestCls {
@@ -209,6 +256,12 @@ setName("run");
 
 #[test]
 fn anonymous_class16_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class16_test");
     let source = r#"
 public class TestCls {
@@ -235,6 +288,12 @@ public void put(Object o, Object o2) {
 
 #[test]
 fn anonymous_class17_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class17_test");
     let source = r#"
 public class TestCls {
@@ -263,6 +322,12 @@ public void use(Runnable r) {
 
 #[test]
 fn anonymous_class18_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class18_test");
     let source = r#"
 public class TestCls {
@@ -291,6 +356,12 @@ public static void runJob(Job job) {
 
 #[test]
 fn anonymous_class18_test_no_inline() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class18_test_no_inline");
     let source = r#"
 public class TestCls {
@@ -316,6 +387,12 @@ public static void runJob(Job job) {
 
 #[test]
 fn anonymous_class19_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class19_test");
     let source = r#"
 public class TestCls {
@@ -339,6 +416,12 @@ public void use(Runnable r) {
 
 #[test]
 fn anonymous_class19_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class19_test_smali");
     let source = r#"
 public class TestCls {
@@ -362,6 +445,12 @@ public void use(Runnable r) {
 
 #[test]
 fn anonymous_class2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class2_test");
     let source = r#"
 public class TestCls {
@@ -396,6 +485,12 @@ f = i;
 
 #[test]
 fn anonymous_class20_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class20_test");
     // TODO: Extract test source
     let source = r#"
@@ -413,6 +508,12 @@ public class TestCls {
 
 #[test]
 fn anonymous_class21_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class21_test");
     let source = r#"
 public class TestCls {
@@ -436,6 +537,12 @@ System.out.println(str);
 
 #[test]
 fn anonymous_class22_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class22_test");
     let source = r#"
 public class TestCls {
@@ -461,6 +568,12 @@ return "";
 
 #[test]
 fn anonymous_class3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class3_test");
     let source = r#"
 public class TestCls {
@@ -491,6 +604,12 @@ public void p(int a) {
 
 #[test]
 fn anonymous_class4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class4_test");
     let source = r#"
 public class TestCls {
@@ -519,6 +638,12 @@ d = 7.5;
 
 #[test]
 fn anonymous_class6_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class6_test");
     let source = r#"
 public class TestCls {
@@ -539,6 +664,12 @@ System.out.println(d);
 
 #[test]
 fn anonymous_class7_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class7_test");
     let source = r#"
 public class TestCls {
@@ -559,6 +690,12 @@ System.out.println(d);
 
 #[test]
 fn anonymous_class8_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class8_test");
     let source = r#"
 public class TestCls {
@@ -580,6 +717,12 @@ System.out.println(d);
 
 #[test]
 fn anonymous_class9_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("anonymous_class9_test");
     let source = r#"
 public class TestCls {
@@ -604,6 +747,12 @@ System.out.println(6);
 
 #[test]
 fn incorrect_anonymous_class_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("incorrect_anonymous_class_test");
     let source = r#"
 public class TestCls {
@@ -626,6 +775,12 @@ new 1();
 
 #[test]
 fn inner2_samples_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner2_samples_test");
     // TODO: Extract test source
     let source = r#"
@@ -644,6 +799,12 @@ public class TestCls {
 
 #[test]
 fn inner_class_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_class_test");
     let source = r#"
 public class TestCls {
@@ -661,6 +822,12 @@ public class Inner2 extends Thread {
 
 #[test]
 fn inner_class2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_class2_test");
     let source = r#"
 public class TestCls {
@@ -686,6 +853,12 @@ new Timer().schedule(new TerminateTask(), 1000L);
 
 #[test]
 fn inner_class3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_class3_test");
     let source = r#"
 public class TestCls {
@@ -711,6 +884,12 @@ return c;
 
 #[test]
 fn inner_class4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_class4_test");
     let source = r#"
 public class TestCls {
@@ -733,6 +912,12 @@ return new C().c;
 
 #[test]
 fn inner_class5_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_class5_test");
     let source = r#"
 public class TestCls {
@@ -786,6 +971,12 @@ assertThat(i0).isEqualTo("i1");
 
 #[test]
 fn inner_class_fake_synthetic_constructor_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_class_fake_synthetic_constructor_test");
     // TODO: Extract test source
     let source = r#"
@@ -803,6 +994,12 @@ public class TestCls {
 
 #[test]
 fn inner_class_synthetic_constructor_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_class_synthetic_constructor_test");
     // TODO: Extract test source
     let source = r#"
@@ -819,6 +1016,12 @@ public class TestCls {
 
 #[test]
 fn inner_class_synthetic_rename_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_class_synthetic_rename_test");
     // TODO: Extract test source
     let source = r#"
@@ -835,6 +1038,12 @@ public class TestCls {
 
 #[test]
 fn inner_constructor_call_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_constructor_call_test");
     let source = r#"
 public class TestCls {
@@ -858,6 +1067,12 @@ aa.test();
 
 #[test]
 fn nested_anonymous_class_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("nested_anonymous_class_test");
     let source = r#"
 public class TestCls {
@@ -885,6 +1100,12 @@ public void use(Callable<Runnable> r) {
 
 #[test]
 fn nested_anonymous_class_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("nested_anonymous_class_test_smali");
     let source = r#"
 public class TestCls {
@@ -912,6 +1133,12 @@ public void use(Callable<Runnable> r) {
 
 #[test]
 fn outer_constructor_call_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("outer_constructor_call_test");
     let source = r#"
 public class TestCls {
@@ -934,6 +1161,12 @@ return new TestCls(this);
 
 #[test]
 fn replace_consts_in_annotations_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("replace_consts_in_annotations_test");
     let source = r#"
 public class TestCls {
@@ -956,6 +1189,12 @@ public static final float FLOAT_CONST = 3.14f;
 
 #[test]
 fn replace_consts_in_annotations2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("replace_consts_in_annotations2_test");
     let source = r#"
 public class TestCls {
@@ -984,6 +1223,12 @@ public static final int INT_CONST = 34563456;
 
 #[test]
 fn synthetic_mth_rename_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synthetic_mth_rename_test");
     // TODO: Extract test source
     let source = r#"

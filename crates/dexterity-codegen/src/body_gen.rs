@@ -28,6 +28,7 @@
 //! ```
 
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
+use rustc_hash::FxHashMap;
 
 use dexterity_ir::attributes::AFlag;
 use dexterity_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LiteralArg};
@@ -289,7 +290,7 @@ impl BodyGenContext {
     /// Compute final variables from SSA max_versions
     /// A variable is final if max_versions[reg] == 1 (only one definition - version 1)
     /// SSA versioning starts at 1 for the first definition
-    pub fn set_final_vars_from_max_versions(&mut self, max_versions: &HashMap<u16, u32>) {
+    pub fn set_final_vars_from_max_versions(&mut self, max_versions: &FxHashMap<u16, u32>) {
         for (&reg, &max_version) in max_versions {
             if max_version == 1 {
                 // Only version 1 exists for this register (one definition) - it's final
@@ -623,7 +624,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
 
     let type_result = infer_types(&ssa_result);
 
-    // Use sophisticated variable naming from jadx-passes (JADX-compatible)
+    // Use sophisticated variable naming from dexterity-passes (JADX-compatible)
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
     let num_params = method.arg_types.len() as u16;
     let var_names = dexterity_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params);
@@ -747,19 +748,18 @@ fn generate_body_impl<W: CodeWriter>(
         let dex_clone2 = dex.clone();
         let dex_clone3 = dex.clone();
 
-        // Lookups use LazyDexInfo's internal DashMap caching for performance
-        // Arc wrapper avoids cloning inside the cache; we clone here only when lookup succeeds
+        // Direct parsing without caching - avoids DashMap overhead
         dexterity_passes::infer_types_with_context(
             &ssa_result,
-            move |idx| dex_clone.get_type_as_argtype(idx).map(|arc| (*arc).clone()),
+            move |idx| dex_clone.get_type_as_argtype(idx),
             move |idx| dex_clone2.get_field_type(idx),
-            move |idx| dex_clone3.get_method_return_type(idx).map(|arc| (*arc).clone()),
+            move |idx| dex_clone3.get_method_return_type(idx),
         )
     } else {
         infer_types(&ssa_result)
     };
 
-    // Use sophisticated variable naming from jadx-passes (JADX-compatible)
+    // Use sophisticated variable naming from dexterity-passes (JADX-compatible)
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
     let num_params = method.arg_types.len() as u16;
 
@@ -907,19 +907,18 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         let dex_clone2 = dex.clone();
         let dex_clone3 = dex.clone();
 
-        // Lookups use LazyDexInfo's internal DashMap caching for performance
-        // Arc wrapper avoids cloning inside the cache; we clone here only when lookup succeeds
+        // Direct parsing without caching - avoids DashMap overhead
         dexterity_passes::infer_types_with_context(
             &ssa_result,
-            move |idx| dex_clone.get_type_as_argtype(idx).map(|arc| (*arc).clone()),
+            move |idx| dex_clone.get_type_as_argtype(idx),
             move |idx| dex_clone2.get_field_type(idx),
-            move |idx| dex_clone3.get_method_return_type(idx).map(|arc| (*arc).clone()),
+            move |idx| dex_clone3.get_method_return_type(idx),
         )
     } else {
         infer_types(&ssa_result)
     };
 
-    // Use sophisticated variable naming from jadx-passes (JADX-compatible)
+    // Use sophisticated variable naming from dexterity-passes (JADX-compatible)
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
     let num_params = method.arg_types.len() as u16;
 
@@ -996,7 +995,7 @@ fn apply_inferred_types(ctx: &mut BodyGenContext) {
     }
 }
 
-/// Apply variable names from jadx-passes var_naming result (JADX-compatible)
+/// Apply variable names from dexterity-passes var_naming result (JADX-compatible)
 fn apply_var_names_from_pass(var_names: &dexterity_passes::VarNamingResult, ctx: &mut BodyGenContext) {
     for ((reg, version), name) in &var_names.names {
         ctx.expr_gen.set_var_name(*reg, *version, name.clone());

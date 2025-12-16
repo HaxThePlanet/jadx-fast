@@ -1,11 +1,16 @@
 //! Names integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/names/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn case_sensitive_checks_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("case_sensitive_checks_test");
     // TODO: Extract test source
     let source = r#"
@@ -22,6 +27,12 @@ public class TestCls {
 
 #[test]
 fn case_sensitive_checks_test_case_sensitive_f_s() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("case_sensitive_checks_test_case_sensitive_f_s");
     // TODO: Extract test source
     let source = r#"
@@ -38,6 +49,12 @@ public class TestCls {
 
 #[test]
 fn case_sensitive_checks_test_with_deobfuscation() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("case_sensitive_checks_test_with_deobfuscation");
     // TODO: Extract test source
     let source = r#"
@@ -54,6 +71,12 @@ public class TestCls {
 
 #[test]
 fn class_name_with_invalid_char_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("class_name_with_invalid_char_test");
     // TODO: Extract test source
     let source = r#"
@@ -70,6 +93,12 @@ public class TestCls {
 
 #[test]
 fn class_name_with_invalid_char_test_with_deobfuscation() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("class_name_with_invalid_char_test_with_deobfuscation");
     // TODO: Extract test source
     let source = r#"
@@ -86,6 +115,12 @@ public class TestCls {
 
 #[test]
 fn class_names_collision_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("class_names_collision_test");
     // TODO: Extract test source
     let source = r#"
@@ -102,6 +137,12 @@ public class TestCls {
 
 #[test]
 fn class_names_collision2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("class_names_collision2_test");
     let source = r#"
 public class TestCls {
@@ -123,6 +164,12 @@ l.clear();
 
 #[test]
 fn collision_with_java_lang_classes_test1() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("collision_with_java_lang_classes_test1");
     let source = r#"
 public class TestCls {
@@ -141,6 +188,12 @@ java.lang.System.out.println("Hello world");
 
 #[test]
 fn collision_with_java_lang_classes_test2() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("collision_with_java_lang_classes_test2");
     let source = r#"
 public class TestCls {
@@ -161,6 +214,12 @@ public static void doSomething() {
 
 #[test]
 fn collision_with_java_lang_classes_test3() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("collision_with_java_lang_classes_test3");
     // TODO: Extract test source
     let source = r#"
@@ -178,6 +237,12 @@ public class TestCls {
 
 #[test]
 fn constructor_arg_names_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("constructor_arg_names_test");
     let source = r#"
 public class TestCls {
@@ -207,6 +272,12 @@ assertThat(new TestCls().store).isEqualTo(STR);
 
 #[test]
 fn def_pkg_rename_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("def_pkg_rename_test");
     // TODO: Extract test source
     let source = r#"
@@ -226,6 +297,12 @@ public class TestCls {
 
 #[test]
 fn def_pkg_rename_test_no_imports() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("def_pkg_rename_test_no_imports");
     // TODO: Extract test source
     let source = r#"
@@ -245,6 +322,12 @@ public class TestCls {
 
 #[test]
 fn def_pkg_rename_test_deobf() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("def_pkg_rename_test_deobf");
     // TODO: Extract test source
     let source = r#"
@@ -263,6 +346,12 @@ public class TestCls {
 
 #[test]
 fn def_pkg_rename_test_rename_disabled() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("def_pkg_rename_test_rename_disabled");
     // TODO: Extract test source
     let source = r#"
@@ -282,6 +371,12 @@ public class TestCls {
 
 #[test]
 fn duplicate_var_names_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("duplicate_var_names_test");
     let source = r#"
 public class TestCls {
@@ -313,6 +408,12 @@ assertThat(str).isEqualTo("1.2");
 
 #[test]
 fn duplicated_names_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("duplicated_names_test");
     let source = r#"
 public class TestCls {
@@ -333,6 +434,12 @@ public String run() {
 
 #[test]
 fn duplicated_names_test_with_deobf() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("duplicated_names_test_with_deobf");
     let source = r#"
 public class TestCls {
@@ -353,6 +460,12 @@ public String run() {
 
 #[test]
 fn field_collide_with_package_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("field_collide_with_package_test");
     // TODO: Extract test source
     let source = r#"
@@ -371,6 +484,12 @@ public class TestCls {
 
 #[test]
 fn field_collide_with_package_test_without_imports() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("field_collide_with_package_test_without_imports");
     // TODO: Extract test source
     let source = r#"
@@ -387,6 +506,12 @@ public class TestCls {
 
 #[test]
 fn field_collide_with_package_test_with_deobfuscation() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("field_collide_with_package_test_with_deobfuscation");
     // TODO: Extract test source
     let source = r#"
@@ -403,6 +528,12 @@ public class TestCls {
 
 #[test]
 fn local_var_collide_with_package_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("local_var_collide_with_package_test");
     // TODO: Extract test source
     let source = r#"
@@ -421,6 +552,12 @@ public class TestCls {
 
 #[test]
 fn local_var_collide_with_package_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("local_var_collide_with_package_test_no_debug");
     // TODO: Extract test source
     let source = r#"
@@ -437,6 +574,12 @@ public class TestCls {
 
 #[test]
 fn local_var_collide_with_package_test_without_imports() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("local_var_collide_with_package_test_without_imports");
     // TODO: Extract test source
     let source = r#"
@@ -453,6 +596,12 @@ public class TestCls {
 
 #[test]
 fn local_var_collide_with_package_test_with_deobfuscation() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("local_var_collide_with_package_test_with_deobfuscation");
     // TODO: Extract test source
     let source = r#"
@@ -469,6 +618,12 @@ public class TestCls {
 
 #[test]
 fn name_assign2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("name_assign2_test");
     let source = r#"
 public class TestCls {
@@ -506,6 +661,12 @@ private static void addPhi(BlockNode df, int regNum) {
 
 #[test]
 fn reserved_class_names_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("reserved_class_names_test");
     // TODO: Extract test source
     let source = r#"
@@ -523,6 +684,12 @@ public class TestCls {
 
 #[test]
 fn reserved_names_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("reserved_names_test");
     let source = r#"
 public class TestCls {
@@ -543,6 +710,12 @@ return this.do;
 
 #[test]
 fn reserved_package_names_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("reserved_package_names_test");
     // TODO: Extract test source
     let source = r#"
@@ -560,6 +733,12 @@ public class TestCls {
 
 #[test]
 fn reserved_package_names_test_deobf() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("reserved_package_names_test_deobf");
     // TODO: Extract test source
     let source = r#"
@@ -577,6 +756,12 @@ public class TestCls {
 
 #[test]
 fn reserved_package_names_test_rename_disabled() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("reserved_package_names_test_rename_disabled");
     // TODO: Extract test source
     let source = r#"
@@ -594,6 +779,12 @@ public class TestCls {
 
 #[test]
 fn same_methods_names_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("same_methods_names_test");
     // TODO: Extract test source
     let source = r#"

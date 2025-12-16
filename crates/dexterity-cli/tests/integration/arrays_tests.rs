@@ -1,11 +1,16 @@
 //! Arrays integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/arrays/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn array_fill_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("array_fill_test");
     let source = r#"
 public class TestCls {
@@ -23,6 +28,12 @@ return new String[] { "1", "2", "3" };
 
 #[test]
 fn array_fill2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("array_fill2_test");
     let source = r#"
 public class TestCls {
@@ -41,6 +52,12 @@ return new int[] { 1, a + 1, 2 };
 
 #[test]
 fn array_fill4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("array_fill4_test");
     let source = r#"
 public class TestCls {
@@ -62,6 +79,12 @@ return new long[] { 0, 1, Long.MAX_VALUE, Long.MIN_VALUE + 1 };
 
 #[test]
 fn array_fill_const_replace_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("array_fill_const_replace_test");
     let source = r#"
 public class TestCls {
@@ -82,6 +105,12 @@ return new int[] { 127, 129, CONST_INT };
 
 #[test]
 fn array_fill_negative_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("array_fill_negative_test");
     let source = r#"
 public class TestCls {
@@ -108,6 +137,12 @@ assertThat(test()).isEqualTo(new int[] { 1, 2, 3 });
 
 #[test]
 fn array_fill_with_move_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("array_fill_with_move_test");
     // TODO: Extract test source
     let source = r#"
@@ -127,6 +162,12 @@ public class TestCls {
 
 #[test]
 fn array_init_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("array_init_test");
     let source = r#"
 public class TestCls {
@@ -150,6 +191,12 @@ bytes = new byte[] { 10, 20, 30 };
 
 #[test]
 fn array_init_field_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("array_init_field_test");
     let source = r#"
 public class TestCls {
@@ -169,6 +216,12 @@ byte[] b = new byte[] { 40, 50, 60 };
 
 #[test]
 fn array_init_field2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("array_init_field2_test");
     // TODO: Extract test source
     let source = r#"
@@ -186,6 +239,12 @@ public class TestCls {
 
 #[test]
 fn arrays_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arrays_test");
     let source = r#"
 public class TestCls {
@@ -208,6 +267,12 @@ return a.length;
 
 #[test]
 fn arrays2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arrays2_test");
     let source = r#"
 public class TestCls {
@@ -237,6 +302,12 @@ assertThat(test4(4)).isInstanceOf(byte[].class);
 
 #[test]
 fn arrays3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arrays3_test");
     let source = r#"
 public class TestCls {
@@ -260,6 +331,12 @@ assertThat(((Object[]) result)[0]).isEqualTo(inputArr);
 
 #[test]
 fn arrays3_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arrays3_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -283,6 +360,12 @@ assertThat(((Object[]) result)[0]).isEqualTo(inputArr);
 
 #[test]
 fn arrays4_test_array_type_inference() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arrays4_test_array_type_inference");
     let source = r#"
 public class TestCls {
@@ -306,6 +389,12 @@ return new char[bArr.length];
 
 #[test]
 fn fill_array_data_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("fill_array_data_test");
     // TODO: Extract test source
     let source = r#"
@@ -324,6 +413,12 @@ public class TestCls {
 
 #[test]
 fn multi_dim_array_fill_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("multi_dim_array_fill_test");
     let source = r#"
 public class TestCls {

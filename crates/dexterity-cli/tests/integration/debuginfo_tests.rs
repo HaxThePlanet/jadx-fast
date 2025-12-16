@@ -1,11 +1,16 @@
 //! Debuginfo integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/debuginfo/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn line_numbers_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("line_numbers_test");
     let source = r#"
 public class TestCls {
@@ -31,6 +36,12 @@ public void innerFunc3() {
 
 #[test]
 fn return_source_line_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("return_source_line_test");
     let source = r#"
 public class TestCls {
@@ -58,6 +69,12 @@ private void f() {
 
 #[test]
 fn variables_names_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("variables_names_test");
     let source = r#"
 public class TestCls {

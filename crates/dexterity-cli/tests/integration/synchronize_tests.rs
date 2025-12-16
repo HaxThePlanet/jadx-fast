@@ -1,11 +1,16 @@
 //! Synchronize integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/synchronize/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn nested_synchronize_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("nested_synchronize_test");
     // TODO: Extract test source
     let source = r#"
@@ -23,6 +28,12 @@ public class TestCls {
 
 #[test]
 fn synchronized_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synchronized_test");
     let source = r#"
 public class TestCls {
@@ -46,6 +57,12 @@ return this.i;
 
 #[test]
 fn synchronized2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synchronized2_test");
     let source = r#"
 public class TestCls {
@@ -66,6 +83,12 @@ return obj.toString() != null;
 
 #[test]
 fn synchronized3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synchronized3_test");
     let source = r#"
 public class TestCls {
@@ -93,6 +116,12 @@ f();
 
 #[test]
 fn synchronized4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synchronized4_test");
     // TODO: Extract test source
     let source = r#"
@@ -112,6 +141,12 @@ public class TestCls {
 
 #[test]
 fn synchronized5_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synchronized5_test");
     // TODO: Extract test source
     let source = r#"
@@ -130,6 +165,12 @@ public class TestCls {
 
 #[test]
 fn synchronized6_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synchronized6_test");
     let source = r#"
 public class TestCls {
@@ -152,6 +193,12 @@ private boolean isB(Object obj) {
 
 #[test]
 fn synchronized6_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("synchronized6_test_smali");
     let source = r#"
 public class TestCls {

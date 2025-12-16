@@ -1,11 +1,16 @@
 //! Enums integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/enums/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn enum_obfuscated_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enum_obfuscated_test");
     // TODO: Extract test source
     let source = r#"
@@ -26,6 +31,12 @@ public class TestCls {
 
 #[test]
 fn enum_uses_other_enum_test_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enum_uses_other_enum_test_smali");
     let source = r#"
 public class TestCls {
@@ -49,6 +60,12 @@ this(refType.type);
 
 #[test]
 fn enum_with_const_inlining_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enum_with_const_inlining_test");
     // TODO: Extract test source
     let source = r#"
@@ -66,6 +83,12 @@ public class TestCls {
 
 #[test]
 fn enum_with_fields_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enum_with_fields_test");
     let source = r#"
 public class TestCls {
@@ -93,6 +116,12 @@ assertThat(SearchTimeout.MAX.sec).isEqualTo(5);
 
 #[test]
 fn enum_with_fields_test2() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enum_with_fields_test2");
     // TODO: Extract test source
     let source = r#"
@@ -109,6 +138,12 @@ public class TestCls {
 
 #[test]
 fn enums_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums_test");
     let source = r#"
 public class TestCls {
@@ -138,6 +173,12 @@ return "";
 
 #[test]
 fn enums10_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums10_test");
     // TODO: Extract test source
     let source = r#"
@@ -157,6 +198,12 @@ public class TestCls {
 
 #[test]
 fn enums2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums2_test");
     let source = r#"
 public class TestCls {
@@ -182,6 +229,12 @@ public abstract int apply(int x, int y);
 
 #[test]
 fn enums2a_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums2a_test");
     let source = r#"
 public class TestCls {
@@ -218,6 +271,12 @@ assertThat(DIVIDE.apply(10, 5)).isEqualTo(2);
 
 #[test]
 fn enums3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums3_test");
     let source = r#"
 public class TestCls {
@@ -247,6 +306,12 @@ assertThat(Numbers.FOUR.getNum()).isEqualTo(4);
 
 #[test]
 fn enums4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums4_test");
     let source = r#"
 public class TestCls {
@@ -279,6 +344,12 @@ assertThat(ResType.CODE.getExts()).containsExactly(new String[] { ".dex", ".clas
 
 #[test]
 fn enums5_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums5_test");
     // TODO: Extract test source
     let source = r#"
@@ -295,6 +366,12 @@ public class TestCls {
 
 #[test]
 fn enums6_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums6_test");
     let source = r#"
 public class TestCls {
@@ -326,6 +403,12 @@ assertThat(TestCls.Numbers.ONE.getN()).isEqualTo(1);
 
 #[test]
 fn enums7_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums7_test");
     let source = r#"
 public class TestCls {
@@ -355,6 +438,12 @@ assertThat(Numbers.ONE.getN()).isEqualTo(1);
 
 #[test]
 fn enums8_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums8_test");
     // TODO: Extract test source
     let source = r#"
@@ -372,6 +461,12 @@ public class TestCls {
 
 #[test]
 fn enums9_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums9_test");
     let source = r#"
 public class TestCls {
@@ -405,6 +500,12 @@ assertThat(Types.references).hasSize(2);
 
 #[test]
 fn enums_interface_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums_interface_test");
     let source = r#"
 public class TestCls {
@@ -430,6 +531,12 @@ int apply(int x, int y);
 
 #[test]
 fn enums_with_assert_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums_with_assert_test");
     let source = r#"
 public class TestCls {
@@ -455,6 +562,12 @@ return num;
 
 #[test]
 fn enums_with_assert_test_n_y_i() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums_with_assert_test_n_y_i");
     let source = r#"
 public class TestCls {
@@ -481,6 +594,12 @@ return num;
 
 #[test]
 fn enums_with_consts_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums_with_consts_test");
     let source = r#"
 public class TestCls {
@@ -505,6 +624,12 @@ WEST
 
 #[test]
 fn enums_with_custom_init_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums_with_custom_init_test");
     // TODO: Extract test source
     let source = r#"
@@ -522,6 +647,12 @@ public class TestCls {
 
 #[test]
 fn enums_with_static_fields_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("enums_with_static_fields_test");
     // TODO: Extract test source
     let source = r#"
@@ -541,6 +672,12 @@ public class TestCls {
 
 #[test]
 fn inner_enums_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("inner_enums_test");
     let source = r#"
 public class TestCls {
@@ -580,6 +717,12 @@ assertThat(Numbers.ONE.getName()).isEqualTo("one");
 
 #[test]
 fn switch_over_enum_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_over_enum_test");
     // TODO: Extract test source
     let source = r#"
@@ -596,6 +739,12 @@ public class TestCls {
 
 #[test]
 fn switch_over_enum_test_smali_direct() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_over_enum_test_smali_direct");
     // TODO: Extract test source
     let source = r#"
@@ -614,6 +763,12 @@ public class TestCls {
 
 #[test]
 fn switch_over_enum2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_over_enum2_test");
     // TODO: Extract test source
     let source = r#"

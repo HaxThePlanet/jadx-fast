@@ -6,7 +6,7 @@
 //! Features:
 //! - Deterministic alias generation in a single-thread prepass (sorted like Java)
 //! - Store aliases in `AliasRegistry` with method signature keys (avoid overload collisions)
-//! - Apply aliases onto `jadx-ir` nodes before code generation
+//! - Apply aliases onto `dexterity-ir` nodes before code generation
 //! - Package renaming with hierarchical composition
 //! - Class/package name collision detection
 //! - JOBF file persistence for alias caching

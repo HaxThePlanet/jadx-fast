@@ -1,11 +1,16 @@
 //! Arith integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/arith/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn arith_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arith_test");
     let source = r#"
 public class TestCls {
@@ -29,6 +34,12 @@ private static void use(int i) {
 
 #[test]
 fn arith_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arith_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -52,6 +63,12 @@ private static void use(int i) {
 
 #[test]
 fn arith2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arith2_test");
     let source = r#"
 public class TestCls {
@@ -91,6 +108,12 @@ return a / (b / c);
 
 #[test]
 fn arith3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arith3_test");
     let source = r#"
 public class TestCls {
@@ -118,6 +141,12 @@ n += len + 5;
 
 #[test]
 fn arith3_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arith3_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -146,6 +175,12 @@ n += len + 5;
 
 #[test]
 fn arith4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arith4_test");
     let source = r#"
 public class TestCls {
@@ -169,6 +204,12 @@ return (1 - k) & (1 + k);
 
 #[test]
 fn arith4_test_no_debug() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arith4_test_no_debug");
     let source = r#"
 public class TestCls {
@@ -191,6 +232,12 @@ return (1 - k) & (1 + k);
 
 #[test]
 fn arith_const_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arith_const_test");
     // TODO: Extract test source
     let source = r#"
@@ -208,6 +255,12 @@ public class TestCls {
 
 #[test]
 fn arith_not_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("arith_not_test");
     let source = r#"
 public class TestCls {
@@ -230,6 +283,12 @@ return ~b;
 
 #[test]
 fn field_increment_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("field_increment_test");
     let source = r#"
 public class TestCls {
@@ -257,6 +316,12 @@ result += s + '_';
 
 #[test]
 fn field_increment2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("field_increment2_test");
     let source = r#"
 public class TestCls {
@@ -280,6 +345,12 @@ this.a.f *= n;
 
 #[test]
 fn field_increment3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("field_increment3_test");
     let source = r#"
 public class TestCls {
@@ -328,6 +399,12 @@ return (this.x == other.x && this.y == other.y);
 
 #[test]
 fn numbers_format_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("numbers_format_test");
     let source = r#"
 public class TestCls {
@@ -353,6 +430,12 @@ obj = new long[] { 0, -1, -0xA, 0xffff_ffff_ffff_ffffL, Long.MIN_VALUE, Long.MAX
 
 #[test]
 fn numbers_format_test_decimal_format() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("numbers_format_test_decimal_format");
     let source = r#"
 public class TestCls {
@@ -378,6 +461,12 @@ obj = new long[] { 0, -1, -0xA, 0xffff_ffff_ffff_ffffL, Long.MIN_VALUE, Long.MAX
 
 #[test]
 fn numbers_format_test_hex_format() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("numbers_format_test_hex_format");
     let source = r#"
 public class TestCls {
@@ -402,6 +491,12 @@ obj = new long[] { 0, -1, -0xA, 0xffff_ffff_ffff_ffffL, Long.MIN_VALUE, Long.MAX
 
 #[test]
 fn special_values_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("special_values_test");
     let source = r#"
 public class TestCls {
@@ -433,6 +528,12 @@ private void doubles(double... v) {
 
 #[test]
 fn special_values2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("special_values2_test");
     let source = r#"
 public class TestCls {
@@ -451,6 +552,12 @@ return Integer.compare(x + Integer.MIN_VALUE, y + Integer.MIN_VALUE);
 
 #[test]
 fn xor_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("xor_test");
     let source = r#"
 public class TestCls {
@@ -478,6 +585,12 @@ assertThat(test2(false)).isTrue();
 
 #[test]
 fn xor_smali() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("xor_smali");
     let source = r#"
 public class TestCls {

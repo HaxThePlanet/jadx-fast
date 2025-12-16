@@ -1,11 +1,16 @@
 //! Switches integration tests
-//! Ported from jadx-core/src/test/java/jadx/tests/integration/switches/
+//! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-mod integration_test_framework;
-use integration_test_framework::{IntegrationTestHelper, CodeAssertions};
+use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
 
 #[test]
 fn switch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_test");
     let source = r#"
 public class TestCls {
@@ -40,6 +45,12 @@ return sb.toString();
 
 #[test]
 fn switch2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch2_test");
     let source = r#"
 public class TestCls {
@@ -87,6 +98,12 @@ this.isScrolling = false;
 
 #[test]
 fn switch3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch3_test");
     let source = r#"
 public class TestCls {
@@ -126,6 +143,12 @@ test(10);
 
 #[test]
 fn switch4_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch4_test");
     let source = r#"
 public class TestCls {
@@ -158,6 +181,12 @@ assertThat(parse("a=1234".toCharArray(), 2, 4)).isEqualTo(1234);
 
 #[test]
 fn switch_break_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_break_test");
     let source = r#"
 public class TestCls {
@@ -195,6 +224,12 @@ assertThat(test(9)).isEqualTo("1--4--1--4--1-");
 
 #[test]
 fn switch_continue_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_continue_test");
     let source = r#"
 public class TestCls {
@@ -231,6 +266,12 @@ return s;
 
 #[test]
 fn switch_fall_through_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_fall_through_test");
     let source = r#"
 public class TestCls {
@@ -273,6 +314,12 @@ assertThat(testWrap(0)).isEqualTo(-2);
 
 #[test]
 fn switch_in_loop_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_in_loop_test");
     let source = r#"
 public class TestCls {
@@ -305,6 +352,12 @@ assertThat(test(1)).isEqualTo(1);
 
 #[test]
 fn switch_in_loop2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_in_loop2_test");
     let source = r#"
 public class TestCls {
@@ -329,6 +382,12 @@ return 0;
 
 #[test]
 fn switch_in_loop3_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_in_loop3_test");
     let source = r#"
 public class TestCls {
@@ -356,6 +415,12 @@ assertThat(test(1)).isEqualTo(1);
 
 #[test]
 fn switch_in_loop5_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_in_loop5_test");
     let source = r#"
 public class TestCls {
@@ -386,6 +451,12 @@ r = i;
 
 #[test]
 fn switch_labels_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_labels_test");
     let source = r#"
 public class TestCls {
@@ -416,6 +487,12 @@ return CONST_CDE;
 
 #[test]
 fn switch_labels_test_with_disabled_const_replace() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_labels_test_with_disabled_const_replace");
     let source = r#"
 public class TestCls {
@@ -448,6 +525,12 @@ return CONST_CDE;
 
 #[test]
 fn switch_no_default_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_no_default_test");
     let source = r#"
 public class TestCls {
@@ -478,6 +561,12 @@ System.out.println(s);
 
 #[test]
 fn switch_over_strings_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_over_strings_test");
     let source = r#"
 public class TestCls {
@@ -517,6 +606,12 @@ assertThat(test("ucguedt")).isEqualTo(0);
 
 #[test]
 fn switch_over_strings2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_over_strings2_test");
     let source = r#"
 public class TestCls {
@@ -551,6 +646,12 @@ assertThat(test("other2")).isEqualTo(0);
 
 #[test]
 fn switch_return_from_case_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_return_from_case_test");
     let source = r#"
 public class TestCls {
@@ -587,6 +688,12 @@ System.out.println(s);
 
 #[test]
 fn switch_return_from_case2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_return_from_case2_test");
     let source = r#"
 public class TestCls {
@@ -615,6 +722,12 @@ assertThat(test(1)).isFalse();
 
 #[test]
 fn switch_simple_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_simple_test");
     let source = r#"
 public class TestCls {
@@ -645,6 +758,12 @@ System.out.println(s);
 
 #[test]
 fn switch_with_fall_through_case_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_with_fall_through_case_test");
     let source = r#"
 public class TestCls {
@@ -685,6 +804,12 @@ assertThat(test(0, true, true)).isEqualTo("default;");
 
 #[test]
 fn switch_with_fall_through_case2_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_with_fall_through_case2_test");
     let source = r#"
 public class TestCls {
@@ -728,6 +853,12 @@ assertThat(test(-1, true, true)).isEqualTo("-");
 
 #[test]
 fn switch_with_throw_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_with_throw_test");
     let source = r#"
 public class TestCls {
@@ -761,6 +892,12 @@ assertThat(catchThrowable(() -> test(3)))
 
 #[test]
 fn switch_with_try_catch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
     let helper = IntegrationTestHelper::new("switch_with_try_catch_test");
     let source = r#"
 public class TestCls {

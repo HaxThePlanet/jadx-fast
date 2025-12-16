@@ -1,4 +1,4 @@
-//! DEX file format parser for jadx-rust
+//! DEX file format parser for dexterity
 //!
 //! This crate provides parsing capabilities for Android DEX (Dalvik Executable) files.
 //! It supports zero-copy parsing where possible and handles all DEX format versions.

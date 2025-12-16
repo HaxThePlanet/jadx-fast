@@ -147,12 +147,10 @@ pub trait DexInfoProvider: Send + Sync {
     fn get_field_type(&self, idx: u32) -> Option<ArgType>;
 
     /// Get type by index as ArgType (for type inference)
-    /// Returns Arc to avoid cloning on cache hits
-    fn get_type_as_argtype(&self, idx: u32) -> Option<Arc<ArgType>>;
+    fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType>;
 
     /// Get method return type by index (for type inference)
-    /// Returns Arc to avoid cloning on cache hits
-    fn get_method_return_type(&self, idx: u32) -> Option<Arc<(Vec<ArgType>, ArgType)>>;
+    fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)>;
 
     /// Populate an ExprGen with DEX info
     fn populate_expr_gen(&self, expr_gen: &mut ExprGen);
@@ -296,12 +294,12 @@ impl DexInfoProvider for DexInfo {
         self.fields.get(&idx).map(|f| f.field_type.clone())
     }
 
-    fn get_type_as_argtype(&self, idx: u32) -> Option<Arc<ArgType>> {
-        self.types.get(&idx).and_then(|desc| descriptor_to_argtype(desc)).map(Arc::new)
+    fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
+        self.types.get(&idx).and_then(|desc| descriptor_to_argtype(desc))
     }
 
-    fn get_method_return_type(&self, idx: u32) -> Option<Arc<(Vec<ArgType>, ArgType)>> {
-        self.methods.get(&idx).map(|m| Arc::new((m.param_types.clone(), m.return_type.clone())))
+    fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
+        self.methods.get(&idx).map(|m| (m.param_types.clone(), m.return_type.clone()))
     }
 
     fn populate_expr_gen(&self, expr_gen: &mut ExprGen) {
@@ -339,15 +337,8 @@ pub struct LazyDexInfo {
     dex: Arc<DexReader>,
     /// Optional global field pool for multi-DEX deduplication
     global_field_pool: Option<Arc<GlobalFieldPool>>,
-    /// Cache for method lookups (hot path for type inference)
-    /// Uses Arc to avoid cloning MethodInfo on every cache hit
+    /// Cache for method lookups - uses Arc since callers often only need some fields
     method_cache: DashMap<u32, Option<Arc<MethodInfo>>>,
-    /// Cache for type-as-argtype lookups (hot path for type inference)
-    /// Uses Arc to avoid cloning ArgType on every cache hit
-    type_argtype_cache: DashMap<u32, Option<Arc<ArgType>>>,
-    /// Cache for method return type lookups (hot path for type inference)
-    /// Uses Arc to avoid cloning on every cache hit
-    method_return_cache: DashMap<u32, Option<Arc<(Vec<ArgType>, ArgType)>>>,
 }
 
 impl LazyDexInfo {
@@ -360,8 +351,6 @@ impl LazyDexInfo {
             dex,
             global_field_pool: None,
             method_cache: DashMap::with_capacity(256),
-            type_argtype_cache: DashMap::with_capacity(256),
-            method_return_cache: DashMap::with_capacity(256),
         }
     }
 
@@ -374,8 +363,6 @@ impl LazyDexInfo {
             dex,
             global_field_pool: Some(pool),
             method_cache: DashMap::with_capacity(256),
-            type_argtype_cache: DashMap::with_capacity(256),
-            method_return_cache: DashMap::with_capacity(256),
         }
     }
 
@@ -472,36 +459,27 @@ impl LazyDexInfo {
         self.get_field(idx).map(|f| f.field_type)
     }
 
-    /// Get type by index as ArgType (for type inference, cached)
-    /// Returns Arc to avoid cloning on cache hits (runs millions of times)
-    pub fn get_type_as_argtype(&self, idx: u32) -> Option<Arc<ArgType>> {
-        // Check cache first - Arc clone is just atomic refcount bump (~1ns)
-        if let Some(cached) = self.type_argtype_cache.get(&idx) {
-            return cached.clone();
-        }
-
-        // Parse on-demand
-        let result = self.dex.get_type(idx).ok().as_ref().and_then(|desc| descriptor_to_argtype(desc)).map(Arc::new);
-
-        // Cache the result
-        self.type_argtype_cache.insert(idx, result.clone());
-        result
+    /// Get type by index as ArgType (for type inference)
+    /// Parses directly from DEX - DexReader has internal string caching
+    pub fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
+        self.dex.get_type(idx).ok().as_ref().and_then(|desc| descriptor_to_argtype(desc))
     }
 
-    /// Get method return type by index (for type inference, cached)
-    /// Returns Arc to avoid cloning on cache hits (runs millions of times)
-    pub fn get_method_return_type(&self, idx: u32) -> Option<Arc<(Vec<ArgType>, ArgType)>> {
-        // Check cache first - Arc clone is just atomic refcount bump (~1ns)
-        if let Some(cached) = self.method_return_cache.get(&idx) {
-            return cached.clone();
-        }
+    /// Get method return type by index (for type inference)
+    /// Parses directly from DEX - avoids cache overhead for unique lookups
+    pub fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
+        let method = self.dex.get_method(idx).ok()?;
+        let proto = method.proto().ok()?;
 
-        // Get from method and cache
-        let result = self.get_method(idx).map(|m| Arc::new((m.param_types.clone(), m.return_type.clone())));
+        let return_type = proto.return_type()
+            .as_ref()
+            .map(|d| parse_type_descriptor(d))
+            .unwrap_or(ArgType::Void);
+        let param_types: Vec<ArgType> = proto.parameters()
+            .map(|params| params.into_iter().map(|d| parse_type_descriptor(&d)).collect())
+            .unwrap_or_default();
 
-        // Cache the result
-        self.method_return_cache.insert(idx, result.clone());
-        result
+        Some((param_types, return_type))
     }
 
     /// Populate an ExprGen with lookups from this DEX info
@@ -540,11 +518,11 @@ impl DexInfoProvider for LazyDexInfo {
         LazyDexInfo::get_field_type(self, idx)
     }
 
-    fn get_type_as_argtype(&self, idx: u32) -> Option<Arc<ArgType>> {
+    fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
         LazyDexInfo::get_type_as_argtype(self, idx)
     }
 
-    fn get_method_return_type(&self, idx: u32) -> Option<Arc<(Vec<ArgType>, ArgType)>> {
+    fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
         LazyDexInfo::get_method_return_type(self, idx)
     }
 
@@ -802,11 +780,11 @@ impl DexInfoProvider for AliasAwareDexInfo {
         self.inner.get_field_type(idx)
     }
 
-    fn get_type_as_argtype(&self, idx: u32) -> Option<Arc<ArgType>> {
+    fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
         self.inner.get_type_as_argtype(idx)
     }
 
-    fn get_method_return_type(&self, idx: u32) -> Option<Arc<(Vec<ArgType>, ArgType)>> {
+    fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
         self.inner.get_method_return_type(idx)
     }
 
