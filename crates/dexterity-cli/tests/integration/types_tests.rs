@@ -1046,20 +1046,8 @@ fn type_resolver10_test() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("type_resolver10_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("Object test(String str, String str2)")
-        .does_not_contain("Object obj2 = 0;");
+    // SKIPPED: Test extends SmaliTest in JADX
+    eprintln!("SKIPPED: Test requires Smali input (TestTypeResolver10 extends SmaliTest)");
 }
 
 #[test]
@@ -1278,19 +1266,8 @@ fn type_resolver14_test() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("type_resolver14_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .does_not_contain("? r2");
+    // SKIPPED: Test extends SmaliTest in JADX
+    eprintln!("SKIPPED: Test requires Smali input (TestTypeResolver14 extends SmaliTest)");
 }
 
 #[test]
@@ -1447,20 +1424,8 @@ fn type_resolver17_test() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("type_resolver17_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("Cursor cursorQuery = null;")
-        .does_not_contain("(AutoCloseable autoCloseable = ");
+    // SKIPPED: Test extends SmaliTest in JADX
+    eprintln!("SKIPPED: Test requires Smali input (TestTypeResolver17 extends SmaliTest)");
 }
 
 #[test]
@@ -1472,10 +1437,25 @@ fn type_resolver18_test() {
     }
 
     let helper = IntegrationTestHelper::new("type_resolver18_test");
-    // TODO: Extract test source
     let source = r#"
-public class TestCls {
-    // Add test code here
+import java.io.Closeable;
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
+
+public class TestCls<T> {
+    private final AtomicReference<T> reference = new AtomicReference<>();
+
+    public void test() {
+        T t = this.reference.get();
+        if (t instanceof Closeable) {
+            try {
+                ((Closeable) t).close();
+            } catch (IOException unused) {
+                // ignore
+            }
+        }
+        this.reference.set(null);
+    }
 }
 "#;
 
@@ -1632,19 +1612,8 @@ fn type_resolver21_test() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("type_resolver21_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("Object[] arr = (Object[]) objectArray;");
+    // SKIPPED: Test extends SmaliTest in JADX
+    eprintln!("SKIPPED: Test requires Smali input (TestTypeResolver21 extends SmaliTest)");
 }
 
 #[test]
@@ -1693,20 +1662,8 @@ fn type_resolver25_test_smali() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("type_resolver25_test_smali");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("t = obj;")
-        .contains_one("t = (T) obj;");
+    // SKIPPED: Test extends SmaliTest in JADX
+    eprintln!("SKIPPED: Test requires Smali input (TestTypeResolver25 extends SmaliTest)");
 }
 
 #[test]
@@ -1733,7 +1690,8 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("return s1.length() == s2.length() ? 0 : s1.length() < s2.length() ? -1 : 1;");
 }
 
 #[test]
@@ -1760,7 +1718,8 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("int cmp = s2.compareTo(s1);");
 }
 
 #[test]
@@ -1855,7 +1814,8 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("(strArray[end] != 0 || strArray[end + 1] != 0)");
 }
 
 #[test]
@@ -1866,20 +1826,8 @@ fn type_resolver5_test() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new("type_resolver5_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .does_not_contain("Object string2")
-        .does_not_contain("r1v2");
+    // SKIPPED: Test extends SmaliTest in JADX
+    eprintln!("SKIPPED: Test requires Smali input (TestTypeResolver5 extends SmaliTest)");
 }
 
 #[test]
@@ -1938,7 +1886,8 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("this.obj = ");
 }
 
 #[test]
@@ -2103,7 +2052,8 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("use(");
 }
 
 #[test]
@@ -2159,7 +2109,9 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("return 16777216 * ")
+        .does_not_contain("Byte.MIN_VALUE");
 }
 
 #[test]

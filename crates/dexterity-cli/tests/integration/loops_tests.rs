@@ -1101,7 +1101,10 @@ a++;
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("while (a < 12) {")
+        .contains_one("if (b + a < 9 && b < 8) {")
+        .contains_one("if (b >= 2 && a > -1 && b < 6) {");
 }
 
 #[test]
@@ -1129,7 +1132,13 @@ System.out.println(n);
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("int n = -1;")
+        .contains_one("while (n < 0) {")
+        .contains_one("n += 12;")
+        .contains_one("while (n > 11) {")
+        .contains_one("n -= 12;")
+        .contains_one("System.out.println(n);");
 }
 
 #[test]
@@ -1257,7 +1266,12 @@ assertThat(a).containsExactly(new int[] { 2, 2, 2, 0, 0 });
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("while (i < a.length && i < b) {")
+        .contains("while (i < a.length) {")
+        .contains("int i = 0;")
+        .does_not_contain("i_2")
+        .contains("i++;");
 }
 
 #[test]
@@ -1355,7 +1369,11 @@ return str;
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("while (this.iterator.hasNext()) {")
+        .contains_one("if (filtered != null) {")
+        .contains_one("return filtered;")
+        .contains_one("return null;");
 }
 
 #[test]
@@ -1490,7 +1508,9 @@ return j > 10;
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("for (int i = 0; i < list.size(); i++) {")
+        .contains_one("while (j < s.length()) {");
 }
 
 #[test]
@@ -1539,7 +1559,8 @@ assertThat(c).isEqualTo(302);
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} catch (Exception e) {");
 }
 
 #[test]
@@ -1615,7 +1636,9 @@ assertThat(test(new File[] { new File("a"), file })).isEqualTo(file);
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .does_not_contain("for (")
+        .contains_one("while (true) {");
 }
 
 #[test]
@@ -1807,7 +1830,12 @@ throw new RuntimeException(e);
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("synchronized (this) {")
+        .contains_one("try {")
+        .contains_one("f++;")
+        .contains_one("Thread.sleep(100L);")
+        .contains_one("} catch (Exception e) {");
 }
 
 #[test]
@@ -1846,7 +1874,9 @@ assertThat(c).isEqualTo(3);
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} catch (Exception e) {")
+        .contains_one("break;");
 }
 
 #[test]
@@ -1858,15 +1888,29 @@ fn try_catch_in_loop2_test() {
     }
 
     let helper = IntegrationTestHelper::new("try_catch_in_loop2_test");
-    // TODO: Extract test source
     let source = r#"
-public class TestCls {
-    // Add test code here
+public class TestCls<T extends String> {
+private static class MyItem {
+int idx;
+String name;
+}
+private final Map<Integer, MyItem> mCache = new HashMap<>();
+void test(MyItem[] items) {
+synchronized (this.mCache) {
+for (int i = 0; i < items.length; ++i) {
+MyItem existingItem = mCache.get(items[i].idx);
+if (null == existingItem) {
+mCache.put(items[i].idx, items[i]);
+} else {
+existingItem.name = items[i].name;
+}
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("synchronized (this.mCache) {")
+        .contains_one("for (int i = 0; i < items.length; i++) {");
 }
