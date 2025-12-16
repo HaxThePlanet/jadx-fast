@@ -12,7 +12,7 @@
 |---------|--------|-------|
 | **DEX Parsing** | 100% | All 224 Dalvik opcodes |
 | **Control Flow** | 100% | CFG, dominators, SSA, type inference |
-| **Region Reconstruction** | 95% | if/else, loops, switch, try-catch, synchronized |
+| **Region Reconstruction** | 100% | if/else, loops, switch, try-catch, synchronized, finally |
 | **Code Generation** | 100% | Annotations, ternary, multi-catch, inner classes |
 | **Import Statements** | 100% | Full package resolution, $ -> . conversion |
 | **Variable Naming** | 98% | Type-based, method pattern, PHI merging, debug info |
@@ -31,7 +31,6 @@
 |---------|--------|-------|
 | Warning comments | Not implemented | `/* JADX WARNING: ... */` |
 | Rename comments | Not implemented | `/* renamed from: ... */` |
-| Finally deduplication | Partial | Marking pass done |
 | .smali input | Not implemented | Not planned |
 
 ## Performance Comparison

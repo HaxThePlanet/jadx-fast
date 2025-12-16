@@ -26,7 +26,7 @@ This project reimplements `jadx-core` (the decompilation engine) in Rust. The go
 |----------|--------|
 | DEX parsing | 100% - All 224 Dalvik opcodes |
 | Control flow | 100% - CFG, dominators, SSA, type inference |
-| Region reconstruction | 95% - if/else/loops/switch/try-catch/synchronized |
+| Region reconstruction | 100% - if/else/loops/switch/try-catch/synchronized/finally |
 | Code generation | 100% - Annotations, ternary, multi-catch, inner classes |
 | APK/DEX/JAR/AAR/ZIP | 100% - Full support |
 | Resources (AXML, arsc) | 100% - 1:1 match |

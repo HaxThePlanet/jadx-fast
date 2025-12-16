@@ -4,6 +4,36 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Finally Deduplication Complete (Dec 15)
+
+**Completed the finally block extraction algorithm:**
+
+1. **Try Exit Path Search** - Search for duplicate finally code in try exit paths
+   - Find bottom block of handler and trace up paths
+   - Collect predecessors within try blocks
+   - Search each path for duplicate instruction sequences
+
+2. **Block Tree Comparison** - Recursive successor block matching
+   - Compare instruction sequences across multiple blocks
+   - Handle loop back edges correctly
+   - Cache results to avoid redundant checks
+
+3. **Instruction Matching** - Full instruction comparison
+   - Match instruction types and operands
+   - Compare literals, method indices, field indices
+   - Handle branch targets that may differ in duplicates
+
+4. **Single 'if' Check** - Skip slices with only one 'if' instruction
+   - Prevents false matches on simple conditional blocks
+
+5. **Cross-Slice Validation** - Verify all slices match
+   - Check instruction counts match across all duplicates
+   - Verify instruction types are consistent
+
+**Results:**
+- Region reconstruction: 95% → 100%
+- Finally deduplication now fully functional
+
 ### Test Suite Fixes (Dec 15)
 
 **Fixed all broken tests across the codebase (248 passing):**

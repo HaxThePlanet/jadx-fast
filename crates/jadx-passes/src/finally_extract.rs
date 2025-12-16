@@ -223,11 +223,45 @@ pub fn extract_finally(
         }
     }
 
-    // TODO: Search for duplicates in try exit paths (Java line 166-205)
-    // This requires CFG path collection helpers which will be added in Phase 3
+    // Search for duplicates in try exit paths (Java line 166-205)
+    // Find bottom block of handler and search up paths
+    if let Some(bottom_finally_block) = find_bottom_block(cfg, &extract_info.all_handler_blocks) {
+        // Get the block after finally (where control flow continues)
+        if let Some(after_finally) = cfg.get_block(bottom_finally_block)
+            .and_then(|b| b.successors.first().copied())
+        {
+            // Get try blocks
+            let try_blocks: BTreeSet<u32> = try_info.try_blocks.iter().copied().collect();
+
+            // Get path starts (predecessors of the block after finally, excluding finally itself)
+            let path_starts: Vec<u32> = cfg.get_block(after_finally)
+                .map(|b| b.predecessors.iter()
+                    .filter(|&&p| p != bottom_finally_block)
+                    .copied()
+                    .collect())
+                .unwrap_or_default();
+
+            for pred in path_starts {
+                // Collect blocks going up from pred that are in try blocks
+                let up_path = collect_predecessors(cfg, pred, &try_blocks);
+
+                if up_path.len() < handler_blocks.len() {
+                    continue;
+                }
+
+                for &block in &up_path {
+                    if search_duplicate_insns(block, &mut extract_info, cfg) {
+                        break;
+                    } else {
+                        extract_info.get_finally_insns_slice_mut().reset_incomplete();
+                    }
+                }
+            }
+        }
+    }
 
     // Verify all slices match (Java line 267-292)
-    if !check_slices(&extract_info) {
+    if !check_slices(&extract_info, cfg) {
         return None;
     }
 
@@ -304,6 +338,54 @@ fn all_blocks_empty(cfg: &CFG, blocks: &[u32]) -> bool {
     })
 }
 
+/// Find the bottom block in a set of blocks (block with no successors in the set)
+///
+/// Based on Java JADX BlockUtils.getBottomBlock()
+fn find_bottom_block(cfg: &CFG, blocks: &BTreeSet<u32>) -> Option<u32> {
+    // Find blocks whose successors are not in the block set
+    for &block_id in blocks {
+        if let Some(block) = cfg.get_block(block_id) {
+            let has_successor_in_set = block.successors.iter()
+                .any(|succ| blocks.contains(succ));
+            if !has_successor_in_set {
+                return Some(block_id);
+            }
+        }
+    }
+    // Fallback: return the highest numbered block
+    blocks.iter().max().copied()
+}
+
+/// Collect predecessor blocks that are in the given set
+///
+/// Based on Java JADX BlockUtils.collectPredecessors()
+fn collect_predecessors(cfg: &CFG, start: u32, allowed_blocks: &BTreeSet<u32>) -> Vec<u32> {
+    let mut result = Vec::new();
+    let mut visited = BTreeSet::new();
+    let mut stack = vec![start];
+
+    while let Some(block_id) = stack.pop() {
+        if !visited.insert(block_id) {
+            continue;
+        }
+        if !allowed_blocks.contains(&block_id) {
+            continue;
+        }
+
+        result.push(block_id);
+
+        if let Some(block) = cfg.get_block(block_id) {
+            for &pred in &block.predecessors {
+                if !visited.contains(&pred) {
+                    stack.push(pred);
+                }
+            }
+        }
+    }
+
+    result
+}
+
 /// Search for duplicate instruction sequence starting from a block
 ///
 /// Based on Java JADX searchDuplicateInsns() (line 347-359)
@@ -334,27 +416,178 @@ fn search_from_first_block(
     cfg: &CFG,
 ) -> Option<InsnsSlice> {
     // Try to match as start block
-    let dup_slice = is_start_block(dup_block_id, start_block_id, extract_info, cfg)?;
+    let mut dup_slice = is_start_block(dup_block_id, start_block_id, extract_info, cfg)?;
 
     if !dup_slice.is_complete() {
         // Need to check block tree for complete match
-        // TODO: implement checkBlocksTree (Java line 367-373)
-        // For now, just accept incomplete slices
+        let mut check_cache = std::collections::HashMap::new();
+        if check_blocks_tree(dup_block_id, start_block_id, &mut dup_slice, extract_info, cfg, &mut check_cache) {
+            dup_slice.set_complete(true);
+            extract_info.get_finally_insns_slice_mut().set_complete(true);
+        } else {
+            return None;
+        }
     }
 
-    check_temp_slice(dup_slice)
+    check_temp_slice(dup_slice, cfg)
+}
+
+/// Recursively check successor blocks for matching structure
+///
+/// Based on Java JADX checkBlocksTree() (line 489-525)
+fn check_blocks_tree(
+    dup_block_id: u32,
+    finally_block_id: u32,
+    dup_slice: &mut InsnsSlice,
+    extract_info: &mut FinallyExtractInfo,
+    cfg: &CFG,
+    check_cache: &mut std::collections::HashMap<(u32, u32), bool>,
+) -> bool {
+    let check_key = (dup_block_id, finally_block_id);
+    if let Some(&cached) = check_cache.get(&check_key) {
+        return cached;
+    }
+
+    // Get successors (excluding back edges for loops)
+    let finally_successors: Vec<u32> = cfg.get_block(finally_block_id)
+        .map(|b| get_successors_without_loop(b, cfg))
+        .unwrap_or_default();
+    let dup_successors: Vec<u32> = cfg.get_block(dup_block_id)
+        .map(|b| get_successors_without_loop(b, cfg))
+        .unwrap_or_default();
+
+    // Get handler blocks for checking (immutable borrow)
+    let handler_blocks = extract_info.get_all_handler_blocks().clone();
+
+    let same = if finally_successors.len() == dup_successors.len() {
+        let mut result = true;
+        let mut blocks_to_add: Vec<(u32, u32)> = Vec::new();
+
+        for i in 0..finally_successors.len() {
+            let fin_s_block = finally_successors[i];
+            let dup_s_block = dup_successors[i];
+
+            // Only check blocks that are part of the finally handler
+            if handler_blocks.contains(&fin_s_block) {
+                if !compare_blocks(dup_s_block, fin_s_block, dup_slice, extract_info, cfg) {
+                    result = false;
+                    break;
+                }
+                if !check_blocks_tree(dup_s_block, fin_s_block, dup_slice, extract_info, cfg, check_cache) {
+                    result = false;
+                    break;
+                }
+                blocks_to_add.push((dup_s_block, fin_s_block));
+            }
+        }
+
+        // Add blocks after all checks pass
+        if result {
+            for (dup_block, fin_block) in blocks_to_add {
+                dup_slice.add_block(dup_block);
+                extract_info.get_finally_insns_slice_mut().add_block(fin_block);
+            }
+        }
+
+        result
+    } else {
+        // Different successor counts - stop at start blocks (already compared)
+        true
+    };
+
+    check_cache.insert(check_key, same);
+    same
+}
+
+/// Get successors excluding loop back edges
+fn get_successors_without_loop(block: &crate::block_split::BasicBlock, cfg: &CFG) -> Vec<u32> {
+    // Check if block is a loop end
+    if block.has_flag(AFlag::LoopEnd) {
+        // Return clean successors (filter out back edges)
+        block.successors.iter()
+            .filter(|&&succ| {
+                // A back edge goes to a dominator
+                !cfg.dominates(succ, block.id)
+            })
+            .copied()
+            .collect()
+    } else {
+        block.successors.clone()
+    }
+}
+
+/// Compare two blocks for matching instructions
+///
+/// Based on Java JADX compareBlocks() (line 534-559)
+fn compare_blocks(
+    dup_block_id: u32,
+    finally_block_id: u32,
+    dup_slice: &mut InsnsSlice,
+    extract_info: &mut FinallyExtractInfo,
+    cfg: &CFG,
+) -> bool {
+    let dup_block = match cfg.get_block(dup_block_id) {
+        Some(b) => b,
+        None => return false,
+    };
+    let finally_block = match cfg.get_block(finally_block_id) {
+        Some(b) => b,
+        None => return false,
+    };
+
+    let dup_insns = &dup_block.instructions;
+    let finally_insns = &finally_block.instructions;
+    let dup_count = dup_insns.len();
+    let finally_count = finally_insns.len();
+
+    if finally_count == 0 {
+        return dup_count == 0;
+    }
+    if dup_count < finally_count {
+        return false;
+    }
+
+    // Compare instructions
+    let indices: Vec<usize> = (0..finally_count).collect();
+    extract_info.set_cur_dup_insns(indices, 0);
+
+    for i in 0..finally_count {
+        if !same_insns(&dup_insns[i], &finally_insns[i]) {
+            return false;
+        }
+    }
+
+    if dup_count > finally_count {
+        // More instructions in dup - mark as complete
+        dup_slice.add_insns(dup_block_id, 0, finally_count);
+        dup_slice.set_complete(true);
+        let finally_slice = extract_info.get_finally_insns_slice_mut();
+        finally_slice.add_block(finally_block_id);
+        finally_slice.set_complete(true);
+    }
+
+    true
 }
 
 /// Check if temporary slice is valid
 ///
 /// Based on Java JADX checkTempSlice() (line 378-392)
-fn check_temp_slice(slice: InsnsSlice) -> Option<InsnsSlice> {
+fn check_temp_slice(slice: InsnsSlice, cfg: &CFG) -> Option<InsnsSlice> {
     if slice.insns_list.is_empty() {
         return None;
     }
 
     // Ignore slice with only one 'if' instruction
-    // TODO: implement this check when we have access to instruction types
+    if slice.insns_list.len() == 1 {
+        let (block_id, insn_idx) = slice.insns_list[0];
+        if let Some(block) = cfg.get_block(block_id) {
+            if let Some(insn) = block.instructions.get(insn_idx) {
+                if matches!(insn.insn_type, InsnType::If { .. }) {
+                    return None;
+                }
+            }
+        }
+    }
 
     Some(slice)
 }
@@ -476,17 +709,81 @@ fn same_insns(dup_insn: &InsnNode, finally_insn: &InsnNode) -> bool {
         return false;
     }
 
-    // TODO: Check arguments match (with SSA variable handling)
-    // This requires implementing is_same_args() with SSA awareness
-    // For now, just match on instruction type
+    // Check arguments match based on instruction type
+    match (&dup_insn.insn_type, &finally_insn.insn_type) {
+        // For instructions with literal values, check they match
+        (InsnType::Const { value: v1, .. }, InsnType::Const { value: v2, .. }) => {
+            same_literal(v1, v2)
+        }
+        (InsnType::ConstString { string_idx: s1, .. }, InsnType::ConstString { string_idx: s2, .. }) => {
+            s1 == s2
+        }
+        (InsnType::ConstClass { type_idx: t1, .. }, InsnType::ConstClass { type_idx: t2, .. }) => {
+            t1 == t2
+        }
+        // For invoke instructions, check method matches
+        (InsnType::Invoke { method_idx: m1, kind: k1, .. }, InsnType::Invoke { method_idx: m2, kind: k2, .. }) => {
+            m1 == m2 && k1 == k2
+        }
+        // For field access, check field matches
+        (InsnType::InstanceGet { field_idx: f1, .. }, InsnType::InstanceGet { field_idx: f2, .. }) |
+        (InsnType::InstancePut { field_idx: f1, .. }, InsnType::InstancePut { field_idx: f2, .. }) |
+        (InsnType::StaticGet { field_idx: f1, .. }, InsnType::StaticGet { field_idx: f2, .. }) |
+        (InsnType::StaticPut { field_idx: f1, .. }, InsnType::StaticPut { field_idx: f2, .. }) => {
+            f1 == f2
+        }
+        // For branches, check target matches
+        (InsnType::Goto { target: t1 }, InsnType::Goto { target: t2 }) => {
+            // Targets may differ due to duplicate code placement, so allow
+            true || t1 == t2
+        }
+        (InsnType::If { target: t1, condition: c1, .. }, InsnType::If { target: t2, condition: c2, .. }) => {
+            // Conditions must match, targets may differ
+            c1 == c2
+        }
+        // Binary/unary operations must have same operation type
+        (InsnType::Binary { op: o1, .. }, InsnType::Binary { op: o2, .. }) => {
+            o1 == o2
+        }
+        (InsnType::Unary { op: o1, .. }, InsnType::Unary { op: o2, .. }) => {
+            o1 == o2
+        }
+        // Cast operations must have same cast type
+        (InsnType::Cast { cast_type: c1, .. }, InsnType::Cast { cast_type: c2, .. }) => {
+            c1 == c2
+        }
+        // Array operations - type must match
+        (InsnType::NewArray { type_idx: t1, .. }, InsnType::NewArray { type_idx: t2, .. }) => {
+            t1 == t2
+        }
+        (InsnType::CheckCast { type_idx: t1, .. }, InsnType::CheckCast { type_idx: t2, .. }) => {
+            t1 == t2
+        }
+        (InsnType::InstanceOf { type_idx: t1, .. }, InsnType::InstanceOf { type_idx: t2, .. }) => {
+            t1 == t2
+        }
+        // For most other instructions, discriminant match is sufficient
+        // (Move, Return, Throw, Monitor operations, etc.)
+        _ => true,
+    }
+}
 
-    true
+/// Check if two literal arguments are the same
+fn same_literal(l1: &jadx_ir::instructions::LiteralArg, l2: &jadx_ir::instructions::LiteralArg) -> bool {
+    use jadx_ir::instructions::LiteralArg;
+    match (l1, l2) {
+        (LiteralArg::Int(a), LiteralArg::Int(b)) => a == b,
+        (LiteralArg::Float(a), LiteralArg::Float(b)) => a.to_bits() == b.to_bits(),
+        (LiteralArg::Double(a), LiteralArg::Double(b)) => a.to_bits() == b.to_bits(),
+        (LiteralArg::Null, LiteralArg::Null) => true,
+        _ => false,
+    }
 }
 
 /// Verify all duplicate slices match the finally slice
 ///
 /// Based on Java JADX checkSlices() (line 267-292)
-fn check_slices(extract_info: &FinallyExtractInfo) -> bool {
+fn check_slices(extract_info: &FinallyExtractInfo, cfg: &CFG) -> bool {
     let finally_slice = extract_info.get_finally_insns_slice();
     let finally_insns_count = finally_slice.insns_list.len();
 
@@ -501,7 +798,29 @@ fn check_slices(extract_info: &FinallyExtractInfo) -> bool {
         }
     }
 
-    // TODO: Check instruction types match across all slices
+    // Check instruction types match across all slices
+    for i in 0..finally_insns_count {
+        let (fin_block_id, fin_insn_idx) = finally_slice.insns_list[i];
+        let finally_insn = match cfg.get_block(fin_block_id)
+            .and_then(|b| b.instructions.get(fin_insn_idx)) {
+            Some(insn) => insn,
+            None => return false,
+        };
+
+        for dup_slice in extract_info.get_duplicate_slices() {
+            let (dup_block_id, dup_insn_idx) = dup_slice.insns_list[i];
+            let dup_insn = match cfg.get_block(dup_block_id)
+                .and_then(|b| b.instructions.get(dup_insn_idx)) {
+                Some(insn) => insn,
+                None => return false,
+            };
+
+            // Check instruction types match
+            if std::mem::discriminant(&finally_insn.insn_type) != std::mem::discriminant(&dup_insn.insn_type) {
+                return false;
+            }
+        }
+    }
 
     true
 }
