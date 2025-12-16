@@ -43,7 +43,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
   Dec 12 │████                              │  7,425     75K ┤    │
   Dec 13 │██                                │  2,955        │    │
   Dec 14 │████████                          │ 15,609     50K ┤    │
-  Dec 15 │██████                            │ 12,505        │    │
+  Dec 15 │████████                          │ 15,681        │    │
          └──────────────────────────────────┘           25K ┤    │
            ▲                                               │    │
            Dec 11: Initial Rust codebase dropped        0K ┼────●─┬───┬───┬───┬───┬
@@ -53,9 +53,9 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | Metric | Value |
 |--------|-------|
 | **Time span** | 6 days |
-| **Total commits** | 131 |
-| **Lines added** | 88,314 |
-| **Lines deleted** | 23,827 |
+| **Total commits** | 135 |
+| **Lines added** | 89,167 |
+| **Lines deleted** | 24,680 |
 | **Net lines** | 64,487 |
 | **Rust files** | 116 |
 | **Final codebase** | ~59,000 lines |
