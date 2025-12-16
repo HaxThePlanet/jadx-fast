@@ -2,7 +2,11 @@
 
 ## Overview
 
-Dexterity now includes an optional LLM-based post-processing module that enhances decompiled code quality using Claude 3.5 Haiku, improving upon the already-excellent 90%+ baseline quality.
+Dexterity now includes an optional LLM-based post-processing module that enhances decompiled code quality using either:
+- **Anthropic Claude 3.5 Haiku** (cloud-based, charges apply)
+- **Local Ollama instance** (free, GPU-accelerated, no API costs)
+
+This improves upon the already-excellent 90%+ baseline quality.
 
 ## Features
 
@@ -72,20 +76,62 @@ Decompiled Code ─→ [Variable Renamer] ─→ [Type Refiner] ─→ [Code Cor
 
 ## Usage
 
-### Enable LLM Post-Processing
+### Quick Start with Ollama (Recommended)
 
-Set the `ANTHROPIC_API_KEY` environment variable:
+If you have Ollama running locally:
+
+```bash
+# Automatically detects local Ollama instance
+./target/release/dexterity -d output/ app.apk
+```
+
+The post-processor will:
+1. Auto-detect Ollama on localhost:11434
+2. Use `qwen2.5-coder:7b` by default (excellent code quality)
+3. Run entirely locally with GPU acceleration
+4. Cost: $0 (no API charges)
+
+### Using a Smaller Model for Speed
+
+For faster processing on limited resources:
+
+```bash
+export DEXTERITY_OLLAMA_MODEL=gemma3:1b  # 815MB, very fast
+./target/release/dexterity -d output/ app.apk
+```
+
+Available models on typical Ollama installations:
+- `gemma3:1b` (815MB) - Fastest, minimal quality loss
+- `gemma3:4b` (3.3GB) - Fast, good balance
+- `qwen2.5-coder:7b` (4.7GB) - Best code quality, recommended
+- `qwen2.5-coder:32b` (19GB) - Maximum quality, slower
+
+### Using Anthropic Claude (Cloud-Based)
+
+For cloud-based processing with Claude:
 
 ```bash
 export ANTHROPIC_API_KEY="your-api-key-here"
 ./target/release/dexterity -d output/ app.apk
 ```
 
+### Default Behavior
+
+**By default, LLM post-processing is DISABLED** to avoid affecting users who don't want it:
+- If Ollama is running on localhost:11434 → Auto-enables with detected model
+- If Ollama is not running → Requires `ANTHROPIC_API_KEY` to enable
+- If neither available → Post-processor is disabled (no change to output)
+
+This ensures **no breaking changes** for existing Dexterity users.
+
 ### Configuration
 
-The LLM post-processor reads from environment variables:
+Environment variables:
 
-- `ANTHROPIC_API_KEY`: Claude API key (required to enable)
+- `DEXTERITY_LLM_BACKEND`: Force backend (`ollama` or `anthropic`, default: `auto`)
+- `ANTHROPIC_API_KEY`: Claude API key (enables Anthropic backend)
+- `OLLAMA_API_ENDPOINT`: Ollama endpoint (default: `http://localhost:11434`)
+- `DEXTERITY_OLLAMA_MODEL`: Ollama model to use (default: `qwen2.5-coder:7b`)
 - `DEXTERITY_CACHE_DIR`: Cache directory for LLM responses (default: `/tmp/dexterity-cache`)
 
 ### CLI Integration (Planned)
@@ -154,18 +200,30 @@ let improved_code = processor.process(
 
 ### Speed
 
-- **Variable renaming**: ~200ms per method (cached, 5ms on hit)
-- **Type refinement**: ~150ms per method
-- **Code correction**: ~300ms per method
-- **Overhead**: ~5-10% total decompilation time for ~1000 methods
+- **Variable renaming**: ~50-200ms per method (Ollama: slower on first run, fast after warmup)
+- **Type refinement**: ~50-150ms per method
+- **Code correction**: ~100-300ms per method
+- **Overhead**: ~5-15% total decompilation time for ~1000 methods (varies by model)
 
-### API Costs
+**Ollama Benefits:**
+- First method may take 2-5 seconds (model warmup in GPU memory)
+- Subsequent methods: 50-200ms each (fully GPU-accelerated)
+- GPU utilization: 80-95% (with CUDA/Metal)
 
-- **Small APK** (12 methods): ~$0.001-0.002 per run
-- **Medium APK** (6,800 methods): ~$1-2 per run
-- **Large APK** (13,300 methods): ~$2-4 per run
+### Costs
 
-*Prices based on Claude 3.5 Haiku: $0.80/M input tokens, $4.00/M output tokens*
+**Ollama (Local):**
+- Small APK: $0 (entirely local, GPU-accelerated)
+- Medium APK: $0 (no API charges)
+- Large APK: $0 (no API charges)
+- Unlimited runs: No rate limiting
+
+**Anthropic Claude (Cloud):**
+- Small APK (12 methods): ~$0.001-0.002 per run
+- Medium APK (6,800 methods): ~$1-2 per run
+- Large APK (13,300 methods): ~$2-4 per run
+- Pricing: $0.80/M input tokens, $4.00/M output tokens
+- Rate limiting: 50 requests/minute for free tier
 
 ## Quality Improvements
 
