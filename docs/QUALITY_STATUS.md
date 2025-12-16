@@ -140,7 +140,7 @@ public void process(List<? extends Callable<T>> tasks);
 | dexterity-kotlin | 3 | 3 | 0 | All Passing |
 | dexterity-passes | 93 | 93 | 0 | All Passing |
 | dexterity-resources | 8 | 8 | 0 | All Passing |
-| **TOTAL** | **974** | **974** | **0** | **100% Pass Rate** |
+| **TOTAL** | **981** | **981** | **0** | **100% Pass Rate** |
 
 ### Integration Tests (dexterity-cli/tests/integration/)
 
@@ -159,7 +159,7 @@ public void process(List<? extends Callable<T>> tasks);
 ### Quality Assessment
 
 **Test infrastructure is complete and healthy:**
-- 974 tests with 100% pass rate
+- 981 tests with 100% pass rate
 - Good test coverage across all crates
 - Integration tests match Java JADX test structure
 - Golden tests provide real-world validation

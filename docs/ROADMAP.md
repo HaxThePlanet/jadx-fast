@@ -92,7 +92,7 @@ Note: Variable naming now matches JADX's full pipeline with priority: debug info
 
 ### Tests Status
 All test infrastructure is now complete and passing:
-- 974 tests with 100% pass rate
+- 981 tests with 100% pass rate
 - 683 integration tests fully implemented in `dexterity-cli/tests/integration/`
 - Zero TODOs remaining - all assertions completed
 - All crate unit tests passing
@@ -145,12 +145,12 @@ Parse smali assembly files directly.
 #### Stub Flags (Defined but Not Implemented)
 | Flag | Status | Notes |
 |------|--------|-------|
-| `--show-bad-code` | ⚠️ Stub | Add flag check to error handling |
-| `--comments-level` | ⚠️ Stub | Add comment generation for error/warn levels |
-| `--use-kotlin-methods-for-var-names` | ⚠️ Stub | Wire up Kotlin param names to var_naming |
-| `--no-replace-consts` | ⚠️ No-op | Const replacement not implemented yet |
-| `--respect-bytecode-access-modifiers` | ⚠️ No-op | Modifiers already preserved |
-| `--no-xml-pretty-print` | ⚠️ No-op | XML already not pretty-printed |
+| `--show-bad-code` | ⚠️ Stub | Flag defined in args.rs but not used in decompiler |
+| `--comments-level` | ⚠️ Stub | Flag defined in args.rs but not used in code generation |
+| `--use-kotlin-methods-for-var-names` | ⚠️ Stub | Flag defined in args.rs but not wired to var_naming pass |
+| `--no-replace-consts` | ⚠️ Stub | Flag defined but const replacement not implemented |
+| `--respect-bytecode-access-modifiers` | ⚠️ No-op | Flag defined, modifiers already preserved by default |
+| `--no-xml-pretty-print` | ⚠️ No-op | Flag defined, XML already not pretty-printed |
 
 ## Type Inference Gap Analysis
 

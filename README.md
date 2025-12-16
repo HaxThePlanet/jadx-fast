@@ -19,7 +19,7 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~41,000 lines of Rust | 680 integration tests passing | ~85% JADX feature parity**
+**~41,000 lines of Rust | 683 integration tests passing | ~85% JADX feature parity**
 
 ## Highlights
 
@@ -55,7 +55,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Net Rust lines** | 55,624 |
 | **Final codebase** | ~41,000 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
-| **Tests** | 680 integration tests passing |
+| **Tests** | 683 integration tests passing |
 
 ## Development Priorities
 
@@ -502,18 +502,20 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | fallback | 2 | 2 | 0 | ✅ Done |
 | jbc | 1 | 1 | 0 | ✅ Done |
 | sample | - | 5 | 0 | ✅ Done |
-| **TOTAL** | **577** | **680** | **0** | ✅ Complete |
+| **TOTAL** | **577** | **683** | **0** | ✅ Complete |
 
-Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests passing, 0 TODOs remaining.
+Rust tests are in `crates/dexterity-cli/tests/integration/` - 683 integration tests passing, 0 TODOs remaining.
 
 ### Implementation TODOs
 
-| File | Description |
-|------|-------------|
-| `dexterity-cli/src/converter.rs:210` | Parse and store type parameters in method.type_parameters |
-| `dexterity-cli/src/converter.rs:770` | Multi-DEX support (currently hardcoded to dex_idx: 0) |
-| `dexterity-cli/src/gradle_export.rs` | Gradle export dependencies handling (3 locations) |
-| `dexterity-passes/src/type_inference.rs:665` | Compute LCA of all phi sources after initial resolution |
+Remaining TODOs found in the codebase:
+
+| File | Description | Status |
+|------|-------------|--------|
+| `dexterity-cli/src/converter.rs:210` | Parse and store type parameters in method.type_parameters | Open |
+| `dexterity-cli/src/converter.rs:770` | Multi-DEX support (currently hardcoded to dex_idx: 0) | Open |
+| `dexterity-cli/src/gradle_export.rs` | Gradle export dependencies handling (3 locations) | Open |
+| `dexterity-passes/src/type_inference.rs` | ~~Compute LCA of all phi sources after initial resolution~~ | ✅ Done (Dec 15) |
 
 ## Comparison with Java JADX
 
@@ -599,24 +601,24 @@ for (Object item : collection) {
 
 ### Missing Decompiler Passes (High Priority)
 
-| Pass | Purpose |
-|------|---------|
-| ~~`CodeShrinkVisitor`~~ | ~~Remove redundant code, unused variables~~ 🔶 Partial (Dec 15) |
-| ~~`SimplifyVisitor`~~ | ~~Simplify expressions, optimize conditionals~~ 🔶 Partial (arith done) |
-| ~~`DeboxingVisitor`~~ | ~~Remove Integer.valueOf(), Boolean.valueOf()~~ ✅ Done |
-| ~~`ConstInlineVisitor`~~ | ~~Inline constant values~~ ✅ Done |
-| ~~`EnumVisitor`~~ | ~~Enum class reconstruction~~ 🔶 Partial (Dec 15) |
-| ~~`TernaryMod`~~ | ~~Ternary expression conversion~~ ✅ Done |
-| `SwitchOverStringVisitor` | Switch-on-string handling |
-| `FixSwitchOverEnum` | Enum switch optimization |
-| `ProcessAnonymous` | Anonymous class processing |
-| `ExtractFieldInit` | Field initializer extraction |
-| `MethodInvokeVisitor` | Method invocation resolution |
-| `ResolveJavaJSR` | JSR/RET instruction handling |
-| `OverrideMethodVisitor` | Override and inheritance analysis |
-| `ShadowFieldVisitor` | Shadow field detection |
-| `GenericTypesVisitor` | Generic type inference |
-| `DebugInfoApplyVisitor` | Debug info application |
+| Pass | Purpose | Status |
+|------|---------|--------|
+| ~~`CodeShrinkVisitor`~~ | ~~Remove redundant code, unused variables~~ | 🔶 Partial (Dec 15) |
+| ~~`SimplifyVisitor`~~ | ~~Simplify expressions, optimize conditionals~~ | 🔶 Partial (arith done) |
+| ~~`DeboxingVisitor`~~ | ~~Remove Integer.valueOf(), Boolean.valueOf()~~ | ✅ Done |
+| ~~`ConstInlineVisitor`~~ | ~~Inline constant values~~ | ✅ Done |
+| ~~`EnumVisitor`~~ | ~~Enum class reconstruction~~ | 🔶 Partial (Dec 15) |
+| ~~`TernaryMod`~~ | ~~Ternary expression conversion~~ | ✅ Done |
+| ~~`ExtractFieldInit`~~ | ~~Field initializer extraction~~ | ✅ Done (Dec 13) |
+| `SwitchOverStringVisitor` | Switch-on-string handling | Not started |
+| `FixSwitchOverEnum` | Enum switch optimization | Not started |
+| `ProcessAnonymous` | Anonymous class processing | Partial (inline only) |
+| `MethodInvokeVisitor` | Method invocation resolution | Not started |
+| `ResolveJavaJSR` | JSR/RET instruction handling | Not needed (DEX only) |
+| `OverrideMethodVisitor` | Override and inheritance analysis | Not started |
+| `ShadowFieldVisitor` | Shadow field detection | Not started |
+| `GenericTypesVisitor` | Generic type inference | Partial (signatures done) |
+| `DebugInfoApplyVisitor` | Debug info application | ✅ Done (var naming) |
 
 ### Missing Input Formats
 
@@ -661,7 +663,7 @@ for (Object item : collection) {
 
 *Last updated: 2025-12-16*
 
-All test suites are passing with 100% success rate. All 680 integration tests are complete with zero TODO/skipped tests.
+All test suites are passing with 100% success rate. All 683 integration tests are complete with zero TODO/skipped tests.
 
 ### Test Summary
 
@@ -676,7 +678,7 @@ All test suites are passing with 100% success rate. All 680 integration tests ar
 | dexterity-kotlin | 3 | 3 | 0 | ✅ All Passing |
 | dexterity-passes | 93 | 93 | 0 | ✅ All Passing |
 | dexterity-resources | 8 | 8 | 0 | ✅ All Passing |
-| **TOTAL** | **974** | **974** | **0** | **✅ 100% Pass Rate** |
+| **TOTAL** | **981** | **981** | **0** | **✅ 100% Pass Rate** |
 
 ### Integration Test Categories
 
@@ -715,10 +717,10 @@ The 683 integration tests are organized by decompilation feature area, matching 
 
 ### Test Quality Metrics
 
-- **Zero TODO/skipped tests** - All 680 integration tests fully implemented
+- **Zero TODO/skipped tests** - All 683 integration tests fully implemented
 - **Zero test failures** - 100% pass rate across all test suites
 - **Comprehensive coverage** - Tests cover all major decompilation features
-- **JADX parity** - 680 Rust tests vs 577 Java JADX tests (103 additional tests)
+- **JADX parity** - 683 Rust tests vs 577 Java JADX tests (106 additional tests)
 
 ### Running Tests
 
