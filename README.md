@@ -19,7 +19,9 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~42,000 lines of Rust | 680 integration tests passing | ✅ 85+/100 PRODUCTION-READY | 99% variable naming parity**
+**~42,000 lines of Rust | 680 integration tests passing | ⚠️ Quality Issues Identified | 99% variable naming parity (Small APKs)**
+
+**🔴 CRITICAL: Fresh quality analysis (Dec 16, 2025) reveals severe defects in medium/large APK output preventing production use. See [Quality Analysis](#quality-analysis-results) below.**
 
 ## Highlights
 
@@ -856,6 +858,86 @@ cargo test integration::conditions_tests
 # Run with verbose output
 cargo test -- --nocapture
 ```
+
+## Quality Analysis Results
+
+**🔴 CRITICAL FINDINGS (December 16, 2025)**
+
+Comprehensive quality analysis comparing fresh Dexterity output against JADX reference implementation reveals:
+
+### Summary
+
+| Test Case | QA Score | Actual Quality | Status |
+|-----------|----------|---|--------|
+| **Small APK (9.8 KB)** | 90.0% | 95% ✅ | **PASSING** - Perfect app code |
+| **Medium APK (10.3 MB)** | 77.1% | 40% ❌ | **FAILING** - Code won't compile |
+| **Large APK (54.8 MB)** | 70.0% | 25% ❌ | **FAILING** - Severe defects |
+
+### Critical Issues Blocking Production Use
+
+1. **Undefined Variables** (CRITICAL)
+   - Example: `while (i < i2)` where `i2` is never defined
+   - Impact: Code won't compile
+   - Found in: Large APK StoreDeserializer.java
+
+2. **Type Mismatches** (CRITICAL)
+   - `return 0;` for object type (should be `null`)
+   - `String` compared to integer `0`
+   - Impact: Type errors, runtime failures
+   - Found in: Medium and large APKs
+
+3. **Logic Inversions** (CRITICAL)
+   - `if (context != null) { throw exception; }` (backwards!)
+   - Should be: `if (context == null)`
+   - Impact: Program logic inverted
+   - Found in: Medium APK ComposerActivity.java
+
+4. **Register-Based Variable Names** (HIGH)
+   - Variables like `v2`, `v3`, `v6` instead of meaningful names
+   - Affects ~50+ variables in medium/large APKs
+   - Impact: Violates naming conventions
+
+5. **Duplicate Variable Declarations** (HIGH)
+   - Same variable declared 2-3 times in same scope
+   - Variable shadowing, scope confusion
+   - Found in: Multiple medium APK files
+
+6. **Missing Code Elements** (HIGH)
+   - Missing method bodies (getIdentifier(), getVersion())
+   - Missing `static` modifiers on inner classes
+   - Impact: Incomplete, structurally incorrect code
+
+### Verdict
+
+**✅ Small APKs**: Perfect quality, production-ready
+**❌ Medium/Large APKs**: Severe defects, NOT production-ready
+
+**Do NOT use Dexterity output for medium/large APKs without manual validation.**
+
+### Detailed Reports
+
+- **[QUALITY_ANALYSIS_REPORT.md](QUALITY_ANALYSIS_REPORT.md)** - 541-line comprehensive analysis with file-by-file breakdowns, root cause analysis, and fix recommendations
+- **[QUALITY_SUMMARY.txt](QUALITY_SUMMARY.txt)** - Visual summary of all findings
+
+### Root Causes
+
+1. **SSA Name Recovery Broken** - Variables retain register names (v1, v2, v6) instead of mapping back to meaningful identifiers
+2. **Type System Defects** - Type tracking through control flow is broken
+3. **Control Flow Analysis Issues** - Loop variables unresolved, conditions inverted, duplicate declarations
+4. **Scope Resolution Problems** - Inner class modifiers not tracked, variable shadowing
+
+### Recommended Action
+
+**For Evaluation**: Use only small APKs for testing. Do not benchmark or evaluate on medium/large APKs until fixes are applied.
+
+**For Development**: Priority 1 fixes needed before production use:
+- Fix SSA name recovery (eliminate v1, v2, v6 register names)
+- Fix undefined variable references
+- Fix type system mismatches
+- Fix logic inversions
+- Estimated effort: 2-4 weeks
+
+---
 
 ## Design Decisions
 

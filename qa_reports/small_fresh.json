@@ -1,0 +1,89 @@
+Comparing JADX vs Dexterity decompilation quality...
+JADX dir:      output/small/jadx/sources
+Dexterity dir: output/small/dexterity/sources
+Test case:     small
+
+Analyzing JADX output...
+  Found 2 files
+Analyzing Dexterity output...
+  Found 1 files
+
+Performing detailed comparison...
+
+Comparison Results:
+  Completeness:   50.0%
+  Code Quality:   100.0%
+  Defect Score:   100.0%
+  Overall Score:  90.0%
+
+  Missing Classes: 1 (first 5:)
+    - io/github/skylot/android/smallapp/R.java
+
+Generating json report...
+
+{
+  "test_case": "small",
+  "jadx_metrics": {
+    "file_count": 2,
+    "total_loc": 36,
+    "avg_loc_per_class": 18.0,
+    "total_methods": 1,
+    "total_fields": 1,
+    "avg_variable_quality": 1.0,
+    "avg_method_quality": 1.0,
+    "avg_package_quality": 1.0,
+    "total_defects": 0,
+    "defect_breakdown": {}
+  },
+  "dexterity_metrics": {
+    "file_count": 1,
+    "total_loc": 12,
+    "avg_loc_per_class": 12.0,
+    "total_methods": 1,
+    "total_fields": 0,
+    "avg_variable_quality": 1.0,
+    "avg_method_quality": 1.0,
+    "avg_package_quality": 1.0,
+    "total_defects": 0,
+    "defect_breakdown": {}
+  },
+  "missing_classes": [
+    "io/github/skylot/android/smallapp/R.java"
+  ],
+  "per_class_comparison": [
+    {
+      "class_name": "io/github/skylot/android/smallapp/MainActivity.java",
+      "jadx_metrics": {
+        "class_name": "MainActivity",
+        "file_path": "output/small/jadx/sources/io/github/skylot/android/smallapp/MainActivity.java",
+        "lines_of_code": 12,
+        "method_count": 1,
+        "field_count": 0,
+        "variable_quality_score": 1.0,
+        "method_quality_score": 1.0,
+        "package_quality_score": 1.0,
+        "defects": []
+      },
+      "dexterity_metrics": {
+        "class_name": "MainActivity",
+        "file_path": "output/small/dexterity/sources/io/github/skylot/android/smallapp/MainActivity.java",
+        "lines_of_code": 12,
+        "method_count": 1,
+        "field_count": 0,
+        "variable_quality_score": 1.0,
+        "method_quality_score": 1.0,
+        "package_quality_score": 1.0,
+        "defects": []
+      },
+      "loc_diff": 0,
+      "method_count_diff": 0,
+      "quality_score_diff": 0.0
+    }
+  ],
+  "summary": {
+    "completeness_score": 50.0,
+    "code_quality_score": 100.0,
+    "defect_score": 100.0,
+    "overall_score": 90.0
+  }
+}

@@ -2,10 +2,17 @@
 
 **Goal:** Match Java JADX decompilation output quality
 
-**Status:** ✅ PRODUCTION-READY (85+/100 quality score, Dec 16 2025)
+**Status:** ⚠️ CRITICAL ISSUES IDENTIFIED (Dec 16, 2025)
+- Small APK (9.8 KB): ✅ 90% PASSING - Perfect app code
+- Medium APK (10.3 MB): ❌ 40% FAILING - Code won't compile
+- Large APK (54.8 MB): ❌ 25% FAILING - Severe defects
+
+**Note:** QA tool reports 70-90% scores, but manual analysis reveals actual compilability is 25-40% on medium/large APKs due to critical defects.
+
+### Previous Status (Pre-Analysis)
 - P0-2 Switch Statements: ✅ COMPLETE
-- P1-1 Variable Naming: ✅ COMPLETE
-- P1-2 Type Inference: ✅ COMPLETE
+- P1-1 Variable Naming: ✅ COMPLETE (but register names still appear in medium/large APKs)
+- P1-2 Type Inference: ✅ COMPLETE (but type mismatches found)
 - P2 Package Obfuscation: ✅ COMPLETE
 
 ## Feature Comparison
@@ -30,6 +37,43 @@
 | **Kotlin Support** | 100% | Metadata parsing, name restoration, intrinsics |
 | **Multi-DEX** | 100% | Global field pool for cross-DEX resolution |
 
+### Critical Issues Identified (Dec 16, 2025 Analysis)
+
+**BLOCKING PRODUCTION USE:**
+
+1. **Undefined Variables** - Code won't compile
+   - Example: `while (i < i2)` where i2 is undefined
+   - Count: 8+ instances in medium/large APKs
+   - Root cause: Loop variable resolution failure
+
+2. **Type Mismatches** - Type errors at runtime
+   - `return 0;` for object types (should be `null`)
+   - `String` compared to integer `0`
+   - Count: 8+ instances
+   - Root cause: Type tracking broken through control flow
+
+3. **Logic Inversions** - Program logic backwards
+   - `if (context != null)` should be `if (context == null)`
+   - Count: 3+ instances
+   - Root cause: Condition analysis error
+
+4. **Register-Based Names** - Variable naming failure
+   - `v2`, `v3`, `v6` instead of meaningful names
+   - Count: 50+ variables
+   - Root cause: SSA-to-source name recovery incomplete
+
+5. **Duplicate Declarations** - Scope tracking failure
+   - Same variable declared multiple times in same scope
+   - Count: 23+ instances
+   - Root cause: Variable scope resolution broken
+
+6. **Missing Code** - Incomplete output
+   - Missing method bodies, missing modifiers
+   - Count: 3+ methods, 2+ structural issues
+   - Root cause: Code generation failures
+
+**Impact:** Medium/large APKs produce code that doesn't compile and has inverted logic.
+
 ### Remaining Gaps
 
 | Feature | Status | Notes |
@@ -37,14 +81,19 @@
 | Warning comments | Not implemented | `/* JADX WARNING: ... */` |
 | Rename comments | Not implemented | `/* renamed from: ... */` |
 | .smali input | Not implemented | Not planned |
+| **SSA Name Recovery** | ❌ BROKEN | Variables retain register names in medium/large APKs |
+| **Type System** | ❌ BROKEN | Type mismatches in comparisons and returns |
+| **Control Flow** | ❌ BROKEN | Undefined variables, inverted conditions |
 
 ## Performance Comparison
 
-| APK Size | dexterity | Java JADX | Result |
-|----------|-----------|-----------|--------|
-| Small (10KB) | 0.01s / 6MB | 1.85s / 275MB | **185x faster** |
-| Medium (11MB) | 3.59s / 304MB | 14.97s / 5.5GB | **4x faster** |
-| Large (55MB) | 0.90s / 85MB | 11.93s / 3.4GB | **13x faster** |
+| APK Size | dexterity | Java JADX | Result | Quality |
+|----------|-----------|-----------|--------|---------|
+| Small (10KB) | 0.01s / 6MB | 1.85s / 275MB | **185x faster** | ✅ Perfect |
+| Medium (11MB) | 3.59s / 304MB | 14.97s / 5.5GB | **4x faster** | ❌ Broken output |
+| Large (55MB) | 0.90s / 85MB | 11.93s / 3.4GB | **13x faster** | ❌ Broken output |
+
+⚠️ **Note:** Speed advantage is misleading on medium/large APKs - output quality is too poor for production use. Small APK has perfect quality.
 
 ## Code Quality Examples
 
@@ -117,6 +166,115 @@ public void processData(long l, Throwable th, Integer num, Class cls) {
 - Whitelist includes: language packages (java, javax, kotlin, kotlinx), common TLDs (io, org, com, net, edu),
   country codes (de, uk, ru, jp, fi, etc.), Android packages (android, androidx), and common abbreviations (ws, db, ui, os, ml, ec)
 - Only truly obfuscated single-letter packages (a, b, c) are renamed (e.g., `a/a` -> `p000a/p001a`)
+
+### Example: CRITICAL ISSUES (Medium/Large APK Failures)
+
+**Issue #1: Undefined Variables (Large APK)**
+
+JADX (Correct):
+```java
+public static List<ProductDefinition> DeserializeProducts(String str) {
+    try {
+        JSONArray jSONArray = new JSONArray(str);
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < jSONArray.length(); i++) {  // Clear loop control
+            arrayList.add(GetProductDefinition(jSONArray.getJSONObject(i)));
+        }
+        return arrayList;
+    } catch (JSONException e) {
+        throw new RuntimeException(e);
+    }
+}
+```
+
+Dexterity (BROKEN - i2 is undefined!):
+```java
+public static List<ProductDefinition> DeserializeProducts(String string) {
+    int i;
+    try {
+        JSONArray jSONArray = new JSONArray(string);
+        ArrayList v3 = new ArrayList();  // register name v3
+        int i = 0;  // DUPLICATE declaration
+        while (i < i2) {  // ❌ i2 IS UNDEFINED! CODE WON'T COMPILE!
+            v3.add(StoreDeserializer.GetProductDefinition(jSONArray.getJSONObject(i)));
+            i++;
+        }
+        // ... unreachable code ...
+    }
+}
+```
+
+**Issue #2: Type Mismatches (Medium APK)**
+
+JADX (Correct):
+```java
+public Builder(Context context) {
+    if (context == null) {  // Null check
+        throw new IllegalArgumentException("Context must not be null");
+    }
+    this.context = context;
+}
+```
+
+Dexterity (BROKEN - Logic inverted, type error):
+```java
+public Builder(Context context) {
+    if (context != null) {  // ❌ INVERTED LOGIC!
+        this.context = context;
+    }
+    IllegalArgumentException v2 = new IllegalArgumentException(...);  // v2 register name
+    throw v2;
+}
+```
+
+**Issue #3: Duplicate Variables and Scope Issues (Medium APK)**
+
+Dexterity (BROKEN):
+```java
+public Builder hashtags(String... stringArr) {
+    int i;  // declared
+    Object obj;  // declared
+    boolean str2;  // ❌ declared line 64
+    int str2;  // ❌ DUPLICATE declared line 65 - wrong type!
+    boolean str2;  // ❌ DUPLICATE declared line 66 - declared again!
+
+    if (stringArr == null) {
+        return this;
+    }
+    StringBuilder stringBuilder = new StringBuilder();
+    int i = 0;  // ❌ DUPLICATE declaration of i
+    while (i < length) {  // ❌ undefined 'length'
+        if (str2 && str2 > 0) {  // ❌ comparing boolean to int, multiple str2's with different types
+            stringBuilder.append(" ");
+            stringBuilder.append(obj);
+        }
+        // ...
+    }
+}
+```
+
+**Issue #4: Missing Methods (Medium APK)**
+
+JADX includes these methods:
+```java
+public String getIdentifier() {
+    return "com.twitter.sdk.android:twitter-core";
+}
+
+public String getVersion() {
+    return "3.1.1.9";
+}
+```
+
+Dexterity: **Methods are missing entirely from output** ❌
+
+**Summary of Defects:**
+- Undefined variable references (i2, length)
+- Duplicate variable declarations with type conflicts
+- Logic inversions (inverted null checks)
+- Type mismatches (boolean compared to int, return 0 for objects)
+- Missing method bodies
+- Register-based variable names (v2, v3)
 
 ### Example: Field Initializers
 
