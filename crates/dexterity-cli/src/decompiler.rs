@@ -12,7 +12,7 @@ use dexterity_ir::regions::Region;
 use dexterity_ir::MethodData;
 use dexterity_passes::{
     assign_var_names, split_blocks, transform_to_ssa, infer_types, simplify_instructions,
-    BlockSplitResult, CFG, SsaResult, TypeInferenceResult, VarNamingResult,
+    inline_constants, BlockSplitResult, CFG, SsaResult, TypeInferenceResult, VarNamingResult,
 };
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
 
@@ -71,6 +71,9 @@ pub fn decompile_method(
     // Take blocks from CFG after dominance analysis (avoids clone)
     let blocks = cfg.take_blocks();
     let mut ssa = transform_to_ssa(&blocks);
+
+    // Stage 4.5: Constant inlining (before type inference for better results)
+    let _ = inline_constants(&mut ssa);
 
     // Stage 5: Type inference (use hierarchy if available for better precision)
     let types = if let Some(h) = hierarchy {

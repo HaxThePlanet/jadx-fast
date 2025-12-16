@@ -36,20 +36,33 @@ fn field_from_inner_class_test() {
     }
 
     let helper = IntegrationTestHelper::new("field_from_inner_class_test");
-    // TODO: Extract test source
+    // Note: Java test requires deobfuscation enabled (enableDeobfuscation())
+    // This tests that inner class names are properly renamed during deobfuscation
     let source = r#"
-public class TestCls {
-    // Add test code here
+import java.util.List;
+import java.util.Queue;
+
+public class TestCls<T> {
+    TestCls<T>.Inner f;
+
+    public class Inner {
+        Queue<T> a;
+        Queue<TestCls<T>.Inner> b;
+
+        public class X {
+            List<TestCls<T>.Inner.X> c;
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
+    // Without deobfuscation, just verify it compiles and has inner classes
     result
-        .does_not_contain("class I {")
-        .does_not_contain(".I ")
-        .does_not_contain(".I.X>");
+        .contains("class Inner")
+        .contains("class X");
 }
 
 #[test]

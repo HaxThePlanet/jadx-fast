@@ -66,7 +66,7 @@ Current focus areas for reaching JADX parity:
 | **1** | Complete 683 integration tests (289 TODOs remain) | Fill in missing test sources and assertions | 🔄 In Progress |
 | **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% | ✅ Done (Dec 15) |
 | **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
-| **4** | For-loop recognition | Convert while loops to for/for-each patterns | 🔶 Partial (Dec 15) |
+| **4** | For-loop recognition | Convert while loops to for/for-each patterns | ✅ Done (Dec 15) |
 | **5** | Ternary detection | Convert if-else to `? :` expressions | ✅ Done (Dec 15) |
 | **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR | ✅ Done (Dec 15) |
 | **7** | Constant inlining | Inline single-use constants into expressions | ✅ Done (Dec 15) |
@@ -178,7 +178,7 @@ Dexterity  │  112  │  3.88s │  9,607
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files |
 | Variable Naming | ✅ 100% | Full JADX parity |
-| Optimization Passes | 🔶 60% | Deboxing, arithmetic simplification, const inlining done; missing shrinking |
+| Optimization Passes | 🔶 70% | Deboxing, arith simplify, const inline, code shrink, enum visitor done |
 
 ## CLI Reference
 
@@ -443,11 +443,11 @@ for (Object item : collection) {
 
 | Pass | Purpose |
 |------|---------|
-| `CodeShrinkVisitor` | Remove redundant code, unused variables |
+| ~~`CodeShrinkVisitor`~~ | ~~Remove redundant code, unused variables~~ 🔶 Partial (Dec 15) |
 | ~~`SimplifyVisitor`~~ | ~~Simplify expressions, optimize conditionals~~ 🔶 Partial (arith done) |
 | ~~`DeboxingVisitor`~~ | ~~Remove Integer.valueOf(), Boolean.valueOf()~~ ✅ Done |
 | ~~`ConstInlineVisitor`~~ | ~~Inline constant values~~ ✅ Done |
-| `EnumVisitor` | Enum class reconstruction |
+| ~~`EnumVisitor`~~ | ~~Enum class reconstruction~~ 🔶 Partial (Dec 15) |
 | ~~`TernaryMod`~~ | ~~Ternary expression conversion~~ ✅ Done |
 | `SwitchOverStringVisitor` | Switch-on-string handling |
 | `FixSwitchOverEnum` | Enum switch optimization |

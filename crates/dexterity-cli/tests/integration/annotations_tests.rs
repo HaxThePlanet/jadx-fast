@@ -209,10 +209,9 @@ test();
 }
 "#;
 
-    let result = helper.test_decompilation(source)
+    // testNoDebug() in Java has no assertions - just verifies it compiles
+    let _result = helper.test_decompilation(source)
         .expect("Decompilation failed");
-
-    // TODO: Add assertions
 }
 
 #[test]
@@ -403,5 +402,8 @@ void test3(@A(i = 5) int i) {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("void test1(@A int i) {")
+        .contains("void test2(int i, @A int j) {")
+        .contains("void test3(@A(i = 5) int i) {");
 }

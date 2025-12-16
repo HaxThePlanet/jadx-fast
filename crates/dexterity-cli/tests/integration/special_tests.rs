@@ -1,26 +1,18 @@
 //! Special integration tests
 //! Ported from jadx-core/src/test/java/jadx/tests/integration/
 
-use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, tools_status};
+#[allow(unused_imports)]
+use crate::integration_test_framework::{IntegrationTestHelper, tools_status};
 
 #[test]
 fn package_info_support_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("package_info_support_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: Java test (TestPackageInfoSupport) is a SmaliTest that loads from smali files.
+    // This tests package-info.java support which requires smali input not available in
+    // our standard test framework. Skipping as dexterity doesn't support smali input yet.
+    //
+    // Original assertions:
+    // - @Deprecated annotation on package special.pkg1
+    // - @ApiStatus.Internal annotation on package special.pkg2
+    // - Plain package declaration for special.pkg3
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }

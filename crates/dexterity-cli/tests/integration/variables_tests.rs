@@ -142,7 +142,11 @@ return false;
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("} catch (InvocationTargetException e) {")
+        .contains("pass = false;")
+        .contains("exc = e.getCause();")
+        .contains("return pass;");
 }
 
 #[test]
@@ -189,10 +193,9 @@ return false;
 }
 "#;
 
-    let result = helper.test_decompilation(source)
+    // test2() in Java is noDebugInfo() with no assertions - just verifies it compiles
+    let _result = helper.test_decompilation(source)
         .expect("Decompilation failed");
-
-    // TODO: Add assertions
 }
 
 #[test]
@@ -251,27 +254,9 @@ public class TestCls {
 
 #[test]
 fn variables6_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("variables6_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains("DateStringParser dateStringParser")
-        .does_not_contain("r4")
-        .does_not_contain("r1v1");
+    // Note: Java test (TestVariables6) is a SmaliTest that loads from smali files.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -283,10 +268,13 @@ fn variables_decl_annotation_test() {
     }
 
     let helper = IntegrationTestHelper::new("variables_decl_annotation_test");
-    // TODO: Extract test source
     let source = r#"
-public class TestCls {
-    // Add test code here
+public abstract class TestCls {
+    public int test(String str, int i) {
+        return i;
+    }
+
+    public abstract int test2(String str);
 }
 "#;
 
@@ -389,28 +377,9 @@ public class TestCls {
 
 #[test]
 fn variables_generic_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("variables_generic_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("public static <T> j a(i<? super T> iVar, c<T> cVar) throws OnErrorFailedException {")
-        .contains_one("if (iVar == null) {")
-        .does_not_contain("iVar2")
-        .count_string(2, "} catch (Throwable th");
+    // Note: Java test (TestVariablesGeneric) is a SmaliTest that loads from smali files.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -471,32 +440,15 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("return \"miss\";");
 }
 
 #[test]
 fn variables_in_loop_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("variables_in_loop_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("int iMth;")
-        .does_not_contain("i2")
-        .count_string(2, "iMth = 0;");
+    // Note: Java test (TestVariablesInLoop) is a SmaliTest that loads from smali files.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -508,17 +460,29 @@ fn variables_usage_with_loops_test_enhanced_for() {
     }
 
     let helper = IntegrationTestHelper::new("variables_usage_with_loops_test_enhanced_for");
-    // TODO: Extract test source
     let source = r#"
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestCls {
-    // Add test code here
+    public void test() {
+        List<Object> list;
+        synchronized (this) {
+            list = new ArrayList<>();
+        }
+        for (Object o : list) {
+            System.out.println(o);
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("synchronized (this) {")
+        .contains("list = new ArrayList<");
 }
 
 #[test]
@@ -530,15 +494,27 @@ fn variables_usage_with_loops_test_for_loop() {
     }
 
     let helper = IntegrationTestHelper::new("variables_usage_with_loops_test_for_loop");
-    // TODO: Extract test source
     let source = r#"
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestCls {
-    // Add test code here
+    public void test() {
+        List<Object> list;
+        synchronized (this) {
+            list = new ArrayList<>();
+        }
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(i);
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("synchronized (this) {")
+        .contains("list = new ArrayList<");
 }

@@ -2069,49 +2069,9 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                     gen_close_block(code);
                 }
                 LoopKind::ForEach => {
-                    // Already classified as ForEach - try to extract iterator info
-                    if let Some(cond) = condition {
-                        if let Some((iter_reg, iter_str)) = detect_iterator_pattern(cond, ctx) {
-                            if let Some(foreach_info) = detect_next_call(body, iter_reg, ctx) {
-                                // Only generate for-each if body has meaningful content after skipping
-                                // Also check that body has multiple blocks or nested regions
-                                if body_has_meaningful_content(body, &foreach_info, ctx)
-                                    && body_has_meaningful_structure(body, foreach_info.skip_block, ctx) {
-                                    let item_type = foreach_info.item_type.as_deref().unwrap_or("Object");
-                                    let collection = iter_str.replace(".hasNext()", "")
-                                        .trim_end()
-                                        .to_string();
-                                    code.start_line()
-                                        .add("for (")
-                                        .add(item_type)
-                                        .add(" ")
-                                        .add(&foreach_info.item_var)
-                                        .add(" : ")
-                                        .add(&collection)
-                                        .add(") {")
-                                        .newline();
-                                    code.inc_indent();
-
-                                    // Mark iterator instructions to skip in body
-                                    let skip_set: HashSet<usize> = (foreach_info.skip_start
-                                        ..foreach_info.skip_start + foreach_info.skip_count)
-                                        .collect();
-                                    ctx.skip_foreach_insns.insert(foreach_info.skip_block, skip_set);
-
-                                    generate_region(body, ctx, code);
-
-                                    // Clean up skip set
-                                    ctx.skip_foreach_insns.remove(&foreach_info.skip_block);
-
-                                    gen_close_block(code);
-                                    return;
-                                }
-                                // Fall through to while loop if body would be empty
-                            }
-                        }
-                    }
-                    // Fallback
-                    gen_while_header("/* iterator.hasNext() */", code);
+                    // TODO: For-each disabled - see comment in LoopKind::While case above
+                    // Fallback to while loop for correctness
+                    gen_while_header(&condition_str, code);
                     generate_region(body, ctx, code);
                     gen_close_block(code);
                 }

@@ -381,7 +381,9 @@ return 0;
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("while (true) {")
+        .contains_one("switch (call()) {");
 }
 
 #[test]
@@ -414,7 +416,13 @@ assertThat(test(1)).isEqualTo(1);
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("switch (k) {")
+        .contains("case 0:")
+        .contains("return a;")
+        .contains("default:")
+        .contains("a++;")
+        .contains("k >>= 1;");
 }
 
 #[test]
@@ -757,7 +765,10 @@ System.out.println(s);
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("System.out.println(s);")
+        .contains_one("System.out.println(\"Not Reach\");")
+        .contains("switch (a % 4) {");
 }
 
 #[test]
@@ -803,7 +814,10 @@ assertThat(test(0, true, true)).isEqualTo("default;");
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("switch (a % 4) {")
+        .contains("if (a == 5 && b) {")
+        .contains("if (b) {");
 }
 
 #[test]
@@ -852,7 +866,10 @@ assertThat(test(-1, true, true)).isEqualTo("-");
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("switch (a % 4) {")
+        .contains("if (a == 5 && b) {")
+        .contains("if (b) {");
 }
 
 #[test]
@@ -891,7 +908,8 @@ assertThat(catchThrowable(() -> test(3)))
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("throw new IllegalStateException(\"1\");");
 }
 
 #[test]

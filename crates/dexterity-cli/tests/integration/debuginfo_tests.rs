@@ -31,7 +31,11 @@ public void innerFunc3() {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    // Note: Java test checks line number metadata which isn't accessible via CLI
+    // Just verify the code structure is correct
+    result
+        .contains("int field")
+        .contains("void func()");
 }
 
 #[test]
@@ -64,7 +68,12 @@ private void f() {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    // Note: Java test checks line number metadata which isn't accessible via CLI
+    // Just verify the code structure is correct (return statements with values)
+    result
+        .contains("return 1;")
+        .contains("return 0;")
+        .contains("return v");
 }
 
 #[test]
