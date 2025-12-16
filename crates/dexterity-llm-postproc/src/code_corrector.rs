@@ -223,12 +223,17 @@ struct CodeFix {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::config::LLMBackend;
 
     #[test]
     fn test_detect_errors() {
-        let corrector = CodeCorrector::new(
-            ClaudeClient::new("test".to_string(), "model".to_string()).unwrap()
-        );
+        let client = ClaudeClient::new(
+            LLMBackend::Ollama,
+            String::new(),
+            "test-model".to_string(),
+            "http://localhost:11434".to_string(),
+        ).unwrap();
+        let corrector = CodeCorrector::new(client);
 
         let code = r#"
         public void test() {
@@ -244,9 +249,13 @@ mod tests {
 
     #[test]
     fn test_apply_corrections() {
-        let corrector = CodeCorrector::new(
-            ClaudeClient::new("test".to_string(), "model".to_string()).unwrap()
-        );
+        let client = ClaudeClient::new(
+            LLMBackend::Ollama,
+            String::new(),
+            "test-model".to_string(),
+            "http://localhost:11434".to_string(),
+        ).unwrap();
+        let corrector = CodeCorrector::new(client);
 
         let code = "return 0;";
         let fixes = vec![CodeFix {

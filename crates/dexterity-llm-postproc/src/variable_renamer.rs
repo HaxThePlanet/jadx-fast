@@ -144,12 +144,17 @@ Be conservative - only suggest names you're confident about."#;
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::config::LLMBackend;
 
     #[test]
     fn test_extract_variables() {
-        let renamer = VariableRenamer::new(
-            ClaudeClient::new("test".to_string(), "model".to_string()).unwrap()
-        );
+        let client = ClaudeClient::new(
+            LLMBackend::Ollama,
+            String::new(),
+            "test-model".to_string(),
+            "http://localhost:11434".to_string(),
+        ).unwrap();
+        let renamer = VariableRenamer::new(client);
 
         let code = r#"
         int v0 = v1 + v2;
@@ -166,9 +171,13 @@ mod tests {
 
     #[test]
     fn test_build_context() {
-        let renamer = VariableRenamer::new(
-            ClaudeClient::new("test".to_string(), "model".to_string()).unwrap()
-        );
+        let client = ClaudeClient::new(
+            LLMBackend::Ollama,
+            String::new(),
+            "test-model".to_string(),
+            "http://localhost:11434".to_string(),
+        ).unwrap();
+        let renamer = VariableRenamer::new(client);
 
         let code = "int v0 = v1;";
         let bytecode = "const v0, 0x1\nmove v0, v1";
@@ -182,9 +191,13 @@ mod tests {
 
     #[test]
     fn test_apply_renames() {
-        let renamer = VariableRenamer::new(
-            ClaudeClient::new("test".to_string(), "model".to_string()).unwrap()
-        );
+        let client = ClaudeClient::new(
+            LLMBackend::Ollama,
+            String::new(),
+            "test-model".to_string(),
+            "http://localhost:11434".to_string(),
+        ).unwrap();
+        let renamer = VariableRenamer::new(client);
 
         let code = "int v0 = v1; String v0_copy = v0;";
         let suggestions = vec![

@@ -35,7 +35,12 @@ pub struct LLMPostProcessor {
 impl LLMPostProcessor {
     /// Create a new LLM post-processor
     pub async fn new(config: Config) -> Result<Self> {
-        let client = ClaudeClient::new(config.api_key.clone(), config.model.clone())?;
+        let client = ClaudeClient::new(
+            config.backend.clone(),
+            config.api_key.clone(),
+            config.model.clone(),
+            config.api_endpoint.clone(),
+        )?;
         let cache = Cache::new(config.cache_dir.clone());
         let variable_renamer = VariableRenamer::new(client.clone());
         let type_refiner = TypeRefiner::new(client.clone());

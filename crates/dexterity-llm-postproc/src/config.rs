@@ -90,15 +90,15 @@ impl Config {
     }
 
     /// Check if Ollama is available at the given endpoint
-    fn is_ollama_available(endpoint: &str) -> bool {
-        let url = format!("{}/api/tags", endpoint);
+    fn is_ollama_available(_endpoint: &str) -> bool {
+        // Quick TCP check for Ollama on default port
         match std::net::TcpStream::connect("127.0.0.1:11434") {
             Ok(_) => {
-                tracing::debug!("Ollama is available at {}", endpoint);
+                tracing::debug!("Ollama is available");
                 true
             }
             Err(_) => {
-                tracing::debug!("Ollama not available at {}", endpoint);
+                tracing::debug!("Ollama not available");
                 false
             }
         }

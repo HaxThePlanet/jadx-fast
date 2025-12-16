@@ -191,12 +191,17 @@ struct TypeRefinement {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::config::LLMBackend;
 
     #[test]
     fn test_detect_type_issues() {
-        let refiner = TypeRefiner::new(
-            ClaudeClient::new("test".to_string(), "model".to_string()).unwrap()
-        );
+        let client = ClaudeClient::new(
+            LLMBackend::Ollama,
+            String::new(),
+            "test-model".to_string(),
+            "http://localhost:11434".to_string(),
+        ).unwrap();
+        let refiner = TypeRefiner::new(client);
 
         let code = r#"
         Object data = getData();
@@ -212,9 +217,13 @@ mod tests {
 
     #[test]
     fn test_apply_refinements() {
-        let refiner = TypeRefiner::new(
-            ClaudeClient::new("test".to_string(), "model".to_string()).unwrap()
-        );
+        let client = ClaudeClient::new(
+            LLMBackend::Ollama,
+            String::new(),
+            "test-model".to_string(),
+            "http://localhost:11434".to_string(),
+        ).unwrap();
+        let refiner = TypeRefiner::new(client);
 
         let code = "Object data = getData();";
         let refinements = vec![TypeRefinement {

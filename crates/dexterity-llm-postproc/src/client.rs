@@ -76,7 +76,7 @@ struct OllamaMessage {
     content: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Default, Deserialize)]
 struct OllamaUsage {
     #[serde(default)]
     prompt_tokens: u64,
