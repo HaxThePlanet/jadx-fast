@@ -5,8 +5,8 @@
 ## Current Status
 
 **Build:** Passing
-**Tests:** 981 tests (100% pass rate)
-**Lines:** ~41,000 lines of Rust
+**Tests:** 932 tests (100% pass rate)
+**Lines:** ~42,000 lines of Rust
 **Completion:** ~85% feature-complete vs Java jadx-core
 
 ## Crate Overview
@@ -15,12 +15,12 @@
 crates/
 ├── dexterity-dex/       # DEX parsing (4,072 lines)
 ├── dexterity-ir/        # IR types & class hierarchy (3,849 lines)
-├── dexterity-passes/    # Decompilation passes (12,653 lines)
-├── dexterity-codegen/   # Java code generation (9,513 lines)
+├── dexterity-passes/    # Decompilation passes (12,312 lines)
+├── dexterity-codegen/   # Java code generation (9,432 lines)
 ├── dexterity-resources/ # AXML & resources.arsc (4,026 lines)
 ├── dexterity-deobf/     # Deobfuscation (1,651 lines)
 ├── dexterity-kotlin/    # Kotlin metadata parsing (597 lines)
-└── dexterity-cli/       # CLI application (4,636 lines)
+└── dexterity-cli/       # CLI application (4,635 lines)
 ```
 
 ### dexterity-dex (DEX Parsing)
@@ -41,7 +41,7 @@ Core IR types shared across all passes.
 - `instructions.rs` - ~40 instruction variants (`InsnType` enum)
 - `types.rs` - Type system (`ArgType`, primitives, arrays, objects)
 - `nodes.rs` - `ClassNode`, `MethodNode`, `FieldNode`, `BlockNode` definitions
-- `class_hierarchy.rs` - Class hierarchy with LCA calculation for type inference (~380 lines)
+- `class_hierarchy.rs` - Class hierarchy with LCA calculation for type inference (~382 lines)
 - `builder.rs` - IR builder from DEX bytecode
 - `regions.rs` - Control flow region types (if/loop/switch/try)
 

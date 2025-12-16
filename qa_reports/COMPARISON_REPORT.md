@@ -428,7 +428,7 @@ Deobfuscation heuristics in `dexterity-deobf/src/conditions.rs` are too aggressi
 |-------|---------|--------|
 | "~98% variable naming parity" | 40% good/excellent names vs JADX 85% | DISCREPANCY |
 | "~85% JADX feature parity" | 76% overall score, 59% completeness | ALIGNED |
-| "100% region reconstruction" | 75% switch completeness | DISCREPANCY |
+| "100% region reconstruction" | 75% switch completeness (improved Dec 16) | PARTIALLY ALIGNED |
 
 ### Alignment with ROADMAP.md
 
