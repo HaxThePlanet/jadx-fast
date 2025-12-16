@@ -84,7 +84,7 @@ A new optimization pass detects common arithmetic patterns and transforms them i
 - `dest = var + N` (for other constant values N) → `var += N`
 - `dest = var - N` (for other constant values N) → `var -= N`
 
-**Implementation:** File: `/crates/dexterity-codegen/src/body_gen.rs:637-729`
+**Implementation:** File: `/crates/dexterity-codegen/src/body_gen.rs:653-750`
 
 The detection function `detect_increment_decrement` runs in two contexts:
 1. For inlined expressions (used exactly once)
@@ -106,9 +106,9 @@ Enhanced type generation now formats special numeric values using standard Java 
 | `float` | `Float.NaN`, `Float.POSITIVE_INFINITY`, `Float.NEGATIVE_INFINITY`, `Float.MAX_VALUE`, `Float.MIN_VALUE`, `Float.MIN_NORMAL` | `NaN` → `Float.NaN` |
 | `double` | `Double.NaN`, `Double.POSITIVE_INFINITY`, `Double.NEGATIVE_INFINITY`, `Double.MAX_VALUE`, `Double.MIN_VALUE`, `Double.MIN_NORMAL` | `NaN` → `Double.NaN` |
 
-**Implementation:** File: `/crates/dexterity-codegen/src/type_gen.rs:183-273`
+**Implementation:** File: `/crates/dexterity-codegen/src/type_gen.rs:151-274`
 
-The `format_constant` function detects boundary and special values and substitutes the appropriate Java constant references instead of numeric literals.
+The `literal_to_string` function and helper formatters (`format_short`, `format_integer`, `format_long`, `format_float`, `format_double`) detect boundary and special values and substitute the appropriate Java constant references instead of numeric literals.
 
 **Test Coverage:** Five new comprehensive unit tests verify special value handling:
 - `test_special_short_values` - Short boundary values

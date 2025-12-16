@@ -92,7 +92,7 @@ Note: Variable naming now matches JADX's full pipeline with priority: debug info
 
 ### Tests Status
 All test infrastructure is now complete and passing:
-- 958 tests with 100% pass rate
+- 964 tests with 100% pass rate
 - 683 integration tests fully implemented in `dexterity-cli/tests/integration/`
 - Zero TODOs remaining - all assertions completed
 - All crate unit tests passing
@@ -209,7 +209,7 @@ Parse smali assembly files directly.
 ## Files Summary
 
 ### Type Inference Foundation (Complete)
-- `dexterity-ir/src/class_hierarchy.rs` - ~450 lines, LCA calculation
+- `dexterity-ir/src/class_hierarchy.rs` - ~380 lines, LCA calculation
 - `dexterity-ir/src/types.rs` - +200 lines, TypeCompare system, TypeVariable variant
 
 ### Generic Type Support (Complete)

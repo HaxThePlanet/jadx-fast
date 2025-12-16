@@ -135,14 +135,14 @@ public void process(List<? extends Callable<T>> tasks);
 | dexterity-cli (unit) | 8 | 8 | 0 | All Passing |
 | dexterity-cli (golden) | 4 | 4 | 0 | All Passing |
 | dexterity-cli (framework) | 3 | 3 | 0 | All Passing |
-| dexterity-codegen | 74 | 74 | 0 | All Passing |
+| dexterity-codegen | 80 | 80 | 0 | All Passing |
 | dexterity-deobf | 23 | 23 | 0 | All Passing |
 | dexterity-dex | 35 | 35 | 0 | All Passing |
 | dexterity-ir | 40 | 40 | 0 | All Passing |
 | dexterity-kotlin | 3 | 3 | 0 | All Passing |
 | dexterity-passes | 77 | 77 | 0 | All Passing |
 | dexterity-resources | 8 | 8 | 0 | All Passing |
-| **TOTAL** | **958** | **958** | **0** | **100% Pass Rate** |
+| **TOTAL** | **964** | **964** | **0** | **100% Pass Rate** |
 
 ### Integration Tests (dexterity-cli/tests/integration/)
 
@@ -161,7 +161,7 @@ public void process(List<? extends Callable<T>> tasks);
 ### Quality Assessment
 
 **Test infrastructure is complete and healthy:**
-- 958 tests with 100% pass rate
+- 964 tests with 100% pass rate
 - Good test coverage across all crates
 - Integration tests match Java JADX test structure
 - Golden tests provide real-world validation
