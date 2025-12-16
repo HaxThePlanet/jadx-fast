@@ -928,6 +928,7 @@ fn generate_body_impl<W: CodeWriter>(
     let var_names = if let Some(ref dex) = dex_info {
         let dex_for_method = dex.clone();
         let dex_for_type = dex.clone();
+        let dex_for_field = dex.clone();
 
         let method_lookup = move |idx: u32| {
             dex_for_method.get_method(idx).map(|m| dexterity_passes::MethodNameInfo {
@@ -940,6 +941,13 @@ fn generate_body_impl<W: CodeWriter>(
             dex_for_type.get_type_name(idx)
         };
 
+        let field_lookup = move |idx: u32| {
+            dex_for_field.get_field(idx).map(|f| dexterity_passes::FieldNameInfo {
+                field_name: f.field_name.clone(),
+                class_name: f.class_name.clone(),
+            })
+        };
+
         dexterity_passes::assign_var_names_with_lookups(
             &ssa_result,
             &type_result,
@@ -947,6 +955,7 @@ fn generate_body_impl<W: CodeWriter>(
             num_params,
             Some(&method_lookup),
             Some(&type_lookup),
+            Some(&field_lookup),
             method.debug_info.as_ref(),
         )
     } else {
@@ -1110,6 +1119,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     let var_names = if let Some(ref dex) = dex_info {
         let dex_for_method = dex.clone();
         let dex_for_type = dex.clone();
+        let dex_for_field = dex.clone();
 
         // Arc<MethodInfo> - we only clone the fields we need, not the whole struct
         let method_lookup = move |idx: u32| {
@@ -1123,6 +1133,13 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
             dex_for_type.get_type_name(idx)
         };
 
+        let field_lookup = move |idx: u32| {
+            dex_for_field.get_field(idx).map(|f| dexterity_passes::FieldNameInfo {
+                field_name: f.field_name.clone(),
+                class_name: f.class_name.clone(),
+            })
+        };
+
         dexterity_passes::assign_var_names_with_lookups(
             &ssa_result,
             &type_result,
@@ -1130,6 +1147,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
             num_params,
             Some(&method_lookup),
             Some(&type_lookup),
+            Some(&field_lookup),
             method.debug_info.as_ref(),
         )
     } else {

@@ -160,6 +160,12 @@ pub struct MethodNameInfo {
     pub class_name: String,
 }
 
+/// Field info for variable naming (simplified from codegen's FieldInfo)
+pub struct FieldNameInfo {
+    pub field_name: String,
+    pub class_name: String,
+}
+
 /// Variable naming context
 pub struct VarNaming<'a> {
     /// Used names at each scope level
@@ -173,6 +179,8 @@ pub struct VarNaming<'a> {
     method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
     /// Type lookup: type_idx -> type_name (internal format like "java/lang/StringBuilder")
     type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
+    /// Field lookup: field_idx -> (field_name, class_name)
+    field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
 }
 
 impl<'a> VarNaming<'a> {
@@ -184,6 +192,7 @@ impl<'a> VarNaming<'a> {
             first_param_reg,
             method_lookup: None,
             type_lookup: None,
+            field_lookup: None,
         }
     }
 
@@ -192,6 +201,7 @@ impl<'a> VarNaming<'a> {
         first_param_reg: u16,
         method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
         type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
+        field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
     ) -> Self {
         VarNaming {
             used_names: HashSet::new(),
@@ -199,6 +209,7 @@ impl<'a> VarNaming<'a> {
             first_param_reg,
             method_lookup,
             type_lookup,
+            field_lookup,
         }
     }
 
@@ -382,7 +393,7 @@ impl<'a> VarNaming<'a> {
         &mut self,
         insn: &dexterity_ir::instructions::InsnNode,
     ) -> Option<String> {
-        use dexterity_ir::instructions::InsnType;
+        use dexterity_ir::instructions::{InsnType, CastType};
 
         match &insn.insn_type {
             // Array length (like JADX's ARRAY_LENGTH case)
@@ -420,9 +431,165 @@ impl<'a> VarNaming<'a> {
                 None
             }
 
+            // Instance field get - use field name for variable name (JADX's IGET case)
+            // e.g., obj.buffer -> "buffer", this.name -> "name"
+            InsnType::InstanceGet { field_idx, .. } => {
+                if let Some(lookup) = &self.field_lookup {
+                    if let Some(info) = lookup(*field_idx) {
+                        // Use field name as variable name base
+                        let base = Self::sanitize_field_name(&info.field_name);
+                        if !base.is_empty() && base.len() >= 2 {
+                            return Some(self.make_unique(&base));
+                        }
+                    }
+                }
+                None
+            }
+
+            // Static field get - use field name for variable name (JADX's SGET case)
+            // e.g., Config.DEBUG -> "debug", System.out -> "out"
+            InsnType::StaticGet { field_idx, .. } => {
+                if let Some(lookup) = &self.field_lookup {
+                    if let Some(info) = lookup(*field_idx) {
+                        let base = Self::sanitize_field_name(&info.field_name);
+                        if !base.is_empty() && base.len() >= 2 {
+                            return Some(self.make_unique(&base));
+                        }
+                    }
+                }
+                None
+            }
+
+            // CheckCast - use target type for variable name (JADX's CHECK_CAST case)
+            // e.g., (String)obj -> "str", (MyClass)obj -> "myClass"
+            InsnType::CheckCast { type_idx, .. } => {
+                if let Some(lookup) = &self.type_lookup {
+                    if let Some(type_name) = lookup(*type_idx) {
+                        let base = Self::extract_class_name_base(&type_name);
+                        return Some(self.make_unique(base));
+                    }
+                }
+                None
+            }
+
+            // Primitive Cast - use target type for variable name
+            // e.g., (long)i -> "l", (int)l -> "i"
+            InsnType::Cast { cast_type, .. } => {
+                let base = match cast_type {
+                    CastType::IntToLong | CastType::FloatToLong | CastType::DoubleToLong => "l",
+                    CastType::IntToFloat | CastType::LongToFloat | CastType::DoubleToFloat => "f",
+                    CastType::IntToDouble | CastType::LongToDouble | CastType::FloatToDouble => "d",
+                    CastType::LongToInt | CastType::FloatToInt | CastType::DoubleToInt => "i",
+                    CastType::IntToByte => "b",
+                    CastType::IntToChar => "c",
+                    CastType::IntToShort => "s",
+                };
+                Some(self.make_unique(base))
+            }
+
+            // NewArray - use "arr" or element type-based name
+            InsnType::NewArray { type_idx, .. } => {
+                if let Some(lookup) = &self.type_lookup {
+                    if let Some(type_name) = lookup(*type_idx) {
+                        // Try to get element type from array type name
+                        if let Some(base) = Self::array_var_name_from_type(&type_name) {
+                            return Some(self.make_unique(base));
+                        }
+                    }
+                }
+                Some(self.make_unique("arr"))
+            }
+
+            // FilledNewArray - similar to NewArray
+            InsnType::FilledNewArray { type_idx, .. } => {
+                if let Some(lookup) = &self.type_lookup {
+                    if let Some(type_name) = lookup(*type_idx) {
+                        if let Some(base) = Self::array_var_name_from_type(&type_name) {
+                            return Some(self.make_unique(base));
+                        }
+                    }
+                }
+                Some(self.make_unique("arr"))
+            }
+
+            // InstanceOf - use boolean-like name
+            InsnType::InstanceOf { .. } => {
+                Some(self.make_unique("z"))
+            }
+
+            // Compare - result is int used for comparison
+            InsnType::Compare { .. } => {
+                Some(self.make_unique("cmp"))
+            }
+
             // For other instructions, return None to fall back to type-based naming
             _ => None,
         }
+    }
+
+    /// Sanitize field name for use as variable name
+    /// Handles common field naming patterns and obfuscated names
+    fn sanitize_field_name(field_name: &str) -> String {
+        // Skip very short names (likely obfuscated like "a", "b")
+        if field_name.len() < 2 {
+            return String::new();
+        }
+
+        // Skip names that look obfuscated (single letter or letter+number)
+        if field_name.len() <= 2 && field_name.chars().all(|c| c.is_alphanumeric()) {
+            let first_char = field_name.chars().next().unwrap();
+            if first_char.is_ascii_lowercase() {
+                return String::new();
+            }
+        }
+
+        // Convert to lowercase first char (Java convention for variables)
+        let mut chars = field_name.chars();
+        if let Some(first) = chars.next() {
+            let rest: String = chars.collect();
+            format!("{}{}", first.to_lowercase(), rest)
+        } else {
+            String::new()
+        }
+    }
+
+    /// Get array variable name from array type
+    /// e.g., "[B" -> "bArr", "[Ljava/lang/String;" -> "strArr"
+    fn array_var_name_from_type(type_name: &str) -> Option<&'static str> {
+        // Type name might be in descriptor format or Java format
+        if type_name.starts_with('[') {
+            // Descriptor format
+            let elem = type_name.trim_start_matches('[');
+            return match elem.chars().next()? {
+                'B' => Some("bArr"),
+                'C' => Some("cArr"),
+                'I' => Some("iArr"),
+                'J' => Some("lArr"),
+                'F' => Some("fArr"),
+                'D' => Some("dArr"),
+                'Z' => Some("zArr"),
+                'S' => Some("sArr"),
+                'L' if elem.contains("String") => Some("strArr"),
+                _ => Some("arr"),
+            };
+        }
+        // Java format (String[], int[], etc.)
+        if type_name.ends_with("[]") {
+            let base = type_name.trim_end_matches("[]");
+            return match base {
+                "byte" => Some("bArr"),
+                "char" => Some("cArr"),
+                "int" => Some("iArr"),
+                "long" => Some("lArr"),
+                "float" => Some("fArr"),
+                "double" => Some("dArr"),
+                "boolean" => Some("zArr"),
+                "short" => Some("sArr"),
+                "String" => Some("strArr"),
+                _ => Some("arr"),
+            };
+        }
+        None
     }
 
     /// Extract a variable name from a method name by stripping common prefixes
@@ -466,10 +633,10 @@ pub fn assign_var_names(
     first_param_reg: u16,
     num_params: u16,
 ) -> VarNamingResult {
-    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, None, None, None)
+    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, None, None, None, None)
 }
 
-/// Assign names to all variables in an SSA result with optional method/type lookups
+/// Assign names to all variables in an SSA result with optional method/type/field lookups
 pub fn assign_var_names_with_lookups<'a>(
     ssa: &SsaResult,
     type_info: &TypeInferenceResult,
@@ -477,9 +644,10 @@ pub fn assign_var_names_with_lookups<'a>(
     num_params: u16,
     method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
     type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
+    field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
     debug_info: Option<&'a DebugInfo>,
 ) -> VarNamingResult {
-    let mut naming = VarNaming::with_lookups(first_param_reg, method_lookup, type_lookup);
+    let mut naming = VarNaming::with_lookups(first_param_reg, method_lookup, type_lookup, field_lookup);
 
     // Estimate capacity based on SSA result size
     let estimated_vars = ssa.blocks.iter()
@@ -535,6 +703,77 @@ pub fn assign_var_names_with_lookups<'a>(
     // Sort and deduplicate
     vars_to_name.sort();
     vars_to_name.dedup();
+
+    // Build reverse map: code_var_idx -> list of (reg, version)
+    let mut code_var_members: HashMap<usize, Vec<(u16, u32)>> = HashMap::new();
+    for &(reg, version) in &vars_to_name {
+        if let Some(&code_var_idx) = code_var_map.get(&(reg, version)) {
+            code_var_members.entry(code_var_idx).or_default().push((reg, version));
+        }
+    }
+
+    // Helper closure to get potential name and its score for a variable
+    let get_name_candidate = |reg: u16, version: u32, naming: &mut VarNaming| -> Option<(String, u32)> {
+        let insn_offset = assignment_map.get(&(reg, version)).map(|&(_, _, off)| off).unwrap_or(0);
+
+        // Priority 1: Debug info name (score 100)
+        if let Some(debug_name) = get_debug_name(debug_info, reg, insn_offset) {
+            return Some((debug_name, 100));
+        }
+
+        // Priority 2: Context-based name from assignment instruction (score 80)
+        if let Some(&(block_idx, insn_idx, _)) = assignment_map.get(&(reg, version)) {
+            let block = &ssa.blocks[block_idx];
+            let insn = &block.instructions[insn_idx];
+
+            // For MoveResult, look at the previous instruction
+            if matches!(insn.insn_type, dexterity_ir::instructions::InsnType::MoveResult { .. }) {
+                if insn_idx > 0 {
+                    let prev_insn = &block.instructions[insn_idx - 1];
+                    if let Some(name) = naming.name_from_instruction_context(prev_insn) {
+                        // Score based on name quality
+                        let score = score_name(&name);
+                        return Some((name, score));
+                    }
+                }
+            }
+
+            if let Some(name) = naming.name_from_instruction_context(insn) {
+                let score = score_name(&name);
+                return Some((name, score));
+            }
+        }
+
+        // Priority 3: Type-based name (score 40)
+        if let Some(arg_type) = type_info.types.get(&(reg, version)) {
+            let base = VarNaming::base_name_for_type(arg_type);
+            return Some((base.to_string(), 40));
+        }
+
+        None
+    };
+
+    // For each CodeVar group, find the best name across all members
+    for (&code_var_idx, members) in &code_var_members {
+        let mut best_name: Option<String> = None;
+        let mut best_score: u32 = 0;
+
+        // Collect name candidates from all members
+        for &(reg, version) in members {
+            if let Some((name, score)) = get_name_candidate(reg, version, &mut naming) {
+                if score > best_score {
+                    best_score = score;
+                    best_name = Some(name);
+                }
+            }
+        }
+
+        // Use the best name for the entire group
+        if let Some(name) = best_name {
+            let unique_name = naming.make_unique(&name);
+            code_var_names.insert(code_var_idx, unique_name);
+        }
+    }
 
     // Assign names (following JADX's guessName and makeNameForSSAVar logic)
     for (reg, version) in vars_to_name {
@@ -600,6 +839,44 @@ pub fn assign_var_names_with_lookups<'a>(
     }
 
     VarNamingResult { names }
+}
+
+/// Score a variable name based on quality
+/// Higher scores = better names
+fn score_name(name: &str) -> u32 {
+    // Penalize register-like names (r0, v1, v123, etc.) - very low priority
+    if name.len() >= 2
+        && (name.starts_with('r') || name.starts_with('v'))
+        && name[1..].chars().all(|c| c.is_ascii_digit())
+    {
+        return 5;
+    }
+
+    // Penalize very short names (likely cryptic)
+    if name.len() <= 1 {
+        return 10;
+    }
+    if name.len() == 2 {
+        return 20;
+    }
+
+    // Penalize names ending with many digits (i23, str12, etc.)
+    let trailing_digits: usize = name.chars().rev().take_while(|c| c.is_ascii_digit()).count();
+    if trailing_digits >= 2 {
+        return 30;
+    }
+    if trailing_digits == 1 {
+        return 50;
+    }
+
+    // Prefer longer, more descriptive names
+    let base_score: u32 = 60;
+    let length_bonus: u32 = std::cmp::min(name.len() as u32, 20);
+
+    // Prefer camelCase names (typical Java style)
+    let camel_case_bonus: u32 = if name.chars().any(|c| c.is_uppercase()) { 5 } else { 0 };
+
+    base_score + length_bonus + camel_case_bonus
 }
 
 /// Get the destination register from an instruction type
@@ -815,5 +1092,66 @@ mod tests {
 
         // Test non-camelCase (should not match)
         assert_eq!(VarNaming::extract_name_from_method("getuser"), None); // lowercase after prefix
+    }
+
+    #[test]
+    fn test_sanitize_field_name() {
+        // Normal field names should be preserved with lowercase first char
+        assert_eq!(VarNaming::sanitize_field_name("buffer"), "buffer");
+        assert_eq!(VarNaming::sanitize_field_name("Name"), "name");
+        assert_eq!(VarNaming::sanitize_field_name("mBuffer"), "mBuffer");
+        assert_eq!(VarNaming::sanitize_field_name("MAX_SIZE"), "mAX_SIZE");
+
+        // Short/obfuscated names should return empty
+        assert_eq!(VarNaming::sanitize_field_name("a"), "");
+        assert_eq!(VarNaming::sanitize_field_name("b"), "");
+        assert_eq!(VarNaming::sanitize_field_name("a1"), "");
+
+        // Two-char names with uppercase OK
+        assert_eq!(VarNaming::sanitize_field_name("ID"), "iD");
+    }
+
+    #[test]
+    fn test_array_var_name_from_type() {
+        // Descriptor format
+        assert_eq!(VarNaming::array_var_name_from_type("[B"), Some("bArr"));
+        assert_eq!(VarNaming::array_var_name_from_type("[I"), Some("iArr"));
+        assert_eq!(VarNaming::array_var_name_from_type("[J"), Some("lArr"));
+        assert_eq!(VarNaming::array_var_name_from_type("[Ljava/lang/String;"), Some("strArr"));
+        assert_eq!(VarNaming::array_var_name_from_type("[Ljava/lang/Object;"), Some("arr"));
+
+        // Java format
+        assert_eq!(VarNaming::array_var_name_from_type("byte[]"), Some("bArr"));
+        assert_eq!(VarNaming::array_var_name_from_type("int[]"), Some("iArr"));
+        assert_eq!(VarNaming::array_var_name_from_type("String[]"), Some("strArr"));
+        assert_eq!(VarNaming::array_var_name_from_type("Object[]"), Some("arr"));
+
+        // Non-array types
+        assert_eq!(VarNaming::array_var_name_from_type("int"), None);
+        assert_eq!(VarNaming::array_var_name_from_type("java/lang/String"), None);
+    }
+
+    #[test]
+    fn test_score_name() {
+        // Very short names get low scores
+        assert!(score_name("i") < score_name("index"));
+        assert!(score_name("s") < score_name("str"));
+
+        // Register-like names get very low scores
+        assert!(score_name("r0") < score_name("buffer"));  // r0=5 < buffer=66
+        assert!(score_name("v1") < score_name("value"));   // v1=5 < value=65
+
+        // Names with trailing digits get penalized
+        assert!(score_name("str2") < score_name("str"));   // single digit penalty
+        assert!(score_name("str23") < score_name("str2")); // multi-digit penalty worse
+
+        // Descriptive names get high scores
+        assert!(score_name("buffer") > score_name("b"));
+        assert!(score_name("userName") > score_name("user"));
+        assert!(score_name("completableSourceArr") > score_name("arr"));
+
+        // Verify register names are penalized
+        assert_eq!(score_name("r0"), 5);
+        assert_eq!(score_name("v123"), 5);
     }
 }

@@ -15,7 +15,7 @@
 | **Region Reconstruction** | 100% | if/else, loops, switch, try-catch, synchronized, finally |
 | **Code Generation** | 100% | Annotations, ternary, multi-catch, inner classes |
 | **Import Statements** | 100% | Full package resolution, $ -> . conversion |
-| **Variable Naming** | 98% | Type-based, method pattern, PHI merging, debug info |
+| **Variable Naming** | 99% | Type-based, method pattern, field access, casts, PHI merging with scoring, debug info |
 | **Type Inference** | Good | Class hierarchy with LCA, constraint-based |
 | **Static Initializers** | 100% | `<clinit>` extraction to field declarations |
 | **Instance Field Init** | 100% | Constructor extraction to field declarations |
@@ -72,26 +72,39 @@ public void processData(long l, Throwable th, Integer num, Class cls) {
     StringBuilder sb = new StringBuilder();
     View view = findViewById(R.id.main);
     String name = getName();  // from invoke pattern
+    byte[] buffer = this.buffer;  // from field access
     int x;  // from debug info or type-based
     if (cond) { x = 1; } else { x = 2; }  // PHI-merged: same name
 }
 ```
 
-**dexterity (98% parity):**
+**dexterity (99% parity):**
 ```java
 public void processData(long l, Throwable th, Integer num, Class cls) {
     StringBuilder sb = new StringBuilder();
     View view = findViewById(R.id.main);
     String name = getName();  // method pattern: getName() -> name
+    byte[] buffer = this.buffer;  // field access naming
     int x;  // debug info or type-based
     if (cond) { x = 1; } else { x = 2; }  // PHI-merged: same name
 }
 ```
 
-**New features:**
-- PHI merging: SSA variables connected through PHI nodes share the same name
-- Debug info: Variable names from DEX debug bytecode (when available)
-- Fallback: Register-based (`r0`, `r1`) when no other info available
+**Variable naming features (Dec 2025 improvements):**
+- **Field access naming**: Variables from `obj.field` use the field name (e.g., `buffer` from `this.buffer`)
+- **CheckCast naming**: Variables from casts use target type (e.g., `str` from `(String)obj`)
+- **Array naming**: Array variables use element-type prefixes (e.g., `bArr` for `byte[]`, `strArr` for `String[]`)
+- **PHI merging with scoring**: SSA variables connected through PHI nodes share the best-scored name
+- **Primitive cast naming**: Variables from primitive casts use type abbreviation (e.g., `l` for `(long)i`)
+- **Compare/InstanceOf naming**: Comparison results get `cmp`, instanceof gets `z`
+- **Method pattern extraction**: `getUser()` -> `user`, `createBuilder()` -> `builder`
+- **Debug info**: Variable names from DEX debug bytecode (when available)
+- **Fallback**: Type-based (`i`, `str`, `obj`) or register-based (`r0`, `r1`) when no other info available
+
+**QA Metrics (medium APK, Dec 16 2025):**
+- Overall Quality Score: 77.1% (+1.1% from previous)
+- Code Quality: 66.6% (+2.6% from previous)
+- Defect Score: 90.3% (+0.6% from previous)
 
 ### Example: Field Initializers
 

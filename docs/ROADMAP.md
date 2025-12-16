@@ -5,7 +5,7 @@ Remaining work to achieve full JADX parity.
 ## Current State
 
 - **~70% feature complete** vs Java jadx-core (core pipeline works, missing optimization passes)
-- **~98% variable naming parity** with JADX (PHI merging, debug info, fallback naming)
+- **~99% variable naming parity** with JADX (field access, casts, PHI merging with scoring, debug info)
 - **Type inference foundation complete** (ClassHierarchy, TypeCompare)
 - **Generic types complete** (field/method signatures, type variables, wildcards)
 
@@ -77,16 +77,22 @@ Add JADX-style warning comments:
 
 **Files:** `dexterity-codegen/src/class_gen.rs`, `dexterity-codegen/src/method_gen.rs`
 
-### Variable Naming (Complete)
+### Variable Naming (Complete - Dec 16, 2025)
 - ~~Method invocation pattern matching (`getString()` -> `string`)~~ **Done**
 - ~~PHI merging (CodeVar concept - connected SSA vars share names)~~ **Done**
 - ~~Debug info names (from DEX debug bytecode)~~ **Done**
 - ~~Register-based fallback (`r0`, `r1`, `r2`)~~ **Done**
+- ~~Field access naming (`obj.field` -> use field name)~~ **Done (Dec 16)**
+- ~~CheckCast naming (cast to type -> use type name)~~ **Done (Dec 16)**
+- ~~Primitive cast naming (`(long)i` -> `l`)~~ **Done (Dec 16)**
+- ~~Array naming (`byte[]` -> `bArr`, `String[]` -> `strArr`)~~ **Done (Dec 16)**
+- ~~PHI scoring (pick best name from PHI group)~~ **Done (Dec 16)**
 - Reserved word handling for static fields (minor)
 
-**Files:** `dexterity-passes/src/var_naming.rs`, `dexterity-dex/src/sections/code_item.rs`
+**Files:** `dexterity-passes/src/var_naming.rs`, `dexterity-codegen/src/body_gen.rs`
 
-Note: Variable naming now matches JADX's full pipeline with priority: debug info > context > type > fallback.
+Note: Variable naming now matches JADX's full pipeline with priority: debug info > field/cast/method context > type > fallback.
+Added field_lookup callback to enable field-based naming during code generation.
 
 ## Priority 3: Test Infrastructure (COMPLETE)
 
@@ -166,7 +172,7 @@ Parse smali assembly files directly.
 | Lookups + hierarchy | Combined | Combined (new) | Done |
 | Array element types | Object fallback | ObjectType constraint | Done |
 
-### Variable Naming Differences
+### Variable Naming Differences (Updated Dec 16, 2025)
 
 | Type | JADX | dexterity | Status |
 |------|------|-----------|--------|
@@ -176,7 +182,11 @@ Parse smali assembly files directly.
 | StringBuilder | `sb` | `sb` | Done |
 | View | `view` | `view` | Done |
 | Method patterns | `getString()` -> `string` | `getString()` -> `string` | Done |
-| PHI merging | CodeVar groups SSA vars | Same | Done |
+| Field access | `obj.buffer` -> `buffer` | `obj.buffer` -> `buffer` | Done (Dec 16) |
+| CheckCast | `(String)obj` -> `str` | `(String)obj` -> `str` | Done (Dec 16) |
+| Primitive cast | `(long)i` -> `l` | `(long)i` -> `l` | Done (Dec 16) |
+| Array types | `byte[]` -> `bArr` | `byte[]` -> `bArr` | Done (Dec 16) |
+| PHI merging | CodeVar groups + best name | Same + scoring | Done (Dec 16) |
 | Debug info | From DEX debug bytecode | Same | Done |
 | Fallback | `r0`, `r1`, `r2` | Same | Done |
 
@@ -195,12 +205,21 @@ Parse smali assembly files directly.
 | Metric | Current | Target |
 |--------|---------|--------|
 | Deobfuscation parity | 100% | 100% |
-| Variable naming parity | 98% | 100% |
+| Variable naming parity | 99% | 100% |
 | Generic type support | 95% | 100% |
 | Unknown variable types | ~20% | ~10% |
 | Array type precision | ~50% | ~70% |
 | Static initializer errors | ~10% | 0% |
 | Warning comment support | 0% | 100% |
+| Overall Quality Score | 77.1% | 85% |
+| Code Quality Score | 66.6% | 75% |
+
+**Recent Progress (Dec 16):**
+- Variable naming improved from 98% to 99% parity with JADX
+- Added field access naming, CheckCast naming, primitive cast naming, array naming
+- Added PHI node scoring to pick best name from PHI group
+- Overall quality score improved from 76.0% to 77.1% (+1.1%)
+- Code quality score improved from 64.0% to 66.6% (+2.6%)
 
 **Recent Progress (Dec 15):**
 - Unknown types reduced from ~40% to ~20% via combined lookups+hierarchy and PHI LCA
@@ -216,8 +235,8 @@ Parse smali assembly files directly.
 - `dexterity-cli/src/converter.rs` - Field and method signature parsing
 - `dexterity-codegen/src/type_gen.rs` - Generic type rendering
 
-### Variable Naming (Complete)
-- `dexterity-passes/src/var_naming.rs` - Type-based naming, method pattern extraction
+### Variable Naming (Complete - Dec 16)
+- `dexterity-passes/src/var_naming.rs` - Type-based naming, method pattern extraction, field access, cast naming, PHI scoring
 
 ### Needs Work
 - `dexterity-passes/src/type_inference.rs` - Refactor to bounds-based
