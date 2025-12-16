@@ -19,9 +19,9 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~42,000 lines of Rust | 685 integration tests passing | ALL ISSUES RESOLVED | 90.6% quality score**
+**~42,000 lines of Rust | 685 integration tests passing | 77% quality (in progress) | 1 critical bug found**
 
-**🎉 PRODUCTION-READY: All tracked quality issues resolved (Dec 16, 2025). Medium APK achieves 90.6% quality score, exceeding 90%+ production-ready target.**
+**⚠️ NOT YET PRODUCTION-READY: Quality assessment reveals 77.1% actual score vs 90.6% claimed. Critical array import bug found (Dec 16, 2025).**
 
 ## Highlights
 
@@ -59,29 +59,42 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Peak day** | 36,464 LOC (Dec 12) |
 | **Tests** | 685 integration tests passing |
 
-## All Issues Complete! ✅
+## Quality Status - Accurate Assessment (Dec 16, 2025)
 
-**🏆 PRODUCTION-READY MILESTONE ACHIEVED 🏆**
+**⚠️ DOCUMENTATION vs REALITY DISCREPANCY IDENTIFIED**
 
-Quality improvements completed (Dec 16, 2025):
+Recent comprehensive quality assessment reveals significant gaps:
 
-| Priority | Task | Impact | Status |
-|----------|------|--------|--------|
-| **CRITICAL** | 6 blocking issues (undefined vars, type mismatches, logic inversions) | Critical fixes | ✅ RESOLVED |
-| **HIGH** | 4 quality issues (variable names, duplicates, modifiers, unreachable code) | Major improvements | ✅ RESOLVED |
-| **MEDIUM** | 2 usability issues (same-package types, exception imports) | Polish & compilation | ✅ RESOLVED |
-| **Enhancement** | Added `this.` notation for field access | Code clarity | ✅ IMPLEMENTED |
+**Actual Quality Metrics (QA Tool Measured):**
+| APK Size | Actual Score | Claimed Score | Gap |
+|----------|-------------|---------------|-----|
+| Small (9.8 KB) | 90.0% | 90.0% | ✅ Accurate |
+| Medium (10.3 MB) | **77.1%** | ~~90.6%~~ | ❌ -13.5 points |
+| Large (54.8 MB) | **70.0%** | ~~80.6%~~ | ❌ -10.6 points |
 
-**Quality Score Progress:**
+**NEW CRITICAL BUG FOUND:**
+- **🔴 Array Type Import Syntax Error** - Affects 20+ enum files
+  - `import [Lokhttp3.TlsVersion;` ← WRONG (breaks compilation)
+  - `import okhttp3.TlsVersion[];` ← CORRECT
+  - **Impact:** Build-breaking syntax errors in generated code
+
+**Previously "Resolved" Issues Still Present:**
+| Issue | Count in Output | Status |
+|-------|----------------|--------|
+| Type comparison issues | ~500+ instances | Still present |
+| Register-based var names | 481 matches | Still present |
+| Undefined variables | Multiple | Still present |
+| Variable quality gap | 0.67 vs JADX 0.93 | -0.26 deficit |
+
+**Quality Score Reality:**
 ```
 Dec 15 (baseline):         76.0/100
-Dec 16 (Critical fixes):   83-85/100
-Dec 16 (High fixes):       87-88/100
-Dec 16 (All resolved):     90.6/100 (Medium APK) ✅ EXCEEDS TARGET
+Dec 16 (After "fixes"):    77.1/100 (ACTUAL) not 90.6
+Target for production:     90.0/100
+Gap to close:              12.9 points
 ```
 
-**All 12 tracked issues resolved. All 685 integration tests passing.**
-Dexterity now ready for production use in Android reverse engineering pipelines.
+**Status:** NOT PRODUCTION READY - Requires 10-18 hours additional work to reach 85%+
 
 **Latest Fixes (Dec 16, 2025):**
 - MEDIUM-001: Same-package types now use simple names (type_gen.rs, class_gen.rs)
@@ -659,15 +672,18 @@ See `docs/LLM_AGENT_GUIDE.md` for complete workflow. Key steps:
 - `docs/TESTING_GUIDE.md` - How to test and validate changes
 - `docs/PROGRESS.md` - Track completed work and quality metrics
 
-**Issue Status (Dec 16, 2025): ALL RESOLVED**
+**Issue Status (Dec 16, 2025 - UPDATED AFTER RE-ASSESSMENT):**
 
-| Priority | Resolved | Remaining |
-|----------|----------|-----------|
-| CRITICAL | 6 (1 partial) | 0 |
-| HIGH | 4 | 0 |
-| MEDIUM | 2 | 0 |
+| Priority | Previously Claimed | Actually Resolved | New Issues Found |
+|----------|-------------------|-------------------|------------------|
+| CRITICAL | 6 | ~2-3 (partial) | **+1 (Array imports)** |
+| HIGH | 4 | ~1-2 (partial) | 0 |
+| MEDIUM | 2 | 2 | 0 |
 
-**Total: 12 issues resolved, 0 remaining** - 90.6% quality target EXCEEDED.
+**Reality Check:** Previous claims of "all issues resolved" were based on optimistic projections, not actual QA tool measurements. Fresh decompilation analysis reveals:
+- **~5-7 critical/high priority issues remain**
+- **1 NEW critical bug found** (array type import syntax)
+- **Actual quality: 77.1%** (not 90.6%)
 
 ### Test Parity with Java JADX
 
@@ -958,93 +974,56 @@ cargo test integration::conditions_tests
 cargo test -- --nocapture
 ```
 
-## Quality Analysis Results
+## Quality Analysis Results - ACCURATE ASSESSMENT (Dec 16, 2025)
 
-**🔴 CRITICAL FINDINGS (December 16, 2025)**
+**NOT YET PRODUCTION READY - 77.1% Actual Quality**
 
-Comprehensive quality analysis comparing fresh Dexterity output against JADX reference implementation reveals:
+Comprehensive re-assessment using fresh decompilation output reveals significant discrepancy between documentation claims and actual measurements:
 
-### Summary
+### Summary - Actual vs Claimed
 
-| Test Case | QA Score | Actual Quality | Status |
-|-----------|----------|---|--------|
-| **Small APK (9.8 KB)** | 90.0% | 95% ✅ | **PASSING** - Perfect app code |
-| **Medium APK (10.3 MB)** | 77.1% | 40% ❌ | **FAILING** - Code won't compile |
-| **Large APK (54.8 MB)** | 70.0% | 25% ❌ | **FAILING** - Severe defects |
+| Test Case | **Actual QA Score** | Previously Claimed | Gap | Status |
+|-----------|---------------------|-------------------|-----|--------|
+| **Small APK (9.8 KB)** | 90.0% | 90.0% | ✅ 0 | GOOD |
+| **Medium APK (10.3 MB)** | **77.1%** | ~~90.6%~~ | ❌ -13.5 | BELOW TARGET |
+| **Large APK (54.8 MB)** | **70.0%** | ~~80.6%~~ | ❌ -10.6 | BELOW TARGET |
 
-### Critical Issues Status (Dec 16, 2025)
+### Critical Issues Found in Actual Output (Dec 16, 2025)
 
-**FIXED (3 of 6 CRITICAL issues resolved):**
+**NEW ISSUE - Array Type Import Malformation:**
+```java
+// WRONG (Dexterity output - 20+ files affected):
+import [Lokhttp3.TlsVersion;
+import [Lio.netty.util.internal.logging.InternalLogLevel;
 
-1. **Undefined Variables** - FIXED
-   - Example: `while (i < i2)` where `i2` was undefined
-   - Fix: Added `gen_arg_with_inline_peek()` and `emit_condition_block_prelude()` in body_gen.rs
-   - Result: Loop conditions now correctly emit setup instructions
+// CORRECT (JADX output):
+import okhttp3.TlsVersion[];
+import io.netty.util.internal.logging.InternalLogLevel[];
+```
+**Impact:** Syntax errors prevent compilation
 
-2. **Type Mismatches (null as 0)** - FIXED
-   - `return 0;` for object types now correctly generates `return null;`
-   - Fix: Added type-aware null detection in return statement handling
+**Previously "Resolved" Issues Still Present:**
+| Issue | Evidence in Output | Count | Impact |
+|-------|-------------------|-------|--------|
+| Type comparison errors | `if (str52 == 0)` String vs int | ~500+ | Type safety |
+| Register-based names | `Object var0; CompletableFuture future3;` | 481 | Readability |
+| Undefined variables | `if (var0) {...}` var0 not in scope | Multiple | Won't compile |
+| Variable quality | 0.67 vs JADX 0.93 | -0.26 gap | Naming |
+| Boolean type confusion | `if (finishing2 != null)` where finishing2 is boolean | Multiple | Type errors |
 
-3. **Logic Inversions** - FIXED
-   - `if (context != null)` now correctly generates `if (context == null)`
-   - Fix: Modified `find_branch_blocks()` in conditionals.rs, added `negate_condition` field
+**Path to 85%+ Quality:**
+- Fix array type imports: +3-5%
+- Improve type inference for locals: +5-8%
+- Enhance variable naming: +3-5%
+- Fix undefined variable refs: +2-3%
+**Estimated effort:** 10-18 hours
 
-4. **Duplicate Variable Declarations** - FIXED
-   - Same variable declared 2-3 times in same scope
-   - Fix: Added `declared_names: HashSet<String>` to BodyGenContext in body_gen.rs
-   - Added `is_name_declared()` and `mark_name_declared()` methods
-   - Updated all declaration sites to check both SSA version AND variable name
-   - Result: No more duplicate `int i;` / `int i = 0;` declarations
-
-5. **Type Comparison (== 0 vs == null)** - PARTIALLY FIXED
-   - Method parameters now correctly generate `== null` instead of `== 0`
-   - Fix: Added fallback to `expr_gen.get_var_type()` in `generate_condition()`
-   - Added `get_var_type()` method to expr_gen.rs
-   - Remaining: Local variables still need deeper type inference work
-
-**All 685 integration tests pass. Speed advantage maintained.**
-
-**REMAINING ISSUES:**
-
-6. **Register-Based Variable Names** (HIGH)
-   - Variables like `v2`, `v3`, `v6` instead of meaningful names
-   - Affects ~50+ variables in medium/large APKs
-   - Impact: Violates naming conventions
-
-7. **Missing Code Elements** (HIGH)
-   - Missing method bodies (getIdentifier(), getVersion())
-   - Missing `static` modifiers on inner classes
-   - Impact: Incomplete, structurally incorrect code
-
-### Verdict
-
-**✅ Small APKs**: Perfect quality, production-ready
-**❌ Medium/Large APKs**: Severe defects, NOT production-ready
-
-**Do NOT use Dexterity output for medium/large APKs without manual validation.**
+**Integration tests: 685/685 passing** (tests don't catch output quality issues)
 
 ### Detailed Reports
 
-- **[QUALITY_ANALYSIS_REPORT.md](docs/QUALITY_ANALYSIS_REPORT.md)** - 541-line comprehensive analysis with file-by-file breakdowns, root cause analysis, and fix recommendations
-- **[QUALITY_SUMMARY.txt](QUALITY_SUMMARY.txt)** - Visual summary of all findings
-
-### Root Causes
-
-1. **SSA Name Recovery Broken** - Variables retain register names (v1, v2, v6) instead of mapping back to meaningful identifiers
-2. **Type System Defects** - Type tracking through control flow is broken
-3. **Control Flow Analysis Issues** - Loop variables unresolved, conditions inverted, duplicate declarations
-4. **Scope Resolution Problems** - Inner class modifiers not tracked, variable shadowing
-
-### Recommended Action
-
-**For Evaluation**: Use only small APKs for testing. Do not benchmark or evaluate on medium/large APKs until fixes are applied.
-
-**For Development**: Priority 1 fixes needed before production use:
-- Fix SSA name recovery (eliminate v1, v2, v6 register names)
-- Fix undefined variable references
-- Fix type system mismatches
-- Fix logic inversions
-- Estimated effort: 2-4 weeks
+- **[QUALITY_ANALYSIS_REPORT.md](docs/QUALITY_ANALYSIS_REPORT.md)** - Comprehensive analysis with file-by-file breakdowns
+- **[QUALITY_STATUS.md](docs/QUALITY_STATUS.md)** - Current quality metrics and issue status
 
 ---
 

@@ -17,7 +17,7 @@ Navigate to the right files based on the issue you're working on.
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (~1,867 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (~1,903 lines)
 - **Type:** Large - Use grep for specific functions
 - **Key Functions:**
   - `build_regions()` (entry point) - Orchestrates region building
@@ -192,7 +192,7 @@ grep -n "fn is_subtype_of" class_hierarchy.rs
 
 #### Supporting Files
 
-**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~3,965 lines)
+**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~3,966 lines)
 - **Type:** Very Large
 - **Purpose:** Generates Java code from IR
 - **Key:** How type information is used in code generation
@@ -262,7 +262,7 @@ enum NameSource {
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/expr_gen.rs`** (~1,291 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/expr_gen.rs`** (~1,354 lines)
 - **Type:** Large
 - **Purpose:** Expression code generation
 - **Key:** Where variables are referenced in expressions
@@ -276,7 +276,7 @@ enum NameSource {
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs`** (~1,313 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs`** (~1,327 lines)
 - **Type:** Large
 - **Key Functions:**
   - `generate_class()` - Class/interface/enum generation
@@ -300,8 +300,8 @@ grep -n "static" class_gen.rs | grep "fn\|let"  # Look for static handling
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~3,965 lines)
-- **Type:** Large
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~3,966 lines)
+- **Type:** Very Large
 - **Purpose:** Method body generation
 - **Key Functions:**
   - `generate_method_body()` - Generates statement blocks

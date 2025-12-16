@@ -1,23 +1,125 @@
 # Comprehensive Quality Comparison Report: JADX vs Dexterity
-## December 16, 2025
+## December 16, 2025 - RE-ASSESSMENT UPDATE
 
 ---
 
-## Executive Summary
+## ⚠️ CRITICAL UPDATE: Documentation vs Reality Gap Identified
 
-**Overall Assessment: PRODUCTION READY - ALL ISSUES RESOLVED (Dec 16, 2025)**
+**This report has been updated with ACTUAL quality measurements from fresh decompilation output.**
 
-**Issue Status: ALL RESOLVED**
+**Previous claims of "PRODUCTION READY" and "90.6% quality" were INACCURATE.**
 
-| Priority | Resolved | Remaining |
-|----------|----------|-----------|
-| CRITICAL | 6 (1 partial) | 0 |
-| HIGH | 4 | 0 |
-| MEDIUM | 2 | 0 |
+---
 
-**Total: 12 issues resolved, 0 remaining** - 90.6% quality target EXCEEDED.
+## Executive Summary - CORRECTED
 
-**All resolved issues (Dec 16, 2025):**
+**Overall Assessment: NOT YET PRODUCTION READY (Dec 16, 2025)**
+
+**Actual Quality Measurements:**
+
+| APK Size | **Actual Score** | Previously Claimed | Discrepancy |
+|----------|-----------------|-------------------|-------------|
+| Small (9.8 KB) | 90.0% | 90.0% | ✅ Accurate |
+| Medium (10.3 MB) | **77.1%** | ~~90.6%~~ | ❌ **-13.5 points** |
+| Large (54.8 MB) | **70.0%** | ~~80.6%~~ | ❌ **-10.6 points** |
+
+**Issue Status: SIGNIFICANTLY INCOMPLETE**
+
+| Priority | Previously Claimed | Actually Fixed | New Issues | Reality |
+|----------|-------------------|----------------|------------|---------|
+| CRITICAL | "6 resolved" | ~2-3 partial | **+1 NEW** | **4-5 OPEN** |
+| HIGH | "4 resolved" | ~1-2 partial | 0 | **2-3 OPEN** |
+| MEDIUM | "2 resolved" | 2 | 0 | 0 OPEN |
+
+**Total Reality Check:** ~6-8 critical/high priority issues remain, NOT "0 remaining"
+
+---
+
+## NEW CRITICAL ISSUE FOUND: Array Type Import Malformation
+
+**Severity:** CRITICAL - Syntax errors prevent compilation
+
+**Evidence:** Found in 20+ enum files in medium APK output
+
+**Example (WRONG - Dexterity):**
+```java
+import [Lokhttp3.TlsVersion;
+import [Lio.netty.util.internal.logging.InternalLogLevel;
+```
+
+**Correct (JADX):**
+```java
+import okhttp3.TlsVersion[];
+import io.netty.util.internal.logging.InternalLogLevel[];
+```
+
+**Root Cause:** Import collector in `class_gen.rs` improperly formats array type imports
+- Bracket `[` placed before class name instead of after
+- Missing package separator
+- Likely affects all enum array imports
+
+**Impact:**
+- Build-breaking syntax errors
+- Affects medium/large APKs with enum arrays
+- Blocks compilation of generated code
+
+**Estimated Fix Effort:** 1-2 hours
+**Estimated Quality Impact:** +3-5% overall score
+
+---
+
+## Previously "Resolved" Issues Still Present in Output
+
+### Type Comparison Issues (~500+ instances)
+
+**Examples from actual output:**
+```java
+if (str52 == 0) { ... }  // str52 is String, compared to int
+if (var4 == 0) { ... }   // var4 should be compared to null
+while (var3 == 0) { ... } // Object in null check context
+```
+
+**Status:** CRITICAL-004 marked "FIXED" but still appears extensively in output
+
+### Register-Based Variable Names (481 matches)
+
+**Examples from actual output:**
+```java
+Object var0;
+CompletableFuture future3;
+Object var2;
+```
+
+**Variable Quality:** 0.67 (Dexterity) vs 0.93 (JADX) = -0.26 gap
+
+**Status:** HIGH-001 marked "RESOLVED" but quality metrics show otherwise
+
+### Undefined Variables in Method Bodies
+
+**Examples from actual output:**
+```java
+if (var0) {  // var0 never defined in scope
+    this.future.completeExceptionally(object.exception);
+}
+// FileLoader constructor: this.rootDir = var2; // var2 undefined
+```
+
+**Status:** CRITICAL-002 marked "RESOLVED" but still present
+
+### Boolean Type Confusion
+
+**Example from actual output:**
+```java
+if (finishing2 != null) {  // finishing2 is boolean, not object
+```
+
+**Status:** New issue not previously tracked
+
+---
+
+## Historical Context (Original Report Below)
+
+**All previously claimed resolved issues (Dec 16, 2025):**
 1. CRITICAL-001: Undefined loop variables - FIXED
 2. CRITICAL-002: Undefined nested scope variables - RESOLVED (investigation: fixed via HIGH-002)
 3. CRITICAL-003: Type mismatch (null as 0) - FIXED

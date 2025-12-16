@@ -117,10 +117,17 @@ cargo run --release --example enhance_parallel -- 100 16
 # Args: <file_limit> <concurrency>
 ```
 
-With 16GB GPU:
-- `qwen2.5:0.5b` (397MB): 16+ concurrent requests, ~1.5 files/sec
-- `gemma3:1b` (815MB): 8-16 concurrent requests
+With 16GB GPU (set `OLLAMA_NUM_PARALLEL=32` for max throughput):
+- `qwen2.5:0.5b` (397MB): 128 concurrent requests, 100% GPU, ~3.5-4 files/sec
+- `gemma3:1b` (815MB): 64 concurrent requests
 - Larger models: Reduce concurrency accordingly
+
+**Optimal Setup:**
+```bash
+# Restart Ollama with parallel processing enabled
+sudo systemctl stop ollama
+OLLAMA_NUM_PARALLEL=32 ollama serve &
+```
 
 ### Available Models
 

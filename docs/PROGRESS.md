@@ -2,52 +2,59 @@
 
 Track autonomous agent work and quality improvements toward 90% production-ready target.
 
-## Quality Metrics Trend
+## Quality Metrics Trend - CORRECTED
 
 | Date | Overall Score | Code Quality | Variable Quality | Notes | APKs Tested |
 |------|---------------|--------------|------------------|-------|------------|
 | Dec 15, 2025 | 76.0% | 64.0% | 0.64 | Baseline after P1-2 fixes | Small, Medium, Large |
-| Dec 16, 2025 | 77.1% | 66.6% | 0.67 | P2 package name whitelist | Small, Medium, Large |
+| Dec 16, 2025 | **77.1%** (actual) | 66.6% | 0.67 | Fresh QA measurement (not ~~90.6%~~) | Small, Medium, Large |
 | **TARGET** | **90%+** | **75%+** | **1.0** | Production-ready | All sizes |
+| **GAP** | **-12.9 pts** | **-8.4 pts** | **-0.33** | Work remaining | - |
 
 ## Current Quality Details (Dec 16, 2025)
 
-### By APK Size (Current - After All Fixes)
+### By APK Size (ACTUAL - Fresh QA Tool Run)
 
-| Size | Quality | Code Quality | Status | Notes |
-|------|---------|--------------|--------|-------|
-| Small (9.8 KB) | 90.0% | 100% | PRODUCTION READY | Perfect output |
-| Medium (10.3 MB) | 90.6% | 98.3% | PRODUCTION READY | EXCEEDS 90% target |
-| Large (54.8 MB) | 80.6% | 98.2% | GOOD | Framework filtering by design |
+| Size | **Actual Quality** | Code Quality | Claimed | Gap | Status |
+|------|-------------------|--------------|---------|-----|--------|
+| Small (9.8 KB) | 90.0% | 100% | 90.0% | ✅ 0 | GOOD |
+| Medium (10.3 MB) | **77.1%** | 66.6% | ~~90.6%~~ | ❌ **-13.5** | BELOW TARGET |
+| Large (54.8 MB) | **70.0%** | 74.5% | ~~80.6%~~ | ❌ **-10.6** | BELOW TARGET |
 
-### All Blocking Issues Resolved
+### Blocking Issues - CORRECTION: Many Still Remain
 
-All issues that were preventing production use have been resolved:
-- Undefined Variables - FIXED (CRITICAL-001, CRITICAL-002)
-- Type Mismatches - FIXED (CRITICAL-003, CRITICAL-004)
-- Logic Inversions - FIXED (CRITICAL-005)
-- Missing Code - RESOLVED (CRITICAL-006 - investigation found code IS generated)
-- Register-based Names - RESOLVED (HIGH-001 - Dexterity 0.98 > JADX 0.93)
+**Previous claims of "all resolved" were premature.** Fresh output analysis reveals:
 
-**Quality Progression:**
-- Baseline (Dec 16): 77.1% overall quality
-- After CRITICAL fixes: 83-85% overall quality
-- After HIGH fixes: 88-90% overall quality
-- After MEDIUM fixes: 90.6% overall quality - PRODUCTION READY
+**NEW CRITICAL ISSUE FOUND:**
+- 🔴 **Array Type Import Syntax Error** - 20+ files affected
+  - `import [Lokhttp3.TlsVersion;` ← WRONG
+  - `import okhttp3.TlsVersion[];` ← CORRECT
+
+**Previously "Fixed" Issues Still Present:**
+- Type comparison errors: ~500+ instances (`if (str52 == 0)`)
+- Register-based names: 481 matches (var0, var2, etc.)
+- Undefined variables: Multiple (`var0` not in scope)
+- Variable quality gap: 0.67 vs JADX 0.93 (-0.26)
+
+**Actual Quality Progression:**
+- Baseline (Dec 15): 76.0% overall quality
+- After attempted fixes (Dec 16): 77.1% overall quality (+1.1%)
+- Target for production: 90.0% overall quality
+- **Gap remaining: 12.9 points**
 
 ---
 
 ## Issues Resolved
 
-**Current Issue Status (Dec 16, 2025 - ALL ISSUES RESOLVED!):**
+**Current Issue Status (Dec 16, 2025 - CORRECTED AFTER RE-ASSESSMENT):**
 
-| Priority | Resolved | Remaining |
-|----------|----------|-----------|
-| CRITICAL | 5 (+1 partial) | 0 |
-| HIGH | 4 | 0 |
-| MEDIUM | 2 | 0 |
+| Priority | Claimed Resolved | Actually Fixed | New Found | OPEN |
+|----------|-----------------|----------------|-----------|------|
+| CRITICAL | "5 + 1 partial" | ~2-3 partial | **+1** | **4-5** |
+| HIGH | "4" | ~1-2 partial | 0 | **2-3** |
+| MEDIUM | "2" | 2 | 0 | 0 |
 
-**Total: 11+ resolved, 0 remaining** - 🎉 ALL TRACKED ISSUES RESOLVED!
+**Reality Check:** ⚠️ ~6-8 critical/high issues STILL OPEN, NOT "0 remaining"
 
 ### CRITICAL (P1) Issues: 6/6 Resolved (1 Partial)
 
@@ -505,7 +512,7 @@ When you fix an issue, document it here:
 - MEDIUM-001: Same-package types - FIXED (added package-aware type name functions)
 - MEDIUM-002: Missing exception imports - FIXED (updated ImportCollector)
 
-**Status: PRODUCTION READY** - 90.6% quality achieved on medium APKs. All tracked issues resolved. Dexterity outperforms JADX on variable quality and unreachable code handling.
+**Status: NOT PRODUCTION READY** - 77.1% actual quality on medium APKs (not 90.6%). ~6-8 critical/high issues remain. Fresh output analysis reveals significant gaps between documentation claims and measured reality.
 
 ---
 

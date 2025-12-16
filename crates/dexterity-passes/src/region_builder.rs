@@ -1144,6 +1144,42 @@ impl<'a> RegionBuilder<'a> {
             }
         }
 
+        // Ensure ALL blocks in the loop are included (fixes for-each empty body issue)
+        // Some blocks may not be reachable via successors from body_start due to
+        // complex control flow (iterator patterns, exception handlers, etc.)
+        let skip_header = loop_info.kind != LoopKind::DoWhile;
+        for &block_id in &loop_info.blocks {
+            // Skip header for while loops (it's already processed as condition)
+            if skip_header && block_id == loop_info.header {
+                continue;
+            }
+            // Add any unvisited blocks that are part of the loop
+            if !visited.contains(&block_id) {
+                visited.insert(block_id);
+                // Check for nested structures (same logic as above)
+                if let Some(nested_loop) = self.find_nested_loop(block_id, loop_info) {
+                    let nested_condition = self.extract_condition(nested_loop.header);
+                    let nested_body = self.build_loop_body(nested_loop);
+                    contents.push(RegionContent::Region(Box::new(Region::Loop {
+                        kind: nested_loop.kind,
+                        condition: Some(nested_condition),
+                        body: Box::new(nested_body),
+                    })));
+                } else if let Some(cond) = self.cond_map.get(&block_id).copied() {
+                    if cond.then_blocks.iter().all(|b| loop_info.blocks.contains(b))
+                        && cond.else_blocks.iter().all(|b| loop_info.blocks.contains(b))
+                    {
+                        let (if_region, _) = self.process_if(cond);
+                        contents.push(RegionContent::Region(Box::new(if_region)));
+                    } else {
+                        contents.push(RegionContent::Block(block_id));
+                    }
+                } else {
+                    contents.push(RegionContent::Block(block_id));
+                }
+            }
+        }
+
         Region::Sequence(contents)
     }
 

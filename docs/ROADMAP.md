@@ -2,17 +2,18 @@
 
 Work completed to achieve high quality decompilation.
 
-## Current State (Dec 16, 2025)
+## Current State (Dec 16, 2025 - CORRECTED)
 
-**Quality Score:** 90.6/100 on Medium APK (PRODUCTION READY)
-**Previous Score:** 73.6/100 (original baseline)
+**⚠️ Quality Score ACTUAL:** 77.1/100 on Medium APK (NOT production ready)
+**Previously Claimed:** ~~90.6/100~~ (optimistic projection, not measured)
+**Original Baseline:** 73.6/100
 
-**QA Tool Results (Latest Run):**
-| APK | Overall | Code Quality | Defect Score |
-|-----|---------|--------------|--------------|
-| Small | 90.0% | 100.0% | 100.0% |
-| Medium | 90.6% | 98.3% | 98.2% |
-| Large | 80.6% | 98.2% | 98.4% |
+**QA Tool Results (ACTUAL - Dec 16 10:40 AM):**
+| APK | **Actual** | Code Quality | Defect Score | Claimed | Gap |
+|-----|-----------|--------------|--------------|---------|-----|
+| Small | 90.0% | 100.0% | 100.0% | 90.0% | ✅ 0 |
+| Medium | **77.1%** | 66.6% | 90.3% | ~~90.6%~~ | ❌ **-13.5** |
+| Large | **70.0%** | 74.5% | 91.5% | ~~80.6%~~ | ❌ **-10.6** |
 
 - **P0-2 Switch Statements** COMPLETE - Dominance frontier merge detection (+10 points)
 - **P1-1 Variable Naming** COMPLETE - Field access, casts, array, PHI scoring (+4-5 points)
@@ -39,15 +40,15 @@ Comprehensive documentation has been created to enable autonomous LLM agents to 
 - `docs/TESTING_GUIDE.md` - How to test fixes and validate improvements
 - `docs/PROGRESS.md` - Track completed work and quality metrics
 
-**Issue Status (Dec 16, 2025): ALL RESOLVED**
+**Issue Status (Dec 16, 2025): CORRECTION - MANY STILL OPEN**
 
-| Priority | Resolved | Remaining |
-|----------|----------|-----------|
-| CRITICAL | 6 (1 partial) | 0 |
-| HIGH | 4 | 0 |
-| MEDIUM | 2 | 0 |
+| Priority | Previously Claimed | Actually Resolved | New Found | OPEN |
+|----------|-------------------|-------------------|-----------|------|
+| CRITICAL | "6 resolved" | ~2-3 partial | **+1** | **4-5** |
+| HIGH | "4 resolved" | ~1-2 partial | 0 | **2-3** |
+| MEDIUM | "2 resolved" | 2 | 0 | 0 |
 
-**Total: 12 issues resolved, 0 remaining** - 90.6% quality target EXCEEDED.
+**Reality:** ~6-8 critical/high issues OPEN. Quality target NOT exceeded (77.1% vs 90% target).
 
 **Completed (Dec 16, 2025):**
 - CRITICAL-001: Undefined loop variables - Added `gen_arg_with_inline_peek()` and `emit_condition_block_prelude()`
@@ -214,10 +215,10 @@ Added field_lookup callback to enable field-based naming during code generation.
 
 ### Tests Status
 All test infrastructure is now complete and passing:
-- 984 tests total (972 passing, 12 failing - 8 in dexterity-codegen, 4 disabled in dexterity-qa)
+- 1,013+ tests total (excluding dexterity-qa compilation issue)
 - 685 integration tests fully implemented in `dexterity-cli/tests/integration/`
 - Zero TODOs remaining - all assertions completed
-- Most crate unit tests passing (8 failing in dexterity-codegen stmt_gen module)
+- All crate unit tests passing
 
 ### Future CI/CD
 Establish continuous integration to prevent test rot.

@@ -16,12 +16,12 @@
 crates/
 ├── dexterity-dex/       # DEX parsing (4,072 lines)
 ├── dexterity-ir/        # IR types & class hierarchy (3,849 lines)
-├── dexterity-passes/    # Decompilation passes (12,312 lines)
-├── dexterity-codegen/   # Java code generation (9,432 lines)
-├── dexterity-resources/ # AXML & resources.arsc (4,026 lines)
-├── dexterity-deobf/     # Deobfuscation (1,651 lines)
+├── dexterity-passes/    # Decompilation passes (13,841 lines)
+├── dexterity-codegen/   # Java code generation (9,721 lines)
+├── dexterity-resources/ # AXML & resources.arsc (4,032 lines)
+├── dexterity-deobf/     # Deobfuscation (1,819 lines)
 ├── dexterity-kotlin/    # Kotlin metadata parsing (597 lines)
-└── dexterity-cli/       # CLI application (4,635 lines)
+└── dexterity-cli/       # CLI application (4,872 lines)
 ```
 
 ### dexterity-dex (DEX Parsing)

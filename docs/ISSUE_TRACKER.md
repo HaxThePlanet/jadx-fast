@@ -408,7 +408,7 @@ Variables have register-based names (`v2`, `v3`, `v6`) instead of meaningful nam
 - Large APK: Dexterity variable quality = 0.98 vs JADX = 0.93
 
 **Implementation Review:**
-The `var_naming.rs` module (1,158 lines) is comprehensive:
+The `var_naming.rs` module (1,157 lines) is comprehensive:
 - Context-based naming from instruction analysis (field access, casts, method invocations)
 - PHI node merging with scoring (best name wins across connected SSA variables)
 - Debug info integration

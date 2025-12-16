@@ -71,7 +71,7 @@ Open `CODE_NAVIGATION.md` and find the section for your issue category.
 Example: For "Undefined Variables / Control Flow Issues":
 
 **Primary Files:**
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs` (64,921 lines)
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs` (~1,903 lines)
   - Function: `build_loop_region()` - Loop construction
   - Function: `find_loop_merge()` - Loop exit detection
 

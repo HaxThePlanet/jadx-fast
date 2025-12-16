@@ -296,7 +296,7 @@ return;
 
 ### Dexterity Implementation
 
-**File:** `crates/dexterity-passes/src/region_builder.rs` (~1,867 lines)
+**File:** `crates/dexterity-passes/src/region_builder.rs` (~1,903 lines)
 
 **Entry Point:** `build_regions(method: &mut MethodNode)`
 
@@ -624,7 +624,7 @@ Builds graph representation of method control flow. Each basic block is node, co
 
 ### Dexterity Implementation
 
-**File:** `crates/dexterity-passes/src/cfg.rs` (~1,020 lines)
+**File:** `crates/dexterity-passes/src/cfg.rs` (~710 lines)
 
 **Entry Point:** `build_cfg(blocks: &Vec<Block>) -> CFG`
 

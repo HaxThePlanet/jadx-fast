@@ -2343,13 +2343,9 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
 
             match kind {
                 LoopKind::While | LoopKind::For => {
-                    // TODO: For-each detection currently disabled - region builder doesn't always
-                    // include all body blocks in the loop region, causing empty for-each bodies.
-                    // Proper fix: Add a LoopRegionVisitor pass (like JADX) that marks iterator
-                    // instructions with DONT_GENERATE flag BEFORE region building/code generation.
-                    // For now, always generate while loops for correctness.
-                    #[allow(clippy::if_same_then_else, unreachable_code)]
-                    if false {
+                    // For-each detection: detect iterator patterns (hasNext/next) and generate
+                    // enhanced for-loop syntax. Region builder now ensures all body blocks are
+                    // included, fixing the empty body issue.
                     if let Some(cond) = condition {
                         if let Some((iter_reg, iter_str)) = detect_iterator_pattern(cond, ctx) {
                             if let Some(foreach_info) = detect_next_call(body, iter_reg, ctx) {
@@ -2391,7 +2387,6 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                             }
                         }
                     }
-                    } // End of disabled for-each detection (if false)
                     gen_while_header(&condition_str, code);
                     generate_region(body, ctx, code);
                     gen_close_block(code);
@@ -2407,8 +2402,8 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                     gen_close_block(code);
                 }
                 LoopKind::ForEach => {
-                    // TODO: For-each disabled - see comment in LoopKind::While case above
-                    // Fallback to while loop for correctness
+                    // LoopKind::ForEach is set by SSA-level pattern analysis (loop_analysis.rs)
+                    // For now, fall back to while loop - iterator detection at codegen handles most cases
                     gen_while_header(&condition_str, code);
                     generate_region(body, ctx, code);
                     gen_close_block(code);
