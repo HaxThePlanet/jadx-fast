@@ -11,6 +11,15 @@ pub fn type_to_string(ty: &ArgType) -> String {
 
 /// Convert an ArgType to Java source, using simple names for imported types
 pub fn type_to_string_with_imports(ty: &ArgType, imports: Option<&std::collections::BTreeSet<String>>) -> String {
+    type_to_string_with_imports_and_package(ty, imports, None)
+}
+
+/// Convert an ArgType to Java source, using simple names for imported and same-package types
+pub fn type_to_string_with_imports_and_package(
+    ty: &ArgType,
+    imports: Option<&std::collections::BTreeSet<String>>,
+    current_package: Option<&str>,
+) -> String {
     match ty {
         ArgType::Void => "void".to_string(),
         ArgType::Boolean => "boolean".to_string(),
@@ -21,15 +30,15 @@ pub fn type_to_string_with_imports(ty: &ArgType, imports: Option<&std::collectio
         ArgType::Long => "long".to_string(),
         ArgType::Float => "float".to_string(),
         ArgType::Double => "double".to_string(),
-        ArgType::Object(name) => object_to_java_name_with_imports(name, imports),
-        ArgType::Array(elem) => format!("{}[]", type_to_string_with_imports(elem, imports)),
+        ArgType::Object(name) => object_to_java_name_with_imports_and_package(name, imports, current_package),
+        ArgType::Array(elem) => format!("{}[]", type_to_string_with_imports_and_package(elem, imports, current_package)),
         ArgType::Generic { base, params } => {
-            let base_name = object_to_java_name_with_imports(base, imports);
+            let base_name = object_to_java_name_with_imports_and_package(base, imports, current_package);
             if params.is_empty() {
                 base_name
             } else {
                 let param_str: Vec<_> = params.iter()
-                    .map(|t| type_to_string_with_imports(t, imports))
+                    .map(|t| type_to_string_with_imports_and_package(t, imports, current_package))
                     .collect();
                 format!("{}<{}>", base_name, param_str.join(", "))
             }
@@ -38,8 +47,8 @@ pub fn type_to_string_with_imports(ty: &ArgType, imports: Option<&std::collectio
             use dexterity_ir::types::WildcardBound;
             match (bound, inner) {
                 (WildcardBound::Unbounded, _) => "?".to_string(),
-                (WildcardBound::Extends, Some(t)) => format!("? extends {}", type_to_string_with_imports(t, imports)),
-                (WildcardBound::Super, Some(t)) => format!("? super {}", type_to_string_with_imports(t, imports)),
+                (WildcardBound::Extends, Some(t)) => format!("? extends {}", type_to_string_with_imports_and_package(t, imports, current_package)),
+                (WildcardBound::Super, Some(t)) => format!("? super {}", type_to_string_with_imports_and_package(t, imports, current_package)),
                 _ => "?".to_string(),
             }
         }
@@ -57,6 +66,15 @@ pub fn object_to_java_name(internal: &str) -> String {
 
 /// Convert an internal class name to Java source format, using simple names when imported
 pub fn object_to_java_name_with_imports(internal: &str, imports: Option<&std::collections::BTreeSet<String>>) -> String {
+    object_to_java_name_with_imports_and_package(internal, imports, None)
+}
+
+/// Convert an internal class name to Java source format, using simple names for imported and same-package types
+pub fn object_to_java_name_with_imports_and_package(
+    internal: &str,
+    imports: Option<&std::collections::BTreeSet<String>>,
+    current_package: Option<&str>,
+) -> String {
     // Strip L prefix and ; suffix if present
     let stripped = internal
         .strip_prefix('L')
@@ -80,9 +98,27 @@ pub fn object_to_java_name_with_imports(internal: &str, imports: Option<&std::co
         }
     }
 
+    // Check if type is in the same package - if so, use simple name (MEDIUM-001 fix)
+    if let Some(pkg) = current_package {
+        if let Some(type_pkg) = get_package_internal(stripped) {
+            if type_pkg == pkg {
+                // Same package - use simple name
+                if let Some(simple) = stripped.rsplit('/').next() {
+                    return simple.replace('$', ".");
+                }
+            }
+        }
+    }
+
     // Convert / to . for package separator and $ to . for inner classes
     // This converts "com/example/R$layout" to "com.example.R.layout"
     stripped.replace('/', ".").replace('$', ".")
+}
+
+/// Get package from internal name without L; wrapping (helper for same-package detection)
+fn get_package_internal(internal: &str) -> Option<String> {
+    let pos = internal.rfind('/')?;
+    Some(internal[..pos].replace('/', "."))
 }
 
 /// Get short name for java.lang classes (no import needed)

@@ -11,6 +11,7 @@ pub mod client;
 pub mod variable_renamer;
 pub mod type_refiner;
 pub mod code_corrector;
+pub mod code_commenter;
 pub mod config;
 
 pub use cache::Cache;
@@ -18,6 +19,7 @@ pub use client::ClaudeClient;
 pub use variable_renamer::VariableRenamer;
 pub use type_refiner::TypeRefiner;
 pub use code_corrector::CodeCorrector;
+pub use code_commenter::CodeCommenter;
 pub use config::Config;
 
 use anyhow::Result;
@@ -30,6 +32,7 @@ pub struct LLMPostProcessor {
     variable_renamer: VariableRenamer,
     type_refiner: TypeRefiner,
     code_corrector: CodeCorrector,
+    code_commenter: CodeCommenter,
 }
 
 impl LLMPostProcessor {
@@ -45,6 +48,7 @@ impl LLMPostProcessor {
         let variable_renamer = VariableRenamer::new(client.clone());
         let type_refiner = TypeRefiner::new(client.clone());
         let code_corrector = CodeCorrector::new(client.clone());
+        let code_commenter = CodeCommenter::new(client.clone());
 
         Ok(Self {
             config,
@@ -53,6 +57,7 @@ impl LLMPostProcessor {
             variable_renamer,
             type_refiner,
             code_corrector,
+            code_commenter,
         })
     }
 
@@ -91,6 +96,15 @@ impl LLMPostProcessor {
         }
 
         Ok(result)
+    }
+
+    /// Add comments to decompiled Java file
+    pub async fn add_comments(&self, java_code: &str) -> Result<String> {
+        if !self.config.enabled {
+            return Ok(java_code.to_string());
+        }
+
+        self.code_commenter.add_comments(java_code).await
     }
 }
 

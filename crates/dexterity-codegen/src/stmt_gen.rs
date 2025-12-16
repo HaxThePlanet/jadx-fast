@@ -105,7 +105,7 @@ impl<'a> StmtGen<'a> {
     }
 
     /// Generate instance field put statement
-    /// Format: object.field = value;
+    /// Format: object.field = value; or this.field = value;
     pub fn gen_instance_put<W: CodeWriter>(
         &self,
         object: &InsnArg,
@@ -114,7 +114,13 @@ impl<'a> StmtGen<'a> {
         code: &mut W,
     ) {
         code.start_line();
-        self.expr.write_arg(code, object);
+        // Use "this." prefix explicitly like JADX when writing to own fields
+        let obj_str = self.expr.gen_arg(object);
+        if obj_str == "this" {
+            code.add("this");
+        } else {
+            self.expr.write_arg(code, object);
+        }
         code.add(".").add(field_name).add(" = ");
         self.expr.write_arg(code, value);
         code.add(";").newline();
@@ -553,7 +559,10 @@ mod tests {
     use crate::writer::SimpleCodeWriter;
 
     fn make_expr_gen() -> ExprGen {
-        ExprGen::new()
+        let mut gen = ExprGen::new();
+        // Disable deobfuscation renaming for tests (don't rename short var names like v0, v5)
+        gen.set_deobf_limits(0, 64);
+        gen
     }
 
     #[test]

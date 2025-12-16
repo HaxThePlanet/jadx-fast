@@ -292,6 +292,14 @@ impl ImportCollector {
             if let Some(instructions) = method.instructions() {
                 self.collect_from_instructions(instructions, dex_info);
             }
+            // Collect exception types from try-catch blocks (MEDIUM-002 fix)
+            for try_block in &method.try_blocks {
+                for handler in &try_block.handlers {
+                    if let Some(ref exception_type) = handler.exception_type {
+                        self.add_internal_name(exception_type);
+                    }
+                }
+            }
         }
     }
 

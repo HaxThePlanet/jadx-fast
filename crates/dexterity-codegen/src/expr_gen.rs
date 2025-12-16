@@ -720,10 +720,16 @@ impl ExprGen {
             }
 
             InsnType::InstanceGet { object, field_idx, .. } => {
+                let obj_str = self.gen_arg(object);
                 if let Some(info) = self.get_field_value(*field_idx) {
-                    Some(format!("{}.{}", self.gen_arg(object), info.field_name))
+                    // Use "this." prefix explicitly like JADX when accessing own fields
+                    if obj_str == "this" {
+                        Some(format!("this.{}", info.field_name))
+                    } else {
+                        Some(format!("{}.{}", obj_str, info.field_name))
+                    }
                 } else {
-                    Some(format!("{}.field#{}", self.gen_arg(object), field_idx))
+                    Some(format!("{}.field#{}", obj_str, field_idx))
                 }
             }
 
@@ -897,7 +903,13 @@ impl ExprGen {
             }
 
             InsnType::InstanceGet { object, field_idx, .. } => {
-                self.write_arg(writer, object);
+                // Use "this." prefix explicitly like JADX when accessing own fields
+                let obj_str = self.gen_arg(object);
+                if obj_str == "this" {
+                    writer.add("this");
+                } else {
+                    self.write_arg(writer, object);
+                }
                 if let Some(info) = self.get_field_value(*field_idx) {
                     writer.add(".").add(&info.field_name);
                 } else {
@@ -1157,9 +1169,17 @@ mod tests {
     use super::*;
     use dexterity_ir::instructions::ArrayElemType;
 
+    /// Create an ExprGen for tests with deobfuscation disabled
+    /// (don't rename short variable names like v0, v5)
+    fn make_test_gen() -> ExprGen {
+        let mut gen = ExprGen::new();
+        gen.set_deobf_limits(0, 64);
+        gen
+    }
+
     #[test]
     fn test_literal_gen() {
-        let gen = ExprGen::new();
+        let gen = make_test_gen();
         assert_eq!(gen.gen_literal(&LiteralArg::Int(42)), "42");
         assert_eq!(gen.gen_literal(&LiteralArg::Int(5000000000)), "5000000000L");
         assert_eq!(gen.gen_literal(&LiteralArg::Null), "null");
@@ -1167,7 +1187,7 @@ mod tests {
 
     #[test]
     fn test_var_name() {
-        let mut gen = ExprGen::new();
+        let mut gen = make_test_gen();
         gen.set_var_name(0, 1, "myVar".to_string());
 
         let reg = RegisterArg::with_ssa(0, 1);
@@ -1180,7 +1200,7 @@ mod tests {
 
     #[test]
     fn test_binary_op() {
-        let gen = ExprGen::new();
+        let gen = make_test_gen();
         let insn = InsnType::Binary {
             dest: RegisterArg::new(0),
             op: BinaryOp::Add,
@@ -1192,7 +1212,7 @@ mod tests {
 
     #[test]
     fn test_unary_op() {
-        let gen = ExprGen::new();
+        let gen = make_test_gen();
         let insn = InsnType::Unary {
             dest: RegisterArg::new(0),
             op: UnaryOp::Neg,
@@ -1203,7 +1223,7 @@ mod tests {
 
     #[test]
     fn test_array_access() {
-        let gen = ExprGen::new();
+        let gen = make_test_gen();
         let insn = InsnType::ArrayGet {
             dest: RegisterArg::new(0),
             array: InsnArg::reg(1),
@@ -1215,7 +1235,7 @@ mod tests {
 
     #[test]
     fn test_condition() {
-        let gen = ExprGen::new();
+        let gen = make_test_gen();
         let cond = gen.gen_condition(
             IfCondition::Eq,
             &InsnArg::reg(0),

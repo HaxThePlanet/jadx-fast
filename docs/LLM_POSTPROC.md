@@ -11,7 +11,23 @@ This improves upon the already-excellent 90%+ baseline quality.
 ## Features
 
 ### 1. **Variable Renaming** (Highest Impact)
-Converts register-based variable names (v0, v1, r0, etc.) to semantically meaningful names using LLM analysis.
+Converts register-based variable names (v0, v1, r0, etc.) to semantically meaningful names using LLM analysis with **full context extraction**.
+
+**Context Extraction:**
+For each variable, the renamer extracts:
+- Declared type (e.g., `SharedPreferences`)
+- Assigned from (e.g., `getSharedPreferences("prefs", 0)`)
+- Methods called ON it (e.g., `.getString()`, `.edit()`)
+- Fields accessed (e.g., `.length`)
+- Methods it's passed TO (e.g., `saveData(v0)`)
+- Cast types (e.g., `(String) v0`)
+
+**Java Keyword Protection:**
+All LLM suggestions are validated before applying:
+- Rejects Java keywords (`class`, `if`, `void`, `int`, etc.)
+- Rejects reserved type names (`Object`, `String`, `Integer`, etc.)
+- Rejects invalid chars (`<`, `>`, spaces, etc.)
+- Ensures valid Java identifier syntax
 
 **Example:**
 ```java
@@ -87,23 +103,37 @@ If you have Ollama running locally:
 
 The post-processor will:
 1. Auto-detect Ollama on localhost:11434
-2. Use `qwen2.5-coder:7b` by default (excellent code quality)
+2. Use `qwen2.5:0.5b` by default (397MB, extremely fast)
 3. Run entirely locally with GPU acceleration
 4. Cost: $0 (no API charges)
 
-### Using a Smaller Model for Speed
+### Parallel Processing
 
-For faster processing on limited resources:
+Use the parallel batch enhancer for maximum throughput:
 
 ```bash
-export DEXTERITY_OLLAMA_MODEL=gemma3:1b  # 815MB, very fast
+# Run with 16 concurrent LLM requests (adjust based on GPU memory)
+cargo run --release --example enhance_parallel -- 100 16
+# Args: <file_limit> <concurrency>
+```
+
+With 16GB GPU:
+- `qwen2.5:0.5b` (397MB): 16+ concurrent requests, ~1.5 files/sec
+- `gemma3:1b` (815MB): 8-16 concurrent requests
+- Larger models: Reduce concurrency accordingly
+
+### Available Models
+
+```bash
+export DEXTERITY_OLLAMA_MODEL=qwen2.5:0.5b  # Default, 397MB, blazing fast
 ./target/release/dexterity -d output/ app.apk
 ```
 
-Available models on typical Ollama installations:
-- `gemma3:1b` (815MB) - Fastest, minimal quality loss
-- `gemma3:4b` (3.3GB) - Fast, good balance
-- `qwen2.5-coder:7b` (4.7GB) - Best code quality, recommended
+Available models:
+- `qwen2.5:0.5b` (397MB) - **Default**, fastest, good for variable renaming
+- `gemma3:1b` (815MB) - Fast, slightly better quality
+- `gemma3:4b` (3.3GB) - Good balance of speed and quality
+- `qwen2.5-coder:7b` (4.7GB) - Best code quality
 - `qwen2.5-coder:32b` (19GB) - Maximum quality, slower
 
 ### Using Anthropic Claude (Cloud-Based)
@@ -131,8 +161,9 @@ Environment variables:
 - `DEXTERITY_LLM_BACKEND`: Force backend (`ollama` or `anthropic`, default: `auto`)
 - `ANTHROPIC_API_KEY`: Claude API key (enables Anthropic backend)
 - `OLLAMA_API_ENDPOINT`: Ollama endpoint (default: `http://localhost:11434`)
-- `DEXTERITY_OLLAMA_MODEL`: Ollama model to use (default: `qwen2.5-coder:7b`)
+- `DEXTERITY_OLLAMA_MODEL`: Ollama model to use (default: `qwen2.5:0.5b`)
 - `DEXTERITY_CACHE_DIR`: Cache directory for LLM responses (default: `/tmp/dexterity-cache`)
+- `DEXTERITY_LLM_ENABLE_COMMENTING`: Enable code commenting feature (default: `false`)
 
 ### CLI Integration (Planned)
 
@@ -269,12 +300,12 @@ cargo test --release -p dexterity-llm-postproc
 
 ## Future Enhancements
 
-1. **Parallel LLM calls**: Process multiple methods concurrently
+1. ~~**Parallel LLM calls**: Process multiple methods concurrently~~ **DONE** - See `enhance_parallel.rs` example
 2. **Batch processing**: Group similar methods for single API call
 3. **Method signature analysis**: Use method signature as context
 4. **Control flow integration**: Combine with CFG for better analysis
 5. **Bytecode instruction mapping**: Map each variable to exact bytecode instruction
-6. **Custom model support**: Allow users to specify alternative models
+6. ~~**Custom model support**: Allow users to specify alternative models~~ **DONE** - `DEXTERITY_OLLAMA_MODEL` env var
 7. **Confidence scoring**: Return confidence levels for each suggestion
 8. **Validation loop**: Compile result and retry if compilation fails
 

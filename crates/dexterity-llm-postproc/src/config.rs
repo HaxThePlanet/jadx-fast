@@ -29,6 +29,8 @@ pub struct Config {
     pub enable_type_refinement: bool,
     /// Enable code correction
     pub enable_code_correction: bool,
+    /// Enable code commenting
+    pub enable_code_commenting: bool,
     /// Cache directory
     pub cache_dir: String,
     /// Enable result caching
@@ -60,7 +62,7 @@ impl Config {
         let (backend, model, api_endpoint, enabled) = if backend_env == "ollama" ||
             (backend_env == "auto" && Self::is_ollama_available(&ollama_endpoint)) {
             let model = env::var("DEXTERITY_OLLAMA_MODEL")
-                .unwrap_or_else(|_| "qwen2.5-coder:7b".to_string());
+                .unwrap_or_else(|_| "qwen2.5:0.5b".to_string());
             tracing::info!("Using Ollama backend at {} with model {}", ollama_endpoint, model);
             (LLMBackend::Ollama, model, ollama_endpoint, true)
         } else if backend_env == "anthropic" || (!api_key.is_empty() && backend_env != "ollama") {
@@ -69,7 +71,7 @@ impl Config {
              "https://api.anthropic.com/v1/messages".to_string(), true)
         } else {
             tracing::warn!("No LLM backend available. Set ANTHROPIC_API_KEY or ensure Ollama is running on localhost:11434");
-            (LLMBackend::Ollama, "qwen2.5-coder:7b".to_string(), ollama_endpoint, false)
+            (LLMBackend::Ollama, "qwen2.5:0.5b".to_string(), ollama_endpoint, false)
         };
 
         Ok(Self {
@@ -81,6 +83,10 @@ impl Config {
             enable_variable_renaming: true,
             enable_type_refinement: true,
             enable_code_correction: false,
+            enable_code_commenting: env::var("DEXTERITY_LLM_ENABLE_COMMENTING")
+                .unwrap_or_else(|_| "false".to_string())
+                .parse()
+                .unwrap_or(false),
             cache_dir: env::var("DEXTERITY_CACHE_DIR")
                 .unwrap_or_else(|_| "/tmp/dexterity-cache".to_string()),
             cache_enabled: true,
@@ -115,6 +121,7 @@ impl Config {
             enable_variable_renaming: true,
             enable_type_refinement: true,
             enable_code_correction: false,
+            enable_code_commenting: false,
             cache_dir: "/tmp/dexterity-cache".to_string(),
             cache_enabled: true,
             batch_size: 5,
@@ -133,6 +140,7 @@ impl Config {
             enable_variable_renaming: true,
             enable_type_refinement: true,
             enable_code_correction: false,
+            enable_code_commenting: false,
             cache_dir: "/tmp/dexterity-cache".to_string(),
             cache_enabled: true,
             batch_size: 5,
@@ -147,11 +155,12 @@ impl Default for Config {
             backend: LLMBackend::Ollama,
             api_key: String::new(),
             api_endpoint: "http://localhost:11434".to_string(),
-            model: "qwen2.5-coder:7b".to_string(),
+            model: "qwen2.5:0.5b".to_string(),
             enabled: false,
             enable_variable_renaming: false,
             enable_type_refinement: false,
             enable_code_correction: false,
+            enable_code_commenting: false,
             cache_dir: "/tmp/dexterity-cache".to_string(),
             cache_enabled: false,
             batch_size: 5,

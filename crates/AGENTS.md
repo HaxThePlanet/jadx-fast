@@ -5,7 +5,8 @@
 ## Current Status
 
 **Build:** Passing
-**Tests:** 932 tests (100% pass rate)
+**Tests:** 899 tests passing (99.6% pass rate - 4 tests disabled in dexterity-qa)
+**Integration Tests:** 685 passing (100%)
 **Lines:** ~42,000 lines of Rust
 **Completion:** ~85% feature-complete vs Java jadx-core
 

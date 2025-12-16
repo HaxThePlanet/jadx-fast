@@ -47,7 +47,7 @@ grep -n "struct LoopInfo" region_builder.rs
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/cfg.rs`** (~1,020 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/cfg.rs`** (~710 lines)
 - **Type:** Medium - Can search for specific functions
 - **Key Functions:**
   - `build_cfg()` - Constructs control flow graph
@@ -214,7 +214,7 @@ grep -n "default_value" body_gen.rs  # How defaults are chosen
 #### Primary Files
 
 **File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/var_naming.rs`** (~1,157 lines)
-- **Type:** Large - Use grep
+- **Type:** Medium - Can search for specific functions
 - **Key Functions:**
   - `assign_variable_names()` - Main naming entry
   - `score_candidate_name()` - Name quality scoring
@@ -360,8 +360,8 @@ grep -n "function_name(" file.rs
 
 | Size | Strategy | Examples |
 |------|----------|----------|
-| <500 lines | Read entire file | `block_split.rs`, `conditions.rs`, `class_hierarchy.rs` |
-| 500-1500 lines | Search for functions, read specific functions | `cfg.rs`, `ssa.rs`, `var_naming.rs`, `class_gen.rs`, `expr_gen.rs` |
+| <500 lines | Read entire file | `block_split.rs`, `class_hierarchy.rs` |
+| 500-1500 lines | Search for functions, read specific functions | `cfg.rs`, `ssa.rs`, `var_naming.rs`, `class_gen.rs`, `expr_gen.rs`, `conditionals.rs` |
 | 1500-4000 lines | Grep for functions, read relevant sections | `type_inference.rs`, `region_builder.rs`, `body_gen.rs` |
 
 ### File Dependency Chain

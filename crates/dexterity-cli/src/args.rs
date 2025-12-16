@@ -267,6 +267,19 @@ pub struct Args {
     #[arg(long = "enable-knox-vision")]
     pub enable_knox_vision: bool,
 
+    // === LLM Post-Processing Options ===
+    /// Add LLM-generated comments to decompiled code
+    #[arg(long = "llm-add-comments")]
+    pub llm_add_comments: bool,
+
+    /// LLM backend (auto, anthropic, ollama)
+    #[arg(long = "llm-backend")]
+    pub llm_backend: Option<String>,
+
+    /// LLM model override
+    #[arg(long = "llm-model")]
+    pub llm_model: Option<String>,
+
     /// Print version
     #[arg(long = "version")]
     pub version: bool,

@@ -231,6 +231,22 @@ fn process_input(input: &PathBuf, args: &Args) -> Result<()> {
         }
     }
 
+    // LLM Post-Processing: Add comments if requested
+    if args.llm_add_comments {
+        tracing::info!("Running LLM post-processing to add code comments...");
+        let llm_start = std::time::Instant::now();
+
+        // Create a Tokio runtime for async LLM processing
+        let runtime = tokio::runtime::Runtime::new()?;
+        if let Err(e) = runtime.block_on(add_llm_comments(&out_dir_src, args)) {
+            tracing::warn!("LLM commenting failed: {}", e);
+            tracing::warn!("Continuing with uncommented code...");
+        } else {
+            let llm_elapsed = llm_start.elapsed();
+            tracing::info!("LLM commenting completed in {:.2}s", llm_elapsed.as_secs_f64());
+        }
+    }
+
     // Export as Gradle project if requested
     if args.export_gradle {
         let project_name = input
@@ -245,6 +261,63 @@ fn process_input(input: &PathBuf, args: &Args) -> Result<()> {
             args.export_gradle_type,
             &project_name,
         )?;
+    }
+
+    Ok(())
+}
+
+async fn add_llm_comments(src_dir: &PathBuf, args: &Args) -> Result<()> {
+    use dexterity_llm_postproc::{Config, LLMPostProcessor};
+    use walkdir::WalkDir;
+
+    // Build config from args and environment
+    let mut config = Config::from_env()?;
+    config.enable_code_commenting = true;
+    config.enable_variable_renaming = false;
+    config.enable_type_refinement = false;
+    config.enable_code_correction = false;
+
+    // Override backend/model if specified
+    if let Some(ref backend) = args.llm_backend {
+        config.backend = match backend.as_str() {
+            "anthropic" => dexterity_llm_postproc::config::LLMBackend::Anthropic,
+            "ollama" => dexterity_llm_postproc::config::LLMBackend::Ollama,
+            _ => {
+                tracing::warn!("Unknown backend '{}', using auto-detected backend", backend);
+                config.backend
+            }
+        };
+    }
+    if let Some(ref model) = args.llm_model {
+        config.model = model.clone();
+    }
+
+    let processor = LLMPostProcessor::new(config).await?;
+
+    // Walk all .java files
+    let java_files: Vec<_> = WalkDir::new(src_dir)
+        .into_iter()
+        .filter_map(|e| e.ok())
+        .filter(|e| e.path().extension().map_or(false, |ext| ext == "java"))
+        .collect();
+
+    tracing::info!("Processing {} Java files...", java_files.len());
+
+    // Process files sequentially (to avoid rate limits)
+    // TODO: Add parallel processing with rate limiting in future
+    for entry in java_files {
+        let path = entry.path();
+        let content = std::fs::read_to_string(path)?;
+
+        match processor.add_comments(&content).await {
+            Ok(enhanced) => {
+                std::fs::write(path, enhanced)?;
+                tracing::debug!("Enhanced: {}", path.display());
+            }
+            Err(e) => {
+                tracing::warn!("Failed to enhance {}: {}", path.display(), e);
+            }
+        }
     }
 
     Ok(())

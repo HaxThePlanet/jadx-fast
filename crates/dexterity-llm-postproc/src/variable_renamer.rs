@@ -8,6 +8,53 @@ use regex::Regex;
 use std::collections::HashMap;
 use crate::client::ClaudeClient;
 
+/// Java keywords that cannot be used as variable names
+const JAVA_KEYWORDS: &[&str] = &[
+    // Keywords
+    "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char",
+    "class", "const", "continue", "default", "do", "double", "else", "enum",
+    "extends", "final", "finally", "float", "for", "goto", "if", "implements",
+    "import", "instanceof", "int", "interface", "long", "native", "new", "null",
+    "package", "private", "protected", "public", "return", "short", "static",
+    "strictfp", "super", "switch", "synchronized", "this", "throw", "throws",
+    "transient", "try", "void", "volatile", "while", "true", "false",
+    // Common reserved/problematic names
+    "Object", "String", "Class", "System", "Integer", "Long", "Double", "Float",
+    "Boolean", "Byte", "Short", "Character", "Void", "Number", "Math",
+];
+
+/// Check if a name is a valid Java identifier
+fn is_valid_java_identifier(name: &str) -> bool {
+    // Must not be empty
+    if name.is_empty() {
+        return false;
+    }
+
+    // Must not be a keyword
+    if JAVA_KEYWORDS.contains(&name) {
+        return false;
+    }
+
+    // Must not contain invalid characters
+    let invalid_chars = ['<', '>', ' ', '.', ',', ';', '(', ')', '[', ']', '{', '}', '/', '\\', '"', '\''];
+    if name.chars().any(|c| invalid_chars.contains(&c)) {
+        return false;
+    }
+
+    // First char must be letter, underscore, or $
+    let first = name.chars().next().unwrap();
+    if !first.is_ascii_alphabetic() && first != '_' && first != '$' {
+        return false;
+    }
+
+    // Rest must be alphanumeric, underscore, or $
+    if !name.chars().skip(1).all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '$') {
+        return false;
+    }
+
+    true
+}
+
 /// Represents all the usage context for a single variable
 #[derive(Debug, Default)]
 pub struct VariableContext {
@@ -59,6 +106,14 @@ impl VariableRenamer {
         // Generate renaming suggestions
         let suggestions = self.get_llm_suggestions(&context).await?;
 
+        // Log summary of renames
+        if !suggestions.is_empty() {
+            eprintln!("LLM renamed {} variables:", suggestions.len());
+            for (old, new) in &suggestions {
+                eprintln!("  {} → {}", old, new);
+            }
+        }
+
         // Apply renames
         let result = self.apply_renames(decompiled_code, &suggestions);
 
@@ -67,8 +122,15 @@ impl VariableRenamer {
 
     /// Extract comprehensive context for all variables that need renaming
     fn extract_all_variable_contexts(&self, code: &str) -> Vec<VariableContext> {
-        // Match register-based names and single-letter vars
-        let var_pattern = Regex::new(r"\b([vpr]\d{1,3}|[a-z])\b").unwrap();
+        // Match decompiler-style names:
+        // - v0, v1, r0, p0 (register names)
+        // - var0, var1 (generic vars)
+        // - arrayList2, linkedEntry2, hashMap, etc. (type + number suffix)
+        // - arg0, arg1, arg11 (argument names)
+        // - obj, str2, key2, key32 (generic suffixed names)
+        let var_pattern = Regex::new(
+            r"\b(v\d{1,3}|r\d{1,3}|p\d{1,3}|var\d{1,3}|arg\d{1,3}|[a-z]+\d+)\b"
+        ).unwrap();
 
         // Find all candidate variables
         let mut var_names: HashMap<String, usize> = HashMap::new();
@@ -78,6 +140,9 @@ impl VariableRenamer {
             if var == "i" || var == "j" || var == "k" || var == "e" || var == "t" {
                 continue;
             }
+            // Skip if it looks like a Java keyword or common type
+            if var.starts_with("int") && var.len() > 3 { continue; }
+            if var.starts_with("long") && var.len() > 4 { continue; }
             *var_names.entry(var).or_insert(0) += 1;
         }
 
@@ -157,13 +222,19 @@ impl VariableRenamer {
             }
 
             // Pattern 4: Field access - "varname.field" (not followed by '(')
+            // We use a simple pattern and filter out method calls post-hoc
             let field_pattern = Regex::new(&format!(
-                r"\b{}\.([a-zA-Z_][a-zA-Z0-9_]*)\b(?!\s*\()",
+                r"\b{}\.([a-zA-Z_][a-zA-Z0-9_]*)",
                 escaped_var
             )).unwrap();
             for cap in field_pattern.captures_iter(line) {
                 let field = cap[1].to_string();
-                if !ctx.field_accesses.contains(&field) {
+                // Check if it's followed by ( - if so, it's a method call not field
+                let full_match = cap.get(0).unwrap().as_str();
+                let end_pos = line.find(full_match).unwrap_or(0) + full_match.len();
+                let rest = &line[end_pos..];
+                let is_method_call = rest.trim_start().starts_with('(');
+                if !is_method_call && !ctx.field_accesses.contains(&field) {
                     ctx.field_accesses.push(field);
                 }
             }
@@ -326,6 +397,13 @@ NO explanation, NO markdown, JUST the JSON object."#;
             if old_name == new_name || new_name.is_empty() {
                 continue;
             }
+
+            // Skip invalid identifiers (keywords, contains <>, spaces, etc.)
+            if !is_valid_java_identifier(new_name) {
+                eprintln!("  SKIP invalid: {} → {} (not valid Java identifier)", old_name, new_name);
+                continue;
+            }
+
             // Use word boundaries to avoid partial replacements
             let pattern = format!(r"\b{}\b", regex::escape(old_name));
             if let Ok(re) = Regex::new(&pattern) {
