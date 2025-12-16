@@ -226,12 +226,12 @@ cargo test
 
 #### Tests
 
-~200+ disabled tests in `crates/dexterity-passes/tests/integration.disabled/` need assertions and test source extraction.
+675 disabled tests in `crates/dexterity-passes/tests/integration.disabled/` need assertions and test source extraction.
 
 ## Not Yet Implemented
 
 - Smali file (`.smali`) processing
-- Warning/rename comments (`/* JADX WARNING: ... */`)
+- Rename comments (`/* renamed from: ... */`)
 
 ## License
 
