@@ -9,7 +9,7 @@ members = [
     "dexterity-resources",
     "dexterity-deobf",
     "dexterity-kotlin",
-    "dexterity-qa",
+    "dexterity-qa", "dexterity-llm-postproc",
 ]
 
 [workspace.package]

@@ -18,7 +18,7 @@ pub mod signature;
 pub use name_mapper::NameMapper;
 pub use conditions::{
     DeobfCondition, Action, LengthCondition, ValidityCondition, CombinedCondition,
-    PrintableCondition, RenameFlag, build_conditions_from_flags,
+    PrintableCondition, PackageWhitelistCondition, RenameFlag, build_conditions_from_flags,
 };
 pub use alias_provider::{AliasProvider, DeobfAliasProvider};
 pub use visitor::DeobfuscatorVisitor;

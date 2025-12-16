@@ -164,9 +164,10 @@ impl CombinedCondition {
         Self { conditions }
     }
 
-    /// Build default JADX conditions (length + validity)
+    /// Build default JADX conditions (length + validity + package whitelist)
     pub fn default_jadx(min_length: usize, max_length: usize) -> Self {
         Self::new(vec![
+            Box::new(PackageWhitelistCondition::new()),
             Box::new(ValidityCondition::new()),
             Box::new(LengthCondition::new(min_length, max_length)),
         ])
@@ -247,6 +248,121 @@ impl DeobfCondition for PrintableCondition {
     }
 }
 
+/// Condition that whitelists common short package names
+///
+/// Prevents renaming of well-known short package prefixes like:
+/// - io (io.reactivex, io.netty, etc.)
+/// - rx (rx.internal, etc.)
+/// - me (me.everything, etc.)
+/// - tv (tv.twitch, etc.)
+/// - uk (uk.co.*, etc.)
+/// - de (de.greenrobot, etc.)
+///
+/// These are legitimate package names that should NOT be treated as obfuscated
+/// even though they are shorter than the typical min_length threshold.
+pub struct PackageWhitelistCondition {
+    /// Set of whitelisted package name segments
+    whitelist: HashSet<&'static str>,
+}
+
+impl PackageWhitelistCondition {
+    pub fn new() -> Self {
+        let mut whitelist = HashSet::new();
+        // Common short package prefixes that are NOT obfuscated
+        // Two-letter codes (often country codes or well-known libraries)
+        whitelist.insert("io");    // io.reactivex, io.netty, io.grpc
+        whitelist.insert("rx");    // rx.internal, rx.observers
+        whitelist.insert("me");    // me.everything, me.leolin
+        whitelist.insert("tv");    // tv.twitch
+        whitelist.insert("uk");    // uk.co.chrisjenx
+        whitelist.insert("de");    // de.greenrobot
+        whitelist.insert("it");    // it.sephiroth
+        whitelist.insert("jp");    // jp.wasabeef
+        whitelist.insert("cn");    // cn.jpush
+        whitelist.insert("co");    // co.aikar
+        whitelist.insert("pl");    // pl.droidsonroids
+        whitelist.insert("fr");    // fr.castorflex
+        whitelist.insert("es");    // es.dmoral
+        whitelist.insert("nl");    // nl.qbusict
+        whitelist.insert("be");    // be.vergauwen
+        whitelist.insert("ch");    // ch.acra
+        whitelist.insert("at");    // at.favre
+        whitelist.insert("se");    // se.emilsjolander
+        whitelist.insert("no");    // no.nordicsemi
+        whitelist.insert("fi");    // fi.iki
+        whitelist.insert("hu");    // hu.supercluster
+        whitelist.insert("cz");    // cz.msebera
+        whitelist.insert("sk");    // sk.baka
+        whitelist.insert("ua");    // ua.naiksoftware
+        whitelist.insert("ru");    // ru.noties
+        whitelist.insert("br");    // br.com.*
+        whitelist.insert("in");    // in.srain
+        whitelist.insert("id");    // id.zelory
+        whitelist.insert("my");    // my.edu
+        whitelist.insert("sg");    // sg.bigo
+        whitelist.insert("au");    // au.com.*
+        whitelist.insert("nz");    // nz.co.*
+        whitelist.insert("za");    // za.co.*
+        whitelist.insert("mx");    // mx.openpay
+        whitelist.insert("ar");    // ar.com.*
+        // Three-letter codes (common package starters)
+        whitelist.insert("com");   // com.google, com.facebook
+        whitelist.insert("org");   // org.apache, org.json
+        whitelist.insert("net");   // net.sourceforge
+        whitelist.insert("edu");   // edu.mit
+        whitelist.insert("gov");   // gov.nist
+        whitelist.insert("mil");   // mil.*
+        whitelist.insert("int");   // int.*
+        whitelist.insert("pro");   // pro.*
+        whitelist.insert("biz");   // biz.*
+        whitelist.insert("app");   // app.*
+        whitelist.insert("pub");   // pub.*
+        whitelist.insert("dev");   // dev.nicodemus
+        whitelist.insert("xyz");   // xyz.*
+        // Well-known library package names
+        whitelist.insert("okio");      // okio (Square)
+        whitelist.insert("okhttp3");   // okhttp3 (Square)
+        whitelist.insert("grpc");      // grpc (Google)
+        whitelist.insert("bolt");      // bolt (Facebook)
+        whitelist.insert("gson");      // gson (Google)
+        whitelist.insert("glide");     // glide (Bumptech)
+        whitelist.insert("dagger");    // dagger (Google)
+        whitelist.insert("kotlin");    // kotlin
+        whitelist.insert("kotlinx");   // kotlinx
+        whitelist.insert("java");      // java.*
+        whitelist.insert("javax");     // javax.*
+        whitelist.insert("junit");     // junit
+        whitelist.insert("mockito");   // mockito
+        whitelist.insert("apache");    // apache (within org.apache)
+
+        Self { whitelist }
+    }
+
+    /// Check if a package segment is whitelisted
+    pub fn is_whitelisted(&self, name: &str) -> bool {
+        self.whitelist.contains(name)
+    }
+}
+
+impl Default for PackageWhitelistCondition {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl DeobfCondition for PackageWhitelistCondition {
+    fn check_package(&self, name: &str) -> Action {
+        // If the package name (or any segment) is in the whitelist, don't rename
+        if self.is_whitelisted(name) {
+            Action::DontRename
+        } else {
+            Action::NoAction
+        }
+    }
+
+    // Class, field, method checks return NoAction (don't affect)
+}
+
 /// Build conditions from a set of rename flags
 ///
 /// This allows CLI flags to configure which conditions are applied.
@@ -261,6 +377,9 @@ pub fn build_conditions_from_flags(
     if flags.is_empty() {
         return CombinedCondition::default_jadx(min_length, max_length);
     }
+
+    // Always add package whitelist first (to prevent false positives on common names)
+    conditions.push(Box::new(PackageWhitelistCondition::new()));
 
     // Add conditions based on flags
     if flags.contains(&RenameFlag::Valid) {
@@ -320,5 +439,54 @@ mod tests {
         // Reserved word
         method.name = "class".to_string();
         assert_eq!(cond.check_method(&method), Action::ForceRename);
+    }
+
+    #[test]
+    fn test_package_whitelist_condition() {
+        let cond = PackageWhitelistCondition::new();
+
+        // Whitelisted two-letter package names should NOT be renamed
+        assert_eq!(cond.check_package("io"), Action::DontRename);
+        assert_eq!(cond.check_package("rx"), Action::DontRename);
+        assert_eq!(cond.check_package("me"), Action::DontRename);
+        assert_eq!(cond.check_package("tv"), Action::DontRename);
+        assert_eq!(cond.check_package("uk"), Action::DontRename);
+        assert_eq!(cond.check_package("de"), Action::DontRename);
+
+        // Whitelisted three-letter package names should NOT be renamed
+        assert_eq!(cond.check_package("com"), Action::DontRename);
+        assert_eq!(cond.check_package("org"), Action::DontRename);
+        assert_eq!(cond.check_package("net"), Action::DontRename);
+
+        // Whitelisted library names should NOT be renamed
+        assert_eq!(cond.check_package("okio"), Action::DontRename);
+        assert_eq!(cond.check_package("grpc"), Action::DontRename);
+        assert_eq!(cond.check_package("kotlin"), Action::DontRename);
+
+        // Non-whitelisted short names should get NoAction (allowing other conditions to rename)
+        assert_eq!(cond.check_package("a"), Action::NoAction);
+        assert_eq!(cond.check_package("ab"), Action::NoAction);
+        assert_eq!(cond.check_package("xyz123"), Action::NoAction);
+    }
+
+    #[test]
+    fn test_combined_with_whitelist() {
+        let cond = CombinedCondition::default_jadx(3, 64);
+
+        // "io" is short but whitelisted, so should NOT be renamed
+        // DontRename takes precedence over ForceRename
+        assert_eq!(cond.check_package("io"), Action::DontRename);
+
+        // "rx" is short but whitelisted
+        assert_eq!(cond.check_package("rx"), Action::DontRename);
+
+        // "a" is short and NOT whitelisted, so should be renamed
+        assert_eq!(cond.check_package("a"), Action::ForceRename);
+
+        // "ab" is short and NOT whitelisted
+        assert_eq!(cond.check_package("ab"), Action::ForceRename);
+
+        // "example" is long enough and valid, so should NOT be renamed
+        assert_eq!(cond.check_package("example"), Action::NoAction);
     }
 }

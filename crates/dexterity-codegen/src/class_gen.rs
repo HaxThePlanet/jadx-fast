@@ -399,6 +399,10 @@ pub struct ClassGenConfig {
     pub inline_methods: bool,
     /// Class hierarchy for improved type inference (LCA, subtype checking)
     pub hierarchy: Option<std::sync::Arc<dexterity_ir::ClassHierarchy>>,
+    /// Deobfuscation: minimum name length (shorter names get renamed)
+    pub deobf_min_length: usize,
+    /// Deobfuscation: maximum name length (longer names get renamed)
+    pub deobf_max_length: usize,
 }
 
 impl Default for ClassGenConfig {
@@ -412,6 +416,8 @@ impl Default for ClassGenConfig {
             add_debug_lines: false,
             inline_methods: true,
             hierarchy: None,
+            deobf_min_length: 3,
+            deobf_max_length: 64,
         }
     }
 }
@@ -1060,7 +1066,7 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
             code.newline();
         }
         first_method = false;
-        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), code);
+        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), config.deobf_min_length, config.deobf_max_length, code);
     }
 }
 

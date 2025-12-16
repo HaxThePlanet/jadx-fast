@@ -1324,6 +1324,8 @@ fn process_dex_bytes(
                     add_debug_lines,
                     inline_methods,
                     hierarchy: Some(hierarchy_arc.clone()),
+                    deobf_min_length: args.deobf_min_length,
+                    deobf_max_length: args.deobf_max_length,
                 };
                 let dex_arc: std::sync::Arc<dyn dexterity_codegen::DexInfoProvider> = dex_info.clone();
 

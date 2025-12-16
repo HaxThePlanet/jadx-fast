@@ -52,6 +52,10 @@ pub struct ExprGen {
     pub dex_provider: Option<Arc<dyn DexInfoProvider>>,
     /// Escape non-ASCII characters in strings as \uXXXX
     pub escape_unicode: bool,
+    /// Deobfuscation: minimum name length (shorter names get renamed)
+    pub deobf_min_length: usize,
+    /// Deobfuscation: maximum name length (longer names get renamed)
+    pub deobf_max_length: usize,
 }
 
 /// Field information
@@ -293,6 +297,8 @@ impl ExprGen {
             method_info: HashMap::new(),
             dex_provider: None,
             escape_unicode: false,
+            deobf_min_length: 3,
+            deobf_max_length: 64,
         }
     }
 
@@ -307,6 +313,8 @@ impl ExprGen {
             method_info: HashMap::new(),
             dex_provider: Some(dex_provider),
             escape_unicode: false,
+            deobf_min_length: 3,
+            deobf_max_length: 64,
         }
     }
 
@@ -318,6 +326,12 @@ impl ExprGen {
     /// Set the DEX info provider for lazy lookups
     pub fn set_dex_provider(&mut self, provider: Arc<dyn DexInfoProvider>) {
         self.dex_provider = Some(provider);
+    }
+
+    /// Set deobfuscation name length limits (min and max)
+    pub fn set_deobf_limits(&mut self, min_length: usize, max_length: usize) {
+        self.deobf_min_length = min_length;
+        self.deobf_max_length = max_length;
     }
 
     /// Reset for reuse - CRITICAL: Must shrink oversized HashMaps
@@ -468,12 +482,36 @@ impl ExprGen {
         self.get_field_value(idx).map(|f| format!("{}.{}", f.class_name, f.field_name))
     }
 
-    /// Get variable name (or generate default)
+    /// Get variable name (or generate default with deobfuscation filtering)
     pub fn get_var_name(&self, reg: &RegisterArg) -> String {
-        self.var_names
-            .get(&(reg.reg_num, reg.ssa_version))
-            .cloned()
-            .unwrap_or_else(|| format!("v{}", reg.reg_num))
+        // First, try to use named variable from debug info or type inference
+        if let Some(name) = self.var_names.get(&(reg.reg_num, reg.ssa_version)) {
+            let name = name.clone();
+            // Apply deobfuscation filtering to named variables too
+            let len = name.len();
+            if len < self.deobf_min_length || len > self.deobf_max_length {
+                // Name is too short or too long, rename it
+                return format!("var{}", reg.reg_num);
+            }
+            return name;
+        }
+
+        // Generate default name and apply deobfuscation limits
+        let default_name = format!("v{}", reg.reg_num);
+        let len = default_name.len();
+
+        if len < self.deobf_min_length {
+            // Name too short (e.g., "v0" is 2 chars, min is 3+)
+            // Generate longer name: "var0", "local0", etc.
+            format!("var{}", reg.reg_num)
+        } else if len > self.deobf_max_length {
+            // Name too long (unlikely for "vN" but for consistency)
+            // Use shorter form
+            format!("v{}", reg.reg_num)
+        } else {
+            // Name length is acceptable
+            default_name
+        }
     }
 
     /// Get string by index (local cache first, then DEX provider)

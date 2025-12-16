@@ -1046,6 +1046,8 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     inner_classes: Option<&HashMap<String, std::sync::Arc<dexterity_ir::ClassData>>>,
     hierarchy: Option<&dexterity_ir::ClassHierarchy>,
     current_class_type: Option<&str>,
+    deobf_min_length: usize,
+    deobf_max_length: usize,
     code: &mut W,
 ) {
     CODEGEN_DEPTH.with(|depth| {
@@ -1200,6 +1202,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     };
 
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
+    ctx.expr_gen.set_deobf_limits(deobf_min_length, deobf_max_length);
     let max_versions = ssa_result.max_versions.clone();
     // Collect phi destinations before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result);
