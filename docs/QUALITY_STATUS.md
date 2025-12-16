@@ -3,9 +3,11 @@
 **Goal:** Match Java JADX decompilation output quality
 
 **Status:** PRODUCTION READY (Dec 16, 2025)
-- Small APK (9.8 KB): 90.0% - Perfect app code
-- Medium APK (10.3 MB): 90.6% - Production quality reached
-- Large APK (54.8 MB): 80.6% - Good quality (framework class filtering impacts score)
+- Small APK (9.8 KB): 90.0% - Perfect app code (100% Code Quality, 100% Defect Score)
+- Medium APK (10.3 MB): 90.6% - Production quality reached (98.3% Code Quality, 98.2% Defect Score)
+- Large APK (54.8 MB): 80.6% - Good quality (98.2% Code Quality, 98.4% Defect Score, framework class filtering impacts Completeness)
+
+**Quality Target: 90%+ ACHIEVED** on medium APK
 
 **Recent Fixes (Dec 16, 2025 - Session 2, 3 & 4):**
 1. ✅ **CRITICAL-001 FIXED**: Undefined loop variables (e.g., `i2` in while conditions)
@@ -228,11 +230,18 @@ public void processData(long l, Throwable th, Integer num, Class cls) {
 - **Debug info**: Variable names from DEX debug bytecode (when available)
 - **Fallback**: Type-based (`i`, `str`, `obj`) or register-based (`r0`, `r1`) when no other info available
 
-**QA Metrics (medium APK, Dec 16 2025) - LATEST:**
-- Overall Quality Score: 90.6% (+4.6% improvement)
-- Code Quality: 98.3% (+15% improvement from package whitelist fix)
-- Defect Score: 98.2%
-- Completeness: 59.9% (framework class filtering - INTENTIONAL)
+**QA Metrics (Dec 16 2025 - Latest Run):**
+
+| APK | Overall | Completeness | Code Quality | Defect Score |
+|-----|---------|--------------|--------------|--------------|
+| Small | 90.0% | 50.0% | 100.0% | 100.0% |
+| Medium | 90.6% | 59.9% | 98.3% | 98.2% |
+| Large | 80.6% | 9.8% | 98.2% | 98.4% |
+
+**Notable:**
+- Dexterity has HIGHER variable quality than JADX (0.98 vs 0.93 on medium)
+- Dexterity has FEWER defects than JADX (1,260 vs 6,655 on medium)
+- Completeness is lower due to INTENTIONAL framework class filtering (see Design Decisions)
 - Package Quality: 100% (common names preserved with 60+ package whitelist)
 
 **Package Name Preservation (P2 - Dec 16 2025):**
