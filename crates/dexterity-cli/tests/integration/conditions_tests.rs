@@ -2157,6 +2157,70 @@ public class TestCls {
 }
 
 #[test]
+fn variable_in_conditional_branch_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
+    let helper = IntegrationTestHelper::new("variable_in_conditional_branch_test");
+    let source = r#"
+public class TestCls {
+    public void test(String param) {
+        RuntimeException exc;
+        if (param == null) {
+            exc = new RuntimeException("param is null");
+        } else {
+            exc = new RuntimeException("param is not null");
+        }
+        throw exc;
+    }
+}
+"#;
+
+    let result = helper.test_decompilation(source)
+        .expect("Decompilation failed");
+
+    // The variable 'exc' should be declared/accessible after the if/else block
+    result
+        .does_not_contain("exc;")  // Should not have bare exc without assignment
+        .does_not_contain("undefined")
+        .contains("throw exc;");  // exc should be used after if/else
+}
+
+#[test]
+fn variable_in_then_branch_only_test() {
+    let status = tools_status();
+    if !status.can_run_tests() {
+        eprintln!("SKIPPED: {}", status.skip_reason());
+        return;
+    }
+
+    let helper = IntegrationTestHelper::new("variable_in_then_branch_only_test");
+    let source = r#"
+public class TestCls {
+    public String test(String param) {
+        String result;
+        if (param == null) {
+            result = "null value";
+            throw new RuntimeException(result);
+        }
+        return "success";
+    }
+}
+"#;
+
+    let result = helper.test_decompilation(source)
+        .expect("Decompilation failed");
+
+    // result variable should be properly scoped
+    result
+        .does_not_contain("undefined")
+        .contains("String result");
+}
+
+#[test]
 fn ternary_one_branch_in_constructor2_test() {
     eprintln!("SKIPPED: Test extends SmaliTest in Java - requires smali source");
 }
