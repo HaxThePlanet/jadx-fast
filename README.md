@@ -92,6 +92,31 @@ The detection function `detect_increment_decrement` runs in two contexts:
 
 **Test Coverage:** A comprehensive unit test `test_increment_decrement_pattern_detection` verifies all pattern variants and edge cases.
 
+### Special Value Formatting for Numeric Types
+
+Enhanced type generation now formats special numeric values using standard Java constants, improving code readability and matching JADX output conventions.
+
+**Value Transformations:**
+
+| Type | Special Values | Example |
+|------|---|---|
+| `short` | `Short.MAX_VALUE` (32767), `Short.MIN_VALUE` (-32768) | `32767` → `Short.MAX_VALUE` |
+| `int` | `Integer.MAX_VALUE`, `Integer.MIN_VALUE` | `2147483647` → `Integer.MAX_VALUE` |
+| `long` | `Long.MAX_VALUE`, `Long.MIN_VALUE` | `9223372036854775807L` → `Long.MAX_VALUE` |
+| `float` | `Float.NaN`, `Float.POSITIVE_INFINITY`, `Float.NEGATIVE_INFINITY`, `Float.MAX_VALUE`, `Float.MIN_VALUE`, `Float.MIN_NORMAL` | `NaN` → `Float.NaN` |
+| `double` | `Double.NaN`, `Double.POSITIVE_INFINITY`, `Double.NEGATIVE_INFINITY`, `Double.MAX_VALUE`, `Double.MIN_VALUE`, `Double.MIN_NORMAL` | `NaN` → `Double.NaN` |
+
+**Implementation:** File: `/crates/dexterity-codegen/src/type_gen.rs:183-273`
+
+The `format_constant` function detects boundary and special values and substitutes the appropriate Java constant references instead of numeric literals.
+
+**Test Coverage:** Five new comprehensive unit tests verify special value handling:
+- `test_special_short_values` - Short boundary values
+- `test_special_integer_values` - Integer boundary values
+- `test_special_long_values` - Long boundary values
+- `test_special_float_values` - Float NaN, infinity, and bounds
+- `test_special_double_values` - Double NaN, infinity, and bounds
+
 ## Quick Start
 
 ### Build
@@ -193,12 +218,13 @@ Dexterity  │  112  │  3.88s │  9,607
 | DEX Parsing | ✅ 100% | All 224 Dalvik opcodes |
 | Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
 | Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
-| Code Generation | 🔶 95% | Ternary, multi-catch, inner classes, increment/decrement patterns done; for-each disabled |
+| Code Generation | 🔶 95% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting done; for-each disabled |
 | Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files |
 | Variable Naming | ✅ 100% | Full JADX parity |
+| Type Formatting | ✅ 100% | Special values (MIN/MAX_VALUE, NaN, Infinity) for numeric types |
 | Optimization Passes | 🔶 70% | Deboxing, arith simplify, const inline, code shrink, enum visitor done |
 
 ## CLI Reference
@@ -522,9 +548,9 @@ for (Object item : collection) {
 
 ## Test Status
 
-*Last updated: 2025-12-15*
+*Last updated: 2025-12-15 (Post-formatting improvements)*
 
-All test suites are passing with 100% success rate.
+All test suites are passing with 100% success rate. Recent improvements include special value formatting for numeric types (5 new tests added).
 
 ### Test Summary
 
@@ -534,14 +560,14 @@ All test suites are passing with 100% success rate.
 | dexterity-cli (unit) | 8 | 8 | 0 | ✅ All Passing |
 | dexterity-cli (golden) | 4 | 4 | 0 | ✅ All Passing |
 | dexterity-cli (framework) | 3 | 3 | 0 | ✅ All Passing |
-| dexterity-codegen | 75 | 75 | 0 | ✅ All Passing |
+| dexterity-codegen | 80 | 80 | 0 | ✅ All Passing |
 | dexterity-deobf | 23 | 23 | 0 | ✅ All Passing |
 | dexterity-dex | 35 | 35 | 0 | ✅ All Passing |
 | dexterity-ir | 40 | 40 | 0 | ✅ All Passing |
 | dexterity-kotlin | 3 | 3 | 0 | ✅ All Passing |
 | dexterity-passes | 77 | 77 | 0 | ✅ All Passing |
 | dexterity-resources | 8 | 8 | 0 | ✅ All Passing |
-| **TOTAL** | **959** | **959** | **0** | **✅ 100% Pass Rate** |
+| **TOTAL** | **964** | **964** | **0** | **✅ 100% Pass Rate** |
 
 ### Integration Test Categories
 
