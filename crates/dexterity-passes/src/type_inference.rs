@@ -787,7 +787,6 @@ impl TypeInference {
     pub fn solve(&mut self) {
         // Multiple iterations until no changes
         let mut changed = true;
-        let mut iterations = 0;
         let mut total_checks = 0;
         const SEARCH_ITERATION_LIMIT: usize = 1_000_000;
 
@@ -796,7 +795,6 @@ impl TypeInference {
                 panic!("SKIP: Type inference iterations limit reached ({})", SEARCH_ITERATION_LIMIT);
             }
             changed = false;
-            iterations += 1;
 
             // OPTIMIZATION: Eliminate constraint cloning in hot loop
             // Previously: let constraint = self.constraints[i].clone() in every iteration

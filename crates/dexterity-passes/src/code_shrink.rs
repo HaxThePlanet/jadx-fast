@@ -326,7 +326,6 @@ fn is_safe_to_inline_at(use_insn: &InsnNode, arg_idx: usize, def_insn: &InsnNode
 #[derive(Debug, Clone)]
 struct DefInfo {
     insn_offset: u32,
-    block_id: u32,
 }
 
 /// Find definitions of single-use variables
@@ -345,7 +344,6 @@ fn find_single_use_defs(
                 if use_counts.get(&key).copied().unwrap_or(0) == 1 {
                     defs.insert(key, DefInfo {
                         insn_offset: insn.offset,
-                        block_id: block.id,
                     });
                 }
             }

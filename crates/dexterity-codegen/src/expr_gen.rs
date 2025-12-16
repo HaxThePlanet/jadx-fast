@@ -1104,6 +1104,7 @@ fn escape_string_inner(s: &str, escape_unicode: bool) -> String {
 }
 
 /// Escape string for Java source (backward compatible, no unicode escaping)
+#[cfg(test)]
 fn escape_string(s: &str) -> String {
     escape_string_inner(s, false)
 }

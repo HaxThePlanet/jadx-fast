@@ -131,21 +131,21 @@ public void process(List<? extends Callable<T>> tasks);
 
 | Test Suite | Tests | Passed | Failed | Status |
 |------------|-------|--------|--------|--------|
-| **Integration Tests** | 680 | 680 | 0 | All Passing |
-| dexterity-cli (unit) | 19 | 19 | 0 | All Passing |
-| dexterity-codegen | 83 | 83 | 0 | All Passing |
+| **Integration Tests** | 683 | 683 | 0 | All Passing |
+| dexterity-cli (unit) | 8 | 8 | 0 | All Passing |
+| dexterity-codegen | 81 | 81 | 0 | All Passing |
 | dexterity-deobf | 23 | 23 | 0 | All Passing |
 | dexterity-dex | 35 | 35 | 0 | All Passing |
 | dexterity-ir | 40 | 40 | 0 | All Passing |
 | dexterity-kotlin | 3 | 3 | 0 | All Passing |
 | dexterity-passes | 93 | 93 | 0 | All Passing |
-| dexterity-resources | 10 | 10 | 0 | All Passing |
-| **TOTAL** | **985** | **985** | **0** | **100% Pass Rate** |
+| dexterity-resources | 8 | 8 | 0 | All Passing |
+| **TOTAL** | **974** | **974** | **0** | **100% Pass Rate** |
 
 ### Integration Tests (dexterity-cli/tests/integration/)
 
-680 integration tests covering all major decompilation features:
-- 29 test files organized by feature area (conditions, loops, types, etc.)
+683 integration tests covering all major decompilation features:
+- 28 test files organized by feature area (conditions, loops, types, etc.)
 - Full Java -> DEX -> decompile -> assert pattern
 - Zero TODOs remaining - all assertions implemented
 
@@ -159,7 +159,7 @@ public void process(List<? extends Callable<T>> tasks);
 ### Quality Assessment
 
 **Test infrastructure is complete and healthy:**
-- 985 tests with 100% pass rate
+- 974 tests with 100% pass rate
 - Good test coverage across all crates
 - Integration tests match Java JADX test structure
 - Golden tests provide real-world validation

@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
+  <a href="docs/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
   <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-1.70+-orange.svg" alt="Rust"></a>
 </p>
 
@@ -667,20 +667,20 @@ All test suites are passing with 100% success rate. All 680 integration tests ar
 
 | Test Suite | Tests | Passed | Failed | Status |
 |------------|-------|--------|--------|--------|
-| **Integration Tests** | 680 | 680 | 0 | ✅ All Passing |
-| dexterity-cli (unit) | 19 | 19 | 0 | ✅ All Passing |
-| dexterity-codegen | 83 | 83 | 0 | ✅ All Passing |
+| **Integration Tests** | 683 | 683 | 0 | ✅ All Passing |
+| dexterity-cli (unit) | 8 | 8 | 0 | ✅ All Passing |
+| dexterity-codegen | 81 | 81 | 0 | ✅ All Passing |
 | dexterity-deobf | 23 | 23 | 0 | ✅ All Passing |
 | dexterity-dex | 35 | 35 | 0 | ✅ All Passing |
 | dexterity-ir | 40 | 40 | 0 | ✅ All Passing |
 | dexterity-kotlin | 3 | 3 | 0 | ✅ All Passing |
 | dexterity-passes | 93 | 93 | 0 | ✅ All Passing |
-| dexterity-resources | 10 | 10 | 0 | ✅ All Passing |
-| **TOTAL** | **985** | **985** | **0** | **✅ 100% Pass Rate** |
+| dexterity-resources | 8 | 8 | 0 | ✅ All Passing |
+| **TOTAL** | **974** | **974** | **0** | **✅ 100% Pass Rate** |
 
 ### Integration Test Categories
 
-The 680 integration tests are organized by decompilation feature area, matching the Java JADX test structure:
+The 683 integration tests are organized by decompilation feature area, matching the Java JADX test structure:
 
 | Category | Tests | Status | Notes |
 |----------|-------|--------|-------|

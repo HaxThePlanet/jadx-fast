@@ -5,7 +5,7 @@
 ## Current Status
 
 **Build:** Passing
-**Tests:** 985 tests (100% pass rate)
+**Tests:** 971 tests (100% pass rate)
 **Lines:** ~41,000 lines of Rust
 **Completion:** ~85% feature-complete vs Java jadx-core
 
@@ -29,7 +29,7 @@ Memory-mapped DEX file parsing with zero-copy access.
 
 **Key components:**
 - `reader.rs` - DexReader with lock-free concurrent access
-- `string_pool.rs` - parking_lot::RwLock + FxHashMap for fast string caching
+- `sections/string_pool.rs` - parking_lot::RwLock + FxHashMap for fast string caching
 - `header.rs` - DEX header parsing (magic, checksum, offsets)
 - `consts.rs` - Dalvik opcode definitions (all 224 opcodes)
 

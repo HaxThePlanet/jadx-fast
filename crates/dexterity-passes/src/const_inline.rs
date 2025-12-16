@@ -216,7 +216,7 @@ fn can_inline_at(insn: &InsnNode, arg_idx: usize, literal: &LiteralArg) -> bool 
         // Check if this is a position that would NPE on null
         match &insn.insn_type {
             // Instance receiver (first arg) - would NPE
-            InsnType::Invoke { args, kind, .. } => {
+            InsnType::Invoke { kind, .. } => {
                 if arg_idx == 0 && !matches!(kind, dexterity_ir::instructions::InvokeKind::Static) {
                     return false;
                 }

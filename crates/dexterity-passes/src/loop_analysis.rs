@@ -103,7 +103,7 @@ fn detect_indexed_for(
     ssa: &SsaResult,
     loop_info: &LoopInfo,
     def_map: &HashMap<(u16, u32), &InsnNode>,
-    use_counts: &HashMap<(u16, u32), usize>,
+    _use_counts: &HashMap<(u16, u32), usize>,
 ) -> Option<ForLoopPattern> {
     // Find the header block
     let header_block = ssa.blocks.iter().find(|b| b.id == loop_info.header)?;
@@ -192,7 +192,7 @@ fn detect_indexed_for(
 fn detect_array_foreach(
     ssa: &SsaResult,
     for_pattern: &ForLoopPattern,
-    def_map: &HashMap<(u16, u32), &InsnNode>,
+    _def_map: &HashMap<(u16, u32), &InsnNode>,
     use_counts: &HashMap<(u16, u32), usize>,
 ) -> Option<ArrayForEachPattern> {
     // Must have array length as upper bound

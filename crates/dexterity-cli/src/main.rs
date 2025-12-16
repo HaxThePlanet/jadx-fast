@@ -65,7 +65,6 @@ macro_rules! mem_checkpoint {
 }
 use clap::Parser;
 use indicatif::{ProgressBar, ProgressStyle};
-use rayon::prelude::*;
 
 use dexterity_codegen::{LazyDexInfo, DexInfoProvider, AliasAwareDexInfo, GlobalFieldPool};
 use dexterity_dex::DexReader;
@@ -621,7 +620,7 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
 
     // Scan JAR contents
     for i in 0..archive.len() {
-        let mut entry = archive.by_index(i)?;
+        let entry = archive.by_index(i)?;
         let name = entry.name().to_string();
 
         if name.ends_with('/') {
@@ -1261,7 +1260,7 @@ fn process_dex_bytes(
         let nested_inner_classes: Vec<dexterity_ir::ClassData> = inner_class_map
             .get(&class_desc)
             .map(|inners| {
-                inners.iter().filter_map(|(inner_idx, inner_desc)| {
+                inners.iter().filter_map(|(inner_idx, _inner_desc)| {
                     std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
                         dex.get_class(*inner_idx)
                             .ok()

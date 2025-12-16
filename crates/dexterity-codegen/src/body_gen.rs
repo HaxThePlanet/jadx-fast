@@ -1186,39 +1186,8 @@ fn apply_var_names_from_pass(var_names: &dexterity_passes::VarNamingResult, ctx:
     }
 }
 
-/// Generate variable names based on inferred types
-/// This should be called after apply_inferred_types
-fn generate_var_names(ctx: &mut BodyGenContext) {
-    // Track name usage counts for disambiguation
-    let mut name_counts: std::collections::HashMap<String, u32> = std::collections::HashMap::new();
-
-    // Get all type entries and sort by (reg, version) for deterministic naming
-    let mut type_entries: Vec<((u16, u32), ArgType)> = Vec::new();
-    if let Some(ref type_info) = ctx.type_info {
-        for ((reg, version), arg_type) in &type_info.types {
-            // Skip parameter registers - they already have names
-            if *reg >= ctx.first_param_reg {
-                continue;
-            }
-            type_entries.push(((*reg, *version), arg_type.clone()));
-        }
-    }
-    type_entries.sort_by_key(|((reg, version), _)| (*reg, *version));
-
-    for ((reg, version), arg_type) in type_entries {
-        let base_name = type_to_var_name(&arg_type);
-        let count = name_counts.entry(base_name.clone()).or_insert(0);
-        let name = if *count == 0 {
-            base_name.clone()
-        } else {
-            format!("{}{}", base_name, count)
-        };
-        *count += 1;
-        ctx.expr_gen.set_var_name(reg, version, name);
-    }
-}
-
-/// Convert a type to a variable name prefix
+/// Convert a type to a variable name prefix (used in tests)
+#[cfg(test)]
 fn type_to_var_name(ty: &ArgType) -> String {
     match ty {
         ArgType::Int => "i".to_string(),
@@ -1232,20 +1201,14 @@ fn type_to_var_name(ty: &ArgType) -> String {
         ArgType::Void => "v".to_string(),
         ArgType::Object(name) => {
             // Extract simple class name and lowercase first char
-            // Following JADX's getAliasShortName() approach:
-            // 1. Split on / (package separator in internal format)
-            // 2. Split on $ (inner classes)
-            // 3. Split on . (qualified names like BillingClient.Builder)
             let simple = name.rsplit('/').next().unwrap_or(name);
             let simple = simple.trim_start_matches('L').trim_end_matches(';');
             let simple = simple.rsplit('$').next().unwrap_or(simple);
             let simple = simple.rsplit('.').next().unwrap_or(simple);
 
-            // Check if all uppercase (like ABC) - convert entirely to lowercase
             if simple.chars().all(|c| !c.is_ascii_lowercase()) && !simple.is_empty() {
                 simple.to_lowercase()
             } else {
-                // Normal case: lowercase first character only
                 let mut chars = simple.chars();
                 match chars.next() {
                     Some(c) => c.to_lowercase().chain(chars).collect(),
@@ -1258,21 +1221,14 @@ fn type_to_var_name(ty: &ArgType) -> String {
         }
         ArgType::Unknown => "v".to_string(),
         ArgType::Generic { base, .. } => {
-            // Use base class name for generics
-            // Following JADX's getAliasShortName() approach:
-            // 1. Split on / (package separator in internal format)
-            // 2. Split on $ (inner classes)
-            // 3. Split on . (qualified names)
             let simple = base.rsplit('/').next().unwrap_or(base);
             let simple = simple.trim_start_matches('L').trim_end_matches(';');
             let simple = simple.rsplit('$').next().unwrap_or(simple);
             let simple = simple.rsplit('.').next().unwrap_or(simple);
 
-            // Check if all uppercase (like ABC) - convert entirely to lowercase
             if simple.chars().all(|c| !c.is_ascii_lowercase()) && !simple.is_empty() {
                 simple.to_lowercase()
             } else {
-                // Normal case: lowercase first character only
                 let mut chars = simple.chars();
                 match chars.next() {
                     Some(c) => c.to_lowercase().chain(chars).collect(),
@@ -1281,10 +1237,7 @@ fn type_to_var_name(ty: &ArgType) -> String {
             }
         }
         ArgType::Wildcard { .. } => "w".to_string(),
-        ArgType::TypeVariable(name) => {
-            // Type variables like T, E, K, V - lowercase the name
-            name.to_lowercase()
-        }
+        ArgType::TypeVariable(name) => name.to_lowercase(),
     }
 }
 
@@ -2228,41 +2181,6 @@ fn emit_ternary_assignment<W: CodeWriter>(
         .add(&ternary.else_value)
         .add(";")
         .newline();
-}
-
-
-
-/// Convert CFG blocks to a map (borrowing around CFG internals)
-fn cfg_blocks_to_map(cfg: &CFG) -> BTreeMap<u32, BasicBlock> {
-    let mut map = BTreeMap::new();
-    for block_id in cfg.block_ids() {
-        if let Some(block) = cfg.get_block(block_id) {
-            map.insert(block_id, block.clone());
-        }
-    }
-    map
-}
-
-/// Convert SSA blocks to BasicBlock map for code generation
-/// This preserves the SSA versions on register arguments
-fn ssa_blocks_to_map(ssa_result: &dexterity_passes::ssa::SsaResult) -> BTreeMap<u32, BasicBlock> {
-    let mut map = BTreeMap::new();
-    for ssa_block in &ssa_result.blocks {
-        // Compute offsets from instructions
-        let start_offset = ssa_block.instructions.first().map(|i| i.offset).unwrap_or(0);
-        let end_offset = ssa_block.instructions.last().map(|i| i.offset + 1).unwrap_or(0);
-        let basic_block = BasicBlock {
-            id: ssa_block.id,
-            start_offset,
-            end_offset,
-            instructions: ssa_block.instructions.clone(),
-            successors: ssa_block.successors.clone(),
-            predecessors: ssa_block.predecessors.clone(),
-            flags: 0,
-        };
-        map.insert(ssa_block.id, basic_block);
-    }
-    map
 }
 
 /// Convert SSA blocks to BasicBlock map by taking ownership (no cloning)
