@@ -29,7 +29,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 - **Common input formats** - APK, DEX, JAR, AAR, ZIP
 - **Complete deobfuscation** - ProGuard mappings, JOBF persistence
 - **Kotlin support** - metadata parsing, name restoration
-- **Multi-core parallel** - scales to 56+ threads
+- **Multi-core parallel** - tested up to 112 threads (29x speedup)
 
 ## Quick Start
 
@@ -65,6 +65,65 @@ Benchmarks on 56-thread system:
 | XL (98MB) | 0.66s / 63MB | 6.34s / 1.7GB | **10x faster, 27x less memory** |
 | XXL (164MB) | 5.70s / 397MB | 22.50s / 6.0GB | **4x faster, 15x less memory** |
 | Massive (647MB) | 20.85s / 677MB | 46.08s / 10.7GB | **2x faster, 16x less memory** |
+
+### Core Scaling
+
+Benchmark on 9MB APK (5,501 classes, 2 DEX files) showing parallel scaling efficiency:
+
+```
+Cores │ Time    │ Speedup │ Efficiency
+──────┼─────────┼─────────┼───────────
+    1 │ 36.99s  │   1.0x  │   100%
+    2 │ 18.30s  │   2.0x  │   101%
+    4 │  9.45s  │   3.9x  │    98%
+    8 │  5.09s  │   7.3x  │    91%  ◀─ sweet spot
+   12 │  3.63s  │  10.2x  │    85%
+   16 │  2.91s  │  12.7x  │    79%  ◀─ diminishing returns start
+   24 │  2.18s  │  17.0x  │    71%
+   32 │  1.83s  │  20.2x  │    63%
+   48 │  1.49s  │  24.8x  │    52%
+   64 │  1.37s  │  27.0x  │    42%
+  112 │  1.26s  │  29.4x  │    26%
+```
+
+```
+Speedup vs Core Count
+
+30x ┤                                    ●───● 112 cores
+    │                              ●────●
+25x ┤                        ●────●
+    │                  ●────●
+20x ┤             ●───●
+    │        ●───●
+15x ┤      ●
+    │    ●
+10x ┤   ●
+    │  ●
+ 5x ┤ ●
+    │●
+ 1x ┼─┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬
+    1  4  8  12 16 24 32 48 64    112
+                Cores
+```
+
+**Key findings:**
+- **Near-linear scaling up to 8 cores** (91% efficiency)
+- **Sweet spot: 8-16 cores** - best performance per watt
+- **Diminishing returns after 16 cores** - efficiency drops below 80%
+- **64→112 cores gives only 8% speedup** - thread coordination overhead dominates
+
+### vs Java JADX (same workload)
+
+Apples-to-apples comparison decompiling identical classes (no framework filtering):
+
+```
+Tool       │ Cores │  Time  │ Classes
+───────────┼───────┼────────┼─────────
+JADX       │  112  │ 12.13s │  9,569
+Dexterity  │  112  │  3.88s │  9,607
+───────────┴───────┴────────┴─────────
+                     3.1x faster
+```
 
 ## Feature Status
 

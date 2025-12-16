@@ -7,18 +7,12 @@
 //! 4. Code generation (dexterity-codegen)
 
 use dexterity_ir::regions::Region;
-use dexterity_ir::{ClassData, MethodData};
+use dexterity_ir::MethodData;
 use dexterity_passes::{
     assign_var_names, split_blocks, transform_to_ssa, infer_types,
     BlockSplitResult, CFG, SsaResult, TypeInferenceResult, VarNamingResult,
 };
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
-use dexterity_codegen::{
-    generate_body_with_dex, generate_class_with_dex,
-    dex_info::DexInfoProvider,
-    class_gen::ClassGenConfig,
-    writer::{CodeWriter, SimpleCodeWriter},
-};
 
 /// Result of decompiling a method
 #[derive(Debug)]
@@ -113,33 +107,6 @@ pub fn decompile_summary(result: &DecompiledMethod) -> String {
         result.types.num_constraints,
         result.var_names.names.len(),
     )
-}
-
-/// Generate Java source code for a method body
-pub fn generate_method_code(method: &MethodData, dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>) -> String {
-    let mut writer = SimpleCodeWriter::new();
-    generate_body_with_dex(method, dex_info, &mut writer);
-    writer.finish()
-}
-
-/// Generate Java source code for a class
-pub fn generate_class_code(class: &ClassData, dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>) -> String {
-    let config = ClassGenConfig {
-        use_imports: true,
-        show_debug: false,
-        fallback: true,
-        escape_unicode: false,
-        inline_anonymous: true,
-        add_debug_lines: false,
-        inline_methods: true,
-        hierarchy: None,
-    };
-    generate_class_with_dex(class, &config, dex_info)
-}
-
-/// Decompile a class and generate Java source code
-pub fn decompile_class(class: &ClassData, dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>) -> String {
-    generate_class_code(class, dex_info)
 }
 
 #[cfg(test)]

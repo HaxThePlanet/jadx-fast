@@ -960,10 +960,9 @@ fn process_dex_bytes(
     // Create LazyDexInfo for name resolution during code generation
     // This is O(1) - no data is loaded upfront (lazy loading like Java JADX)
     // The global_field_pool enables deduplication of fields across all DEX files
-    tracing::debug!("Creating lazy DEX info (GlobalFieldPool disabled for memory safety)...");
-    // let dex_info = LazyDexInfo::new_with_pool(std::sync::Arc::clone(&dex), global_field_pool);
-    let dex_info = LazyDexInfo::new(std::sync::Arc::clone(&dex));
-    tracing::debug!("LazyDexInfo ready (on-demand loading, deduplication disabled)");
+    tracing::debug!("Creating lazy DEX info with GlobalFieldPool enabled...");
+    let dex_info = LazyDexInfo::new_with_pool(std::sync::Arc::clone(&dex), global_field_pool);
+    tracing::debug!("LazyDexInfo ready (on-demand loading, field deduplication enabled)");
 
     // ========================================================================
     // OPTIMIZE: Parallel string pre-loading using DashMap's lock-free concurrency
