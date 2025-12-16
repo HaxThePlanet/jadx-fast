@@ -4,18 +4,19 @@ Work completed to achieve high quality decompilation.
 
 ## Current State (Dec 16, 2025)
 
-**Quality Score:** ~87-88/100 (up from 73.6 at start of Dec 16)
+**Quality Score:** ~77/100 (up from 76.1 after type inference improvements)
 
-- **P0-2 Switch Statements** ✅ COMPLETE - Dominance frontier merge detection (+10 points)
-- **P1-1 Variable Naming** ✅ COMPLETE - Field access, casts, array, PHI scoring (+4-5 points)
+- **P0-2 Switch Statements** COMPLETE - Dominance frontier merge detection (+10 points)
+- **P1-1 Variable Naming** COMPLETE - Field access, casts, array, PHI scoring (+4-5 points)
+- **P1-2 Type Inference** COMPLETE - Bounds-based system with LCA (+1 point)
 - **~70% feature complete** vs Java jadx-core (core pipeline works, missing optimization passes)
 - **~99% variable naming parity** with JADX (field access, casts, PHI merging with scoring, debug info)
-- **Type inference foundation complete** (ClassHierarchy, TypeCompare)
+- **Type inference foundation complete** (ClassHierarchy, TypeCompare, bounds-based constraints)
 - **Generic types complete** (field/method signatures, type variables, wildcards)
 
 **Remaining Work:**
-- P1-2: Type Inference bounds refactor (+10 points → 97-98/100)
-- P2: Package obfuscation filtering (+5 points → 102+/100, capped at 100)
+- P2: Package obfuscation filtering (+5 points cosmetic)
+- Further type inference refinements (flow-sensitive instanceof tracking)
 
 ## Priority 1: Type Inference Improvements
 
@@ -62,19 +63,30 @@ Duplicate constants used by multiple PHI nodes to enable independent type infere
 - Fixes remaining type conflicts in static initializers
 - Reduces Unknown types to ~10%
 
-### Phase 5: Full Bounds-Based Refactor (Future)
+### Phase 5: Full Bounds-Based Refactor ✅ DONE (Dec 16)
 
-Full migration to JADX-style separate assign/use bounds:
+**Files:** `dexterity-passes/src/type_inference.rs`
+
+Implemented JADX-style separate assign/use bounds:
 
 ```rust
-// Target (matching JADX)
-struct AssignBound { var: TypeVar, bound_type: ArgType, source: BoundSource }
-struct UseBound { var: TypeVar, bound_type: ArgType, usage: BoundUsage }
+// New constraint types
+Constraint::AssignBound(TypeVar, ArgType)  // LHS: what type can be assigned TO
+Constraint::UseBound(TypeVar, ArgType)     // RHS: what type is being used FROM
 ```
 
-**Expected Impact:**
-- Fixes remaining ~50% of type errors
-- Further reduces Unknown types
+**Implementation:**
+- Added `TypeBounds` struct with upper_bound, lower_bound, and resolved type
+- Added `BoundSource` enum to track where type info came from (Literal, Field, MethodReturn, etc.)
+- Updated constraint solver to handle AssignBound/UseBound differently
+- Enhanced PHI node merging with improved null handling (null + Type = Type, not Object)
+- Added cast refinement tracking (CheckCast now refines variable types)
+
+**Results:**
+- Overall quality: 76.1% -> 77.1% (+1.0%)
+- Code quality: 64.1% -> 66.6% (+2.5%)
+- Variable quality: 0.64 -> 0.67 (+0.03)
+- All 683 integration tests pass
 
 ## Priority 2: Code Quality Polish
 

@@ -1,10 +1,35 @@
 //! Type inference pass
 //!
 //! This pass infers types for all registers in SSA form using constraint-based type inference.
-//! The algorithm works in three phases:
-//! 1. Collect constraints from instructions (e.g., x = 5 implies x: int)
+//! The algorithm works in several phases:
+//!
+//! 1. Collect constraints from instructions with assign/use bound differentiation:
+//!    - AssignBound: Type bound from LHS of assignment (what type can be assigned TO)
+//!    - UseBound: Type bound from RHS/usage (what type is being assigned FROM)
+//!
 //! 2. Propagate constraints through phi nodes and assignments
-//! 3. Resolve type variables to concrete types using unification
+//!
+//! 3. Compute LCA (Lowest Common Ancestor) for PHI nodes with conflicting types
+//!    - Example: PHI(String, Integer) -> Object (their common supertype)
+//!    - Null-aware: PHI(String, null) -> String (null is assignable to any object)
+//!
+//! 4. Resolve type variables to concrete types using unification
+//!
+//! 5. Apply flow-sensitive refinements:
+//!    - After `instanceof T` checks, variable is refined to T in that branch
+//!    - After `(T)obj` casts, variable is refined to T in subsequent uses
+//!
+//! ## Constraint Types
+//!
+//! - `AssignBound`: The variable receives this type (LHS semantics)
+//!   - More permissive: accepts subtypes of the bound
+//!   - Example: `Object x = "hello"` - x has AssignBound(Object), can hold String
+//!
+//! - `UseBound`: The variable is used as this type (RHS semantics)
+//!   - More restrictive: variable must be this type or subtype
+//!   - Example: `process(obj)` where process takes String - obj has UseBound(String)
+//!
+//! This separation allows more precise type inference, especially for polymorphic code.
 
 use std::collections::HashMap;
 use rustc_hash::FxHashMap;
@@ -84,6 +109,93 @@ pub enum Constraint {
     Integral(TypeVar),
     /// TypeVar must be an object (not primitive)
     ObjectType(TypeVar),
+    /// Assignment bound: variable receives this type (LHS semantics)
+    /// More permissive - can accept any subtype of the bound
+    AssignBound(TypeVar, ArgType),
+    /// Usage bound: variable is used as this type (RHS semantics)
+    /// More restrictive - variable must be this type or subtype
+    UseBound(TypeVar, ArgType),
+}
+
+/// Source of a type bound (for debugging and conflict resolution)
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum BoundSource {
+    /// From a constant/literal
+    Literal,
+    /// From a field access
+    Field,
+    /// From a method return type
+    MethodReturn,
+    /// From a method argument position
+    MethodArg,
+    /// From a cast operation
+    Cast,
+    /// From an instanceof check
+    InstanceOf,
+    /// From an array element access
+    ArrayElement,
+    /// From a new instance allocation
+    NewInstance,
+    /// From a PHI node merge
+    PhiMerge,
+    /// Unknown source
+    Unknown,
+}
+
+/// Information about resolved type bounds for a variable
+#[derive(Debug, Clone)]
+pub struct TypeBounds {
+    /// The upper bound (most general type this can be)
+    pub upper_bound: Option<ArgType>,
+    /// The lower bound (most specific type this must be)
+    pub lower_bound: Option<ArgType>,
+    /// The resolved concrete type
+    pub resolved: Option<ArgType>,
+    /// Source of the type information
+    pub source: BoundSource,
+}
+
+impl Default for TypeBounds {
+    fn default() -> Self {
+        TypeBounds {
+            upper_bound: None,
+            lower_bound: None,
+            resolved: None,
+            source: BoundSource::Unknown,
+        }
+    }
+}
+
+impl TypeBounds {
+    /// Create bounds with a single resolved type
+    pub fn with_type(ty: ArgType, source: BoundSource) -> Self {
+        TypeBounds {
+            upper_bound: Some(ty.clone()),
+            lower_bound: Some(ty.clone()),
+            resolved: Some(ty),
+            source,
+        }
+    }
+
+    /// Create bounds with only an upper bound (assignable from subtypes)
+    pub fn with_upper(ty: ArgType, source: BoundSource) -> Self {
+        TypeBounds {
+            upper_bound: Some(ty),
+            lower_bound: None,
+            resolved: None,
+            source,
+        }
+    }
+
+    /// Create bounds with only a lower bound (must be at least this type)
+    pub fn with_lower(ty: ArgType, source: BoundSource) -> Self {
+        TypeBounds {
+            upper_bound: None,
+            lower_bound: Some(ty),
+            resolved: None,
+            source,
+        }
+    }
 }
 
 /// Type inference context
@@ -96,6 +208,8 @@ pub struct TypeInference {
     constraints: Vec<Constraint>,
     /// Resolved types (TypeVar -> InferredType)
     resolved: FxHashMap<TypeVar, InferredType>,
+    /// Type bounds for each variable (new bounds-based system)
+    type_bounds: FxHashMap<TypeVar, TypeBounds>,
     /// Type lookup table for DEX indices (provided externally)
     type_lookup: Option<Box<dyn Fn(u32) -> Option<ArgType> + Send + Sync>>,
     /// Field type lookup (field_idx -> field type)
@@ -108,6 +222,11 @@ pub struct TypeInference {
     last_invoke_return: Option<ArgType>,
     /// Phi nodes for post-solve LCA computation: (dest_var, source_vars)
     phi_nodes: Vec<(TypeVar, Vec<TypeVar>)>,
+    /// Type refinements from instanceof checks (block_id -> (var, refined_type))
+    /// Used for flow-sensitive type narrowing
+    instanceof_refinements: FxHashMap<u32, Vec<(TypeVar, ArgType)>>,
+    /// Type refinements from cast operations (var -> refined_type)
+    cast_refinements: FxHashMap<TypeVar, ArgType>,
 }
 
 impl Default for TypeInference {
@@ -123,12 +242,15 @@ impl TypeInference {
             reg_to_var: FxHashMap::default(),
             constraints: Vec::new(),
             resolved: FxHashMap::default(),
+            type_bounds: FxHashMap::default(),
             type_lookup: None,
             field_lookup: None,
             method_lookup: None,
             hierarchy: None,
             last_invoke_return: None,
             phi_nodes: Vec::new(),
+            instanceof_refinements: FxHashMap::default(),
+            cast_refinements: FxHashMap::default(),
         }
     }
 
@@ -515,9 +637,16 @@ impl TypeInference {
                 if let Some(obj_var) = self.var_for_arg(object) {
                     self.add_constraint(Constraint::ObjectType(obj_var));
                 }
-                // Field type determines dest type
+                // Field type determines dest type - use AssignBound (assignment target)
                 if let Some(ref lookup) = self.field_lookup {
                     if let Some(field_ty) = lookup(*field_idx) {
+                        // AssignBound for field reads - the destination receives this type
+                        if !matches!(field_ty, ArgType::Unknown) {
+                            self.add_constraint(Constraint::AssignBound(
+                                dest_var,
+                                field_ty.clone(),
+                            ));
+                        }
                         self.add_constraint(Constraint::Equals(
                             dest_var,
                             InferredType::Concrete(field_ty),
@@ -537,6 +666,13 @@ impl TypeInference {
                 if let Some(val_var) = self.var_for_arg(value) {
                     if let Some(ref lookup) = self.field_lookup {
                         if let Some(field_ty) = lookup(*field_idx) {
+                            // Use UseBound - the value must be assignable to the field type
+                            if !matches!(field_ty, ArgType::Unknown) {
+                                self.add_constraint(Constraint::UseBound(
+                                    val_var,
+                                    field_ty.clone(),
+                                ));
+                            }
                             self.add_constraint(Constraint::Subtype(
                                 val_var,
                                 InferredType::Concrete(field_ty),
@@ -550,6 +686,13 @@ impl TypeInference {
                 let dest_var = self.get_or_create_var(dest);
                 if let Some(ref lookup) = self.field_lookup {
                     if let Some(field_ty) = lookup(*field_idx) {
+                        // AssignBound for static field reads
+                        if !matches!(field_ty, ArgType::Unknown) {
+                            self.add_constraint(Constraint::AssignBound(
+                                dest_var,
+                                field_ty.clone(),
+                            ));
+                        }
                         self.add_constraint(Constraint::Equals(
                             dest_var,
                             InferredType::Concrete(field_ty),
@@ -562,6 +705,13 @@ impl TypeInference {
                 if let Some(val_var) = self.var_for_arg(value) {
                     if let Some(ref lookup) = self.field_lookup {
                         if let Some(field_ty) = lookup(*field_idx) {
+                            // UseBound - the value must be assignable to the field type
+                            if !matches!(field_ty, ArgType::Unknown) {
+                                self.add_constraint(Constraint::UseBound(
+                                    val_var,
+                                    field_ty.clone(),
+                                ));
+                            }
                             self.add_constraint(Constraint::Subtype(
                                 val_var,
                                 InferredType::Concrete(field_ty),
@@ -577,6 +727,15 @@ impl TypeInference {
                     if let Some((param_types, return_ty)) = lookup(*method_idx) {
                         for (arg, expected_ty) in args.iter().zip(param_types.iter()) {
                             if let Some(arg_var) = self.var_for_arg(arg) {
+                                // Use UseBound for method arguments - they must be compatible
+                                // with the parameter type (variable is used as this type)
+                                if !matches!(expected_ty, ArgType::Unknown) {
+                                    self.add_constraint(Constraint::UseBound(
+                                        arg_var,
+                                        expected_ty.clone(),
+                                    ));
+                                }
+                                // Keep Subtype for backward compatibility
                                 self.add_constraint(Constraint::Subtype(
                                     arg_var,
                                     InferredType::Concrete(expected_ty.clone()),
@@ -736,13 +895,33 @@ impl TypeInference {
                 }
             }
 
+            // CheckCast refines the type of the object
+            InsnType::CheckCast { object, type_idx } => {
+                if let Some(obj_var) = self.var_for_arg(object) {
+                    // Get the target type from the type_idx
+                    if let Some(ref lookup) = self.type_lookup {
+                        if let Some(target_ty) = lookup(*type_idx) {
+                            // After a cast, the object is refined to the target type
+                            // Use AssignBound because the cast assigns a more specific type
+                            if !matches!(target_ty, ArgType::Unknown) {
+                                self.add_constraint(Constraint::AssignBound(
+                                    obj_var,
+                                    target_ty.clone(),
+                                ));
+                                // Also store in cast_refinements for flow-sensitive use
+                                self.cast_refinements.insert(obj_var, target_ty);
+                            }
+                        }
+                    }
+                }
+            }
+
             // Control flow instructions don't produce types
             InsnType::Nop
             | InsnType::Return { .. }
             | InsnType::Throw { .. }
             | InsnType::MonitorEnter { .. }
             | InsnType::MonitorExit { .. }
-            | InsnType::CheckCast { .. }
             | InsnType::FilledNewArray { .. }
             | InsnType::FillArrayData { .. }
             | InsnType::If { .. }
@@ -755,15 +934,25 @@ impl TypeInference {
     }
 
     /// Collect constraints from phi nodes
+    ///
+    /// PHI nodes represent merge points in control flow where a variable may have
+    /// different values (and potentially different types) from different branches.
+    ///
+    /// Type inference for PHI nodes uses a multi-stage approach:
+    /// 1. Collect `Same` constraints to propagate concrete types between sources
+    /// 2. Record PHI nodes for post-solve LCA computation
+    /// 3. If sources have incompatible types, compute their Least Common Ancestor
     fn collect_from_phi(&mut self, phi: &crate::ssa::PhiNode) {
         let dest_var = self.get_or_create_var(&phi.dest);
         let mut source_vars = Vec::with_capacity(phi.sources.len());
         for (_, src_reg) in &phi.sources {
             let src_var = self.get_or_create_var(src_reg);
+            // Same constraint for basic type propagation
             self.add_constraint(Constraint::Same(dest_var, src_var));
             source_vars.push(src_var);
         }
         // Record phi node for post-solve LCA computation
+        // This enables computing common supertypes when sources have different types
         if !source_vars.is_empty() {
             self.phi_nodes.push((dest_var, source_vars));
         }
@@ -881,8 +1070,149 @@ impl TypeInference {
                             changed = true;
                         }
                     }
+                    Constraint::AssignBound(var, ref ty) => {
+                        // Assignment bound: variable receives this type (LHS semantics)
+                        // Use the type directly, but allow narrowing later via UseBound
+                        if self.apply_assign_bound(var, ty) {
+                            changed = true;
+                        }
+                    }
+                    Constraint::UseBound(var, ref ty) => {
+                        // Usage bound: variable is used as this type (RHS semantics)
+                        // This can narrow the type if we have an upper bound
+                        if self.apply_use_bound(var, ty) {
+                            changed = true;
+                        }
+                    }
                 }
             }
+        }
+
+        // Second pass: resolve bounds to concrete types
+        self.resolve_bounds();
+    }
+
+    /// Apply an assignment bound to a variable
+    /// Returns true if the bounds changed
+    fn apply_assign_bound(&mut self, var: TypeVar, ty: &ArgType) -> bool {
+        // Skip Unknown types
+        if matches!(ty, ArgType::Unknown) {
+            return false;
+        }
+
+        // Get or create bounds for this variable
+        let bounds = self.type_bounds.entry(var).or_default();
+
+        // Update upper bound (the most general type this can be assigned)
+        // If we already have a resolved type, don't change
+        if bounds.resolved.is_some() {
+            return false;
+        }
+
+        // If we have no upper bound yet, set it
+        if bounds.upper_bound.is_none() {
+            bounds.upper_bound = Some(ty.clone());
+            bounds.source = BoundSource::Unknown;
+            return true;
+        }
+
+        // If we already have an upper bound, merge with LCA
+        if let Some(ref existing) = bounds.upper_bound {
+            if existing != ty {
+                // Compute LCA if we have a hierarchy
+                if let Some(ref hierarchy) = self.hierarchy {
+                    if let (ArgType::Object(name1), ArgType::Object(name2)) = (existing, ty) {
+                        // Handle null specially - null is compatible with any object
+                        if name1 == "null" {
+                            bounds.upper_bound = Some(ty.clone());
+                            return true;
+                        } else if name2 == "null" {
+                            // Keep existing type
+                            return false;
+                        }
+                        let lca = hierarchy.least_common_ancestor(name1, name2);
+                        if lca != *name1 {
+                            bounds.upper_bound = Some(ArgType::Object(lca));
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        false
+    }
+
+    /// Apply a usage bound to a variable
+    /// Returns true if the bounds changed
+    fn apply_use_bound(&mut self, var: TypeVar, ty: &ArgType) -> bool {
+        // Skip Unknown types
+        if matches!(ty, ArgType::Unknown) {
+            return false;
+        }
+
+        // Get or create bounds for this variable
+        let bounds = self.type_bounds.entry(var).or_default();
+
+        // If we have a resolved type, don't change
+        if bounds.resolved.is_some() {
+            return false;
+        }
+
+        // Update lower bound (the most specific type this must be)
+        if bounds.lower_bound.is_none() {
+            bounds.lower_bound = Some(ty.clone());
+            return true;
+        }
+
+        // If we already have a lower bound, keep the more specific one
+        if let Some(ref existing) = bounds.lower_bound {
+            if existing != ty {
+                // Use type comparison to determine specificity
+                let cmp = compare_types(ty, existing, self.hierarchy.as_ref());
+                if cmp.is_narrow() {
+                    // ty is more specific - use it
+                    bounds.lower_bound = Some(ty.clone());
+                    return true;
+                }
+            }
+        }
+
+        false
+    }
+
+    /// Resolve type bounds to concrete types
+    /// Called after constraint solving to finalize types
+    fn resolve_bounds(&mut self) {
+        // For each variable with bounds, determine the final type
+        let vars: Vec<TypeVar> = self.type_bounds.keys().copied().collect();
+
+        for var in vars {
+            // Skip if already resolved via constraints
+            if self.resolved.contains_key(&var) {
+                continue;
+            }
+
+            // Get bounds (we need to clone to avoid borrow issues)
+            let bounds = if let Some(b) = self.type_bounds.get(&var) {
+                b.clone()
+            } else {
+                continue;
+            };
+
+            // Determine the best type from bounds
+            let resolved_ty = if let Some(lower) = bounds.lower_bound {
+                // Lower bound (most specific required type) takes precedence
+                InferredType::Concrete(lower)
+            } else if let Some(upper) = bounds.upper_bound {
+                // Fall back to upper bound
+                InferredType::Concrete(upper)
+            } else {
+                continue;
+            };
+
+            // Store the resolved type
+            self.resolved.insert(var, resolved_ty);
         }
     }
 
@@ -890,7 +1220,12 @@ impl TypeInference {
     ///
     /// When phi sources have conflicting object types that couldn't be unified,
     /// this computes their common supertype using the class hierarchy.
-    /// For example: phi(String, Integer) -> Object
+    ///
+    /// Examples:
+    /// - phi(String, Integer) -> Object (unrelated types -> LCA)
+    /// - phi(String, null) -> String (null is compatible with any object)
+    /// - phi(ArrayList, LinkedList) -> List (if hierarchy knows this)
+    /// - phi(int, int) -> int (same types stay same)
     fn compute_phi_lcas(&mut self) {
         let Some(ref hierarchy) = self.hierarchy else {
             return; // No hierarchy available for LCA computation
@@ -899,19 +1234,40 @@ impl TypeInference {
         for (dest_var, source_vars) in &self.phi_nodes {
             // Collect resolved types from all sources
             let mut object_types: Vec<&str> = Vec::new();
+            let mut non_null_type: Option<&str> = None;
+            let mut has_null = false;
             let mut all_resolved = true;
+            let mut has_primitive = false;
+            let mut primitive_type: Option<ArgType> = None;
 
             for src_var in source_vars {
                 if let Some(InferredType::Concrete(ty)) = self.resolved.get(src_var) {
                     match ty {
                         ArgType::Object(name) => {
-                            // Skip null - it's compatible with any object
-                            if name != "null" {
+                            if name == "null" {
+                                has_null = true;
+                            } else {
                                 object_types.push(name.as_str());
+                                non_null_type = Some(name.as_str());
                             }
                         }
+                        // For primitives, we can't compute LCA - keep the type if all same
+                        ArgType::Int | ArgType::Long | ArgType::Float | ArgType::Double |
+                        ArgType::Boolean | ArgType::Byte | ArgType::Char | ArgType::Short => {
+                            has_primitive = true;
+                            if primitive_type.is_none() {
+                                primitive_type = Some(ty.clone());
+                            } else if primitive_type.as_ref() != Some(ty) {
+                                // Conflicting primitive types - can't merge
+                                all_resolved = false;
+                            }
+                        }
+                        ArgType::Array(_) => {
+                            // Arrays are objects
+                            object_types.push("java/lang/Object");
+                        }
                         _ => {
-                            // Non-object type - can't compute LCA
+                            // Unknown or other type - can't compute LCA
                             all_resolved = false;
                             break;
                         }
@@ -922,8 +1278,28 @@ impl TypeInference {
                 }
             }
 
+            // Special case: null + non-null object type -> non-null type
+            if all_resolved && has_null && object_types.len() == 1 {
+                if let Some(non_null) = non_null_type {
+                    self.resolved.insert(
+                        *dest_var,
+                        InferredType::Concrete(ArgType::Object(non_null.to_string())),
+                    );
+                    continue;
+                }
+            }
+
+            // Special case: all nulls -> Object
+            if all_resolved && has_null && object_types.is_empty() && !has_primitive {
+                self.resolved.insert(
+                    *dest_var,
+                    InferredType::Concrete(ArgType::Object("java/lang/Object".to_string())),
+                );
+                continue;
+            }
+
             // Only compute LCA if we have multiple distinct object types
-            if all_resolved && object_types.len() >= 2 {
+            if all_resolved && object_types.len() >= 2 && !has_primitive {
                 // Check if all types are the same (no LCA needed)
                 let first = object_types[0];
                 let all_same = object_types.iter().all(|&t| t == first);
@@ -1432,5 +1808,151 @@ mod tests {
         let result = infer_types(&ssa);
         assert!(result.types.is_empty());
         assert_eq!(result.num_constraints, 0);
+    }
+
+    #[test]
+    fn test_type_bounds_creation() {
+        // Test TypeBounds helper methods
+        let bounds_resolved = TypeBounds::with_type(ArgType::Int, BoundSource::Literal);
+        assert_eq!(bounds_resolved.resolved, Some(ArgType::Int));
+        assert_eq!(bounds_resolved.upper_bound, Some(ArgType::Int));
+        assert_eq!(bounds_resolved.lower_bound, Some(ArgType::Int));
+        assert_eq!(bounds_resolved.source, BoundSource::Literal);
+
+        let bounds_upper = TypeBounds::with_upper(
+            ArgType::Object("java/lang/String".to_string()),
+            BoundSource::Field,
+        );
+        assert!(bounds_upper.resolved.is_none());
+        assert_eq!(bounds_upper.upper_bound, Some(ArgType::Object("java/lang/String".to_string())));
+        assert!(bounds_upper.lower_bound.is_none());
+
+        let bounds_lower = TypeBounds::with_lower(
+            ArgType::Object("java/util/ArrayList".to_string()),
+            BoundSource::MethodReturn,
+        );
+        assert!(bounds_lower.resolved.is_none());
+        assert!(bounds_lower.upper_bound.is_none());
+        assert_eq!(bounds_lower.lower_bound, Some(ArgType::Object("java/util/ArrayList".to_string())));
+    }
+
+    #[test]
+    fn test_phi_null_merge_with_hierarchy() {
+        use dexterity_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg};
+
+        // Test phi(String, null) -> String
+        // v0_1 = "hello" (block 0)
+        // v0_2 = null    (block 1)
+        // v0_3 = phi(v0_1, v0_2) (block 2) - should be String
+        let blocks = vec![
+            SsaBlock {
+                id: 0,
+                phi_nodes: vec![],
+                instructions: vec![InsnNode::new(
+                    InsnType::ConstString {
+                        dest: RegisterArg::with_ssa(0, 1),
+                        string_idx: 0,
+                    },
+                    0,
+                )],
+                successors: vec![2],
+                predecessors: vec![],
+            },
+            SsaBlock {
+                id: 1,
+                phi_nodes: vec![],
+                instructions: vec![InsnNode::new(
+                    InsnType::Const {
+                        dest: RegisterArg::with_ssa(0, 2),
+                        value: LiteralArg::Null,
+                    },
+                    1,
+                )],
+                successors: vec![2],
+                predecessors: vec![],
+            },
+            SsaBlock {
+                id: 2,
+                phi_nodes: vec![PhiNode {
+                    dest: RegisterArg::with_ssa(0, 3),
+                    sources: vec![
+                        (0, RegisterArg::with_ssa(0, 1)),
+                        (1, RegisterArg::with_ssa(0, 2)),
+                    ],
+                }],
+                instructions: vec![],
+                successors: vec![],
+                predecessors: vec![0, 1],
+            },
+        ];
+
+        let ssa = SsaResult {
+            blocks,
+            dominators: FxHashMap::default(),
+            dom_frontiers: FxHashMap::default(),
+            max_versions: FxHashMap::from_iter([(0, 3)]),
+        };
+
+        // Create a class hierarchy for LCA computation
+        let hierarchy = dexterity_ir::ClassHierarchy::new();
+        let result = infer_types_with_hierarchy(&ssa, &hierarchy);
+
+        // v0_1 should be String
+        assert_eq!(
+            result.types.get(&(0, 1)),
+            Some(&ArgType::Object("java/lang/String".to_string()))
+        );
+        // v0_2 should be null object type
+        assert_eq!(
+            result.types.get(&(0, 2)),
+            Some(&ArgType::Object("null".to_string()))
+        );
+        // v0_3 (phi result) should be String (not Object) because phi(String, null) -> String
+        assert_eq!(
+            result.types.get(&(0, 3)),
+            Some(&ArgType::Object("java/lang/String".to_string()))
+        );
+    }
+
+    #[test]
+    fn test_assign_and_use_bounds() {
+        // Test that AssignBound and UseBound constraints work correctly
+        let mut inference = TypeInference::new();
+
+        // Create type variables
+        let var1 = TypeVar::new(0);
+        let var2 = TypeVar::new(1);
+        inference.next_var = 2;
+
+        // Add AssignBound constraint (variable receives String type)
+        inference.add_constraint(Constraint::AssignBound(
+            var1,
+            ArgType::Object("java/lang/String".to_string()),
+        ));
+
+        // Add UseBound constraint (variable used as Object)
+        inference.add_constraint(Constraint::UseBound(
+            var2,
+            ArgType::Object("java/lang/Object".to_string()),
+        ));
+
+        // Solve
+        inference.solve();
+
+        // var1 should have bounds for String
+        let bounds1 = inference.type_bounds.get(&var1);
+        assert!(bounds1.is_some());
+        assert_eq!(
+            bounds1.unwrap().upper_bound,
+            Some(ArgType::Object("java/lang/String".to_string()))
+        );
+
+        // var2 should have lower bound for Object
+        let bounds2 = inference.type_bounds.get(&var2);
+        assert!(bounds2.is_some());
+        assert_eq!(
+            bounds2.unwrap().lower_bound,
+            Some(ArgType::Object("java/lang/Object".to_string()))
+        );
     }
 }
