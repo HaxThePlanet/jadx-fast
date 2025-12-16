@@ -126,6 +126,24 @@ APK/DEX -> jadx-dex -> jadx-ir -> jadx-passes -> jadx-codegen -> Java Source
 - [Changelog](docs/CHANGELOG.md) - Development history and fixes
 - [Architecture](crates/AGENTS.md) - Crate structure and design
 
+## TODOs
+
+### Implementation
+
+| File | Description |
+|------|-------------|
+| `jadx-ir/src/info.rs:386` | Implement lazy loading by decoding instructions from bytecode_ref |
+| `jadx-ir/src/kotlin_metadata.rs:158` | Implement package part count and class existence check |
+| `jadx-cli/src/converter.rs:210` | Parse and store type parameters in method.type_parameters |
+| `jadx-cli/src/converter.rs:770` | Multi-DEX support (currently hardcoded to dex_idx: 0) |
+| `jadx-cli/src/gradle_export.rs` | Gradle export dependencies handling (3 locations) |
+| `jadx-codegen/src/dex_info.rs:117` | Track memory usage if needed |
+| `jadx-passes/src/type_inference.rs:665` | Compute LCA of all phi sources after initial resolution |
+
+### Tests
+
+~200+ disabled tests in `crates/jadx-passes/tests/integration.disabled/` need assertions and test source extraction.
+
 ## Not Yet Implemented
 
 - Smali file (`.smali`) processing
