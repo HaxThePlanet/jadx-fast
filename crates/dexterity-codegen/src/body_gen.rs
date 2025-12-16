@@ -1282,43 +1282,68 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
 /// Check if the loop body has meaningful content after skipping iterator instructions
 /// Returns true if there are instructions/regions beyond just the iterator next() call
 fn body_has_meaningful_content(body: &Region, foreach_info: &ForEachInfo, ctx: &BodyGenContext) -> bool {
-    match body {
-        Region::Sequence(contents) => {
-            // Check if there's more than just the first block with iterator call
-            if contents.len() > 1 {
-                return true;
-            }
-            // If only one item, check if it's a block with content after skipping
-            if let Some(RegionContent::Block(block_id)) = contents.first() {
-                if *block_id == foreach_info.skip_block {
-                    // Check if this block has instructions beyond those we're skipping
-                    if let Some(block) = ctx.blocks.get(block_id) {
-                        let total_insns = block.instructions.len();
-                        let skip_end = foreach_info.skip_start + foreach_info.skip_count;
-                        // Count non-control-flow instructions outside the skip range
-                        let meaningful = block.instructions.iter().enumerate()
-                            .filter(|(i, insn)| {
-                                // Skip if in the skip range
-                                if *i >= foreach_info.skip_start && *i < skip_end {
-                                    return false;
-                                }
-                                // Skip control flow
-                                !is_control_flow(&insn.insn_type)
-                            })
-                            .count();
-                        return meaningful > 0;
+    fn count_meaningful_in_block(block_id: u32, skip_block: u32, skip_start: usize, skip_count: usize, ctx: &BodyGenContext) -> usize {
+        if let Some(block) = ctx.blocks.get(&block_id) {
+            let skip_end = skip_start + skip_count;
+            block.instructions.iter().enumerate()
+                .filter(|(i, insn)| {
+                    // Skip if this is the skip_block and instruction is in skip range
+                    if block_id == skip_block && *i >= skip_start && *i < skip_end {
+                        return false;
                     }
-                }
-                return true; // Different block, assume meaningful
-            }
-            // If it's a nested region, consider it meaningful
-            if let Some(RegionContent::Region(_)) = contents.first() {
-                return true;
-            }
-            false
+                    // Skip control flow
+                    !is_control_flow(&insn.insn_type)
+                })
+                .count()
+        } else {
+            0
         }
-        _ => true, // Non-sequence regions are considered meaningful
     }
+
+    fn count_meaningful_in_region(region: &Region, skip_block: u32, skip_start: usize, skip_count: usize, ctx: &BodyGenContext) -> usize {
+        match region {
+            Region::Sequence(contents) => {
+                contents.iter().map(|c| match c {
+                    RegionContent::Block(b) => count_meaningful_in_block(*b, skip_block, skip_start, skip_count, ctx),
+                    RegionContent::Region(r) => count_meaningful_in_region(r, skip_block, skip_start, skip_count, ctx),
+                }).sum()
+            }
+            Region::If { then_region, else_region, .. } => {
+                let then_count = count_meaningful_in_region(then_region, skip_block, skip_start, skip_count, ctx);
+                let else_count = else_region.as_ref()
+                    .map(|r| count_meaningful_in_region(r, skip_block, skip_start, skip_count, ctx))
+                    .unwrap_or(0);
+                then_count + else_count
+            }
+            Region::Loop { body, .. } => {
+                count_meaningful_in_region(body, skip_block, skip_start, skip_count, ctx)
+            }
+            Region::Switch { cases, default, .. } => {
+                let case_count: usize = cases.iter()
+                    .map(|c| count_meaningful_in_region(&c.region, skip_block, skip_start, skip_count, ctx))
+                    .sum();
+                let default_count = default.as_ref()
+                    .map(|r| count_meaningful_in_region(r, skip_block, skip_start, skip_count, ctx))
+                    .unwrap_or(0);
+                case_count + default_count
+            }
+            Region::TryCatch { try_region, handlers, finally } => {
+                let try_count = count_meaningful_in_region(try_region, skip_block, skip_start, skip_count, ctx);
+                let catch_count: usize = handlers.iter()
+                    .map(|c| count_meaningful_in_region(&c.region, skip_block, skip_start, skip_count, ctx))
+                    .sum();
+                let finally_count = finally.as_ref()
+                    .map(|r| count_meaningful_in_region(r, skip_block, skip_start, skip_count, ctx))
+                    .unwrap_or(0);
+                try_count + catch_count + finally_count
+            }
+            Region::Synchronized { body, .. } => {
+                count_meaningful_in_region(body, skip_block, skip_start, skip_count, ctx)
+            }
+        }
+    }
+
+    count_meaningful_in_region(body, foreach_info.skip_block, foreach_info.skip_start, foreach_info.skip_count, ctx) > 0
 }
 
 /// Generate else or else-if chain
