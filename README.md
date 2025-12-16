@@ -63,12 +63,13 @@ Current focus areas for reaching JADX parity:
 
 | Priority | Task | Impact | Status |
 |----------|------|--------|--------|
-| **1** | Complete 683 integration tests (394 TODOs remain) | Fill in missing test sources and assertions | 🔄 In Progress |
+| **1** | Complete 683 integration tests (392 TODOs remain) | Fill in missing test sources and assertions | 🔄 In Progress |
 | **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% | ✅ Done (Dec 15) |
 | **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
 | **4** | For-loop recognition | Convert while loops to for/for-each patterns | ✅ Done (Dec 15) |
 | **5** | Ternary detection | Convert if-else to `? :` expressions | ✅ Done (Dec 15) |
 | **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR | ✅ Done (Dec 15) |
+| **7** | Constant inlining | Inline single-use constants into expressions | ✅ Done (Dec 15) |
 
 ## Quick Start
 
@@ -177,7 +178,7 @@ Dexterity  │  112  │  3.88s │  9,607
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files |
 | Variable Naming | ✅ 100% | Full JADX parity |
-| Optimization Passes | 🔶 50% | Deboxing, arithmetic simplification done; missing shrinking |
+| Optimization Passes | 🔶 60% | Deboxing, arithmetic simplification, const inlining done; missing shrinking |
 
 ## CLI Reference
 
@@ -333,7 +334,7 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | synchronize | 7 | 8 | 6 | ⚠️ Incomplete |
 | arrays | 16 | 16 | 5 | 🔶 Mostly done |
 | arith | 14 | 19 | 0 | ✅ Done |
-| annotations | 7 | 9 | 2 | ✅ Close |
+| annotations | 7 | 9 | 0 | ✅ Done |
 | android | 7 | 7 | 2 | ✅ Close |
 | debuginfo | 5 | 3 | 2 | ⚠️ Missing tests |
 | special | 1 | 1 | 2 | ⚠️ Incomplete |
@@ -343,9 +344,9 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | fallback | 2 | 2 | 0 | ✅ Done |
 | jbc | 1 | 1 | 0 | ✅ Done |
 | sample | - | 5 | 0 | ✅ Done |
-| **TOTAL** | **577** | **680** | **394** | |
+| **TOTAL** | **577** | **680** | **392** | |
 
-Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 394 TODOs remaining.
+Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 392 TODOs remaining.
 
 ### Implementation TODOs
 
@@ -409,7 +410,7 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | Core pipeline | ~85% | Parsing, SSA, type inference, regions, codegen work |
-| Optimization passes | ~50% | Deboxing, arithmetic simplification done; missing shrinking |
+| Optimization passes | ~60% | Deboxing, arithmetic simplification, const inlining done; missing shrinking |
 | Tooling/extras | ~20% | CLI only, no GUI/plugins/IDE |
 
 ### Missing Decompiler Passes (High Priority)
@@ -419,7 +420,7 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | `CodeShrinkVisitor` | Remove redundant code, unused variables |
 | ~~`SimplifyVisitor`~~ | ~~Simplify expressions, optimize conditionals~~ 🔶 Partial (arith done) |
 | ~~`DeboxingVisitor`~~ | ~~Remove Integer.valueOf(), Boolean.valueOf()~~ ✅ Done |
-| `ConstInlineVisitor` | Inline constant values |
+| ~~`ConstInlineVisitor`~~ | ~~Inline constant values~~ ✅ Done |
 | `EnumVisitor` | Enum class reconstruction |
 | ~~`TernaryMod`~~ | ~~Ternary expression conversion~~ ✅ Done |
 | `SwitchOverStringVisitor` | Switch-on-string handling |
