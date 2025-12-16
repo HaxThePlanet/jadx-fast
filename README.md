@@ -136,7 +136,7 @@ public void process(byte[] buffer, Object obj, List data) {
 - `crates/dexterity-passes/src/var_naming.rs` - Extended context-based naming logic
 - `crates/dexterity-codegen/src/expr_gen.rs` - Enhanced variable source tracking
 
-**Test Results:** All 680 integration tests pass. QA metrics: +1.1% overall, +2.6% code quality.
+**Test Results:** All 683 integration tests pass. QA metrics: +1.1% overall, +2.6% code quality.
 
 ### Switch Statement Completeness (Dec 16)
 
@@ -181,7 +181,7 @@ switch (i) {
 - `crates/dexterity-passes/src/block_split.rs` - Added PackedSwitch/SparseSwitch handling in `compute_successors()`
 - `crates/dexterity-passes/src/region_builder.rs` - Rewrote `find_switch_merge()`, `collect_case_blocks()`, and default case detection
 
-**Test Results:** All 680 integration tests pass.
+**Test Results:** All 683 integration tests pass.
 
 ### Increment/Decrement Pattern Detection
 
@@ -596,7 +596,7 @@ Comprehensive documentation enables autonomous LLM agents to work toward JADX pa
 
 See `docs/LLM_AGENT_GUIDE.md` for complete workflow. Key steps:
 
-1. **Read Issues:** Open `docs/ISSUE_TRACKER.md` - 12 issues (6 CRITICAL, 4 HIGH, 2 MEDIUM)
+1. **Read Issues:** Open `docs/ISSUE_TRACKER.md` - 12 issues (3 RESOLVED, 9 OPEN: 3 CRITICAL, 4 HIGH, 2 MEDIUM)
 2. **Find Code:** Use `docs/CODE_NAVIGATION.md` to locate source files
 3. **Understand Algorithm:** Review `docs/ALGORITHM_REFERENCES.md` for high-level explanations
 4. **Implement Fix:** Follow code patterns and testing requirements
