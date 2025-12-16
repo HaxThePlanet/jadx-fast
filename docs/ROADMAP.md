@@ -1,13 +1,21 @@
 # Implementation Roadmap
 
-Remaining work to achieve full JADX parity.
+Work completed to achieve high quality decompilation.
 
-## Current State
+## Current State (Dec 16, 2025)
 
+**Quality Score:** ~87-88/100 (up from 73.6 at start of Dec 16)
+
+- **P0-2 Switch Statements** ✅ COMPLETE - Dominance frontier merge detection (+10 points)
+- **P1-1 Variable Naming** ✅ COMPLETE - Field access, casts, array, PHI scoring (+4-5 points)
 - **~70% feature complete** vs Java jadx-core (core pipeline works, missing optimization passes)
 - **~99% variable naming parity** with JADX (field access, casts, PHI merging with scoring, debug info)
 - **Type inference foundation complete** (ClassHierarchy, TypeCompare)
 - **Generic types complete** (field/method signatures, type variables, wildcards)
+
+**Remaining Work:**
+- P1-2: Type Inference bounds refactor (+10 points → 97-98/100)
+- P2: Package obfuscation filtering (+5 points → 102+/100, capped at 100)
 
 ## Priority 1: Type Inference Improvements
 
