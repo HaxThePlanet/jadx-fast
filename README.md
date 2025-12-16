@@ -19,7 +19,7 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~59,000 lines of Rust | 683 integration tests passing | ~85% JADX feature parity**
+**~41,000 lines of Rust | 680 integration tests passing | ~85% JADX feature parity**
 
 ## Highlights
 
@@ -53,9 +53,9 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Rust lines added** | 61,581 |
 | **Rust lines deleted** | 5,957 |
 | **Net Rust lines** | 55,624 |
-| **Final codebase** | ~59,000 lines |
+| **Final codebase** | ~41,000 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
-| **Tests** | 683 integration tests passing |
+| **Tests** | 680 integration tests passing |
 
 ## Development Priorities
 
@@ -85,7 +85,7 @@ A new optimization pass detects common arithmetic patterns and transforms them i
 - `dest = var + N` (for other constant values N) → `var += N`
 - `dest = var - N` (for other constant values N) → `var -= N`
 
-**Implementation:** File: `/crates/dexterity-codegen/src/body_gen.rs:653-750`
+**Implementation:** File: `crates/dexterity-codegen/src/body_gen.rs` (function `detect_increment_decrement`)
 
 The detection function `detect_increment_decrement` runs in two contexts:
 1. For inlined expressions (used exactly once)
@@ -107,7 +107,7 @@ Enhanced type generation now formats special numeric values using standard Java 
 | `float` | `Float.NaN`, `Float.POSITIVE_INFINITY`, `Float.NEGATIVE_INFINITY`, `Float.MAX_VALUE`, `Float.MIN_VALUE`, `Float.MIN_NORMAL` | `NaN` → `Float.NaN` |
 | `double` | `Double.NaN`, `Double.POSITIVE_INFINITY`, `Double.NEGATIVE_INFINITY`, `Double.MAX_VALUE`, `Double.MIN_VALUE`, `Double.MIN_NORMAL` | `NaN` → `Double.NaN` |
 
-**Implementation:** File: `/crates/dexterity-codegen/src/type_gen.rs:151-274`
+**Implementation:** File: `crates/dexterity-codegen/src/type_gen.rs`
 
 The `literal_to_string` function and helper formatters (`format_short`, `format_integer`, `format_long`, `format_float`, `format_double`) detect boundary and special values and substitute the appropriate Java constant references instead of numeric literals.
 
@@ -149,7 +149,7 @@ Helper functions:
 **Test Results:**
 - ✅ `bitwise_and_test4` now produces: `if (this.a && this.b) {`
 - ✅ `bitwise_or_test4` now produces: `if (this.a || this.b) {`
-- ✅ All 683 integration tests pass
+- ✅ All 680 integration tests pass
 
 ### Compare Method Type Qualification
 
@@ -203,13 +203,13 @@ Intelligent constant and identity folding optimizations eliminate redundant oper
 | `-1 * x` | `-x` | Multiplication by negative one (commutative) |
 | `x / -1` | `-x` | Division by negative one is negation |
 
-**Implementation:** File: `/crates/dexterity-passes/src/simplify.rs`
+**Implementation:** File: `crates/dexterity-passes/src/simplify.rs`
 
 These optimizations run during code generation and eliminate redundant arithmetic expressions before they reach the output, reducing unnecessary operations and improving code clarity.
 
 **Test Coverage:**
 - ✅ 21 simplify unit tests verify all arithmetic patterns (21/21 - covers identity, constant folding, subtraction negatives, zero minus x, multiplication by -1, division by -1)
-- ✅ All 683 integration tests pass
+- ✅ All 680 integration tests pass
 
 ### Condition Simplification
 
@@ -224,7 +224,7 @@ Negated conditions are simplified to produce cleaner comparison operators:
 | `!(a >= b)` | `a < b` | Flip comparison operator |
 | `!!x` | `x` | Double negation elimination |
 
-**Implementation:** File: `/crates/dexterity-codegen/src/body_gen.rs`
+**Implementation:** File: `crates/dexterity-codegen/src/body_gen.rs`
 
 The `generate_condition` function detects `Condition::Not(Condition::Simple { ... })` patterns and pushes the negation into the inner condition by flipping the `negated` flag, avoiding unnecessary `!` wrappers in the output.
 
@@ -502,9 +502,9 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | fallback | 2 | 2 | 0 | ✅ Done |
 | jbc | 1 | 1 | 0 | ✅ Done |
 | sample | - | 5 | 0 | ✅ Done |
-| **TOTAL** | **577** | **683** | **0** | ✅ Complete |
+| **TOTAL** | **577** | **680** | **0** | ✅ Complete |
 
-Rust tests are in `crates/dexterity-cli/tests/integration/` - 683 integration tests passing, 0 TODOs remaining.
+Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests passing, 0 TODOs remaining.
 
 ### Implementation TODOs
 
@@ -659,47 +659,45 @@ for (Object item : collection) {
 
 ## Test Status
 
-*Last updated: 2025-12-15*
+*Last updated: 2025-12-16*
 
-All test suites are passing with 100% success rate. All 683 integration tests are complete with zero TODO/skipped tests.
+All test suites are passing with 100% success rate. All 680 integration tests are complete with zero TODO/skipped tests.
 
 ### Test Summary
 
 | Test Suite | Tests | Passed | Failed | Status |
 |------------|-------|--------|--------|--------|
-| **Integration Tests** | 683 | 683 | 0 | ✅ All Passing |
-| dexterity-cli (unit) | 8 | 8 | 0 | ✅ All Passing |
-| dexterity-cli (golden) | 4 | 4 | 0 | ✅ All Passing |
-| dexterity-cli (framework) | 3 | 3 | 0 | ✅ All Passing |
-| dexterity-codegen | 80 | 80 | 0 | ✅ All Passing |
+| **Integration Tests** | 680 | 680 | 0 | ✅ All Passing |
+| dexterity-cli (unit) | 19 | 19 | 0 | ✅ All Passing |
+| dexterity-codegen | 83 | 83 | 0 | ✅ All Passing |
 | dexterity-deobf | 23 | 23 | 0 | ✅ All Passing |
 | dexterity-dex | 35 | 35 | 0 | ✅ All Passing |
 | dexterity-ir | 40 | 40 | 0 | ✅ All Passing |
 | dexterity-kotlin | 3 | 3 | 0 | ✅ All Passing |
 | dexterity-passes | 93 | 93 | 0 | ✅ All Passing |
-| dexterity-resources | 8 | 8 | 0 | ✅ All Passing |
-| **TOTAL** | **980** | **980** | **0** | **✅ 100% Pass Rate** |
+| dexterity-resources | 10 | 10 | 0 | ✅ All Passing |
+| **TOTAL** | **985** | **985** | **0** | **✅ 100% Pass Rate** |
 
 ### Integration Test Categories
 
-The 683 integration tests are organized by decompilation feature area, matching the Java JADX test structure:
+The 680 integration tests are organized by decompilation feature area, matching the Java JADX test structure:
 
 | Category | Tests | Status | Notes |
 |----------|-------|--------|-------|
-| conditions | 66 | ✅ All Pass | If/else, ternary, boolean operations |
-| loops | 57 | ✅ All Pass | While, do-while, for loops |
-| types | 63 | ✅ All Pass | Type inference, casts, primitives |
 | others | 113 | ✅ All Pass | Misc decompilation features |
+| conditions | 66 | ✅ All Pass | If/else, ternary, boolean operations |
+| types | 63 | ✅ All Pass | Type inference, casts, primitives |
 | trycatch | 58 | ✅ All Pass | Exception handling, finally blocks |
+| loops | 57 | ✅ All Pass | While, do-while, for loops |
 | inner | 41 | ✅ All Pass | Inner and anonymous classes |
 | names | 32 | ✅ All Pass | Variable and member naming |
-| rename | 16 | ✅ All Pass | Name collision handling |
 | enums | 26 | ✅ All Pass | Enum class reconstruction |
 | generics | 25 | ✅ All Pass | Generic type inference |
 | inline | 24 | ✅ All Pass | Method and lambda inlining |
 | invoke | 23 | ✅ All Pass | Method invocation resolution |
 | switches | 23 | ✅ All Pass | Switch statement handling |
 | arith | 19 | ✅ All Pass | Arithmetic operations |
+| rename | 16 | ✅ All Pass | Name collision handling |
 | arrays | 16 | ✅ All Pass | Array initialization and access |
 | variables | 15 | ✅ All Pass | Variable declarations |
 | java8 | 14 | ✅ All Pass | Lambda expressions |
@@ -707,20 +705,20 @@ The 683 integration tests are organized by decompilation feature area, matching 
 | synchronize | 8 | ✅ All Pass | Synchronized blocks |
 | android | 7 | ✅ All Pass | Android resources (R.field) |
 | deobf | 7 | ✅ All Pass | Deobfuscation features |
+| sample | 5 | ✅ All Pass | Sample test cases |
 | usethis | 4 | ✅ All Pass | This-reference usage |
 | debuginfo | 3 | ✅ All Pass | Debug information |
 | code | 2 | ✅ All Pass | Code style features |
 | fallback | 2 | ✅ All Pass | Fallback mode handling |
 | jbc | 1 | ✅ All Pass | Java bytecode compatibility |
-| sample | 5 | ✅ All Pass | Sample test cases |
 | special | 1 | ✅ All Pass | Special edge cases |
 
 ### Test Quality Metrics
 
-- **Zero TODO/skipped tests** - All 683 integration tests fully implemented
+- **Zero TODO/skipped tests** - All 680 integration tests fully implemented
 - **Zero test failures** - 100% pass rate across all test suites
 - **Comprehensive coverage** - Tests cover all major decompilation features
-- **JADX parity** - 683 Rust tests vs 577 Java JADX tests (106 additional tests)
+- **JADX parity** - 680 Rust tests vs 577 Java JADX tests (103 additional tests)
 
 ### Running Tests
 

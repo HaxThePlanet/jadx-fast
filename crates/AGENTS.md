@@ -5,8 +5,8 @@
 ## Current Status
 
 **Build:** Passing
-**Tests:** 964 tests (100% pass rate)
-**Lines:** ~62,000 lines of Rust
+**Tests:** 985 tests (100% pass rate)
+**Lines:** ~41,000 lines of Rust
 **Completion:** ~85% feature-complete vs Java jadx-core
 
 ## Crate Overview
@@ -15,8 +15,8 @@
 crates/
 ├── dexterity-dex/       # DEX parsing (4,072 lines)
 ├── dexterity-ir/        # IR types & class hierarchy (3,849 lines)
-├── dexterity-passes/    # Decompilation passes (12,058 lines)
-├── dexterity-codegen/   # Java code generation (9,407 lines)
+├── dexterity-passes/    # Decompilation passes (12,653 lines)
+├── dexterity-codegen/   # Java code generation (9,513 lines)
 ├── dexterity-resources/ # AXML & resources.arsc (4,026 lines)
 ├── dexterity-deobf/     # Deobfuscation (1,651 lines)
 ├── dexterity-kotlin/    # Kotlin metadata parsing (597 lines)
@@ -40,8 +40,8 @@ Core IR types shared across all passes.
 **Key components:**
 - `instructions.rs` - ~40 instruction variants (`InsnType` enum)
 - `types.rs` - Type system (`ArgType`, primitives, arrays, objects)
-- `nodes.rs` - `ClassDef`, `MethodDef`, `FieldDef` definitions
-- `class_hierarchy.rs` - Class hierarchy with LCA calculation for type inference
+- `nodes.rs` - `ClassNode`, `MethodNode`, `FieldNode`, `BlockNode` definitions
+- `class_hierarchy.rs` - Class hierarchy with LCA calculation for type inference (~380 lines)
 - `builder.rs` - IR builder from DEX bytecode
 - `regions.rs` - Control flow region types (if/loop/switch/try)
 

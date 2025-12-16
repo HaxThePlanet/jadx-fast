@@ -92,8 +92,8 @@ Note: Variable naming now matches JADX's full pipeline with priority: debug info
 
 ### Tests Status
 All test infrastructure is now complete and passing:
-- 964 tests with 100% pass rate
-- 683 integration tests fully implemented in `dexterity-cli/tests/integration/`
+- 985 tests with 100% pass rate
+- 680 integration tests fully implemented in `dexterity-cli/tests/integration/`
 - Zero TODOs remaining - all assertions completed
 - All crate unit tests passing
 

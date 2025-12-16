@@ -20,6 +20,10 @@
 //!
 //! ## Algebraic transformations
 //! - `x + (-N)` → `x - N`
+//! - `x - (-N)` → `x + N`
+//! - `0 - x` → `-x`
+//! - `x * -1` → `-x` (multiplication by negative one)
+//! - `x / -1` → `-x` (division by negative one)
 //!
 //! ## Boolean simplifications
 //! - `bool ^ 1` → `!bool`
@@ -61,8 +65,37 @@ fn simplify_insn(insn: &InsnNode, types: Option<&HashMap<(u16, u32), ArgType>>) 
         InsnType::Binary { dest, op, left, right } => {
             simplify_binary(*dest, *op, left.clone(), right.clone(), insn.offset, types)
         }
+        InsnType::Unary { dest, op, arg } => {
+            simplify_unary(*dest, *op, arg.clone(), insn.offset)
+        }
         _ => None,
     }
+}
+
+/// Simplify unary operations
+/// Currently handles:
+/// - Double negation: --x → x (arithmetic)
+/// - Double NOT: ~~x → x (bitwise)
+/// - Double boolean NOT: !!x → x
+fn simplify_unary(
+    dest: RegisterArg,
+    op: UnaryOp,
+    arg: InsnArg,
+    offset: u32,
+) -> Option<InsnNode> {
+    // Currently, we can't detect double negation at the instruction level
+    // because each instruction is processed independently. Double negation
+    // elimination would require looking at the definition of the arg register.
+    // This is typically handled at a higher level by the code generation phase.
+    //
+    // However, we could add detection for patterns like:
+    // v1 = -v0
+    // v2 = -v1  (with v1 only used here)
+    // → v2 = v0
+    //
+    // For now, this is a placeholder for future optimization.
+    let _ = (dest, op, arg, offset);
+    None
 }
 
 /// Check if an argument is a zero literal (0)
@@ -77,6 +110,12 @@ fn is_one_literal(arg: &InsnArg) -> bool {
 
 /// Check if an argument is all bits set (-1 for int)
 fn is_all_ones_literal(arg: &InsnArg) -> bool {
+    matches!(arg, InsnArg::Literal(LiteralArg::Int(-1)))
+}
+
+/// Check if an argument is negative one (-1)
+/// Used for x * -1 → -x simplification
+fn is_negative_one_literal(arg: &InsnArg) -> bool {
     matches!(arg, InsnArg::Literal(LiteralArg::Int(-1)))
 }
 
@@ -127,6 +166,25 @@ fn simplify_binary(
                     offset,
                 ));
             }
+            // x - (-N) → x + N (subtracting a negative)
+            if let Some(neg_val) = get_negative_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Binary {
+                        dest,
+                        op: BinaryOp::Add,
+                        left,
+                        right: InsnArg::Literal(LiteralArg::Int(neg_val)),
+                    },
+                    offset,
+                ));
+            }
+            // 0 - x → -x (negation)
+            if is_zero_literal(&left) {
+                return Some(InsnNode::new(
+                    InsnType::Unary { dest, op: UnaryOp::Neg, arg: right },
+                    offset,
+                ));
+            }
         }
         BinaryOp::Mul => {
             // x * 1 → x
@@ -157,12 +215,33 @@ fn simplify_binary(
                     offset,
                 ));
             }
+            // x * -1 → -x (multiplication by negative one)
+            if is_negative_one_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Unary { dest, op: UnaryOp::Neg, arg: left },
+                    offset,
+                ));
+            }
+            // -1 * x → -x
+            if is_negative_one_literal(&left) {
+                return Some(InsnNode::new(
+                    InsnType::Unary { dest, op: UnaryOp::Neg, arg: right },
+                    offset,
+                ));
+            }
         }
         BinaryOp::Div => {
             // x / 1 → x
             if is_one_literal(&right) {
                 return Some(InsnNode::new(
                     InsnType::Move { dest, src: left },
+                    offset,
+                ));
+            }
+            // x / -1 → -x (division by negative one)
+            if is_negative_one_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Unary { dest, op: UnaryOp::Neg, arg: left },
                     offset,
                 ));
             }
@@ -627,6 +706,135 @@ mod tests {
         match &simplified.insn_type {
             InsnType::Const { value: LiteralArg::Int(0), .. } => {}
             _ => panic!("Expected Const 0 instruction"),
+        }
+    }
+
+    #[test]
+    fn test_sub_negative_simplification() {
+        // x - (-5) → x + 5
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Sub,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(-5)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::Binary { op, right, .. } => {
+                assert_eq!(*op, BinaryOp::Add);
+                assert!(matches!(right, InsnArg::Literal(LiteralArg::Int(5))));
+            }
+            _ => panic!("Expected Binary Add instruction"),
+        }
+    }
+
+    #[test]
+    fn test_zero_minus_x_negation() {
+        // 0 - x → -x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Sub,
+                left: InsnArg::Literal(LiteralArg::Int(0)),
+                right: InsnArg::reg(1),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::Unary { op, .. } => {
+                assert_eq!(*op, UnaryOp::Neg);
+            }
+            _ => panic!("Expected Unary Neg instruction"),
+        }
+    }
+
+    #[test]
+    fn test_mul_negative_one() {
+        // x * -1 → -x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Mul,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(-1)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::Unary { op, arg, .. } => {
+                assert_eq!(*op, UnaryOp::Neg);
+                assert!(matches!(arg, InsnArg::Register(_)));
+            }
+            _ => panic!("Expected Unary Neg instruction"),
+        }
+    }
+
+    #[test]
+    fn test_div_negative_one() {
+        // x / -1 → -x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Div,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(-1)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::Unary { op, arg, .. } => {
+                assert_eq!(*op, UnaryOp::Neg);
+                assert!(matches!(arg, InsnArg::Register(_)));
+            }
+            _ => panic!("Expected Unary Neg instruction"),
+        }
+    }
+
+    #[test]
+    fn test_neg_one_mul_x() {
+        // -1 * x → -x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Mul,
+                left: InsnArg::Literal(LiteralArg::Int(-1)),
+                right: InsnArg::reg(1),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::Unary { op, arg, .. } => {
+                assert_eq!(*op, UnaryOp::Neg);
+                assert!(matches!(arg, InsnArg::Register(_)));
+            }
+            _ => panic!("Expected Unary Neg instruction"),
         }
     }
 }

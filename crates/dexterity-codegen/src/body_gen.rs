@@ -1715,8 +1715,27 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
         }
 
         Condition::Not(inner) => {
-            let inner_str = generate_condition(inner, ctx);
-            format!("!{}", wrap_if_complex(&inner_str))
+            // Simplify negation by pushing it into the inner condition when possible
+            match inner.as_ref() {
+                // Not(Simple) -> flip the negated flag and generate without ! wrapper
+                Condition::Simple { block, op, negated } => {
+                    let flipped = Condition::Simple {
+                        block: *block,
+                        op: *op,
+                        negated: !*negated,
+                    };
+                    generate_condition(&flipped, ctx)
+                }
+                // Not(Not(x)) -> x (double negation elimination)
+                Condition::Not(inner_inner) => {
+                    generate_condition(inner_inner, ctx)
+                }
+                // Not(And/Or/Ternary) - must wrap with !
+                _ => {
+                    let inner_str = generate_condition(inner, ctx);
+                    format!("!{}", wrap_if_complex(&inner_str))
+                }
+            }
         }
 
         Condition::Ternary { condition, if_true, if_false } => {
@@ -2114,6 +2133,51 @@ fn get_insn_value_expr(insn: &InsnType, ctx: &BodyGenContext) -> Option<String> 
     }
 }
 
+/// Simplify ternary-to-boolean patterns:
+/// - `cond ? true : false` -> `cond`
+/// - `cond ? false : true` -> `!cond`
+/// Returns the simplified expression or None if no simplification possible
+fn simplify_ternary_to_boolean(condition_str: &str, then_value: &str, else_value: &str) -> Option<String> {
+    let then_trimmed = then_value.trim();
+    let else_trimmed = else_value.trim();
+
+    // Pattern: cond ? true : false -> cond
+    if then_trimmed == "true" && else_trimmed == "false" {
+        return Some(condition_str.to_string());
+    }
+
+    // Pattern: cond ? false : true -> !cond
+    if then_trimmed == "false" && else_trimmed == "true" {
+        // Need to negate the condition
+        // If condition already has !, remove it (double negation)
+        let cond = condition_str.trim();
+        if cond.starts_with("!(") && cond.ends_with(")") {
+            // !(...) -> extract inner
+            return Some(cond[2..cond.len()-1].to_string());
+        } else if cond.starts_with("!") && !cond[1..].contains(" ") {
+            // !x -> x (simple variable negation)
+            return Some(cond[1..].to_string());
+        } else {
+            // Wrap in negation
+            if cond.contains(" ") && !cond.starts_with("(") {
+                return Some(format!("!({})", cond));
+            } else {
+                return Some(format!("!{}", cond));
+            }
+        }
+    }
+
+    // Pattern: cond ? 1 : 0 with boolean context (also represents true/false)
+    // This is more conservative - only simplify if we know it's boolean context
+    if then_trimmed == "1" && else_trimmed == "0" {
+        // Check if condition itself suggests boolean context
+        // For now, don't simplify - the 1/0 might be intentional integers
+        return None;
+    }
+
+    None
+}
+
 /// Emit a ternary assignment: dest = cond ? then_val : else_val
 fn emit_ternary_assignment<W: CodeWriter>(
     ternary: &TernaryExprInfo,
@@ -2141,6 +2205,17 @@ fn emit_ternary_assignment<W: CodeWriter>(
             code.add("Object ");
         }
         ctx.mark_declared(reg, version);
+    }
+
+    // Try to simplify ternary-to-boolean patterns first
+    if let Some(simplified) = simplify_ternary_to_boolean(condition_str, &ternary.then_value, &ternary.else_value) {
+        // Simplified to just a boolean expression
+        code.add(&var_name)
+            .add(" = ")
+            .add(&simplified)
+            .add(";")
+            .newline();
+        return;
     }
 
     // Generate ternary expression
@@ -3775,5 +3850,36 @@ mod tests {
         let result_shr = detect_increment_decrement(&dest, &insn_shr, &ctx);
         assert!(result_shr.is_some(), "Should detect >>= pattern for shift right");
         assert!(result_shr.unwrap().contains(" >>= 1"), "Should produce >>= 1 form");
+    }
+
+    #[test]
+    fn test_simplify_ternary_to_boolean() {
+        // Test cond ? true : false -> cond
+        let result = simplify_ternary_to_boolean("x > 0", "true", "false");
+        assert_eq!(result, Some("x > 0".to_string()), "cond ? true : false should simplify to cond");
+
+        // Test cond ? false : true -> !cond
+        let result = simplify_ternary_to_boolean("x > 0", "false", "true");
+        assert_eq!(result, Some("!(x > 0)".to_string()), "cond ? false : true should simplify to !(cond)");
+
+        // Test simple condition with negation: !x ? false : true -> x
+        let result = simplify_ternary_to_boolean("!x", "false", "true");
+        assert_eq!(result, Some("x".to_string()), "!x ? false : true should simplify to x (double negation)");
+
+        // Test !(expr) ? false : true -> expr
+        let result = simplify_ternary_to_boolean("!(a && b)", "false", "true");
+        assert_eq!(result, Some("a && b".to_string()), "!(a && b) ? false : true should simplify to (a && b)");
+
+        // Test non-boolean ternary - should not simplify
+        let result = simplify_ternary_to_boolean("x > 0", "1", "2");
+        assert_eq!(result, None, "Non-boolean ternary should not simplify");
+
+        // Test partial boolean - should not simplify
+        let result = simplify_ternary_to_boolean("x > 0", "true", "null");
+        assert_eq!(result, None, "Mixed boolean/null should not simplify");
+
+        // Test with whitespace
+        let result = simplify_ternary_to_boolean("a == b", " true ", " false ");
+        assert_eq!(result, Some("a == b".to_string()), "Should handle whitespace in values");
     }
 }
