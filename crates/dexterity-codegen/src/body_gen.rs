@@ -1346,6 +1346,29 @@ fn body_has_meaningful_content(body: &Region, foreach_info: &ForEachInfo, ctx: &
     count_meaningful_in_region(body, foreach_info.skip_block, foreach_info.skip_start, foreach_info.skip_count, ctx) > 0
 }
 
+/// Check if body has multiple blocks or nested regions (not just a single block)
+/// This helps avoid generating for-each when the region builder hasn't properly
+/// included all body blocks in the loop region
+fn body_has_multiple_elements(body: &Region) -> bool {
+    match body {
+        Region::Sequence(contents) => {
+            // Multiple items = good
+            if contents.len() > 1 {
+                return true;
+            }
+            // Single item - check if it's a nested region with content
+            if let Some(RegionContent::Region(r)) = contents.first() {
+                return body_has_multiple_elements(r);
+            }
+            false
+        }
+        // Non-sequence regions (If, Loop, Switch, etc.) are considered meaningful
+        // as they contain nested structure
+        Region::If { .. } | Region::Switch { .. } | Region::TryCatch { .. } | Region::Synchronized { .. } => true,
+        Region::Loop { body, .. } => body_has_multiple_elements(body),
+    }
+}
+
 /// Generate else or else-if chain
 /// If the else region is another If, generates `} else if (cond) {` instead of `} else { if (cond) {`
 fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
@@ -1953,7 +1976,9 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         if let Some((iter_reg, iter_str)) = detect_iterator_pattern(cond, ctx) {
                             if let Some(foreach_info) = detect_next_call(body, iter_reg, ctx) {
                                 // Only generate for-each if body has meaningful content after skipping
-                                if body_has_meaningful_content(body, &foreach_info, ctx) {
+                                // Also check that body has multiple blocks or nested regions (not just the iterator block)
+                                if body_has_meaningful_content(body, &foreach_info, ctx)
+                                    && body_has_multiple_elements(body) {
                                     // Generate for-each style syntax
                                     let item_type = foreach_info.item_type.as_deref().unwrap_or("Object");
                                     let collection = iter_str.replace(".hasNext()", "")
@@ -2008,7 +2033,9 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         if let Some((iter_reg, iter_str)) = detect_iterator_pattern(cond, ctx) {
                             if let Some(foreach_info) = detect_next_call(body, iter_reg, ctx) {
                                 // Only generate for-each if body has meaningful content after skipping
-                                if body_has_meaningful_content(body, &foreach_info, ctx) {
+                                // Also check that body has multiple blocks or nested regions
+                                if body_has_meaningful_content(body, &foreach_info, ctx)
+                                    && body_has_multiple_elements(body) {
                                     let item_type = foreach_info.item_type.as_deref().unwrap_or("Object");
                                     let collection = iter_str.replace(".hasNext()", "")
                                         .trim_end()

@@ -1535,41 +1535,49 @@ fn if_code_style_test() {
     let helper = IntegrationTestHelper::new("if_code_style_test");
     let source = r#"
 public class TestCls {
-private String moduleName;
-private String modulePath;
-private String preinstalledModulePath;
-private long versionCode;
-private String versionName;
-private boolean isFactory;
-private boolean isActive;
-public void test(Parcel parcel) {
-int startPos = parcel.dataPosition();
-int size = parcel.readInt();
-if (size < 0) {
-if (startPos > Integer.MAX_VALUE - size) {
-throw new RuntimeException("Overflow in the size of parcelable");
+    private String moduleName;
+    private String modulePath;
+    private String preinstalledModulePath;
+    private long versionCode;
+    private String versionName;
+    private boolean isFactory;
+    private boolean isActive;
+
+    public void test(Parcel parcel) {
+        int startPos = parcel.dataPosition();
+        int size = parcel.readInt();
+        if (size < 0) {
+            if (startPos > Integer.MAX_VALUE - size) {
+                throw new RuntimeException("Overflow in the size of parcelable");
+            }
+            parcel.setDataPosition(startPos + size);
+            return;
+        }
+        try {
+            if (parcel.dataPosition() - startPos >= size) {
+                return;
+            }
+            this.moduleName = parcel.readString();
+            this.modulePath = parcel.readString();
+            this.preinstalledModulePath = parcel.readString();
+            this.versionCode = parcel.readLong();
+            this.versionName = parcel.readString();
+            this.isFactory = parcel.readInt() != 0;
+            this.isActive = parcel.readInt() != 0;
+        } catch (Throwable e) {
+            if (startPos <= Integer.MAX_VALUE - size) {
+                throw e;
+            }
+        }
+    }
 }
-parcel.setDataPosition(startPos + size);
-return;
-try {
-if (parcel.dataPosition() - startPos >= size) {
-this.moduleName = parcel.readString();
-this.modulePath = parcel.readString();
-this.preinstalledModulePath = parcel.readString();
-this.versionCode = parcel.readLong();
-this.versionName = parcel.readString();
-this.isFactory = parcel.readInt() != 0;
-this.isActive = parcel.readInt() != 0;
-} catch (Throwable e) {
-if (startPos <= Integer.MAX_VALUE - size) {
-throw e;
-public void setDataPosition(int i) {
-public int dataPosition() {
-return 0;
-public int readInt() {
-public String readString() {
-return null;
-public long readLong() {
+
+class Parcel {
+    public void setDataPosition(int i) {}
+    public int dataPosition() { return 0; }
+    public int readInt() { return 0; }
+    public String readString() { return null; }
+    public long readLong() { return 0L; }
 }
 "#;
 
@@ -1594,41 +1602,49 @@ fn if_code_style_test_smali() {
     let helper = IntegrationTestHelper::new("if_code_style_test_smali");
     let source = r#"
 public class TestCls {
-private String moduleName;
-private String modulePath;
-private String preinstalledModulePath;
-private long versionCode;
-private String versionName;
-private boolean isFactory;
-private boolean isActive;
-public void test(Parcel parcel) {
-int startPos = parcel.dataPosition();
-int size = parcel.readInt();
-if (size < 0) {
-if (startPos > Integer.MAX_VALUE - size) {
-throw new RuntimeException("Overflow in the size of parcelable");
+    private String moduleName;
+    private String modulePath;
+    private String preinstalledModulePath;
+    private long versionCode;
+    private String versionName;
+    private boolean isFactory;
+    private boolean isActive;
+
+    public void test(Parcel parcel) {
+        int startPos = parcel.dataPosition();
+        int size = parcel.readInt();
+        if (size < 0) {
+            if (startPos > Integer.MAX_VALUE - size) {
+                throw new RuntimeException("Overflow in the size of parcelable");
+            }
+            parcel.setDataPosition(startPos + size);
+            return;
+        }
+        try {
+            if (parcel.dataPosition() - startPos >= size) {
+                return;
+            }
+            this.moduleName = parcel.readString();
+            this.modulePath = parcel.readString();
+            this.preinstalledModulePath = parcel.readString();
+            this.versionCode = parcel.readLong();
+            this.versionName = parcel.readString();
+            this.isFactory = parcel.readInt() != 0;
+            this.isActive = parcel.readInt() != 0;
+        } catch (Throwable e) {
+            if (startPos <= Integer.MAX_VALUE - size) {
+                throw e;
+            }
+        }
+    }
 }
-parcel.setDataPosition(startPos + size);
-return;
-try {
-if (parcel.dataPosition() - startPos >= size) {
-this.moduleName = parcel.readString();
-this.modulePath = parcel.readString();
-this.preinstalledModulePath = parcel.readString();
-this.versionCode = parcel.readLong();
-this.versionName = parcel.readString();
-this.isFactory = parcel.readInt() != 0;
-this.isActive = parcel.readInt() != 0;
-} catch (Throwable e) {
-if (startPos <= Integer.MAX_VALUE - size) {
-throw e;
-public void setDataPosition(int i) {
-public int dataPosition() {
-return 0;
-public int readInt() {
-public String readString() {
-return null;
-public long readLong() {
+
+class Parcel {
+    public void setDataPosition(int i) {}
+    public int dataPosition() { return 0; }
+    public int readInt() { return 0; }
+    public String readString() { return null; }
+    public long readLong() { return 0L; }
 }
 "#;
 
@@ -1675,25 +1691,37 @@ fn inner_assign_test() {
     let helper = IntegrationTestHelper::new("inner_assign_test");
     let source = r#"
 public class TestCls {
-private String result;
-@SuppressWarnings("checkstyle:InnerAssignment")
-public void test(String str) {
-int len;
-if (str.isEmpty() || (len = str.length()) > 5) {
-result += "bad";
-} else {
-result += "good, len: " + len;
-}
-result += ", str: " + str;
-System.out.println("done");
-private String runTest(String str) {
-result = "";
-test(str);
-return result;
-public void check() {
-assertThat(runTest("")).isEqualTo("bad, str: ");
-assertThat(runTest("1234")).isEqualTo("good, len: 4, str: 1234");
-assertThat(runTest("1234567")).isEqualTo("bad, str: 1234567");
+    private String result;
+
+    @SuppressWarnings("checkstyle:InnerAssignment")
+    public void test(String str) {
+        int len;
+        if (str.isEmpty() || (len = str.length()) > 5) {
+            result += "bad";
+        } else {
+            result += "good, len: " + len;
+        }
+        result += ", str: " + str;
+        System.out.println("done");
+    }
+
+    private String runTest(String str) {
+        result = "";
+        test(str);
+        return result;
+    }
+
+    public void check() {
+        assertThat(runTest("")).isEqualTo("bad, str: ");
+        assertThat(runTest("1234")).isEqualTo("good, len: 4, str: 1234");
+        assertThat(runTest("1234567")).isEqualTo("bad, str: 1234567");
+    }
+
+    private A assertThat(String s) { return null; }
+
+    class A {
+        void isEqualTo(String s) {}
+    }
 }
 "#;
 
@@ -1715,25 +1743,39 @@ fn inner_assign2_test() {
     let helper = IntegrationTestHelper::new("inner_assign2_test");
     let source = r#"
 public class TestCls {
-private String field;
-private String swapField;
-@SuppressWarnings("checkstyle:InnerAssignment")
-public boolean test(String str) {
-String sub;
-return call(str) || ((sub = this.field) != null && sub.isEmpty());
-}
-private boolean call(String str) {
-this.field = swapField;
-return str.isEmpty();
-public boolean testWrap(String str, String fieldValue) {
-this.field = null;
-this.swapField = fieldValue;
-return test(str);
-public void check() {
-assertThat(testWrap("", null)).isTrue();
-assertThat(testWrap("a", "")).isTrue();
-assertThat(testWrap("b", null)).isFalse();
-assertThat(testWrap("c", "d")).isFalse();
+    private String field;
+    private String swapField;
+
+    @SuppressWarnings("checkstyle:InnerAssignment")
+    public boolean test(String str) {
+        String sub;
+        return call(str) || ((sub = this.field) != null && sub.isEmpty());
+    }
+
+    private boolean call(String str) {
+        this.field = swapField;
+        return str.isEmpty();
+    }
+
+    public boolean testWrap(String str, String fieldValue) {
+        this.field = null;
+        this.swapField = fieldValue;
+        return test(str);
+    }
+
+    public void check() {
+        assertThat(testWrap("", null)).isTrue();
+        assertThat(testWrap("a", "")).isTrue();
+        assertThat(testWrap("b", null)).isFalse();
+        assertThat(testWrap("c", "d")).isFalse();
+    }
+
+    private A assertThat(boolean v) { return null; }
+
+    class A {
+        void isTrue() {}
+        void isFalse() {}
+    }
 }
 "#;
 
@@ -1780,19 +1822,22 @@ fn nested_if_test() {
     let helper = IntegrationTestHelper::new("nested_if_test");
     let source = r#"
 public class TestCls {
-private boolean a0 = false;
-private int a1 = 1;
-private int a2 = 2;
-private int a3 = 1;
-private int a4 = 2;
-public boolean test1() {
-if (a0) {
-if (a1 == 0 || a2 == 0) {
-return false;
-}
-} else if (a3 == 0 || a4 == 0) {
-test1();
-return true;
+    private boolean a0 = false;
+    private int a1 = 1;
+    private int a2 = 2;
+    private int a3 = 1;
+    private int a4 = 2;
+
+    public boolean test1() {
+        if (a0) {
+            if (a1 == 0 || a2 == 0) {
+                return false;
+            }
+        } else if (a3 == 0 || a4 == 0) {
+            test1();
+        }
+        return true;
+    }
 }
 "#;
 
@@ -1813,22 +1858,32 @@ fn nested_if2_test() {
     let helper = IntegrationTestHelper::new("nested_if2_test");
     let source = r#"
 public class TestCls {
-static int executedCount = 0;
-static boolean finished = false;
-static int repeatCount = 2;
-static boolean test(float delta, Object object) {
-if (executedCount != repeatCount && isRun(delta, object)) {
-if (finished) {
-return true;
-}
-if (repeatCount == -1) {
-++executedCount;
-action();
-return false;
-if (executedCount >= repeatCount) {
-public static void action() {
-public static boolean isRun(float delta, Object object) {
-return delta == 0;
+    static int executedCount = 0;
+    static boolean finished = false;
+    static int repeatCount = 2;
+
+    static boolean test(float delta, Object object) {
+        if (executedCount != repeatCount && isRun(delta, object)) {
+            if (finished) {
+                return true;
+            }
+            if (repeatCount == -1) {
+                ++executedCount;
+                action();
+                return false;
+            }
+            if (executedCount >= repeatCount) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void action() {}
+
+    public static boolean isRun(float delta, Object object) {
+        return delta == 0;
+    }
 }
 "#;
 
@@ -1872,11 +1927,13 @@ fn simple_conditions_test() {
     let helper = IntegrationTestHelper::new("simple_conditions_test");
     let source = r#"
 public class TestCls {
-public boolean test1(boolean[] a) {
-return (a[0] && a[1] && a[2]) || (a[3] && a[4]);
-}
-public boolean test2(boolean[] a) {
-return a[0] || a[1] || a[2] || a[3];
+    public boolean test1(boolean[] a) {
+        return (a[0] && a[1] && a[2]) || (a[3] && a[4]);
+    }
+
+    public boolean test2(boolean[] a) {
+        return a[0] || a[1] || a[2] || a[3];
+    }
 }
 "#;
 
@@ -1899,14 +1956,20 @@ fn ternary_test() {
     let helper = IntegrationTestHelper::new("ternary_test");
     let source = r#"
 public class TestCls {
-public boolean test1(int a) {
-return a != 2;
-}
-public void test2(int a) {
-checkTrue(a == 3);
-public int test3(int a) {
-return a > 0 ? a : (a + 2) * 3;
-private static void checkTrue(boolean v) {
+    public boolean test1(int a) {
+        return a != 2;
+    }
+
+    public void test2(int a) {
+        checkTrue(a == 3);
+    }
+
+    public int test3(int a) {
+        return a > 0 ? a : (a + 2) * 3;
+    }
+
+    private static void checkTrue(boolean v) {
+    }
 }
 "#;
 
@@ -1931,14 +1994,19 @@ fn ternary2_test() {
     let helper = IntegrationTestHelper::new("ternary2_test");
     let source = r#"
 public class TestCls {
-public void test() {
-checkFalse(f(1, 0) == 0);
-}
-private int f(int a, int b) {
-return a + b;
-private void checkFalse(boolean b) {
-if (b) {
-throw new AssertionError("Must be false");
+    public void test() {
+        checkFalse(f(1, 0) == 0);
+    }
+
+    private int f(int a, int b) {
+        return a + b;
+    }
+
+    private void checkFalse(boolean b) {
+        if (b) {
+            throw new AssertionError("Must be false");
+        }
+    }
 }
 "#;
 
@@ -1959,19 +2027,34 @@ fn ternary3_test() {
 
     let helper = IntegrationTestHelper::new("ternary3_test");
     let source = r#"
-public class TestCls {
-public boolean isNameEquals(InsnArg arg) {
-String n = getName(arg);
-if (n == null || !(arg instanceof Named)) {
-return false;
+interface Named {
+    String getName();
 }
-return n.equals(((Named) arg).getName());
-private String getName(InsnArg arg) {
-if (arg instanceof RegisterArg) {
-return "r";
-if (arg instanceof Named) {
-return "n";
-return arg.toString();
+
+class InsnArg {}
+
+class RegisterArg extends InsnArg implements Named {
+    public String getName() { return "r"; }
+}
+
+public class TestCls {
+    public boolean isNameEquals(InsnArg arg) {
+        String n = getName(arg);
+        if (n == null || !(arg instanceof Named)) {
+            return false;
+        }
+        return n.equals(((Named) arg).getName());
+    }
+
+    private String getName(InsnArg arg) {
+        if (arg instanceof RegisterArg) {
+            return "r";
+        }
+        if (arg instanceof Named) {
+            return "n";
+        }
+        return arg.toString();
+    }
 }
 "#;
 
@@ -2016,11 +2099,13 @@ fn ternary_in_if_test() {
     let helper = IntegrationTestHelper::new("ternary_in_if_test");
     let source = r#"
 public class TestCls {
-public boolean test1(boolean a, boolean b, boolean c) {
-return a ? b : c;
-}
-public int test2(boolean a, boolean b, boolean c) {
-return (!a ? c : b) ? 1 : 2;
+    public boolean test1(boolean a, boolean b, boolean c) {
+        return a ? b : c;
+    }
+
+    public int test2(boolean a, boolean b, boolean c) {
+        return (!a ? c : b) ? 1 : 2;
+    }
 }
 "#;
 
@@ -2044,23 +2129,35 @@ fn ternary_in_if2_test() {
     let helper = IntegrationTestHelper::new("ternary_in_if2_test");
     let source = r#"
 public class TestCls {
-private String a = "a";
-private String b = "b";
-public boolean equals(TestCls other) {
-if (this.a == null ? other.a == null : this.a.equals(other.a)) {
-if (this.b == null ? other.b == null : this.b.equals(other.b)) {
-return true;
-}
-return false;
-public void check() {
-TestCls other = new TestCls();
-other.a = "a";
-other.b = "b";
-assertThat(this.equals(other)).isTrue();
-other.b = "not-b";
-assertThat(this.equals(other)).isFalse();
-other.b = null;
-this.b = null;
+    private String a = "a";
+    private String b = "b";
+
+    public boolean equals(TestCls other) {
+        if (this.a == null ? other.a == null : this.a.equals(other.a)) {
+            if (this.b == null ? other.b == null : this.b.equals(other.b)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void check() {
+        TestCls other = new TestCls();
+        other.a = "a";
+        other.b = "b";
+        assertThat(this.equals(other)).isTrue();
+        other.b = "not-b";
+        assertThat(this.equals(other)).isFalse();
+        other.b = null;
+        this.b = null;
+    }
+
+    private A assertThat(boolean v) { return null; }
+
+    class A {
+        void isTrue() {}
+        void isFalse() {}
+    }
 }
 "#;
 
@@ -2125,10 +2222,12 @@ fn ternary_one_branch_in_constructor_test() {
     let helper = IntegrationTestHelper::new("ternary_one_branch_in_constructor_test");
     let source = r#"
 public class TestCls {
-public TestCls(String str, int i) {
-this(str == null ? 0 : i);
-}
-public TestCls(int i) {
+    public TestCls(String str, int i) {
+        this(str == null ? 0 : i);
+    }
+
+    public TestCls(int i) {
+    }
 }
 "#;
 
@@ -2152,10 +2251,12 @@ fn ternary_one_branch_in_constructor_test2() {
     let helper = IntegrationTestHelper::new("ternary_one_branch_in_constructor_test2");
     let source = r#"
 public class TestCls {
-public TestCls2(String str, int i) {
-this(i == 1 ? str : "", i == 0 ? "" : str);
-}
-public TestCls2(String a, String b) {
+    public TestCls(String str, int i) {
+        this(i == 1 ? str : "", i == 0 ? "" : str);
+    }
+
+    public TestCls(String a, String b) {
+    }
 }
 "#;
 

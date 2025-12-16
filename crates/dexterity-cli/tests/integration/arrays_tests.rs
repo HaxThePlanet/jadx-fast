@@ -114,15 +114,19 @@ fn array_fill_negative_test() {
     let helper = IntegrationTestHelper::new("array_fill_negative_test");
     let source = r#"
 public class TestCls {
-public int[] test() {
-int[] arr = new int[3];
-arr[0] = 1;
-arr[1] = arr[0] + 1;
-arr[2] = arr[1] + 1;
-return arr;
-}
-public void check() {
-assertThat(test()).isEqualTo(new int[] { 1, 2, 3 });
+    public int[] test() {
+        int[] arr = new int[3];
+        arr[0] = 1;
+        arr[1] = arr[0] + 1;
+        arr[2] = arr[1] + 1;
+        return arr;
+    }
+
+    public void check() {
+        assertThat(test()).isEqualTo(new int[] { 1, 2, 3 });
+    }
+
+    private void assertThat(int[] arr) {}
 }
 "#;
 
@@ -171,13 +175,16 @@ fn array_init_test() {
     let helper = IntegrationTestHelper::new("array_init_test");
     let source = r#"
 public class TestCls {
-byte[] bytes;
-@SuppressWarnings("unused")
-public void test() {
-byte[] arr = new byte[] { 10, 20, 30 };
-}
-public void test2() {
-bytes = new byte[] { 10, 20, 30 };
+    byte[] bytes;
+
+    @SuppressWarnings("unused")
+    public void test() {
+        byte[] arr = new byte[] { 10, 20, 30 };
+    }
+
+    public void test2() {
+        bytes = new byte[] { 10, 20, 30 };
+    }
 }
 "#;
 
@@ -200,9 +207,8 @@ fn array_init_field_test() {
     let helper = IntegrationTestHelper::new("array_init_field_test");
     let source = r#"
 public class TestCls {
-static byte[] a = new byte[] { 10, 20, 30 };
-byte[] b = new byte[] { 40, 50, 60 };
-}
+    static byte[] a = new byte[] { 10, 20, 30 };
+    byte[] b = new byte[] { 40, 50, 60 };
 }
 "#;
 
@@ -248,13 +254,15 @@ fn arrays_test() {
     let helper = IntegrationTestHelper::new("arrays_test");
     let source = r#"
 public class TestCls {
-public int test1(int i) {
-int[] a = new int[] { 1, 2, 3, 5 };
-return a[i];
-}
-public int test2(int i) {
-int[][] a = new int[i][i + 1];
-return a.length;
+    public int test1(int i) {
+        int[] a = new int[] { 1, 2, 3, 5 };
+        return a[i];
+    }
+
+    public int test2(int i) {
+        int[][] a = new int[i][i + 1];
+        return a.length;
+    }
 }
 "#;
 
@@ -276,20 +284,29 @@ fn arrays2_test() {
     let helper = IntegrationTestHelper::new("arrays2_test");
     let source = r#"
 public class TestCls {
-private static Object test4(int type) {
-if (type == 1) {
-return new int[] { 1, 2 };
-} else if (type == 2) {
-return new float[] { 1, 2 };
-} else if (type == 3) {
-return new short[] { 1, 2 };
-} else if (type == 4) {
-return new byte[] { 1, 2 };
-} else {
-return null;
-}
-public void check() {
-assertThat(test4(4)).isInstanceOf(byte[].class);
+    private static Object test4(int type) {
+        if (type == 1) {
+            return new int[] { 1, 2 };
+        } else if (type == 2) {
+            return new float[] { 1, 2 };
+        } else if (type == 3) {
+            return new short[] { 1, 2 };
+        } else if (type == 4) {
+            return new byte[] { 1, 2 };
+        } else {
+            return null;
+        }
+    }
+
+    public void check() {
+        assertThat(test4(4)).isInstanceOf(byte[].class);
+    }
+
+    private A assertThat(Object o) { return null; }
+
+    class A {
+        void isInstanceOf(Class<?> c) {}
+    }
 }
 "#;
 
@@ -311,14 +328,23 @@ fn arrays3_test() {
     let helper = IntegrationTestHelper::new("arrays3_test");
     let source = r#"
 public class TestCls {
-private Object test(byte[] bArr) {
-return new Object[] { bArr };
-}
-public void check() {
-byte[] inputArr = { 1, 2 };
-Object result = test(inputArr);
-assertThat(result).isInstanceOf(Object[].class);
-assertThat(((Object[]) result)[0]).isEqualTo(inputArr);
+    private Object test(byte[] bArr) {
+        return new Object[] { bArr };
+    }
+
+    public void check() {
+        byte[] inputArr = { 1, 2 };
+        Object result = test(inputArr);
+        assertThat(result).isInstanceOf(Object[].class);
+        assertThat(((Object[]) result)[0]).isEqualTo(inputArr);
+    }
+
+    private A assertThat(Object o) { return null; }
+
+    class A {
+        A isInstanceOf(Class<?> c) { return this; }
+        A isEqualTo(Object o) { return this; }
+    }
 }
 "#;
 
@@ -340,14 +366,23 @@ fn arrays3_test_no_debug() {
     let helper = IntegrationTestHelper::new("arrays3_test_no_debug");
     let source = r#"
 public class TestCls {
-private Object test(byte[] bArr) {
-return new Object[] { bArr };
-}
-public void check() {
-byte[] inputArr = { 1, 2 };
-Object result = test(inputArr);
-assertThat(result).isInstanceOf(Object[].class);
-assertThat(((Object[]) result)[0]).isEqualTo(inputArr);
+    private Object test(byte[] bArr) {
+        return new Object[] { bArr };
+    }
+
+    public void check() {
+        byte[] inputArr = { 1, 2 };
+        Object result = test(inputArr);
+        assertThat(result).isInstanceOf(Object[].class);
+        assertThat(((Object[]) result)[0]).isEqualTo(inputArr);
+    }
+
+    private A assertThat(Object o) { return null; }
+
+    class A {
+        A isInstanceOf(Class<?> c) { return this; }
+        A isEqualTo(Object o) { return this; }
+    }
 }
 "#;
 
@@ -369,14 +404,17 @@ fn arrays4_test_array_type_inference() {
     let helper = IntegrationTestHelper::new("arrays4_test_array_type_inference");
     let source = r#"
 public class TestCls {
-char[] payload;
-public TestCls(byte[] bytes) {
-char[] a = toChars(bytes);
-this.payload = new char[a.length];
-System.arraycopy(a, 0, this.payload, 0, bytes.length);
-}
-private static char[] toChars(byte[] bArr) {
-return new char[bArr.length];
+    char[] payload;
+
+    public TestCls(byte[] bytes) {
+        char[] a = toChars(bytes);
+        this.payload = new char[a.length];
+        System.arraycopy(a, 0, this.payload, 0, bytes.length);
+    }
+
+    private static char[] toChars(byte[] bArr) {
+        return new char[bArr.length];
+    }
 }
 "#;
 
@@ -421,13 +459,17 @@ fn multi_dim_array_fill_test() {
 
     let helper = IntegrationTestHelper::new("multi_dim_array_fill_test");
     let source = r#"
-public class TestCls {
-public static Obj test(int a, int b) {
-return new Obj(
-new int[][] { { 1 }, { 2 }, { 3 }, { 4, 5 }, new int[0] },
-new int[] { a, a, a, a, b });
+class Obj {
+    public Obj(int[][] ints, int[] ints2) {
+    }
 }
-public Obj(int[][] ints, int[] ints2) {
+
+public class TestCls {
+    public static Obj test(int a, int b) {
+        return new Obj(
+            new int[][] { { 1 }, { 2 }, { 3 }, { 4, 5 }, new int[0] },
+            new int[] { a, a, a, a, b });
+    }
 }
 "#;
 

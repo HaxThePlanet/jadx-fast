@@ -33,33 +33,28 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 ## Development Velocity
 
-**Built in 6 days** by [@HaxThePlanet](https://github.com/haxtheplanet) — Dec 10-15, 2025:
+**Built in 5 days** by [@HaxThePlanet](https://github.com/haxtheplanet) — Dec 11-15, 2025:
 
 ```
-      Lines of Code Added per Day                      Cumulative LOC
+        Rust Lines of Code Added per Day
 
-  Dec 10 │░                                 │    236    100K ┤                               ●
-  Dec 11 │██████████████████████████████████│ 62,870        │    ●───────────────────────────┘
-  Dec 12 │████                              │  7,425     75K ┤    │
-  Dec 13 │██                                │  2,955        │    │
-  Dec 14 │████████                          │ 15,609     50K ┤    │
-  Dec 15 │████████                          │ 15,681        │    │
-         └──────────────────────────────────┘           25K ┤    │
-           ▲                                               │    │
-           Dec 11: Initial Rust codebase dropped        0K ┼────●─┬───┬───┬───┬───┬
-                                                            10  11  12  13  14  15
+  Dec 11 │█████████████████                      │  16,735
+  Dec 12 │███████████████████████████████████████│  36,464  ← biggest day
+  Dec 13 │██                                     │   1,528
+  Dec 14 │█                                      │     836
+  Dec 15 │███████                                │   6,018
+         └───────────────────────────────────────┘
 ```
 
 | Metric | Value |
 |--------|-------|
-| **Time span** | 6 days |
-| **Total commits** | 135 |
-| **Lines added** | 89,167 |
-| **Lines deleted** | 24,680 |
-| **Net lines** | 64,487 |
-| **Rust files** | 116 |
+| **Time span** | 5 days |
+| **Total commits** | 136 |
+| **Rust lines added** | 61,581 |
+| **Rust lines deleted** | 5,957 |
+| **Net Rust lines** | 55,624 |
 | **Final codebase** | ~59,000 lines |
-| **Peak day** | 62,870 LOC (Dec 11) |
+| **Peak day** | 36,464 LOC (Dec 12) |
 | **Tests** | 248+ passing |
 
 ## Development Priorities
