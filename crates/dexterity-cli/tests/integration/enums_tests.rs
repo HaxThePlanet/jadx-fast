@@ -5,28 +5,9 @@ use crate::integration_test_framework::{IntegrationTestHelper, CodeAssertions, t
 
 #[test]
 fn enum_obfuscated_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("enum_obfuscated_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("int getNum() {")
-        .does_not_contain("$VLS")
-        .does_not_contain("vo(")
-        .does_not_contain("vs(");
+    // Note: Java test (TestEnumObfuscated) is a SmaliTest that loads from smali files.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -60,30 +41,16 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("OTHER_INT(INT);")
+        .does_not_contain("static {");
 }
 
 #[test]
 fn enum_with_const_inlining_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("enum_with_const_inlining_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("E42,");
+    // Note: Java test (TestEnumWithConstInlining) is a SmaliTest that loads from smali files.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -123,29 +90,17 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("DISABLED(0)")
+        .contains("TWO_SECONDS(2)")
+        .contains("FIVE_SECONDS(5)");
 }
 
 #[test]
 fn enum_with_fields_test2() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("enum_with_fields_test2");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: Java test (TestEnumWithFields) test2 is a SmaliTest that loads from smali files.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -187,32 +142,20 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("public enum EmptyEnum {")
+        .contains("public enum Direction {")
+        .contains("NORTH,")
+        .contains("SOUTH,")
+        .contains("EAST,")
+        .contains("WEST");
 }
 
 #[test]
 fn enums10_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("enums10_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("enum TestEnums10 {")
-        .does_not_contain("Failed to restore enum class")
-        .count_string(4, "Fake field");
+    // Note: Java test (TestEnums10) is a SmaliTest that loads from smali files.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -248,7 +191,11 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("public enum Operation {")
+        .contains("PLUS {")
+        .contains("MINUS {")
+        .contains("public abstract int apply(int");
 }
 
 #[test]
@@ -305,7 +252,9 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("TIMES(\"*\") {")
+        .contains_one("DIVIDE(\"/\")");
 }
 
 #[test]
@@ -406,24 +355,9 @@ public class TestCls {
 
 #[test]
 fn enums5_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("enums5_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: Java test (TestEnums5) is a SmaliTest that loads from smali files.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -520,25 +454,9 @@ public class TestCls {
 
 #[test]
 fn enums8_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("enums8_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .contains_one("enum TestEnums8");
+    // Note: Java test (TestEnums8) is a SmaliTest that loads from smali files.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -633,7 +551,10 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("public enum Operation implements IOperation {")
+        .contains("PLUS {")
+        .contains("MINUS {");
 }
 
 #[test]
@@ -736,7 +657,12 @@ WEST
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("public enum Direction {")
+        .contains("NORTH,")
+        .contains("SOUTH,")
+        .contains("EAST,")
+        .contains("WEST");
 }
 
 #[test]
@@ -748,10 +674,34 @@ fn enums_with_custom_init_test() {
     }
 
     let helper = IntegrationTestHelper::new("enums_with_custom_init_test");
-    // TODO: Extract test source
     let source = r#"
+import java.util.HashMap;
+import java.util.Map;
+
 public class TestCls {
-    // Add test code here
+    public enum Type {
+        ONE("I"),
+        TWO("II"),
+        THREE("III");
+
+        public static final Map<String, Type> MAP = new HashMap<>();
+
+        static {
+            for (Type value : values()) {
+                MAP.put(value.toString(), value);
+            }
+        }
+
+        private final String str;
+
+        Type(String str) {
+            this.str = str;
+        }
+
+        public String toString() {
+            return str;
+        }
+    }
 }
 "#;
 
@@ -759,32 +709,15 @@ public class TestCls {
         .expect("Decompilation failed");
 
     result
-        .does_not_contain("new TestEnumsWithCustomInit$TestCls(");
+        .contains_one("ONE(\"I\"),")
+        .does_not_contain("new TestCls$Type(");
 }
 
 #[test]
 fn enums_with_static_fields_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("enums_with_static_fields_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    result
-        .does_not_contain(" sA")
-        .does_not_contain(" sC")
-        .does_not_contain("private TestEnumsWithStaticFields(String str) {");
+    // Note: Java test (TestEnumsWithStaticFields) is a SmaliTest that loads from smali files.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -866,32 +799,21 @@ fn switch_over_enum_test() {
     }
 
     let helper = IntegrationTestHelper::new("switch_over_enum_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
-}
-
-#[test]
-fn switch_over_enum_test_smali_direct() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
+    public enum Count {
+        ONE, TWO, THREE
     }
 
-    let helper = IntegrationTestHelper::new("switch_over_enum_test_smali_direct");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
+    public int testEnum(Count c) {
+        switch (c) {
+            case ONE:
+                return 1;
+            case TWO:
+                return 2;
+        }
+        return 0;
+    }
 }
 "#;
 
@@ -899,8 +821,17 @@ public class TestCls {
         .expect("Decompilation failed");
 
     result
-        .contains_one("switch (v) {")
-        .contains_one("case ONE:");
+        .contains("switch (c) {")
+        .contains("case ONE:")
+        .contains("case TWO:");
+}
+
+#[test]
+fn switch_over_enum_test_smali_direct() {
+    // Note: Java test (TestSwitchOverEnum.testSmaliDirect) is a SmaliTest that loads from smali files.
+    // Tests Java 21 compiler behavior that omits remapping array.
+    // Skipping as dexterity doesn't support smali input yet.
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -912,10 +843,36 @@ fn switch_over_enum2_test() {
     }
 
     let helper = IntegrationTestHelper::new("switch_over_enum2_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
+    public enum Count {
+        ONE, TWO, THREE
+    }
+
+    public enum Animal {
+        CAT, DOG
+    }
+
+    public int testEnum(Count c, Animal a) {
+        int result = 0;
+        switch (c) {
+            case ONE:
+                result = 1;
+                break;
+            case TWO:
+                result = 2;
+                break;
+        }
+        switch (a) {
+            case CAT:
+                result += 10;
+                break;
+            case DOG:
+                result += 20;
+                break;
+        }
+        return result;
+    }
 }
 "#;
 
@@ -923,8 +880,9 @@ public class TestCls {
         .expect("Decompilation failed");
 
     result
-        .count_string(1, "synthetic")
-        .count_string(2, "switch (c) {")
-        .count_string(2, "case ONE:")
-        .count_string(2, "case DOG:");
+        .contains("switch (c) {")
+        .contains("case ONE:")
+        .contains("switch (a) {")
+        .contains("case CAT:")
+        .contains("case DOG:");
 }

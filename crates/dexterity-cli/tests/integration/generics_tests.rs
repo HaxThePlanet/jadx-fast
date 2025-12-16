@@ -338,7 +338,8 @@ fn generics8_test() {
         return;
     }
 
-    let helper = IntegrationTestHelper::new_no_debug("generics8_test");
+    let mut helper = IntegrationTestHelper::new("generics8_test");
+    helper.no_debug_info();
     let source = r#"
 import java.util.Iterator;
 import java.util.LinkedHashMap;

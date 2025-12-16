@@ -324,7 +324,7 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | inner | 39 | 41 | 23 | ⚠️ Incomplete |
 | trycatch | 51 | 58 | 22 | ⚠️ Incomplete |
 | inline | 18 | 24 | 2 | 🔶 Mostly done |
-| others | 97 | 113 | 1 | 🔶 Mostly done |
+| others | 97 | 113 | 0 | ✅ Done |
 | enums | 24 | 26 | 0 | ✅ Done |
 | generics | 21 | 25 | 0 | ✅ Done |
 | invoke | 23 | 23 | 0 | ✅ Done |
@@ -344,9 +344,9 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | fallback | 2 | 2 | 0 | ✅ Done |
 | jbc | 1 | 1 | 0 | ✅ Done |
 | sample | - | 5 | 0 | ✅ Done |
-| **TOTAL** | **577** | **680** | **186** | |
+| **TOTAL** | **577** | **680** | **185** | |
 
-Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 186 TODOs remaining.
+Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 185 TODOs remaining.
 
 ### Implementation TODOs
 

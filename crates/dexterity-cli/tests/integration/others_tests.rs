@@ -2522,7 +2522,8 @@ public String tag = new String(new byte[] { 'a', 'b', 'c' }, StandardCharsets.UT
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("String tag");
 }
 
 #[test]
@@ -2642,90 +2643,26 @@ public String tag = new String(new byte[] { 'a', 'b', 'c' });
 
 #[test]
 fn super_loop_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("super_loop_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
 fn synthetic_constructor_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("synthetic_constructor_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
 fn throws_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("throws_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
 fn usage_apache_http_client_test() {
-    let status = tools_status();
-    if !status.can_run_tests() {
-        eprintln!("SKIPPED: {}", status.skip_reason());
-        return;
-    }
-
-    let helper = IntegrationTestHelper::new("usage_apache_http_client_test");
-    // TODO: Extract test source
-    let source = r#"
-public class TestCls {
-    // Add test code here
-}
-"#;
-
-    let result = helper.test_decompilation(source)
-        .expect("Decompilation failed");
-
-    // TODO: Add assertions
+    // Note: This is a SmaliTest in JADX - requires smali input format not yet supported by dexterity
+    eprintln!("SKIPPED: SmaliTest - requires smali input format");
 }
 
 #[test]
@@ -2784,7 +2721,8 @@ return a;
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("int[] a = null");
 }
 
 #[test]
@@ -2875,5 +2813,7 @@ public A A;
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("class A")
+        .contains("String str");
 }

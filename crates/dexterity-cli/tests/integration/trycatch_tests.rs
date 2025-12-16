@@ -86,7 +86,9 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} catch (IOException e) {")
+        .does_not_contain("} finally {");
 }
 
 #[test]
@@ -135,7 +137,10 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} finally {")
+        .contains_one("cursor.getString(columnIndex);")
+        .does_not_contain("String str = true;");
 }
 
 #[test]
@@ -254,7 +259,10 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} finally {")
+        .does_not_contain("close(null);")
+        .contains_one("close(inputStream);");
 }
 
 #[test]
@@ -313,7 +321,9 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} finally {")
+        .contains("close(");
 }
 
 #[test]
@@ -423,7 +433,14 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} finally {")
+        .does_not_contain("if (0 == 0) {")
+        .contains_one("boolean success = false;")
+        .contains_one("try {")
+        .contains_one("success = true;")
+        .contains_one("return value;")
+        .contains_one("if (!success) {");
 }
 
 #[test]
@@ -601,7 +618,10 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("try {")
+        .contains_one("} catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {")
+        .contains_one("e.printStackTrace();");
 }
 
 #[test]
@@ -631,7 +651,10 @@ public class TestCls {
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("try {")
+        .contains_one("} catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {")
+        .contains_one("e.printStackTrace();");
 }
 
 #[test]
@@ -817,22 +840,31 @@ fn try_catch2_test() {
     let helper = IntegrationTestHelper::new("try_catch2_test");
     let source = r#"
 public class TestCls {
-private static final Object OBJ = new Object();
-public static boolean test() {
-try {
-synchronized (OBJ) {
-OBJ.wait(5L);
-}
-return true;
-} catch (InterruptedException e) {
-return false;
+    private static final Object OBJ = new Object();
+
+    public static boolean test() {
+        try {
+            synchronized (OBJ) {
+                OBJ.wait(5L);
+            }
+            return true;
+        } catch (InterruptedException e) {
+            return false;
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("try {")
+        .contains("synchronized (OBJ) {")
+        .contains("OBJ.wait(5L);")
+        .contains("return true;")
+        .contains("} catch (InterruptedException e) {")
+        .contains("return false;");
 }
 
 #[test]
@@ -845,31 +877,39 @@ fn try_catch6_test() {
 
     let helper = IntegrationTestHelper::new("try_catch6_test");
     let source = r#"
+import java.io.IOException;
+
 public class TestCls {
-private static boolean test(Object obj) {
-boolean res = false;
-while (true) {
-try {
-res = exc(obj);
-return res;
-} catch (IOException e) {
-res = true;
-} catch (Throwable e) {
-if (obj == null) {
-obj = new Object();
-}
-private static boolean exc(Object obj) throws IOException {
-throw new IOException();
-return true;
-public void check() {
-assertThat(test(new Object())).isTrue();
+    private static boolean test(Object obj) {
+        boolean res = false;
+        while (true) {
+            try {
+                res = exc(obj);
+                return res;
+            } catch (IOException e) {
+                res = true;
+            } catch (Throwable e) {
+                if (obj == null) {
+                    obj = new Object();
+                }
+            }
+        }
+    }
+
+    private static boolean exc(Object obj) throws IOException {
+        if (obj == null) {
+            throw new IOException();
+        }
+        return true;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("try {");
 }
 
 #[test]
@@ -921,22 +961,28 @@ fn try_catch7_test() {
     let helper = IntegrationTestHelper::new("try_catch7_test");
     let source = r#"
 public class TestCls {
-public Exception test() {
-Exception e = new Exception();
-try {
-Thread.sleep(50);
-} catch (Exception ex) {
-e = ex;
-}
-e.printStackTrace();
-return e;
+    public Exception test() {
+        Exception e = new Exception();
+        try {
+            Thread.sleep(50);
+        } catch (Exception ex) {
+            e = ex;
+        }
+        e.printStackTrace();
+        return e;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("Exception e = new Exception();")
+        .contains_one("} catch (Exception ex) {")
+        .contains_one("e = ex;")
+        .contains_one("e.printStackTrace();")
+        .contains_one("return e;");
 }
 
 #[test]
@@ -979,32 +1025,43 @@ fn try_catch8_test() {
     let helper = IntegrationTestHelper::new("try_catch8_test");
     let source = r#"
 public class TestCls {
-static class MyException extends Exception {
-private static final long serialVersionUID = 7963400419047287279L;
-MyException() {
-}
-MyException(String msg, Throwable cause) {
-super(msg, cause);
-MyException e = null;
-public void test() {
-synchronized (this) {
-try {
-throw new MyException();
-} catch (MyException myExc) {
-this.e = myExc;
-} catch (Exception ex) {
-this.e = new MyException("MyExc", ex);
-public void check() {
-test();
-assertThat(e).isInstanceOf(MyException.class);
-assertThat(e.getMessage()).isNull();
+    static class MyException extends Exception {
+        private static final long serialVersionUID = 7963400419047287279L;
+
+        MyException() {
+        }
+
+        MyException(String msg, Throwable cause) {
+            super(msg, cause);
+        }
+    }
+
+    MyException e = null;
+
+    public void test() {
+        synchronized (this) {
+            try {
+                throw new MyException();
+            } catch (MyException myExc) {
+                this.e = myExc;
+            } catch (Exception ex) {
+                this.e = new MyException("MyExc", ex);
+            }
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("synchronized (this) {")
+        .contains_one("throw new MyException();")
+        .contains_one("} catch (MyException myExc) {")
+        .contains_one("this.e = myExc;")
+        .contains_one("} catch (Exception ex) {")
+        .contains_one("this.e = new MyException(\"MyExc\", ex);");
 }
 
 #[test]
@@ -1162,30 +1219,37 @@ fn try_catch_finally11_test() {
 
     let helper = IntegrationTestHelper::new("try_catch_finally11_test");
     let source = r#"
+import java.util.Arrays;
+import java.util.List;
+
 public class TestCls {
-private int count = 0;
-public void test(List<Object> list) {
-try {
-call1();
-} finally {
-for (Object item : list) {
-call2(item);
-}
-private void call1() {
-count += 100;
-private void call2(Object item) {
-count++;
-public void check() {
-TestCls t = new TestCls();
-t.test(Arrays.asList("1", "2"));
-assertThat(t.count).isEqualTo(102);
+    private int count = 0;
+
+    public void test(List<Object> list) {
+        try {
+            call1();
+        } finally {
+            for (Object item : list) {
+                call2(item);
+            }
+        }
+    }
+
+    private void call1() {
+        count += 100;
+    }
+
+    private void call2(Object item) {
+        count++;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} finally {");
 }
 
 #[test]
@@ -1199,55 +1263,81 @@ fn try_catch_finally12_test() {
     let helper = IntegrationTestHelper::new("try_catch_finally12_test");
     let source = r#"
 public class TestCls {
-private StringBuilder sb;
-public void test1(int excType) {
-try {
-call(excType);
-} catch (NullPointerException e) {
-sb.append("-catch");
-}
-sb.append("-out");
-} finally {
-sb.append("-finally");
-public void test2(int excType) {
-public void test3(int excType) {
-public void call(int excType) {
-sb.append("call");
-switch (excType) {
-case 1:
-sb.append("-npe");
-throw new NullPointerException();
-case 2:
-sb.append("-iae");
-throw new IllegalArgumentException();
-public String runTest(int testNumber, int excType) {
-sb = new StringBuilder();
-switch (testNumber) {
-test1(excType);
-break;
-test2(excType);
-case 3:
-test3(excType);
-} catch (IllegalArgumentException e) {
-assertThat(excType).isEqualTo(2);
-return sb.toString();
-public void check() {
-assertThat(runTest(1, 0)).isEqualTo("call-out-finally");
-assertThat(runTest(1, 1)).isEqualTo("call-npe-catch-out-finally");
-assertThat(runTest(1, 2)).isEqualTo("call-iae-finally");
-assertThat(runTest(2, 0)).isEqualTo("call-finally");
-assertThat(runTest(2, 1)).isEqualTo("call-npe-catch-finally");
-assertThat(runTest(2, 2)).isEqualTo("call-iae-finally");
-assertThat(runTest(3, 0)).isEqualTo("call-finally");
-assertThat(runTest(3, 1)).isEqualTo("call-npe-catch-finally");
-assertThat(runTest(3, 2)).isEqualTo("call-iae-finally");
+    private StringBuilder sb;
+
+    public void test1(int excType) {
+        try {
+            try {
+                call(excType);
+            } catch (NullPointerException e) {
+                sb.append("-catch");
+            }
+            sb.append("-out");
+        } finally {
+            sb.append("-finally");
+        }
+    }
+
+    public void test2(int excType) {
+        try {
+            try {
+                call(excType);
+            } catch (NullPointerException e) {
+                sb.append("-catch");
+            }
+        } finally {
+            sb.append("-finally");
+        }
+    }
+
+    public void test3(int excType) {
+        try {
+            call(excType);
+        } catch (NullPointerException e) {
+            sb.append("-catch");
+        } finally {
+            sb.append("-finally");
+        }
+    }
+
+    public void call(int excType) {
+        sb.append("call");
+        switch (excType) {
+            case 1:
+                sb.append("-npe");
+                throw new NullPointerException();
+            case 2:
+                sb.append("-iae");
+                throw new IllegalArgumentException();
+        }
+    }
+
+    public String runTest(int testNumber, int excType) {
+        sb = new StringBuilder();
+        try {
+            switch (testNumber) {
+                case 1:
+                    test1(excType);
+                    break;
+                case 2:
+                    test2(excType);
+                    break;
+                case 3:
+                    test3(excType);
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
+        }
+        return sb.toString();
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .count_string(3, "} finally {");
 }
 
 #[test]
@@ -1261,55 +1351,81 @@ fn try_catch_finally12_test_without_finally() {
     let helper = IntegrationTestHelper::new("try_catch_finally12_test_without_finally");
     let source = r#"
 public class TestCls {
-private StringBuilder sb;
-public void test1(int excType) {
-try {
-call(excType);
-} catch (NullPointerException e) {
-sb.append("-catch");
-}
-sb.append("-out");
-} finally {
-sb.append("-finally");
-public void test2(int excType) {
-public void test3(int excType) {
-public void call(int excType) {
-sb.append("call");
-switch (excType) {
-case 1:
-sb.append("-npe");
-throw new NullPointerException();
-case 2:
-sb.append("-iae");
-throw new IllegalArgumentException();
-public String runTest(int testNumber, int excType) {
-sb = new StringBuilder();
-switch (testNumber) {
-test1(excType);
-break;
-test2(excType);
-case 3:
-test3(excType);
-} catch (IllegalArgumentException e) {
-assertThat(excType).isEqualTo(2);
-return sb.toString();
-public void check() {
-assertThat(runTest(1, 0)).isEqualTo("call-out-finally");
-assertThat(runTest(1, 1)).isEqualTo("call-npe-catch-out-finally");
-assertThat(runTest(1, 2)).isEqualTo("call-iae-finally");
-assertThat(runTest(2, 0)).isEqualTo("call-finally");
-assertThat(runTest(2, 1)).isEqualTo("call-npe-catch-finally");
-assertThat(runTest(2, 2)).isEqualTo("call-iae-finally");
-assertThat(runTest(3, 0)).isEqualTo("call-finally");
-assertThat(runTest(3, 1)).isEqualTo("call-npe-catch-finally");
-assertThat(runTest(3, 2)).isEqualTo("call-iae-finally");
+    private StringBuilder sb;
+
+    public void test1(int excType) {
+        try {
+            try {
+                call(excType);
+            } catch (NullPointerException e) {
+                sb.append("-catch");
+            }
+            sb.append("-out");
+        } finally {
+            sb.append("-finally");
+        }
+    }
+
+    public void test2(int excType) {
+        try {
+            try {
+                call(excType);
+            } catch (NullPointerException e) {
+                sb.append("-catch");
+            }
+        } finally {
+            sb.append("-finally");
+        }
+    }
+
+    public void test3(int excType) {
+        try {
+            call(excType);
+        } catch (NullPointerException e) {
+            sb.append("-catch");
+        } finally {
+            sb.append("-finally");
+        }
+    }
+
+    public void call(int excType) {
+        sb.append("call");
+        switch (excType) {
+            case 1:
+                sb.append("-npe");
+                throw new NullPointerException();
+            case 2:
+                sb.append("-iae");
+                throw new IllegalArgumentException();
+        }
+    }
+
+    public String runTest(int testNumber, int excType) {
+        sb = new StringBuilder();
+        try {
+            switch (testNumber) {
+                case 1:
+                    test1(excType);
+                    break;
+                case 2:
+                    test2(excType);
+                    break;
+                case 3:
+                    test3(excType);
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
+        }
+        return sb.toString();
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .does_not_contain("} finally {");
 }
 
 #[test]
@@ -1346,30 +1462,41 @@ fn try_catch_finally2_test() {
 
     let helper = IntegrationTestHelper::new("try_catch_finally2_test");
     let source = r#"
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 public class TestCls {
-private ClspClass[] classes;
-public void test(OutputStream output) throws IOException {
-DataOutputStream out = new DataOutputStream(output);
-try {
-out.writeByte(1);
-out.writeInt(classes.length);
-for (ClspClass cls : classes) {
-writeString(out, cls.getName());
-}
-ArgType[] parents = cls.getParents();
-out.writeByte(parents.length);
-for (ArgType parent : parents) {
-out.writeInt(parent.getObject().hashCode());
-} finally {
-out.close();
-private void writeString(DataOutputStream out, String name) {
+    private Object[] classes;
+
+    public void test(OutputStream output) throws IOException {
+        DataOutputStream out = new DataOutputStream(output);
+        try {
+            out.writeByte(1);
+            out.writeInt(classes.length);
+            for (Object cls : classes) {
+                writeString(out, cls.toString());
+            }
+            for (Object cls : classes) {
+                out.writeByte(1);
+                out.writeInt(1);
+            }
+        } finally {
+            out.close();
+        }
+    }
+
+    private void writeString(DataOutputStream out, String name) {
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} finally {")
+        .contains_one("out.close();");
 }
 
 #[test]
@@ -1449,40 +1576,59 @@ fn try_catch_finally5_test() {
 
     let helper = IntegrationTestHelper::new("try_catch_finally5_test");
     let source = r#"
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestCls {
-public <E> List<E> test(A a, B<E> b) {
-C c = p(a);
-if (c == null) {
-return null;
-}
-D d = b.f(c);
-try {
-if (!d.first()) {
-List<E> list = new ArrayList<>();
-do {
-list.add(b.load(d));
-} while (d.toNext());
-return list;
-} finally {
-d.close();
-private C p(A a) {
-return (C) a;
-private interface A {
-private interface B<T> {
-D f(C c);
-T load(D d);
-private interface C {
-private interface D {
-boolean first();
-boolean toNext();
-void close();
+    public <E> List<E> test(A a, B<E> b) {
+        C c = p(a);
+        if (c == null) {
+            return null;
+        }
+        D d = b.f(c);
+        try {
+            if (!d.first()) {
+                return null;
+            }
+            List<E> list = new ArrayList<>();
+            do {
+                list.add(b.load(d));
+            } while (d.toNext());
+            return list;
+        } finally {
+            d.close();
+        }
+    }
+
+    private C p(A a) {
+        return (C) a;
+    }
+
+    private interface A {
+    }
+
+    private interface B<T> {
+        D f(C c);
+        T load(D d);
+    }
+
+    private interface C {
+    }
+
+    private interface D {
+        boolean first();
+        boolean toNext();
+        void close();
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} finally {")
+        .contains_one("d.close();");
 }
 
 #[test]
@@ -1495,24 +1641,36 @@ fn try_catch_finally6_test() {
 
     let helper = IntegrationTestHelper::new("try_catch_finally6_test");
     let source = r#"
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class TestCls {
-public static void test() throws IOException {
-InputStream is = null;
-try {
-call();
-is = new FileInputStream("1.txt");
-} finally {
-if (is != null) {
-is.close();
-}
-private static void call() {
+    public static void test() throws IOException {
+        InputStream is = null;
+        try {
+            call();
+            is = new FileInputStream("1.txt");
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
+    }
+
+    private static void call() {
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("try {")
+        .contains("is = new FileInputStream(")
+        .contains("} finally {")
+        .contains("if (is != null) {");
 }
 
 #[test]
@@ -1781,20 +1939,26 @@ fn try_catch_multi_exception_test() {
 
     let helper = IntegrationTestHelper::new("try_catch_multi_exception_test");
     let source = r#"
+import java.security.ProviderException;
+import java.time.DateTimeException;
+
 public class TestCls {
-public void test() {
-try {
-System.out.println("Test");
-} catch (ProviderException | DateTimeException e) {
-throw new RuntimeException(e);
-}
+    public void test() {
+        try {
+            System.out.println("Test");
+        } catch (ProviderException | DateTimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("} catch (ProviderException | DateTimeException e) {")
+        .contains_one("throw new RuntimeException(e);");
 }
 
 #[test]
