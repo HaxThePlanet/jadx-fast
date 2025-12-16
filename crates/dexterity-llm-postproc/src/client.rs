@@ -242,20 +242,35 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_invalid_client() {
-        let result = ClaudeClient::new(String::new(), "model".to_string());
-        assert!(result.is_err());
+    fn test_valid_ollama_client() {
+        let result = ClaudeClient::new(
+            LLMBackend::Ollama,
+            String::new(),
+            "qwen2.5-coder:7b".to_string(),
+            "http://localhost:11434".to_string(),
+        );
+        assert!(result.is_ok());
     }
 
     #[test]
-    fn test_valid_client() {
-        let result = ClaudeClient::new("test-key".to_string(), "claude-3-5-haiku-20241022".to_string());
+    fn test_valid_anthropic_client() {
+        let result = ClaudeClient::new(
+            LLMBackend::Anthropic,
+            "test-key".to_string(),
+            "claude-3-5-haiku-20241022".to_string(),
+            "https://api.anthropic.com/v1/messages".to_string(),
+        );
         assert!(result.is_ok());
     }
 
     #[tokio::test]
     async fn test_usage_tracking() {
-        let client = ClaudeClient::new("test-key".to_string(), "claude-3-5-haiku-20241022".to_string()).unwrap();
+        let client = ClaudeClient::new(
+            LLMBackend::Ollama,
+            String::new(),
+            "qwen2.5-coder:7b".to_string(),
+            "http://localhost:11434".to_string(),
+        ).unwrap();
         let (requests, input, output) = client.get_usage().await;
         assert_eq!(requests, 0);
         assert_eq!(input, 0);
