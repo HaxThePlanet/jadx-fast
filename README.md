@@ -199,13 +199,16 @@ Intelligent constant and identity folding optimizations eliminate redundant oper
 | `x + (-N)` | `x - N` | Addition of negative to subtraction |
 | `x - (-N)` | `x + N` | Subtraction of negative to addition |
 | `0 - x` | `-x` | Zero minus x is negation |
+| `x * -1` | `-x` | Multiplication by negative one is negation |
+| `-1 * x` | `-x` | Multiplication by negative one (commutative) |
+| `x / -1` | `-x` | Division by negative one is negation |
 
 **Implementation:** File: `/crates/dexterity-passes/src/simplify.rs`
 
 These optimizations run during code generation and eliminate redundant arithmetic expressions before they reach the output, reducing unnecessary operations and improving code clarity.
 
 **Test Coverage:**
-- ✅ 18 simplify unit tests verify all arithmetic patterns (18/18 - covers identity, constant folding, subtraction negatives, zero minus x)
+- ✅ 21 simplify unit tests verify all arithmetic patterns (21/21 - covers identity, constant folding, subtraction negatives, zero minus x, multiplication by -1, division by -1)
 - ✅ All 683 integration tests pass
 
 ### Condition Simplification
@@ -673,9 +676,9 @@ All test suites are passing with 100% success rate. All 683 integration tests ar
 | dexterity-dex | 35 | 35 | 0 | ✅ All Passing |
 | dexterity-ir | 40 | 40 | 0 | ✅ All Passing |
 | dexterity-kotlin | 3 | 3 | 0 | ✅ All Passing |
-| dexterity-passes | 90 | 90 | 0 | ✅ All Passing |
+| dexterity-passes | 93 | 93 | 0 | ✅ All Passing |
 | dexterity-resources | 8 | 8 | 0 | ✅ All Passing |
-| **TOTAL** | **977** | **977** | **0** | **✅ 100% Pass Rate** |
+| **TOTAL** | **980** | **980** | **0** | **✅ 100% Pass Rate** |
 
 ### Integration Test Categories
 
