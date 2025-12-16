@@ -17,7 +17,7 @@ Navigate to the right files based on the issue you're working on.
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (64,921 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (~1,867 lines)
 - **Type:** Large - Use grep for specific functions
 - **Key Functions:**
   - `build_regions()` (entry point) - Orchestrates region building
@@ -47,7 +47,7 @@ grep -n "struct LoopInfo" region_builder.rs
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/cfg.rs`** (21,245 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/cfg.rs`** (~1,020 lines)
 - **Type:** Medium - Can search for specific functions
 - **Key Functions:**
   - `build_cfg()` - Constructs control flow graph
@@ -70,7 +70,7 @@ grep -n "DominatorTree" cfg.rs
 
 ---
 
-**File 3: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/ssa.rs`** (34,239 lines)
+**File 3: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/ssa.rs`** (~964 lines)
 - **Type:** Large - Use grep for functions
 - **Key Functions:**
   - `transform_to_ssa()` - Entry point for SSA transformation
@@ -111,7 +111,7 @@ grep -n "fn rename_variables" ssa.rs
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (76,820 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (~1,958 lines)
 - **Type:** Very Large - Extensive grep usage required
 - **Key Functions:**
   - `infer_types_with_context_and_hierarchy()` - Main type inference entry
@@ -157,7 +157,7 @@ struct TypeBounds {
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/class_hierarchy.rs`** (12,409 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/class_hierarchy.rs`** (~382 lines)
 - **Type:** Medium
 - **Key Functions:**
   - `common_supertype()` - LCA computation for class hierarchy
@@ -177,7 +177,7 @@ grep -n "fn is_subtype_of" class_hierarchy.rs
 
 ---
 
-**File 3: `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/types.rs`** (21,510 lines)
+**File 3: `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/types.rs`** (~669 lines)
 - **Type:** Large
 - **Key Functions:**
   - Type system definitions
@@ -192,7 +192,7 @@ grep -n "fn is_subtype_of" class_hierarchy.rs
 
 #### Supporting Files
 
-**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (157,635 lines)
+**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~3,965 lines)
 - **Type:** Very Large
 - **Purpose:** Generates Java code from IR
 - **Key:** How type information is used in code generation
@@ -213,7 +213,7 @@ grep -n "default_value" body_gen.rs  # How defaults are chosen
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/var_naming.rs`** (44,770 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/var_naming.rs`** (~1,157 lines)
 - **Type:** Large - Use grep
 - **Key Functions:**
   - `assign_variable_names()` - Main naming entry
@@ -262,7 +262,7 @@ enum NameSource {
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/expr_gen.rs`** (50,336 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/expr_gen.rs`** (~1,291 lines)
 - **Type:** Large
 - **Purpose:** Expression code generation
 - **Key:** Where variables are referenced in expressions
@@ -276,7 +276,7 @@ enum NameSource {
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs`** (46,754 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs`** (~1,313 lines)
 - **Type:** Large
 - **Key Functions:**
   - `generate_class()` - Class/interface/enum generation
@@ -300,8 +300,8 @@ grep -n "static" class_gen.rs | grep "fn\|let"  # Look for static handling
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (157,635 lines)
-- **Type:** Very Large
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~3,965 lines)
+- **Type:** Large
 - **Purpose:** Method body generation
 - **Key Functions:**
   - `generate_method_body()` - Generates statement blocks
@@ -360,10 +360,9 @@ grep -n "function_name(" file.rs
 
 | Size | Strategy | Examples |
 |------|----------|----------|
-| <5K lines | Read entire file | `block_split.rs`, `conditions.rs` |
-| 5-20K lines | Search for functions, read specific functions | `cfg.rs`, `class_hierarchy.rs` |
-| 20-50K lines | Extensive grep usage, read only relevant functions | `ssa.rs`, `class_gen.rs` |
-| 50K+ lines | Minimal reading, heavy grep searching | `type_inference.rs`, `body_gen.rs` |
+| <500 lines | Read entire file | `block_split.rs`, `conditions.rs`, `class_hierarchy.rs` |
+| 500-1500 lines | Search for functions, read specific functions | `cfg.rs`, `ssa.rs`, `var_naming.rs`, `class_gen.rs`, `expr_gen.rs` |
+| 1500-4000 lines | Grep for functions, read relevant sections | `type_inference.rs`, `region_builder.rs`, `body_gen.rs` |
 
 ### File Dependency Chain
 

@@ -312,7 +312,8 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
 
     // Process resources (ARSC + AXML)
     if !args.skip_resources {
-        process_resources_streaming(out_res, manifest_data, arsc_data, &xml_resource_names, raw_file_count, input)?;
+        let pretty_print = !args.no_xml_pretty_print;
+        process_resources_streaming(out_res, manifest_data, arsc_data, &xml_resource_names, raw_file_count, input, pretty_print)?;
     }
 
     // Process source code (DEX) - one at a time to minimize memory
@@ -377,6 +378,7 @@ fn process_resources_streaming(
     xml_resource_names: &[String],
     raw_file_count: usize,
     apk_path: &PathBuf,
+    pretty_print: bool,
 ) -> Result<()> {
     use dexterity_resources::{ArscParser, AxmlParser};
     use std::collections::HashMap;
@@ -417,6 +419,7 @@ fn process_resources_streaming(
         tracing::debug!("Parsing AndroidManifest.xml ({} bytes)", data.len());
         let mut axml_parser = AxmlParser::new();
         axml_parser.set_res_names(res_names.clone());
+        axml_parser.set_pretty_print(pretty_print);
 
         match axml_parser.parse(&data) {
             Ok(xml) => {
@@ -448,6 +451,7 @@ fn process_resources_streaming(
                     // Parse it immediately
                     let mut axml_parser = AxmlParser::new();
                     axml_parser.set_res_names(res_names.clone());
+                    axml_parser.set_pretty_print(pretty_print);
 
                     match axml_parser.parse(&xml_data) {
                         Ok(xml) => {
@@ -680,21 +684,28 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
 
     // Handle .class files
     if !class_files.is_empty() && dex_file_names.is_empty() {
-        // Try to find D8 or dx for conversion
-        if let Some(converter) = find_dex_converter() {
-            tracing::info!("Found DEX converter: {}", converter);
-            convert_jar_to_dex(input, out_src, &converter, args)?;
+        // Try to find D8 or dx for conversion (only if --use-dx is enabled)
+        if args.use_dx {
+            if let Some(converter) = find_dex_converter() {
+                tracing::info!("Found DEX converter: {}", converter);
+                convert_jar_to_dex(input, out_src, &converter, args)?;
+            } else {
+                tracing::warn!(
+                    "JAR contains {} .class files but no DEX converter found.",
+                    class_files.len()
+                );
+                tracing::warn!("To decompile Java bytecode (.class files), install Android SDK Build Tools");
+                tracing::warn!("and ensure 'd8' or 'dx' is in your PATH.");
+                tracing::warn!("");
+                tracing::warn!("Alternatively, convert the JAR to DEX manually:");
+                tracing::warn!("  d8 --output output.zip {}", input.display());
+                tracing::warn!("  dexterity -d output/ output.zip");
+            }
         } else {
-            tracing::warn!(
-                "JAR contains {} .class files but no DEX converter found.",
+            tracing::info!(
+                "JAR contains {} .class files. Use --use-dx to enable automatic conversion to DEX.",
                 class_files.len()
             );
-            tracing::warn!("To decompile Java bytecode (.class files), install Android SDK Build Tools");
-            tracing::warn!("and ensure 'd8' or 'dx' is in your PATH.");
-            tracing::warn!("");
-            tracing::warn!("Alternatively, convert the JAR to DEX manually:");
-            tracing::warn!("  d8 --output output.zip {}", input.display());
-            tracing::warn!("  dexterity -d output/ output.zip");
         }
     }
 

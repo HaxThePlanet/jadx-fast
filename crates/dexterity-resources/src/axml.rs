@@ -453,6 +453,12 @@ impl AxmlParser {
         self.res_names = res_names;
     }
 
+    /// Set pretty print mode (default: true)
+    /// When false, attributes are placed on same line as tag
+    pub fn set_pretty_print(&mut self, pretty: bool) {
+        self.attr_new_line = pretty;
+    }
+
     /// Parse binary XML from bytes
     pub fn parse(&mut self, data: &[u8]) -> Result<String> {
         self.reset();

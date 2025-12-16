@@ -66,8 +66,11 @@ pub struct BodyGenContext {
     pub ins_count: u16,
     /// Type inference results (optional - populated when SSA is run)
     pub type_info: Option<TypeInferenceResult>,
-    /// Variables that have been declared (to avoid redeclaration)
+    /// Variables that have been declared (to avoid redeclaration) - tracks (reg, version)
     pub declared_vars: HashSet<(u16, u32)>,
+    /// Variable names that have been declared (to avoid same-name redeclarations)
+    /// Different SSA versions may share the same name, so we track names too
+    pub declared_names: HashSet<String>,
     /// First parameter register (registers >= this are parameters, already declared)
     pub first_param_reg: u16,
     /// Last invoke expression (for MoveResult pairing)
@@ -171,6 +174,7 @@ impl BodyGenContext {
             ins_count: method.ins_count,
             type_info: None,
             declared_vars: HashSet::new(),
+            declared_names: HashSet::new(),
             first_param_reg,
             last_invoke_expr: None,
             pending_new_instances: HashMap::new(),
@@ -311,14 +315,25 @@ impl BodyGenContext {
         self.type_info.as_ref().and_then(|ti| ti.types.get(&(reg, version)))
     }
 
-    /// Check if a variable has been declared
+    /// Check if a variable has been declared (by SSA version)
     pub fn is_declared(&self, reg: u16, version: u32) -> bool {
         self.declared_vars.contains(&(reg, version))
     }
 
-    /// Mark a variable as declared
+    /// Check if a variable NAME has been declared (to prevent same-name redeclarations)
+    /// Different SSA versions may share the same Java variable name
+    pub fn is_name_declared(&self, name: &str) -> bool {
+        self.declared_names.contains(name)
+    }
+
+    /// Mark a variable as declared (by SSA version and name)
     pub fn mark_declared(&mut self, reg: u16, version: u32) {
         self.declared_vars.insert((reg, version));
+    }
+
+    /// Mark a variable name as declared
+    pub fn mark_name_declared(&mut self, name: &str) {
+        self.declared_names.insert(name.to_string());
     }
 
     /// Check if this register AND version is a parameter (already has a type from method signature)
@@ -469,8 +484,13 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
     phi_vars.sort();
 
     for (reg, version) in phi_vars {
-        // Skip if already declared (e.g., parameter)
-        if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) {
+        // Get variable name using a temp RegisterArg
+        let temp_reg = RegisterArg { reg_num: reg, ssa_version: version };
+        let var_name = ctx.expr_gen.get_var_name(&temp_reg);
+
+        // Skip if already declared (e.g., parameter) or if the NAME is already declared
+        // (different SSA versions may share the same Java variable name)
+        if ctx.is_declared(reg, version) || ctx.is_parameter(reg, version) || ctx.is_name_declared(&var_name) {
             continue;
         }
 
@@ -479,10 +499,6 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
             .or_else(|| ctx.get_inferred_type_versioned(reg, 0))
             .cloned()
             .unwrap_or_else(|| ArgType::Object("java/lang/Object".to_string()));
-
-        // Get variable name using a temp RegisterArg
-        let temp_reg = RegisterArg { reg_num: reg, ssa_version: version };
-        let var_name = ctx.expr_gen.get_var_name(&temp_reg);
 
         // Emit declaration
         code.start_line();
@@ -496,8 +512,9 @@ fn emit_phi_declarations<W: CodeWriter>(ctx: &mut BodyGenContext, code: &mut W) 
 
         code.add(&type_str).add(" ").add(&var_name).add(";").newline();
 
-        // Mark as declared
+        // Mark as declared (both by version and by name)
         ctx.mark_declared(reg, version);
+        ctx.mark_name_declared(&var_name);
     }
 }
 
@@ -535,7 +552,13 @@ fn emit_assignment_with_hint<W: CodeWriter>(
 
     // Check if we need to declare this variable
     // In SSA form, only version 0 of parameter registers are actual parameters
-    if !ctx.is_declared(reg, version) && !ctx.is_parameter(reg, version) {
+    // Also check if a variable with the SAME NAME has been declared (different SSA versions
+    // may share the same Java variable name)
+    let needs_decl = !ctx.is_declared(reg, version)
+        && !ctx.is_parameter(reg, version)
+        && !ctx.is_name_declared(&var_name);
+
+    if needs_decl {
         // Priority: 1. Type inference, 2. Type hint, 3. Try version 0, 4. Object fallback
         let decl_type = ctx.get_inferred_type_versioned(reg, version)
             .or_else(|| type_hint)
@@ -562,6 +585,7 @@ fn emit_assignment_with_hint<W: CodeWriter>(
             code.add("Object ");
         }
         ctx.mark_declared(reg, version);
+        ctx.mark_name_declared(&var_name);
     }
 
     code.add(&var_name)
@@ -611,7 +635,13 @@ fn emit_assignment_insn<W: CodeWriter>(
     code.start_line();
 
     // Check if we need to declare this variable
-    if !ctx.is_declared(reg, version) && !ctx.is_parameter(reg, version) {
+    // Also check if a variable with the SAME NAME has been declared (different SSA versions
+    // may share the same Java variable name)
+    let needs_decl = !ctx.is_declared(reg, version)
+        && !ctx.is_parameter(reg, version)
+        && !ctx.is_name_declared(&var_name);
+
+    if needs_decl {
         let decl_type = ctx.get_inferred_type_versioned(reg, version)
             .or_else(|| type_hint)
             .or_else(|| {
@@ -633,6 +663,7 @@ fn emit_assignment_insn<W: CodeWriter>(
             code.add("Object ");
         }
         ctx.mark_declared(reg, version);
+        ctx.mark_name_declared(&var_name);
     }
 
     code.add(&var_name).add(" = ");
@@ -1566,10 +1597,13 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                         let left_str = ctx.gen_arg_with_inline_peek(left);
 
                         // Get type of left operand for type-aware condition generation
+                        // First check type_info (from type inference), then fall back to expr_gen
+                        // (which has method parameter types set from method signature)
                         let left_type = if let InsnArg::Register(reg) = left {
                             ctx.type_info.as_ref()
                                 .and_then(|ti| ti.types.get(&(reg.reg_num, reg.ssa_version)))
                                 .cloned()
+                                .or_else(|| ctx.expr_gen.get_var_type(reg.reg_num, reg.ssa_version))
                         } else {
                             None
                         };
@@ -2184,7 +2218,12 @@ fn emit_ternary_assignment<W: CodeWriter>(
     code.start_line();
 
     // Check if we need to declare this variable
-    if !ctx.is_declared(reg, version) && !ctx.is_parameter(reg, version) {
+    // Also check if a variable with the SAME NAME has been declared
+    let needs_decl = !ctx.is_declared(reg, version)
+        && !ctx.is_parameter(reg, version)
+        && !ctx.is_name_declared(&var_name);
+
+    if needs_decl {
         let decl_type = ctx.get_inferred_type_versioned(reg, version)
             .or_else(|| ctx.get_inferred_type_versioned(reg, 0));
 
@@ -2195,6 +2234,7 @@ fn emit_ternary_assignment<W: CodeWriter>(
             code.add("Object ");
         }
         ctx.mark_declared(reg, version);
+        ctx.mark_name_declared(&var_name);
     }
 
     // Try to simplify ternary-to-boolean patterns first
@@ -2964,7 +3004,10 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                     let var_name = ctx.expr_gen.get_var_name(recv_reg);
                                     let reg = recv_reg.reg_num;
                                     let version = recv_reg.ssa_version;
-                                    let needs_decl = !ctx.is_declared(reg, version) && !ctx.is_parameter(reg, version);
+                                    // Also check if name is declared (avoid same-name redeclaration)
+                                    let needs_decl = !ctx.is_declared(reg, version)
+                                        && !ctx.is_parameter(reg, version)
+                                        && !ctx.is_name_declared(&var_name);
                                     let imports = ctx.imports.clone();
                                     let dex = ctx.expr_gen.dex_provider.clone();
 
@@ -2985,6 +3028,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                                     if needs_decl {
                                         code.add(&decl_type).add(" ");
                                         ctx.mark_declared(reg, version);
+                                        ctx.mark_name_declared(&var_name);
                                     }
                                     code.add(&var_name).add(" = ");
 
@@ -3018,10 +3062,16 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
                             let version = recv_reg.ssa_version;
                             let var_name = ctx.expr_gen.get_var_name(recv_reg);
 
+                            // Check if we need to declare (also check name to avoid same-name redeclaration)
+                            let needs_decl = !ctx.is_declared(reg, version)
+                                && !ctx.is_parameter(reg, version)
+                                && !ctx.is_name_declared(&var_name);
+
                             code.start_line();
-                            if !ctx.is_declared(reg, version) && !ctx.is_parameter(reg, version) {
+                            if needs_decl {
                                 code.add(&type_name).add(" ");
                                 ctx.mark_declared(reg, version);
+                                ctx.mark_name_declared(&var_name);
                             }
                             code.add(&var_name).add(" = new ").add(&type_name).add("(");
                             for (i, a) in args.iter().skip(1).enumerate() {
@@ -3377,13 +3427,18 @@ fn generate_insn<W: CodeWriter>(
                     let var_name = ctx.expr_gen.get_var_name(d);
                     code.start_line();
 
-                    // Emit type declaration if needed
-                    if !ctx.is_declared(reg, version) && !ctx.is_parameter(reg, version) {
+                    // Emit type declaration if needed (also check name to avoid same-name redeclaration)
+                    let needs_decl = !ctx.is_declared(reg, version)
+                        && !ctx.is_parameter(reg, version)
+                        && !ctx.is_name_declared(&var_name);
+
+                    if needs_decl {
                         if ctx.is_final(reg, version) {
                             code.add("final ");
                         }
                         code.add(&type_name).add("[] ");
                         ctx.mark_declared(reg, version);
+                        ctx.mark_name_declared(&var_name);
                     }
 
                     code.add(&var_name).add(" = new ").add(&type_name).add("[] { ");

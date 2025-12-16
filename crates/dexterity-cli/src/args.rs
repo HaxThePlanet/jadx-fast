@@ -59,6 +59,10 @@ pub struct Args {
     #[arg(long = "output-format", value_enum, default_value = "java")]
     pub output_format: OutputFormat,
 
+    /// Use dx/d8 to convert Java bytecode
+    #[arg(long = "use-dx")]
+    pub use_dx: bool,
+
     // === Decompilation mode ===
     /// Decompilation mode
     #[arg(short = 'm', long = "decompilation-mode", value_enum, default_value = "auto")]
@@ -67,6 +71,10 @@ pub struct Args {
     /// Show inconsistent code (incorrectly decompiled)
     #[arg(long = "show-bad-code")]
     pub show_bad_code: bool,
+
+    /// Type update limit count per instruction (default: 10)
+    #[arg(long = "type-update-limit", default_value = "10")]
+    pub type_update_limit: u32,
 
     /// Fallback mode (deprecated, use --decompilation-mode=fallback)
     #[arg(short = 'f', long = "fallback", hide = true)]
@@ -174,6 +182,10 @@ pub struct Args {
     #[arg(long = "use-source-name-as-class-name-alias", value_enum)]
     pub use_source_name_as_alias: Option<UseSourceNameAlias>,
 
+    /// Allow using source name if it appears less than a limit number (default: 10)
+    #[arg(long = "source-name-repeat-limit", default_value = "10")]
+    pub source_name_repeat_limit: u32,
+
     // === Rename options ===
     /// Rename flags (comma-separated: case, valid, printable, none, all)
     #[arg(long = "rename-flags", default_value = "all")]
@@ -210,6 +222,10 @@ pub struct Args {
     /// Plugin options in format key=value (JADX -P compatibility stub)
     #[arg(short = 'P', action = clap::ArgAction::Append, value_parser = parse_plugin_option)]
     pub plugin_options: Vec<(String, String)>,
+
+    /// Comma separated list of plugin IDs to disable
+    #[arg(long = "disable-plugins")]
+    pub disable_plugins: Option<String>,
 
     // === Export options ===
     /// Save as gradle project
@@ -510,9 +526,15 @@ pub enum RenameFlag {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
 pub enum KotlinVarNamesMode {
+    /// Don't apply Kotlin method names
+    Disable,
     /// Apply Kotlin method names for variables
     Apply,
-    /// Don't apply Kotlin method names
+    /// Apply and hide Kotlin debug info
+    #[value(name = "apply-and-hide")]
+    ApplyAndHide,
+    /// Alias for disable (JADX compatibility)
+    #[value(skip)]
     Ignore,
 }
 

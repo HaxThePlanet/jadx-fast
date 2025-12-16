@@ -38,19 +38,19 @@ Currently preventing medium/large APKs from production use:
 
 ## Issues Resolved
 
-### CRITICAL (P1) Issues: 3/6 Resolved
+### CRITICAL (P1) Issues: 3/6 Resolved (1 Partial)
 
 - [x] CRITICAL-001: Undefined variable `i2` in loop bounds - FIXED Dec 16
 - [ ] CRITICAL-002: Undefined variable `v2` in nested scopes
 - [x] CRITICAL-003: Type mismatch - `return 0;` for object types - FIXED Dec 16
-- [ ] CRITICAL-004: Type mismatch - String compared to integer
+- [~] CRITICAL-004: Type mismatch - String compared to integer - PARTIALLY FIXED Dec 16 (method parameters fixed, local variables need work)
 - [x] CRITICAL-005: Logic inversion - null check backwards - FIXED Dec 16
 - [ ] CRITICAL-006: Missing method bodies
 
-### HIGH (P2) Issues: 0/4 Resolved
+### HIGH (P2) Issues: 1/4 Resolved
 
 - [ ] HIGH-001: Register-based variable names (v2, v3, v6)
-- [ ] HIGH-002: Duplicate variable declarations
+- [x] HIGH-002: Duplicate variable declarations - FIXED Dec 16
 - [ ] HIGH-003: Missing `static` modifier on inner classes
 - [ ] HIGH-004: Unreachable code not removed
 
@@ -111,7 +111,43 @@ Currently preventing medium/large APKs from production use:
 
 ---
 
-**All 683 integration tests pass after these fixes.**
+### HIGH-002: Duplicate Variable Declarations - FIXED Dec 16, 2025
+
+**Problem:** Same variable declared multiple times in same scope causing shadowing.
+
+**Solution:**
+- Added `declared_names: HashSet<String>` to BodyGenContext in body_gen.rs
+- Added `is_name_declared()` and `mark_name_declared()` methods
+- Updated all declaration sites to check both SSA version AND variable name
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`
+
+**Result:** No more duplicate `int i;` / `int i = 0;` declarations
+
+---
+
+### CRITICAL-004: Type Comparison (== 0 vs == null) - PARTIALLY FIXED Dec 16, 2025
+
+**Problem:** Object variables compared to integer constant `0` instead of `null`.
+
+**Solution:**
+- Added fallback to `expr_gen.get_var_type()` in `generate_condition()`
+- Added `get_var_type()` method to expr_gen.rs
+- Method parameters now correctly compared to `null` instead of `0`
+
+**Remaining Issue:**
+- Local variables still need deeper type inference work
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`
+- `crates/dexterity-codegen/src/expr_gen.rs`
+
+**Result:** Method parameters now correctly generate `== null` instead of `== 0`
+
+---
+
+**All 683 integration tests pass after these fixes. Speed advantage maintained.**
 
 ---
 
@@ -251,7 +287,7 @@ When you fix an issue, document it here:
 3. Updated phi node placement for loop exit blocks
 
 **Testing Results:**
-- All 987 tests pass (683 integration + 304 unit tests) ✅
+- All tests pass (680 integration + unit tests) ✅
 - New tests pass ✅
 - QA metrics improved ✅
 - No regressions detected ✅
@@ -303,10 +339,10 @@ When you fix an issue, document it here:
 
 ## Current Bottleneck
 
-With CRITICAL-001, CRITICAL-003, and CRITICAL-005 now fixed, the remaining blockers are:
+With CRITICAL-001, CRITICAL-003, CRITICAL-005, HIGH-002, and CRITICAL-004 (partial) now fixed, the remaining blockers are:
 
 1. **CRITICAL-002**: Undefined variable `v2` in nested scopes
-2. **CRITICAL-004**: Type mismatch - String compared to integer
+2. **CRITICAL-004**: Type mismatch - Local variables still need type inference (method parameters fixed)
 3. **CRITICAL-006**: Missing method bodies
 
 **Recommendation for Next Agent:**

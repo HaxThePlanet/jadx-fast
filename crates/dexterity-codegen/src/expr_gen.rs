@@ -427,6 +427,11 @@ impl ExprGen {
         self.var_types.insert((reg, version), ty);
     }
 
+    /// Get variable type (if known)
+    pub fn get_var_type(&self, reg: u16, version: u32) -> Option<ArgType> {
+        self.var_types.get(&(reg, version)).cloned()
+    }
+
     /// Set string constant
     pub fn set_string(&mut self, idx: u32, value: String) {
         self.strings.insert(idx, value);

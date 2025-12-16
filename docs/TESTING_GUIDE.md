@@ -80,7 +80,7 @@ cargo test
 test result: ok. X passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
 
-All 932 tests should pass.
+All tests should pass (680 integration tests + additional unit tests).
 
 ---
 
@@ -433,7 +433,7 @@ For future CI/CD setup:
 
 ### Current Test Status
 
-**Expected passing:** 932 tests
+**Expected passing:** 680 integration tests + unit tests across all crates
 
 **Test files:**
 - `crates/dexterity-cli/tests/integration/arith_tests.rs` - Arithmetic
@@ -482,7 +482,7 @@ Your fix is successful when:
 ✅ **Test Coverage**
 - [ ] New test written and passing
 - [ ] Related tests still passing
-- [ ] Full test suite still passes (932 tests)
+- [ ] Full test suite still passes (680+ integration tests)
 
 ✅ **Quality Metrics**
 - [ ] Overall quality improved
