@@ -2,12 +2,17 @@
 
 **Goal:** Match Java JADX decompilation output quality
 
-**Status:** PRODUCTION READY (Dec 16, 2025)
-- Small APK (9.8 KB): 90.0% - Perfect app code (100% Code Quality, 100% Defect Score)
-- Medium APK (10.3 MB): 90.6% - Production quality reached (98.3% Code Quality, 98.2% Defect Score)
-- Large APK (54.8 MB): 80.6% - Good quality (98.2% Code Quality, 98.4% Defect Score)
+**Status:** DEVELOPMENT (Dec 16, 2025)
+- Small APK (9.8 KB): 90.0% - Good (100% Code Quality, 100% Defect Score)
+- Medium APK (10.3 MB): 77.1% - Functional (66.6% Code Quality, 90.3% Defect Score)
+- Large APK (54.8 MB): 70.0% - Functional (74.5% Code Quality, 91.5% Defect Score)
 
-**Quality Target: 90%+ ACHIEVED** on medium APK. Large APK at 80.6% (architectural choice: framework classes filtered intentionally for performance/clarity).
+**Quality Target: 90%+ IN PROGRESS** - Currently at 77.1% on medium APK. Large APK at 70.0% (framework classes filtered by design).
+
+**Key Quality Gaps Remaining:**
+- Variable naming: Dexterity 0.67 vs JADX 0.93 (33% gap)
+- Type inference: Some undefined variables and type mismatches in complex code
+- Control flow: Broken logic in some methods with complex conditionals
 
 **Recent Fixes (Dec 16, 2025 - Session 2, 3 & 4):**
 1. ✅ **CRITICAL-001 FIXED**: Undefined loop variables (e.g., `i2` in while conditions)
@@ -148,7 +153,7 @@
 12. **MEDIUM-002: Missing Exception Imports** - FIXED
     - Updated ImportCollector to collect exception types from try-catch blocks
 
-**Status:** Medium APK at **90.6% quality - PRODUCTION READY**. Large APK at 80.6%. All 12 tracked issues resolved. Note: Framework classes are intentionally filtered by design for performance and clarity.
+**Status:** Medium APK at **77.1% quality - DEVELOPMENT**. Large APK at 70.0%. Many issues remain in complex code. Note: Framework classes are intentionally filtered by design for performance and clarity.
 
 ### Remaining Gaps
 
@@ -157,19 +162,19 @@
 | Warning comments | Not implemented | `/* JADX WARNING: ... */` |
 | Rename comments | Not implemented | `/* renamed from: ... */` |
 | .smali input | Not implemented | Not planned |
-| **SSA Name Recovery** | ⚠️ PARTIAL | Some variables retain register names (v2, v3) in complex methods |
-| **Type System** | ⚠️ PARTIAL | CRITICAL-003/004 fixed; some local var type issues remain |
-| **Control Flow** | ✅ FIXED | CRITICAL-001/005 fixed; undefined vars & inverted conditions resolved |
+| **SSA Name Recovery** | ⚠️ PARTIAL | 33% of variables retain register names (var0, var1) in complex methods |
+| **Type System** | ⚠️ PARTIAL | Undefined variables, type mismatches still present in real APKs |
+| **Control Flow** | ⚠️ PARTIAL | Some methods have broken logic (boolean comparisons on objects) |
 
 ## Performance Comparison
 
 | APK Size | Java JADX | Dexterity | Result | Quality |
 |----------|-----------|-----------|--------|---------|
-| Small (10KB) | 1.85s / 275MB | 0.01s / 6MB | **185x faster** | 90.0% Perfect |
-| Medium (11MB) | 14.97s / 5.5GB | 3.59s / 304MB | **4x faster** | 90.6% Production |
-| Large (55MB) | 11.93s / 3.4GB | 0.90s / 85MB | **13x faster** | 80.6% Good |
+| Small (10KB) | 1.85s / 275MB | 0.01s / 6MB | **185x faster** | 90.0% Good |
+| Medium (11MB) | 14.97s / 5.5GB | 3.59s / 304MB | **4x faster** | 77.1% Functional |
+| Large (55MB) | 11.93s / 3.4GB | 0.90s / 85MB | **13x faster** | 70.0% Functional |
 
-**Note:** Production quality (90%+) achieved on medium APKs. Code Quality and Defect Score are 98%+ on all sizes. Large APK at 80.6% overall (framework classes intentionally filtered by design).
+**Note:** Quality target (90%+) NOT YET achieved. Code Quality (variable naming) is the main blocker at 66.6%. All 685 integration tests pass but complex real-world code has gaps. Large APK at 70.0% (framework classes filtered by design).
 
 ## Code Quality Examples
 
@@ -231,19 +236,24 @@ public void processData(long l, Throwable th, Integer num, Class cls) {
 - **Debug info**: Variable names from DEX debug bytecode (when available)
 - **Fallback**: Type-based (`i`, `str`, `obj`) or register-based (`r0`, `r1`) when no other info available
 
-**QA Metrics (Dec 16 2025 - Latest Run):**
+**QA Metrics (Dec 16 2025 - ACTUAL from QA Tool):**
 
 | APK | Overall | Completeness | Code Quality | Defect Score |
 |-----|---------|--------------|--------------|--------------|
 | Small | 90.0% | 50.0% | 100.0% | 100.0% |
-| Medium | 90.6% | 59.9% | 98.3% | 98.2% |
-| Large | 80.6% | 9.8% | 98.2% | 98.4% |
+| Medium | **77.1%** | 59.9% | **66.6%** | 90.3% |
+| Large | **70.0%** | 9.8% | **74.5%** | 91.5% |
 
 **Notable:**
-- Dexterity has HIGHER variable quality than JADX (0.98 vs 0.93 on medium)
-- Dexterity has FEWER defects than JADX (1,260 vs 6,655 on medium)
+- Variable quality: Dexterity 0.67 vs JADX 0.93 on medium (**gap: -28%**)
+- Dexterity has FEWER defects than JADX (7,085 vs 6,655 on medium)
 - Completeness: Framework classes are intentionally filtered by design (see Design Decisions)
 - Package Quality: 100% (common names preserved with 60+ package whitelist)
+
+**Gap Analysis:**
+- Quality formula: Overall = Completeness * 0.2 + Code Quality * 0.3 + Defect * 0.5
+- Main blocker: Code Quality (variable naming) - 33% of variables still cryptic (var0, var1, etc.)
+- Root cause: Type inference gaps leading to undefined variables and fallback naming
 
 **Package Name Preservation (P2 - Dec 16 2025):**
 - Common short package names (io, org, com, net, etc.) are no longer incorrectly flagged as obfuscated
