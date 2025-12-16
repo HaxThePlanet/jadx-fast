@@ -16,7 +16,7 @@ use std::collections::{BTreeMap, BTreeSet, HashMap};
 use dexterity_ir::{ArgType, ClassData, FieldData, FieldValue};
 
 use crate::access_flags::{self, AccessContext};
-use crate::dex_info::DexInfoProvider;
+use crate::dex_info::{DexInfoProvider, replace_inner_class_separator};
 use crate::method_gen::{generate_annotation, should_emit_annotation};
 use crate::type_gen::{get_package, literal_to_string, type_to_string};
 use crate::writer::{CodeWriter, SimpleCodeWriter};
@@ -201,13 +201,30 @@ impl ImportCollector {
     }
 
     /// Add an internal class name (e.g., "java/lang/String" or "Ljava/lang/String;")
+    /// Also handles array type descriptors like "[Ljava/lang/String;" by extracting the element type
     fn add_internal_name(&mut self, name: &str) {
-        // Strip L prefix and ; suffix if present
-        let stripped = name
+        // Strip array prefixes (e.g., "[Ljava/lang/String;" -> "java/lang/String")
+        // This fixes the array import syntax bug where "[Lio.grpc.q;" was being imported
+        // instead of just "io.grpc.q"
+        let mut stripped = name;
+
+        // Strip all leading '[' for multi-dimensional arrays
+        while stripped.starts_with('[') {
+            stripped = &stripped[1..];
+        }
+
+        // Now strip L prefix and ; suffix if present
+        stripped = stripped
             .strip_prefix('L')
-            .unwrap_or(name)
+            .unwrap_or(stripped);
+        stripped = stripped
             .strip_suffix(';')
-            .unwrap_or(name);
+            .unwrap_or(stripped);
+
+        // Skip primitive array element types (B, C, D, F, I, J, S, Z)
+        if stripped.len() == 1 && "BCDFIJSZ".contains(stripped) {
+            return;
+        }
 
         // Skip java.lang.* (implicit imports)
         if stripped.starts_with("java/lang/") && !stripped[10..].contains('/') {
@@ -367,7 +384,7 @@ impl ImportCollector {
     pub fn get_imports(&self) -> Vec<String> {
         self.imports
             .iter()
-            .map(|name| name.replace('/', ".").replace('$', "."))
+            .map(|name| replace_inner_class_separator(&name.replace('/', ".")))
             .collect()
     }
 
@@ -545,8 +562,8 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
             if !imp.is_empty() {
                 for name in imp {
                     // Replace / with . for package separators
-                    // Replace $ with . for inner classes (Build$VERSION -> Build.VERSION)
-                    let import_name = name.replace('/', ".").replace('$', ".");
+                    // Replace $ with . for inner classes (Build$VERSION -> Build.VERSION), but preserve $$
+                    let import_name = replace_inner_class_separator(&name.replace('/', "."));
                     code.add("import ").add(&import_name).add(";").newline();
                 }
                 code.newline();
@@ -1203,6 +1220,37 @@ mod tests {
         assert!(imports.contains(&"android.os.Bundle".to_string()));
         assert!(imports.contains(&"android.view.View".to_string()));
         assert!(imports.contains(&"java.io.File".to_string()));
+    }
+
+    #[test]
+    fn test_import_collector_array_types() {
+        // Test that array type descriptors are properly stripped
+        // This was a bug where "[Lio/grpc/q;" was being imported as "[Lio.grpc.q"
+        // instead of "io.grpc.q"
+        let mut collector = ImportCollector::new("Lcom/example/Foo;");
+
+        // Single-dimensional object array
+        collector.add_internal_name("[Lio/grpc/q;");
+        // Multi-dimensional object array
+        collector.add_internal_name("[[Ljava/util/List;");
+        // Without L; wrapper
+        collector.add_internal_name("[io/grpc/Status");
+        // Primitive arrays should be ignored
+        collector.add_internal_name("[I"); // int[]
+        collector.add_internal_name("[[B"); // byte[][]
+
+        let imports = collector.get_imports();
+
+        // Should NOT contain array syntax in imports
+        assert!(!imports.iter().any(|s| s.contains('[')), "Import should not contain '[': {:?}", imports);
+
+        // Should contain the element types (without array brackets)
+        assert!(imports.contains(&"io.grpc.q".to_string()));
+        assert!(imports.contains(&"java.util.List".to_string()));
+        assert!(imports.contains(&"io.grpc.Status".to_string()));
+
+        // Primitive types should not be imported
+        assert!(!imports.iter().any(|s| s == "I" || s == "B"), "Primitive types should not be imported");
     }
 
     #[test]

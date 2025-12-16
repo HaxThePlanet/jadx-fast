@@ -248,18 +248,22 @@ impl<'a> VarNaming<'a> {
                 // OBJ_ALIAS mappings from JADX for 1:1 compatibility
                 // IMPORTANT: More specific patterns must come before general ones
                 // (e.g., StringBuilder before String, StringBuffer before Buffer)
+                // Extended with additional common Java types
 
+                // String types (most common, check first)
                 if name.contains("StringBuilder") || name.contains("StringBuffer") {
                     "sb"
                 } else if name.contains("String") {
                     "str"
-                } else if name.contains("Class") {
-                    "cls"
-                } else if name.contains("Throwable") {
+                }
+                // Throwable types
+                else if name.contains("Throwable") || name.contains("Error") {
                     "th"
                 } else if name.contains("Exception") {
-                    "th"  // JADX uses "th" for Throwable and Exception
-                } else if name.contains("Integer") {
+                    "exc"  // More specific than "th"
+                }
+                // Numeric wrapper types
+                else if name.contains("Integer") {
                     "num"
                 } else if name.contains("Long") && !name.contains("LongSparseArray") {
                     "num"
@@ -267,29 +271,129 @@ impl<'a> VarNaming<'a> {
                     "num"
                 } else if name.contains("Float") && !name.contains("FloatArray") {
                     "num"
+                } else if name.contains("Number") {
+                    "num"
+                } else if name.contains("BigDecimal") || name.contains("BigInteger") {
+                    "num"
                 } else if name.contains("Boolean") && !name.contains("BooleanArray") {
                     "bool"
-                } else if name.contains("ArrayList") {
+                }
+                // Collection types
+                else if name.contains("ArrayList") || name.contains("LinkedList") {
                     "list"
                 } else if name.contains("List") {
                     "list"
-                } else if name.contains("HashMap") {
+                } else if name.contains("HashMap") || name.contains("LinkedHashMap") || name.contains("TreeMap") {
                     "map"
                 } else if name.contains("Map") {
                     "map"
-                } else if name.contains("HashSet") {
+                } else if name.contains("HashSet") || name.contains("LinkedHashSet") || name.contains("TreeSet") {
                     "set"
                 } else if name.contains("Set") {
                     "set"
-                } else if name.contains("Iterator") {
+                } else if name.contains("Queue") || name.contains("Deque") {
+                    "queue"
+                } else if name.contains("Stack") {
+                    "stack"
+                } else if name.contains("Collection") {
+                    "collection"
+                }
+                // Iterator/Enumeration
+                else if name.contains("Iterator") {
                     "it"
+                } else if name.contains("Enumeration") {
+                    "enumeration"
+                }
+                // Stream types
+                else if name.contains("InputStream") {
+                    "inputStream"
+                } else if name.contains("OutputStream") {
+                    "outputStream"
                 } else if name.contains("Stream") {
                     "stream"
-                } else if name.contains("Builder") {
+                }
+                // Reader/Writer
+                else if name.contains("Reader") {
+                    "reader"
+                } else if name.contains("Writer") {
+                    "writer"
+                }
+                // Reflection types
+                else if name.contains("Class") {
+                    "cls"
+                } else if name.contains("Method") {
+                    "method"
+                } else if name.contains("Field") {
+                    "field"
+                } else if name.contains("Constructor") {
+                    "constructor"
+                }
+                // Pattern/Matcher
+                else if name.contains("Pattern") {
+                    "pattern"
+                } else if name.contains("Matcher") {
+                    "matcher"
+                }
+                // Date/Time
+                else if name.contains("Date") {
+                    "date"
+                } else if name.contains("Calendar") {
+                    "calendar"
+                } else if name.contains("Time") {
+                    "time"
+                }
+                // Builder/Factory patterns
+                else if name.contains("Builder") {
                     "builder"
+                } else if name.contains("Factory") {
+                    "factory"
+                }
+                // Buffer types
+                else if name.contains("ByteBuffer") {
+                    "byteBuffer"
                 } else if name.contains("Buffer") {
                     "buf"
-                } else if name.contains("Object") && name.ends_with("/Object") {
+                }
+                // Context types (Android)
+                else if name.contains("Context") {
+                    "context"
+                } else if name.contains("Activity") {
+                    "activity"
+                } else if name.contains("Service") {
+                    "service"
+                } else if name.contains("Intent") {
+                    "intent"
+                } else if name.contains("Bundle") {
+                    "bundle"
+                } else if name.contains("View") {
+                    "view"
+                } else if name.contains("Handler") {
+                    "handler"
+                } else if name.contains("Runnable") {
+                    "runnable"
+                } else if name.contains("Callable") {
+                    "callable"
+                } else if name.contains("Future") {
+                    "future"
+                } else if name.contains("Promise") {
+                    "promise"
+                } else if name.contains("Task") {
+                    "task"
+                }
+                // Network types
+                else if name.contains("Socket") {
+                    "socket"
+                } else if name.contains("Connection") {
+                    "connection"
+                } else if name.contains("Request") {
+                    "request"
+                } else if name.contains("Response") {
+                    "response"
+                } else if name.contains("Client") {
+                    "client"
+                }
+                // Generic Object
+                else if name.contains("Object") && name.ends_with("/Object") {
                     "obj"
                 } else {
                     // Extract simple class name and use lowercase first char
@@ -298,18 +402,22 @@ impl<'a> VarNaming<'a> {
             }
             ArgType::Array(elem) => {
                 match elem.as_ref() {
+                    ArgType::Boolean => "zArr",
                     ArgType::Byte => "bArr",
                     ArgType::Char => "cArr",
+                    ArgType::Short => "sArr",
                     ArgType::Int => "iArr",
                     ArgType::Long => "lArr",  // Fixed: was "jArr", should be "lArr"
                     ArgType::Float => "fArr",
                     ArgType::Double => "dArr",
                     ArgType::Object(name) if name.contains("String") => "strArr",
+                    ArgType::Object(_) => "objArr",
                     _ => "arr",
                 }
             }
             ArgType::Void => "v",
-            _ => "var",
+            ArgType::Unknown => "obj",  // Use "obj" for unknown types, not "var"
+            _ => "obj",
         }
     }
 
@@ -342,6 +450,12 @@ impl<'a> VarNaming<'a> {
             return "obj";
         }
 
+        // Check if name is all digits (anonymous inner class like $1, $2)
+        // This catches cases like "MainActivity$1" → "1" which would produce invalid "1Var"
+        if simple_name.chars().all(|c| c.is_ascii_digit()) {
+            return "anon";
+        }
+
         // Check if all uppercase
         let is_all_uppercase = simple_name.chars().all(|c| !c.is_ascii_lowercase());
 
@@ -372,6 +486,11 @@ impl<'a> VarNaming<'a> {
                 "obj"
             }
         };
+
+        // Final validation - ensure identifier is valid (catches edge cases)
+        if !is_valid_identifier(base) {
+            return "obj";
+        }
 
         base
     }
@@ -600,8 +719,24 @@ impl<'a> VarNaming<'a> {
             return None;
         }
 
-        // Try common prefixes in order (like JADX's INVOKE_PREFIXES)
-        let prefixes = ["get", "set", "put", "is", "has", "can", "to", "create", "new", "make", "build"];
+        // Comprehensive list of method prefixes (JADX-compatible + extended)
+        // Higher priority prefixes first (get/set are most common and reliable)
+        let prefixes = [
+            // Primary getters/setters (JADX's INVOKE_PREFIXES)
+            "get", "set", "put",
+            // Boolean getters
+            "is", "has", "can", "should", "will", "was", "are", "does",
+            // Transformation methods
+            "to", "as", "into", "from",
+            // Factory methods
+            "create", "new", "make", "build", "of", "parse",
+            // Data access methods
+            "read", "write", "load", "save", "fetch", "find", "lookup",
+            // Processing methods
+            "compute", "calculate", "process", "generate", "extract",
+            // Collection methods
+            "add", "remove", "contains", "obtain", "acquire",
+        ];
 
         for prefix in prefixes {
             if method_name.starts_with(prefix) && method_name.len() > prefix.len() {
@@ -618,6 +753,23 @@ impl<'a> VarNaming<'a> {
                             return Some(result);
                         }
                     }
+                }
+            }
+        }
+
+        // For methods without matching prefix but with clear names, use method name directly
+        // This catches methods like "execute()", "run()", "start()" etc.
+        // Only use if the name is long enough and descriptive
+        if method_name.len() >= 4 && !method_name.starts_with('$') && !method_name.starts_with("access$") {
+            // Check it's a valid identifier start
+            if method_name.chars().next().map(|c| c.is_ascii_lowercase()).unwrap_or(false) {
+                // Don't use method names that start with known prefixes but didn't match above
+                // (these are likely single-char results like getX -> x which is too short)
+                let has_getter_prefix = method_name.starts_with("get") || method_name.starts_with("set")
+                    || method_name.starts_with("is") || method_name.starts_with("has");
+                if !has_getter_prefix {
+                    // Use the method name as-is if it's descriptive enough
+                    return Some(method_name.to_string());
                 }
             }
         }
@@ -826,8 +978,10 @@ pub fn assign_var_names_with_lookups<'a>(
             // Fall back to type-based naming (like JADX's makeNameForType)
             naming.name_for_type(arg_type)
         } else {
-            // Last resort: use register-based naming (like JADX's NameGen.getFallbackName)
-            naming.make_unique(&format!("r{}", reg))
+            // Last resort: use descriptive fallback name (like JADX's NameGen.getFallbackName)
+            // Using "obj" for object-likely variables is more readable than "r{reg}"
+            // This matches JADX's approach for unknown types
+            naming.make_unique("obj")
         };
 
         // If this variable belongs to a CodeVar group, save the name for other members
@@ -961,7 +1115,7 @@ mod tests {
         );
         assert_eq!(
             VarNaming::base_name_for_type(&ArgType::Object("java/lang/Exception".to_string())),
-            "th"
+            "exc"
         );
         assert_eq!(
             VarNaming::base_name_for_type(&ArgType::Object("java/lang/Integer".to_string())),
@@ -995,7 +1149,7 @@ mod tests {
 
         // When multiple variables have the same base type, they get numeric suffixes
         let th1 = naming.name_for_type(&ArgType::Object("java/lang/Throwable".to_string()));
-        let th2 = naming.name_for_type(&ArgType::Object("java/lang/Exception".to_string()));
+        let th2 = naming.name_for_type(&ArgType::Object("java/lang/Error".to_string()));
         let num1 = naming.name_for_type(&ArgType::Object("java/lang/Integer".to_string()));
         let num2 = naming.name_for_type(&ArgType::Object("java/lang/Long".to_string()));
 
@@ -1003,6 +1157,27 @@ mod tests {
         assert_eq!(th2, "th2"); // Second throwable-type gets suffix
         assert_eq!(num1, "num");
         assert_eq!(num2, "num2"); // Second numeric-type gets suffix
+    }
+
+    #[test]
+    fn test_android_type_aliases() {
+        // Test Android-specific type mappings
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("android/content/Context".to_string())),
+            "context"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("android/content/Intent".to_string())),
+            "intent"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("android/os/Bundle".to_string())),
+            "bundle"
+        );
+        assert_eq!(
+            VarNaming::base_name_for_type(&ArgType::Object("android/os/Handler".to_string())),
+            "handler"
+        );
     }
 
     #[test]
@@ -1082,9 +1257,21 @@ mod tests {
         assert_eq!(VarNaming::extract_name_from_method("<init>"), None);
         assert_eq!(VarNaming::extract_name_from_method("<clinit>"), None);
 
-        // Test methods without prefixes (should not match)
-        assert_eq!(VarNaming::extract_name_from_method("calculate"), None);
-        assert_eq!(VarNaming::extract_name_from_method("process"), None);
+        // Test new prefixes added: find, load, parse, read, compute
+        assert_eq!(VarNaming::extract_name_from_method("findUser"), Some("user".to_string()));
+        assert_eq!(VarNaming::extract_name_from_method("loadData"), Some("data".to_string()));
+        assert_eq!(VarNaming::extract_name_from_method("parseJson"), Some("json".to_string()));
+        assert_eq!(VarNaming::extract_name_from_method("readValue"), Some("value".to_string()));
+        assert_eq!(VarNaming::extract_name_from_method("computeHash"), Some("hash".to_string()));
+
+        // Test descriptive method names (4+ chars, lowercase start) - now captured
+        assert_eq!(VarNaming::extract_name_from_method("execute"), Some("execute".to_string()));
+        assert_eq!(VarNaming::extract_name_from_method("start"), Some("start".to_string()));
+        assert_eq!(VarNaming::extract_name_from_method("stop"), Some("stop".to_string()));
+
+        // But short methods should not match
+        assert_eq!(VarNaming::extract_name_from_method("run"), None);
+        assert_eq!(VarNaming::extract_name_from_method("foo"), None);
 
         // Test short names
         assert_eq!(VarNaming::extract_name_from_method("getId"), Some("id".to_string())); // "id" is 2 chars, valid
@@ -1153,5 +1340,37 @@ mod tests {
         // Verify register names are penalized
         assert_eq!(score_name("r0"), 5);
         assert_eq!(score_name("v123"), 5);
+    }
+
+    #[test]
+    fn test_anonymous_class_names() {
+        // Test that anonymous inner classes (numbers like $1, $2) generate "anon" not "1Var"
+        // Use class names that don't match any predefined patterns
+        let mut naming = VarNaming::new(10);
+
+        // Single digit anonymous inner class - use a name that won't match common patterns
+        let name1 = naming.name_for_type(&ArgType::Object("com/example/Foobar$1".to_string()));
+        assert_eq!(name1, "anon", "Failed: {} doesn't match anon", name1);
+        assert!(is_valid_identifier(&name1));
+
+        // Verify multi-digit
+        let name2 = naming.name_for_type(&ArgType::Object("com/example/Bazbar$123".to_string()));
+        assert_eq!(name2, "anon2");
+        assert!(is_valid_identifier(&name2));
+
+        // Verify they don't start with digits
+        assert!(!name1.chars().next().unwrap().is_ascii_digit());
+        assert!(!name2.chars().next().unwrap().is_ascii_digit());
+    }
+
+    #[test]
+    fn test_normal_numbered_classes_still_work() {
+        // Ensure classes like "Foobar1" (not all-digits) still work normally
+        let mut naming = VarNaming::new(10);
+
+        // Foobar1 should NOT become "anon" since it has letters mixed with digits
+        let name = naming.name_for_type(&ArgType::Object("com/example/Foobar1".to_string()));
+        assert_eq!(name, "foobar1");
+        assert!(is_valid_identifier(&name));
     }
 }

@@ -1583,6 +1583,78 @@ fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenCon
     }
 }
 
+/// Check if a variable name suggests it's an object type (used for null comparison heuristic)
+/// This helps detect null comparisons when type inference fails
+fn name_suggests_object_type(name: &str) -> bool {
+    // Convert to lowercase for case-insensitive matching
+    let lower = name.to_lowercase();
+
+    // Common object type name patterns (sorted by likely frequency)
+    let object_patterns = [
+        // String types (most common)
+        "string", "str", "text", "name", "path", "url", "uri", "s",
+        // Collection types
+        "list", "set", "map", "array", "collection", "queue", "stack",
+        "iterator", "iterable", "arraylist", "hashmap", "hashset",
+        "treemap", "treeset", "linkedlist", "vector",
+        // Common object patterns
+        "obj", "object", "instance", "ref", "result", "data", "value",
+        "item", "element", "entry", "node", "key", "record",
+        // Stream/IO types
+        "stream", "reader", "writer", "input", "output", "buffer",
+        "file", "channel", "socket", "connection",
+        // Android/UI types
+        "view", "context", "intent", "bundle", "cursor", "adapter",
+        "activity", "fragment", "dialog", "window", "layout",
+        "bitmap", "drawable", "paint", "canvas", "rect",
+        // Exception types
+        "exception", "error", "throwable", "cause",
+        // Generic suffixes that suggest objects
+        "handler", "listener", "callback", "factory", "builder",
+        "manager", "service", "provider", "controller", "helper",
+        "util", "utils", "config", "options", "params", "args",
+        // Java/Kotlin types
+        "charsequence", "runnable", "callable", "thread", "class",
+        "method", "field", "constructor", "type", "annotation",
+        // Network/JSON types
+        "request", "response", "client", "server", "message",
+        "json", "xml", "document", "parser", "encoder", "decoder",
+        // Firebase/Google types
+        "task", "snapshot", "reference", "database", "storage",
+        // Security types
+        "key", "token", "credential", "certificate", "signature",
+    ];
+
+    // Check for exact match or as suffix (e.g., "string1", "str2")
+    for pattern in object_patterns {
+        if lower == pattern {
+            return true;
+        }
+        // Check if it's a pattern with a numeric suffix (e.g., "string1", "str2")
+        if lower.starts_with(pattern) {
+            let suffix = &lower[pattern.len()..];
+            if suffix.is_empty() || suffix.chars().all(|c| c.is_ascii_digit()) {
+                return true;
+            }
+        }
+    }
+
+    // Check for camelCase patterns (e.g., myString, someList)
+    if lower.ends_with("string") || lower.ends_with("list") || lower.ends_with("map")
+        || lower.ends_with("set") || lower.ends_with("array") || lower.ends_with("object")
+        || lower.ends_with("collection") || lower.ends_with("stream") || lower.ends_with("context")
+        || lower.ends_with("view") || lower.ends_with("activity") || lower.ends_with("fragment")
+        || lower.ends_with("handler") || lower.ends_with("listener") || lower.ends_with("callback")
+        || lower.ends_with("manager") || lower.ends_with("service") || lower.ends_with("provider")
+        || lower.ends_with("exception") || lower.ends_with("error") || lower.ends_with("request")
+        || lower.ends_with("response") || lower.ends_with("result") || lower.ends_with("data")
+    {
+        return true;
+    }
+
+    false
+}
+
 /// Generate condition expression string from a Condition
 /// Uses gen_arg_with_inline_peek to support inlined expressions (e.g., loop bounds)
 fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
@@ -1600,19 +1672,44 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                         let left_str = ctx.gen_arg_with_inline_peek(left);
 
                         // Get type of left operand for type-aware condition generation
-                        // First check type_info (from type inference), then fall back to expr_gen
-                        // (which has method parameter types set from method signature)
+                        // Strategy: Check multiple sources in priority order:
+                        // 1. type_info (from type inference) - if it returns a concrete object/array type, use it
+                        // 2. expr_gen (which has method parameter types set from method signature)
+                        // 3. Fall back to None if neither has useful information
+                        //
+                        // Note: type_info may return Unknown or Int even for object types due to inference limitations,
+                        // so we check expr_gen as a secondary source for parameter types.
                         let left_type = if let InsnArg::Register(reg) = left {
-                            ctx.type_info.as_ref()
+                            let type_info_type = ctx.type_info.as_ref()
                                 .and_then(|ti| ti.types.get(&(reg.reg_num, reg.ssa_version)))
-                                .cloned()
-                                .or_else(|| ctx.expr_gen.get_var_type(reg.reg_num, reg.ssa_version))
+                                .cloned();
+                            let expr_gen_type = ctx.expr_gen.get_var_type(reg.reg_num, reg.ssa_version);
+
+                            // Prefer type_info if it's a concrete object/array type
+                            // Otherwise, check expr_gen (for parameter types)
+                            match &type_info_type {
+                                Some(ArgType::Object(_)) | Some(ArgType::Array(_)) => type_info_type,
+                                Some(ArgType::Boolean) => type_info_type,
+                                // For Unknown, Int, or other types, check if expr_gen has better info
+                                _ => match &expr_gen_type {
+                                    Some(ArgType::Object(_)) | Some(ArgType::Array(_)) => expr_gen_type,
+                                    Some(ArgType::Boolean) => expr_gen_type,
+                                    // Fall back to type_info if neither has object/boolean
+                                    _ => type_info_type.or(expr_gen_type),
+                                }
+                            }
                         } else {
                             None
                         };
 
                         // Check type to decide comparison format
-                        let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)));
+                        // Use explicit type if available, otherwise fall back to name-based heuristic
+                        // Note: ArgType::Unknown means type inference couldn't determine the type,
+                        // so we should also use the name heuristic in that case
+                        let type_is_unknown_or_none = left_type.is_none()
+                            || matches!(left_type, Some(ArgType::Unknown));
+                        let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)))
+                            || (type_is_unknown_or_none && name_suggests_object_type(&left_str));
                         let is_boolean = matches!(left_type, Some(ArgType::Boolean));
 
                         // Check if this is a comparison against 1 (true) for boolean types

@@ -531,14 +531,49 @@ impl DexInfoProvider for LazyDexInfo {
     }
 }
 
+/// Replace single $ with . for inner classes, but preserve $$ for synthetic classes
+///
+/// Examples:
+/// - "MainActivity$InnerClass" -> "MainActivity.InnerClass"
+/// - "MainActivity$$ExternalSyntheticLambda0" -> "MainActivity$$ExternalSyntheticLambda0"
+/// - "Outer$Inner$Deep" -> "Outer.Inner.Deep"
+/// - "R$layout" -> "R.layout"
+pub fn replace_inner_class_separator(s: &str) -> String {
+    let mut result = String::with_capacity(s.len());
+    let chars: Vec<char> = s.chars().collect();
+    let len = chars.len();
+
+    let mut i = 0;
+    while i < len {
+        if chars[i] == '$' {
+            // Check if this is part of $$
+            if i + 1 < len && chars[i + 1] == '$' {
+                // It's $$, preserve both dollars
+                result.push('$');
+                result.push('$');
+                i += 2;
+            } else {
+                // Single $, convert to .
+                result.push('.');
+                i += 1;
+            }
+        } else {
+            result.push(chars[i]);
+            i += 1;
+        }
+    }
+
+    result
+}
+
 /// Helper: Convert type descriptor to simple class name
 /// Handles inner classes: "Lio/github/skylot/android/smallapp/R$layout;" -> "R.layout"
 fn descriptor_to_simple_name(desc: &str) -> String {
     if desc.starts_with('L') && desc.ends_with(';') {
         let inner = &desc[1..desc.len() - 1];
         let simple = inner.rsplit('/').next().unwrap_or(inner);
-        // Convert $ to . for inner class notation (R$layout -> R.layout)
-        simple.replace('$', ".")
+        // Convert $ to . for inner class notation (R$layout -> R.layout), but preserve $$
+        replace_inner_class_separator(simple)
     } else {
         desc.to_string()
     }
@@ -636,8 +671,8 @@ fn descriptor_to_java_name(desc: &str) -> String {
                 .rsplit('/')
                 .next()
                 .unwrap_or(inner);
-            // Convert $ to . for inner class notation (R$layout -> R.layout)
-            simple.replace('$', ".")
+            // Convert $ to . for inner class notation (R$layout -> R.layout), but preserve $$
+            replace_inner_class_separator(simple)
         }
         _ => desc.to_string(),
     }
@@ -671,8 +706,8 @@ pub fn descriptor_to_full_java_name(desc: &str) -> String {
                 .unwrap_or(desc)
                 .strip_suffix(';')
                 .unwrap_or(desc);
-            // Convert both / and $ to . for Java source notation
-            inner.replace('/', ".").replace('$', ".")
+            // Convert both / and $ to . for Java source notation, but preserve $$
+            replace_inner_class_separator(&inner.replace('/', "."))
         }
         _ => desc.to_string(),
     }

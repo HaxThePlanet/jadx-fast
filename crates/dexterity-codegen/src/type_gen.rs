@@ -3,6 +3,7 @@
 //! Converts dexterity-ir types to Java type strings.
 
 use dexterity_ir::ArgType;
+use crate::dex_info::replace_inner_class_separator;
 
 /// Convert an ArgType to its Java source representation (fully qualified)
 pub fn type_to_string(ty: &ArgType) -> String {
@@ -92,8 +93,8 @@ pub fn object_to_java_name_with_imports_and_package(
         if imported_types.contains(stripped) {
             // Return just the simple class name (handle inner classes with $)
             if let Some(simple) = stripped.rsplit('/').next() {
-                // Convert $ to . for inner class notation (R$layout -> R.layout)
-                return simple.replace('$', ".");
+                // Convert $ to . for inner class notation (R$layout -> R.layout), but preserve $$
+                return replace_inner_class_separator(simple);
             }
         }
     }
@@ -104,15 +105,15 @@ pub fn object_to_java_name_with_imports_and_package(
             if type_pkg == pkg {
                 // Same package - use simple name
                 if let Some(simple) = stripped.rsplit('/').next() {
-                    return simple.replace('$', ".");
+                    return replace_inner_class_separator(simple);
                 }
             }
         }
     }
 
     // Convert / to . for package separator and $ to . for inner classes
-    // This converts "com/example/R$layout" to "com.example.R.layout"
-    stripped.replace('/', ".").replace('$', ".")
+    // This converts "com/example/R$layout" to "com.example.R.layout", but preserves $$
+    replace_inner_class_separator(&stripped.replace('/', "."))
 }
 
 /// Get package from internal name without L; wrapping (helper for same-package detection)

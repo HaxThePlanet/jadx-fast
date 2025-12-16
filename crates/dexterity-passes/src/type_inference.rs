@@ -35,8 +35,8 @@ use std::collections::HashMap;
 use rustc_hash::FxHashMap;
 
 use dexterity_ir::instructions::{
-    ArrayElemType, BinaryOp, CastType, CompareOp, InsnArg, InsnType, LiteralArg, RegisterArg,
-    UnaryOp,
+    ArrayElemType, BinaryOp, CastType, CompareOp, IfCondition, InsnArg, InsnType, LiteralArg,
+    RegisterArg, UnaryOp,
 };
 use dexterity_ir::types::ArgType;
 use dexterity_ir::{ClassHierarchy, TypeCompare, compare_types};
@@ -916,7 +916,42 @@ impl TypeInference {
                 }
             }
 
-            // Control flow instructions don't produce types
+            // If instructions provide type information from comparisons
+            InsnType::If { condition, left, right, .. } => {
+                // If comparing two registers, they should have the same type
+                if let (Some(l_var), Some(r_var)) = (self.var_for_arg(left), right.as_ref().and_then(|r| self.var_for_arg(r))) {
+                    self.add_constraint(Constraint::Same(l_var, r_var));
+                }
+
+                // For Eq/Ne comparisons against 0/null, we can't determine if it's object or int
+                // without additional context. However, if we already have bounds on the variable,
+                // this constraint can help propagate them.
+                //
+                // For Lt/Le/Gt/Ge comparisons against 0, the left operand is numeric
+                if let Some(l_var) = self.var_for_arg(left) {
+                    match condition {
+                        IfCondition::Lt | IfCondition::Le | IfCondition::Gt | IfCondition::Ge => {
+                            // Numeric comparisons require numeric type
+                            // Check if comparing against a literal 0
+                            let is_zero_compare = right.is_none() || matches!(right, Some(InsnArg::Literal(LiteralArg::Int(0))));
+                            if is_zero_compare {
+                                self.add_constraint(Constraint::Numeric(l_var));
+                            }
+                        }
+                        IfCondition::Eq | IfCondition::Ne => {
+                            // Eq/Ne could be null check or zero check
+                            // If comparing against a non-zero literal, it's numeric
+                            if let Some(InsnArg::Literal(LiteralArg::Int(v))) = right {
+                                if *v != 0 {
+                                    self.add_constraint(Constraint::Numeric(l_var));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Other control flow instructions don't produce types
             InsnType::Nop
             | InsnType::Return { .. }
             | InsnType::Throw { .. }
@@ -924,7 +959,6 @@ impl TypeInference {
             | InsnType::MonitorExit { .. }
             | InsnType::FilledNewArray { .. }
             | InsnType::FillArrayData { .. }
-            | InsnType::If { .. }
             | InsnType::Goto { .. }
             | InsnType::PackedSwitch { .. }
             | InsnType::SparseSwitch { .. }
