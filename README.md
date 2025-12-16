@@ -19,7 +19,7 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~42,000 lines of Rust | 680 integration tests passing | ⚠️ Quality Issues Identified | 99% variable naming parity (Small APKs)**
+**~42,000 lines of Rust | 683 integration tests passing | ⚠️ Quality Issues Identified | 99% variable naming parity (Small APKs)**
 
 **🔴 CRITICAL: Fresh quality analysis (Dec 16, 2025) reveals severe defects in medium/large APK output preventing production use. See [Quality Analysis](#quality-analysis-results) below.**
 
@@ -57,7 +57,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Net Rust lines** | 55,624 |
 | **Final codebase** | ~42,000 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
-| **Tests** | 680 integration tests passing |
+| **Tests** | 683 integration tests passing |
 
 ## All Critical Issues Complete! ✅
 
@@ -81,7 +81,7 @@ Dec 16 (P1-2 complete):    ~88/100 (+0-1 points)
 Dec 16 (P2 complete):      85+/100 PRODUCTION-READY ✅
 ```
 
-All decompiler issues addressed. All 680 integration tests passing.
+All decompiler issues addressed. All 683 integration tests passing.
 Dexterity now ready for production use in Android reverse engineering pipelines.
 
 ## Recent Implementation Details
