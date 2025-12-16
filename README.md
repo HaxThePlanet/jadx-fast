@@ -588,6 +588,31 @@ cd crates
 cargo test
 ```
 
+### Autonomous LLM Development
+
+Comprehensive documentation enables autonomous LLM agents to work toward JADX parity. Estimated 20-33 hours of work to reach 90%+ production-ready quality.
+
+**Quick Start for Autonomous Agents:**
+
+See `docs/LLM_AGENT_GUIDE.md` for complete workflow. Key steps:
+
+1. **Read Issues:** Open `docs/ISSUE_TRACKER.md` - 12 issues (6 CRITICAL, 4 HIGH, 2 MEDIUM)
+2. **Find Code:** Use `docs/CODE_NAVIGATION.md` to locate source files
+3. **Understand Algorithm:** Review `docs/ALGORITHM_REFERENCES.md` for high-level explanations
+4. **Implement Fix:** Follow code patterns and testing requirements
+5. **Validate:** Run tests and measure quality improvements with QA tool
+6. **Track Progress:** Update `docs/PROGRESS.md` and `ISSUE_TRACKER.md`
+
+**Documentation for Autonomous Agents:**
+- `docs/LLM_AGENT_GUIDE.md` - Workflow and best practices
+- `docs/ISSUE_TRACKER.md` - Structured issue list with acceptance criteria
+- `docs/CODE_NAVIGATION.md` - File locations and grep commands
+- `docs/ALGORITHM_REFERENCES.md` - Algorithm explanations with JADX references
+- `docs/TESTING_GUIDE.md` - How to test and validate changes
+- `docs/PROGRESS.md` - Track completed work and quality metrics
+
+**Current Focus:** Fix 12 critical/high-priority issues to move from 77.1% to 90%+ quality
+
 ### Test Parity with Java JADX
 
 Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/jadx/tests/integration/`.

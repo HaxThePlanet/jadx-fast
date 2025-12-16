@@ -18,6 +18,31 @@ Work completed to achieve high quality decompilation.
 **All Priority Issues Complete!**
 - Further type inference refinements (flow-sensitive instanceof tracking) - future work
 
+## For Autonomous LLM Agents
+
+Comprehensive documentation has been created to enable autonomous LLM agents to work toward JADX parity:
+
+**Start Here:** `docs/LLM_AGENT_GUIDE.md` - Complete workflow for autonomous development
+
+**Key Documentation Files:**
+- `docs/ISSUE_TRACKER.md` - Structured list of 12 issues to fix (6 CRITICAL, 4 HIGH, 2 MEDIUM)
+- `docs/CODE_NAVIGATION.md` - Maps issues to source files and provides grep commands
+- `docs/ALGORITHM_REFERENCES.md` - High-level explanations of key algorithms with JADX references
+- `docs/TESTING_GUIDE.md` - How to test fixes and validate improvements
+- `docs/PROGRESS.md` - Track completed work and quality metrics
+
+**Current Focus:**
+Fix 12 critical/high-priority issues (estimated 20-33 hours of work) to move from 77.1% to 90%+ quality:
+1. **CRITICAL (P1)**: 6 issues - Undefined variables, type mismatches, logic inversions, missing code
+2. **HIGH (P2)**: 4 issues - Register-based names, duplicate declarations, missing modifiers, unreachable code
+3. **MEDIUM (P3)**: 2 issues - Import optimization
+
+**Quality Target:** 90%+ overall (production-ready) by targeting:
+- Code Quality: 66.6% → 75%+
+- Variable Quality: 0.67 → 1.0
+
+**Expected Timeline:** After fixing all P1/P2 issues → Production-ready
+
 ## Priority 0: P2 Package Name Preservation (COMPLETE - Dec 16)
 
 ### Implementation
