@@ -194,8 +194,8 @@ Added field_lookup callback to enable field-based naming during code generation.
 
 ### Tests Status
 All test infrastructure is now complete and passing:
-- 932 tests with 100% pass rate
-- 680 integration tests fully implemented in `dexterity-cli/tests/integration/`
+- 987 tests total (983 passing, 4 disabled in dexterity-qa due to compilation issue)
+- 683 integration tests fully implemented in `dexterity-cli/tests/integration/`
 - Zero TODOs remaining - all assertions completed
 - All crate unit tests passing
 
