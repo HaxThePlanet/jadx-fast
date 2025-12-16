@@ -263,6 +263,20 @@ impl BodyGenContext {
         self.expr_gen.gen_arg(arg)
     }
 
+    /// Generate argument expression with inline peek (doesn't consume the inlined expr)
+    /// This is useful for conditions where we need to reference the expression
+    /// without consuming it (since the actual instruction will be processed later)
+    pub fn gen_arg_with_inline_peek(&self, arg: &InsnArg) -> String {
+        if let InsnArg::Register(reg) = arg {
+            // Check if we have an inlined expression for this register
+            if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+                return expr.clone();
+            }
+        }
+        // Fall back to normal expression generation
+        self.expr_gen.gen_arg(arg)
+    }
+
     /// OPTIMIZED: Write arg directly to CodeWriter without String allocation
     /// This is the zero-allocation pattern following Java JADX design
     pub fn write_arg_inline<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg) {
@@ -1536,6 +1550,7 @@ fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenCon
 }
 
 /// Generate condition expression string from a Condition
+/// Uses gen_arg_with_inline_peek to support inlined expressions (e.g., loop bounds)
 fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
     match condition {
         Condition::Simple { block, op, negated } => {
@@ -1544,7 +1559,11 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                 // Find the If instruction (usually the last one)
                 for insn in basic_block.instructions.iter().rev() {
                     if let InsnType::If { condition: _, left, right, .. } = &insn.insn_type {
-                        let left_str = ctx.expr_gen.gen_arg(left);
+                        // Use gen_arg_with_inline_peek to substitute inlined expressions
+                        // This is critical for loop conditions where variables like array.length()
+                        // were marked for inlining - ensures we generate "i < arr.length()"
+                        // instead of "i < i2" (undefined variable)
+                        let left_str = ctx.gen_arg_with_inline_peek(left);
 
                         // Get type of left operand for type-aware condition generation
                         let left_type = if let InsnArg::Register(reg) = left {
@@ -1653,7 +1672,7 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                         }
 
                         let right_str = match right {
-                            Some(r) => ctx.expr_gen.gen_arg(r),
+                            Some(r) => ctx.gen_arg_with_inline_peek(r),
                             None => "0".to_string(),
                         };
 
@@ -2266,6 +2285,13 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             condition,
             body,
         } => {
+            // Emit pre-condition setup instructions (e.g., array.length() for loop bounds)
+            // These instructions define variables used in the condition but are not part
+            // of the condition itself (like "i2 = jSONArray.length()" before "i < i2")
+            if let Some(cond) = condition {
+                emit_condition_block_prelude(cond, ctx, code);
+            }
+
             // Generate condition expression if available
             let condition_str = match condition {
                 Some(cond) => generate_condition(cond, ctx),
@@ -2592,6 +2618,46 @@ fn is_control_flow(insn: &InsnType) -> bool {
             | InsnType::PackedSwitch { .. }
             | InsnType::SparseSwitch { .. }
     )
+}
+
+/// Emit pre-condition instructions from a condition block
+/// These are the setup instructions that define variables used in the condition
+/// (e.g., array.length() call before `i < length` comparison)
+/// Excludes the final If instruction which is handled by generate_condition
+fn emit_condition_block_prelude<W: CodeWriter>(condition: &Condition, ctx: &mut BodyGenContext, code: &mut W) {
+    // Collect all block IDs from the condition
+    let block_ids = condition.get_blocks();
+
+    for block_id in block_ids {
+        // Clone the instructions to avoid borrow conflict with ctx
+        let instructions: Vec<_> = match ctx.blocks.get(&block_id) {
+            Some(block) => block.instructions.clone(),
+            None => continue,
+        };
+
+        let num_insns = instructions.len();
+        for (i, insn) in instructions.iter().enumerate() {
+            // Skip control flow instructions (If, Goto, Switch)
+            if is_control_flow(&insn.insn_type) {
+                continue;
+            }
+
+            // Skip instructions marked with DONT_GENERATE
+            if insn.has_flag(AFlag::DontGenerate) {
+                continue;
+            }
+
+            // Peek at next instruction for MoveResult handling
+            let next_is_move_result = if i + 1 < num_insns {
+                matches!(instructions[i + 1].insn_type, InsnType::MoveResult { .. })
+            } else {
+                false
+            };
+
+            // Generate the instruction
+            generate_insn_with_lookahead(&insn, next_is_move_result, ctx, code);
+        }
+    }
 }
 
 /// Check if a case region ends with an exit instruction (return, throw, break, continue)
@@ -3020,7 +3086,33 @@ fn generate_insn<W: CodeWriter>(
             code.start_line().add("return");
             if let Some(v) = value {
                 code.add(" ");
-                ctx.write_arg_inline(code, v);  // OPTIMIZED: direct write
+                // Check if we're returning 0 for an object type - should be null
+                // In Dalvik, null is often stored as 0 and returned as a const 0
+                // This can happen via direct literal OR via inlined const expression
+                let is_zero_value = match v {
+                    // Direct literal 0
+                    InsnArg::Literal(LiteralArg::Int(0)) => true,
+                    // Register with inlined expression "0"
+                    InsnArg::Register(reg) => {
+                        ctx.peek_inline_expr(reg.reg_num, reg.ssa_version)
+                            .map(|s| s == "0")
+                            .unwrap_or(false)
+                    }
+                    _ => false,
+                };
+                let is_object_return = matches!(
+                    ctx.return_type,
+                    ArgType::Object(_) | ArgType::Array(_)
+                );
+                if is_zero_value && is_object_return {
+                    code.add("null");
+                    // Consume the inlined expression if it was a register
+                    if let InsnArg::Register(reg) = v {
+                        ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
+                    }
+                } else {
+                    ctx.write_arg_inline(code, v);  // OPTIMIZED: direct write
+                }
             }
             code.add(";").newline();
             true

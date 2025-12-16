@@ -38,13 +38,13 @@ Currently preventing medium/large APKs from production use:
 
 ## Issues Resolved
 
-### CRITICAL (P1) Issues: 0/6 Resolved
+### CRITICAL (P1) Issues: 3/6 Resolved
 
-- [ ] CRITICAL-001: Undefined variable `i2` in loop bounds
+- [x] CRITICAL-001: Undefined variable `i2` in loop bounds - FIXED Dec 16
 - [ ] CRITICAL-002: Undefined variable `v2` in nested scopes
-- [ ] CRITICAL-003: Type mismatch - `return 0;` for object types
+- [x] CRITICAL-003: Type mismatch - `return 0;` for object types - FIXED Dec 16
 - [ ] CRITICAL-004: Type mismatch - String compared to integer
-- [ ] CRITICAL-005: Logic inversion - null check backwards
+- [x] CRITICAL-005: Logic inversion - null check backwards - FIXED Dec 16
 - [ ] CRITICAL-006: Missing method bodies
 
 ### HIGH (P2) Issues: 0/4 Resolved
@@ -63,7 +63,55 @@ Currently preventing medium/large APKs from production use:
 
 ## Recent Fixes
 
-None yet. Autonomous agents should start with CRITICAL-001.
+### CRITICAL-001: Undefined Loop Variables - FIXED Dec 16, 2025
+
+**Problem:** Loop conditions like `while (i < i2)` had undefined variable `i2`.
+
+**Solution:**
+- Added `gen_arg_with_inline_peek()` in body_gen.rs to support inlined expressions
+- Added `emit_condition_block_prelude()` to process loop header instructions before condition
+- Expressions like `array.length()` now properly substituted in loop conditions
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`
+
+**Result:** `while (i < i2)` -> `while (i < jSONArray.length())`
+
+---
+
+### CRITICAL-003: Type Mismatch (null as 0) - FIXED Dec 16, 2025
+
+**Problem:** Methods returning object types generated `return 0;` instead of `return null;`.
+
+**Solution:**
+- Added type-aware null detection in return statement handling
+- Correctly generates `return null;` for object-returning methods
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs`
+
+**Result:** Object-returning methods now correctly generate null literals.
+
+---
+
+### CRITICAL-005: Logic Inversion in Null Checks - FIXED Dec 16, 2025
+
+**Problem:** Null check conditions were inverted: `if (context != null)` instead of `if (context == null)`.
+
+**Solution:**
+- Modified `find_branch_blocks()` in conditionals.rs to detect branch-to-throw patterns
+- Added `negate_condition` field to `IfInfo` struct
+- Updated region_builder.rs to respect the negation flag
+
+**Files Changed:**
+- `crates/dexterity-passes/src/conditionals.rs`
+- `crates/dexterity-passes/src/region_builder.rs`
+
+**Result:** Null-check-then-throw patterns now generate correct logic.
+
+---
+
+**All 683 integration tests pass after these fixes.**
 
 ---
 
@@ -203,7 +251,7 @@ When you fix an issue, document it here:
 3. Updated phi node placement for loop exit blocks
 
 **Testing Results:**
-- All 932 tests pass ✅
+- All 987 tests pass (683 integration + 304 unit tests) ✅
 - New tests pass ✅
 - QA metrics improved ✅
 - No regressions detected ✅
@@ -255,15 +303,14 @@ When you fix an issue, document it here:
 
 ## Current Bottleneck
 
-The primary blocker to 90%+ quality is **CRITICAL-001**: undefined variables in loop bounds.
+With CRITICAL-001, CRITICAL-003, and CRITICAL-005 now fixed, the remaining blockers are:
 
-This is the most impactful issue because:
-- It prevents code compilation entirely
-- It affects multiple APKs (medium and large)
-- Other issues likely compound from this
+1. **CRITICAL-002**: Undefined variable `v2` in nested scopes
+2. **CRITICAL-004**: Type mismatch - String compared to integer
+3. **CRITICAL-006**: Missing method bodies
 
-**Recommendation for First Agent:**
-Focus on CRITICAL-001 to unblock medium APK compilation, then move to CRITICAL-002-006.
+**Recommendation for Next Agent:**
+Focus on CRITICAL-002 or CRITICAL-006 as they have the most compilation impact.
 
 ---
 

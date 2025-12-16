@@ -5,6 +5,8 @@
 
 use std::collections::BTreeSet;
 
+use dexterity_ir::InsnType;
+
 use crate::cfg::CFG;
 use crate::loops::LoopInfo;
 
@@ -21,6 +23,12 @@ pub struct IfInfo {
     pub merge_block: Option<u32>,
     /// True if this is a simple "if" without else
     pub is_simple_if: bool,
+    /// Whether to negate the bytecode condition for Java output.
+    /// In Dalvik, branch is taken when condition is TRUE.
+    /// When negate_condition is true, we flip the condition so that
+    /// the "then" block executes when the negated condition is TRUE.
+    /// This is false when we've swapped then/else branches.
+    pub negate_condition: bool,
 }
 
 impl IfInfo {
@@ -54,8 +62,8 @@ pub fn detect_conditionals(cfg: &CFG, loops: &[LoopInfo]) -> Vec<IfInfo> {
         // Find merge point (immediate post-dominator)
         let merge = cfg.ipdom(block_id);
 
-        // Determine then/else blocks
-        let (then_blocks, else_blocks) = find_branch_blocks(
+        // Determine then/else blocks and whether to negate condition
+        let (then_blocks, else_blocks, negate_condition) = find_branch_blocks(
             cfg,
             block_id,
             then_target,
@@ -72,6 +80,7 @@ pub fn detect_conditionals(cfg: &CFG, loops: &[LoopInfo]) -> Vec<IfInfo> {
             else_blocks,
             merge_block: merge,
             is_simple_if,
+            negate_condition,
         });
     }
 
@@ -87,6 +96,9 @@ fn is_loop_condition(block: u32, loops: &[LoopInfo]) -> bool {
 }
 
 /// Find blocks belonging to then and else branches
+/// Returns (then_blocks, else_blocks, negate_condition)
+/// negate_condition is true when we should negate the bytecode condition,
+/// which is the normal case. It's false when we've swapped branches.
 fn find_branch_blocks(
     cfg: &CFG,
     condition: u32,
@@ -94,14 +106,49 @@ fn find_branch_blocks(
     else_target: u32,
     merge: Option<u32>,
     loops: &[LoopInfo],
-) -> (Vec<u32>, Vec<u32>) {
+) -> (Vec<u32>, Vec<u32>, bool) {
     let merge_block = merge.unwrap_or(u32::MAX);
 
-    // Collect blocks reachable from then_target before hitting merge
-    let then_blocks = collect_branch_blocks(cfg, then_target, merge_block, condition, loops);
+    // FIRST: Check for the throw-pattern BEFORE collecting blocks
+    // This handles patterns like:
+    //   if-eqz v0, :throw_block    # branch to throw when null
+    //   assignment...
+    //   return
+    //   :throw_block
+    //   throw
+    //
+    // In this case:
+    // - else_target (branch) points to a block that throws
+    // - then_target (fall-through) points to assignment code
+    // - We want: if (v0 == null) { throw } - so throw should be "then"
+    // - Since bytecode branches on the condition, we should NOT negate
+    let else_target_throws = cfg.get_block(else_target)
+        .and_then(|block| block.instructions.last())
+        .map(|insn| matches!(insn.insn_type, InsnType::Throw { .. }))
+        .unwrap_or(false);
 
-    // Collect blocks reachable from else_target before hitting merge
+    let then_target_throws = cfg.get_block(then_target)
+        .and_then(|block| block.instructions.last())
+        .map(|insn| matches!(insn.insn_type, InsnType::Throw { .. }))
+        .unwrap_or(false);
+
+    // If the branch target (else_target) throws but fall-through doesn't,
+    // this is a "branch-to-throw" pattern. Swap and don't negate.
+    if else_target_throws && !then_target_throws {
+        // For the throw block, use u32::MAX as merge so we don't stop early
+        // (the throw block itself might be the ipdom, but we want to include it)
+        let then_blocks = collect_branch_blocks(cfg, else_target, u32::MAX, condition, loops);
+        // The else blocks (normal code) should stop at the original merge if it exists
+        let else_blocks = collect_branch_blocks(cfg, then_target, merge_block, condition, loops);
+        return (then_blocks, else_blocks, false);
+    }
+
+    // Normal case: collect blocks in standard order
+    let then_blocks = collect_branch_blocks(cfg, then_target, merge_block, condition, loops);
     let else_blocks = collect_branch_blocks(cfg, else_target, merge_block, condition, loops);
+
+    // Default: negate condition (normal case where fall-through is then)
+    let mut negate_condition = true;
 
     // Check for simple if: else branch goes directly to merge
     let else_blocks = if else_target == merge_block {
@@ -110,15 +157,16 @@ fn find_branch_blocks(
         else_blocks
     };
 
-    // Also check if then branch goes directly to merge (inverted condition)
+    // Check if then branch goes directly to merge (inverted condition)
     let (then_blocks, else_blocks) = if then_target == merge_block {
-        // Swap: else becomes then
+        // Swap: else becomes then, don't negate
+        negate_condition = false;
         (else_blocks, Vec::new())
     } else {
         (then_blocks, else_blocks)
     };
 
-    (then_blocks, else_blocks)
+    (then_blocks, else_blocks, negate_condition)
 }
 
 /// Collect all blocks in a branch until merge point

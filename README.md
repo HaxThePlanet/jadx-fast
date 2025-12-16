@@ -898,24 +898,24 @@ Comprehensive quality analysis comparing fresh Dexterity output against JADX ref
 | **Medium APK (10.3 MB)** | 77.1% | 40% ❌ | **FAILING** - Code won't compile |
 | **Large APK (54.8 MB)** | 70.0% | 25% ❌ | **FAILING** - Severe defects |
 
-### Critical Issues Blocking Production Use
+### Critical Issues Status (Dec 16, 2025)
 
-1. **Undefined Variables** (CRITICAL)
-   - Example: `while (i < i2)` where `i2` is never defined
-   - Impact: Code won't compile
-   - Found in: Large APK StoreDeserializer.java
+**FIXED (3 of 6 CRITICAL issues resolved):**
 
-2. **Type Mismatches** (CRITICAL)
-   - `return 0;` for object type (should be `null`)
-   - `String` compared to integer `0`
-   - Impact: Type errors, runtime failures
-   - Found in: Medium and large APKs
+1. **Undefined Variables** - FIXED
+   - Example: `while (i < i2)` where `i2` was undefined
+   - Fix: Added `gen_arg_with_inline_peek()` and `emit_condition_block_prelude()` in body_gen.rs
+   - Result: Loop conditions now correctly emit setup instructions
 
-3. **Logic Inversions** (CRITICAL)
-   - `if (context != null) { throw exception; }` (backwards!)
-   - Should be: `if (context == null)`
-   - Impact: Program logic inverted
-   - Found in: Medium APK ComposerActivity.java
+2. **Type Mismatches (null as 0)** - FIXED
+   - `return 0;` for object types now correctly generates `return null;`
+   - Fix: Added type-aware null detection in return statement handling
+
+3. **Logic Inversions** - FIXED
+   - `if (context != null)` now correctly generates `if (context == null)`
+   - Fix: Modified `find_branch_blocks()` in conditionals.rs, added `negate_condition` field
+
+**REMAINING ISSUES:**
 
 4. **Register-Based Variable Names** (HIGH)
    - Variables like `v2`, `v3`, `v6` instead of meaningful names

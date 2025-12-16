@@ -992,9 +992,12 @@ impl<'a> RegionBuilder<'a> {
     /// But in structured Java code, the "then" block is the fall-through path
     /// (when condition is FALSE). So we negate the condition to match Java semantics.
     ///
+    /// However, when then/else branches have been swapped (indicated by negate=false),
+    /// we should NOT negate the condition.
+    ///
     /// If this block is the first of a merged condition chain (&&, ||), we build
     /// a compound condition instead of a simple one.
-    fn extract_condition(&self, block_id: u32) -> Condition {
+    fn extract_condition_with_negation(&self, block_id: u32, negate: bool) -> Condition {
         // Check if this block is part of a merged condition chain
         if let Some(merged) = self.merged_map.get(&block_id) {
             if merged.merged_blocks.len() > 1 {
@@ -1003,20 +1006,34 @@ impl<'a> RegionBuilder<'a> {
         }
 
         // Simple single-block condition
-        self.extract_simple_condition(block_id)
+        self.extract_simple_condition_with_negation(block_id, negate)
+    }
+
+    /// Extract condition, always negating (for loops and other cases where we always negate)
+    fn extract_condition(&self, block_id: u32) -> Condition {
+        self.extract_condition_with_negation(block_id, true)
     }
 
     /// Extract a simple condition from a single block
-    fn extract_simple_condition(&self, block_id: u32) -> Condition {
+    fn extract_simple_condition_with_negation(&self, block_id: u32, negate: bool) -> Condition {
         if let Some(block) = self.cfg.get_block(block_id) {
             // Find the If instruction (usually the last one)
             for insn in block.instructions.iter().rev() {
                 if let InsnType::If { condition, .. } = &insn.insn_type {
-                    return Condition::simple_negated(block_id, condition.clone());
+                    if negate {
+                        return Condition::simple_negated(block_id, condition.clone());
+                    } else {
+                        return Condition::simple(block_id, condition.clone());
+                    }
                 }
             }
         }
         Condition::Unknown
+    }
+
+    /// Extract a simple condition from a single block (always negated, for compatibility)
+    fn extract_simple_condition(&self, block_id: u32) -> Condition {
+        self.extract_simple_condition_with_negation(block_id, true)
     }
 
     /// Build a compound condition from a merged condition chain
@@ -1147,8 +1164,8 @@ impl<'a> RegionBuilder<'a> {
         // Add merge point as exit
         self.stack.add_exit(cond.merge_block);
 
-        // Extract condition from the block
-        let condition = self.extract_condition(cond.condition_block);
+        // Extract condition from the block, respecting the negate_condition flag
+        let condition = self.extract_condition_with_negation(cond.condition_block, cond.negate_condition);
 
         // Build then region
         let then_region = if cond.then_blocks.is_empty() {
