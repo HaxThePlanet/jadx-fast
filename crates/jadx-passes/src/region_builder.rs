@@ -1579,7 +1579,7 @@ mod tests {
 
         // Try block (id == address for this synthetic test)
         let mut b0 = BasicBlock::new(0, 0);
-        b0.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 0))));
+        b0.instructions.push(InsnNode::new(InsnType::Nop, 0));
         blocks.insert(0, b0);
 
         // Catch-all (finally) handler: 10 -> 11 -> 12 (throw)
@@ -1588,19 +1588,19 @@ mod tests {
         blocks.insert(10, b10);
 
         let mut b11 = BasicBlock::new(11, 11);
-        b11.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 11))));
-        b11.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 12))));
+        b11.instructions.push(InsnNode::new(InsnType::Nop, 11));
+        b11.instructions.push(InsnNode::new(InsnType::Nop, 12));
         b11.predecessors = vec![10];
         b11.successors = vec![12];
         blocks.insert(11, b11);
 
         let mut b12 = BasicBlock::new(12, 13);
-        b12.instructions.push(Arc::new(Mutex::new(InsnNode::new(
+        b12.instructions.push(InsnNode::new(
             InsnType::Throw {
                 exception: InsnArg::reg(0),
             },
             13,
-        ))));
+        ));
         b12.predecessors = vec![11];
         blocks.insert(12, b12);
 
@@ -1610,8 +1610,8 @@ mod tests {
         blocks.insert(20, b20);
 
         let mut b21 = BasicBlock::new(21, 21);
-        b21.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 21))));
-        b21.instructions.push(Arc::new(Mutex::new(InsnNode::new(InsnType::Nop, 22))));
+        b21.instructions.push(InsnNode::new(InsnType::Nop, 21));
+        b21.instructions.push(InsnNode::new(InsnType::Nop, 22));
         b21.predecessors = vec![20];
         blocks.insert(21, b21);
 

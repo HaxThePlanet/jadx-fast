@@ -808,9 +808,9 @@ mod tests {
         assert_eq!(VarNaming::extract_name_from_method("calculate"), None);
         assert_eq!(VarNaming::extract_name_from_method("process"), None);
 
-        // Test short names (should not match - result too short)
-        assert_eq!(VarNaming::extract_name_from_method("getId"), None); // "d" too short
-        assert_eq!(VarNaming::extract_name_from_method("getX"), None); // "x" too short
+        // Test short names
+        assert_eq!(VarNaming::extract_name_from_method("getId"), Some("id".to_string())); // "id" is 2 chars, valid
+        assert_eq!(VarNaming::extract_name_from_method("getX"), None); // "x" too short (1 char)
 
         // Test non-camelCase (should not match)
         assert_eq!(VarNaming::extract_name_from_method("getuser"), None); // lowercase after prefix

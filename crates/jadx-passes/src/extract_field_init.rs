@@ -620,7 +620,8 @@ mod tests {
         let mut class = ClassData::new("Lcom/example/Test;".to_string(), 0);
 
         // Add a static final int field
-        let field = FieldData::new("DEBUG".to_string(), 0x0018, ArgType::Int); // 0x0018 = static + final
+        let mut field = FieldData::new("DEBUG".to_string(), 0x0018, ArgType::Int); // 0x0018 = static + final
+        field.dex_field_idx = Some(0); // Set DEX field index for mapping
         class.static_fields.push(field);
 
         // Create <clinit> method with SPUT instruction

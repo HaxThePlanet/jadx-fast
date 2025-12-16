@@ -137,18 +137,16 @@ The project has a **mixed test situation** - solid infrastructure with significa
 - Sophisticated diff tracking (cosmetic vs semantic differences)
 - Tests expression inlining, package structure, method generation
 
-**2. Unit Tests** - Multiple crates have passing unit tests:
-- **jadx-dex**: 35 tests passing (LEB128, MUTF-8, encoded values)
-- **jadx-ir**: 40 tests passing (type system, descriptors, comparisons)
-- **jadx-resources**: 8 tests passing (AXML, ARSC, string pools)
-- **jadx-deobf**: 23 tests passing (deobfuscation, alias provider, name mapping)
-
-### Broken Tests ✗
-
-**jadx-codegen and jadx-passes**: Tests fail to compile due to type errors
-- Tests expect `InsnNode` but code uses `Arc<Mutex<InsnNode>>`
-- Data structures changed but tests weren't updated
-- Multiple compilation errors blocking ~11 tests in jadx-passes
+**2. Unit Tests** - All crates have passing unit tests (248 total):
+- **jadx-dex**: 35 tests (LEB128, MUTF-8, encoded values)
+- **jadx-ir**: 71 tests (type system, descriptors, comparisons)
+- **jadx-passes**: 56 tests (SSA, type inference, region builder, var naming)
+- **jadx-codegen**: 40 tests (class gen, method gen, import collection)
+- **jadx-resources**: 8 tests (AXML, ARSC, string pools)
+- **jadx-deobf**: 23 tests (deobfuscation, alias provider, name mapping)
+- **jadx-cli**: 8 tests (converter, decompiler, gradle export)
+- **jadx-kotlin**: 3 tests (metadata parsing)
+- **jadx-ir (base)**: 4 tests (hierarchy, info)
 
 ### Disabled Tests (Major Gap!)
 
@@ -174,17 +172,15 @@ The project has a **mixed test situation** - solid infrastructure with significa
 
 **Concerns:**
 - ~675 integration tests are disabled - huge gap in coverage
-- Broken tests in core crates (jadx-codegen, jadx-passes) suggest code changes outpaced test maintenance
 - Many disabled tests have incomplete assertions (TODOs)
 - No visible CI/test automation mentioned
 
 **Recommendation:**
 
 The test quality is **promising but incomplete**. The infrastructure is solid, but the project needs:
-1. Fix compilation errors in jadx-codegen/jadx-passes tests
-2. Enable and complete the 675 disabled integration tests
-3. Fill in TODO assertions in disabled tests
-4. Set up CI to prevent test rot
+1. Enable and complete the 675 disabled integration tests
+2. Fill in TODO assertions in disabled tests
+3. Set up CI to prevent test rot
 
 ## Architecture
 

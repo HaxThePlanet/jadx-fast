@@ -1051,7 +1051,6 @@ pub fn infer_types_with_hierarchy(
 mod tests {
     use super::*;
     use crate::ssa::{PhiNode, SsaBlock};
-    use std::sync::{Arc, Mutex};
 
     fn make_simple_ssa() -> SsaResult {
         use jadx_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg};
@@ -1063,14 +1062,14 @@ mod tests {
             id: 0,
             phi_nodes: vec![],
             instructions: vec![
-                Arc::new(Mutex::new(InsnNode::new(
+                InsnNode::new(
                     InsnType::Const {
                         dest: RegisterArg::with_ssa(0, 1),
                         value: LiteralArg::Int(42),
                     },
                     0,
-                ))),
-                Arc::new(Mutex::new(InsnNode::new(
+                ),
+                InsnNode::new(
                     InsnType::Binary {
                         dest: RegisterArg::with_ssa(1, 1),
                         op: BinaryOp::Add,
@@ -1078,7 +1077,7 @@ mod tests {
                         right: InsnArg::Literal(LiteralArg::Int(1)),
                     },
                     1,
-                ))),
+                ),
             ],
             successors: vec![],
             predecessors: vec![],
@@ -1114,26 +1113,26 @@ mod tests {
             SsaBlock {
                 id: 0,
                 phi_nodes: vec![],
-                instructions: vec![Arc::new(Mutex::new(InsnNode::new(
+                instructions: vec![InsnNode::new(
                     InsnType::Const {
                         dest: RegisterArg::with_ssa(0, 1),
                         value: LiteralArg::Int(1),
                     },
                     0,
-                )))],
+                )],
                 successors: vec![2],
                 predecessors: vec![],
             },
             SsaBlock {
                 id: 1,
                 phi_nodes: vec![],
-                instructions: vec![Arc::new(Mutex::new(InsnNode::new(
+                instructions: vec![InsnNode::new(
                     InsnType::Const {
                         dest: RegisterArg::with_ssa(0, 2),
                         value: LiteralArg::Int(2),
                     },
                     1,
-                )))],
+                )],
                 successors: vec![2],
                 predecessors: vec![],
             },
@@ -1174,13 +1173,13 @@ mod tests {
         let blocks = vec![SsaBlock {
             id: 0,
             phi_nodes: vec![],
-            instructions: vec![Arc::new(Mutex::new(InsnNode::new(
+            instructions: vec![InsnNode::new(
                 InsnType::ConstString {
                     dest: RegisterArg::with_ssa(0, 1),
                     string_idx: 0,
                 },
                 0,
-            )))],
+            )],
             successors: vec![],
             predecessors: vec![],
         }];
@@ -1208,21 +1207,21 @@ mod tests {
             id: 0,
             phi_nodes: vec![],
             instructions: vec![
-                Arc::new(Mutex::new(InsnNode::new(
+                InsnNode::new(
                     InsnType::Const {
                         dest: RegisterArg::with_ssa(0, 1),
                         value: LiteralArg::Int(42),
                     },
                     0,
-                ))),
-                Arc::new(Mutex::new(InsnNode::new(
+                ),
+                InsnNode::new(
                     InsnType::Cast {
                         dest: RegisterArg::with_ssa(1, 1),
                         cast_type: CastType::IntToLong,
                         arg: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
                     },
                     1,
-                ))),
+                ),
             ],
             successors: vec![],
             predecessors: vec![],

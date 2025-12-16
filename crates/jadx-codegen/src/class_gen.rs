@@ -1097,6 +1097,7 @@ mod tests {
             field_type: ArgType::Int,
             initial_value: None,
             annotations: Vec::new(),
+            dex_field_idx: None,
         });
         let config = ClassGenConfig::default();
         let code = generate_class(&class, &config);
@@ -1114,6 +1115,7 @@ mod tests {
             field_type: ArgType::Int,
             initial_value: Some(FieldValue::Int(100)),
             annotations: Vec::new(),
+            dex_field_idx: None,
         });
         let config = ClassGenConfig::default();
         let code = generate_class(&class, &config);
@@ -1181,6 +1183,7 @@ mod tests {
             field_type: ArgType::Object("android/view/View".to_string()),
             initial_value: None,
             annotations: Vec::new(),
+            dex_field_idx: None,
         });
 
         let mut collector = ImportCollector::new(&class.class_type);
@@ -1203,6 +1206,7 @@ mod tests {
             field_type: ArgType::Object("android/view/View".to_string()),
             initial_value: None,
             annotations: Vec::new(),
+            dex_field_idx: None,
         });
 
         let config = ClassGenConfig::default();

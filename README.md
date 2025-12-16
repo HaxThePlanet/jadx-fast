@@ -41,6 +41,9 @@ This project reimplements `jadx-core` (the decompilation engine) in Rust. The go
 | Small (10KB) | 0.01s / 6MB | 1.85s / 275MB | **185x faster, 46x less memory** |
 | Medium (11MB) | 3.59s / 304MB | 14.97s / 5.5GB | **4x faster, 18x less memory** |
 | Large (55MB) | 0.90s / 85MB | 11.93s / 3.4GB | **13x faster, 41x less memory** |
+| XL (98MB) | 0.66s / 63MB | 6.34s / 1.7GB | **10x faster, 27x less memory** |
+| XXL (164MB) | 5.70s / 397MB | 22.50s / 6.0GB | **4x faster, 15x less memory** |
+| Massive (647MB) | 20.85s / 677MB | 46.08s / 10.7GB | **2x faster, 16x less memory** |
 
 ## Quick Start
 

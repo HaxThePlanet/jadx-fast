@@ -4,6 +4,36 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Test Suite Fixes (Dec 15)
+
+**Fixed all broken tests across the codebase (248 passing):**
+
+1. **type_inference.rs** - Removed `Arc<Mutex<>>` wrappers from test instructions
+   - `SsaBlock.instructions` changed to `Vec<InsnNode>` but tests still used old pattern
+   - Fixed `make_simple_ssa()`, `test_phi_type_propagation`, `test_string_type`, `test_cast_type`
+
+2. **class_gen.rs** - Added missing `dex_field_idx` field
+   - `FieldData` struct gained `dex_field_idx: Option<u32>` field
+   - Fixed 4 test initializers: `test_with_field`, `test_with_static_final_field`, `test_import_collector_from_class`, `test_class_with_imports`
+
+3. **region_builder.rs** - Removed `Arc<Mutex<>>` wrappers from test instructions
+   - Fixed `test_mark_duplicated_finally_marks_duplicate_handler_insns`
+
+4. **decompiler.rs** - Fixed region building order
+   - `build_regions_with_try_catch()` was called after `cfg.take_blocks()` emptied the CFG
+   - Moved region building before taking blocks
+
+5. **extract_field_init.rs** - Added `dex_field_idx` to test field
+   - Test field needed `dex_field_idx = Some(0)` for extraction mapping
+
+6. **var_naming.rs** - Corrected test expectation
+   - `extract_name_from_method("getId")` returns `Some("id")` (2 chars, valid)
+   - Updated assertion to match correct behavior
+
+**Results:**
+- All 248 tests now passing
+- Test infrastructure restored to working state
+
 ### Synchronized Block Body Generation Fix (Dec 15)
 
 **Fixed empty synchronized block bodies:**
