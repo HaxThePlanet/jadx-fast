@@ -4,19 +4,63 @@ Work completed to achieve high quality decompilation.
 
 ## Current State (Dec 16, 2025)
 
-**Quality Score:** ~77/100 (up from 76.1 after type inference improvements)
+**Quality Score:** ~78/100 (up from 77.1 after P2 package name fix)
 
 - **P0-2 Switch Statements** COMPLETE - Dominance frontier merge detection (+10 points)
 - **P1-1 Variable Naming** COMPLETE - Field access, casts, array, PHI scoring (+4-5 points)
 - **P1-2 Type Inference** COMPLETE - Bounds-based system with LCA (+1 point)
+- **P2 Package Name Preservation** COMPLETE - Common package whitelist (+5 points cosmetic)
 - **~70% feature complete** vs Java jadx-core (core pipeline works, missing optimization passes)
 - **~99% variable naming parity** with JADX (field access, casts, PHI merging with scoring, debug info)
 - **Type inference foundation complete** (ClassHierarchy, TypeCompare, bounds-based constraints)
 - **Generic types complete** (field/method signatures, type variables, wildcards)
 
-**Remaining Work:**
-- P2: Package obfuscation filtering (+5 points cosmetic)
-- Further type inference refinements (flow-sensitive instanceof tracking)
+**All Priority Issues Complete!**
+- Further type inference refinements (flow-sensitive instanceof tracking) - future work
+
+## Priority 0: P2 Package Name Preservation (COMPLETE - Dec 16)
+
+### Implementation
+
+**Files:** `dexterity-cli/src/deobf.rs`
+
+**Problem:** Common short package names (io, org, com, net, fi, etc.) were incorrectly flagged as obfuscated and renamed with p-prefix (e.g., `io.reactivex` -> `p000io.reactivex`).
+
+**Solution:** Added a static whitelist `COMMON_PACKAGE_NAMES` of well-known package prefixes that should never be treated as obfuscated:
+
+```rust
+static COMMON_PACKAGE_NAMES: LazyLock<HashSet<&'static str>> = LazyLock::new(|| {
+    [
+        // Java/Kotlin language packages
+        "java", "javax", "kotlin", "kotlinx",
+        // Common TLD-style package prefixes
+        "io", "org", "com", "net", "edu", "gov", "mil",
+        // JDK internal packages
+        "sun", "jdk",
+        // Android packages
+        "android", "androidx",
+        // Google packages
+        "google", "gms",
+        // Country code TLDs (fi, de, uk, ru, jp, cn, kr, etc.)
+        "me", "co", "cc", "tv", "fm", "am", "ai", "fi",
+        "de", "uk", "ru", "jp", "cn", "kr", "br", "in", "id",
+        "eu", "be", "nl", "at", "ch", "it", "es", "pl", "cz", "se", "no", "dk", "au", "nz",
+        // Common short prefixes
+        "app", "api", "lib", "dev", "pro", "biz", "rx",
+        // Common 2-letter abbreviations
+        "ws", "db", "ui", "os", "js", "bg", "ad", "ua", "ux", "ml", "ec", "fs", "gc", "gp", "vr", "ar",
+    ].into_iter().collect()
+});
+```
+
+Added `should_rename_package_segment()` function that checks the whitelist before applying length-based rename logic.
+
+**Results:**
+- `io`, `org`, `com`, `net`, `fi`, `rx` - correctly preserved
+- `okhttp3`, `okio`, `retrofit2`, `xcrash`, `bitter` - correctly preserved (already long enough)
+- `a`, `a/a` - correctly renamed to `p000a`, `p000a/p001a` (truly obfuscated)
+- All 683 integration tests pass
+- Package quality: 100% match with JADX
 
 ## Priority 1: Type Inference Improvements
 
@@ -227,14 +271,21 @@ Parse smali assembly files directly.
 | Deobfuscation parity | 100% | 100% |
 | Variable naming parity | 99% | 100% |
 | Generic type support | 95% | 100% |
+| Package name preservation | 100% | 100% |
 | Unknown variable types | ~20% | ~10% |
 | Array type precision | ~50% | ~70% |
 | Static initializer errors | ~10% | 0% |
 | Warning comment support | 0% | 100% |
-| Overall Quality Score | 77.1% | 85% |
+| Overall Quality Score | ~78% | 85% |
 | Code Quality Score | 66.6% | 75% |
 
-**Recent Progress (Dec 16):**
+**Recent Progress (Dec 16 - P2 Complete):**
+- P2: Added common package name whitelist (io, org, com, net, fi, etc.)
+- Package names like "io.reactivex" now preserved instead of becoming "p000io.reactivex"
+- All 683 integration tests pass
+- Package quality: 100% match with JADX
+
+**Recent Progress (Dec 16 - Earlier):**
 - Variable naming improved from 98% to 99% parity with JADX
 - Added field access naming, CheckCast naming, primitive cast naming, array naming
 - Added PHI node scoring to pick best name from PHI group

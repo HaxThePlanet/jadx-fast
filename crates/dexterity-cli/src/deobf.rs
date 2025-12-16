@@ -11,8 +11,10 @@
 //! - Class/package name collision detection
 //! - JOBF file persistence for alias caching
 //! - Whitelist support for excluding packages/classes
+//! - Common package name preservation (io, org, com, net, etc.)
 
 use std::collections::{HashMap, HashSet};
+use std::sync::LazyLock;
 use std::fs;
 use std::io::{BufRead, BufReader, Write};
 use std::path::PathBuf;
@@ -26,6 +28,65 @@ use dexterity_ir::{ArgType, ClassData, FieldData, MethodData};
 
 use crate::args::DeobfCfgFileMode;
 use crate::Args;
+
+/// Well-known short package names that should NOT be treated as obfuscated.
+///
+/// These are common package prefixes used in Java/Android development that happen
+/// to be shorter than the default minimum length (3 characters). Without this
+/// whitelist, packages like "io.reactivex" would incorrectly become "p000io.reactivex".
+///
+/// Categories:
+/// - Language packages: java, javax, kotlin, kotlinx
+/// - Common library prefixes: io, org, com, net, edu, gov, mil
+/// - JDK internals: sun, jdk
+/// - Android: android, androidx
+/// - Google: google, gms
+/// - Other common: me, co, cc, tv, fm, am, ai, de, uk, ru, jp, cn, kr, br, in, id, app
+static COMMON_PACKAGE_NAMES: LazyLock<HashSet<&'static str>> = LazyLock::new(|| {
+    [
+        // Java language packages
+        "java", "javax",
+        // Kotlin packages
+        "kotlin", "kotlinx",
+        // Common TLD-style package prefixes
+        "io", "org", "com", "net", "edu", "gov", "mil",
+        // JDK internal packages
+        "sun", "jdk",
+        // Android packages
+        "android", "androidx",
+        // Google packages
+        "google", "gms",
+        // Country code TLDs used as package prefixes
+        "me", "co", "cc", "tv", "fm", "am", "ai", "fi",
+        "de", "uk", "ru", "jp", "cn", "kr", "br", "in", "id",
+        // Additional country codes seen in libraries
+        "eu", "be", "nl", "at", "ch", "it", "es", "pl", "cz", "se", "no", "dk", "au", "nz",
+        // Other common short prefixes
+        "app", "api", "lib", "dev", "pro", "biz",
+        // RxJava/reactive
+        "rx",
+        // Common 2-letter abbreviations used in packages
+        "ws",  // websocket
+        "db",  // database
+        "ui",  // user interface
+        "os",  // operating system
+        "io",  // already covered above but for clarity
+        "js",  // javascript
+        "bg",  // background
+        "ad",  // advertising/ads
+        "ua",  // user agent
+        "ux",  // user experience
+        "ml",  // machine learning
+        "ec",  // error correction
+        "fs",  // filesystem
+        "gc",  // garbage collection
+        "gp",  // google play
+        "vr",  // virtual reality
+        "ar",  // augmented reality
+    ]
+    .into_iter()
+    .collect()
+});
 
 /// Generate (and register) deobfuscation aliases for all selected classes.
 ///
@@ -115,7 +176,7 @@ pub fn precompute_deobf_aliases(
                 .get_package_alias(parent)
                 .unwrap_or_else(|| parent.to_string());
 
-            let leaf_alias = if should_rename_simple_name(leaf, args) {
+            let leaf_alias = if should_rename_package_segment(leaf, args) {
                 provider.for_package(leaf)
             } else {
                 leaf.to_string()
@@ -123,7 +184,7 @@ pub fn precompute_deobf_aliases(
             format!("{}/{}", parent_alias, leaf_alias)
         } else {
             // Root package segment
-            if should_rename_simple_name(leaf, args) {
+            if should_rename_package_segment(leaf, args) {
                 provider.for_package(leaf)
             } else {
                 leaf.to_string()
@@ -305,6 +366,20 @@ fn apply_package_aliases(pkg_internal: &str, registry: &AliasRegistry) -> String
 fn should_rename_simple_name(name: &str, args: &Args) -> bool {
     let len = name.len();
     len < args.deobf_min_length || len > args.deobf_max_length
+}
+
+/// Check if a package segment should be renamed.
+///
+/// This differs from `should_rename_simple_name` by also checking against
+/// the whitelist of common short package names (io, org, com, net, etc.)
+/// that should never be treated as obfuscated despite their short length.
+fn should_rename_package_segment(name: &str, args: &Args) -> bool {
+    // Never rename well-known short package names
+    if COMMON_PACKAGE_NAMES.contains(name) {
+        return false;
+    }
+    // Otherwise, apply standard length-based check
+    should_rename_simple_name(name, args)
 }
 
 fn simple_name_from_desc(desc: &str) -> &str {

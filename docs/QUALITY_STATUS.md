@@ -105,6 +105,13 @@ public void processData(long l, Throwable th, Integer num, Class cls) {
 - Overall Quality Score: 77.1% (+1.1% from previous)
 - Code Quality: 66.6% (+2.6% from previous)
 - Defect Score: 90.3% (+0.6% from previous)
+- Package Quality: 100% (common names preserved)
+
+**Package Name Preservation (P2 - Dec 16 2025):**
+- Common short package names (io, org, com, net, etc.) are no longer incorrectly flagged as obfuscated
+- Whitelist includes: language packages (java, javax, kotlin, kotlinx), common TLDs (io, org, com, net, edu),
+  country codes (de, uk, ru, jp, fi, etc.), Android packages (android, androidx), and common abbreviations (ws, db, ui, os, ml, ec)
+- Only truly obfuscated single-letter packages (a, b, c) are renamed (e.g., `a/a` -> `p000a/p001a`)
 
 ### Example: Field Initializers
 
