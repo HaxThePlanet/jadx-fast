@@ -7,6 +7,7 @@ use std::any::{Any, TypeId};
 #[derive(Debug, Default)]
 pub struct AttributeStorage {
     flags: u64,
+    #[allow(dead_code)] // Planned for future attribute storage
     attrs: HashMap<TypeId, Box<dyn Any + Send + Sync>>,
 }
 

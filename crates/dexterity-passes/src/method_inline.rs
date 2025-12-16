@@ -9,7 +9,7 @@
 //! - Field setters: `obj.field = arg; return arg;` or `SomeClass.staticField = arg;`
 //! - Method delegation: `return obj.method(args);`
 
-use dexterity_ir::instructions::{InsnArg, InsnType, InvokeKind};
+use dexterity_ir::instructions::{InsnType, InvokeKind};
 use dexterity_ir::{MethodData, MethodInlineAttr};
 
 /// Analyze a method and determine if it can be inlined.
@@ -186,7 +186,7 @@ pub fn should_skip_method(method: &MethodData) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use dexterity_ir::instructions::{InsnNode, RegisterArg};
+    use dexterity_ir::instructions::{InsnArg, InsnNode, RegisterArg};
     use dexterity_ir::ArgType;
 
     fn make_synthetic_method(name: &str, access_flags: u32) -> MethodData {

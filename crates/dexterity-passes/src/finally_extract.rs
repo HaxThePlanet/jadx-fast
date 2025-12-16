@@ -323,7 +323,7 @@ fn remove_empty_up_path(cfg: &CFG, handler_blocks: &mut Vec<u32>, start_block: u
 }
 
 /// Check if edge is a back edge (loop)
-fn is_back_edge(cfg: &CFG, from: u32, to: u32) -> bool {
+fn is_back_edge(_cfg: &CFG, from: u32, to: u32) -> bool {
     // Simple check: if 'from' has higher ID than 'to', it's likely a back edge
     // More sophisticated check would use dominator tree
     from > to
@@ -733,11 +733,11 @@ fn same_insns(dup_insn: &InsnNode, finally_insn: &InsnNode) -> bool {
             f1 == f2
         }
         // For branches, check target matches
-        (InsnType::Goto { target: t1 }, InsnType::Goto { target: t2 }) => {
+        (InsnType::Goto { .. }, InsnType::Goto { .. }) => {
             // Targets may differ due to duplicate code placement, so allow
-            true || t1 == t2
+            true
         }
-        (InsnType::If { target: t1, condition: c1, .. }, InsnType::If { target: t2, condition: c2, .. }) => {
+        (InsnType::If { condition: c1, .. }, InsnType::If { condition: c2, .. }) => {
             // Conditions must match, targets may differ
             c1 == c2
         }

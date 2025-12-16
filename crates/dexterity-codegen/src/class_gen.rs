@@ -13,16 +13,13 @@
 
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 
-use dexterity_ir::{Annotation, AnnotationVisibility, ArgType, ClassData, FieldData, FieldValue};
+use dexterity_ir::{ArgType, ClassData, FieldData, FieldValue};
 
 use crate::access_flags::{self, AccessContext};
 use crate::dex_info::DexInfoProvider;
-use crate::method_gen::{generate_method, generate_method_with_dex};
+use crate::method_gen::{generate_annotation, should_emit_annotation};
 use crate::type_gen::{get_package, literal_to_string, type_to_string};
 use crate::writer::{CodeWriter, SimpleCodeWriter};
-
-// Import annotation generation functions from method_gen
-use crate::method_gen::{generate_annotation, should_emit_annotation};
 
 // =====================
 // Inner Class Utilities

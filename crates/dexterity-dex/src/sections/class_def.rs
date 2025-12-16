@@ -229,6 +229,7 @@ impl<'a> ClassDef<'a> {
 pub struct ClassData<'a> {
     reader: &'a DexReader,
     /// Offset to the class data
+    #[allow(dead_code)]
     offset: usize,
     /// Number of static fields
     pub static_fields_size: u32,

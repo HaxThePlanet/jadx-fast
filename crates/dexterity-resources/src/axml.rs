@@ -1013,12 +1013,6 @@ impl AxmlParser {
         }
     }
 
-    /// Start a new line for content (marks element as having content)
-    fn start_content_line(&mut self) {
-        self.start_line();
-        self.is_one_line = false;
-    }
-
     /// Add one level of indentation (4 spaces to match Java JADX)
     fn add_indent(&mut self) {
         self.output.push_str("    ");

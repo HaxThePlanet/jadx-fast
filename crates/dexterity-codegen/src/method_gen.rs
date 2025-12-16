@@ -7,7 +7,7 @@ use std::collections::BTreeSet;
 use dexterity_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData};
 
 use crate::access_flags::{self, flags::*, AccessContext};
-use crate::body_gen::{generate_body, generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes};
+use crate::body_gen::{generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes};
 use crate::dex_info::DexInfoProvider;
 use crate::type_gen::{get_innermost_name, get_simple_name, type_to_string_with_imports};
 use crate::writer::CodeWriter;
@@ -502,6 +502,7 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
 }
 
 /// Add method body using region-based code generation
+#[allow(dead_code)]
 fn add_method_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     add_method_body_with_dex_and_imports(method, None, None, code)
 }

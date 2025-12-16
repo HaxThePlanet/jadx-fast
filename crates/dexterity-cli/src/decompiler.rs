@@ -6,6 +6,8 @@
 //! 3. Decompilation passes (dexterity-passes)
 //! 4. Code generation (dexterity-codegen)
 
+#![allow(dead_code)]
+
 use dexterity_ir::regions::Region;
 use dexterity_ir::MethodData;
 use dexterity_passes::{

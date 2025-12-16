@@ -19,7 +19,7 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~54,000 lines of Rust | 4 active tests, 675 pending | ~70% JADX feature parity**
+**~59,000 lines of Rust | 4 active tests, 675 pending | ~70% JADX feature parity**
 
 ## Highlights
 
@@ -209,12 +209,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+/* loaded from: classes.dex */
 public class MainActivity extends Activity {
-
-    @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        this.setContentView(R.layout.activity_main);
+    @Override // android.app.Activity
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         Log.i("SmallApp", "Hello");
     }
 }
@@ -317,6 +317,52 @@ Rust tests are in `crates/dexterity-passes/tests/integration.disabled/` - most n
 | `dexterity-passes/src/type_inference.rs:665` | Compute LCA of all phi sources after initial resolution |
 
 ## Comparison with Java JADX
+
+### Region Builder Analysis
+
+The region builder transforms flat control flow graphs into hierarchical region trees for structured code generation. Dexterity's implementation is modeled after JADX's `RegionMaker`.
+
+**Core Algorithm: ~85% similar** - Same fundamental approach (back-edge loop detection, post-dominance conditionals, recursive region building with stack).
+
+| Feature | Dexterity | JADX | Status |
+|---------|-----------|------|--------|
+| **Architecture** |
+| Entry point | `build_regions()` → `make_method_region()` | `RegionMakerVisitor` → `makeMthRegion()` | Same |
+| Traversal | `traverse()` recursive DFS | `traverse()` recursive DFS | Same |
+| Region stack | `RegionStack` with exits | `RegionStack` with State/exits | Same |
+| **Loops** |
+| Back-edge detection | Yes | Yes | Done |
+| While/do-while | Yes | Yes | Done |
+| Break/continue insertion | `EdgeInsn::Break/Continue` | Break/Continue nodes | Done |
+| Loop labels (nested) | Yes | Yes | Done |
+| **For-loop recognition** | No | `LoopRegionVisitor` | **TODO** |
+| **For-each (arrays)** | No | Iterator/array patterns | **TODO** |
+| **For-each (iterables)** | No | Iterator patterns | **TODO** |
+| **Conditionals** |
+| If-else detection | Yes | Yes | Done |
+| Merge point (post-dom) | Yes | Yes | Done |
+| Condition merging (&&/\|\|) | `build_merged_condition()` | `mergeNestedIfNodes()` | Done |
+| **Ternary patterns** | No | `TERNARY` mode | **TODO** |
+| **Try-Catch-Finally** |
+| Try block detection | Yes | Yes | Done |
+| Exception handlers | `HandlerInfo` | Handler regions | Done |
+| Finally detection | `detect_finally_block()` | Yes | Done |
+| Duplicated finally extraction | `mark_duplicated_finally()` | Yes | Done |
+| **Switch** |
+| PackedSwitch | Yes | Yes | Done |
+| SparseSwitch | Yes | Yes | Done |
+| Merge point detection | Intersection of reachable sets | Dominance frontier | Done |
+| **Fallthrough handling** | Basic | Advanced with reordering | **TODO** |
+| **Break insertion pass** | Basic | `SwitchBreakVisitor` | **TODO** |
+| **Synchronized** |
+| MONITOR_ENTER/EXIT pairing | `find_sync_region()` | `SynchronizedRegionMaker` | Done |
+| Body detection | Forward reachability | Yes | Done |
+| **Post-Processing** |
+| If optimization | No | `IfRegionVisitor` | **TODO** |
+| Clean regions pass | No | `CleanRegions` | **TODO** |
+| Loop visitor | No | `LoopRegionVisitor` | **TODO** |
+
+**Feature Completeness: ~70%** - Core patterns work, but missing for-loop recognition, ternary detection, and advanced post-processing.
 
 ### Implementation Status
 

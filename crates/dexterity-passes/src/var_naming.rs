@@ -167,6 +167,7 @@ pub struct VarNaming<'a> {
     /// Counter for each base name (to generate unique suffixes)
     name_counters: HashMap<String, u32>,
     /// Parameter register start (parameters already have names)
+    #[allow(dead_code)]
     first_param_reg: u16,
     /// Method lookup: method_idx -> (method_name, class_name)
     method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,

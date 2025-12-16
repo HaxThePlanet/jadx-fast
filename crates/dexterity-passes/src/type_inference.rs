@@ -876,6 +876,7 @@ impl TypeInference {
 
     /// Unify two types (check compatibility and potentially merge using hierarchy)
     /// NOTE: &self because this only reads hierarchy - enables callers to avoid cloning
+    #[allow(dead_code)]
     fn unify_types(&self, t1: &InferredType, t2: &InferredType) -> bool {
         match (t1, t2) {
             (InferredType::Concrete(a), InferredType::Concrete(b)) => {
@@ -891,7 +892,7 @@ impl TypeInference {
                 // and update to the more specific type
                 if cmp.is_narrow() || cmp.is_wider() {
                     // Update to narrower (more specific) type
-                    let narrower = if cmp.is_narrow() { a } else { b };
+                    let _narrower = if cmp.is_narrow() { a } else { b };
                     // Store the more specific type for this variable
                     // (This will be handled by the caller)
                     return true;
@@ -913,6 +914,7 @@ impl TypeInference {
     }
 
     /// Select the more specific (narrower) type between two types
+    #[allow(dead_code)]
     fn select_narrower_type(&self, t1: &ArgType, t2: &ArgType) -> ArgType {
         let cmp = compare_types(t1, t2, self.hierarchy.as_ref());
 

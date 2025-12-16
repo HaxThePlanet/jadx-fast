@@ -32,11 +32,8 @@
 //! Labels are generated for nested loops (e.g., `break loop_0;`)
 
 use std::collections::{BTreeMap, BTreeSet};
-use std::sync::{Arc, Mutex};
 
-use tracing;
-
-use dexterity_ir::instructions::{IfCondition, InsnType};
+use dexterity_ir::instructions::InsnType;
 use dexterity_ir::regions::{CatchHandler, Condition, LoopKind, Region, RegionContent, SwitchCase};
 
 use crate::block_split::BasicBlock;
@@ -183,7 +180,7 @@ pub fn detect_loop_edge_insns(cfg: &CFG, loop_info: &LoopInfo, all_loops: &[Loop
 }
 
 /// Get label for break statement (needed for nested loops)
-fn get_break_label(loop_info: &LoopInfo, all_loops: &[LoopInfo]) -> Option<String> {
+fn get_break_label(loop_info: &LoopInfo, _all_loops: &[LoopInfo]) -> Option<String> {
     // Check if this loop is nested inside another
     if loop_info.parent.is_some() {
         // Generate label like "loop_N" where N is the header block
@@ -491,8 +488,10 @@ struct RegionBuilder<'a> {
     #[allow(dead_code)]
     syncs: &'a [SyncInfo],
     /// Try-catch regions
+    #[allow(dead_code)]
     tries: &'a [TryInfo],
     /// Merged condition chains (for &&, || synthesis)
+    #[allow(dead_code)]
     merged_conditions: &'a [MergedCondition],
     /// Blocks that have been processed (like Java's processedBlocks)
     processed: BTreeSet<u32>,
@@ -507,6 +506,7 @@ struct RegionBuilder<'a> {
     /// Merged condition first_block -> MergedCondition lookup
     merged_map: BTreeMap<u32, &'a MergedCondition>,
     /// Blocks that are part of a merged condition (to skip when encountered)
+    #[allow(dead_code)]
     merged_blocks: BTreeSet<u32>,
     /// Region stack for exit tracking
     stack: RegionStack,
@@ -758,6 +758,7 @@ impl<'a> RegionBuilder<'a> {
     }
 
     /// Find a nested loop starting at this block within a synchronized region
+    #[allow(dead_code)]
     fn find_nested_loop_in_sync(&self, block: u32, sync: &SyncInfo) -> Option<&'a LoopInfo> {
         self.loops.iter().find(|l| {
             l.header == block && sync.body_blocks.contains(&l.header)

@@ -4,7 +4,7 @@ Remaining work to achieve full JADX parity.
 
 ## Current State
 
-- **~98% feature complete** vs Java jadx-core
+- **~70% feature complete** vs Java jadx-core (core pipeline works, missing optimization passes)
 - **~98% variable naming parity** with JADX (PHI merging, debug info, fallback naming)
 - **Type inference foundation complete** (ClassHierarchy, TypeCompare)
 - **Generic types complete** (field/method signatures, type variables, wildcards)

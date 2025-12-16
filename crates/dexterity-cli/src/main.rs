@@ -68,13 +68,11 @@ use indicatif::{ProgressBar, ProgressStyle};
 use rayon::prelude::*;
 
 use dexterity_codegen::{LazyDexInfo, DexInfoProvider, AliasAwareDexInfo, GlobalFieldPool};
-use dexterity_ir::ClassData;
 use dexterity_dex::DexReader;
 use dexterity_kotlin;
 use dexterity_deobf::{
     AliasRegistry, parse_proguard_mapping,
 };
-use std::collections::HashMap;
 use std::sync::Arc;
 
 pub use args::*;
@@ -485,6 +483,7 @@ fn process_resources_streaming(
     Ok(())
 }
 
+#[allow(dead_code)]
 fn process_resources(
     out_res: &PathBuf,
     manifest_data: Option<Vec<u8>>,
@@ -1469,6 +1468,7 @@ fn should_skip_class_full(class_name: &str) -> bool {
         || class_name.contains("/databinding/")
 }
 
+#[allow(dead_code)]
 fn class_name_to_path(class_name: &str) -> PathBuf {
     let name = class_name
         .trim_start_matches('L')
@@ -1478,6 +1478,7 @@ fn class_name_to_path(class_name: &str) -> PathBuf {
 }
 
 /// Generate stub Java code for a class (placeholder until full decompilation)
+#[allow(dead_code)]
 fn generate_class_stub(class: &dexterity_dex::sections::ClassDef<'_>, class_name: &str) -> Result<String> {
     // Class name format: "Lcom/example/Foo;" -> extract "Foo"
     let stripped = class_name

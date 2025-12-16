@@ -35,23 +35,15 @@ use crate::type_gen::literal_to_string;
 /// otherwise capacity accumulates and causes memory explosions (100GB+ OOM).
 ///
 /// See reset() documentation for detailed explanation of the bug.
-///
-/// OPTIMIZATION: Uses Arc<str> instead of String for var_names, strings, and
-/// type_names. This makes .clone() nearly free (atomic refcount bump) instead
-/// of allocating a new String on every access. Critical for performance since
-/// gen_arg() is called millions of times during code generation.
 pub struct ExprGen {
     /// Variable names: (reg_num, ssa_version) -> name
-    /// Uses Arc<str> for cheap cloning in hot paths
-    var_names: HashMap<(u16, u32), Arc<str>>,
+    var_names: HashMap<(u16, u32), String>,
     /// Variable types (for casting decisions)
     var_types: HashMap<(u16, u32), ArgType>,
     /// String pool for const-string (local cache)
-    /// Uses Arc<str> for cheap cloning in hot paths
-    strings: HashMap<u32, Arc<str>>,
+    strings: HashMap<u32, String>,
     /// Type names for type_idx (local cache)
-    /// Uses Arc<str> for cheap cloning in hot paths
-    type_names: HashMap<u32, Arc<str>>,
+    type_names: HashMap<u32, String>,
     /// Field info for field_idx (local cache)
     field_info: HashMap<u32, FieldInfo>,
     /// Method info for method_idx (local cache)
@@ -227,9 +219,9 @@ impl ExprGen {
         });
     }
 
-    /// Set variable name (converts to Arc<str> for cheap cloning)
+    /// Set variable name
     pub fn set_var_name(&mut self, reg: u16, version: u32, name: String) {
-        self.var_names.insert((reg, version), Arc::from(name));
+        self.var_names.insert((reg, version), name);
     }
 
     /// Set variable type
@@ -237,14 +229,14 @@ impl ExprGen {
         self.var_types.insert((reg, version), ty);
     }
 
-    /// Set string constant (converts to Arc<str> for cheap cloning)
+    /// Set string constant
     pub fn set_string(&mut self, idx: u32, value: String) {
-        self.strings.insert(idx, Arc::from(value));
+        self.strings.insert(idx, value);
     }
 
-    /// Set type name (converts to Arc<str> for cheap cloning)
+    /// Set type name
     pub fn set_type_name(&mut self, idx: u32, name: String) {
-        self.type_names.insert(idx, Arc::from(name));
+        self.type_names.insert(idx, name);
     }
 
     /// Set field info
@@ -274,26 +266,23 @@ impl ExprGen {
     }
 
     /// Get variable name (or generate default)
-    /// Returns Arc<str> for cheap cloning - clone is just atomic refcount bump
-    pub fn get_var_name(&self, reg: &RegisterArg) -> Arc<str> {
+    pub fn get_var_name(&self, reg: &RegisterArg) -> String {
         self.var_names
             .get(&(reg.reg_num, reg.ssa_version))
             .cloned()
-            .unwrap_or_else(|| Arc::from(format!("v{}", reg.reg_num)))
+            .unwrap_or_else(|| format!("v{}", reg.reg_num))
     }
 
     /// Get string by index (local cache first, then DEX provider)
-    /// Returns Arc<str> for cheap cloning
-    pub fn get_string_value(&self, idx: u32) -> Option<Arc<str>> {
+    pub fn get_string_value(&self, idx: u32) -> Option<String> {
         self.strings.get(&idx).cloned()
-            .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_string(idx).map(Arc::from)))
+            .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_string(idx)))
     }
 
     /// Get type name by index (local cache first, then DEX provider)
-    /// Returns Arc<str> for cheap cloning
-    pub fn get_type_value(&self, idx: u32) -> Option<Arc<str>> {
+    pub fn get_type_value(&self, idx: u32) -> Option<String> {
         self.type_names.get(&idx).cloned()
-            .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_type_name(idx).map(Arc::from)))
+            .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_type_name(idx)))
     }
 
     /// Get field info by index (local cache first, then DEX provider)

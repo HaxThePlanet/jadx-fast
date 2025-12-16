@@ -1,5 +1,5 @@
 
-use crate::info::{Annotation, AnnotationElement, AnnotationValue, ClassData};
+use crate::info::{Annotation, AnnotationValue, ClassData};
 
 #[derive(Debug, Clone, Default)]
 pub struct KotlinMetadata {

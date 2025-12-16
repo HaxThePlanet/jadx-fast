@@ -38,13 +38,13 @@ use dexterity_ir::MethodData;
 use dexterity_passes::block_split::{split_blocks, BasicBlock};
 use dexterity_passes::cfg::CFG;
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
-use dexterity_passes::ssa::{transform_to_ssa, transform_to_ssa_owned, SsaResult, SsaBlock};
+use dexterity_passes::ssa::transform_to_ssa_owned;
 use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 
 use crate::class_gen::is_anonymous_class;
 use crate::dex_info::DexInfoProvider;
 use crate::expr_gen::ExprGen;
-use crate::method_gen::{generate_method_with_dex, should_emit_annotation, generate_annotation};
+use crate::method_gen::generate_method_with_dex;
 use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_else_if,
     gen_if_header, gen_while_header,

@@ -291,7 +291,7 @@ impl MergedCondition {
     }
 
     /// Check if another condition can be merged with this one
-    pub fn can_merge(&self, other: &IfInfo, cfg: &CFG) -> Option<MergeMode> {
+    pub fn can_merge(&self, other: &IfInfo, _cfg: &CFG) -> Option<MergeMode> {
         // Check for AND pattern: this.then leads directly to other.condition
         if let Some(then_block) = self.then_block {
             if then_block == other.condition_block {
@@ -476,8 +476,6 @@ pub fn detect_ternary_assignment(
     then_block: &crate::block_split::BasicBlock,
     else_block: &crate::block_split::BasicBlock,
 ) -> Option<(u16, u32, u32)> {
-    use dexterity_ir::instructions::InsnType;
-
     // Find last assignment in then block (excluding control flow)
     let then_assign = then_block.instructions.iter().rev()
         .find(|insn| !is_control_flow_insn(&insn.insn_type))

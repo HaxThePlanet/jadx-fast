@@ -39,6 +39,7 @@ pub(crate) fn read_u16(data: &[u8], offset: usize) -> u16 {
 
 /// Helper to read an i32 from a byte slice
 #[inline]
+#[allow(dead_code)]
 pub(crate) fn read_i32(data: &[u8], offset: usize) -> i32 {
     i32::from_le_bytes([
         data[offset],
