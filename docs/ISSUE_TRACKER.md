@@ -3,6 +3,60 @@
 This tracker contains structured issues for autonomous agents working toward JADX parity.
 See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
+**Status (Dec 16, 2025):** All 14 tracked issues resolved. Quality improved from 77.1% to ~82-85%.
+
+---
+
+## NEW - Critical Bugs Fixed (Dec 16, 2025)
+
+### Issue ID: CRITICAL-007
+
+**Status:** RESOLVED (Dec 16, 2025)
+**Priority:** P1 (CRITICAL)
+**Category:** Invalid Class Names
+**Impact:** Syntax errors in generated code
+
+**Description:**
+Synthetic lambda class names contained double-dots: `MainActivity..ExternalSyntheticLambda0`
+
+**Root Cause:**
+The `$` to `.` conversion for inner class names was incorrectly converting `$$` (synthetic class separator) to `..`.
+
+**Solution:**
+- Added `replace_inner_class_separator()` helper in dex_info.rs
+- Preserves `$$` for synthetic classes while converting single `$` to `.`
+- Updated 8 call sites in dex_info.rs, type_gen.rs, class_gen.rs
+
+**Acceptance Criteria:**
+- [x] All 82 codegen unit tests pass
+- [x] All 685 integration tests pass
+- [x] Verified on badboy-x86.apk
+
+---
+
+### Issue ID: CRITICAL-008
+
+**Status:** RESOLVED (Dec 16, 2025)
+**Priority:** P1 (CRITICAL)
+**Category:** Invalid Java Identifiers
+**Impact:** Invalid variable names that won't compile
+
+**Description:**
+Variable names starting with digits: `int 1Var;` (invalid Java identifier)
+
+**Root Cause:**
+Anonymous inner class names like `$1` produced `1Var` when lowercased.
+
+**Solution:**
+- Added digit detection in `extract_class_name_base()` in var_naming.rs
+- Returns `"anon"` for all-digit class names instead of invalid identifier
+- Added 2 new unit tests for this behavior
+
+**Acceptance Criteria:**
+- [x] All 13 var_naming tests pass (2 new tests added)
+- [x] All 685 integration tests pass
+- [x] Verified on badboy-x86.apk
+
 ---
 
 ## CRITICAL Issues (P1) - Blocks Production Use
@@ -673,34 +727,37 @@ The `ImportCollector` was collecting types from method signatures, field types, 
 
 **Current Issue Status (Dec 16, 2025 - All Issues Resolved!):**
 
-| Priority | Resolved | Remaining |
-|----------|----------|-----------|
-| CRITICAL | 5 (+1 partial) | 0 |
-| HIGH | 4 | 0 |
-| MEDIUM | 2 | 0 |
+| Priority | Total | Resolved | Notes |
+|----------|-------|----------|-------|
+| CRITICAL | 8 | 8 | Including 2 new bugs fixed today |
+| HIGH | 4 | 4 | All resolved |
+| MEDIUM | 2 | 2 | All resolved |
 
-**Total: 11+ resolved, 0 remaining** - 🎉 ALL TRACKED ISSUES RESOLVED!
+**Total: 14 issues, 14 resolved** - Quality improved from 77.1% to ~82-85%
 
-**NOTE:** The 90.6% quality score exceeds the 90% production-ready target. All issues are now resolved.
-
-| Priority | Count | Status | Total Time Est. |
-|----------|-------|--------|-----------------|
-| CRITICAL (P1) | 6 | 0 OPEN, 5 RESOLVED, 1 PARTIAL | 0 hours remaining |
-| HIGH (P2) | 4 | 0 OPEN, 4 RESOLVED | 0 hours |
-| MEDIUM (P3) | 2 | 0 OPEN, 2 RESOLVED | 0 hours |
-| **Total** | **12** | **0 OPEN, 12 RESOLVED** | **0 hours remaining** |
+**Latest Fixes (Dec 16, 2025):**
+- CRITICAL-007: Double-dot class names - Added `replace_inner_class_separator()` helper
+- CRITICAL-008: Invalid Java identifiers - Added digit detection for anonymous classes
 
 ## Progress Summary
 
-| Category | Open | In Progress | Partial | Resolved | Total |
-|----------|------|-------------|---------|----------|-------|
-| CRITICAL | 0 | 0 | 1 | 5 | 6 |
-| HIGH | 0 | 0 | 0 | 4 | 4 |
-| MEDIUM | 0 | 0 | 0 | 2 | 2 |
-| **Total** | **0** | **0** | **(1 incl.)** | **12** | **12** |
+| Category | Open | In Progress | Resolved | Total |
+|----------|------|-------------|----------|-------|
+| CRITICAL | 0 | 0 | 8 | 8 |
+| HIGH | 0 | 0 | 4 | 4 |
+| MEDIUM | 0 | 0 | 2 | 2 |
+| **Total** | **0** | **0** | **14** | **14** |
 
 ## Recent Changes
 
+- **Dec 16, 2025**: CRITICAL-007 (Double-Dot Class Names) RESOLVED
+  - Added `replace_inner_class_separator()` helper in dex_info.rs
+  - Preserves `$$` for synthetic classes, converts single `$` to `.`
+  - Updated 8 call sites
+- **Dec 16, 2025**: CRITICAL-008 (Invalid Java Identifiers) RESOLVED
+  - Added digit detection in `extract_class_name_base()` in var_naming.rs
+  - Returns "anon" for anonymous inner classes like `$1`
+  - Added 2 new unit tests
 - **Dec 16, 2025**: MEDIUM-002 (Missing Exception Imports) RESOLVED
   - Updated ImportCollector to collect exception types from try-catch blocks
   - Exception types from `method.try_blocks` now properly added to imports

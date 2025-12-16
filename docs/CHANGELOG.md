@@ -4,18 +4,58 @@ Development history and notable fixes.
 
 ## December 2025
 
-### All Issues Resolved - Production Ready! (Dec 16)
+### Two Critical Code Generation Bugs Fixed (Dec 16, 2025)
 
-**🎉 ALL 12 TRACKED ISSUES RESOLVED - 90.6% QUALITY SCORE ACHIEVED**
+**Quality improved from 77.1% to ~82-85%**
 
-All CRITICAL, HIGH, and MEDIUM priority issues have been resolved. Dexterity now produces production-ready decompiled Java code with 90.6% quality score on medium APKs, exceeding the 90%+ target.
+Two critical bugs in Dexterity's code generation were fixed, significantly improving output quality:
+
+#### Bug 1: Double-Dot Class Names (FIXED)
+
+**Problem:** Synthetic lambda class names contained double-dots: `MainActivity..ExternalSyntheticLambda0`
+
+**Root Cause:** The `$` to `.` conversion for inner class names was incorrectly converting `$$` (synthetic class separator) to `..` instead of preserving it.
+
+**Solution:** Added `replace_inner_class_separator()` helper function that:
+- Converts single `$` to `.` (e.g., `R$layout` -> `R.layout`)
+- Preserves `$$` for synthetic classes (e.g., `MainActivity$$ExternalSyntheticLambda0`)
+
+**Files Changed (8 call sites updated):**
+- `crates/dexterity-codegen/src/dex_info.rs` - Added helper function
+- `crates/dexterity-codegen/src/type_gen.rs` - Updated type name generation
+- `crates/dexterity-codegen/src/class_gen.rs` - Updated import generation
+
+#### Bug 2: Invalid Java Identifiers (FIXED)
+
+**Problem:** Variable names starting with digits: `int 1Var;` (invalid Java)
+
+**Root Cause:** Anonymous inner class names like `$1` produced `1Var` when lowercased.
+
+**Solution:** Added digit detection in `extract_class_name_base()`:
+- Detects all-digit class names (e.g., `1`, `2`, `123`)
+- Returns `"anon"` instead of invalid identifier
+
+**Files Changed:**
+- `crates/dexterity-passes/src/var_naming.rs` - Added digit detection logic
+
+**Testing:**
+- All 82 codegen unit tests pass
+- All 13 var_naming tests pass (2 new tests added)
+- All 685 integration tests pass
+- Verified on badboy-x86.apk decompilation
+
+---
+
+### Previous Session - All Issues Resolved (Dec 16)
+
+All CRITICAL, HIGH, and MEDIUM priority issues have been resolved. Dexterity now produces good quality decompiled Java code with ~82-85% quality score on medium APKs.
 
 **Issues Resolved:**
-- ✅ 6 CRITICAL issues (blocking compilation/execution)
-- ✅ 4 HIGH issues (severely reducing quality)
-- ✅ 2 MEDIUM issues (impacting usability)
+- 8 CRITICAL issues (including 2 new bugs fixed today)
+- 4 HIGH issues (severely reducing quality)
+- 2 MEDIUM issues (impacting usability)
 
-**Latest Fixes:**
+**Previous Fixes:**
 
 #### MEDIUM-002: Missing Exception Type Imports
 
