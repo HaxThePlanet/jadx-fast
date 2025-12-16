@@ -25,7 +25,11 @@ pub fn convert_class(
     process_debug_info: bool,
 ) -> Result<ClassData> {
     let class_type = class_def.class_type()?;
-    let access_flags = class_def.access_flags();
+
+    // Get access flags - for inner classes, use flags from InnerClass annotation
+    // The class_def access_flags don't include 'static' for inner classes,
+    // but dalvik/annotation/InnerClass annotation contains the real access flags
+    let access_flags = get_effective_access_flags(dex, class_def);
 
     let mut class_data = ClassData::new(class_type, access_flags);
 
@@ -151,6 +155,43 @@ pub fn convert_class(
     // See Java JADX pattern: ProcessClass.java processes classes AFTER load().
 
     Ok(class_data)
+}
+
+/// Get effective access flags for a class
+///
+/// For inner classes, the DEX class_def access_flags don't include modifiers like 'static'.
+/// The real access flags are stored in the dalvik/annotation/InnerClass annotation.
+/// This function extracts those flags when present.
+///
+/// See JADX's ClassNode.getAccessFlags() for the equivalent implementation.
+fn get_effective_access_flags(dex: &DexReader, class_def: &ClassDef<'_>) -> u32 {
+    // Start with the raw class_def flags
+    let raw_flags = class_def.access_flags();
+
+    // Try to get the InnerClass annotation flags
+    if let Ok(annots) = class_def.class_annotations() {
+        for annot_item in annots {
+            // Resolve annotation type name
+            if let Ok(type_name) = dex.get_type(annot_item.annotation.type_idx) {
+                if type_name == "Ldalvik/annotation/InnerClass;" {
+                    // Found InnerClass annotation - extract accessFlags element
+                    for elem in &annot_item.annotation.elements {
+                        if let Ok(name) = dex.get_string(elem.name_idx) {
+                            if name.as_ref() == "accessFlags" {
+                                if let EncodedValue::Int(flags) = &elem.value {
+                                    // Return the flags from annotation
+                                    return *flags as u32;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // No InnerClass annotation found, use raw flags
+    raw_flags
 }
 
 /// Convert a DEX EncodedField to IR FieldData

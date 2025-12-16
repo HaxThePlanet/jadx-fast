@@ -43,10 +43,10 @@ Currently preventing medium/large APKs from production use:
 | Priority | Resolved | Remaining |
 |----------|----------|-----------|
 | CRITICAL | 4 (+1 partial) | 2 |
-| HIGH | 1 | 3 |
+| HIGH | 2 | 2 |
 | MEDIUM | 0 | 2 |
 
-**Total: 5 resolved, 7 remaining** to reach 90%+ quality target.
+**Total: 6 resolved, 6 remaining** to reach 90%+ quality target.
 
 ### CRITICAL (P1) Issues: 3/6 Resolved (1 Partial)
 
@@ -57,11 +57,11 @@ Currently preventing medium/large APKs from production use:
 - [x] CRITICAL-005: Logic inversion - null check backwards - FIXED Dec 16
 - [ ] CRITICAL-006: Missing method bodies
 
-### HIGH (P2) Issues: 1/4 Resolved
+### HIGH (P2) Issues: 2/4 Resolved
 
 - [ ] HIGH-001: Register-based variable names (v2, v3, v6)
 - [x] HIGH-002: Duplicate variable declarations - FIXED Dec 16 (commit afef269)
-- [ ] HIGH-003: Missing `static` modifier on inner classes
+- [x] HIGH-003: Missing `static` modifier on inner classes - FIXED Dec 16
 - [ ] HIGH-004: Unreachable code not removed
 
 ### MEDIUM (P3) Issues: 0/2 Resolved
@@ -154,6 +154,27 @@ Currently preventing medium/large APKs from production use:
 - `crates/dexterity-codegen/src/expr_gen.rs`
 
 **Result:** Method parameters now correctly generate `== null` instead of `== 0`
+
+---
+
+### HIGH-003: Missing Static Modifier on Inner Classes - FIXED Dec 16, 2025
+
+**Problem:** Inner classes missing `static` keyword: `public class Builder` instead of `public static class Builder`.
+
+**Root Cause:** In DEX format, the `static` modifier for inner classes is NOT stored in the class_def access_flags. Instead, it's stored in the `dalvik/annotation/InnerClass` annotation's `accessFlags` element. The converter was only reading the raw class_def flags.
+
+**Solution:**
+- Added `get_effective_access_flags()` function in converter.rs
+- This function checks for `Ldalvik/annotation/InnerClass;` annotation
+- Extracts the `accessFlags` element value from the annotation
+- Returns annotation flags when present, otherwise falls back to raw class_def flags
+
+**Files Changed:**
+- `crates/dexterity-cli/src/converter.rs` - Added `get_effective_access_flags()` function
+
+**Result:** Inner classes now correctly have `public static class Builder` when appropriate.
+
+**Testing:** 683/683 integration tests pass. Verified on real APK (HoYoverse) - many inner classes now show correct `static` modifier.
 
 ---
 
@@ -354,24 +375,24 @@ When you fix an issue, document it here:
 | Priority | Resolved | Remaining |
 |----------|----------|-----------|
 | CRITICAL | 4 (+1 partial) | 2 |
-| HIGH | 1 | 3 |
+| HIGH | 2 | 2 |
 | MEDIUM | 0 | 2 |
 
-**Total: 5 resolved, 7 remaining** to reach 90%+ quality target.
+**Total: 6 resolved, 6 remaining** to reach 90%+ quality target.
 
-**Recent fixes (commit afef269):**
+**Recent fixes:**
+- HIGH-003: Missing Static Modifier on Inner Classes - RESOLVED Dec 16
 - HIGH-002: Duplicate Variable Declarations - RESOLVED
 - CRITICAL-004: Type Comparison (== 0 vs == null) - PARTIAL (method parameters fixed)
 
-With CRITICAL-001, CRITICAL-003, CRITICAL-005, HIGH-002, and CRITICAL-004 (partial) now fixed, the remaining blockers are:
+With CRITICAL-001, CRITICAL-003, CRITICAL-005, HIGH-002, HIGH-003, and CRITICAL-004 (partial) now fixed, the remaining blockers are:
 
 1. **CRITICAL-002**: Undefined variable `v2` in nested scopes
 2. **CRITICAL-006**: Missing method bodies
 3. **HIGH-001**: Register-based variable names (v2, v3, v6)
-4. **HIGH-003**: Missing `static` modifier on inner classes
-5. **HIGH-004**: Unreachable code not removed
-6. **MEDIUM-001**: Fully qualified names instead of imports
-7. **MEDIUM-002**: Missing exception type imports
+4. **HIGH-004**: Unreachable code not removed
+5. **MEDIUM-001**: Fully qualified names instead of imports
+6. **MEDIUM-002**: Missing exception type imports
 
 **Recommendation for Next Agent:**
 Focus on CRITICAL-002 or CRITICAL-006 as they have the most compilation impact.

@@ -462,7 +462,7 @@ The `declared_vars` tracking used `(reg, version)` as key, but different SSA ver
 
 ### Issue ID: HIGH-003
 
-**Status:** OPEN
+**Status:** RESOLVED (Dec 16, 2025)
 **Priority:** P2 (HIGH)
 **Category:** Missing Static Modifier
 **Impact:** Structural error, inheritance issues
@@ -473,30 +473,37 @@ The `declared_vars` tracking used `(reg, version)` as key, but different SSA ver
 
 Inner classes missing `static` keyword.
 
-**Expected:**
-```java
-public static class Builder {
-```
-
-**Actual:**
+**Previous Output (Before Fix):**
 ```java
 public class Builder {  // Missing static!
 ```
 
-**Root Cause:**
+**Current Output (After Fix):**
+```java
+public static class Builder {  // FIXED: static modifier now present
+```
 
-Class member resolution not tracking static modifier properly.
+**Root Cause (Found):**
 
-**Relevant Code Areas:**
+In DEX format, the `static` modifier for inner classes is NOT stored in the class_def access_flags. Instead, it's stored in the `dalvik/annotation/InnerClass` annotation's `accessFlags` element. The converter was only reading the raw class_def flags and missing the annotation-provided flags.
 
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs` - Class structure generation
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/nodes.rs` - Class metadata
+This is identical to how JADX handles it - see `ClassNode.getAccessFlags()` which checks for `InnerClassesAttr`.
+
+**Resolution:**
+
+Added `get_effective_access_flags()` function in converter.rs that:
+1. Reads class annotations looking for `Ldalvik/annotation/InnerClass;`
+2. Extracts the `accessFlags` element value from the annotation
+3. Returns annotation flags when present, otherwise falls back to raw class_def flags
+
+**Files Changed:**
+- `crates/dexterity-cli/src/converter.rs` - Added `get_effective_access_flags()` function
 
 **Acceptance Criteria:**
 
-- [ ] Inner classes properly marked as static
-- [ ] Modifiers match original DEX
-- [ ] Tests pass
+- [x] Inner classes properly marked as static
+- [x] Modifiers match original DEX
+- [x] Tests pass (683/683)
 
 ---
 
@@ -615,29 +622,33 @@ catch (JSONException e) {  // JSONException not imported - won't compile
 | Priority | Resolved | Remaining |
 |----------|----------|-----------|
 | CRITICAL | 4 (+1 partial) | 2 |
-| HIGH | 1 | 3 |
+| HIGH | 2 | 2 |
 | MEDIUM | 0 | 2 |
 
-**Total: 5 resolved, 7 remaining** to reach 90%+ quality target.
+**Total: 6 resolved, 6 remaining** to reach 90%+ quality target.
 
 | Priority | Count | Status | Total Time Est. |
 |----------|-------|--------|-----------------|
 | CRITICAL (P1) | 6 | 2 OPEN, 3 RESOLVED, 1 PARTIAL | 4-8 hours remaining |
-| HIGH (P2) | 4 | 3 OPEN, 1 RESOLVED | 5-8 hours |
+| HIGH (P2) | 4 | 2 OPEN, 2 RESOLVED | 4-6 hours |
 | MEDIUM (P3) | 2 | OPEN | 2-3 hours |
-| **Total** | **12** | **7 OPEN, 5 RESOLVED** | **11-19 hours remaining** |
+| **Total** | **12** | **6 OPEN, 6 RESOLVED** | **10-17 hours remaining** |
 
 ## Progress Summary
 
 | Category | Open | In Progress | Partial | Resolved | Total |
 |----------|------|-------------|---------|----------|-------|
 | CRITICAL | 2 | 0 | 1 | 3 | 6 |
-| HIGH | 3 | 0 | 0 | 1 | 4 |
+| HIGH | 2 | 0 | 0 | 2 | 4 |
 | MEDIUM | 2 | 0 | 0 | 0 | 2 |
-| **Total** | **7** | **0** | **(1 incl.)** | **5** | **12** |
+| **Total** | **6** | **0** | **(1 incl.)** | **6** | **12** |
 
 ## Recent Changes
 
+- **Dec 16, 2025**: HIGH-003 (Missing Static Modifier) RESOLVED
+  - Added `get_effective_access_flags()` function in converter.rs
+  - Extracts inner class access flags from `dalvik/annotation/InnerClass` annotation
+  - Inner classes now correctly have `static` modifier when appropriate
 - **Dec 16, 2025**: CRITICAL-001 (Undefined Loop Variables) RESOLVED
   - Added `gen_arg_with_inline_peek()` and `emit_condition_block_prelude()` in body_gen.rs
   - Loop conditions now correctly emit setup instructions
