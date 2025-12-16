@@ -68,7 +68,7 @@ Current focus areas for reaching JADX parity:
 | **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
 | **4** | For-loop recognition | Convert while loops to for/for-each patterns | ✅ Done (Dec 15) |
 | **5** | Ternary detection | Convert if-else to `? :` expressions | ✅ Done (Dec 15) |
-| **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR, increment/decrement patterns (`i++`, `i--`, `i += N`) | ✅ Done (Dec 15) |
+| **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR, increment/decrement patterns (`i++`, `i--`, `i += N`), bitwise-to-logical conversion | ✅ Done (Dec 15) |
 | **7** | Constant inlining | Inline single-use constants into expressions | ✅ Done (Dec 15) |
 
 ## Recent Implementation Details
@@ -116,6 +116,39 @@ The `format_constant` function detects boundary and special values and substitut
 - `test_special_long_values` - Long boundary values
 - `test_special_float_values` - Float NaN, infinity, and bounds
 - `test_special_double_values` - Double NaN, infinity, and bounds
+
+### Bitwise to Logical Conversion
+
+Intelligent pattern detection converts redundant bitwise boolean comparisons into cleaner logical operations, producing more idiomatic Java code that matches JADX output.
+
+**Pattern Transformations:**
+
+| Expression | Detection | Transformation |
+|------------|-----------|---|
+| `(a & b) == true` | Bitwise AND with true comparison | `a && b` |
+| `(a \| b) == true` | Bitwise OR with true comparison | `a \|\| b` |
+| `(a & b) != false` | Bitwise AND with false inequality | `a && b` |
+| `(a \| b) == false` | Bitwise OR with false equality | `!(a \|\| b)` |
+
+**How It Works:**
+
+The optimization detects when:
+1. A comparison operation compares a value to a boolean literal (`true` or `false`)
+2. The compared value is produced by a bitwise operation (`&` or `|`)
+3. Both operands of the bitwise operation are boolean types
+
+When these conditions are met, the bitwise operator is replaced with the equivalent logical operator.
+
+**Implementation:** File: `/crates/dexterity-codegen/src/body_gen.rs`
+
+Helper functions:
+- `find_bitwise_boolean_op()` - Locates the defining instruction for a register
+- `is_arg_boolean()` - Checks if an argument is of boolean type
+
+**Test Results:**
+- ✅ `bitwise_and_test4` now produces: `if (this.a && this.b) {`
+- ✅ `bitwise_or_test4` now produces: `if (this.a || this.b) {`
+- ✅ All 683 integration tests pass
 
 ## Quick Start
 
@@ -218,7 +251,7 @@ Dexterity  │  112  │  3.88s │  9,607
 | DEX Parsing | ✅ 100% | All 224 Dalvik opcodes |
 | Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
 | Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
-| Code Generation | 🔶 97% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting done; only for-each disabled |
+| Code Generation | 🔶 98% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion done; only for-each disabled |
 | Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
