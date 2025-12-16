@@ -63,7 +63,7 @@ Current focus areas for reaching JADX parity:
 
 | Priority | Task | Impact | Status |
 |----------|------|--------|--------|
-| **1** | Complete 683 integration tests (364 TODOs remain) | Fill in missing test sources and assertions | 🔄 In Progress |
+| **1** | Complete 683 integration tests (289 TODOs remain) | Fill in missing test sources and assertions | 🔄 In Progress |
 | **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% | ✅ Done (Dec 15) |
 | **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
 | **4** | For-loop recognition | Convert while loops to for/for-each patterns | 🔶 Partial (Dec 15) |
@@ -316,9 +316,9 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 
 | Category | Java | Rust | TODOs | Status |
 |----------|------|------|-------|--------|
-| others | 97 | 113 | 73 | ⚠️ Incomplete |
 | trycatch | 51 | 58 | 38 | ⚠️ Incomplete |
 | names | 20 | 32 | 37 | ⚠️ Incomplete |
+| others | 97 | 113 | 32 | ⚠️ Incomplete |
 | loops | 52 | 57 | 27 | ⚠️ Incomplete |
 | conditions | 56 | 66 | 25 | ⚠️ Incomplete |
 | types | 45 | 63 | 25 | ⚠️ Incomplete |
@@ -327,10 +327,10 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | inline | 18 | 24 | 22 | ⚠️ Incomplete |
 | enums | 24 | 26 | 21 | ⚠️ Incomplete |
 | generics | 21 | 25 | 15 | ⚠️ Incomplete |
-| invoke | 23 | 23 | 13 | ⚠️ Incomplete |
-| variables | 13 | 15 | 11 | ⚠️ Incomplete |
-| java8 | 11 | 14 | 7 | ⚠️ Incomplete |
-| synchronize | 7 | 8 | 3 | 🔶 Mostly done |
+| invoke | 23 | 23 | 0 | ✅ Done |
+| variables | 13 | 15 | 0 | ✅ Done |
+| java8 | 11 | 14 | 0 | ✅ Done |
+| synchronize | 7 | 8 | 0 | ✅ Done |
 | switches | 26 | 23 | 0 | ✅ Done |
 | arrays | 16 | 16 | 0 | ✅ Done |
 | arith | 14 | 19 | 0 | ✅ Done |
@@ -344,9 +344,9 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | fallback | 2 | 2 | 0 | ✅ Done |
 | jbc | 1 | 1 | 0 | ✅ Done |
 | sample | - | 5 | 0 | ✅ Done |
-| **TOTAL** | **577** | **680** | **364** | |
+| **TOTAL** | **577** | **680** | **289** | |
 
-Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 364 TODOs remaining.
+Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 289 TODOs remaining.
 
 ### Implementation TODOs
 
