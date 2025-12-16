@@ -739,6 +739,7 @@ impl ExprGen {
                 Some(match op {
                     UnaryOp::Neg => format!("-{}", maybe_paren(&arg_str)),
                     UnaryOp::Not => format!("~{}", maybe_paren(&arg_str)),
+                    UnaryOp::BoolNot => format!("!{}", maybe_paren(&arg_str)),
                 })
             }
 
@@ -813,6 +814,7 @@ impl ExprGen {
                 match op {
                     UnaryOp::Neg => writer.add("-"),
                     UnaryOp::Not => writer.add("~"),
+                    UnaryOp::BoolNot => writer.add("!"),
                 };
                 self.write_arg(writer, arg);
                 true

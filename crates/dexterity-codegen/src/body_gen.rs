@@ -573,11 +573,23 @@ fn emit_assignment_insn<W: CodeWriter>(
     // Check if this variable should be inlined (used exactly once)
     // This is the rare case where we need the String for deferred emission
     if ctx.should_inline(reg, version) {
+        // For increment/decrement patterns, generate the compact form for inlining too
+        if let Some(incr_expr) = detect_increment_decrement(dest, insn, ctx) {
+            ctx.store_inline_expr(reg, version, incr_expr);
+            return true;
+        }
         if let Some(expr_str) = ctx.expr_gen.gen_insn(insn) {
             ctx.store_inline_expr(reg, version, expr_str);
             return true;
         }
         return false;
+    }
+
+    // Check for increment/decrement pattern: i = i + 1 -> i++ or i = i - 1 -> i--
+    // This must be checked before the variable is declared as new
+    if let Some(incr_decr) = detect_increment_decrement(dest, insn, ctx) {
+        code.start_line().add(&incr_decr).add(";").newline();
+        return true;
     }
 
     let var_name = ctx.expr_gen.get_var_name(dest);
@@ -619,6 +631,122 @@ fn emit_assignment_insn<W: CodeWriter>(
         // Fallback for unsupported instruction types
         code.add("/* unsupported */;").newline();
         false
+    }
+}
+
+/// Detect increment/decrement and compound assignment patterns
+/// Patterns detected:
+/// - `dest = var + 1` where var is the same variable (previous SSA version) -> `var++`
+/// - `dest = var - 1` where var is the same variable (previous SSA version) -> `var--`
+/// - `dest = 1 + var` where var is the same variable -> `var++`
+/// - `dest = var + N` for other N -> `var += N`
+/// - `dest = var - N` for other N -> `var -= N`
+/// - `dest = var * N` -> `var *= N`
+/// - `dest = var / N` -> `var /= N`
+/// - `dest = var % N` -> `var %= N`
+/// - `dest = var & N` -> `var &= N`
+/// - `dest = var | N` -> `var |= N`
+/// - `dest = var ^ N` -> `var ^= N`
+/// - `dest = var << N` -> `var <<= N`
+/// - `dest = var >> N` -> `var >>= N`
+/// - `dest = var >>> N` -> `var >>>= N`
+fn detect_increment_decrement(
+    dest: &RegisterArg,
+    insn: &InsnType,
+    ctx: &BodyGenContext,
+) -> Option<String> {
+    use dexterity_ir::instructions::BinaryOp;
+
+    if let InsnType::Binary { op, left, right, .. } = insn {
+        // Get the left operand - must be a register
+        let left_reg = match left {
+            InsnArg::Register(r) => r,
+            _ => return None,
+        };
+
+        // Check if left operand is the same variable as destination (same reg, different SSA version)
+        // This handles the common case: i_v2 = i_v1 + 1
+        if left_reg.reg_num != dest.reg_num {
+            // Check for commutative case: N + var or N * var (only for Add and Mul)
+            if matches!(op, BinaryOp::Add | BinaryOp::Mul) {
+                if let InsnArg::Register(right_reg) = right {
+                    if right_reg.reg_num == dest.reg_num {
+                        let var_name = ctx.expr_gen.get_var_name(right_reg);
+                        let right_str = ctx.expr_gen.gen_arg(left);
+
+                        // For Add with literal 1/-1, use ++ or --
+                        if *op == BinaryOp::Add {
+                            if let InsnArg::Literal(LiteralArg::Int(val)) = left {
+                                if *val == 1 {
+                                    return Some(format!("{}++", var_name));
+                                } else if *val == -1 {
+                                    return Some(format!("{}--", var_name));
+                                }
+                            }
+                        }
+
+                        let op_str = match op {
+                            BinaryOp::Add => "+=",
+                            BinaryOp::Mul => "*=",
+                            _ => return None,
+                        };
+                        return Some(format!("{} {} {}", var_name, op_str, right_str));
+                    }
+                }
+            }
+            return None;
+        }
+
+        // Get the variable name from the left operand
+        let var_name = ctx.expr_gen.get_var_name(left_reg);
+
+        // Generate right operand expression
+        let right_str = ctx.expr_gen.gen_arg(right);
+
+        // For Add and Sub with literal 1/-1, use ++ or --
+        if let InsnArg::Literal(LiteralArg::Int(val)) = right {
+            match op {
+                BinaryOp::Add => {
+                    if *val == 1 {
+                        return Some(format!("{}++", var_name));
+                    } else if *val == -1 {
+                        return Some(format!("{}--", var_name));
+                    } else if *val == 0 {
+                        return None; // += 0 is a no-op, keep original
+                    }
+                }
+                BinaryOp::Sub => {
+                    if *val == 1 {
+                        return Some(format!("{}--", var_name));
+                    } else if *val == -1 {
+                        return Some(format!("{}++", var_name));
+                    } else if *val == 0 {
+                        return None; // -= 0 is a no-op, keep original
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        // Map binary operator to compound assignment operator
+        let op_str = match op {
+            BinaryOp::Add => "+=",
+            BinaryOp::Sub => "-=",
+            BinaryOp::Mul => "*=",
+            BinaryOp::Div => "/=",
+            BinaryOp::Rem => "%=",
+            BinaryOp::And => "&=",
+            BinaryOp::Or => "|=",
+            BinaryOp::Xor => "^=",
+            BinaryOp::Shl => "<<=",
+            BinaryOp::Shr => ">>=",
+            BinaryOp::Ushr => ">>>=",
+            BinaryOp::Rsub => return None, // rsub is not commutative, can't make compound
+        };
+
+        Some(format!("{} {} {}", var_name, op_str, right_str))
+    } else {
+        None
     }
 }
 
@@ -1456,15 +1584,32 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                             None
                         };
 
+                        // Check type to decide comparison format
+                        let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)));
+                        let is_boolean = matches!(left_type, Some(ArgType::Boolean));
+
+                        // Check if this is a comparison against 1 (true) for boolean types
+                        let is_one_compare = matches!(right, Some(r) if is_one_literal(r));
+                        if is_one_compare && is_boolean {
+                            let effective_op = if *negated { negate_op(op) } else { *op };
+                            match effective_op {
+                                IfCondition::Eq => {
+                                    // bool == true -> just bool
+                                    return left_str;
+                                }
+                                IfCondition::Ne => {
+                                    // bool != true -> !bool
+                                    return format!("!{}", wrap_if_complex(&left_str));
+                                }
+                                _ => {}
+                            }
+                        }
+
                         // Check if this is a zero-comparison (commonly used for booleans and null checks)
                         let is_zero_compare = right.is_none() || matches!(right, Some(r) if is_zero_literal(r));
 
                         if is_zero_compare {
                             let effective_op = if *negated { negate_op(op) } else { *op };
-
-                            // Check type to decide comparison format
-                            let is_object = matches!(left_type, Some(ArgType::Object(_)) | Some(ArgType::Array(_)));
-                            let is_boolean = matches!(left_type, Some(ArgType::Boolean));
 
                             match effective_op {
                                 IfCondition::Eq => {
@@ -1545,6 +1690,11 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
 /// Check if an InsnArg is a zero literal
 fn is_zero_literal(arg: &InsnArg) -> bool {
     matches!(arg, InsnArg::Literal(LiteralArg::Int(0)))
+}
+
+/// Check if an InsnArg is a one literal (true for boolean comparisons)
+fn is_one_literal(arg: &InsnArg) -> bool {
+    matches!(arg, InsnArg::Literal(LiteralArg::Int(1)))
 }
 
 /// Negate an IfCondition
@@ -3398,5 +3548,124 @@ mod tests {
             }),
             "node"
         );
+    }
+
+    #[test]
+    fn test_increment_decrement_pattern_detection() {
+        use dexterity_ir::instructions::BinaryOp;
+
+        // Create a minimal context for testing
+        let method = make_method();
+        let ctx = BodyGenContext::from_method(&method);
+
+        // Test i = i + 1 -> i++
+        let dest = RegisterArg::with_ssa(0, 2);
+        let insn = InsnType::Binary {
+            dest: dest.clone(),
+            op: BinaryOp::Add,
+            left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
+            right: InsnArg::Literal(LiteralArg::Int(1)),
+        };
+        let result = detect_increment_decrement(&dest, &insn, &ctx);
+        assert!(result.is_some(), "Should detect i++ pattern");
+        assert!(result.unwrap().ends_with("++"), "Should produce i++ form");
+
+        // Test i = i - 1 -> i--
+        let insn_dec = InsnType::Binary {
+            dest: dest.clone(),
+            op: BinaryOp::Sub,
+            left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
+            right: InsnArg::Literal(LiteralArg::Int(1)),
+        };
+        let result_dec = detect_increment_decrement(&dest, &insn_dec, &ctx);
+        assert!(result_dec.is_some(), "Should detect i-- pattern");
+        assert!(result_dec.unwrap().ends_with("--"), "Should produce i-- form");
+
+        // Test i = i + 5 -> i += 5
+        let insn_add5 = InsnType::Binary {
+            dest: dest.clone(),
+            op: BinaryOp::Add,
+            left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
+            right: InsnArg::Literal(LiteralArg::Int(5)),
+        };
+        let result_add5 = detect_increment_decrement(&dest, &insn_add5, &ctx);
+        assert!(result_add5.is_some(), "Should detect i += 5 pattern");
+        assert!(result_add5.unwrap().contains(" += 5"), "Should produce i += 5 form");
+
+        // Test i = i - 3 -> i -= 3
+        let insn_sub3 = InsnType::Binary {
+            dest: dest.clone(),
+            op: BinaryOp::Sub,
+            left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
+            right: InsnArg::Literal(LiteralArg::Int(3)),
+        };
+        let result_sub3 = detect_increment_decrement(&dest, &insn_sub3, &ctx);
+        assert!(result_sub3.is_some(), "Should detect i -= 3 pattern");
+        assert!(result_sub3.unwrap().contains(" -= 3"), "Should produce i -= 3 form");
+
+        // Test different register - should NOT detect pattern
+        let insn_diff_reg = InsnType::Binary {
+            dest: dest.clone(),
+            op: BinaryOp::Add,
+            left: InsnArg::Register(RegisterArg::with_ssa(1, 0)), // Different register!
+            right: InsnArg::Literal(LiteralArg::Int(1)),
+        };
+        let result_diff = detect_increment_decrement(&dest, &insn_diff_reg, &ctx);
+        assert!(result_diff.is_none(), "Should not detect pattern with different registers");
+
+        // Test non-literal right operand - SHOULD NOW detect compound assignment pattern
+        let insn_non_literal = InsnType::Binary {
+            dest: dest.clone(),
+            op: BinaryOp::Add,
+            left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
+            right: InsnArg::Register(RegisterArg::with_ssa(2, 0)), // Register, not literal
+        };
+        let result_non_lit = detect_increment_decrement(&dest, &insn_non_literal, &ctx);
+        assert!(result_non_lit.is_some(), "Should detect compound assignment pattern with non-literal operand");
+        assert!(result_non_lit.unwrap().contains(" += "), "Should produce += form");
+
+        // Test multiplication - SHOULD NOW detect *= pattern
+        let insn_mul = InsnType::Binary {
+            dest: dest.clone(),
+            op: BinaryOp::Mul,
+            left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
+            right: InsnArg::Literal(LiteralArg::Int(2)),
+        };
+        let result_mul = detect_increment_decrement(&dest, &insn_mul, &ctx);
+        assert!(result_mul.is_some(), "Should detect *= pattern for multiplication");
+        assert!(result_mul.unwrap().contains(" *= 2"), "Should produce *= 2 form");
+
+        // Test division - SHOULD detect /= pattern
+        let insn_div = InsnType::Binary {
+            dest: dest.clone(),
+            op: BinaryOp::Div,
+            left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
+            right: InsnArg::Literal(LiteralArg::Int(3)),
+        };
+        let result_div = detect_increment_decrement(&dest, &insn_div, &ctx);
+        assert!(result_div.is_some(), "Should detect /= pattern for division");
+        assert!(result_div.unwrap().contains(" /= 3"), "Should produce /= 3 form");
+
+        // Test bitwise AND - SHOULD detect &= pattern
+        let insn_and = InsnType::Binary {
+            dest: dest.clone(),
+            op: BinaryOp::And,
+            left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
+            right: InsnArg::Literal(LiteralArg::Int(0xFF)),
+        };
+        let result_and = detect_increment_decrement(&dest, &insn_and, &ctx);
+        assert!(result_and.is_some(), "Should detect &= pattern for AND");
+        assert!(result_and.unwrap().contains(" &= "), "Should produce &= form");
+
+        // Test shift right - SHOULD detect >>= pattern
+        let insn_shr = InsnType::Binary {
+            dest: dest.clone(),
+            op: BinaryOp::Shr,
+            left: InsnArg::Register(RegisterArg::with_ssa(0, 1)),
+            right: InsnArg::Literal(LiteralArg::Int(1)),
+        };
+        let result_shr = detect_increment_decrement(&dest, &insn_shr, &ctx);
+        assert!(result_shr.is_some(), "Should detect >>= pattern for shift right");
+        assert!(result_shr.unwrap().contains(" >>= 1"), "Should produce >>= 1 form");
     }
 }

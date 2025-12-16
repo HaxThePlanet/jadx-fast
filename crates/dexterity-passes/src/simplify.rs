@@ -95,9 +95,9 @@ fn simplify_binary(
                             return Some(new_insn);
                         }
                         1 => {
-                            // bool ^ 1 → !bool (NOT)
+                            // bool ^ 1 → !bool (Boolean NOT)
                             let new_insn = InsnNode::new(
-                                InsnType::Unary { dest, op: UnaryOp::Not, arg: left },
+                                InsnType::Unary { dest, op: UnaryOp::BoolNot, arg: left },
                                 offset,
                             );
                             return Some(new_insn);
@@ -192,9 +192,9 @@ mod tests {
         let simplified = result.unwrap();
         match &simplified.insn_type {
             InsnType::Unary { op, .. } => {
-                assert_eq!(*op, UnaryOp::Not);
+                assert_eq!(*op, UnaryOp::BoolNot);
             }
-            _ => panic!("Expected Unary NOT instruction"),
+            _ => panic!("Expected Unary BoolNot instruction"),
         }
     }
 

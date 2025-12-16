@@ -606,6 +606,13 @@ impl TypeInference {
                             self.add_constraint(Constraint::Same(dest_var, arg_var));
                         }
                     }
+                    UnaryOp::BoolNot => {
+                        // Boolean not - result and operand are boolean
+                        self.add_constraint(Constraint::Equals(dest_var, InferredType::Concrete(ArgType::Boolean)));
+                        if let Some(arg_var) = self.var_for_arg(arg) {
+                            self.add_constraint(Constraint::Equals(arg_var, InferredType::Concrete(ArgType::Boolean)));
+                        }
+                    }
                 }
             }
 

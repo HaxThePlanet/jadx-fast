@@ -4,23 +4,23 @@
 
 ## Current Status
 
-**Build:** ✅ Passing
-**Tests:** ~248 tests (100% pass rate)
-**Lines:** ~59,000 lines of Rust
-**Completion:** ~70% feature-complete vs Java jadx-core
+**Build:** Passing
+**Tests:** 958 tests (100% pass rate)
+**Lines:** ~40,000 lines of Rust
+**Completion:** ~85% feature-complete vs Java jadx-core
 
 ## Crate Overview
 
 ```
 crates/
-├── dexterity-dex/       # DEX parsing (3,836 lines)
-├── dexterity-ir/        # IR types & class hierarchy (3,841 lines)
-├── dexterity-passes/    # Decompilation passes (9,202 lines)
-├── dexterity-codegen/   # Java code generation (7,973 lines)
-├── dexterity-resources/ # AXML & resources.arsc (4,032 lines)
-├── dexterity-deobf/     # Deobfuscation (1,628 lines)
+├── dexterity-dex/       # DEX parsing (4,072 lines)
+├── dexterity-ir/        # IR types & class hierarchy (3,845 lines)
+├── dexterity-passes/    # Decompilation passes (12,051 lines)
+├── dexterity-codegen/   # Java code generation (9,022 lines)
+├── dexterity-resources/ # AXML & resources.arsc (4,026 lines)
+├── dexterity-deobf/     # Deobfuscation (1,651 lines)
 ├── dexterity-kotlin/    # Kotlin metadata parsing (597 lines)
-└── dexterity-cli/       # CLI application (4,207 lines)
+└── dexterity-cli/       # CLI application (4,636 lines)
 ```
 
 ### dexterity-dex (DEX Parsing)

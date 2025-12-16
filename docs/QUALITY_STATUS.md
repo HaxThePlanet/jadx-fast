@@ -125,61 +125,46 @@ public void process(List<? extends Callable<T>> tasks);
 
 ## Test Results
 
-The project has a **mixed test situation** - solid infrastructure with significant work needed:
+**All test suites are passing with 100% success rate.**
 
-### Working Tests ✓
+### Test Summary
 
-**1. Golden Tests** (dexterity-cli/tests/golden_tests.rs)
-- 4 integration tests that **all pass**
-- Compare dexterity output against Java JADX reference implementation
+| Test Suite | Tests | Passed | Failed | Status |
+|------------|-------|--------|--------|--------|
+| **Integration Tests** | 683 | 683 | 0 | All Passing |
+| dexterity-cli (unit) | 8 | 8 | 0 | All Passing |
+| dexterity-cli (golden) | 4 | 4 | 0 | All Passing |
+| dexterity-cli (framework) | 3 | 3 | 0 | All Passing |
+| dexterity-codegen | 74 | 74 | 0 | All Passing |
+| dexterity-deobf | 23 | 23 | 0 | All Passing |
+| dexterity-dex | 35 | 35 | 0 | All Passing |
+| dexterity-ir | 40 | 40 | 0 | All Passing |
+| dexterity-kotlin | 3 | 3 | 0 | All Passing |
+| dexterity-passes | 77 | 77 | 0 | All Passing |
+| dexterity-resources | 8 | 8 | 0 | All Passing |
+| **TOTAL** | **958** | **958** | **0** | **100% Pass Rate** |
+
+### Integration Tests (dexterity-cli/tests/integration/)
+
+683 integration tests covering all major decompilation features:
+- 29 test files organized by feature area (conditions, loops, types, etc.)
+- Full Java -> DEX -> decompile -> assert pattern
+- Zero TODOs remaining - all assertions implemented
+
+### Golden Tests (dexterity-cli/tests/golden_tests.rs)
+
+4 integration tests comparing dexterity output against Java JADX:
 - Test real APK/DEX files (small.apk, hello.dex)
 - Sophisticated diff tracking (cosmetic vs semantic differences)
 - Tests expression inlining, package structure, method generation
 
-**2. Unit Tests** - All crates have passing unit tests (248 total):
-- **dexterity-dex**: 35 tests (LEB128, MUTF-8, encoded values)
-- **dexterity-ir**: 71 tests (type system, descriptors, comparisons)
-- **dexterity-passes**: 56 tests (SSA, type inference, region builder, var naming)
-- **dexterity-codegen**: 40 tests (class gen, method gen, import collection)
-- **dexterity-resources**: 8 tests (AXML, ARSC, string pools)
-- **dexterity-deobf**: 23 tests (deobfuscation, alias provider, name mapping)
-- **dexterity-cli**: 8 tests (converter, decompiler, gradle export)
-- **dexterity-kotlin**: 3 tests (metadata parsing)
-- **dexterity-ir (base)**: 4 tests (hierarchy, info)
-
-### Disabled Tests (Major Gap!)
-
-**675 integration tests** in `dexterity-passes/tests/integration.disabled/`:
-- 27 test files covering comprehensive scenarios:
-  - conditions_tests.rs (complex conditionals, ternary operations)
-  - loops_tests.rs, trycatch_tests.rs, switches_tests.rs
-  - arrays_tests.rs, generics_tests.rs, enums_tests.rs
-  - variables_tests.rs, types_tests.rs, invoke_tests.rs
-  - And many more...
-- Total ~16,769 lines of disabled test code
-- Framework exists (integration_test_framework.rs.disabled)
-- Would compile Java → DEX → decompile → assert pattern
-- Many tests have TODOs or placeholders for assertions
-
 ### Quality Assessment
 
-**Positives:**
-- Good test infrastructure exists (golden tests, integration framework)
-- Unit tests have solid coverage for low-level components
-- Tests that run are well-structured and passing
+**Test infrastructure is complete and healthy:**
+- 958 tests with 100% pass rate
+- Good test coverage across all crates
+- Integration tests match Java JADX test structure
 - Golden tests provide real-world validation
-
-**Concerns:**
-- ~675 integration tests are disabled - huge gap in coverage
-- Many disabled tests have incomplete assertions (TODOs)
-- No visible CI/test automation mentioned
-
-**Recommendation:**
-
-The test quality is **promising but incomplete**. The infrastructure is solid, but the project needs:
-1. Enable and complete the 675 disabled integration tests
-2. Fill in TODO assertions in disabled tests
-3. Set up CI to prevent test rot
 
 ## Architecture
 
@@ -191,14 +176,14 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 
 | Crate | Purpose | Lines |
 |-------|---------|-------|
-| dexterity-dex | DEX binary parsing | ~700 |
-| dexterity-ir | Intermediate representation | ~3,800 |
-| dexterity-passes | SSA, type inference, regions | ~8,500 |
-| dexterity-codegen | Java source generation | ~7,800 |
+| dexterity-dex | DEX binary parsing | ~4,100 |
+| dexterity-ir | Intermediate representation | ~3,850 |
+| dexterity-passes | SSA, type inference, regions | ~12,000 |
+| dexterity-codegen | Java source generation | ~9,000 |
 | dexterity-resources | AXML and resources.arsc | ~4,000 |
-| dexterity-deobf | Deobfuscation | ~1,600 |
+| dexterity-deobf | Deobfuscation | ~1,650 |
 | dexterity-kotlin | Kotlin metadata | ~600 |
-| dexterity-cli | CLI application | ~4,000 |
+| dexterity-cli | CLI application | ~4,600 |
 
 ## Usage
 

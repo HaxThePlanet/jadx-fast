@@ -409,8 +409,12 @@ pub enum InvokeKind {
 /// Unary operation
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum UnaryOp {
+    /// Arithmetic negation (-x)
     Neg,
+    /// Bitwise NOT (~x for int/long)
     Not,
+    /// Boolean NOT (!x for boolean)
+    BoolNot,
 }
 
 /// Binary operation
