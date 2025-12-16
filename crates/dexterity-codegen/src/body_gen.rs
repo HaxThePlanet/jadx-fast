@@ -43,7 +43,7 @@ use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 
 use crate::class_gen::is_anonymous_class;
 use crate::dex_info::DexInfoProvider;
-use crate::expr_gen::{BoxingType, ExprGen, get_literal_int_value};
+use crate::expr_gen::{BoxingType, ExprGen};
 use crate::method_gen::generate_method_with_dex;
 use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_else_if,
@@ -219,6 +219,36 @@ impl BodyGenContext {
     /// Get inlined expression if available, removing it from storage
     pub fn take_inline_expr(&mut self, reg: u16, version: u32) -> Option<String> {
         self.inlined_exprs.remove(&(reg, version))
+    }
+
+    /// Peek at inlined expression without removing it (for checking if it's a constant)
+    pub fn peek_inline_expr(&self, reg: u16, version: u32) -> Option<&String> {
+        self.inlined_exprs.get(&(reg, version))
+    }
+
+    /// Get constant integer value from an argument, checking both literals and inlined expressions
+    /// Returns Some(value) if the argument is a constant integer (literal or inlined constant expression)
+    pub fn get_constant_int_value(&self, arg: &InsnArg) -> Option<i64> {
+        match arg {
+            InsnArg::Literal(LiteralArg::Int(v)) => Some(*v),
+            InsnArg::Register(reg) => {
+                // Check if there's an inlined expression that's a numeric constant
+                if let Some(expr) = self.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+                    // Try to parse as integer (handles "0", "42", "-1", etc.)
+                    if let Ok(v) = expr.parse::<i64>() {
+                        return Some(v);
+                    }
+                    // Handle Long suffix: "42L"
+                    if expr.ends_with('L') || expr.ends_with('l') {
+                        if let Ok(v) = expr[..expr.len()-1].parse::<i64>() {
+                            return Some(v);
+                        }
+                    }
+                }
+                None
+            }
+            _ => None,
+        }
     }
 
     /// Generate argument expression, substituting inlined expressions for single-use variables
@@ -1249,6 +1279,48 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
     None
 }
 
+/// Check if the loop body has meaningful content after skipping iterator instructions
+/// Returns true if there are instructions/regions beyond just the iterator next() call
+fn body_has_meaningful_content(body: &Region, foreach_info: &ForEachInfo, ctx: &BodyGenContext) -> bool {
+    match body {
+        Region::Sequence(contents) => {
+            // Check if there's more than just the first block with iterator call
+            if contents.len() > 1 {
+                return true;
+            }
+            // If only one item, check if it's a block with content after skipping
+            if let Some(RegionContent::Block(block_id)) = contents.first() {
+                if *block_id == foreach_info.skip_block {
+                    // Check if this block has instructions beyond those we're skipping
+                    if let Some(block) = ctx.blocks.get(block_id) {
+                        let total_insns = block.instructions.len();
+                        let skip_end = foreach_info.skip_start + foreach_info.skip_count;
+                        // Count non-control-flow instructions outside the skip range
+                        let meaningful = block.instructions.iter().enumerate()
+                            .filter(|(i, insn)| {
+                                // Skip if in the skip range
+                                if *i >= foreach_info.skip_start && *i < skip_end {
+                                    return false;
+                                }
+                                // Skip control flow
+                                !is_control_flow(&insn.insn_type)
+                            })
+                            .count();
+                        return meaningful > 0;
+                    }
+                }
+                return true; // Different block, assume meaningful
+            }
+            // If it's a nested region, consider it meaningful
+            if let Some(RegionContent::Region(_)) = contents.first() {
+                return true;
+            }
+            false
+        }
+        _ => true, // Non-sequence regions are considered meaningful
+    }
+}
+
 /// Generate else or else-if chain
 /// If the else region is another If, generates `} else if (cond) {` instead of `} else { if (cond) {`
 fn generate_else_chain<W: CodeWriter>(else_region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
@@ -1855,35 +1927,39 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                     if let Some(cond) = condition {
                         if let Some((iter_reg, iter_str)) = detect_iterator_pattern(cond, ctx) {
                             if let Some(foreach_info) = detect_next_call(body, iter_reg, ctx) {
-                                // Generate for-each style syntax
-                                let item_type = foreach_info.item_type.as_deref().unwrap_or("Object");
-                                let collection = iter_str.replace(".hasNext()", "")
-                                    .trim_end()
-                                    .to_string();
-                                code.start_line()
-                                    .add("for (")
-                                    .add(item_type)
-                                    .add(" ")
-                                    .add(&foreach_info.item_var)
-                                    .add(" : ")
-                                    .add(&collection)
-                                    .add(") {")
-                                    .newline();
-                                code.inc_indent();
+                                // Only generate for-each if body has meaningful content after skipping
+                                if body_has_meaningful_content(body, &foreach_info, ctx) {
+                                    // Generate for-each style syntax
+                                    let item_type = foreach_info.item_type.as_deref().unwrap_or("Object");
+                                    let collection = iter_str.replace(".hasNext()", "")
+                                        .trim_end()
+                                        .to_string();
+                                    code.start_line()
+                                        .add("for (")
+                                        .add(item_type)
+                                        .add(" ")
+                                        .add(&foreach_info.item_var)
+                                        .add(" : ")
+                                        .add(&collection)
+                                        .add(") {")
+                                        .newline();
+                                    code.inc_indent();
 
-                                // Mark iterator instructions to skip in body
-                                let skip_set: HashSet<usize> = (foreach_info.skip_start
-                                    ..foreach_info.skip_start + foreach_info.skip_count)
-                                    .collect();
-                                ctx.skip_foreach_insns.insert(foreach_info.skip_block, skip_set);
+                                    // Mark iterator instructions to skip in body
+                                    let skip_set: HashSet<usize> = (foreach_info.skip_start
+                                        ..foreach_info.skip_start + foreach_info.skip_count)
+                                        .collect();
+                                    ctx.skip_foreach_insns.insert(foreach_info.skip_block, skip_set);
 
-                                generate_region(body, ctx, code);
+                                    generate_region(body, ctx, code);
 
-                                // Clean up skip set after generating body
-                                ctx.skip_foreach_insns.remove(&foreach_info.skip_block);
+                                    // Clean up skip set after generating body
+                                    ctx.skip_foreach_insns.remove(&foreach_info.skip_block);
 
-                                gen_close_block(code);
-                                return;
+                                    gen_close_block(code);
+                                    return;
+                                }
+                                // Fall through to while loop if body would be empty
                             }
                         }
                     }
@@ -1906,34 +1982,38 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                     if let Some(cond) = condition {
                         if let Some((iter_reg, iter_str)) = detect_iterator_pattern(cond, ctx) {
                             if let Some(foreach_info) = detect_next_call(body, iter_reg, ctx) {
-                                let item_type = foreach_info.item_type.as_deref().unwrap_or("Object");
-                                let collection = iter_str.replace(".hasNext()", "")
-                                    .trim_end()
-                                    .to_string();
-                                code.start_line()
-                                    .add("for (")
-                                    .add(item_type)
-                                    .add(" ")
-                                    .add(&foreach_info.item_var)
-                                    .add(" : ")
-                                    .add(&collection)
-                                    .add(") {")
-                                    .newline();
-                                code.inc_indent();
+                                // Only generate for-each if body has meaningful content after skipping
+                                if body_has_meaningful_content(body, &foreach_info, ctx) {
+                                    let item_type = foreach_info.item_type.as_deref().unwrap_or("Object");
+                                    let collection = iter_str.replace(".hasNext()", "")
+                                        .trim_end()
+                                        .to_string();
+                                    code.start_line()
+                                        .add("for (")
+                                        .add(item_type)
+                                        .add(" ")
+                                        .add(&foreach_info.item_var)
+                                        .add(" : ")
+                                        .add(&collection)
+                                        .add(") {")
+                                        .newline();
+                                    code.inc_indent();
 
-                                // Mark iterator instructions to skip in body
-                                let skip_set: HashSet<usize> = (foreach_info.skip_start
-                                    ..foreach_info.skip_start + foreach_info.skip_count)
-                                    .collect();
-                                ctx.skip_foreach_insns.insert(foreach_info.skip_block, skip_set);
+                                    // Mark iterator instructions to skip in body
+                                    let skip_set: HashSet<usize> = (foreach_info.skip_start
+                                        ..foreach_info.skip_start + foreach_info.skip_count)
+                                        .collect();
+                                    ctx.skip_foreach_insns.insert(foreach_info.skip_block, skip_set);
 
-                                generate_region(body, ctx, code);
+                                    generate_region(body, ctx, code);
 
-                                // Clean up skip set
-                                ctx.skip_foreach_insns.remove(&foreach_info.skip_block);
+                                    // Clean up skip set
+                                    ctx.skip_foreach_insns.remove(&foreach_info.skip_block);
 
-                                gen_close_block(code);
-                                return;
+                                    gen_close_block(code);
+                                    return;
+                                }
+                                // Fall through to while loop if body would be empty
                             }
                         }
                     }
@@ -2312,12 +2392,17 @@ fn write_invoke_with_inlining<W: CodeWriter>(
         match kind {
             InvokeKind::Static => {
                 // Deboxing: Check if this is a boxing method like Integer.valueOf(int)
-                // If so and the argument is a literal, emit just the literal instead
+                // If so and the argument is a constant, emit just the literal instead
                 if let Some(boxing_type) = BoxingType::from_method(&info) {
                     if args.len() == 1 {
-                        if let Some(value) = get_literal_int_value(&args[0]) {
+                        // Check for constant value (either direct literal or inlined constant expression)
+                        if let Some(value) = ctx.get_constant_int_value(&args[0]) {
                             // Deboxing succeeds - write the literal directly
                             boxing_type.write_literal(code, value);
+                            // If it was an inlined register, consume the inlined expression
+                            if let InsnArg::Register(reg) = &args[0] {
+                                ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
+                            }
                             return;
                         }
                     }

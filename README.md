@@ -31,17 +31,46 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 - **Kotlin support** - metadata parsing, name restoration
 - **Multi-core parallel** - tested up to 112 threads (29x speedup)
 
+## Development Velocity
+
+**Built in 6 days** by [@HaxThePlanet](https://github.com/haxtheplanet) — Dec 10-15, 2025:
+
+```
+         Commits by Day                          Cumulative Lines Added
+
+  Dec 15 │████████████████████████████░░░░░░│ 29     90K ┤                          ●────● 88,314
+  Dec 14 │██████████████░░░░░░░░░░░░░░░░░░░░│ 14         │                    ●────●
+  Dec 13 │████████████████████████████████░░│ 32     60K ┤              ●────●
+  Dec 12 │██████████████████████████████████│ 42         │        ●────●
+  Dec 11 │█████████░░░░░░░░░░░░░░░░░░░░░░░░░│  9     30K ┤  ●────●
+  Dec 10 │█████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│  5         │●─●
+         └─────────────────────────────────┘         0 ┼──┬──┬──┬──┬──┬
+                                                       10 11 12 13 14 15
+```
+
+| Metric | Value |
+|--------|-------|
+| **Time span** | 6 days |
+| **Total commits** | 131 |
+| **Lines added** | 88,314 |
+| **Lines deleted** | 23,827 |
+| **Net lines** | 64,487 |
+| **Rust files created** | 116 |
+| **Final codebase** | ~59,000 lines |
+| **Avg lines/day** | ~10,700 |
+| **Tests written** | 248+ passing |
+
 ## Development Priorities
 
 Current focus areas for reaching JADX parity:
 
-| Priority | Task | Impact |
-|----------|------|--------|
-| **1** | Enable 675 integration tests | Visibility into what's broken, regression prevention |
-| **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% |
-| **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter |
-| **4** | For-loop recognition | Convert while loops to for/for-each patterns |
-| **5** | Ternary detection | Convert if-else to `? :` expressions |
+| Priority | Task | Impact | Status |
+|----------|------|--------|--------|
+| **1** | Enable 675 integration tests | Visibility into what's broken, regression prevention | 🔄 In Progress |
+| **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% | ✅ Done (Dec 15) |
+| **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | |
+| **4** | For-loop recognition | Convert while loops to for/for-each patterns | |
+| **5** | Ternary detection | Convert if-else to `? :` expressions | |
 
 ## Quick Start
 

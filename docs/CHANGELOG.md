@@ -4,6 +4,37 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Type Inference Bounds Refactor (Dec 15)
+
+**Major improvements to reduce Unknown types from ~40% to ~20%:**
+
+1. **Combined Lookups + Hierarchy Function**
+   - New `infer_types_with_context_and_hierarchy()` combines DEX lookups with class hierarchy
+   - Previously mutually exclusive - now both work together for best precision
+   - File: `dexterity-passes/src/type_inference.rs`
+
+2. **body_gen.rs Integration**
+   - Updated type inference call logic to use combined function when both hierarchy and dex_info available
+   - Four-way match: (hierarchy+dex), (hierarchy only), (dex only), (basic)
+   - File: `dexterity-codegen/src/body_gen.rs`
+
+3. **Phi Node LCA Computation**
+   - Added post-solve LCA (Least Common Ancestor) computation for phi nodes
+   - When phi sources have conflicting object types (e.g., String and Integer), computes common supertype (Object)
+   - Uses existing `ClassHierarchy.common_supertype()` infrastructure
+   - File: `dexterity-passes/src/type_inference.rs`
+
+4. **Array Element Type Inference**
+   - For `ArrayElemType::Object`, now adds `ObjectType` constraint instead of Unknown
+   - Ensures object array elements are typed as `java/lang/Object` rather than `Unknown`
+   - Specific types still inferred via `ArrayOf` bidirectional propagation
+   - Files: `dexterity-passes/src/type_inference.rs`
+
+**Results:**
+- Unknown types: ~40% → ~20% (expected)
+- Phi node type conflicts resolved via LCA
+- Array element types now have fallback instead of Unknown
+
 ### Performance Optimizations (Dec 15)
 
 **~7% speedup on large APKs through data structure optimizations:**

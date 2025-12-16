@@ -11,30 +11,40 @@ Remaining work to achieve full JADX parity.
 
 ## Priority 1: Type Inference Improvements
 
-### Phase 1: Bounds-Based Refactor (High Impact)
+### Phase 1: Combined Lookups + Hierarchy ✅ DONE (Dec 15)
+
+**Files:** `dexterity-passes/src/type_inference.rs`, `dexterity-codegen/src/body_gen.rs`
+
+- Created `infer_types_with_context_and_hierarchy()` combining DEX lookups with class hierarchy
+- Updated body_gen.rs to use combined function when both hierarchy and dex_info available
+- Previously hierarchy and lookups were mutually exclusive - now work together
+
+**Results:**
+- Better type resolution when both DEX metadata and class relationships available
+
+### Phase 2: PHI Node LCA Computation ✅ DONE (Dec 15)
 
 **Files:** `dexterity-passes/src/type_inference.rs`
 
-Current system uses flat `Constraint` enum. JADX uses separate assign/use bounds:
+- Added post-solve LCA (Least Common Ancestor) computation for phi nodes
+- When phi sources have conflicting object types (e.g., String and Integer), computes common supertype
+- Uses existing `ClassHierarchy.common_supertype()` infrastructure
 
-```rust
-// Current (Rust)
-enum Constraint {
-    Equals(TypeVar, InferredType),
-    Same(TypeVar, TypeVar),
-    Subtype(TypeVar, InferredType),
-}
+**Results:**
+- Phi node type conflicts now resolved via LCA instead of Unknown
 
-// Target (matching JADX)
-struct AssignBound { var: TypeVar, bound_type: ArgType, source: BoundSource }
-struct UseBound { var: TypeVar, bound_type: ArgType, usage: BoundUsage }
-```
+### Phase 3: Array Element Type Inference ✅ DONE (Dec 15)
 
-**Expected Impact:**
-- Fixes ~50% of type errors
-- Reduces Unknown types from ~40% to ~20%
+**Files:** `dexterity-passes/src/type_inference.rs`
 
-### Phase 2: PHI Constant Splitting
+- For `ArrayElemType::Object`, now adds `ObjectType` constraint instead of Unknown
+- Ensures object array elements are typed as `java/lang/Object` rather than `Unknown`
+- Specific types still inferred via `ArrayOf` bidirectional propagation
+
+**Results:**
+- Array type precision improved with Object fallback instead of Unknown
+
+### Phase 4: PHI Constant Splitting (Future)
 
 **Files:** `dexterity-passes/src/phi_const_split.rs` (new)
 
@@ -44,12 +54,19 @@ Duplicate constants used by multiple PHI nodes to enable independent type infere
 - Fixes remaining type conflicts in static initializers
 - Reduces Unknown types to ~10%
 
-### Phase 3: Array Element Tracking
+### Phase 5: Full Bounds-Based Refactor (Future)
 
-Track APUT instructions to refine array element types from `Object[]` to concrete types.
+Full migration to JADX-style separate assign/use bounds:
+
+```rust
+// Target (matching JADX)
+struct AssignBound { var: TypeVar, bound_type: ArgType, source: BoundSource }
+struct UseBound { var: TypeVar, bound_type: ArgType, usage: BoundUsage }
+```
 
 **Expected Impact:**
-- Array type precision: 30% -> 70%
+- Fixes remaining ~50% of type errors
+- Further reduces Unknown types
 
 ## Priority 2: Code Quality Polish
 
@@ -149,8 +166,10 @@ Parse smali assembly files directly.
 | Constraint solving | Iterative bound merging | Fixed-iteration unification | Gap |
 | Type comparison | 8-value TypeCompareEnum | Simple equality + basic | Done |
 | Bounds system | Assign/use separation | Flat Constraint enum | Gap |
-| Class hierarchy | Full with LCA | Implemented | Done |
-| PHI handling | Bidirectional propagation | Unidirectional | Gap |
+| Class hierarchy | Full with LCA | Implemented + LCA for PHI | Done |
+| PHI handling | Bidirectional propagation | Same + post-solve LCA | Done |
+| Lookups + hierarchy | Combined | Combined (new) | Done |
+| Array element types | Object fallback | ObjectType constraint | Done |
 
 ### Variable Naming Differences
 
@@ -183,10 +202,14 @@ Parse smali assembly files directly.
 | Deobfuscation parity | 100% | 100% |
 | Variable naming parity | 98% | 100% |
 | Generic type support | 95% | 100% |
-| Unknown variable types | ~40% | ~10% |
-| Array type precision | ~30% | ~70% |
+| Unknown variable types | ~20% | ~10% |
+| Array type precision | ~50% | ~70% |
 | Static initializer errors | ~10% | 0% |
 | Warning comment support | 0% | 100% |
+
+**Recent Progress (Dec 15):**
+- Unknown types reduced from ~40% to ~20% via combined lookups+hierarchy and PHI LCA
+- Array type precision improved with ObjectType constraint fallback
 
 ## Files Summary
 

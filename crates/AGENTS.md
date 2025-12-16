@@ -53,7 +53,11 @@ Transform IR through analysis passes.
 - `block_split.rs` - Instructions → basic blocks
 - `cfg.rs` - CFG construction with dominance (Cooper-Harvey-Kennedy)
 - `ssa.rs` - SSA transformation with phi nodes (FxHashMap for fast lookups)
-- `type_inference.rs` - Constraint-based type inference with unification (FxHashMap)
+- `type_inference.rs` - Constraint-based type inference with:
+  - Combined DEX lookups + class hierarchy support
+  - Post-solve PHI node LCA computation for conflicting types
+  - ObjectType constraints for array elements (vs Unknown)
+  - 7 constraint types: Equals, Same, Subtype, ArrayOf, Numeric, Integral, ObjectType
 - `region_builder.rs` - CFG → structured regions (if/loop/switch/try)
 - `conditionals.rs` - Else-if chaining, ternary reconstruction
 - `loops.rs` - ForEach detection from iterator patterns
