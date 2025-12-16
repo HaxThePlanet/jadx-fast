@@ -18,7 +18,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 use dexterity_ir::instructions::{
-    BinaryOp, CastType, IfCondition, InsnArg, InsnType,
+    BinaryOp, CastType, CompareOp, IfCondition, InsnArg, InsnType,
     InvokeKind, LiteralArg, RegisterArg, UnaryOp,
 };
 use dexterity_ir::types::ArgType;
@@ -756,11 +756,13 @@ impl ExprGen {
                 Some(format!("({}){}", type_str, maybe_paren(&arg_str)))
             }
 
-            InsnType::Compare { left, right, .. } => {
+            InsnType::Compare { op, left, right, .. } => {
                 // Compare returns int (-1, 0, 1), used for long/float/double comparisons
+                // Use proper Java compare method based on type
                 let left_str = self.gen_arg(left);
                 let right_str = self.gen_arg(right);
-                Some(format!("compare({}, {})", left_str, right_str))
+                let method = compare_op_to_method(*op);
+                Some(format!("{}({}, {})", method, left_str, right_str))
             }
 
             InsnType::CheckCast { object, type_idx } => {
@@ -833,8 +835,9 @@ impl ExprGen {
                 true
             }
 
-            InsnType::Compare { left, right, .. } => {
-                writer.add("compare(");
+            InsnType::Compare { op, left, right, .. } => {
+                // Use proper Java compare method based on type
+                writer.add(compare_op_to_method(*op)).add("(");
                 self.write_arg(writer, left);
                 writer.add(", ");
                 self.write_arg(writer, right);
@@ -1020,6 +1023,19 @@ fn condition_op_str(cond: IfCondition) -> &'static str {
         IfCondition::Ge => ">=",
         IfCondition::Gt => ">",
         IfCondition::Le => "<=",
+    }
+}
+
+/// Compare operation to Java compare method
+/// Maps DEX compare instructions to their Java equivalents:
+/// - CmpLong -> Long.compare(a, b)
+/// - CmplFloat/CmpgFloat -> Float.compare(a, b)
+/// - CmplDouble/CmpgDouble -> Double.compare(a, b)
+fn compare_op_to_method(op: CompareOp) -> &'static str {
+    match op {
+        CompareOp::CmpLong => "Long.compare",
+        CompareOp::CmplFloat | CompareOp::CmpgFloat => "Float.compare",
+        CompareOp::CmplDouble | CompareOp::CmpgDouble => "Double.compare",
     }
 }
 

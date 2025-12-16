@@ -31,7 +31,7 @@ use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 use rustc_hash::FxHashMap;
 
 use dexterity_ir::attributes::AFlag;
-use dexterity_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LiteralArg};
+use dexterity_ir::instructions::{BinaryOp, IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LiteralArg};
 use dexterity_ir::regions::{Condition, LoopKind, Region, RegionContent};
 use dexterity_ir::types::ArgType;
 use dexterity_ir::MethodData;
@@ -1592,6 +1592,26 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
                         let is_one_compare = matches!(right, Some(r) if is_one_literal(r));
                         if is_one_compare && is_boolean {
                             let effective_op = if *negated { negate_op(op) } else { *op };
+
+                            // Special case: check if left operand is a bitwise AND/OR of booleans
+                            // Convert: (a & b) == true -> a && b
+                            // Convert: (a | b) == true -> a || b
+                            if let InsnArg::Register(reg) = left {
+                                if let Some(bitwise_op) = find_bitwise_boolean_op(reg.reg_num, reg.ssa_version, ctx) {
+                                    let logical_op = match bitwise_op.op {
+                                        BinaryOp::And => "&&",
+                                        BinaryOp::Or => "||",
+                                        _ => unreachable!(), // find_bitwise_boolean_op only returns And/Or
+                                    };
+                                    let result = format!("{} {} {}", bitwise_op.left_str, logical_op, bitwise_op.right_str);
+                                    return match effective_op {
+                                        IfCondition::Eq => result, // (a & b) == true -> a && b
+                                        IfCondition::Ne => format!("!({})", result), // (a & b) != true -> !(a && b)
+                                        _ => format!("({}) {} 1", result, if_condition_to_string(op, *negated)),
+                                    };
+                                }
+                            }
+
                             match effective_op {
                                 IfCondition::Eq => {
                                     // bool == true -> just bool
@@ -1610,6 +1630,29 @@ fn generate_condition(condition: &Condition, ctx: &BodyGenContext) -> String {
 
                         if is_zero_compare {
                             let effective_op = if *negated { negate_op(op) } else { *op };
+
+                            // Special case: check if left operand is a bitwise AND/OR of booleans
+                            // Convert: (a & b) != false -> a && b  (ne 0 means true)
+                            // Convert: (a | b) != false -> a || b  (ne 0 means true)
+                            // Convert: (a & b) == false -> !(a && b)
+                            // Convert: (a | b) == false -> !(a || b)
+                            if is_boolean {
+                                if let InsnArg::Register(reg) = left {
+                                    if let Some(bitwise_op) = find_bitwise_boolean_op(reg.reg_num, reg.ssa_version, ctx) {
+                                        let logical_op = match bitwise_op.op {
+                                            BinaryOp::And => "&&",
+                                            BinaryOp::Or => "||",
+                                            _ => unreachable!(),
+                                        };
+                                        let result = format!("{} {} {}", bitwise_op.left_str, logical_op, bitwise_op.right_str);
+                                        return match effective_op {
+                                            IfCondition::Ne => result, // (a & b) != false -> a && b
+                                            IfCondition::Eq => format!("!({})", result), // (a & b) == false -> !(a && b)
+                                            _ => format!("({}) {} 0", result, if_condition_to_string(op, *negated)),
+                                        };
+                                    }
+                                }
+                            }
 
                             match effective_op {
                                 IfCondition::Eq => {
@@ -1695,6 +1738,71 @@ fn is_zero_literal(arg: &InsnArg) -> bool {
 /// Check if an InsnArg is a one literal (true for boolean comparisons)
 fn is_one_literal(arg: &InsnArg) -> bool {
     matches!(arg, InsnArg::Literal(LiteralArg::Int(1)))
+}
+
+/// Result of finding a bitwise boolean operation
+/// Used for converting (a & b) == true -> a && b
+#[derive(Debug)]
+struct BitwiseBooleanOp {
+    /// The binary operation (And or Or)
+    op: BinaryOp,
+    /// String representation of left operand
+    left_str: String,
+    /// String representation of right operand
+    right_str: String,
+}
+
+/// Find if a register is defined by a bitwise AND/OR operation on boolean values
+/// Returns the operation and operand strings if found
+fn find_bitwise_boolean_op(
+    reg_num: u16,
+    ssa_version: u32,
+    ctx: &BodyGenContext,
+) -> Option<BitwiseBooleanOp> {
+    // Search all blocks for the instruction that defines this register
+    for block in ctx.blocks.values() {
+        for insn in &block.instructions {
+            if let InsnType::Binary { dest, op, left, right } = &insn.insn_type {
+                // Check if this instruction defines the register we're looking for
+                if dest.reg_num == reg_num && dest.ssa_version == ssa_version {
+                    // Only interested in bitwise AND/OR
+                    if *op != BinaryOp::And && *op != BinaryOp::Or {
+                        return None;
+                    }
+
+                    // Check if both operands are boolean type
+                    let left_is_bool = is_arg_boolean(left, ctx);
+                    let right_is_bool = is_arg_boolean(right, ctx);
+
+                    if left_is_bool && right_is_bool {
+                        let left_str = ctx.expr_gen.gen_arg(left);
+                        let right_str = ctx.expr_gen.gen_arg(right);
+                        return Some(BitwiseBooleanOp {
+                            op: *op,
+                            left_str,
+                            right_str,
+                        });
+                    }
+                    return None;
+                }
+            }
+        }
+    }
+    None
+}
+
+/// Check if an InsnArg is of boolean type
+fn is_arg_boolean(arg: &InsnArg, ctx: &BodyGenContext) -> bool {
+    match arg {
+        InsnArg::Register(reg) => {
+            ctx.type_info.as_ref()
+                .and_then(|ti| ti.types.get(&(reg.reg_num, reg.ssa_version)))
+                .map_or(false, |ty| matches!(ty, ArgType::Boolean))
+        }
+        // A literal can be treated as boolean if it's 0 or 1
+        InsnArg::Literal(LiteralArg::Int(v)) => *v == 0 || *v == 1,
+        _ => false,
+    }
 }
 
 /// Negate an IfCondition

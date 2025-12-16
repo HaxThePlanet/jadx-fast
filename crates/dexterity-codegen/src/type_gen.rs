@@ -158,9 +158,9 @@ pub fn literal_to_string(value: i64, ty: &ArgType) -> String {
             escape_char(c)
         }
         ArgType::Byte => format!("(byte) {}", value as i8),
-        ArgType::Short => format!("(short) {}", value as i16),
-        ArgType::Int => format!("{}", value as i32),
-        ArgType::Long => format!("{}L", value),
+        ArgType::Short => format_short(value as i16),
+        ArgType::Int => format_integer(value as i32),
+        ArgType::Long => format_long(value),
         ArgType::Float => {
             let f = f32::from_bits(value as u32);
             format_float(f)
@@ -177,6 +177,33 @@ pub fn literal_to_string(value: i64, ty: &ArgType) -> String {
             }
         }
         _ => format!("{}", value),
+    }
+}
+
+/// Format a short literal with special value handling
+fn format_short(value: i16) -> String {
+    match value {
+        i16::MAX => "Short.MAX_VALUE".to_string(),
+        i16::MIN => "Short.MIN_VALUE".to_string(),
+        _ => format!("(short) {}", value),
+    }
+}
+
+/// Format an integer literal with special value handling
+fn format_integer(value: i32) -> String {
+    match value {
+        i32::MAX => "Integer.MAX_VALUE".to_string(),
+        i32::MIN => "Integer.MIN_VALUE".to_string(),
+        _ => format!("{}", value),
+    }
+}
+
+/// Format a long literal with special value handling
+fn format_long(value: i64) -> String {
+    match value {
+        i64::MAX => "Long.MAX_VALUE".to_string(),
+        i64::MIN => "Long.MIN_VALUE".to_string(),
+        _ => format!("{}L", value),
     }
 }
 
@@ -198,12 +225,17 @@ fn escape_char(c: char) -> String {
 fn format_float(f: f32) -> String {
     if f.is_nan() {
         "Float.NaN".to_string()
-    } else if f.is_infinite() {
-        if f.is_sign_positive() {
-            "Float.POSITIVE_INFINITY".to_string()
-        } else {
-            "Float.NEGATIVE_INFINITY".to_string()
-        }
+    } else if f == f32::INFINITY {
+        "Float.POSITIVE_INFINITY".to_string()
+    } else if f == f32::NEG_INFINITY {
+        "Float.NEGATIVE_INFINITY".to_string()
+    } else if f == f32::MIN_POSITIVE {
+        "Float.MIN_VALUE".to_string()
+    } else if f == f32::MAX {
+        "Float.MAX_VALUE".to_string()
+    } else if f.to_bits() == 0x0080_0000 {
+        // Float.MIN_NORMAL = 1.17549435E-38f
+        "Float.MIN_NORMAL".to_string()
     } else if f == 0.0 {
         if f.is_sign_negative() {
             "-0.0f".to_string()
@@ -219,12 +251,17 @@ fn format_float(f: f32) -> String {
 fn format_double(d: f64) -> String {
     if d.is_nan() {
         "Double.NaN".to_string()
-    } else if d.is_infinite() {
-        if d.is_sign_positive() {
-            "Double.POSITIVE_INFINITY".to_string()
-        } else {
-            "Double.NEGATIVE_INFINITY".to_string()
-        }
+    } else if d == f64::INFINITY {
+        "Double.POSITIVE_INFINITY".to_string()
+    } else if d == f64::NEG_INFINITY {
+        "Double.NEGATIVE_INFINITY".to_string()
+    } else if d == f64::MIN_POSITIVE {
+        "Double.MIN_VALUE".to_string()
+    } else if d == f64::MAX {
+        "Double.MAX_VALUE".to_string()
+    } else if d.to_bits() == 0x0010_0000_0000_0000 {
+        // Double.MIN_NORMAL = 2.2250738585072014E-308
+        "Double.MIN_NORMAL".to_string()
     } else if d == 0.0 {
         if d.is_sign_negative() {
             "-0.0d".to_string()
@@ -326,5 +363,64 @@ mod tests {
     fn test_literal_char() {
         assert_eq!(literal_to_string('A' as i64, &ArgType::Char), "'A'");
         assert_eq!(literal_to_string('\n' as i64, &ArgType::Char), "'\\n'");
+    }
+
+    #[test]
+    fn test_special_short_values() {
+        assert_eq!(literal_to_string(i16::MAX as i64, &ArgType::Short), "Short.MAX_VALUE");
+        assert_eq!(literal_to_string(i16::MIN as i64, &ArgType::Short), "Short.MIN_VALUE");
+        assert_eq!(literal_to_string(100, &ArgType::Short), "(short) 100");
+    }
+
+    #[test]
+    fn test_special_integer_values() {
+        assert_eq!(literal_to_string(i32::MAX as i64, &ArgType::Int), "Integer.MAX_VALUE");
+        assert_eq!(literal_to_string(i32::MIN as i64, &ArgType::Int), "Integer.MIN_VALUE");
+        assert_eq!(literal_to_string(42, &ArgType::Int), "42");
+    }
+
+    #[test]
+    fn test_special_long_values() {
+        assert_eq!(literal_to_string(i64::MAX, &ArgType::Long), "Long.MAX_VALUE");
+        assert_eq!(literal_to_string(i64::MIN, &ArgType::Long), "Long.MIN_VALUE");
+        assert_eq!(literal_to_string(12345, &ArgType::Long), "12345L");
+    }
+
+    #[test]
+    fn test_special_float_values() {
+        let nan_bits = f32::NAN.to_bits() as i64;
+        let inf_bits = f32::INFINITY.to_bits() as i64;
+        let neg_inf_bits = f32::NEG_INFINITY.to_bits() as i64;
+        let max_bits = f32::MAX.to_bits() as i64;
+        let min_bits = f32::MIN_POSITIVE.to_bits() as i64;
+
+        assert_eq!(literal_to_string(nan_bits, &ArgType::Float), "Float.NaN");
+        assert_eq!(literal_to_string(inf_bits, &ArgType::Float), "Float.POSITIVE_INFINITY");
+        assert_eq!(literal_to_string(neg_inf_bits, &ArgType::Float), "Float.NEGATIVE_INFINITY");
+        assert_eq!(literal_to_string(max_bits, &ArgType::Float), "Float.MAX_VALUE");
+        assert_eq!(literal_to_string(min_bits, &ArgType::Float), "Float.MIN_VALUE");
+
+        // Regular float - test that it has 'f' suffix
+        let regular = 3.0f32.to_bits() as i64;
+        assert!(literal_to_string(regular, &ArgType::Float).ends_with("f"));
+    }
+
+    #[test]
+    fn test_special_double_values() {
+        let nan_bits = f64::NAN.to_bits() as i64;
+        let inf_bits = f64::INFINITY.to_bits() as i64;
+        let neg_inf_bits = f64::NEG_INFINITY.to_bits() as i64;
+        let max_bits = f64::MAX.to_bits() as i64;
+        let min_bits = f64::MIN_POSITIVE.to_bits() as i64;
+
+        assert_eq!(literal_to_string(nan_bits, &ArgType::Double), "Double.NaN");
+        assert_eq!(literal_to_string(inf_bits, &ArgType::Double), "Double.POSITIVE_INFINITY");
+        assert_eq!(literal_to_string(neg_inf_bits, &ArgType::Double), "Double.NEGATIVE_INFINITY");
+        assert_eq!(literal_to_string(max_bits, &ArgType::Double), "Double.MAX_VALUE");
+        assert_eq!(literal_to_string(min_bits, &ArgType::Double), "Double.MIN_VALUE");
+
+        // Regular double - test that it has 'd' suffix
+        let regular = 3.0f64.to_bits() as i64;
+        assert!(literal_to_string(regular, &ArgType::Double).ends_with("d"));
     }
 }

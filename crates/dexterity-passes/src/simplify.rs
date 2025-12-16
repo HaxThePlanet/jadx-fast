@@ -1,10 +1,29 @@
 //! Instruction simplification pass
 //!
 //! This pass simplifies instructions to produce cleaner output:
+//!
+//! ## Identity eliminations
+//! - `x + 0` → `x`
+//! - `x - 0` → `x`
+//! - `x * 1` → `x`
+//! - `x / 1` → `x`
+//! - `x | 0` → `x`
+//! - `x & -1` → `x` (AND with all bits set)
+//! - `x ^ 0` → `x`
+//! - `x << 0` → `x`, `x >> 0` → `x`, `x >>> 0` → `x`
+//!
+//! ## Constant folding
+//! - `x * 0` → `0`
+//! - `x & 0` → `0`
+//! - `x | -1` → `-1`
+//! - `x % 1` → `0`
+//!
+//! ## Algebraic transformations
 //! - `x + (-N)` → `x - N`
+//!
+//! ## Boolean simplifications
 //! - `bool ^ 1` → `!bool`
 //! - `bool ^ 0` → `bool` (move)
-//! - Redundant double negation: `!!x` → `x`
 //!
 //! Based on JADX's SimplifyVisitor patterns.
 
@@ -46,6 +65,21 @@ fn simplify_insn(insn: &InsnNode, types: Option<&HashMap<(u16, u32), ArgType>>) 
     }
 }
 
+/// Check if an argument is a zero literal (0)
+fn is_zero_literal(arg: &InsnArg) -> bool {
+    matches!(arg, InsnArg::Literal(LiteralArg::Int(0)))
+}
+
+/// Check if an argument is a one literal (1)
+fn is_one_literal(arg: &InsnArg) -> bool {
+    matches!(arg, InsnArg::Literal(LiteralArg::Int(1)))
+}
+
+/// Check if an argument is all bits set (-1 for int)
+fn is_all_ones_literal(arg: &InsnArg) -> bool {
+    matches!(arg, InsnArg::Literal(LiteralArg::Int(-1)))
+}
+
 /// Simplify binary operations
 fn simplify_binary(
     dest: RegisterArg,
@@ -57,6 +91,20 @@ fn simplify_binary(
 ) -> Option<InsnNode> {
     match op {
         BinaryOp::Add => {
+            // x + 0 → x
+            if is_zero_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: left },
+                    offset,
+                ));
+            }
+            // 0 + x → x
+            if is_zero_literal(&left) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: right },
+                    offset,
+                ));
+            }
             // x + (-N) → x - N
             if let Some(neg_val) = get_negative_literal(&right) {
                 let new_insn = InsnNode::new(
@@ -69,6 +117,109 @@ fn simplify_binary(
                     offset,
                 );
                 return Some(new_insn);
+            }
+        }
+        BinaryOp::Sub => {
+            // x - 0 → x
+            if is_zero_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: left },
+                    offset,
+                ));
+            }
+        }
+        BinaryOp::Mul => {
+            // x * 1 → x
+            if is_one_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: left },
+                    offset,
+                ));
+            }
+            // 1 * x → x
+            if is_one_literal(&left) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: right },
+                    offset,
+                ));
+            }
+            // x * 0 → 0
+            if is_zero_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Const { dest, value: LiteralArg::Int(0) },
+                    offset,
+                ));
+            }
+            // 0 * x → 0
+            if is_zero_literal(&left) {
+                return Some(InsnNode::new(
+                    InsnType::Const { dest, value: LiteralArg::Int(0) },
+                    offset,
+                ));
+            }
+        }
+        BinaryOp::Div => {
+            // x / 1 → x
+            if is_one_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: left },
+                    offset,
+                ));
+            }
+        }
+        BinaryOp::Rem => {
+            // x % 1 → 0 (any integer mod 1 is 0)
+            if is_one_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Const { dest, value: LiteralArg::Int(0) },
+                    offset,
+                ));
+            }
+        }
+        BinaryOp::Or => {
+            // x | 0 → x
+            if is_zero_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: left },
+                    offset,
+                ));
+            }
+            // 0 | x → x
+            if is_zero_literal(&left) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: right },
+                    offset,
+                ));
+            }
+            // x | -1 → -1 (all bits set)
+            if is_all_ones_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Const { dest, value: LiteralArg::Int(-1) },
+                    offset,
+                ));
+            }
+        }
+        BinaryOp::And => {
+            // x & -1 → x (AND with all bits set is identity)
+            if is_all_ones_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: left },
+                    offset,
+                ));
+            }
+            // -1 & x → x
+            if is_all_ones_literal(&left) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: right },
+                    offset,
+                ));
+            }
+            // x & 0 → 0
+            if is_zero_literal(&right) || is_zero_literal(&left) {
+                return Some(InsnNode::new(
+                    InsnType::Const { dest, value: LiteralArg::Int(0) },
+                    offset,
+                ));
             }
         }
         BinaryOp::Xor => {
@@ -104,7 +255,32 @@ fn simplify_binary(
                         }
                         _ => {}
                     }
+                } else {
+                    // Non-boolean XOR
+                    // x ^ 0 → x
+                    if *lit == 0 {
+                        return Some(InsnNode::new(
+                            InsnType::Move { dest, src: left },
+                            offset,
+                        ));
+                    }
                 }
+            }
+            // Also check left side for 0 ^ x → x
+            if is_zero_literal(&left) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: right },
+                    offset,
+                ));
+            }
+        }
+        BinaryOp::Shl | BinaryOp::Shr | BinaryOp::Ushr => {
+            // x << 0 → x, x >> 0 → x, x >>> 0 → x
+            if is_zero_literal(&right) {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: left },
+                    offset,
+                ));
             }
         }
         _ => {}
@@ -241,5 +417,216 @@ mod tests {
 
         let result = simplify_insn(&insn, Some(&types));
         assert!(result.is_none()); // No simplification for non-boolean
+    }
+
+    #[test]
+    fn test_add_zero_identity() {
+        // x + 0 → x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Add,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(0)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
+    }
+
+    #[test]
+    fn test_sub_zero_identity() {
+        // x - 0 → x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Sub,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(0)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
+    }
+
+    #[test]
+    fn test_mul_one_identity() {
+        // x * 1 → x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Mul,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(1)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
+    }
+
+    #[test]
+    fn test_mul_zero_constant_fold() {
+        // x * 0 → 0
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Mul,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(0)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::Const { value: LiteralArg::Int(0), .. } => {}
+            _ => panic!("Expected Const 0 instruction"),
+        }
+    }
+
+    #[test]
+    fn test_div_one_identity() {
+        // x / 1 → x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Div,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(1)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
+    }
+
+    #[test]
+    fn test_or_zero_identity() {
+        // x | 0 → x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Or,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(0)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
+    }
+
+    #[test]
+    fn test_and_all_ones_identity() {
+        // x & -1 → x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::And,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(-1)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
+    }
+
+    #[test]
+    fn test_and_zero_constant_fold() {
+        // x & 0 → 0
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::And,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(0)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::Const { value: LiteralArg::Int(0), .. } => {}
+            _ => panic!("Expected Const 0 instruction"),
+        }
+    }
+
+    #[test]
+    fn test_shift_zero_identity() {
+        // x << 0 → x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Shl,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(0)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
+    }
+
+    #[test]
+    fn test_xor_zero_non_boolean() {
+        // For non-boolean: x ^ 0 → x
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Xor,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(0)),
+            },
+            0,
+        );
+
+        // No type info - should still simplify x ^ 0 → x
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
+    }
+
+    #[test]
+    fn test_rem_one_constant_fold() {
+        // x % 1 → 0
+        let insn = InsnNode::new(
+            InsnType::Binary {
+                dest: RegisterArg::new(0),
+                op: BinaryOp::Rem,
+                left: InsnArg::reg(1),
+                right: InsnArg::Literal(LiteralArg::Int(1)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None);
+        assert!(result.is_some());
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::Const { value: LiteralArg::Int(0), .. } => {}
+            _ => panic!("Expected Const 0 instruction"),
+        }
     }
 }
