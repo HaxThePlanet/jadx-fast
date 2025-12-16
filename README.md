@@ -218,14 +218,14 @@ Dexterity  │  112  │  3.88s │  9,607
 | DEX Parsing | ✅ 100% | All 224 Dalvik opcodes |
 | Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
 | Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
-| Code Generation | 🔶 95% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting done; for-each disabled |
+| Code Generation | 🔶 97% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting done; only for-each disabled |
 | Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files |
 | Variable Naming | ✅ 100% | Full JADX parity |
 | Type Formatting | ✅ 100% | Special values (MIN/MAX_VALUE, NaN, Infinity) for numeric types |
-| Optimization Passes | 🔶 70% | Deboxing, arith simplify, const inline, code shrink, enum visitor done |
+| Optimization Passes | 🔶 75% | Deboxing, arith simplify, const inline, code shrink, enum visitor done (5/16 core passes) |
 
 ## CLI Reference
 
