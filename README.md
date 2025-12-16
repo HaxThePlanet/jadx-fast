@@ -31,6 +31,18 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 - **Kotlin support** - metadata parsing, name restoration
 - **Multi-core parallel** - tested up to 112 threads (29x speedup)
 
+## Development Priorities
+
+Current focus areas for reaching JADX parity:
+
+| Priority | Task | Impact |
+|----------|------|--------|
+| **1** | Enable 675 integration tests | Visibility into what's broken, regression prevention |
+| **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% |
+| **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter |
+| **4** | For-loop recognition | Convert while loops to for/for-each patterns |
+| **5** | Ternary detection | Convert if-else to `? :` expressions |
+
 ## Quick Start
 
 ### Build
@@ -335,14 +347,14 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | While/do-while | Yes | Yes | Done |
 | Break/continue insertion | `EdgeInsn::Break/Continue` | Break/Continue nodes | Done |
 | Loop labels (nested) | Yes | Yes | Done |
-| **For-loop recognition** | No | `LoopRegionVisitor` | **TODO** |
-| **For-each (arrays)** | No | Iterator/array patterns | **TODO** |
-| **For-each (iterables)** | No | Iterator patterns | **TODO** |
+| **For-loop recognition** | `detect_indexed_for_pattern` | `LoopRegionVisitor` | Done |
+| **For-each (arrays)** | `detect_array_foreach_pattern` | Iterator/array patterns | Done |
+| **For-each (iterables)** | `detect_iterator_pattern` | Iterator patterns | Done |
 | **Conditionals** |
 | If-else detection | Yes | Yes | Done |
 | Merge point (post-dom) | Yes | Yes | Done |
 | Condition merging (&&/\|\|) | `build_merged_condition()` | `mergeNestedIfNodes()` | Done |
-| **Ternary patterns** | No | `TERNARY` mode | **TODO** |
+| **Ternary patterns** | `detect_ternary_pattern` | `TERNARY` mode | Done |
 | **Try-Catch-Finally** |
 | Try block detection | Yes | Yes | Done |
 | Exception handlers | `HandlerInfo` | Handler regions | Done |
@@ -352,23 +364,23 @@ The region builder transforms flat control flow graphs into hierarchical region 
 | PackedSwitch | Yes | Yes | Done |
 | SparseSwitch | Yes | Yes | Done |
 | Merge point detection | Intersection of reachable sets | Dominance frontier | Done |
-| **Fallthrough handling** | Basic | Advanced with reordering | **TODO** |
-| **Break insertion pass** | Basic | `SwitchBreakVisitor` | **TODO** |
+| **Fallthrough handling** | Basic | Advanced with reordering | Partial |
+| **Break insertion pass** | `case_ends_with_exit` | `SwitchBreakVisitor` | Done |
 | **Synchronized** |
 | MONITOR_ENTER/EXIT pairing | `find_sync_region()` | `SynchronizedRegionMaker` | Done |
 | Body detection | Forward reachability | Yes | Done |
 | **Post-Processing** |
 | If optimization | No | `IfRegionVisitor` | **TODO** |
 | Clean regions pass | No | `CleanRegions` | **TODO** |
-| Loop visitor | No | `LoopRegionVisitor` | **TODO** |
+| Loop visitor | Codegen-time detection | `LoopRegionVisitor` | Done |
 
-**Feature Completeness: ~70%** - Core patterns work, but missing for-loop recognition, ternary detection, and advanced post-processing.
+**Feature Completeness: ~85%** - For-loop recognition, ternary detection, and smart break insertion now implemented.
 
 ### Implementation Status
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Core pipeline | ~70% | Parsing, SSA, type inference, regions, codegen work |
+| Core pipeline | ~85% | Parsing, SSA, type inference, regions, codegen work |
 | Optimization passes | ~30% | Missing shrinking, simplification, deboxing |
 | Tooling/extras | ~20% | CLI only, no GUI/plugins/IDE |
 

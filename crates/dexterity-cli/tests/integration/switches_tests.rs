@@ -14,23 +14,27 @@ fn switch_test() {
     let helper = IntegrationTestHelper::new("switch_test");
     let source = r#"
 public class TestCls {
-public String test(String str) {
-int len = str.length();
-StringBuilder sb = new StringBuilder(len);
-for (int i = 0; i < len; i++) {
-char c = str.charAt(i);
-switch (c) {
-case '.':
-case '/':
-sb.append('_');
-break;
-case ']':
-sb.append('A');
-case '?':
-default:
-sb.append(c);
-}
-return sb.toString();
+    public String test(String str) {
+        int len = str.length();
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            char c = str.charAt(i);
+            switch (c) {
+                case '.':
+                case '/':
+                    sb.append('_');
+                    break;
+                case ']':
+                    sb.append('A');
+                    break;
+                case '?':
+                default:
+                    sb.append(c);
+                    break;
+            }
+        }
+        return sb.toString();
+    }
 }
 "#;
 

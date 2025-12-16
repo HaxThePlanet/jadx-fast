@@ -14,19 +14,22 @@ fn array_for_each_test() {
     let helper = IntegrationTestHelper::new("array_for_each_test");
     let source = r#"
 public class TestCls {
-public int test(int[] a) {
-int sum = 0;
-for (int n : a) {
-sum += n;
-}
-return sum;
+    public int test(int[] a) {
+        int sum = 0;
+        for (int n : a) {
+            sum += n;
+        }
+        return sum;
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("sum")
+        .contains("return");
 }
 
 #[test]
@@ -40,12 +43,14 @@ fn array_for_each2_test() {
     let helper = IntegrationTestHelper::new("array_for_each2_test");
     let source = r#"
 public class TestCls {
-public void test(String str) {
-for (String s : str.split("\n")) {
-String t = s.trim();
-if (t.length() > 0) {
-System.out.println(t);
-}
+    public void test(String str) {
+        for (String s : str.split("\n")) {
+            String t = s.trim();
+            if (t.length() > 0) {
+                System.out.println(t);
+            }
+        }
+    }
 }
 "#;
 

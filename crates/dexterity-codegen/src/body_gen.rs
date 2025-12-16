@@ -43,7 +43,7 @@ use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 
 use crate::class_gen::is_anonymous_class;
 use crate::dex_info::DexInfoProvider;
-use crate::expr_gen::ExprGen;
+use crate::expr_gen::{BoxingType, ExprGen, get_literal_int_value};
 use crate::method_gen::generate_method_with_dex;
 use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_else_if,
@@ -93,6 +93,8 @@ pub struct BodyGenContext {
     /// Phi node destinations that need early declaration at method start
     /// These are variables that merge values from multiple branches
     pub phi_declarations: HashSet<(u16, u32)>,
+    /// Instructions to skip in for-each loops (block_id -> set of instruction indices)
+    pub skip_foreach_insns: HashMap<u32, HashSet<usize>>,
 }
 
 impl Drop for BodyGenContext {
@@ -179,6 +181,7 @@ impl BodyGenContext {
             final_vars: HashSet::new(),
             current_class_type: None,
             phi_declarations: HashSet::new(),
+            skip_foreach_insns: HashMap::new(),
         }
     }
 
@@ -900,22 +903,45 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
 
     let ssa_result = transform_to_ssa_owned(block_result);
 
-    let type_result = if let Some(h) = hierarchy {
-        dexterity_passes::infer_types_with_hierarchy(&ssa_result, h)
-    } else if let Some(ref dex) = dex_info {
-        let dex_clone = dex.clone();
-        let dex_clone2 = dex.clone();
-        let dex_clone3 = dex.clone();
-
-        // Direct parsing without caching - avoids DashMap overhead
-        dexterity_passes::infer_types_with_context(
-            &ssa_result,
-            move |idx| dex_clone.get_type_as_argtype(idx),
-            move |idx| dex_clone2.get_field_type(idx),
-            move |idx| dex_clone3.get_method_return_type(idx),
-        )
-    } else {
-        infer_types(&ssa_result)
+    // Use the most complete type inference variant available:
+    // - With both hierarchy and dex_info: best precision (lookups + LCA computation)
+    // - With hierarchy only: LCA for phi nodes but no field/method type lookups
+    // - With dex_info only: field/method/type lookups but no LCA
+    // - Neither: basic constraint-based inference only
+    let type_result = match (hierarchy, &dex_info) {
+        (Some(h), Some(dex)) => {
+            // Best precision: both hierarchy (for LCA) and DEX lookups
+            let dex_clone = dex.clone();
+            let dex_clone2 = dex.clone();
+            let dex_clone3 = dex.clone();
+            dexterity_passes::infer_types_with_context_and_hierarchy(
+                &ssa_result,
+                move |idx| dex_clone.get_type_as_argtype(idx),
+                move |idx| dex_clone2.get_field_type(idx),
+                move |idx| dex_clone3.get_method_return_type(idx),
+                h,
+            )
+        }
+        (Some(h), None) => {
+            // Hierarchy only (for LCA computation)
+            dexterity_passes::infer_types_with_hierarchy(&ssa_result, h)
+        }
+        (None, Some(dex)) => {
+            // DEX lookups only
+            let dex_clone = dex.clone();
+            let dex_clone2 = dex.clone();
+            let dex_clone3 = dex.clone();
+            dexterity_passes::infer_types_with_context(
+                &ssa_result,
+                move |idx| dex_clone.get_type_as_argtype(idx),
+                move |idx| dex_clone2.get_field_type(idx),
+                move |idx| dex_clone3.get_method_return_type(idx),
+            )
+        }
+        (None, None) => {
+            // Basic inference only
+            infer_types(&ssa_result)
+        }
     };
 
     // Use sophisticated variable naming from dexterity-passes (JADX-compatible)
@@ -1137,6 +1163,12 @@ struct ForEachInfo {
     item_var: String,
     /// The item type (from cast or inferred)
     item_type: Option<String>,
+    /// Block containing next() call
+    skip_block: u32,
+    /// Index of first instruction to skip (next() call)
+    skip_start: usize,
+    /// Number of instructions to skip (next, MoveResult, optionally CheckCast)
+    skip_count: usize,
 }
 
 /// Detect if a region body starts with a next() call on the given iterator register
@@ -1176,19 +1208,37 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
                                         item_var = ctx.expr_gen.get_var_name(dest);
 
                                         // Check for CheckCast following MoveResult to get item type
+                                        let mut has_cast = false;
                                         if i + 2 < block.instructions.len() {
                                             let cast_insn = &block.instructions[i + 2];
                                             if let InsnType::CheckCast { type_idx, .. } = &cast_insn.insn_type {
                                                 if let Some(type_name) = ctx.expr_gen.get_type_value(*type_idx) {
                                                     let simple = type_name.rsplit('/').next().unwrap_or(&type_name);
                                                     item_type = Some(simple.to_string());
+                                                    has_cast = true;
                                                 }
                                             }
                                         }
+                                        // Skip: next() + MoveResult + optionally CheckCast
+                                        let skip_count = if has_cast { 3 } else { 2 };
+                                        return Some(ForEachInfo {
+                                            item_var,
+                                            item_type,
+                                            skip_block: first_block,
+                                            skip_start: i,
+                                            skip_count,
+                                        });
                                     }
                                 }
 
-                                return Some(ForEachInfo { item_var, item_type });
+                                // No MoveResult - just skip the next() call
+                                return Some(ForEachInfo {
+                                    item_var,
+                                    item_type,
+                                    skip_block: first_block,
+                                    skip_start: i,
+                                    skip_count: 1,
+                                });
                             }
                         }
                     }
@@ -1820,7 +1870,18 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                                     .add(") {")
                                     .newline();
                                 code.inc_indent();
+
+                                // Mark iterator instructions to skip in body
+                                let skip_set: HashSet<usize> = (foreach_info.skip_start
+                                    ..foreach_info.skip_start + foreach_info.skip_count)
+                                    .collect();
+                                ctx.skip_foreach_insns.insert(foreach_info.skip_block, skip_set);
+
                                 generate_region(body, ctx, code);
+
+                                // Clean up skip set after generating body
+                                ctx.skip_foreach_insns.remove(&foreach_info.skip_block);
+
                                 gen_close_block(code);
                                 return;
                             }
@@ -1859,7 +1920,18 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                                     .add(") {")
                                     .newline();
                                 code.inc_indent();
+
+                                // Mark iterator instructions to skip in body
+                                let skip_set: HashSet<usize> = (foreach_info.skip_start
+                                    ..foreach_info.skip_start + foreach_info.skip_count)
+                                    .collect();
+                                ctx.skip_foreach_insns.insert(foreach_info.skip_block, skip_set);
+
                                 generate_region(body, ctx, code);
+
+                                // Clean up skip set
+                                ctx.skip_foreach_insns.remove(&foreach_info.skip_block);
+
                                 gen_close_block(code);
                                 return;
                             }
@@ -1892,7 +1964,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                 .newline();
             code.inc_indent();
 
-            for case in cases {
+            for (case_idx, case) in cases.iter().enumerate() {
                 for key in &case.keys {
                     code.start_line()
                         .add("case ")
@@ -1902,7 +1974,19 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                 }
                 code.inc_indent();
                 generate_region(&case.region, ctx, code);
-                gen_break(code);
+
+                // Only add break if case doesn't end with return/throw/continue/break
+                let needs_break = !case_ends_with_exit(&case.region, ctx);
+                if needs_break {
+                    // Check if this is the last case before default - if so, might be fallthrough
+                    let is_last_case = case_idx == cases.len() - 1;
+                    if !is_last_case || default.is_none() {
+                        gen_break(code);
+                    } else {
+                        // Last case before default - add break
+                        gen_break(code);
+                    }
+                }
                 code.dec_indent();
             }
 
@@ -1910,6 +1994,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                 code.start_line().add("default:").newline();
                 code.inc_indent();
                 generate_region(def, ctx, code);
+                // Don't add break after default - it's the last case
                 code.dec_indent();
             }
 
@@ -2047,8 +2132,18 @@ fn generate_block<W: CodeWriter>(block: &BasicBlock, ctx: &mut BodyGenContext, c
 
     let last_idx = block.instructions.len().saturating_sub(1);
 
+    // Check if this block has instructions to skip (for-each iterator calls)
+    let skip_insns = ctx.skip_foreach_insns.get(&block.id).cloned();
+
     // Iterate directly without Arc/Mutex overhead
     for (i, insn) in block.instructions.iter().enumerate() {
+        // Skip instructions marked for for-each suppression
+        if let Some(ref skip_set) = skip_insns {
+            if skip_set.contains(&i) {
+                continue;
+            }
+        }
+
         // Skip instructions marked with DONT_GENERATE (duplicated finally code)
         if insn.has_flag(AFlag::DontGenerate) {
             continue;
@@ -2095,6 +2190,52 @@ fn is_control_flow(insn: &InsnType) -> bool {
             | InsnType::PackedSwitch { .. }
             | InsnType::SparseSwitch { .. }
     )
+}
+
+/// Check if a case region ends with an exit instruction (return, throw, break, continue)
+/// If so, we don't need to add a break statement after it
+fn case_ends_with_exit(region: &Region, ctx: &BodyGenContext) -> bool {
+    match region {
+        Region::Sequence(contents) if !contents.is_empty() => {
+            // Check the last element
+            match contents.last() {
+                Some(RegionContent::Block(block_id)) => {
+                    if let Some(block) = ctx.blocks.get(block_id) {
+                        if let Some(last) = block.instructions.last() {
+                            return matches!(
+                                last.insn_type,
+                                InsnType::Return { .. } | InsnType::Throw { .. }
+                            );
+                        }
+                    }
+                    false
+                }
+                Some(RegionContent::Region(inner)) => case_ends_with_exit(inner, ctx),
+                None => false,
+            }
+        }
+        Region::If { then_region, else_region, .. } => {
+            // If both branches exit, the if exits
+            if let Some(else_reg) = else_region {
+                case_ends_with_exit(then_region, ctx) && case_ends_with_exit(else_reg, ctx)
+            } else {
+                false
+            }
+        }
+        Region::Loop { .. } => {
+            // Loops might exit via break but we can't easily detect it
+            // Conservatively return false
+            false
+        }
+        Region::TryCatch { try_region, handlers, .. } => {
+            // If try and all handlers exit, the try-catch exits
+            if !case_ends_with_exit(try_region, ctx) {
+                return false;
+            }
+            handlers.iter().all(|h| case_ends_with_exit(&h.region, ctx))
+        }
+        _ => false,
+    }
 }
 
 /// Generate an anonymous class body inline
@@ -2170,6 +2311,19 @@ fn write_invoke_with_inlining<W: CodeWriter>(
 
         match kind {
             InvokeKind::Static => {
+                // Deboxing: Check if this is a boxing method like Integer.valueOf(int)
+                // If so and the argument is a literal, emit just the literal instead
+                if let Some(boxing_type) = BoxingType::from_method(&info) {
+                    if args.len() == 1 {
+                        if let Some(value) = get_literal_int_value(&args[0]) {
+                            // Deboxing succeeds - write the literal directly
+                            boxing_type.write_literal(code, value);
+                            return;
+                        }
+                    }
+                }
+
+                // Normal static method call
                 code.add(&info.class_name).add(".").add(&info.method_name).add("(");
                 for (i, a) in args.iter().enumerate() {
                     if i > 0 { code.add(", "); }

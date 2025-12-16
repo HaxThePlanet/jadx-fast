@@ -35,7 +35,7 @@ pub use class_gen::{
     InnerClassInfo, InnerClassKind,
 };
 pub use dex_info::{DexInfo, DexInfoProvider, LazyDexInfo, GlobalFieldPool, AliasAwareDexInfo, AliasRegistry};
-pub use expr_gen::{ExprGen, FieldInfo, MethodInfo};
+pub use expr_gen::{ExprGen, FieldInfo, MethodInfo, BoxingType, get_literal_int_value};
 pub use stmt_gen::StmtGen;
 pub use type_gen::{type_to_string, escape_string};
 pub use writer::{CodeWriter, SimpleCodeWriter};

@@ -13,19 +13,22 @@ fn dont_inline_this_test() {
 
     let helper = IntegrationTestHelper::new("dont_inline_this_test");
     let source = r#"
+import java.util.Random;
 public class TestCls {
-public int field = new Random().nextInt();
-public TestCls test() {
-TestCls res;
-if (field == 7) {
-res = this;
-System.out.println();
-} else {
-res = new TestCls();
-}
-res.method();
-return res;
-private void method() {
+    public int field = new Random().nextInt();
+    public TestCls test() {
+        TestCls res;
+        if (field == 7) {
+            res = this;
+            System.out.println();
+        } else {
+            res = new TestCls();
+        }
+        res.method();
+        return res;
+    }
+    private void method() {
+    }
 }
 "#;
 
@@ -49,13 +52,14 @@ fn inline_this_test() {
     let helper = IntegrationTestHelper::new("inline_this_test");
     let source = r#"
 public class TestCls {
-public int field;
-public void test() {
-TestCls something = this;
-something.method();
-something.field = 123;
-}
-private void method() {
+    public int field;
+    public void test() {
+        TestCls something = this;
+        something.method();
+        something.field = 123;
+    }
+    private void method() {
+    }
 }
 "#;
 
@@ -81,16 +85,19 @@ fn inline_this2_test() {
 
     let helper = IntegrationTestHelper::new("inline_this2_test");
     let source = r#"
+import java.util.Objects;
 public class TestCls {
-public int field;
-public void test() {
-TestCls thisVar = this;
-if (Objects.isNull(thisVar)) {
-System.out.println("null");
-}
-thisVar.method();
-thisVar.field = 123;
-private void method() {
+    public int field;
+    public void test() {
+        TestCls thisVar = this;
+        if (Objects.isNull(thisVar)) {
+            System.out.println("null");
+        }
+        thisVar.method();
+        thisVar.field = 123;
+    }
+    private void method() {
+    }
 }
 "#;
 
@@ -118,16 +125,18 @@ fn redundant_this_test() {
     let helper = IntegrationTestHelper::new("redundant_this_test");
     let source = r#"
 public class TestCls {
-public int field1 = 1;
-public int field2 = 2;
-public boolean f1() {
-return false;
-}
-public int method() {
-f1();
-return field1;
-public void method2(int field2) {
-this.field2 = field2;
+    public int field1 = 1;
+    public int field2 = 2;
+    public boolean f1() {
+        return false;
+    }
+    public int method() {
+        f1();
+        return field1;
+    }
+    public void method2(int field2) {
+        this.field2 = field2;
+    }
 }
 "#;
 

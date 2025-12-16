@@ -106,6 +106,8 @@ pub struct TypeInference {
     hierarchy: Option<ClassHierarchy>,
     /// Last invoke return type (for MoveResult pairing)
     last_invoke_return: Option<ArgType>,
+    /// Phi nodes for post-solve LCA computation: (dest_var, source_vars)
+    phi_nodes: Vec<(TypeVar, Vec<TypeVar>)>,
 }
 
 impl Default for TypeInference {
@@ -126,6 +128,7 @@ impl TypeInference {
             method_lookup: None,
             hierarchy: None,
             last_invoke_return: None,
+            phi_nodes: Vec::new(),
         }
     }
 
@@ -385,25 +388,53 @@ impl TypeInference {
                         InferredType::Concrete(ArgType::Int),
                     ));
                 }
-                // Array constraint
+                // Array constraint - enables bidirectional type inference
                 if let Some(arr_var) = self.var_for_arg(array) {
                     self.add_constraint(Constraint::ArrayOf(arr_var, dest_var));
                 }
-                // Also use elem_type hint
-                let hint = match elem_type {
-                    ArrayElemType::Int => ArgType::Int,
-                    ArrayElemType::Wide => ArgType::Long, // Could be double
-                    ArrayElemType::Object => ArgType::Unknown,
-                    ArrayElemType::Boolean => ArgType::Boolean,
-                    ArrayElemType::Byte => ArgType::Byte,
-                    ArrayElemType::Char => ArgType::Char,
-                    ArrayElemType::Short => ArgType::Short,
-                };
-                if hint != ArgType::Unknown {
-                    self.add_constraint(Constraint::Equals(
-                        dest_var,
-                        InferredType::Concrete(hint),
-                    ));
+                // Use elem_type hint for primitive types, ObjectType for objects
+                match elem_type {
+                    ArrayElemType::Int => {
+                        self.add_constraint(Constraint::Equals(
+                            dest_var,
+                            InferredType::Concrete(ArgType::Int),
+                        ));
+                    }
+                    ArrayElemType::Wide => {
+                        self.add_constraint(Constraint::Equals(
+                            dest_var,
+                            InferredType::Concrete(ArgType::Long),
+                        ));
+                    }
+                    ArrayElemType::Boolean => {
+                        self.add_constraint(Constraint::Equals(
+                            dest_var,
+                            InferredType::Concrete(ArgType::Boolean),
+                        ));
+                    }
+                    ArrayElemType::Byte => {
+                        self.add_constraint(Constraint::Equals(
+                            dest_var,
+                            InferredType::Concrete(ArgType::Byte),
+                        ));
+                    }
+                    ArrayElemType::Char => {
+                        self.add_constraint(Constraint::Equals(
+                            dest_var,
+                            InferredType::Concrete(ArgType::Char),
+                        ));
+                    }
+                    ArrayElemType::Short => {
+                        self.add_constraint(Constraint::Equals(
+                            dest_var,
+                            InferredType::Concrete(ArgType::Short),
+                        ));
+                    }
+                    ArrayElemType::Object => {
+                        // Element is an object - add ObjectType constraint as fallback
+                        // The actual type may be resolved via ArrayOf constraint
+                        self.add_constraint(Constraint::ObjectType(dest_var));
+                    }
                 }
             }
 
@@ -420,28 +451,56 @@ impl TypeInference {
                         InferredType::Concrete(ArgType::Int),
                     ));
                 }
-                // Value type relates to array element type
+                // Value type relates to array element type - enables bidirectional inference
                 if let (Some(arr_var), Some(val_var)) =
                     (self.var_for_arg(array), self.var_for_arg(value))
                 {
                     self.add_constraint(Constraint::ArrayOf(arr_var, val_var));
                 }
-                // Also use elem_type hint for value
+                // Use elem_type hint for primitive types, ObjectType for objects
                 if let Some(val_var) = self.var_for_arg(value) {
-                    let hint = match elem_type {
-                        ArrayElemType::Int => ArgType::Int,
-                        ArrayElemType::Wide => ArgType::Long,
-                        ArrayElemType::Boolean => ArgType::Boolean,
-                        ArrayElemType::Byte => ArgType::Byte,
-                        ArrayElemType::Char => ArgType::Char,
-                        ArrayElemType::Short => ArgType::Short,
-                        ArrayElemType::Object => ArgType::Unknown,
-                    };
-                    if hint != ArgType::Unknown {
-                        self.add_constraint(Constraint::Equals(
-                            val_var,
-                            InferredType::Concrete(hint),
-                        ));
+                    match elem_type {
+                        ArrayElemType::Int => {
+                            self.add_constraint(Constraint::Equals(
+                                val_var,
+                                InferredType::Concrete(ArgType::Int),
+                            ));
+                        }
+                        ArrayElemType::Wide => {
+                            self.add_constraint(Constraint::Equals(
+                                val_var,
+                                InferredType::Concrete(ArgType::Long),
+                            ));
+                        }
+                        ArrayElemType::Boolean => {
+                            self.add_constraint(Constraint::Equals(
+                                val_var,
+                                InferredType::Concrete(ArgType::Boolean),
+                            ));
+                        }
+                        ArrayElemType::Byte => {
+                            self.add_constraint(Constraint::Equals(
+                                val_var,
+                                InferredType::Concrete(ArgType::Byte),
+                            ));
+                        }
+                        ArrayElemType::Char => {
+                            self.add_constraint(Constraint::Equals(
+                                val_var,
+                                InferredType::Concrete(ArgType::Char),
+                            ));
+                        }
+                        ArrayElemType::Short => {
+                            self.add_constraint(Constraint::Equals(
+                                val_var,
+                                InferredType::Concrete(ArgType::Short),
+                            ));
+                        }
+                        ArrayElemType::Object => {
+                            // Element is an object - add ObjectType constraint as fallback
+                            // The actual type may be resolved via ArrayOf constraint
+                            self.add_constraint(Constraint::ObjectType(val_var));
+                        }
                     }
                 }
             }
@@ -656,15 +715,18 @@ impl TypeInference {
 
             InsnType::Phi { dest, sources } => {
                 let dest_var = self.get_or_create_var(dest);
-                // All phi sources must unify with dest
-                // We'll use LCA if hierarchy is available to find common supertype
+                // Collect source type variables
+                let mut source_vars = Vec::with_capacity(sources.len());
                 for (_, src_arg) in sources {
                     if let Some(src_var) = self.var_for_arg(src_arg) {
                         self.add_constraint(Constraint::Same(dest_var, src_var));
+                        source_vars.push(src_var);
                     }
                 }
-                // TODO: After initial resolution, compute LCA of all phi sources
-                // and update dest to that type (will be done in enhanced solver)
+                // Record phi node for post-solve LCA computation
+                if !source_vars.is_empty() {
+                    self.phi_nodes.push((dest_var, source_vars));
+                }
             }
 
             // Control flow instructions don't produce types
@@ -688,9 +750,15 @@ impl TypeInference {
     /// Collect constraints from phi nodes
     fn collect_from_phi(&mut self, phi: &crate::ssa::PhiNode) {
         let dest_var = self.get_or_create_var(&phi.dest);
+        let mut source_vars = Vec::with_capacity(phi.sources.len());
         for (_, src_reg) in &phi.sources {
             let src_var = self.get_or_create_var(src_reg);
             self.add_constraint(Constraint::Same(dest_var, src_var));
+            source_vars.push(src_var);
+        }
+        // Record phi node for post-solve LCA computation
+        if !source_vars.is_empty() {
+            self.phi_nodes.push((dest_var, source_vars));
         }
     }
 
@@ -808,6 +876,62 @@ impl TypeInference {
                             changed = true;
                         }
                     }
+                }
+            }
+        }
+    }
+
+    /// Compute LCA (Least Common Ancestor) for phi nodes after initial solve
+    ///
+    /// When phi sources have conflicting object types that couldn't be unified,
+    /// this computes their common supertype using the class hierarchy.
+    /// For example: phi(String, Integer) -> Object
+    fn compute_phi_lcas(&mut self) {
+        let Some(ref hierarchy) = self.hierarchy else {
+            return; // No hierarchy available for LCA computation
+        };
+
+        for (dest_var, source_vars) in &self.phi_nodes {
+            // Collect resolved types from all sources
+            let mut object_types: Vec<&str> = Vec::new();
+            let mut all_resolved = true;
+
+            for src_var in source_vars {
+                if let Some(InferredType::Concrete(ty)) = self.resolved.get(src_var) {
+                    match ty {
+                        ArgType::Object(name) => {
+                            // Skip null - it's compatible with any object
+                            if name != "null" {
+                                object_types.push(name.as_str());
+                            }
+                        }
+                        _ => {
+                            // Non-object type - can't compute LCA
+                            all_resolved = false;
+                            break;
+                        }
+                    }
+                } else {
+                    all_resolved = false;
+                    break;
+                }
+            }
+
+            // Only compute LCA if we have multiple distinct object types
+            if all_resolved && object_types.len() >= 2 {
+                // Check if all types are the same (no LCA needed)
+                let first = object_types[0];
+                let all_same = object_types.iter().all(|&t| t == first);
+
+                if !all_same {
+                    // Compute common supertype for all phi sources
+                    let lca = hierarchy.common_supertype(&object_types);
+
+                    // Update dest to LCA type
+                    self.resolved.insert(
+                        *dest_var,
+                        InferredType::Concrete(ArgType::Object(lca)),
+                    );
                 }
             }
         }
@@ -1039,6 +1163,53 @@ pub fn infer_types_with_hierarchy(
     let num_constraints = inference.constraints.len();
     let num_type_vars = inference.next_var as usize;
     inference.solve();
+    // Post-solve: compute LCA for phi nodes with conflicting object types
+    inference.compute_phi_lcas();
+    let num_resolved = inference.resolved.len();
+    let types = inference.get_all_types();
+
+    TypeInferenceResult {
+        types,
+        num_constraints,
+        num_type_vars,
+        num_resolved,
+    }
+}
+
+/// Run type inference with BOTH custom lookups AND class hierarchy
+///
+/// This is the most complete type inference variant, combining:
+/// - type_lookup: Resolve DEX type indices to ArgType
+/// - field_lookup: Resolve field indices to field types
+/// - method_lookup: Resolve method indices to (param_types, return_type)
+/// - hierarchy: Class hierarchy for subtype checking and LCA computation
+///
+/// Using both lookups and hierarchy together provides the best type precision
+/// by having access to all DEX type information plus inheritance relationships.
+pub fn infer_types_with_context_and_hierarchy<F, G, H>(
+    ssa: &SsaResult,
+    type_lookup: F,
+    field_lookup: G,
+    method_lookup: H,
+    hierarchy: &dexterity_ir::ClassHierarchy,
+) -> TypeInferenceResult
+where
+    F: Fn(u32) -> Option<ArgType> + Send + Sync + 'static,
+    G: Fn(u32) -> Option<ArgType> + Send + Sync + 'static,
+    H: Fn(u32) -> Option<(Vec<ArgType>, ArgType)> + Send + Sync + 'static,
+{
+    let mut inference = TypeInference::new()
+        .with_type_lookup(type_lookup)
+        .with_field_lookup(field_lookup)
+        .with_method_lookup(method_lookup)
+        .with_hierarchy(hierarchy.clone());
+
+    inference.collect_constraints(ssa);
+    let num_constraints = inference.constraints.len();
+    let num_type_vars = inference.next_var as usize;
+    inference.solve();
+    // Post-solve: compute LCA for phi nodes with conflicting object types
+    inference.compute_phi_lcas();
     let num_resolved = inference.resolved.len();
     let types = inference.get_all_types();
 

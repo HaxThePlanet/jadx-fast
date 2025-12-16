@@ -77,6 +77,204 @@ pub struct MethodInfo {
     pub param_types: Vec<ArgType>,
 }
 
+/// Boxing type for deboxing pass
+/// Identifies which primitive wrapper class is being used
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum BoxingType {
+    Integer,
+    Boolean,
+    Byte,
+    Short,
+    Character,
+    Long,
+    Float,
+    Double,
+}
+
+impl BoxingType {
+    /// Check if a method is a boxing valueOf method and return the boxing type
+    /// Matches patterns like Integer.valueOf(int), Boolean.valueOf(boolean), etc.
+    pub fn from_method(info: &MethodInfo) -> Option<BoxingType> {
+        // Must be valueOf method with exactly one parameter
+        if info.method_name != "valueOf" || info.param_types.len() != 1 {
+            return None;
+        }
+
+        // Match class type (internal format: java/lang/Integer)
+        match info.class_type.as_str() {
+            "java/lang/Integer" => {
+                if matches!(info.param_types[0], ArgType::Int) {
+                    Some(BoxingType::Integer)
+                } else {
+                    None
+                }
+            }
+            "java/lang/Boolean" => {
+                if matches!(info.param_types[0], ArgType::Boolean) {
+                    Some(BoxingType::Boolean)
+                } else {
+                    None
+                }
+            }
+            "java/lang/Byte" => {
+                if matches!(info.param_types[0], ArgType::Byte) {
+                    Some(BoxingType::Byte)
+                } else {
+                    None
+                }
+            }
+            "java/lang/Short" => {
+                if matches!(info.param_types[0], ArgType::Short) {
+                    Some(BoxingType::Short)
+                } else {
+                    None
+                }
+            }
+            "java/lang/Character" => {
+                if matches!(info.param_types[0], ArgType::Char) {
+                    Some(BoxingType::Character)
+                } else {
+                    None
+                }
+            }
+            "java/lang/Long" => {
+                if matches!(info.param_types[0], ArgType::Long) {
+                    Some(BoxingType::Long)
+                } else {
+                    None
+                }
+            }
+            "java/lang/Float" => {
+                if matches!(info.param_types[0], ArgType::Float) {
+                    Some(BoxingType::Float)
+                } else {
+                    None
+                }
+            }
+            "java/lang/Double" => {
+                if matches!(info.param_types[0], ArgType::Double) {
+                    Some(BoxingType::Double)
+                } else {
+                    None
+                }
+            }
+            _ => None,
+        }
+    }
+
+    /// Generate the deboxed literal string from a value
+    /// Handles type suffixes and casts:
+    /// - Integer: just the number (1)
+    /// - Boolean: true/false
+    /// - Byte: (byte) 2
+    /// - Short: (short) 3
+    /// - Character: 'c' (char literal)
+    /// - Long: 4L (with L suffix)
+    /// - Float: 1.0f (with f suffix)
+    /// - Double: 1.0d (with d suffix)
+    pub fn format_literal(&self, value: i64) -> String {
+        match self {
+            BoxingType::Integer => format!("{}", value as i32),
+            BoxingType::Boolean => {
+                if value == 0 { "false".to_string() } else { "true".to_string() }
+            }
+            BoxingType::Byte => format!("(byte) {}", value as i8),
+            BoxingType::Short => format!("(short) {}", value as i16),
+            BoxingType::Character => {
+                let c = value as u16;
+                // Handle printable ASCII characters
+                if c >= 0x20 && c < 0x7F && c != 0x27 && c != 0x5C {
+                    format!("'{}'", char::from_u32(c as u32).unwrap_or('?'))
+                } else {
+                    // Use unicode escape for non-printable or special chars
+                    format!("'\\u{:04x}'", c)
+                }
+            }
+            BoxingType::Long => format!("{}L", value),
+            BoxingType::Float => {
+                let f = f32::from_bits(value as u32);
+                if f.is_nan() {
+                    "Float.NaN".to_string()
+                } else if f.is_infinite() {
+                    if f > 0.0 { "Float.POSITIVE_INFINITY".to_string() }
+                    else { "Float.NEGATIVE_INFINITY".to_string() }
+                } else {
+                    format!("{}f", f)
+                }
+            }
+            BoxingType::Double => {
+                let d = f64::from_bits(value as u64);
+                if d.is_nan() {
+                    "Double.NaN".to_string()
+                } else if d.is_infinite() {
+                    if d > 0.0 { "Double.POSITIVE_INFINITY".to_string() }
+                    else { "Double.NEGATIVE_INFINITY".to_string() }
+                } else {
+                    format!("{}d", d)
+                }
+            }
+        }
+    }
+
+    /// Write the deboxed literal directly to a CodeWriter
+    pub fn write_literal<W: crate::writer::CodeWriter>(&self, writer: &mut W, value: i64) {
+        match self {
+            BoxingType::Integer => {
+                writer.add(&format!("{}", value as i32));
+            }
+            BoxingType::Boolean => {
+                writer.add(if value == 0 { "false" } else { "true" });
+            }
+            BoxingType::Byte => {
+                writer.add(&format!("(byte) {}", value as i8));
+            }
+            BoxingType::Short => {
+                writer.add(&format!("(short) {}", value as i16));
+            }
+            BoxingType::Character => {
+                let c = value as u16;
+                // Handle printable ASCII characters
+                if c >= 0x20 && c < 0x7F && c != 0x27 && c != 0x5C {
+                    writer.add(&format!("'{}'", char::from_u32(c as u32).unwrap_or('?')));
+                } else {
+                    writer.add(&format!("'\\u{:04x}'", c));
+                }
+            }
+            BoxingType::Long => {
+                writer.add(&format!("{}L", value));
+            }
+            BoxingType::Float => {
+                let f = f32::from_bits(value as u32);
+                if f.is_nan() {
+                    writer.add("Float.NaN");
+                } else if f.is_infinite() {
+                    writer.add(if f > 0.0 { "Float.POSITIVE_INFINITY" } else { "Float.NEGATIVE_INFINITY" });
+                } else {
+                    writer.add(&format!("{}f", f));
+                }
+            }
+            BoxingType::Double => {
+                let d = f64::from_bits(value as u64);
+                if d.is_nan() {
+                    writer.add("Double.NaN");
+                } else if d.is_infinite() {
+                    writer.add(if d > 0.0 { "Double.POSITIVE_INFINITY" } else { "Double.NEGATIVE_INFINITY" });
+                } else {
+                    writer.add(&format!("{}d", d));
+                }
+            }
+        }
+    }
+}
+
+/// Check if an InsnArg is a literal and extract its integer value
+pub fn get_literal_int_value(arg: &InsnArg) -> Option<i64> {
+    match arg {
+        InsnArg::Literal(LiteralArg::Int(v)) => Some(*v),
+        _ => None,
+    }
+}
+
 // Thread-local pool of ExprGen instances for reuse across methods
 // Reduces allocation overhead by reusing HashMap capacity
 thread_local! {
@@ -969,5 +1167,106 @@ mod tests {
         assert_eq!(escape_string("hello"), "hello");
         assert_eq!(escape_string("say \"hi\""), "say \\\"hi\\\"");
         assert_eq!(escape_string("line1\nline2"), "line1\\nline2");
+    }
+
+    // Deboxing tests
+    #[test]
+    fn test_boxing_type_detection() {
+        // Test Integer.valueOf(int)
+        let int_method = MethodInfo {
+            class_name: "Integer".to_string(),
+            class_type: "java/lang/Integer".to_string(),
+            method_name: "valueOf".to_string(),
+            return_type: ArgType::Object("Ljava/lang/Integer;".to_string()),
+            param_types: vec![ArgType::Int],
+        };
+        assert_eq!(BoxingType::from_method(&int_method), Some(BoxingType::Integer));
+
+        // Test Boolean.valueOf(boolean)
+        let bool_method = MethodInfo {
+            class_name: "Boolean".to_string(),
+            class_type: "java/lang/Boolean".to_string(),
+            method_name: "valueOf".to_string(),
+            return_type: ArgType::Object("Ljava/lang/Boolean;".to_string()),
+            param_types: vec![ArgType::Boolean],
+        };
+        assert_eq!(BoxingType::from_method(&bool_method), Some(BoxingType::Boolean));
+
+        // Test Long.valueOf(long)
+        let long_method = MethodInfo {
+            class_name: "Long".to_string(),
+            class_type: "java/lang/Long".to_string(),
+            method_name: "valueOf".to_string(),
+            return_type: ArgType::Object("Ljava/lang/Long;".to_string()),
+            param_types: vec![ArgType::Long],
+        };
+        assert_eq!(BoxingType::from_method(&long_method), Some(BoxingType::Long));
+
+        // Test non-boxing method
+        let other_method = MethodInfo {
+            class_name: "String".to_string(),
+            class_type: "java/lang/String".to_string(),
+            method_name: "valueOf".to_string(),
+            return_type: ArgType::Object("Ljava/lang/String;".to_string()),
+            param_types: vec![ArgType::Int],
+        };
+        assert_eq!(BoxingType::from_method(&other_method), None);
+
+        // Test wrong method name
+        let parse_method = MethodInfo {
+            class_name: "Integer".to_string(),
+            class_type: "java/lang/Integer".to_string(),
+            method_name: "parseInt".to_string(),
+            return_type: ArgType::Int,
+            param_types: vec![ArgType::Object("Ljava/lang/String;".to_string())],
+        };
+        assert_eq!(BoxingType::from_method(&parse_method), None);
+    }
+
+    #[test]
+    fn test_boxing_type_format_literal() {
+        // Integer: just the number
+        assert_eq!(BoxingType::Integer.format_literal(42), "42");
+        assert_eq!(BoxingType::Integer.format_literal(-1), "-1");
+
+        // Boolean: true/false
+        assert_eq!(BoxingType::Boolean.format_literal(0), "false");
+        assert_eq!(BoxingType::Boolean.format_literal(1), "true");
+        assert_eq!(BoxingType::Boolean.format_literal(5), "true"); // non-zero is true
+
+        // Byte: with cast
+        assert_eq!(BoxingType::Byte.format_literal(127), "(byte) 127");
+        assert_eq!(BoxingType::Byte.format_literal(2), "(byte) 2");
+
+        // Short: with cast
+        assert_eq!(BoxingType::Short.format_literal(32767), "(short) 32767");
+        assert_eq!(BoxingType::Short.format_literal(3), "(short) 3");
+
+        // Character: as char literal
+        assert_eq!(BoxingType::Character.format_literal(99), "'c'"); // 'c' = 99
+        assert_eq!(BoxingType::Character.format_literal(65), "'A'"); // 'A' = 65
+        // Non-printable uses unicode escape
+        assert_eq!(BoxingType::Character.format_literal(0), "'\\u0000'");
+        // Special chars use unicode escape
+        assert_eq!(BoxingType::Character.format_literal(0x27), "'\\u0027'"); // single quote
+
+        // Long: with L suffix
+        assert_eq!(BoxingType::Long.format_literal(4), "4L");
+        assert_eq!(BoxingType::Long.format_literal(9000000000i64), "9000000000L");
+    }
+
+    #[test]
+    fn test_get_literal_int_value() {
+        // Integer literal
+        let lit_arg = InsnArg::Literal(LiteralArg::Int(42));
+        assert_eq!(get_literal_int_value(&lit_arg), Some(42));
+
+        // Register arg (not a literal)
+        let reg_arg = InsnArg::reg(0);
+        assert_eq!(get_literal_int_value(&reg_arg), None);
+
+        // Null literal (not an int)
+        let null_arg = InsnArg::Literal(LiteralArg::Null);
+        assert_eq!(get_literal_int_value(&null_arg), None);
     }
 }

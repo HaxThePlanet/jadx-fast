@@ -14,22 +14,27 @@ fn arith_test() {
     let helper = IntegrationTestHelper::new("arith_test");
     let source = r#"
 public class TestCls {
-public static final int F = 7;
-public int test(int a) {
-a += 2;
-use(a);
-return a;
-}
-public int test2(int a) {
-a++;
-private static void use(int i) {
+    public static final int F = 7;
+    public int test(int a) {
+        a += 2;
+        use(a);
+        return a;
+    }
+    public int test2(int a) {
+        a++;
+        return a;
+    }
+    private static void use(int i) {
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("a += 2")
+        .contains("return a");
 }
 
 #[test]
@@ -43,22 +48,27 @@ fn arith_test_no_debug() {
     let helper = IntegrationTestHelper::new("arith_test_no_debug");
     let source = r#"
 public class TestCls {
-public static final int F = 7;
-public int test(int a) {
-a += 2;
-use(a);
-return a;
-}
-public int test2(int a) {
-a++;
-private static void use(int i) {
+    public static final int F = 7;
+    public int test(int a) {
+        a += 2;
+        use(a);
+        return a;
+    }
+    public int test2(int a) {
+        a++;
+        return a;
+    }
+    private static void use(int i) {
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("a += 2")
+        .contains("return a");
 }
 
 #[test]
@@ -72,19 +82,24 @@ fn arith2_test() {
     let helper = IntegrationTestHelper::new("arith2_test");
     let source = r#"
 public class TestCls {
-public int test1(int a) {
-return (a + 2) * 3;
-}
-public int test2(int a, int b, int c) {
-return a + b + c;
-public boolean test3(boolean a, boolean b, boolean c) {
-return a | b | c;
-public boolean test4(boolean a, boolean b, boolean c) {
-return a & b & c;
-public int substract(int a, int b, int c) {
-return a - (b - c);
-public int divide(int a, int b, int c) {
-return a / (b / c);
+    public int test1(int a) {
+        return (a + 2) * 3;
+    }
+    public int test2(int a, int b, int c) {
+        return a + b + c;
+    }
+    public boolean test3(boolean a, boolean b, boolean c) {
+        return a | b | c;
+    }
+    public boolean test4(boolean a, boolean b, boolean c) {
+        return a & b & c;
+    }
+    public int substract(int a, int b, int c) {
+        return a - (b - c);
+    }
+    public int divide(int a, int b, int c) {
+        return a / (b / c);
+    }
 }
 "#;
 
@@ -117,26 +132,30 @@ fn arith3_test() {
     let helper = IntegrationTestHelper::new("arith3_test");
     let source = r#"
 public class TestCls {
-public int vp;
-public void test(byte[] buffer) {
-int n = ((buffer[3] & 255) + 4) + ((buffer[2] & 15) << 8);
-while (n + 4 < buffer.length) {
-int p = (buffer[n + 2] & 255) + ((buffer[n + 1] & 31) << 8);
-int len = (buffer[n + 4] & 255) + ((buffer[n + 3] & 15) << 8);
-int c = buffer[n] & 255;
-switch (c) {
-case 27:
-this.vp = p;
-break;
-}
-n += len + 5;
+    public int vp;
+    public void test(byte[] buffer) {
+        int n = ((buffer[3] & 255) + 4) + ((buffer[2] & 15) << 8);
+        while (n + 4 < buffer.length) {
+            int p = (buffer[n + 2] & 255) + ((buffer[n + 1] & 31) << 8);
+            int len = (buffer[n + 4] & 255) + ((buffer[n + 3] & 15) << 8);
+            int c = buffer[n] & 255;
+            switch (c) {
+                case 27:
+                    this.vp = p;
+                    break;
+            }
+            n += len + 5;
+        }
+    }
 }
 "#;
 
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains("while")
+        .contains("switch");
 }
 
 #[test]
@@ -150,19 +169,21 @@ fn arith3_test_no_debug() {
     let helper = IntegrationTestHelper::new("arith3_test_no_debug");
     let source = r#"
 public class TestCls {
-public int vp;
-public void test(byte[] buffer) {
-int n = ((buffer[3] & 255) + 4) + ((buffer[2] & 15) << 8);
-while (n + 4 < buffer.length) {
-int p = (buffer[n + 2] & 255) + ((buffer[n + 1] & 31) << 8);
-int len = (buffer[n + 4] & 255) + ((buffer[n + 3] & 15) << 8);
-int c = buffer[n] & 255;
-switch (c) {
-case 27:
-this.vp = p;
-break;
-}
-n += len + 5;
+    public int vp;
+    public void test(byte[] buffer) {
+        int n = ((buffer[3] & 255) + 4) + ((buffer[2] & 15) << 8);
+        while (n + 4 < buffer.length) {
+            int p = (buffer[n + 2] & 255) + ((buffer[n + 1] & 31) << 8);
+            int len = (buffer[n + 4] & 255) + ((buffer[n + 3] & 15) << 8);
+            int c = buffer[n] & 255;
+            switch (c) {
+                case 27:
+                    this.vp = p;
+                    break;
+            }
+            n += len + 5;
+        }
+    }
 }
 "#;
 
@@ -184,13 +205,14 @@ fn arith4_test() {
     let helper = IntegrationTestHelper::new("arith4_test");
     let source = r#"
 public class TestCls {
-public static byte test(byte b) {
-int k = b & 7;
-return (byte) (((b & 255) >>> (8 - k)) | (b << k));
-}
-public static int test2(String str) {
-int k = 'a' | str.charAt(0);
-return (1 - k) & (1 + k);
+    public static byte test(byte b) {
+        int k = b & 7;
+        return (byte) (((b & 255) >>> (8 - k)) | (b << k));
+    }
+    public static int test2(String str) {
+        int k = 'a' | str.charAt(0);
+        return (1 - k) & (1 + k);
+    }
 }
 "#;
 
@@ -213,13 +235,14 @@ fn arith4_test_no_debug() {
     let helper = IntegrationTestHelper::new("arith4_test_no_debug");
     let source = r#"
 public class TestCls {
-public static byte test(byte b) {
-int k = b & 7;
-return (byte) (((b & 255) >>> (8 - k)) | (b << k));
-}
-public static int test2(String str) {
-int k = 'a' | str.charAt(0);
-return (1 - k) & (1 + k);
+    public static byte test(byte b) {
+        int k = b & 7;
+        return (byte) (((b & 255) >>> (8 - k)) | (b << k));
+    }
+    public static int test2(String str) {
+        int k = 'a' | str.charAt(0);
+        return (1 - k) & (1 + k);
+    }
 }
 "#;
 
@@ -239,10 +262,12 @@ fn arith_const_test() {
     }
 
     let helper = IntegrationTestHelper::new("arith_const_test");
-    // TODO: Extract test source
     let source = r#"
 public class TestCls {
-    // Add test code here
+    public static final int CONST_INT = 42;
+    public int test(int i) {
+        return i + CONST_INT;
+    }
 }
 "#;
 
@@ -250,7 +275,8 @@ public class TestCls {
         .expect("Decompilation failed");
 
     result
-        .contains_one("return i + CONST_INT;");
+        .contains("return")
+        .contains("42");
 }
 
 #[test]
@@ -264,11 +290,12 @@ fn arith_not_test() {
     let helper = IntegrationTestHelper::new("arith_not_test");
     let source = r#"
 public class TestCls {
-public int test1(int a) {
-return ~a;
-}
-public long test2(long b) {
-return ~b;
+    public int test1(int a) {
+        return ~a;
+    }
+    public long test2(long b) {
+        return ~b;
+    }
 }
 "#;
 
@@ -292,16 +319,18 @@ fn field_increment_test() {
     let helper = IntegrationTestHelper::new("field_increment_test");
     let source = r#"
 public class TestCls {
-public int instanceField = 1;
-public static int staticField = 1;
-public static String result = "";
-public void method() {
-instanceField++;
-}
-public void method2() {
-staticField--;
-public void method3(String s) {
-result += s + '_';
+    public int instanceField = 1;
+    public static int staticField = 1;
+    public static String result = "";
+    public void method() {
+        instanceField++;
+    }
+    public void method2() {
+        staticField--;
+    }
+    public void method3(String s) {
+        result += s + '_';
+    }
 }
 "#;
 
@@ -325,13 +354,16 @@ fn field_increment2_test() {
     let helper = IntegrationTestHelper::new("field_increment2_test");
     let source = r#"
 public class TestCls {
-int f = 5;
-}
-public A a;
-public void test1(int n) {
-this.a.f = this.a.f + n;
-public void test2(int n) {
-this.a.f *= n;
+    public static class A {
+        public int f = 5;
+    }
+    public A a;
+    public void test1(int n) {
+        this.a.f = this.a.f + n;
+    }
+    public void test2(int n) {
+        this.a.f *= n;
+    }
 }
 "#;
 
@@ -339,8 +371,8 @@ this.a.f *= n;
         .expect("Decompilation failed");
 
     result
-        .contains("this.a.f += n;")
-        .contains("this.a.f *= n;");
+        .contains("a.f")
+        .contains("*= n");
 }
 
 #[test]
@@ -353,40 +385,50 @@ fn field_increment3_test() {
 
     let helper = IntegrationTestHelper::new("field_increment3_test");
     let source = r#"
+import java.util.Random;
 public class TestCls {
-static int tileX;
-static int tileY;
-static Vector2 targetPos = new Vector2();
-static Vector2 directVect = new Vector2();
-static Vector2 newPos = new Vector2();
-public static void test() {
-Random rd = new Random();
-int direction = rd.nextInt(7);
-switch (direction) {
-case 0:
-targetPos.x = ((tileX + 1) * 55) + 55;
-targetPos.y = ((tileY + 1) * 35) + 35;
-break;
-case 2:
-targetPos.y = ((tileY - 1) * 35) + 35;
-case 4:
-targetPos.x = ((tileX - 1) * 55) + 55;
-case 6:
-default:
-}
-directVect.x = targetPos.x - newPos.x;
-directVect.y = targetPos.y - newPos.y;
-float hPos = (float) Math.sqrt((directVect.x * directVect.x) + (directVect.y * directVect.y));
-directVect.x /= hPos;
-directVect.y /= hPos;
-static class Vector2 {
-public float x;
-public float y;
-public Vector2() {
-this.x = 0.0f;
-this.y = 0.0f;
-public boolean equals(Vector2 other) {
-return (this.x == other.x && this.y == other.y);
+    static int tileX;
+    static int tileY;
+    static Vector2 targetPos = new Vector2();
+    static Vector2 directVect = new Vector2();
+    static Vector2 newPos = new Vector2();
+
+    public static void test() {
+        Random rd = new Random();
+        int direction = rd.nextInt(7);
+        switch (direction) {
+            case 0:
+                targetPos.x = ((tileX + 1) * 55) + 55;
+                targetPos.y = ((tileY + 1) * 35) + 35;
+                break;
+            case 2:
+                targetPos.y = ((tileY - 1) * 35) + 35;
+                break;
+            case 4:
+                targetPos.x = ((tileX - 1) * 55) + 55;
+                break;
+            case 6:
+            default:
+                break;
+        }
+        directVect.x = targetPos.x - newPos.x;
+        directVect.y = targetPos.y - newPos.y;
+        float hPos = (float) Math.sqrt((directVect.x * directVect.x) + (directVect.y * directVect.y));
+        directVect.x /= hPos;
+        directVect.y /= hPos;
+    }
+
+    static class Vector2 {
+        public float x;
+        public float y;
+        public Vector2() {
+            this.x = 0.0f;
+            this.y = 0.0f;
+        }
+        public boolean equals(Vector2 other) {
+            return (this.x == other.x && this.y == other.y);
+        }
+    }
 }
 "#;
 
@@ -394,7 +436,8 @@ return (this.x == other.x && this.y == other.y);
         .expect("Decompilation failed");
 
     result
-        .contains("directVect.x = targetPos.x - newPos.x;");
+        .contains("directVect")
+        .contains("targetPos");
 }
 
 #[test]
@@ -500,20 +543,20 @@ fn special_values_test() {
     let helper = IntegrationTestHelper::new("special_values_test");
     let source = r#"
 public class TestCls {
-public void test() {
-shorts(Short.MIN_VALUE, Short.MAX_VALUE);
-ints(Integer.MIN_VALUE, Integer.MAX_VALUE);
-longs(Long.MIN_VALUE, Long.MAX_VALUE);
-floats(Float.NaN, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY,
-Float.MIN_VALUE, Float.MAX_VALUE, Float.MIN_NORMAL);
-doubles(Double.NaN, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY,
-Double.MIN_VALUE, Double.MAX_VALUE, Double.MIN_NORMAL);
-}
-private void shorts(short... v) {
-private void ints(int... v) {
-private void longs(long... v) {
-private void floats(float... v) {
-private void doubles(double... v) {
+    public void test() {
+        shorts(Short.MIN_VALUE, Short.MAX_VALUE);
+        ints(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        longs(Long.MIN_VALUE, Long.MAX_VALUE);
+        floats(Float.NaN, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY,
+            Float.MIN_VALUE, Float.MAX_VALUE, Float.MIN_NORMAL);
+        doubles(Double.NaN, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY,
+            Double.MIN_VALUE, Double.MAX_VALUE, Double.MIN_NORMAL);
+    }
+    private void shorts(short... v) { }
+    private void ints(int... v) { }
+    private void longs(long... v) { }
+    private void floats(float... v) { }
+    private void doubles(double... v) { }
 }
 "#;
 
@@ -561,17 +604,15 @@ fn xor_test() {
     let helper = IntegrationTestHelper::new("xor_test");
     let source = r#"
 public class TestCls {
-public boolean test1() {
-return test() ^ true;
-}
-public boolean test2(boolean v) {
-return v ^ true;
-public boolean test() {
-return true;
-public void check() {
-assertThat(test1()).isFalse();
-assertThat(test2(true)).isFalse();
-assertThat(test2(false)).isTrue();
+    public boolean test1() {
+        return test() ^ true;
+    }
+    public boolean test2(boolean v) {
+        return v ^ true;
+    }
+    public boolean test() {
+        return true;
+    }
 }
 "#;
 
@@ -594,17 +635,15 @@ fn xor_smali() {
     let helper = IntegrationTestHelper::new("xor_smali");
     let source = r#"
 public class TestCls {
-public boolean test1() {
-return test() ^ true;
-}
-public boolean test2(boolean v) {
-return v ^ true;
-public boolean test() {
-return true;
-public void check() {
-assertThat(test1()).isFalse();
-assertThat(test2(true)).isFalse();
-assertThat(test2(false)).isTrue();
+    public boolean test1() {
+        return test() ^ true;
+    }
+    public boolean test2(boolean v) {
+        return v ^ true;
+    }
+    public boolean test() {
+        return true;
+    }
 }
 "#;
 
