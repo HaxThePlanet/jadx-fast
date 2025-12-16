@@ -68,7 +68,7 @@ Current focus areas for reaching JADX parity:
 | **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
 | **4** | For-loop recognition | Convert while loops to for/for-each patterns | ✅ Done (Dec 15) |
 | **5** | Ternary detection | Convert if-else to `? :` expressions | ✅ Done (Dec 15) |
-| **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR, increment/decrement patterns (`i++`, `i--`, `i += N`), bitwise-to-logical conversion | ✅ Done (Dec 15) |
+| **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR, increment/decrement patterns (`i++`, `i--`, `i += N`), bitwise-to-logical conversion, algebraic identities (`x+0`→`x`, `x*0`→`0`) | ✅ Done (Dec 15) |
 | **7** | Constant inlining | Inline single-use constants into expressions | ✅ Done (Dec 15) |
 
 ## Recent Implementation Details
@@ -148,6 +148,55 @@ Helper functions:
 **Test Results:**
 - ✅ `bitwise_and_test4` now produces: `if (this.a && this.b) {`
 - ✅ `bitwise_or_test4` now produces: `if (this.a || this.b) {`
+- ✅ All 683 integration tests pass
+
+### Compare Method Type Qualification
+
+Enhances type-specific `compare()` method invocations by properly qualifying them with their owning class, improving clarity and JADX compatibility.
+
+**Type-Specific Transformations:**
+
+| Type | Pattern | Output |
+|------|---------|--------|
+| `long` | `compare(a, b)` | `Long.compare(a, b)` |
+| `float` | `compare(a, b)` | `Float.compare(a, b)` |
+| `double` | `compare(a, b)` | `Double.compare(a, b)` |
+
+**Implementation:** File: `/crates/dexterity-codegen/src/expr_gen.rs`
+
+The code generator detects `compare()` method calls and qualifies them with the appropriate wrapper class based on the operand types, producing semantically clearer code that matches standard Java conventions.
+
+### Algebraic Simplifications
+
+Intelligent constant and identity folding optimizations eliminate redundant operations, producing cleaner and more efficient generated code.
+
+**Identity Eliminations** (operations that have no effect):
+
+| Expression | Simplification | Reason |
+|------------|---|---|
+| `x + 0` | `x` | Adding zero is identity |
+| `x * 1` | `x` | Multiplying by one is identity |
+| `x / 1` | `x` | Dividing by one is identity |
+| `x \| 0` | `x` | Bitwise OR with zero is identity |
+| `x & -1` | `x` | Bitwise AND with all bits set is identity |
+| `x ^ 0` | `x` | Bitwise XOR with zero is identity |
+| `x << 0` | `x` | Left shift by zero is identity |
+
+**Constant Folding** (operations that produce constant results):
+
+| Expression | Simplification | Reason |
+|------------|---|---|
+| `x * 0` | `0` | Multiplying by zero yields zero |
+| `x & 0` | `0` | Bitwise AND with zero yields zero |
+| `x \| -1` | `-1` | Bitwise OR with all bits set yields all bits set |
+| `x % 1` | `0` | Modulo one always yields zero |
+
+**Implementation:** File: `/crates/dexterity-codegen/src/simplify.rs`
+
+These optimizations run during code generation and eliminate redundant arithmetic expressions before they reach the output, reducing unnecessary operations and improving code clarity.
+
+**Test Coverage:**
+- ✅ 16 simplify unit tests verify all patterns
 - ✅ All 683 integration tests pass
 
 ## Quick Start
@@ -251,14 +300,14 @@ Dexterity  │  112  │  3.88s │  9,607
 | DEX Parsing | ✅ 100% | All 224 Dalvik opcodes |
 | Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
 | Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
-| Code Generation | 🔶 98% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion done; only for-each disabled |
+| Code Generation | 🔶 99% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion, compare qualification done; only for-each disabled |
 | Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files |
 | Variable Naming | ✅ 100% | Full JADX parity |
 | Type Formatting | ✅ 100% | Special values (MIN/MAX_VALUE, NaN, Infinity) for numeric types |
-| Optimization Passes | 🔶 75% | Deboxing, arith simplify, const inline, code shrink, enum visitor done (5/16 core passes) |
+| Optimization Passes | 🔶 80% | Deboxing, algebraic simplification (identity/constant folding), const inline, code shrink, enum visitor done (6/16 core passes) |
 
 ## CLI Reference
 
