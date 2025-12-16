@@ -36,16 +36,18 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 **Built in 6 days** by [@HaxThePlanet](https://github.com/haxtheplanet) — Dec 10-15, 2025:
 
 ```
-         Commits by Day                          Cumulative Lines Added
+      Lines of Code Added per Day                      Cumulative LOC
 
-  Dec 15 │████████████████████████████░░░░░░│ 29     90K ┤                          ●────● 88,314
-  Dec 14 │██████████████░░░░░░░░░░░░░░░░░░░░│ 14         │                    ●────●
-  Dec 13 │████████████████████████████████░░│ 32     60K ┤              ●────●
-  Dec 12 │██████████████████████████████████│ 42         │        ●────●
-  Dec 11 │█████████░░░░░░░░░░░░░░░░░░░░░░░░░│  9     30K ┤  ●────●
-  Dec 10 │█████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│  5         │●─●
-         └─────────────────────────────────┘         0 ┼──┬──┬──┬──┬──┬
-                                                       10 11 12 13 14 15
+  Dec 10 │░                                 │    236    100K ┤                               ●
+  Dec 11 │██████████████████████████████████│ 62,870        │    ●───────────────────────────┘
+  Dec 12 │████                              │  7,425     75K ┤    │
+  Dec 13 │██                                │  2,955        │    │
+  Dec 14 │████████                          │ 15,609     50K ┤    │
+  Dec 15 │██████                            │ 12,505        │    │
+         └──────────────────────────────────┘           25K ┤    │
+           ▲                                               │    │
+           Dec 11: Initial Rust codebase dropped        0K ┼────●─┬───┬───┬───┬───┬
+                                                            10  11  12  13  14  15
 ```
 
 | Metric | Value |
@@ -55,10 +57,10 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Lines added** | 88,314 |
 | **Lines deleted** | 23,827 |
 | **Net lines** | 64,487 |
-| **Rust files created** | 116 |
+| **Rust files** | 116 |
 | **Final codebase** | ~59,000 lines |
-| **Avg lines/day** | ~10,700 |
-| **Tests written** | 248+ passing |
+| **Peak day** | 62,870 LOC (Dec 11) |
+| **Tests** | 248+ passing |
 
 ## Development Priorities
 
