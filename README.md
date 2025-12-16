@@ -63,7 +63,7 @@ Current focus areas for reaching JADX parity:
 
 | Priority | Task | Impact | Status |
 |----------|------|--------|--------|
-| **1** | Complete 683 integration tests (69 TODOs remain) | Fill in missing test sources and assertions | 🔄 In Progress |
+| **1** | Complete 683 integration tests (68 TODOs remain) | Fill in missing test sources and assertions | 🔄 In Progress |
 | **2** | Type inference bounds refactor | Reduces Unknown types from ~40% → ~20% | ✅ Done (Dec 15) |
 | **3** | Deboxing pass | Remove `Integer.valueOf()`, `Boolean.valueOf()` clutter | ✅ Done (Dec 15) |
 | **4** | For-loop recognition | Convert while loops to for/for-each patterns | ✅ Done (Dec 15) |
@@ -319,7 +319,7 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | conditions | 56 | 66 | 25 | ⚠️ Incomplete |
 | types | 45 | 63 | 25 | ⚠️ Incomplete |
 | loops | 52 | 57 | 18 | ⚠️ Incomplete |
-| others | 97 | 113 | 1 | 🔶 Mostly done |
+| others | 97 | 113 | 0 | ✅ Done |
 | rename | 7 | 16 | 0 | ✅ Done |
 | names | 20 | 32 | 0 | ✅ Done |
 | inner | 39 | 41 | 0 | ✅ Done |
@@ -344,9 +344,9 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | fallback | 2 | 2 | 0 | ✅ Done |
 | jbc | 1 | 1 | 0 | ✅ Done |
 | sample | - | 5 | 0 | ✅ Done |
-| **TOTAL** | **577** | **680** | **69** | |
+| **TOTAL** | **577** | **680** | **68** | |
 
-Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 69 TODOs remaining.
+Rust tests are in `crates/dexterity-cli/tests/integration/` - 680 integration tests + 3 framework tests = 683 total passing, 68 TODOs remaining.
 
 ### Implementation TODOs
 

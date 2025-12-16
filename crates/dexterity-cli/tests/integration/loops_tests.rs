@@ -471,7 +471,12 @@ this.f++;
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("for (int i = 0; i < a.length; i++) {")
+        .contains_one("if (i < b) {")
+        .contains_one("continue;")
+        .contains_one("break;")
+        .contains_one("this.f++;");
 }
 
 #[test]
@@ -538,7 +543,11 @@ assertThat(test()).isEqualTo(null);
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("do {")
+        .contains_one("obj = this.it.next();")
+        .contains_one("if (obj == null) {")
+        .contains_one("} while (this.it.hasNext());");
 }
 
 #[test]
@@ -707,7 +716,9 @@ assertThat(test(14, 2)).isTrue();
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("for (int i = 0; i < extraArray.length; i += 2) {")
+        .contains_one("if (extraArray != null && placingStone) {");
 }
 
 #[test]
@@ -738,7 +749,11 @@ assertThat(test(array, 8)).isEqualTo(36);
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("int sum = 0;")
+        .contains_one("for (int i = 0; i < b; i++) {")
+        .contains_one("sum += a[i];")
+        .contains_one("return sum;");
 }
 
 #[test]
@@ -778,7 +793,9 @@ assertThat(test(new File[] { new File("a"), file })).isEqualTo(file);
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .does_not_contain("for (File file :")
+        .contains_one("for (int i = 0; i < length; i++) {");
 }
 
 #[test]
@@ -846,7 +863,11 @@ return sb.toString();
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("StringBuilder sb = new StringBuilder();")
+        .contains_one("for (String s : a) {")
+        .contains_one("sb.append(s);")
+        .contains_one("return sb.toString();");
 }
 
 #[test]
@@ -877,7 +898,10 @@ return "";
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("for (Authorization auth : service.getAuthorizations()) {")
+        .contains_one("if (isValid(auth)) {")
+        .contains_one("return auth.getToken();");
 }
 
 #[test]
@@ -1013,7 +1037,9 @@ list.set(i, "DEF");
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("list.set(i, \"ABC\")")
+        .contains_one("list.set(i, \"DEF\")");
 }
 
 #[test]
@@ -1431,7 +1457,12 @@ l1.clear();
     let result = helper.test_decompilation(source)
         .expect("Decompilation failed");
 
-    // TODO: Add assertions
+    result
+        .contains_one("for (String s1 : l1) {")
+        .contains_one("for (String s2 : l2) {")
+        .contains_one("if (s1.equals(s2)) {")
+        .contains_one("l2.add(s1);")
+        .contains_one("l1.remove(s2);");
 }
 
 #[test]

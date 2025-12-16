@@ -1853,7 +1853,7 @@ return 2;
 public void check() {
 assertThat(new MyClass().a()).isEqualTo(2);
 assertThat(new BaseClass().a()).isEqualTo(1);
-// TODO: assertThat(((BaseClass) new MyClass()).a()).isEqualTo(1);
+assertThat(((BaseClass) new MyClass()).a()).isEqualTo(1);
 }
 "#;
 
