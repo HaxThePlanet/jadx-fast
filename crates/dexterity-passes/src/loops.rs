@@ -6,7 +6,7 @@
 
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 
-use jadx_ir::regions::LoopKind;
+use dexterity_ir::regions::LoopKind;
 
 use crate::cfg::CFG;
 
@@ -272,7 +272,7 @@ pub fn innermost_loop(loops: &[LoopInfo], block: u32) -> Option<&LoopInfo> {
 mod tests {
     use super::*;
     use crate::block_split::split_blocks;
-    use jadx_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType};
+    use dexterity_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType};
 
     fn make_nop(offset: u32) -> InsnNode {
         InsnNode::new(InsnType::Nop, offset)

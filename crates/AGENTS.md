@@ -13,17 +13,17 @@
 
 ```
 crates/
-├── jadx-dex/       # DEX parsing (3,836 lines)
-├── jadx-ir/        # IR types & class hierarchy (3,841 lines)
-├── jadx-passes/    # Decompilation passes (9,202 lines)
-├── jadx-codegen/   # Java code generation (7,973 lines)
-├── jadx-resources/ # AXML & resources.arsc (4,032 lines)
-├── jadx-deobf/     # Deobfuscation (1,628 lines)
-├── jadx-kotlin/    # Kotlin metadata parsing (597 lines)
-└── jadx-cli/       # CLI application (4,207 lines)
+├── dexterity-dex/       # DEX parsing (3,836 lines)
+├── dexterity-ir/        # IR types & class hierarchy (3,841 lines)
+├── dexterity-passes/    # Decompilation passes (9,202 lines)
+├── dexterity-codegen/   # Java code generation (7,973 lines)
+├── dexterity-resources/ # AXML & resources.arsc (4,032 lines)
+├── dexterity-deobf/     # Deobfuscation (1,628 lines)
+├── dexterity-kotlin/    # Kotlin metadata parsing (597 lines)
+└── dexterity-cli/       # CLI application (4,207 lines)
 ```
 
-### jadx-dex (DEX Parsing)
+### dexterity-dex (DEX Parsing)
 
 Memory-mapped DEX file parsing with zero-copy access.
 
@@ -32,7 +32,7 @@ Memory-mapped DEX file parsing with zero-copy access.
 - `header.rs` - DEX header parsing (magic, checksum, offsets)
 - `consts.rs` - Dalvik opcode definitions (all 224 opcodes)
 
-### jadx-ir (Intermediate Representation)
+### dexterity-ir (Intermediate Representation)
 
 Core IR types shared across all passes.
 
@@ -44,7 +44,7 @@ Core IR types shared across all passes.
 - `builder.rs` - IR builder from DEX bytecode
 - `regions.rs` - Control flow region types (if/loop/switch/try)
 
-### jadx-passes (Decompilation Passes)
+### dexterity-passes (Decompilation Passes)
 
 Transform IR through analysis passes.
 
@@ -62,7 +62,7 @@ Transform IR through analysis passes.
 - `var_naming.rs` - JADX-style variable naming (85% parity)
 - `finally_extract.rs` - Finally block handling
 
-### jadx-codegen (Code Generation)
+### dexterity-codegen (Code Generation)
 
 Emit Java source from IR.
 
@@ -76,7 +76,7 @@ Emit Java source from IR.
 - `dex_info.rs` - GlobalFieldPool for multi-DEX field resolution
 - `access_flags.rs` - Java access modifier generation
 
-### jadx-resources (Resource Decoding)
+### dexterity-resources (Resource Decoding)
 
 Android resource file decoding.
 
@@ -86,7 +86,7 @@ Android resource file decoding.
 - `string_pool.rs` - String pool decoding
 - `constants.rs` - Android resource type constants
 
-### jadx-deobf (Deobfuscation)
+### dexterity-deobf (Deobfuscation)
 
 Name deobfuscation and mapping support.
 
@@ -98,7 +98,7 @@ Name deobfuscation and mapping support.
 - `name_mapper.rs` - Name mapping coordination
 - `visitor.rs` - Deobfuscation pass visitor
 
-### jadx-kotlin (Kotlin Support)
+### dexterity-kotlin (Kotlin Support)
 
 Kotlin metadata parsing and name restoration.
 
@@ -107,7 +107,7 @@ Kotlin metadata parsing and name restoration.
 - `extractor.rs` - Name extraction from Kotlin metadata
 - `visitor.rs` - Kotlin name restoration pass
 
-### jadx-cli (CLI Application)
+### dexterity-cli (CLI Application)
 
 Command-line interface and decompilation orchestration.
 
@@ -122,17 +122,17 @@ Command-line interface and decompilation orchestration.
 ## Pipeline Architecture
 
 ```
-APK/DEX → jadx-dex → jadx-ir → jadx-passes → jadx-codegen → Java Source
+APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-codegen → Java Source
                 ↓           ↓
-         jadx-resources  jadx-deobf
-                          jadx-kotlin
+         dexterity-resources  dexterity-deobf
+                          dexterity-kotlin
 ```
 
-1. **jadx-dex**: Parse DEX file (memory-mapped, zero-copy)
-2. **jadx-ir**: Build IR from Dalvik bytecode
-3. **jadx-passes**: Transform IR through passes:
+1. **dexterity-dex**: Parse DEX file (memory-mapped, zero-copy)
+2. **dexterity-ir**: Build IR from Dalvik bytecode
+3. **dexterity-passes**: Transform IR through passes:
    - Block splitting → CFG → Dominance → SSA → Type inference → Regions
-4. **jadx-codegen**: Emit Java source with proper names and imports
+4. **dexterity-codegen**: Emit Java source with proper names and imports
 
 ## Key Design Choices
 
@@ -148,7 +148,7 @@ APK/DEX → jadx-dex → jadx-ir → jadx-passes → jadx-codegen → Java Sourc
 ## Build Commands
 
 ```bash
-cd /mnt/nvme4tb/jadx-rust/crates
+cd /mnt/nvme4tb/dexterity/crates
 
 # Development build
 cargo build
@@ -163,7 +163,7 @@ cargo build --profile dist
 cargo test
 
 # Run with arguments
-cargo run --release -p jadx-cli -- -d output/ input.apk
+cargo run --release -p dexterity-cli -- -d output/ input.apk
 ```
 
 ## Performance

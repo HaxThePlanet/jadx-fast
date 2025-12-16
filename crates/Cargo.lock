@@ -364,6 +364,127 @@ dependencies = [
 ]
 
 [[package]]
+name = "dexterity-cli"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "dexterity-codegen",
+ "dexterity-deobf",
+ "dexterity-dex",
+ "dexterity-ir",
+ "dexterity-kotlin",
+ "dexterity-passes",
+ "dexterity-resources",
+ "indicatif",
+ "num_cpus",
+ "pretty_assertions",
+ "rayon",
+ "tempfile",
+ "tikv-jemallocator",
+ "tracing",
+ "tracing-subscriber",
+ "zip",
+]
+
+[[package]]
+name = "dexterity-codegen"
+version = "1.0.0"
+dependencies = [
+ "dashmap",
+ "dexterity-deobf",
+ "dexterity-dex",
+ "dexterity-ir",
+ "dexterity-passes",
+ "itoa",
+ "parking_lot",
+ "pretty_assertions",
+ "ryu",
+ "thiserror",
+]
+
+[[package]]
+name = "dexterity-deobf"
+version = "1.0.0"
+dependencies = [
+ "dashmap",
+ "dexterity-ir",
+ "lazy_static",
+ "regex",
+ "thiserror",
+]
+
+[[package]]
+name = "dexterity-dex"
+version = "1.0.0"
+dependencies = [
+ "byteorder",
+ "dashmap",
+ "memmap2",
+ "pretty_assertions",
+ "rayon",
+ "string-interner",
+ "thiserror",
+ "tracing",
+ "zerocopy",
+]
+
+[[package]]
+name = "dexterity-ir"
+version = "1.0.0"
+dependencies = [
+ "fixedbitset 0.5.7",
+ "pretty_assertions",
+ "serde",
+ "slotmap",
+ "smallvec",
+ "string-interner",
+ "thiserror",
+]
+
+[[package]]
+name = "dexterity-kotlin"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "base64",
+ "dexterity-deobf",
+ "dexterity-dex",
+ "dexterity-ir",
+ "prost",
+ "prost-build",
+ "prost-types",
+ "rayon",
+ "thiserror",
+ "tracing",
+]
+
+[[package]]
+name = "dexterity-passes"
+version = "1.0.0"
+dependencies = [
+ "dexterity-dex",
+ "dexterity-ir",
+ "fixedbitset 0.5.7",
+ "petgraph",
+ "pretty_assertions",
+ "rayon",
+ "smallvec",
+ "thiserror",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "dexterity-resources"
+version = "1.0.0"
+dependencies = [
+ "byteorder",
+ "pretty_assertions",
+ "thiserror",
+]
+
+[[package]]
 name = "diff"
 version = "0.1.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -565,127 +686,6 @@ name = "itoa"
 version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4a5f13b858c8d314ee3e8f639011f7ccefe71f97f96e50151fb991f267928e2c"
-
-[[package]]
-name = "jadx-cli"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "indicatif",
- "jadx-codegen",
- "jadx-deobf",
- "jadx-dex",
- "jadx-ir",
- "jadx-kotlin",
- "jadx-passes",
- "jadx-resources",
- "num_cpus",
- "pretty_assertions",
- "rayon",
- "tempfile",
- "tikv-jemallocator",
- "tracing",
- "tracing-subscriber",
- "zip",
-]
-
-[[package]]
-name = "jadx-codegen"
-version = "1.0.0"
-dependencies = [
- "dashmap",
- "itoa",
- "jadx-deobf",
- "jadx-dex",
- "jadx-ir",
- "jadx-passes",
- "parking_lot",
- "pretty_assertions",
- "ryu",
- "thiserror",
-]
-
-[[package]]
-name = "jadx-deobf"
-version = "1.0.0"
-dependencies = [
- "dashmap",
- "jadx-ir",
- "lazy_static",
- "regex",
- "thiserror",
-]
-
-[[package]]
-name = "jadx-dex"
-version = "1.0.0"
-dependencies = [
- "byteorder",
- "dashmap",
- "memmap2",
- "pretty_assertions",
- "rayon",
- "string-interner",
- "thiserror",
- "tracing",
- "zerocopy",
-]
-
-[[package]]
-name = "jadx-ir"
-version = "1.0.0"
-dependencies = [
- "fixedbitset 0.5.7",
- "pretty_assertions",
- "serde",
- "slotmap",
- "smallvec",
- "string-interner",
- "thiserror",
-]
-
-[[package]]
-name = "jadx-kotlin"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "base64",
- "jadx-deobf",
- "jadx-dex",
- "jadx-ir",
- "prost",
- "prost-build",
- "prost-types",
- "rayon",
- "thiserror",
- "tracing",
-]
-
-[[package]]
-name = "jadx-passes"
-version = "1.0.0"
-dependencies = [
- "fixedbitset 0.5.7",
- "jadx-dex",
- "jadx-ir",
- "petgraph",
- "pretty_assertions",
- "rayon",
- "smallvec",
- "thiserror",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
-name = "jadx-resources"
-version = "1.0.0"
-dependencies = [
- "byteorder",
- "pretty_assertions",
- "thiserror",
-]
 
 [[package]]
 name = "jobserver"

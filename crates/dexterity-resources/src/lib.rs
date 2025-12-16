@@ -12,7 +12,7 @@
 //! - Other XML resources
 //!
 //! ```rust,ignore
-//! use jadx_resources::AxmlParser;
+//! use dexterity_resources::AxmlParser;
 //!
 //! let data = std::fs::read("AndroidManifest.xml")?;
 //! let mut parser = AxmlParser::new();
@@ -28,7 +28,7 @@
 //! - Configuration-specific resource variants (hdpi, en-US, etc.)
 //!
 //! ```rust,ignore
-//! use jadx_resources::ArscParser;
+//! use dexterity_resources::ArscParser;
 //!
 //! let data = std::fs::read("resources.arsc")?;
 //! let mut parser = ArscParser::new();

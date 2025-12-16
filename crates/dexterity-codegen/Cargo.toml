@@ -1,15 +1,15 @@
 [package]
-name = "jadx-codegen"
-description = "Java source code generator for jadx-rust"
+name = "dexterity-codegen"
+description = "Java source code generator for dexterity-rust"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 
 [dependencies]
-jadx-dex.workspace = true
-jadx-ir.workspace = true
-jadx-passes.workspace = true
-jadx-deobf.workspace = true
+dexterity-dex.workspace = true
+dexterity-ir.workspace = true
+dexterity-passes.workspace = true
+dexterity-deobf.workspace = true
 itoa.workspace = true
 ryu.workspace = true
 thiserror.workspace = true

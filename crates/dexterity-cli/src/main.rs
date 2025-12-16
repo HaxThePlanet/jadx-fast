@@ -67,11 +67,11 @@ use clap::Parser;
 use indicatif::{ProgressBar, ProgressStyle};
 use rayon::prelude::*;
 
-use jadx_codegen::{LazyDexInfo, DexInfoProvider, AliasAwareDexInfo, GlobalFieldPool};
-use jadx_ir::ClassData;
-use jadx_dex::DexReader;
-use jadx_kotlin;
-use jadx_deobf::{
+use dexterity_codegen::{LazyDexInfo, DexInfoProvider, AliasAwareDexInfo, GlobalFieldPool};
+use dexterity_ir::ClassData;
+use dexterity_dex::DexReader;
+use dexterity_kotlin;
+use dexterity_deobf::{
     AliasRegistry, parse_proguard_mapping,
 };
 use std::collections::HashMap;
@@ -381,7 +381,7 @@ fn process_resources_streaming(
     raw_file_count: usize,
     apk_path: &PathBuf,
 ) -> Result<()> {
-    use jadx_resources::{ArscParser, AxmlParser};
+    use dexterity_resources::{ArscParser, AxmlParser};
     use std::collections::HashMap;
 
     tracing::info!("Processing resources ({} raw files)...", raw_file_count);
@@ -492,7 +492,7 @@ fn process_resources(
     xml_resources: Vec<(String, Vec<u8>)>,
     raw_files: Vec<(String, Vec<u8>)>,
 ) -> Result<()> {
-    use jadx_resources::{ArscParser, AxmlParser};
+    use dexterity_resources::{ArscParser, AxmlParser};
     use std::collections::HashMap;
 
     tracing::info!("Processing resources ({} raw files)...", raw_files.len());
@@ -1125,8 +1125,8 @@ fn process_dex_bytes(
             if let Ok(class) = dex.get_class(idx) {
                 if let Ok(class_type) = class.class_type() {
                     let class_desc = class_type.to_string();
-                    if jadx_codegen::is_inner_class(&class_desc) {
-                        if let Some(outer) = jadx_codegen::get_outer_class(&class_desc) {
+                    if dexterity_codegen::is_inner_class(&class_desc) {
+                        if let Some(outer) = dexterity_codegen::get_outer_class(&class_desc) {
                             map.entry(outer).or_default().push((idx, class_desc));
                         }
                     }
@@ -1142,7 +1142,7 @@ fn process_dex_bytes(
         .filter(|&&idx| {
             dex.get_class(idx)
                 .ok()
-                .and_then(|c| c.class_type().ok().map(|t| !jadx_codegen::is_inner_class(&t.to_string())))
+                .and_then(|c| c.class_type().ok().map(|t| !dexterity_codegen::is_inner_class(&t.to_string())))
                 .unwrap_or(true)
         })
         .copied()
@@ -1245,7 +1245,7 @@ fn process_dex_bytes(
                         .map(|mut class_data| {
                             // Process Kotlin metadata annotations (extracts names)
                             if process_kotlin {
-                                if let Err(e) = jadx_kotlin::process_kotlin_metadata(&mut class_data) {
+                                if let Err(e) = dexterity_kotlin::process_kotlin_metadata(&mut class_data) {
                                     tracing::debug!("Kotlin metadata processing failed for {}: {}", class_desc, e);
                                 }
                             }
@@ -1260,7 +1260,7 @@ fn process_dex_bytes(
         .unwrap_or_else(|_| Err(format!("Panic during conversion of {}", class_desc)));
 
         // Convert inner classes to IR (if any)
-        let nested_inner_classes: Vec<jadx_ir::ClassData> = inner_class_map
+        let nested_inner_classes: Vec<dexterity_ir::ClassData> = inner_class_map
             .get(&class_desc)
             .map(|inners| {
                 inners.iter().filter_map(|(inner_idx, inner_desc)| {
@@ -1273,7 +1273,7 @@ fn process_dex_bytes(
                                     .map(|mut inner_data| {
                                         // Process Kotlin metadata
                                         if process_kotlin {
-                                            let _ = jadx_kotlin::process_kotlin_metadata(&mut inner_data);
+                                            let _ = dexterity_kotlin::process_kotlin_metadata(&mut inner_data);
                                         }
                                         // Apply aliases
                                         deobf::apply_aliases_from_registry(&mut inner_data, &alias_registry);
@@ -1282,8 +1282,8 @@ fn process_dex_bytes(
                                             let _ = converter::load_method_instructions(method, &dex);
                                         }
                                         // Extract field initializations
-                                        jadx_passes::extract_field_init(&mut inner_data);
-                                        jadx_passes::extract_instance_field_init(&mut inner_data);
+                                        dexterity_passes::extract_field_init(&mut inner_data);
+                                        dexterity_passes::extract_instance_field_init(&mut inner_data);
                                         inner_data
                                     })
                             })
@@ -1303,11 +1303,11 @@ fn process_dex_bytes(
                 }
 
                 // Extract static field initializations from <clinit>
-                jadx_passes::extract_field_init(&mut ir_class);
+                dexterity_passes::extract_field_init(&mut ir_class);
                 // Extract instance field initializations from constructors
-                jadx_passes::extract_instance_field_init(&mut ir_class);
+                dexterity_passes::extract_instance_field_init(&mut ir_class);
 
-                let config = jadx_codegen::ClassGenConfig {
+                let config = dexterity_codegen::ClassGenConfig {
                     use_imports,
                     show_debug: false,
                     fallback: fallback_mode,
@@ -1317,7 +1317,7 @@ fn process_dex_bytes(
                     inline_methods,
                     hierarchy: Some(hierarchy_arc.clone()),
                 };
-                let dex_arc: std::sync::Arc<dyn jadx_codegen::DexInfoProvider> = dex_info.clone();
+                let dex_arc: std::sync::Arc<dyn dexterity_codegen::DexInfoProvider> = dex_info.clone();
 
                 // Wrap codegen in catch_unwind to handle SKIP limits
                 let nested_slice = if nested_inner_classes.is_empty() {
@@ -1326,7 +1326,7 @@ fn process_dex_bytes(
                     Some(nested_inner_classes.as_slice())
                 };
                 let codegen_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-                    jadx_codegen::generate_class_with_nested_inner_classes(
+                    dexterity_codegen::generate_class_with_nested_inner_classes(
                         &ir_class,
                         &config,
                         Some(dex_arc),
@@ -1479,7 +1479,7 @@ fn class_name_to_path(class_name: &str) -> PathBuf {
 }
 
 /// Generate stub Java code for a class (placeholder until full decompilation)
-fn generate_class_stub(class: &jadx_dex::sections::ClassDef<'_>, class_name: &str) -> Result<String> {
+fn generate_class_stub(class: &dexterity_dex::sections::ClassDef<'_>, class_name: &str) -> Result<String> {
     // Class name format: "Lcom/example/Foo;" -> extract "Foo"
     let stripped = class_name
         .trim_start_matches('L')

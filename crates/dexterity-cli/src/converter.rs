@@ -3,20 +3,20 @@
 //! Converts jadx-dex types to jadx-ir types for code generation.
 
 use anyhow::Result;
-use jadx_dex::DexReader;
-use jadx_dex::insns::InsnIterator;
-use jadx_dex::sections::{
+use dexterity_dex::DexReader;
+use dexterity_dex::insns::InsnIterator;
+use dexterity_dex::sections::{
     AnnotationItem, ClassDef, CodeItem, EncodedAnnotation, EncodedField, EncodedMethod,
     VISIBILITY_BUILD, VISIBILITY_RUNTIME, VISIBILITY_SYSTEM,
 };
-use jadx_dex::EncodedValue;
-use jadx_ir::builder::build_ir_insn;
-use jadx_ir::{
+use dexterity_dex::EncodedValue;
+use dexterity_ir::builder::build_ir_insn;
+use dexterity_ir::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility,
     ArgType, ClassData, FieldData, FieldValue, MethodData,
 };
-use jadx_ir::kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};
-use jadx_passes::mark_methods_for_inline;
+use dexterity_ir::kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};
+use dexterity_passes::mark_methods_for_inline;
 
 /// Convert a DEX ClassDef to IR ClassData
 pub fn convert_class(
@@ -350,7 +350,7 @@ fn parse_type_from_signature(chars: &mut std::iter::Peekable<std::str::Chars>) -
             // ? extends Type (wildcard upper bound)
             let inner = parse_type_from_signature(chars);
             Some(ArgType::Wildcard {
-                bound: jadx_ir::types::WildcardBound::Extends,
+                bound: dexterity_ir::types::WildcardBound::Extends,
                 inner: inner.map(Box::new),
             })
         }
@@ -358,14 +358,14 @@ fn parse_type_from_signature(chars: &mut std::iter::Peekable<std::str::Chars>) -
             // ? super Type (wildcard lower bound)
             let inner = parse_type_from_signature(chars);
             Some(ArgType::Wildcard {
-                bound: jadx_ir::types::WildcardBound::Super,
+                bound: dexterity_ir::types::WildcardBound::Super,
                 inner: inner.map(Box::new),
             })
         }
         '*' => {
             // Unbounded wildcard (?)
             Some(ArgType::Wildcard {
-                bound: jadx_ir::types::WildcardBound::Unbounded,
+                bound: dexterity_ir::types::WildcardBound::Unbounded,
                 inner: None,
             })
         }
@@ -537,8 +537,8 @@ fn convert_annotation_value(dex: &DexReader, encoded: &EncodedValue) -> Option<A
 }
 
 /// Parse switch payload data and update the instruction
-fn parse_switch_payload(insn: &mut jadx_ir::instructions::InsnNode, bytecode: &[u16]) {
-    use jadx_ir::instructions::InsnType;
+fn parse_switch_payload(insn: &mut dexterity_ir::instructions::InsnNode, bytecode: &[u16]) {
+    use dexterity_ir::instructions::InsnType;
 
     match &mut insn.insn_type {
         InsnType::PackedSwitch {
@@ -636,8 +636,8 @@ fn parse_switch_payload(insn: &mut jadx_ir::instructions::InsnNode, bytecode: &[
 }
 
 /// Parse fill-array-data payload and update the instruction
-fn parse_fill_array_payload(insn: &mut jadx_ir::instructions::InsnNode, bytecode: &[u16]) {
-    use jadx_ir::instructions::InsnType;
+fn parse_fill_array_payload(insn: &mut dexterity_ir::instructions::InsnNode, bytecode: &[u16]) {
+    use dexterity_ir::instructions::InsnType;
 
     if let InsnType::FillArrayData {
         payload_offset,
@@ -766,7 +766,7 @@ fn convert_method(
 
             // Store bytecode reference for lazy loading (like Java JADX's ICodeReader)
             // This allows for true lazy loading later (instructions loaded on-demand)
-            method.bytecode_ref = Some(jadx_ir::BytecodeRef {
+            method.bytecode_ref = Some(dexterity_ir::BytecodeRef {
                 dex_idx: 0, // TODO: multi-DEX support
                 method_idx: encoded.method_idx,
                 code_offset: encoded.code_off as u64,
@@ -785,10 +785,10 @@ fn convert_method(
                         .collect();
 
                     // Full debug info with local variables (for variable naming)
-                    method.debug_info = Some(jadx_ir::DebugInfo {
+                    method.debug_info = Some(dexterity_ir::DebugInfo {
                         line_numbers: full_debug.line_numbers,
                         local_vars: full_debug.local_vars.into_iter()
-                            .map(|v| jadx_ir::LocalVar {
+                            .map(|v| dexterity_ir::LocalVar {
                                 name: v.name,
                                 type_desc: v.type_desc,
                                 reg: v.reg,
@@ -819,10 +819,10 @@ fn convert_method(
 /// Convert DEX try-catch items to IR TryBlock structures
 fn convert_try_catch_blocks(
     dex: &DexReader,
-    try_items: &[jadx_dex::sections::TryItem],
-    catch_handlers: &[jadx_dex::sections::CatchHandler],
-) -> Vec<jadx_ir::TryBlock> {
-    use jadx_ir::{ExceptionHandler, TryBlock};
+    try_items: &[dexterity_dex::sections::TryItem],
+    catch_handlers: &[dexterity_dex::sections::CatchHandler],
+) -> Vec<dexterity_ir::TryBlock> {
+    use dexterity_ir::{ExceptionHandler, TryBlock};
 
     let mut result = Vec::with_capacity(try_items.len());
 
@@ -892,7 +892,7 @@ fn strip_descriptor(desc: &str) -> &str {
 /// Instead of sequentially adding classes to the hierarchy (O(N) with sequential lock contention),
 /// we extract all class metadata in parallel, then do a fast sequential merge.
 /// For 50K classes: ~500ms → ~50ms (10x faster).
-pub fn build_class_hierarchy(dex: &DexReader, class_indices: &[u32]) -> jadx_ir::ClassHierarchy {
+pub fn build_class_hierarchy(dex: &DexReader, class_indices: &[u32]) -> dexterity_ir::ClassHierarchy {
     use rayon::prelude::*;
 
     // Phase 1: Parallel extraction of class metadata
@@ -928,7 +928,7 @@ pub fn build_class_hierarchy(dex: &DexReader, class_indices: &[u32]) -> jadx_ir:
         .collect();
 
     // Phase 2: Sequential merge (fast - just inserting pre-extracted data)
-    let mut hierarchy = jadx_ir::ClassHierarchy::new();
+    let mut hierarchy = dexterity_ir::ClassHierarchy::new();
     for (class_name, superclass, interfaces) in class_data {
         hierarchy.add_class(class_name, superclass, interfaces);
     }

@@ -1,21 +1,21 @@
 [workspace]
 resolver = "2"
 members = [
-    "jadx-dex",
-    "jadx-ir",
-    "jadx-passes",
-    "jadx-codegen",
-    "jadx-cli",
-    "jadx-resources",
-    "jadx-deobf",
-    "jadx-kotlin",
+    "dexterity-dex",
+    "dexterity-ir",
+    "dexterity-passes",
+    "dexterity-codegen",
+    "dexterity-cli",
+    "dexterity-resources",
+    "dexterity-deobf",
+    "dexterity-kotlin",
 ]
 
 [workspace.package]
 version = "1.0.0"
 edition = "2021"
 license = "Apache-2.0"
-repository = "https://github.com/user/jadx-rust"
+repository = "https://github.com/user/dexterity"
 
 [workspace.dependencies]
 # Binary parsing
@@ -71,13 +71,13 @@ regex = "1"
 lazy_static = "1.4"
 
 # Internal crates
-jadx-dex = { path = "jadx-dex" }
-jadx-ir = { path = "jadx-ir" }
-jadx-passes = { path = "jadx-passes" }
-jadx-codegen = { path = "jadx-codegen" }
-jadx-resources = { path = "jadx-resources" }
-jadx-deobf = { path = "jadx-deobf" }
-jadx-kotlin = { path = "jadx-kotlin" }
+dexterity-dex = { path = "dexterity-dex" }
+dexterity-ir = { path = "dexterity-ir" }
+dexterity-passes = { path = "dexterity-passes" }
+dexterity-codegen = { path = "dexterity-codegen" }
+dexterity-resources = { path = "dexterity-resources" }
+dexterity-deobf = { path = "dexterity-deobf" }
+dexterity-kotlin = { path = "dexterity-kotlin" }
 
 # Fast release builds (default: cargo build --release)
 [profile.release]

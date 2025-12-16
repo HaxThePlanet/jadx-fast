@@ -71,12 +71,12 @@ Development history and notable fixes.
 1. **Exit Block Inclusion**
    - Exit blocks (containing MONITOR_EXIT) now included in `body_blocks`
    - Previously, body code in exit blocks was being discarded entirely
-   - File: `jadx-passes/src/region_builder.rs`
+   - File: `dexterity-passes/src/region_builder.rs`
 
 2. **Duplicate Wrapper Prevention**
    - MonitorEnter/MonitorExit instructions no longer emit code
    - Region::Synchronized handles the wrapper, instructions are control flow markers only
-   - Files: `jadx-codegen/src/body_gen.rs`, `jadx-codegen/src/stmt_gen.rs`
+   - Files: `dexterity-codegen/src/body_gen.rs`, `dexterity-codegen/src/stmt_gen.rs`
 
 3. **Single-Block Sync Handling**
    - Special case for synchronized blocks where enter==exit block
@@ -93,7 +93,7 @@ Development history and notable fixes.
 1. **Package Renaming**
    - Short package segments (length < 3) now renamed: `a/b/c` → `p000a/p001b/p002c`
    - Hierarchical alias composition (parent alias + child alias)
-   - File: `jadx-cli/src/deobf.rs`
+   - File: `dexterity-cli/src/deobf.rs`
 
 2. **Class/Package Collision Detection**
    - Classes with names matching package names are force-renamed
@@ -120,16 +120,16 @@ Development history and notable fixes.
 1. **PHI Merging (CodeVar concept)**
    - SSA variables connected through PHI nodes now share the same name
    - Mirrors JADX's `InitCodeVariables.collectConnectedVars()`
-   - File: `jadx-passes/src/var_naming.rs`
+   - File: `dexterity-passes/src/var_naming.rs`
 
 2. **Debug Info Names**
    - Variable names extracted from DEX debug bytecode (DBG_START_LOCAL)
    - Full debug opcode parsing: DBG_ADVANCE_PC/LINE, DBG_START/END_LOCAL, etc.
-   - Files: `jadx-dex/src/sections/code_item.rs`, `jadx-cli/src/converter.rs`
+   - Files: `dexterity-dex/src/sections/code_item.rs`, `dexterity-cli/src/converter.rs`
 
 3. **Register-Based Fallback**
    - Changed fallback from `v{N}` to `r{N}` to match JADX's `NameGen.getFallbackName()`
-   - File: `jadx-passes/src/var_naming.rs`
+   - File: `dexterity-passes/src/var_naming.rs`
 
 **Name Priority Order** (matching JADX):
 1. Debug info name (highest priority)
@@ -161,7 +161,7 @@ Development history and notable fixes.
 
 1. **Import Collection** - Re-enabled import collection from method bodies (was disabled for testing)
 2. **Constructor super() Calls** - Added fallback for constructors without new-instance
-3. **JADX Variable Naming** - Connected existing jadx-passes var_naming to codegen
+3. **JADX Variable Naming** - Connected existing dexterity-passes var_naming to codegen
 4. **Type-Aware Conditions** - `== null` for objects, `!flag` for booleans
 5. **super() Emission** - Emit `super()` instead of `this.<init>()`
 6. **CheckCast Inlining** - Casts inlined into expressions

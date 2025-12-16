@@ -4,13 +4,22 @@
 
 use std::collections::BTreeSet;
 
-use jadx_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData};
+use dexterity_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData};
 
 use crate::access_flags::{self, flags::*, AccessContext};
 use crate::body_gen::{generate_body, generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes};
 use crate::dex_info::DexInfoProvider;
 use crate::type_gen::{get_innermost_name, get_simple_name, type_to_string_with_imports};
 use crate::writer::CodeWriter;
+
+/// Add a rename comment if the method was renamed during deobfuscation
+fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str) {
+    code.start_line()
+        .add("/* renamed from: ")
+        .add(original_name)
+        .add(" */")
+        .newline();
+}
 
 /// Check if a method should have @Override annotation (heuristic fallback)
 /// We add @Override for non-constructor, non-static, non-private methods
@@ -211,6 +220,13 @@ pub fn generate_method_with_dex<W: CodeWriter>(
         code.start_line().add("@Override // ").add(&declaring_class).newline();
     }
 
+    // Add rename comment if method was renamed during deobfuscation (skip constructors)
+    if let Some(ref alias) = method.alias {
+        if alias != &method.name && !method.is_constructor() {
+            add_renamed_comment(code, &method.name);
+        }
+    }
+
     code.start_line();
 
     // Method modifiers (skip for static initializers since we handle them specially)
@@ -277,7 +293,7 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     imports: Option<&BTreeSet<String>>,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
-    hierarchy: Option<&jadx_ir::ClassHierarchy>,
+    hierarchy: Option<&dexterity_ir::ClassHierarchy>,
     code: &mut W,
 ) {
     use std::io::Write;
@@ -297,6 +313,13 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
             .add("@Override // ")
             .add(&declaring_class)
             .newline();
+    }
+
+    // Add rename comment if method was renamed during deobfuscation (skip constructors)
+    if let Some(ref alias) = method.alias {
+        if alias != &method.name && !method.is_constructor() {
+            add_renamed_comment(code, &method.name);
+        }
     }
 
     code.start_line();
@@ -359,7 +382,7 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
     inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
-    hierarchy: Option<&jadx_ir::ClassHierarchy>,
+    hierarchy: Option<&dexterity_ir::ClassHierarchy>,
     current_class_type: Option<&str>,
     code: &mut W,
 ) {

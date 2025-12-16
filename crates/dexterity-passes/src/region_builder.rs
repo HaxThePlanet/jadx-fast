@@ -36,8 +36,8 @@ use std::sync::{Arc, Mutex};
 
 use tracing;
 
-use jadx_ir::instructions::{IfCondition, InsnType};
-use jadx_ir::regions::{CatchHandler, Condition, LoopKind, Region, RegionContent, SwitchCase};
+use dexterity_ir::instructions::{IfCondition, InsnType};
+use dexterity_ir::regions::{CatchHandler, Condition, LoopKind, Region, RegionContent, SwitchCase};
 
 use crate::block_split::BasicBlock;
 use crate::cfg::CFG;
@@ -224,7 +224,7 @@ pub fn build_regions(cfg: &CFG) -> Region {
 }
 
 /// Build regions with try-catch block information from IR
-pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Region {
+pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) -> Region {
     // OPTIMIZATION: Increased block limit from 150 to 500
     // The original 150 limit was overly conservative and caused many SKIP warnings on obfuscated code.
     // With modern memory limits (32GB safety check in place), we can safely handle 500+ blocks.
@@ -250,7 +250,7 @@ pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock])
 ///
 /// This runs the finally extraction algorithm and applies instruction/block flags
 /// so codegen can skip duplicated finally sequences (1:1 with JADX behavior).
-pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[jadx_ir::TryBlock]) {
+pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[dexterity_ir::TryBlock]) {
     if try_blocks.is_empty() {
         return;
     }
@@ -287,7 +287,7 @@ pub fn mark_duplicated_finally(cfg: &mut CFG, try_blocks: &[jadx_ir::TryBlock]) 
 }
 
 /// Detect try-catch regions from IR TryBlock information
-fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[jadx_ir::TryBlock]) -> Vec<TryInfo> {
+fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) -> Vec<TryInfo> {
     let mut tries = Vec::with_capacity(try_blocks.len());
 
     // Build a map of address -> block_id for fast lookups
@@ -1420,9 +1420,9 @@ mod tests {
     use super::*;
     use crate::block_split::split_blocks;
     use crate::block_split::BlockSplitResult;
-    use jadx_ir::attributes::AFlag;
-    use jadx_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType};
-    use jadx_ir::{ExceptionHandler, TryBlock};
+    use dexterity_ir::attributes::AFlag;
+    use dexterity_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType};
+    use dexterity_ir::{ExceptionHandler, TryBlock};
 
     fn make_nop(offset: u32) -> InsnNode {
         InsnNode::new(InsnType::Nop, offset)

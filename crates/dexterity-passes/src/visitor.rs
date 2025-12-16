@@ -2,7 +2,7 @@
 //!
 //! This module provides visitor patterns for traversing and modifying the IR.
 
-use jadx_ir::instructions::InsnNode;
+use dexterity_ir::instructions::InsnNode;
 
 /// Visitor for instructions
 pub trait InsnVisitor {

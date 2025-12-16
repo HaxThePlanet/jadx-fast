@@ -1,7 +1,7 @@
 //! Kotlin-aware deobfuscation visitor
 
-use jadx_ir::{ClassData, FieldData, MethodData};
-use jadx_deobf::conditions::{DeobfCondition, Action};
+use dexterity_ir::{ClassData, FieldData, MethodData};
+use dexterity_deobf::conditions::{DeobfCondition, Action};
 
 /// A deobfuscation condition wrapper that prevents renaming of Kotlin-provided aliases
 ///

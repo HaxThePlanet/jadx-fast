@@ -37,7 +37,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 ```bash
 cd crates
-cargo build --release -p jadx-cli
+cargo build --release -p dexterity-cli
 ```
 
 ### Basic Usage
@@ -163,21 +163,21 @@ public class MainActivity extends Activity {
 ## Architecture
 
 ```
-APK/DEX -> jadx-dex -> jadx-ir -> jadx-passes -> jadx-codegen -> Java Source
+APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codegen -> Java Source
                 |           |
-         jadx-resources  jadx-deobf / jadx-kotlin
+         dexterity-resources  dexterity-deobf / dexterity-kotlin
 ```
 
 | Crate | Purpose |
 |-------|---------|
-| `jadx-dex` | DEX binary parsing (memory-mapped, all 224 opcodes) |
-| `jadx-ir` | Intermediate representation, class hierarchy |
-| `jadx-passes` | SSA, type inference, region reconstruction |
-| `jadx-codegen` | Java source generation |
-| `jadx-resources` | AXML and resources.arsc decoding |
-| `jadx-deobf` | Deobfuscation, ProGuard parser |
-| `jadx-kotlin` | Kotlin metadata parsing |
-| `jadx-cli` | CLI application |
+| `dexterity-dex` | DEX binary parsing (memory-mapped, all 224 opcodes) |
+| `dexterity-ir` | Intermediate representation, class hierarchy |
+| `dexterity-passes` | SSA, type inference, region reconstruction |
+| `dexterity-codegen` | Java source generation |
+| `dexterity-resources` | AXML and resources.arsc decoding |
+| `dexterity-deobf` | Deobfuscation, ProGuard parser |
+| `dexterity-kotlin` | Kotlin metadata parsing |
+| `dexterity-cli` | CLI application |
 
 ## Key Technical Features
 
@@ -200,7 +200,7 @@ APK/DEX -> jadx-dex -> jadx-ir -> jadx-passes -> jadx-codegen -> Java Source
 
 ```bash
 cd crates
-cargo build --release -p jadx-cli
+cargo build --release -p dexterity-cli
 ```
 
 ### Running Tests
@@ -216,17 +216,17 @@ cargo test
 
 | File | Description |
 |------|-------------|
-| `jadx-ir/src/info.rs:386` | Implement lazy loading by decoding instructions from bytecode_ref |
-| `jadx-ir/src/kotlin_metadata.rs:158` | Implement package part count and class existence check |
-| `jadx-cli/src/converter.rs:210` | Parse and store type parameters in method.type_parameters |
-| `jadx-cli/src/converter.rs:770` | Multi-DEX support (currently hardcoded to dex_idx: 0) |
-| `jadx-cli/src/gradle_export.rs` | Gradle export dependencies handling (3 locations) |
-| `jadx-codegen/src/dex_info.rs:117` | Track memory usage if needed |
-| `jadx-passes/src/type_inference.rs:665` | Compute LCA of all phi sources after initial resolution |
+| `dexterity-ir/src/info.rs:386` | Implement lazy loading by decoding instructions from bytecode_ref |
+| `dexterity-ir/src/kotlin_metadata.rs:158` | Implement package part count and class existence check |
+| `dexterity-cli/src/converter.rs:210` | Parse and store type parameters in method.type_parameters |
+| `dexterity-cli/src/converter.rs:770` | Multi-DEX support (currently hardcoded to dex_idx: 0) |
+| `dexterity-cli/src/gradle_export.rs` | Gradle export dependencies handling (3 locations) |
+| `dexterity-codegen/src/dex_info.rs:117` | Track memory usage if needed |
+| `dexterity-passes/src/type_inference.rs:665` | Compute LCA of all phi sources after initial resolution |
 
 #### Tests
 
-~200+ disabled tests in `crates/jadx-passes/tests/integration.disabled/` need assertions and test source extraction.
+~200+ disabled tests in `crates/dexterity-passes/tests/integration.disabled/` need assertions and test source extraction.
 
 ## Not Yet Implemented
 

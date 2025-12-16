@@ -13,7 +13,7 @@ Remaining work to achieve full JADX parity.
 
 ### Phase 1: Bounds-Based Refactor (High Impact)
 
-**Files:** `jadx-passes/src/type_inference.rs`
+**Files:** `dexterity-passes/src/type_inference.rs`
 
 Current system uses flat `Constraint` enum. JADX uses separate assign/use bounds:
 
@@ -36,7 +36,7 @@ struct UseBound { var: TypeVar, bound_type: ArgType, usage: BoundUsage }
 
 ### Phase 2: PHI Constant Splitting
 
-**Files:** `jadx-passes/src/phi_const_split.rs` (new)
+**Files:** `dexterity-passes/src/phi_const_split.rs` (new)
 
 Duplicate constants used by multiple PHI nodes to enable independent type inference per branch.
 
@@ -58,7 +58,7 @@ Add JADX-style warning comments:
 - `/* JADX WARNING: ... */` for type inference failures
 - `/* renamed from: ... */` for deobfuscation
 
-**Files:** `jadx-codegen/src/class_gen.rs`, `jadx-codegen/src/method_gen.rs`
+**Files:** `dexterity-codegen/src/class_gen.rs`, `dexterity-codegen/src/method_gen.rs`
 
 ### Variable Naming (Complete)
 - ~~Method invocation pattern matching (`getString()` -> `string`)~~ **Done**
@@ -67,19 +67,19 @@ Add JADX-style warning comments:
 - ~~Register-based fallback (`r0`, `r1`, `r2`)~~ **Done**
 - Reserved word handling for static fields (minor)
 
-**Files:** `jadx-passes/src/var_naming.rs`, `jadx-dex/src/sections/code_item.rs`
+**Files:** `dexterity-passes/src/var_naming.rs`, `dexterity-dex/src/sections/code_item.rs`
 
 Note: Variable naming now matches JADX's full pipeline with priority: debug info > context > type > fallback.
 
 ## Priority 3: Test Infrastructure
 
 ### Fix Broken Tests
-Fix compilation errors in jadx-codegen and jadx-passes test suites.
+Fix compilation errors in dexterity-codegen and dexterity-passes test suites.
 - Update tests to use `Arc<Mutex<InsnNode>>` instead of `InsnNode`
 - ~11 tests currently blocked by type mismatches
 
 ### Enable Integration Tests
-Re-enable and complete the 675 disabled integration tests in `jadx-passes/tests/integration.disabled/`.
+Re-enable and complete the 675 disabled integration tests in `dexterity-passes/tests/integration.disabled/`.
 - 27 test files covering conditions, loops, try-catch, switches, arrays, generics, etc.
 - ~16,769 lines of test code
 - Many tests have TODO assertions that need completion
@@ -144,7 +144,7 @@ Parse smali assembly files directly.
 
 ### Algorithm Differences
 
-| Feature | Java JADX | jadx-rust | Status |
+| Feature | Java JADX | dexterity | Status |
 |---------|-----------|-----------|--------|
 | Constraint solving | Iterative bound merging | Fixed-iteration unification | Gap |
 | Type comparison | 8-value TypeCompareEnum | Simple equality + basic | Done |
@@ -154,7 +154,7 @@ Parse smali assembly files directly.
 
 ### Variable Naming Differences
 
-| Type | JADX | jadx-rust | Status |
+| Type | JADX | dexterity | Status |
 |------|------|-----------|--------|
 | long | `l` | `l` | Done |
 | Throwable | `th` | `th` | Done |
@@ -191,17 +191,17 @@ Parse smali assembly files directly.
 ## Files Summary
 
 ### Type Inference Foundation (Complete)
-- `jadx-ir/src/class_hierarchy.rs` - ~450 lines, LCA calculation
-- `jadx-ir/src/types.rs` - +200 lines, TypeCompare system, TypeVariable variant
+- `dexterity-ir/src/class_hierarchy.rs` - ~450 lines, LCA calculation
+- `dexterity-ir/src/types.rs` - +200 lines, TypeCompare system, TypeVariable variant
 
 ### Generic Type Support (Complete)
-- `jadx-cli/src/converter.rs` - Field and method signature parsing
-- `jadx-codegen/src/type_gen.rs` - Generic type rendering
+- `dexterity-cli/src/converter.rs` - Field and method signature parsing
+- `dexterity-codegen/src/type_gen.rs` - Generic type rendering
 
 ### Variable Naming (Complete)
-- `jadx-passes/src/var_naming.rs` - Type-based naming, method pattern extraction
+- `dexterity-passes/src/var_naming.rs` - Type-based naming, method pattern extraction
 
 ### Needs Work
-- `jadx-passes/src/type_inference.rs` - Refactor to bounds-based
-- `jadx-codegen/src/class_gen.rs` - Add warning comments
-- `jadx-cli/src/converter.rs` - Class-level signature parsing for generic extends/implements
+- `dexterity-passes/src/type_inference.rs` - Refactor to bounds-based
+- `dexterity-codegen/src/class_gen.rs` - Add warning comments
+- `dexterity-cli/src/converter.rs` - Class-level signature parsing for generic extends/implements

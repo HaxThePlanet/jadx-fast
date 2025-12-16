@@ -10,7 +10,7 @@
 use std::collections::{HashMap, HashSet, VecDeque};
 
 use crate::block_split::{BasicBlock, BlockSplitResult};
-use jadx_ir::instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
+use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
 
 /// SSA transformation result
 #[derive(Debug)]
@@ -842,13 +842,13 @@ mod tests {
         b0.instructions.push(InsnNode::new(
             InsnType::Const {
                 dest: RegisterArg::new(0),
-                value: jadx_ir::instructions::LiteralArg::Int(1),
+                value: dexterity_ir::instructions::LiteralArg::Int(1),
             },
             0,
         ));
         b0.instructions.push(InsnNode::new(
             InsnType::If {
-                condition: jadx_ir::instructions::IfCondition::Eq,
+                condition: dexterity_ir::instructions::IfCondition::Eq,
                 left: InsnArg::reg(0),
                 right: None,
                 target: 2,
@@ -863,7 +863,7 @@ mod tests {
         b1.instructions.push(InsnNode::new(
             InsnType::Const {
                 dest: RegisterArg::new(0),
-                value: jadx_ir::instructions::LiteralArg::Int(2),
+                value: dexterity_ir::instructions::LiteralArg::Int(2),
             },
             2,
         ));
@@ -876,7 +876,7 @@ mod tests {
         b2.instructions.push(InsnNode::new(
             InsnType::Const {
                 dest: RegisterArg::new(0),
-                value: jadx_ir::instructions::LiteralArg::Int(3),
+                value: dexterity_ir::instructions::LiteralArg::Int(3),
             },
             3,
         ));

@@ -64,7 +64,7 @@
 //! Typically reduces static initializer codegen time by 50-70% for obfuscated code.
 
 use std::collections::HashSet;
-use jadx_ir::{ClassData, FieldData, FieldValue, InsnArg, InsnType, MethodData};
+use dexterity_ir::{ClassData, FieldData, FieldValue, InsnArg, InsnType, MethodData};
 
 /// Information about a field initialization instruction
 #[derive(Debug, Clone)]
@@ -128,8 +128,8 @@ pub fn extract_field_init(class: &mut ClassData) {
 
 /// Convert a FieldValue to match the declared field type
 /// Handles boolean (int 0/1 -> false/true), float (int bits -> float), etc.
-fn convert_value_to_field_type(value: &FieldValue, field_type: &jadx_ir::ArgType) -> FieldValue {
-    use jadx_ir::ArgType;
+fn convert_value_to_field_type(value: &FieldValue, field_type: &dexterity_ir::ArgType) -> FieldValue {
+    use dexterity_ir::ArgType;
 
     match (value, field_type) {
         // Boolean: int 0 -> false, any non-zero -> true
@@ -276,10 +276,10 @@ fn extract_constant_value(arg: &InsnArg, method: &MethodData, insn_idx: usize) -
         InsnArg::Literal(lit) => {
             // Direct literal value (all int types are stored as Int(i64))
             Some(match lit {
-                jadx_ir::instructions::LiteralArg::Int(v) => FieldValue::Int(*v as i32),
-                jadx_ir::instructions::LiteralArg::Float(v) => FieldValue::Float(*v),
-                jadx_ir::instructions::LiteralArg::Double(v) => FieldValue::Double(*v),
-                jadx_ir::instructions::LiteralArg::Null => FieldValue::Null,
+                dexterity_ir::instructions::LiteralArg::Int(v) => FieldValue::Int(*v as i32),
+                dexterity_ir::instructions::LiteralArg::Float(v) => FieldValue::Float(*v),
+                dexterity_ir::instructions::LiteralArg::Double(v) => FieldValue::Double(*v),
+                dexterity_ir::instructions::LiteralArg::Null => FieldValue::Null,
             })
         }
         _ => None,
@@ -322,7 +322,7 @@ fn trace_register_constant_impl(
             InsnType::Const { dest, value } if dest.reg_num == reg_num as u16 => {
                 // Found a const instruction that writes to our register
                 return Some(match value {
-                    jadx_ir::instructions::LiteralArg::Int(v) => {
+                    dexterity_ir::instructions::LiteralArg::Int(v) => {
                         // Determine the actual type based on range
                         if *v >= i32::MIN as i64 && *v <= i32::MAX as i64 {
                             FieldValue::Int(*v as i32)
@@ -330,9 +330,9 @@ fn trace_register_constant_impl(
                             FieldValue::Long(*v)
                         }
                     }
-                    jadx_ir::instructions::LiteralArg::Float(v) => FieldValue::Float(*v),
-                    jadx_ir::instructions::LiteralArg::Double(v) => FieldValue::Double(*v),
-                    jadx_ir::instructions::LiteralArg::Null => FieldValue::Null,
+                    dexterity_ir::instructions::LiteralArg::Float(v) => FieldValue::Float(*v),
+                    dexterity_ir::instructions::LiteralArg::Double(v) => FieldValue::Double(*v),
+                    dexterity_ir::instructions::LiteralArg::Null => FieldValue::Null,
                 });
             }
             InsnType::ConstString { dest, .. } if dest.reg_num == reg_num as u16 => {
@@ -359,10 +359,10 @@ fn trace_register_constant_impl(
                     );
                 } else if let InsnArg::Literal(lit) = src {
                     return Some(match lit {
-                        jadx_ir::instructions::LiteralArg::Int(v) => FieldValue::Int(*v as i32),
-                        jadx_ir::instructions::LiteralArg::Float(v) => FieldValue::Float(*v),
-                        jadx_ir::instructions::LiteralArg::Double(v) => FieldValue::Double(*v),
-                        jadx_ir::instructions::LiteralArg::Null => FieldValue::Null,
+                        dexterity_ir::instructions::LiteralArg::Int(v) => FieldValue::Int(*v as i32),
+                        dexterity_ir::instructions::LiteralArg::Float(v) => FieldValue::Float(*v),
+                        dexterity_ir::instructions::LiteralArg::Double(v) => FieldValue::Double(*v),
+                        dexterity_ir::instructions::LiteralArg::Null => FieldValue::Null,
                     });
                 }
             }
@@ -612,8 +612,8 @@ fn find_common_field_inits(all_inits: &[Vec<InstanceFieldInitInfo>], fields: &[F
 #[cfg(test)]
 mod tests {
     use super::*;
-    use jadx_ir::instructions::{InsnNode, InsnType, RegisterArg, LiteralArg, InsnArg};
-    use jadx_ir::ArgType;
+    use dexterity_ir::instructions::{InsnNode, InsnType, RegisterArg, LiteralArg, InsnArg};
+    use dexterity_ir::ArgType;
 
     #[test]
     fn test_extract_simple_int_field() {

@@ -1,12 +1,12 @@
 [package]
-name = "jadx-deobf"
+name = "dexterity-deobf"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Deobfuscation support for jadx-rust"
+description = "Deobfuscation support for dexterity-rust"
 
 [dependencies]
-jadx-ir.workspace = true
+dexterity-ir.workspace = true
 regex.workspace = true
 lazy_static.workspace = true
 thiserror.workspace = true

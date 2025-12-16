@@ -6,14 +6,14 @@
 //! 3. Decompilation passes (jadx-passes)
 //! 4. Code generation (jadx-codegen)
 
-use jadx_ir::regions::Region;
-use jadx_ir::{ClassData, MethodData};
-use jadx_passes::{
+use dexterity_ir::regions::Region;
+use dexterity_ir::{ClassData, MethodData};
+use dexterity_passes::{
     assign_var_names, split_blocks, transform_to_ssa, infer_types,
     BlockSplitResult, CFG, SsaResult, TypeInferenceResult, VarNamingResult,
 };
-use jadx_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
-use jadx_codegen::{
+use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
+use dexterity_codegen::{
     generate_body_with_dex, generate_class_with_dex,
     dex_info::DexInfoProvider,
     class_gen::ClassGenConfig,
@@ -48,7 +48,7 @@ pub struct DecompiledMethod {
 /// 6. Region reconstruction - convert CFG to structured regions (if/loop/switch)
 pub fn decompile_method(
     method: &MethodData,
-    hierarchy: Option<&jadx_ir::ClassHierarchy>,
+    hierarchy: Option<&dexterity_ir::ClassHierarchy>,
 ) -> Option<DecompiledMethod> {
     // Check if instructions are loaded (lazy loading support)
     let insns = method.instructions()?;
@@ -78,7 +78,7 @@ pub fn decompile_method(
 
     // Stage 5: Type inference (use hierarchy if available for better precision)
     let types = if let Some(h) = hierarchy {
-        jadx_passes::infer_types_with_hierarchy(&ssa, h)
+        dexterity_passes::infer_types_with_hierarchy(&ssa, h)
     } else {
         infer_types(&ssa)
     };
@@ -145,8 +145,8 @@ pub fn decompile_class(class: &ClassData, dex_info: Option<std::sync::Arc<dyn De
 #[cfg(test)]
 mod tests {
     use super::*;
-    use jadx_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg, InsnArg};
-    use jadx_ir::ArgType;
+    use dexterity_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg, InsnArg};
+    use dexterity_ir::ArgType;
 
     fn make_test_method() -> MethodData {
         let mut method = MethodData::new("test".to_string(), 0x0001, ArgType::Int);
@@ -213,7 +213,7 @@ mod tests {
         method.set_instructions(vec![
             InsnNode::new(
                 InsnType::If {
-                    condition: jadx_ir::instructions::IfCondition::Eq,
+                    condition: dexterity_ir::instructions::IfCondition::Eq,
                     left: InsnArg::reg(0),
                     right: None,
                     target: 3,

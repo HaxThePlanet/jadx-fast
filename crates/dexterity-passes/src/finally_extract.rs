@@ -15,8 +15,8 @@
 
 use std::collections::BTreeSet;
 
-use jadx_ir::attributes::AFlag;
-use jadx_ir::instructions::{InsnNode, InsnType};
+use dexterity_ir::attributes::AFlag;
+use dexterity_ir::instructions::{InsnNode, InsnType};
 
 use crate::cfg::CFG;
 use crate::region_builder::{HandlerInfo, TryInfo};
@@ -769,8 +769,8 @@ fn same_insns(dup_insn: &InsnNode, finally_insn: &InsnNode) -> bool {
 }
 
 /// Check if two literal arguments are the same
-fn same_literal(l1: &jadx_ir::instructions::LiteralArg, l2: &jadx_ir::instructions::LiteralArg) -> bool {
-    use jadx_ir::instructions::LiteralArg;
+fn same_literal(l1: &dexterity_ir::instructions::LiteralArg, l2: &dexterity_ir::instructions::LiteralArg) -> bool {
+    use dexterity_ir::instructions::LiteralArg;
     match (l1, l2) {
         (LiteralArg::Int(a), LiteralArg::Int(b)) => a == b,
         (LiteralArg::Float(a), LiteralArg::Float(b)) => a.to_bits() == b.to_bits(),

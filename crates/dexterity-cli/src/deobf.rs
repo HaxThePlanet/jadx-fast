@@ -20,9 +20,9 @@ use std::path::PathBuf;
 use anyhow::Result;
 use tracing::{info, warn};
 
-use jadx_deobf::{AliasProvider, AliasRegistry, DeobfAliasProvider, method_proto_to_descriptor};
-use jadx_dex::DexReader;
-use jadx_ir::{ArgType, ClassData, FieldData, MethodData};
+use dexterity_deobf::{AliasProvider, AliasRegistry, DeobfAliasProvider, method_proto_to_descriptor};
+use dexterity_dex::DexReader;
+use dexterity_ir::{ArgType, ClassData, FieldData, MethodData};
 
 use crate::args::DeobfCfgFileMode;
 use crate::Args;
@@ -330,7 +330,7 @@ fn normalize_class_descriptor(class_type: &str) -> String {
     format!("L{};", stripped)
 }
 
-fn method_proto_descriptor(method_id: &jadx_dex::sections::MethodId<'_>) -> Result<String> {
+fn method_proto_descriptor(method_id: &dexterity_dex::sections::MethodId<'_>) -> Result<String> {
     let proto = method_id.proto()?;
     let ret = proto.return_type()?;
     let params = proto.parameters()?;
@@ -344,7 +344,7 @@ fn method_proto_descriptor(method_id: &jadx_dex::sections::MethodId<'_>) -> Resu
     Ok(out)
 }
 
-fn method_has_override_annotation(dex: &DexReader, class_def: &jadx_dex::sections::ClassDef<'_>, method_idx: u32) -> bool {
+fn method_has_override_annotation(dex: &DexReader, class_def: &dexterity_dex::sections::ClassDef<'_>, method_idx: u32) -> bool {
     let annots = match class_def.method_annotations(method_idx) {
         Ok(a) => a,
         Err(_) => return false,

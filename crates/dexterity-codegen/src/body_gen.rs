@@ -29,16 +29,16 @@
 
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 
-use jadx_ir::attributes::AFlag;
-use jadx_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LiteralArg};
-use jadx_ir::regions::{Condition, LoopKind, Region, RegionContent};
-use jadx_ir::types::ArgType;
-use jadx_ir::MethodData;
-use jadx_passes::block_split::{split_blocks, BasicBlock};
-use jadx_passes::cfg::CFG;
-use jadx_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
-use jadx_passes::ssa::{transform_to_ssa, transform_to_ssa_owned, SsaResult, SsaBlock};
-use jadx_passes::type_inference::{infer_types, TypeInferenceResult};
+use dexterity_ir::attributes::AFlag;
+use dexterity_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LiteralArg};
+use dexterity_ir::regions::{Condition, LoopKind, Region, RegionContent};
+use dexterity_ir::types::ArgType;
+use dexterity_ir::MethodData;
+use dexterity_passes::block_split::{split_blocks, BasicBlock};
+use dexterity_passes::cfg::CFG;
+use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
+use dexterity_passes::ssa::{transform_to_ssa, transform_to_ssa_owned, SsaResult, SsaBlock};
+use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 
 use crate::class_gen::is_anonymous_class;
 use crate::dex_info::DexInfoProvider;
@@ -82,7 +82,7 @@ pub struct BodyGenContext {
     pub inlined_exprs: HashMap<(u16, u32), String>,
     /// Anonymous class registry - maps type descriptor to ClassData for inline generation
     /// Uses Arc to avoid cloning ClassData for every method
-    pub anonymous_classes: HashMap<String, std::sync::Arc<jadx_ir::ClassData>>,
+    pub anonymous_classes: HashMap<String, std::sync::Arc<dexterity_ir::ClassData>>,
     /// Variables that are final (only assigned once)
     /// A variable is final if max_versions[reg] == 0 (never reassigned after initial assignment)
     pub final_vars: HashSet<(u16, u32)>,
@@ -119,7 +119,7 @@ impl BodyGenContext {
     pub fn from_method_with_dex_and_inner_classes(
         method: &MethodData,
         dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
-        inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<jadx_ir::ClassData>>>,
+        inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<dexterity_ir::ClassData>>>,
     ) -> Self {
         let mut expr_gen = ExprGen::from_pool();
 
@@ -182,12 +182,12 @@ impl BodyGenContext {
     }
 
     /// Register an anonymous class for inline generation
-    pub fn register_anonymous_class(&mut self, type_desc: String, class_data: jadx_ir::ClassData) {
+    pub fn register_anonymous_class(&mut self, type_desc: String, class_data: dexterity_ir::ClassData) {
         self.anonymous_classes.insert(type_desc, std::sync::Arc::new(class_data));
     }
 
     /// Get an anonymous class by type descriptor
-    pub fn get_anonymous_class(&self, type_desc: &str) -> Option<&jadx_ir::ClassData> {
+    pub fn get_anonymous_class(&self, type_desc: &str) -> Option<&dexterity_ir::ClassData> {
         self.anonymous_classes.get(type_desc).map(|arc| arc.as_ref())
     }
 
@@ -299,7 +299,7 @@ impl BodyGenContext {
     }
 }
 
-use jadx_ir::instructions::RegisterArg;
+use dexterity_ir::instructions::RegisterArg;
 
 /// Count variable uses across all blocks
 /// Returns a map of (reg, version) -> use count
@@ -394,7 +394,7 @@ fn count_uses_in_insn(insn: &InsnType, counts: &mut HashMap<(u16, u32), usize>) 
 
 /// Collect phi node destinations from SSA result
 /// These variables need early declaration at method start since phi "assignments" aren't emitted
-fn collect_phi_destinations(ssa_result: &jadx_passes::ssa::SsaResult) -> HashSet<(u16, u32)> {
+fn collect_phi_destinations(ssa_result: &dexterity_passes::ssa::SsaResult) -> HashSet<(u16, u32)> {
     let mut phi_dests = HashSet::new();
     for block in &ssa_result.blocks {
         for phi in &block.phi_nodes {
@@ -626,7 +626,7 @@ pub fn generate_body<W: CodeWriter>(method: &MethodData, code: &mut W) {
     // Use sophisticated variable naming from jadx-passes (JADX-compatible)
     let first_param_reg = method.regs_count.saturating_sub(method.ins_count);
     let num_params = method.arg_types.len() as u16;
-    let var_names = jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params);
+    let var_names = dexterity_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params);
 
     let mut ctx = BodyGenContext::from_method(method);
     let max_versions = ssa_result.max_versions.clone();
@@ -672,6 +672,8 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
     imports: Option<&BTreeSet<String>>,
     code: &mut W,
 ) {
+    use std::panic::{catch_unwind, AssertUnwindSafe};
+
     let insns = match method.instructions() {
         Some(i) if !i.is_empty() => i,
         _ => {
@@ -683,6 +685,43 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         }
     };
 
+    // Wrap decompilation pipeline in panic catch to handle SKIP limits
+    let decompile_result = catch_unwind(AssertUnwindSafe(|| {
+        generate_body_impl(method, insns, dex_info.clone(), imports, code);
+    }));
+
+    // Handle panic - generate warning comment and stub
+    if let Err(panic_payload) = decompile_result {
+        let msg = if let Some(s) = panic_payload.downcast_ref::<&str>() {
+            s.to_string()
+        } else if let Some(s) = panic_payload.downcast_ref::<String>() {
+            s.clone()
+        } else {
+            "Method decompilation failed".to_string()
+        };
+
+        // Strip "SKIP:" prefix if present
+        let warning_msg = msg.trim_start_matches("SKIP:").trim();
+
+        code.start_line()
+            .add("/* JADX WARN: ")
+            .add(warning_msg)
+            .add(" */")
+            .newline();
+        code.start_line()
+            .add("throw new UnsupportedOperationException(\"Method not decompiled\");")
+            .newline();
+    }
+}
+
+/// Internal implementation of body generation (can panic)
+fn generate_body_impl<W: CodeWriter>(
+    method: &MethodData,
+    insns: &[InsnNode],
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    imports: Option<&BTreeSet<String>>,
+    code: &mut W,
+) {
     let block_result = split_blocks(insns);
 
     if block_result.blocks.is_empty() {
@@ -709,11 +748,12 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         let dex_clone3 = dex.clone();
 
         // Lookups use LazyDexInfo's internal DashMap caching for performance
-        jadx_passes::infer_types_with_context(
+        // Arc wrapper avoids cloning inside the cache; we clone here only when lookup succeeds
+        dexterity_passes::infer_types_with_context(
             &ssa_result,
-            move |idx| dex_clone.get_type_as_argtype(idx),
+            move |idx| dex_clone.get_type_as_argtype(idx).map(|arc| (*arc).clone()),
             move |idx| dex_clone2.get_field_type(idx),
-            move |idx| dex_clone3.get_method_return_type(idx),
+            move |idx| dex_clone3.get_method_return_type(idx).map(|arc| (*arc).clone()),
         )
     } else {
         infer_types(&ssa_result)
@@ -729,7 +769,7 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
         let dex_for_type = dex.clone();
 
         let method_lookup = move |idx: u32| {
-            dex_for_method.get_method(idx).map(|m| jadx_passes::MethodNameInfo {
+            dex_for_method.get_method(idx).map(|m| dexterity_passes::MethodNameInfo {
                 method_name: m.method_name.clone(),
                 class_name: m.class_name.clone(),
             })
@@ -739,7 +779,7 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
             dex_for_type.get_type_name(idx)
         };
 
-        jadx_passes::assign_var_names_with_lookups(
+        dexterity_passes::assign_var_names_with_lookups(
             &ssa_result,
             &type_result,
             first_param_reg,
@@ -749,7 +789,7 @@ pub fn generate_body_with_dex_and_imports<W: CodeWriter>(
             method.debug_info.as_ref(),
         )
     } else {
-        jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
+        dexterity_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
     };
 
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
@@ -788,8 +828,8 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     method: &MethodData,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
-    inner_classes: Option<&HashMap<String, std::sync::Arc<jadx_ir::ClassData>>>,
-    hierarchy: Option<&jadx_ir::ClassHierarchy>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<dexterity_ir::ClassData>>>,
+    hierarchy: Option<&dexterity_ir::ClassHierarchy>,
     current_class_type: Option<&str>,
     code: &mut W,
 ) {
@@ -861,18 +901,19 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     let ssa_result = transform_to_ssa_owned(block_result);
 
     let type_result = if let Some(h) = hierarchy {
-        jadx_passes::infer_types_with_hierarchy(&ssa_result, h)
+        dexterity_passes::infer_types_with_hierarchy(&ssa_result, h)
     } else if let Some(ref dex) = dex_info {
         let dex_clone = dex.clone();
         let dex_clone2 = dex.clone();
         let dex_clone3 = dex.clone();
 
         // Lookups use LazyDexInfo's internal DashMap caching for performance
-        jadx_passes::infer_types_with_context(
+        // Arc wrapper avoids cloning inside the cache; we clone here only when lookup succeeds
+        dexterity_passes::infer_types_with_context(
             &ssa_result,
-            move |idx| dex_clone.get_type_as_argtype(idx),
+            move |idx| dex_clone.get_type_as_argtype(idx).map(|arc| (*arc).clone()),
             move |idx| dex_clone2.get_field_type(idx),
-            move |idx| dex_clone3.get_method_return_type(idx),
+            move |idx| dex_clone3.get_method_return_type(idx).map(|arc| (*arc).clone()),
         )
     } else {
         infer_types(&ssa_result)
@@ -887,8 +928,9 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         let dex_for_method = dex.clone();
         let dex_for_type = dex.clone();
 
+        // Arc<MethodInfo> - we only clone the fields we need, not the whole struct
         let method_lookup = move |idx: u32| {
-            dex_for_method.get_method(idx).map(|m| jadx_passes::MethodNameInfo {
+            dex_for_method.get_method(idx).map(|m| dexterity_passes::MethodNameInfo {
                 method_name: m.method_name.clone(),
                 class_name: m.class_name.clone(),
             })
@@ -898,7 +940,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
             dex_for_type.get_type_name(idx)
         };
 
-        jadx_passes::assign_var_names_with_lookups(
+        dexterity_passes::assign_var_names_with_lookups(
             &ssa_result,
             &type_result,
             first_param_reg,
@@ -908,7 +950,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
             method.debug_info.as_ref(),
         )
     } else {
-        jadx_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
+        dexterity_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
     };
 
     let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
@@ -955,7 +997,7 @@ fn apply_inferred_types(ctx: &mut BodyGenContext) {
 }
 
 /// Apply variable names from jadx-passes var_naming result (JADX-compatible)
-fn apply_var_names_from_pass(var_names: &jadx_passes::VarNamingResult, ctx: &mut BodyGenContext) {
+fn apply_var_names_from_pass(var_names: &dexterity_passes::VarNamingResult, ctx: &mut BodyGenContext) {
     for ((reg, version), name) in &var_names.names {
         ctx.expr_gen.set_var_name(*reg, *version, name.clone());
     }
@@ -1618,7 +1660,7 @@ fn emit_ternary_assignment<W: CodeWriter>(
     ctx: &mut BodyGenContext,
     code: &mut W,
 ) {
-    use jadx_ir::instructions::RegisterArg;
+    use dexterity_ir::instructions::RegisterArg;
 
     let var_name = ctx.expr_gen.get_var_name(&RegisterArg::with_ssa(ternary.dest_reg, ternary.dest_version));
     let reg = ternary.dest_reg;
@@ -1667,7 +1709,7 @@ fn cfg_blocks_to_map(cfg: &CFG) -> BTreeMap<u32, BasicBlock> {
 
 /// Convert SSA blocks to BasicBlock map for code generation
 /// This preserves the SSA versions on register arguments
-fn ssa_blocks_to_map(ssa_result: &jadx_passes::ssa::SsaResult) -> BTreeMap<u32, BasicBlock> {
+fn ssa_blocks_to_map(ssa_result: &dexterity_passes::ssa::SsaResult) -> BTreeMap<u32, BasicBlock> {
     let mut map = BTreeMap::new();
     for ssa_block in &ssa_result.blocks {
         // Compute offsets from instructions
@@ -1689,7 +1731,7 @@ fn ssa_blocks_to_map(ssa_result: &jadx_passes::ssa::SsaResult) -> BTreeMap<u32, 
 
 /// Convert SSA blocks to BasicBlock map by taking ownership (no cloning)
 /// This is the memory-efficient version
-fn ssa_blocks_to_map_owned(ssa_result: jadx_passes::ssa::SsaResult) -> BTreeMap<u32, BasicBlock> {
+fn ssa_blocks_to_map_owned(ssa_result: dexterity_passes::ssa::SsaResult) -> BTreeMap<u32, BasicBlock> {
     let mut map = BTreeMap::new();
     for ssa_block in ssa_result.blocks {
         // Compute offsets from instructions
@@ -2059,7 +2101,7 @@ fn is_control_flow(insn: &InsnType) -> bool {
 /// Generate an anonymous class body inline
 /// Returns the full expression: `new ParentType(args) { methods... }`
 fn generate_anonymous_class_inline<W: CodeWriter>(
-    class: &jadx_ir::ClassData,
+    class: &dexterity_ir::ClassData,
     constructor_args: &str,
     imports: Option<&BTreeSet<String>>,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
@@ -2860,7 +2902,7 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
 mod tests {
     use super::*;
     use crate::writer::SimpleCodeWriter;
-    use jadx_ir::instructions::{InsnArg, InsnNode, InsnType, LiteralArg, RegisterArg};
+    use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, LiteralArg, RegisterArg};
 
     fn make_method() -> MethodData {
         MethodData::new("test".to_string(), 0x0001, ArgType::Void)
@@ -2934,7 +2976,7 @@ mod tests {
     #[test]
     fn test_anonymous_class_inline_generator() {
         use crate::writer::SimpleCodeWriter;
-        use jadx_ir::ClassData;
+        use dexterity_ir::ClassData;
 
         // Create a simple anonymous class that implements Runnable
         let mut anon_class = ClassData::new("Lcom/example/Test$1;".to_string(), 0x0001);
@@ -2945,8 +2987,8 @@ mod tests {
         run_method.regs_count = 1;
         run_method.ins_count = 1;
         // Empty body - just return
-        run_method.set_instructions(vec![jadx_ir::instructions::InsnNode::new(
-            jadx_ir::instructions::InsnType::Return { value: None },
+        run_method.set_instructions(vec![dexterity_ir::instructions::InsnNode::new(
+            dexterity_ir::instructions::InsnType::Return { value: None },
             0,
         )]);
         anon_class.methods.push(run_method);
@@ -3002,8 +3044,8 @@ mod tests {
         ]);
 
         // Test the SSA transform directly to see max_versions
-        let block_result = jadx_passes::block_split::split_blocks(method.get_instructions());
-        let ssa_result = jadx_passes::ssa::transform_to_ssa(&block_result);
+        let block_result = dexterity_passes::block_split::split_blocks(method.get_instructions());
+        let ssa_result = dexterity_passes::ssa::transform_to_ssa(&block_result);
 
         // Debug: print max_versions
         eprintln!("max_versions: {:?}", ssa_result.max_versions);

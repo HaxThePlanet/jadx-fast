@@ -8,12 +8,12 @@
 
 use std::collections::HashMap;
 
-use jadx_ir::instructions::{
+use dexterity_ir::instructions::{
     ArrayElemType, BinaryOp, CastType, CompareOp, InsnArg, InsnType, LiteralArg, RegisterArg,
     UnaryOp,
 };
-use jadx_ir::types::ArgType;
-use jadx_ir::{ClassHierarchy, TypeCompare, compare_types};
+use dexterity_ir::types::ArgType;
+use dexterity_ir::{ClassHierarchy, TypeCompare, compare_types};
 
 use crate::ssa::SsaResult;
 
@@ -1029,7 +1029,7 @@ where
 /// - More accurate type unification
 pub fn infer_types_with_hierarchy(
     ssa: &SsaResult,
-    hierarchy: &jadx_ir::ClassHierarchy,
+    hierarchy: &dexterity_ir::ClassHierarchy,
 ) -> TypeInferenceResult {
     let mut inference = TypeInference::new().with_hierarchy(hierarchy.clone());
     inference.collect_constraints(ssa);
@@ -1053,7 +1053,7 @@ mod tests {
     use crate::ssa::{PhiNode, SsaBlock};
 
     fn make_simple_ssa() -> SsaResult {
-        use jadx_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg};
+        use dexterity_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg};
 
         // Simple SSA with:
         // v0_1 = 42
@@ -1104,7 +1104,7 @@ mod tests {
 
     #[test]
     fn test_phi_type_propagation() {
-        use jadx_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg};
+        use dexterity_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg};
 
         // v0_1 = 1  (block 0)
         // v0_2 = 2  (block 1)
@@ -1168,7 +1168,7 @@ mod tests {
 
     #[test]
     fn test_string_type() {
-        use jadx_ir::instructions::{InsnNode, InsnType, RegisterArg};
+        use dexterity_ir::instructions::{InsnNode, InsnType, RegisterArg};
 
         let blocks = vec![SsaBlock {
             id: 0,
@@ -1201,7 +1201,7 @@ mod tests {
 
     #[test]
     fn test_cast_type() {
-        use jadx_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg};
+        use dexterity_ir::instructions::{InsnNode, InsnType, LiteralArg, RegisterArg};
 
         let blocks = vec![SsaBlock {
             id: 0,

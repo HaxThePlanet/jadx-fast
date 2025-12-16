@@ -37,8 +37,8 @@ use parking_lot::RwLock;
 
 use crate::expr_gen::{ExprGen, FieldInfo, MethodInfo};
 use crate::type_gen::type_to_string;
-use jadx_dex::DexReader;
-use jadx_ir::types::ArgType;
+use dexterity_dex::DexReader;
+use dexterity_ir::types::ArgType;
 
 // =============================================================================
 // GlobalFieldPool - Multi-DEX field deduplication (like Java JADX)
@@ -140,16 +140,19 @@ pub trait DexInfoProvider: Send + Sync {
     fn get_field(&self, idx: u32) -> Option<FieldInfo>;
 
     /// Get method info by index
-    fn get_method(&self, idx: u32) -> Option<MethodInfo>;
+    /// Returns Arc to avoid cloning on cache hits
+    fn get_method(&self, idx: u32) -> Option<Arc<MethodInfo>>;
 
     /// Get field type by index (for type inference)
     fn get_field_type(&self, idx: u32) -> Option<ArgType>;
 
     /// Get type by index as ArgType (for type inference)
-    fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType>;
+    /// Returns Arc to avoid cloning on cache hits
+    fn get_type_as_argtype(&self, idx: u32) -> Option<Arc<ArgType>>;
 
     /// Get method return type by index (for type inference)
-    fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)>;
+    /// Returns Arc to avoid cloning on cache hits
+    fn get_method_return_type(&self, idx: u32) -> Option<Arc<(Vec<ArgType>, ArgType)>>;
 
     /// Populate an ExprGen with DEX info
     fn populate_expr_gen(&self, expr_gen: &mut ExprGen);
@@ -285,20 +288,20 @@ impl DexInfoProvider for DexInfo {
         self.fields.get(&idx).cloned()
     }
 
-    fn get_method(&self, idx: u32) -> Option<MethodInfo> {
-        self.methods.get(&idx).cloned()
+    fn get_method(&self, idx: u32) -> Option<Arc<MethodInfo>> {
+        self.methods.get(&idx).map(|m| Arc::new(m.clone()))
     }
 
     fn get_field_type(&self, idx: u32) -> Option<ArgType> {
         self.fields.get(&idx).map(|f| f.field_type.clone())
     }
 
-    fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
-        self.types.get(&idx).and_then(|desc| descriptor_to_argtype(desc))
+    fn get_type_as_argtype(&self, idx: u32) -> Option<Arc<ArgType>> {
+        self.types.get(&idx).and_then(|desc| descriptor_to_argtype(desc)).map(Arc::new)
     }
 
-    fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
-        self.methods.get(&idx).map(|m| (m.param_types.clone(), m.return_type.clone()))
+    fn get_method_return_type(&self, idx: u32) -> Option<Arc<(Vec<ArgType>, ArgType)>> {
+        self.methods.get(&idx).map(|m| Arc::new((m.param_types.clone(), m.return_type.clone())))
     }
 
     fn populate_expr_gen(&self, expr_gen: &mut ExprGen) {
@@ -337,11 +340,14 @@ pub struct LazyDexInfo {
     /// Optional global field pool for multi-DEX deduplication
     global_field_pool: Option<Arc<GlobalFieldPool>>,
     /// Cache for method lookups (hot path for type inference)
-    method_cache: DashMap<u32, Option<MethodInfo>>,
+    /// Uses Arc to avoid cloning MethodInfo on every cache hit
+    method_cache: DashMap<u32, Option<Arc<MethodInfo>>>,
     /// Cache for type-as-argtype lookups (hot path for type inference)
-    type_argtype_cache: DashMap<u32, Option<ArgType>>,
+    /// Uses Arc to avoid cloning ArgType on every cache hit
+    type_argtype_cache: DashMap<u32, Option<Arc<ArgType>>>,
     /// Cache for method return type lookups (hot path for type inference)
-    method_return_cache: DashMap<u32, Option<(Vec<ArgType>, ArgType)>>,
+    /// Uses Arc to avoid cloning on every cache hit
+    method_return_cache: DashMap<u32, Option<Arc<(Vec<ArgType>, ArgType)>>>,
 }
 
 impl LazyDexInfo {
@@ -425,8 +431,9 @@ impl LazyDexInfo {
     }
 
     /// Get method info by index (cached for performance)
-    pub fn get_method(&self, idx: u32) -> Option<MethodInfo> {
-        // Check cache first
+    /// Returns Arc to avoid cloning on cache hits (runs millions of times)
+    pub fn get_method(&self, idx: u32) -> Option<Arc<MethodInfo>> {
+        // Check cache first - Arc clone is just atomic refcount bump (~1ns)
         if let Some(cached) = self.method_cache.get(&idx) {
             return cached.clone();
         }
@@ -446,13 +453,13 @@ impl LazyDexInfo {
                 .map(|params| params.into_iter().map(|d| parse_type_descriptor(&d)).collect())
                 .unwrap_or_default();
 
-            Some(MethodInfo {
+            Some(Arc::new(MethodInfo {
                 class_name: descriptor_to_simple_name(&class_type),
                 class_type: descriptor_to_internal_name(&class_type),
                 method_name: method_name.to_string(),
                 return_type,
                 param_types,
-            })
+            }))
         })();
 
         // Cache the result
@@ -466,14 +473,15 @@ impl LazyDexInfo {
     }
 
     /// Get type by index as ArgType (for type inference, cached)
-    pub fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
-        // Check cache first
+    /// Returns Arc to avoid cloning on cache hits (runs millions of times)
+    pub fn get_type_as_argtype(&self, idx: u32) -> Option<Arc<ArgType>> {
+        // Check cache first - Arc clone is just atomic refcount bump (~1ns)
         if let Some(cached) = self.type_argtype_cache.get(&idx) {
             return cached.clone();
         }
 
         // Parse on-demand
-        let result = self.dex.get_type(idx).ok().as_ref().and_then(|desc| descriptor_to_argtype(desc));
+        let result = self.dex.get_type(idx).ok().as_ref().and_then(|desc| descriptor_to_argtype(desc)).map(Arc::new);
 
         // Cache the result
         self.type_argtype_cache.insert(idx, result.clone());
@@ -481,14 +489,15 @@ impl LazyDexInfo {
     }
 
     /// Get method return type by index (for type inference, cached)
-    pub fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
-        // Check cache first
+    /// Returns Arc to avoid cloning on cache hits (runs millions of times)
+    pub fn get_method_return_type(&self, idx: u32) -> Option<Arc<(Vec<ArgType>, ArgType)>> {
+        // Check cache first - Arc clone is just atomic refcount bump (~1ns)
         if let Some(cached) = self.method_return_cache.get(&idx) {
             return cached.clone();
         }
 
         // Get from method and cache
-        let result = self.get_method(idx).map(|m| (m.param_types, m.return_type));
+        let result = self.get_method(idx).map(|m| Arc::new((m.param_types.clone(), m.return_type.clone())));
 
         // Cache the result
         self.method_return_cache.insert(idx, result.clone());
@@ -523,7 +532,7 @@ impl DexInfoProvider for LazyDexInfo {
         LazyDexInfo::get_field(self, idx)
     }
 
-    fn get_method(&self, idx: u32) -> Option<MethodInfo> {
+    fn get_method(&self, idx: u32) -> Option<Arc<MethodInfo>> {
         LazyDexInfo::get_method(self, idx)
     }
 
@@ -531,11 +540,11 @@ impl DexInfoProvider for LazyDexInfo {
         LazyDexInfo::get_field_type(self, idx)
     }
 
-    fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
+    fn get_type_as_argtype(&self, idx: u32) -> Option<Arc<ArgType>> {
         LazyDexInfo::get_type_as_argtype(self, idx)
     }
 
-    fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
+    fn get_method_return_type(&self, idx: u32) -> Option<Arc<(Vec<ArgType>, ArgType)>> {
         LazyDexInfo::get_method_return_type(self, idx)
     }
 
@@ -696,7 +705,7 @@ pub fn descriptor_to_full_java_name(desc: &str) -> String {
 // =============================================================================
 
 /// Re-export AliasRegistry for convenience
-pub use jadx_deobf::AliasRegistry;
+pub use dexterity_deobf::AliasRegistry;
 
 /// DEX info wrapper that applies aliases from an alias registry
 ///
@@ -764,33 +773,40 @@ impl DexInfoProvider for AliasAwareDexInfo {
         Some(info)
     }
 
-    fn get_method(&self, idx: u32) -> Option<MethodInfo> {
-        let mut info = self.inner.get_method(idx)?;
+    fn get_method(&self, idx: u32) -> Option<Arc<MethodInfo>> {
+        let info = self.inner.get_method(idx)?;
 
-        // Apply class alias
+        // Check if we need to apply any aliases
         let class_desc = Self::internal_to_descriptor(&info.class_type);
-        if let Some(class_alias) = self.registry.get_class_alias(&class_desc) {
-            info.class_name = class_alias;
-        }
+        let class_alias = self.registry.get_class_alias(&class_desc);
+        let proto_desc = dexterity_deobf::method_proto_to_descriptor(&info.param_types, &info.return_type);
+        let method_alias = self.registry.get_method_alias(&class_desc, &info.method_name, &proto_desc);
 
-        // Apply method alias (use full proto descriptor to disambiguate overloads)
-        let proto_desc = jadx_deobf::method_proto_to_descriptor(&info.param_types, &info.return_type);
-        if let Some(method_alias) = self.registry.get_method_alias(&class_desc, &info.method_name, &proto_desc) {
-            info.method_name = method_alias;
+        // Only clone if we need to modify
+        if class_alias.is_some() || method_alias.is_some() {
+            let mut cloned = (*info).clone();
+            if let Some(alias) = class_alias {
+                cloned.class_name = alias;
+            }
+            if let Some(alias) = method_alias {
+                cloned.method_name = alias;
+            }
+            Some(Arc::new(cloned))
+        } else {
+            // No aliases needed - return cached Arc directly (no clone!)
+            Some(info)
         }
-
-        Some(info)
     }
 
     fn get_field_type(&self, idx: u32) -> Option<ArgType> {
         self.inner.get_field_type(idx)
     }
 
-    fn get_type_as_argtype(&self, idx: u32) -> Option<ArgType> {
+    fn get_type_as_argtype(&self, idx: u32) -> Option<Arc<ArgType>> {
         self.inner.get_type_as_argtype(idx)
     }
 
-    fn get_method_return_type(&self, idx: u32) -> Option<(Vec<ArgType>, ArgType)> {
+    fn get_method_return_type(&self, idx: u32) -> Option<Arc<(Vec<ArgType>, ArgType)>> {
         self.inner.get_method_return_type(idx)
     }
 

@@ -9,8 +9,8 @@
 //! - Field setters: `obj.field = arg; return arg;` or `SomeClass.staticField = arg;`
 //! - Method delegation: `return obj.method(args);`
 
-use jadx_ir::instructions::{InsnArg, InsnType, InvokeKind};
-use jadx_ir::{MethodData, MethodInlineAttr};
+use dexterity_ir::instructions::{InsnArg, InsnType, InvokeKind};
+use dexterity_ir::{MethodData, MethodInlineAttr};
 
 /// Analyze a method and determine if it can be inlined.
 /// Returns the inline attribute if the method is simple enough to inline.
@@ -66,7 +66,7 @@ pub fn analyze_method_for_inline(method: &MethodData) -> Option<MethodInlineAttr
 }
 
 /// Try to detect a simple getter pattern: single instruction returning a field
-fn try_detect_simple_getter(insns: &[&jadx_ir::InsnNode]) -> Option<MethodInlineAttr> {
+fn try_detect_simple_getter(insns: &[&dexterity_ir::InsnNode]) -> Option<MethodInlineAttr> {
     if insns.len() != 1 {
         return None;
     }
@@ -87,7 +87,7 @@ fn try_detect_simple_getter(insns: &[&jadx_ir::InsnNode]) -> Option<MethodInline
 }
 
 /// Try to detect getter pattern: field-get, return
-fn try_detect_getter_pattern(insns: &[&jadx_ir::InsnNode]) -> Option<MethodInlineAttr> {
+fn try_detect_getter_pattern(insns: &[&dexterity_ir::InsnNode]) -> Option<MethodInlineAttr> {
     if insns.len() != 2 {
         return None;
     }
@@ -113,7 +113,7 @@ fn try_detect_getter_pattern(insns: &[&jadx_ir::InsnNode]) -> Option<MethodInlin
 }
 
 /// Try to detect setter pattern: field-put, (move), return
-fn try_detect_setter_pattern(insns: &[&jadx_ir::InsnNode]) -> Option<MethodInlineAttr> {
+fn try_detect_setter_pattern(insns: &[&dexterity_ir::InsnNode]) -> Option<MethodInlineAttr> {
     if insns.len() < 2 {
         return None;
     }
@@ -140,7 +140,7 @@ fn try_detect_setter_pattern(insns: &[&jadx_ir::InsnNode]) -> Option<MethodInlin
 }
 
 /// Try to detect method delegation pattern: invoke, return
-fn try_detect_method_delegate(insns: &[&jadx_ir::InsnNode]) -> Option<MethodInlineAttr> {
+fn try_detect_method_delegate(insns: &[&dexterity_ir::InsnNode]) -> Option<MethodInlineAttr> {
     if insns.len() != 2 {
         return None;
     }
@@ -186,8 +186,8 @@ pub fn should_skip_method(method: &MethodData) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use jadx_ir::instructions::{InsnNode, RegisterArg};
-    use jadx_ir::ArgType;
+    use dexterity_ir::instructions::{InsnNode, RegisterArg};
+    use dexterity_ir::ArgType;
 
     fn make_synthetic_method(name: &str, access_flags: u32) -> MethodData {
         MethodData::new(name.to_string(), access_flags | 0x1000, ArgType::Int)

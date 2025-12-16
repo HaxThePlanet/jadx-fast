@@ -609,7 +609,7 @@ impl CFG {
 mod tests {
     use super::*;
     use crate::block_split::split_blocks;
-    use jadx_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType};
+    use dexterity_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType};
 
     fn make_nop(offset: u32) -> InsnNode {
         InsnNode::new(InsnType::Nop, offset)

@@ -1,7 +1,7 @@
 //! Name extraction and application to IR
 
 use anyhow::Result;
-use jadx_ir::ClassData;
+use dexterity_ir::ClassData;
 use crate::types::KotlinClassMetadata;
 
 /// Apply Kotlin metadata names to IR class structure
@@ -74,7 +74,7 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
 }
 
 /// Find a method in the class by comparing function signatures
-fn find_method_by_signature<'a>(cls: &'a mut ClassData, kotlin_func: &crate::types::KotlinFunction) -> Option<&'a mut jadx_ir::MethodData> {
+fn find_method_by_signature<'a>(cls: &'a mut ClassData, kotlin_func: &crate::types::KotlinFunction) -> Option<&'a mut dexterity_ir::MethodData> {
     // Try to match by name first (fast path for simple cases)
     cls.methods
         .iter_mut()

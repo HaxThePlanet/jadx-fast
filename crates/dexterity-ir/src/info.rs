@@ -365,7 +365,7 @@ impl MethodData {
     /// on disk (via BytecodeRef) and only decoded when actually needed.
     ///
     /// IMPORTANT: The actual loading should happen in the caller (converter/main)
-    /// that has access to jadx_dex parsing functions. This method is a placeholder
+    /// that has access to dexterity_dex parsing functions. This method is a placeholder
     /// for the lazy loading pattern. Real implementation decodes instructions from
     /// the bytecode stored in bytecode_ref.
     ///

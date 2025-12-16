@@ -3,7 +3,7 @@
 //! Ported from jadx-core/src/main/java/jadx/core/deobf/conditions/
 
 use std::collections::HashSet;
-use jadx_ir::{ClassData, FieldData, MethodData};
+use dexterity_ir::{ClassData, FieldData, MethodData};
 use crate::name_mapper::NameMapper;
 
 /// Rename flags that control deobfuscation behavior
@@ -297,7 +297,7 @@ mod tests {
         let cond = LengthCondition::new(3, 64);
 
         // Short names should be renamed
-        let mut method = MethodData::new("a".to_string(), 0, jadx_ir::ArgType::Void);
+        let mut method = MethodData::new("a".to_string(), 0, dexterity_ir::ArgType::Void);
         assert_eq!(cond.check_method(&method), Action::ForceRename);
 
         // Normal names should not be renamed
@@ -310,7 +310,7 @@ mod tests {
         let cond = ValidityCondition::new();
 
         // Valid name
-        let mut method = MethodData::new("onCreate".to_string(), 0, jadx_ir::ArgType::Void);
+        let mut method = MethodData::new("onCreate".to_string(), 0, dexterity_ir::ArgType::Void);
         assert_eq!(cond.check_method(&method), Action::NoAction);
 
         // Invalid name (starts with number)

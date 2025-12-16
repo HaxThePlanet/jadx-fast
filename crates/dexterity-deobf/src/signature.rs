@@ -2,7 +2,7 @@
 //!
 //! Used to disambiguate method aliases (overloads) when storing aliases in `AliasRegistry`.
 
-use jadx_ir::ArgType;
+use dexterity_ir::ArgType;
 
 /// Convert an `ArgType` into a DEX type descriptor.
 pub fn arg_type_to_descriptor(ty: &ArgType) -> String {

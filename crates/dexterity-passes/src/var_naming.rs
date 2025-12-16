@@ -9,8 +9,8 @@
 
 use std::collections::{HashMap, HashSet, VecDeque};
 
-use jadx_ir::info::DebugInfo;
-use jadx_ir::types::ArgType;
+use dexterity_ir::info::DebugInfo;
+use dexterity_ir::types::ArgType;
 
 use crate::ssa::SsaResult;
 use crate::type_inference::TypeInferenceResult;
@@ -379,9 +379,9 @@ impl<'a> VarNaming<'a> {
     /// Returns None if no suitable context-based name can be generated
     fn name_from_instruction_context(
         &mut self,
-        insn: &jadx_ir::instructions::InsnNode,
+        insn: &dexterity_ir::instructions::InsnNode,
     ) -> Option<String> {
-        use jadx_ir::instructions::InsnType;
+        use dexterity_ir::instructions::InsnType;
 
         match &insn.insn_type {
             // Array length (like JADX's ARRAY_LENGTH case)
@@ -560,7 +560,7 @@ pub fn assign_var_names_with_lookups<'a>(
                     let insn = &block.instructions[insn_idx];
 
                     // For MoveResult, look at the previous instruction (should be Invoke)
-                    if matches!(insn.insn_type, jadx_ir::instructions::InsnType::MoveResult { .. }) {
+                    if matches!(insn.insn_type, dexterity_ir::instructions::InsnType::MoveResult { .. }) {
                         if insn_idx > 0 {
                             let prev_insn = &block.instructions[insn_idx - 1];
                             // Try to get name from the preceding Invoke instruction
@@ -602,8 +602,8 @@ pub fn assign_var_names_with_lookups<'a>(
 }
 
 /// Get the destination register from an instruction type
-fn get_insn_dest(insn: &jadx_ir::instructions::InsnType) -> Option<(u16, u32)> {
-    use jadx_ir::instructions::InsnType;
+fn get_insn_dest(insn: &dexterity_ir::instructions::InsnType) -> Option<(u16, u32)> {
+    use dexterity_ir::instructions::InsnType;
 
     match insn {
         InsnType::Const { dest, .. }

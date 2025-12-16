@@ -17,11 +17,11 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::sync::Arc;
 
-use jadx_ir::instructions::{
+use dexterity_ir::instructions::{
     BinaryOp, CastType, IfCondition, InsnArg, InsnType,
     InvokeKind, LiteralArg, RegisterArg, UnaryOp,
 };
-use jadx_ir::types::ArgType;
+use dexterity_ir::types::ArgType;
 
 use crate::dex_info::DexInfoProvider;
 use crate::type_gen::literal_to_string;
@@ -294,7 +294,7 @@ impl ExprGen {
     /// Get method info by index (local cache first, then DEX provider)
     pub fn get_method_value(&self, idx: u32) -> Option<MethodInfo> {
         self.method_info.get(&idx).cloned()
-            .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_method(idx)))
+            .or_else(|| self.dex_provider.as_ref().and_then(|p| p.get_method(idx).map(|arc| (*arc).clone())))
     }
 
     /// Generate expression for an instruction argument
@@ -895,7 +895,7 @@ fn escape_string(s: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use jadx_ir::instructions::ArrayElemType;
+    use dexterity_ir::instructions::ArrayElemType;
 
     #[test]
     fn test_literal_gen() {

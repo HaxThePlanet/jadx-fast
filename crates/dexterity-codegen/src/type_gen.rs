@@ -2,7 +2,7 @@
 //!
 //! Converts jadx-ir types to Java type strings.
 
-use jadx_ir::ArgType;
+use dexterity_ir::ArgType;
 
 /// Convert an ArgType to its Java source representation (fully qualified)
 pub fn type_to_string(ty: &ArgType) -> String {
@@ -35,7 +35,7 @@ pub fn type_to_string_with_imports(ty: &ArgType, imports: Option<&std::collectio
             }
         }
         ArgType::Wildcard { bound, inner } => {
-            use jadx_ir::types::WildcardBound;
+            use dexterity_ir::types::WildcardBound;
             match (bound, inner) {
                 (WildcardBound::Unbounded, _) => "?".to_string(),
                 (WildcardBound::Extends, Some(t)) => format!("? extends {}", type_to_string_with_imports(t, imports)),

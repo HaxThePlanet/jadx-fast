@@ -476,7 +476,7 @@ pub fn detect_ternary_assignment(
     then_block: &crate::block_split::BasicBlock,
     else_block: &crate::block_split::BasicBlock,
 ) -> Option<(u16, u32, u32)> {
-    use jadx_ir::instructions::InsnType;
+    use dexterity_ir::instructions::InsnType;
 
     // Find last assignment in then block (excluding control flow)
     let then_assign = then_block.instructions.iter().rev()
@@ -498,8 +498,8 @@ pub fn detect_ternary_assignment(
 }
 
 /// Check if an instruction is control flow
-fn is_control_flow_insn(insn: &jadx_ir::instructions::InsnType) -> bool {
-    use jadx_ir::instructions::InsnType;
+fn is_control_flow_insn(insn: &dexterity_ir::instructions::InsnType) -> bool {
+    use dexterity_ir::instructions::InsnType;
     matches!(
         insn,
         InsnType::If { .. }
@@ -510,8 +510,8 @@ fn is_control_flow_insn(insn: &jadx_ir::instructions::InsnType) -> bool {
 }
 
 /// Get the destination register from an assignment instruction
-fn get_assignment_dest(insn: &jadx_ir::instructions::InsnType) -> Option<(u16, u32)> {
-    use jadx_ir::instructions::InsnType;
+fn get_assignment_dest(insn: &dexterity_ir::instructions::InsnType) -> Option<(u16, u32)> {
+    use dexterity_ir::instructions::InsnType;
     match insn {
         InsnType::Const { dest, .. }
         | InsnType::ConstString { dest, .. }
@@ -539,7 +539,7 @@ mod tests {
     use super::*;
     use crate::block_split::split_blocks;
     use crate::loops::detect_loops;
-    use jadx_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType};
+    use dexterity_ir::instructions::{IfCondition, InsnArg, InsnNode, InsnType};
 
     fn make_if_with_reg(offset: u32, target: u32, reg: u16) -> InsnNode {
         InsnNode::new(

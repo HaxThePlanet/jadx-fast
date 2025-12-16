@@ -2,7 +2,7 @@
 
 use anyhow::{anyhow, Result};
 use base64::Engine;
-use jadx_ir::{Annotation, AnnotationValue};
+use dexterity_ir::{Annotation, AnnotationValue};
 use prost::Message;
 use crate::types::{KotlinClassMetadata, KotlinKind, KotlinFunction, KotlinParameter, KotlinProperty};
 use crate::proto;
@@ -265,7 +265,7 @@ fn build_string_table_from_d2(annot: &KotlinMetadataAnnotation) -> Result<Vec<St
 }
 
 /// Fallback parser using d2 array (toString format)
-pub fn parse_d2_fallback(annot: &KotlinMetadataAnnotation, _cls: &mut jadx_ir::ClassData) -> Result<()> {
+pub fn parse_d2_fallback(annot: &KotlinMetadataAnnotation, _cls: &mut dexterity_ir::ClassData) -> Result<()> {
     // d2 contains human-readable strings from toString()
     // This is a very limited fallback when protobuf parsing fails
     // Format varies but typically contains class name and field/method names

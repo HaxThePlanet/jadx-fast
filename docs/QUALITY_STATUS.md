@@ -35,7 +35,7 @@
 
 ## Performance Comparison
 
-| APK Size | jadx-rust | Java JADX | Result |
+| APK Size | dexterity | Java JADX | Result |
 |----------|-----------|-----------|--------|
 | Small (10KB) | 0.01s / 6MB | 1.85s / 275MB | **185x faster** |
 | Medium (11MB) | 3.59s / 304MB | 14.97s / 5.5GB | **4x faster** |
@@ -45,7 +45,7 @@
 
 ### Example: Simple Activity
 
-Both JADX and jadx-rust produce:
+Both JADX and dexterity produce:
 ```java
 package io.github.skylot.android.smallapp;
 
@@ -77,7 +77,7 @@ public void processData(long l, Throwable th, Integer num, Class cls) {
 }
 ```
 
-**jadx-rust (98% parity):**
+**dexterity (98% parity):**
 ```java
 public void processData(long l, Throwable th, Integer num, Class cls) {
     StringBuilder sb = new StringBuilder();
@@ -107,7 +107,7 @@ public class CameraProp {
 
 ### Example: Generic Types
 
-jadx-rust parses dalvik.annotation.Signature to preserve generic type information:
+dexterity parses dalvik.annotation.Signature to preserve generic type information:
 ```java
 // Field generics
 private final List<Throwable> exceptions;
@@ -129,27 +129,27 @@ The project has a **mixed test situation** - solid infrastructure with significa
 
 ### Working Tests ✓
 
-**1. Golden Tests** (jadx-cli/tests/golden_tests.rs)
+**1. Golden Tests** (dexterity-cli/tests/golden_tests.rs)
 - 4 integration tests that **all pass**
-- Compare jadx-rust output against Java JADX reference implementation
+- Compare dexterity output against Java JADX reference implementation
 - Test real APK/DEX files (small.apk, hello.dex)
 - Sophisticated diff tracking (cosmetic vs semantic differences)
 - Tests expression inlining, package structure, method generation
 
 **2. Unit Tests** - All crates have passing unit tests (248 total):
-- **jadx-dex**: 35 tests (LEB128, MUTF-8, encoded values)
-- **jadx-ir**: 71 tests (type system, descriptors, comparisons)
-- **jadx-passes**: 56 tests (SSA, type inference, region builder, var naming)
-- **jadx-codegen**: 40 tests (class gen, method gen, import collection)
-- **jadx-resources**: 8 tests (AXML, ARSC, string pools)
-- **jadx-deobf**: 23 tests (deobfuscation, alias provider, name mapping)
-- **jadx-cli**: 8 tests (converter, decompiler, gradle export)
-- **jadx-kotlin**: 3 tests (metadata parsing)
-- **jadx-ir (base)**: 4 tests (hierarchy, info)
+- **dexterity-dex**: 35 tests (LEB128, MUTF-8, encoded values)
+- **dexterity-ir**: 71 tests (type system, descriptors, comparisons)
+- **dexterity-passes**: 56 tests (SSA, type inference, region builder, var naming)
+- **dexterity-codegen**: 40 tests (class gen, method gen, import collection)
+- **dexterity-resources**: 8 tests (AXML, ARSC, string pools)
+- **dexterity-deobf**: 23 tests (deobfuscation, alias provider, name mapping)
+- **dexterity-cli**: 8 tests (converter, decompiler, gradle export)
+- **dexterity-kotlin**: 3 tests (metadata parsing)
+- **dexterity-ir (base)**: 4 tests (hierarchy, info)
 
 ### Disabled Tests (Major Gap!)
 
-**675 integration tests** in `jadx-passes/tests/integration.disabled/`:
+**675 integration tests** in `dexterity-passes/tests/integration.disabled/`:
 - 27 test files covering comprehensive scenarios:
   - conditions_tests.rs (complex conditionals, ternary operations)
   - loops_tests.rs, trycatch_tests.rs, switches_tests.rs
@@ -184,27 +184,27 @@ The test quality is **promising but incomplete**. The infrastructure is solid, b
 ## Architecture
 
 ```
-APK/DEX -> jadx-dex -> jadx-ir -> jadx-passes -> jadx-codegen -> Java Source
+APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codegen -> Java Source
                 |           |
-         jadx-resources  jadx-deobf / jadx-kotlin
+         dexterity-resources  dexterity-deobf / dexterity-kotlin
 ```
 
 | Crate | Purpose | Lines |
 |-------|---------|-------|
-| jadx-dex | DEX binary parsing | ~700 |
-| jadx-ir | Intermediate representation | ~3,800 |
-| jadx-passes | SSA, type inference, regions | ~8,500 |
-| jadx-codegen | Java source generation | ~7,800 |
-| jadx-resources | AXML and resources.arsc | ~4,000 |
-| jadx-deobf | Deobfuscation | ~1,600 |
-| jadx-kotlin | Kotlin metadata | ~600 |
-| jadx-cli | CLI application | ~4,000 |
+| dexterity-dex | DEX binary parsing | ~700 |
+| dexterity-ir | Intermediate representation | ~3,800 |
+| dexterity-passes | SSA, type inference, regions | ~8,500 |
+| dexterity-codegen | Java source generation | ~7,800 |
+| dexterity-resources | AXML and resources.arsc | ~4,000 |
+| dexterity-deobf | Deobfuscation | ~1,600 |
+| dexterity-kotlin | Kotlin metadata | ~600 |
+| dexterity-cli | CLI application | ~4,000 |
 
 ## Usage
 
 ```bash
 # Build
-cd crates && cargo build --release -p jadx-cli
+cd crates && cargo build --release -p dexterity-cli
 
 # Basic decompilation
 ./target/release/dexterity -d output/ app.apk
@@ -230,7 +230,7 @@ cd crates && cargo build --release -p jadx-cli
 
 ### Example: JNIBridge (Known Quality Gap)
 
-Complex reflection code with try-catch blocks shows where jadx-rust diverges from JADX output quality. The goal is to match JADX's decompilation output.
+Complex reflection code with try-catch blocks shows where dexterity diverges from JADX output quality. The goal is to match JADX's decompilation output.
 
 **JADX (target quality):**
 ```java
@@ -274,7 +274,7 @@ private static class a implements InvocationHandler {
 }
 ```
 
-**jadx-rust (current output):**
+**dexterity (current output):**
 ```java
 final class a implements InvocationHandler {
     private Object a;
@@ -303,7 +303,7 @@ final class a implements InvocationHandler {
 
 **Quality gaps vs JADX:**
 
-| Aspect | JADX | jadx-rust |
+| Aspect | JADX | dexterity |
 |--------|------|-----------|
 | Variable names | Resolved (`f4a`, `j`, `objArr`) | Unresolved (`r0`, `r1`, `i2`, `cls2`) |
 | Null checks | `object != null` | `object != 0` |
@@ -314,11 +314,11 @@ final class a implements InvocationHandler {
 
 These gaps indicate areas for improvement in variable resolution and control flow reconstruction to achieve JADX-quality output.
 
-## jadx-rust vs Java JADX Summary
+## dexterity vs Java JADX Summary
 
 **Goal:** Produce output that matches Java JADX quality for readability and analysis.
 
-**Current jadx-rust strengths:**
+**Current dexterity strengths:**
 - Raw speed (10-12x faster on small APKs)
 - Resource efficiency and memory stability
 - Complete class extraction including synthetics

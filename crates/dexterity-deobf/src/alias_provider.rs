@@ -2,7 +2,7 @@
 //!
 //! Ported from jadx-core/src/main/java/jadx/core/deobf/DeobfAliasProvider.java
 
-use jadx_ir::{ClassData, FieldData, MethodData};
+use dexterity_ir::{ClassData, FieldData, MethodData};
 use crate::name_mapper::NameMapper;
 use std::sync::atomic::{AtomicU32, Ordering};
 
@@ -160,7 +160,7 @@ impl AliasProvider for DeobfAliasProvider {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use jadx_ir::ArgType;
+    use dexterity_ir::ArgType;
 
     #[test]
     fn test_alias_provider() {

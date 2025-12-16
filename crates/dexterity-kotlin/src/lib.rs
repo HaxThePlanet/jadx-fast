@@ -18,8 +18,8 @@ pub mod proto {
 }
 
 use anyhow::Result;
-use jadx_ir::ClassData;
-use jadx_ir::kotlin_metadata::get_class_alias;
+use dexterity_ir::ClassData;
+use dexterity_ir::kotlin_metadata::get_class_alias;
 
 /// Process Kotlin metadata for a class, extracting and applying names
 pub fn process_kotlin_metadata(cls: &mut ClassData) -> Result<()> {

@@ -1,6 +1,6 @@
 [package]
-name = "jadx-resources"
-description = "Android resource decoding (AXML, ARSC) for jadx-rust"
+name = "dexterity-resources"
+description = "Android resource decoding (AXML, ARSC) for dexterity-rust"
 version.workspace = true
 edition.workspace = true
 license.workspace = true

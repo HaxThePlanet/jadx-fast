@@ -3,8 +3,8 @@
 //! This module generates Java statements from IR instructions.
 //! Works with expr_gen for expressions within statements.
 
-use jadx_ir::instructions::{InsnArg, InsnType, RegisterArg};
-use jadx_ir::ArgType;
+use dexterity_ir::instructions::{InsnArg, InsnType, RegisterArg};
+use dexterity_ir::ArgType;
 
 use crate::expr_gen::ExprGen;
 use crate::type_gen::type_to_string;

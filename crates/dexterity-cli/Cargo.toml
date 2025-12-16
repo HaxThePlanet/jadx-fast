@@ -1,6 +1,6 @@
 [package]
-name = "jadx-cli"
-description = "Command-line interface for jadx-rust - a fast Android DEX/APK decompiler"
+name = "dexterity-cli"
+description = "Command-line interface for dexterity-rust - a fast Android DEX/APK decompiler"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -10,13 +10,13 @@ name = "dexterity"
 path = "src/main.rs"
 
 [dependencies]
-jadx-dex.workspace = true
-jadx-ir.workspace = true
-jadx-passes.workspace = true
-jadx-codegen.workspace = true
-jadx-resources.workspace = true
-jadx-deobf.workspace = true
-jadx-kotlin.workspace = true
+dexterity-dex.workspace = true
+dexterity-ir.workspace = true
+dexterity-passes.workspace = true
+dexterity-codegen.workspace = true
+dexterity-resources.workspace = true
+dexterity-deobf.workspace = true
+dexterity-kotlin.workspace = true
 clap.workspace = true
 indicatif.workspace = true
 rayon.workspace = true

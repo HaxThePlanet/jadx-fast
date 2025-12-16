@@ -1,6 +1,6 @@
 [package]
-name = "jadx-ir"
-description = "Intermediate representation types for jadx-rust"
+name = "dexterity-ir"
+description = "Intermediate representation types for dexterity-rust"
 version.workspace = true
 edition.workspace = true
 license.workspace = true

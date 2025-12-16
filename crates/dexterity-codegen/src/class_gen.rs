@@ -13,7 +13,7 @@
 
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 
-use jadx_ir::{Annotation, AnnotationVisibility, ArgType, ClassData, FieldData, FieldValue};
+use dexterity_ir::{Annotation, AnnotationVisibility, ArgType, ClassData, FieldData, FieldValue};
 
 use crate::access_flags::{self, AccessContext};
 use crate::dex_info::DexInfoProvider;
@@ -301,10 +301,10 @@ impl ImportCollector {
     /// Collect types from method body instructions
     fn collect_from_instructions(
         &mut self,
-        instructions: &[jadx_ir::instructions::InsnNode],
+        instructions: &[dexterity_ir::instructions::InsnNode],
         dex_info: Option<&std::sync::Arc<dyn DexInfoProvider>>
     ) {
-        use jadx_ir::instructions::InsnType;
+        use dexterity_ir::instructions::InsnType;
 
         for insn in instructions {
             // Check result type
@@ -401,7 +401,7 @@ pub struct ClassGenConfig {
     /// Inline synthetic bridge methods (access$XXX methods)
     pub inline_methods: bool,
     /// Class hierarchy for improved type inference (LCA, subtype checking)
-    pub hierarchy: Option<std::sync::Arc<jadx_ir::ClassHierarchy>>,
+    pub hierarchy: Option<std::sync::Arc<dexterity_ir::ClassHierarchy>>,
 }
 
 impl Default for ClassGenConfig {
@@ -694,6 +694,15 @@ fn get_inner_class_simple_name(class_type: &str) -> String {
 
 use crate::type_gen::type_to_string_with_imports;
 
+/// Add a rename comment if the entity was renamed during deobfuscation
+fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str) {
+    code.start_line()
+        .add("/* renamed from: ")
+        .add(original_name)
+        .add(" */")
+        .newline();
+}
+
 /// Add class declaration (modifiers, name, extends, implements)
 fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, code: &mut W) {
     // Add "loaded from" comment for top-level classes
@@ -706,6 +715,13 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
         if should_emit_annotation(annotation) {
             generate_annotation(annotation, code);
             code.newline();
+        }
+    }
+
+    // Add rename comment if class was renamed during deobfuscation
+    if let Some(ref alias) = class.alias {
+        if alias != &class.simple_name() {
+            add_renamed_comment(code, &class.simple_name());
         }
     }
 
@@ -804,6 +820,13 @@ fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>
         }
     }
 
+    // Add rename comment if field was renamed during deobfuscation
+    if let Some(ref alias) = field.alias {
+        if alias != &field.name {
+            add_renamed_comment(code, &field.name);
+        }
+    }
+
     code.start_line();
 
     // Modifiers
@@ -829,18 +852,18 @@ fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>
 }
 
 /// Add field initial value
-fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &jadx_ir::ArgType, escape_unicode: bool, code: &mut W) {
+fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &dexterity_ir::ArgType, escape_unicode: bool, code: &mut W) {
     match value {
-        FieldValue::Byte(v) => code.add(&literal_to_string(*v as i64, &jadx_ir::ArgType::Byte)),
-        FieldValue::Short(v) => code.add(&literal_to_string(*v as i64, &jadx_ir::ArgType::Short)),
-        FieldValue::Char(v) => code.add(&literal_to_string(*v as i64, &jadx_ir::ArgType::Char)),
-        FieldValue::Int(v) => code.add(&literal_to_string(*v as i64, &jadx_ir::ArgType::Int)),
-        FieldValue::Long(v) => code.add(&literal_to_string(*v, &jadx_ir::ArgType::Long)),
+        FieldValue::Byte(v) => code.add(&literal_to_string(*v as i64, &dexterity_ir::ArgType::Byte)),
+        FieldValue::Short(v) => code.add(&literal_to_string(*v as i64, &dexterity_ir::ArgType::Short)),
+        FieldValue::Char(v) => code.add(&literal_to_string(*v as i64, &dexterity_ir::ArgType::Char)),
+        FieldValue::Int(v) => code.add(&literal_to_string(*v as i64, &dexterity_ir::ArgType::Int)),
+        FieldValue::Long(v) => code.add(&literal_to_string(*v, &dexterity_ir::ArgType::Long)),
         FieldValue::Float(v) => code.add(&format!("{}f", v)),
         FieldValue::Double(v) => code.add(&format!("{}d", v)),
         FieldValue::String(s) => code.add(&crate::type_gen::escape_string_with_unicode(s, escape_unicode)),
         FieldValue::Type(t) => {
-            code.add(&type_to_string(&jadx_ir::ArgType::Object(t.clone())));
+            code.add(&type_to_string(&dexterity_ir::ArgType::Object(t.clone())));
             code.add(".class")
         }
         FieldValue::Boolean(b) => code.add(if *b { "true" } else { "false" }),
@@ -848,8 +871,8 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &jadx_ir::ArgT
         FieldValue::Array(values) => {
             // Get element type from field type
             let elem_type = match field_type {
-                jadx_ir::ArgType::Array(inner) => inner.as_ref().clone(),
-                _ => jadx_ir::ArgType::Unknown,
+                dexterity_ir::ArgType::Array(inner) => inner.as_ref().clone(),
+                _ => dexterity_ir::ArgType::Unknown,
             };
             code.add("{");
             for (i, v) in values.iter().enumerate() {
@@ -879,7 +902,7 @@ fn add_field_value<W: CodeWriter>(value: &FieldValue, field_type: &jadx_ir::ArgT
 
 /// Check if a method is a default constructor (just calls super(), no other code)
 /// These are implicit in Java and can be omitted for cleaner output
-fn is_default_constructor(method: &jadx_ir::MethodData) -> bool {
+fn is_default_constructor(method: &dexterity_ir::MethodData) -> bool {
     // Must be a constructor
     if !method.is_constructor() {
         return false;
@@ -905,7 +928,7 @@ fn is_default_constructor(method: &jadx_ir::MethodData) -> bool {
     }
 
     // Check that instructions are just invoke-direct super() and return
-    use jadx_ir::instructions::{InsnType, InvokeKind};
+    use dexterity_ir::instructions::{InsnType, InvokeKind};
     let mut has_super_init = false;
     let mut has_return = false;
 
@@ -933,7 +956,7 @@ fn is_default_constructor(method: &jadx_ir::MethodData) -> bool {
 
 /// Check if a method is a synthetic enum method that should be filtered
 /// Enums have auto-generated values() and valueOf() methods
-fn is_enum_synthetic_method(method: &jadx_ir::MethodData, is_enum_class: bool) -> bool {
+fn is_enum_synthetic_method(method: &dexterity_ir::MethodData, is_enum_class: bool) -> bool {
     if !is_enum_class {
         return false;
     }
@@ -946,7 +969,7 @@ fn is_enum_synthetic_method(method: &jadx_ir::MethodData, is_enum_class: bool) -
 
     // Check for valueOf() method: public static EnumType valueOf(String)
     if method.name == "valueOf" && method.arg_types.len() == 1 {
-        if let jadx_ir::ArgType::Object(name) = &method.arg_types[0] {
+        if let dexterity_ir::ArgType::Object(name) = &method.arg_types[0] {
             if name == "java/lang/String" {
                 return true;
             }
@@ -958,8 +981,8 @@ fn is_enum_synthetic_method(method: &jadx_ir::MethodData, is_enum_class: bool) -
         // Enum constructors have (String name, int ordinal, ...) parameters
         // The first two args are the implicit name and ordinal
         if method.arg_types.len() >= 2 {
-            let first_is_string = matches!(&method.arg_types[0], jadx_ir::ArgType::Object(n) if n == "java/lang/String");
-            let second_is_int = matches!(&method.arg_types[1], jadx_ir::ArgType::Int);
+            let first_is_string = matches!(&method.arg_types[0], dexterity_ir::ArgType::Object(n) if n == "java/lang/String");
+            let second_is_int = matches!(&method.arg_types[1], dexterity_ir::ArgType::Int);
             if first_is_string && second_is_int {
                 return true;
             }
@@ -971,7 +994,7 @@ fn is_enum_synthetic_method(method: &jadx_ir::MethodData, is_enum_class: bool) -
 
 /// Check if a field is a synthetic enum field that should be filtered
 /// Enums have auto-generated $VALUES field
-fn is_enum_synthetic_field(field: &jadx_ir::FieldData, is_enum_class: bool) -> bool {
+fn is_enum_synthetic_field(field: &dexterity_ir::FieldData, is_enum_class: bool) -> bool {
     if !is_enum_class {
         return false;
     }
@@ -1011,7 +1034,7 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
     code: &mut W,
 ) {
     use crate::method_gen::generate_method_with_inner_classes;
-    use jadx_ir::MethodInlineAttr;
+    use dexterity_ir::MethodInlineAttr;
 
     let is_enum = class.is_enum();
     let mut first_method = true;
@@ -1047,7 +1070,7 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use jadx_ir::ArgType;
+    use dexterity_ir::ArgType;
 
     fn make_class(name: &str, flags: u32) -> ClassData {
         let mut class = ClassData::new(format!("L{};", name), flags);

@@ -4,8 +4,8 @@
 //! and similar method calls. This is a fallback when Kotlin metadata is unavailable.
 
 use std::collections::HashSet;
-use jadx_ir::{MethodData, InsnNode};
-use jadx_ir::instructions::{InsnType, InsnArg};
+use dexterity_ir::{MethodData, InsnNode};
+use dexterity_ir::instructions::{InsnType, InsnArg};
 
 /// Process Kotlin Intrinsics calls in a method to extract parameter names
 pub fn process_kotlin_intrinsics(method: &mut MethodData) {

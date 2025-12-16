@@ -6,8 +6,8 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use jadx_ir::attributes::AFlag;
-use jadx_ir::instructions::{InsnNode, InsnType};
+use dexterity_ir::attributes::AFlag;
+use dexterity_ir::instructions::{InsnNode, InsnType};
 
 /// A basic block in the control flow graph
 #[derive(Debug, Clone)]
@@ -309,7 +309,7 @@ fn find_next_block(block_id: u32, all_blocks: &[u32]) -> Option<&u32> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use jadx_ir::instructions::{InsnArg, IfCondition};
+    use dexterity_ir::instructions::{InsnArg, IfCondition};
 
     fn make_nop(offset: u32) -> InsnNode {
         InsnNode::new(InsnType::Nop, offset)

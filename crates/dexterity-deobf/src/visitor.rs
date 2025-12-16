@@ -3,7 +3,7 @@
 //! Ported from jadx-core/src/main/java/jadx/core/deobf/DeobfuscatorVisitor.java
 
 use std::sync::Arc;
-use jadx_ir::ClassData;
+use dexterity_ir::ClassData;
 use crate::conditions::DeobfCondition;
 use crate::alias_provider::AliasProvider;
 use crate::registry::AliasRegistry;
@@ -91,7 +91,7 @@ where
     }
 
     /// Check if a method is likely an override (has @Override annotation)
-    fn is_likely_override(method: &jadx_ir::MethodData) -> bool {
+    fn is_likely_override(method: &dexterity_ir::MethodData) -> bool {
         method.annotations.iter().any(|a| {
             a.annotation_type == "java/lang/Override"
                 || a.annotation_type.ends_with("/Override")
@@ -142,7 +142,7 @@ mod tests {
     use super::*;
     use crate::conditions::{CombinedCondition, LengthCondition, ValidityCondition};
     use crate::alias_provider::DeobfAliasProvider;
-    use jadx_ir::{ArgType, FieldData, MethodData};
+    use dexterity_ir::{ArgType, FieldData, MethodData};
 
     #[test]
     fn test_visitor() {
