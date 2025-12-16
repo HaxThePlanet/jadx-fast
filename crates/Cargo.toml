@@ -80,6 +80,7 @@ dexterity-codegen = { path = "dexterity-codegen" }
 dexterity-resources = { path = "dexterity-resources" }
 dexterity-deobf = { path = "dexterity-deobf" }
 dexterity-kotlin = { path = "dexterity-kotlin" }
+dexterity-llm-postproc = { path = "dexterity-llm-postproc" }
 
 # Fast release builds (default: cargo build --release)
 [profile.release]

@@ -17,6 +17,7 @@ dexterity-codegen.workspace = true
 dexterity-resources.workspace = true
 dexterity-deobf.workspace = true
 dexterity-kotlin.workspace = true
+dexterity-llm-postproc.workspace = true
 clap.workspace = true
 indicatif.workspace = true
 rayon.workspace = true
@@ -27,6 +28,7 @@ tracing-subscriber.workspace = true
 zip.workspace = true
 tikv-jemallocator = "0.6"
 rustc-hash.workspace = true
+tokio = { version = "1", features = ["full"] }
 
 [dev-dependencies]
 pretty_assertions.workspace = true
