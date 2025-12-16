@@ -58,9 +58,9 @@ Open `ISSUE_TRACKER.md` and find an issue with:
 
 Example flow:
 ```
-Pick: CRITICAL-001 (Undefined variable i2)
-Root Cause: Loop boundary detection in region_builder.rs
-Related Files: region_builder.rs, cfg.rs, ssa.rs
+Pick: CRITICAL-002 (Undefined variable v2 in nested scopes)
+Root Cause: Variables in nested scopes or after conditionals not properly tracked
+Related Files: region_builder.rs, ssa.rs, body_gen.rs
 Estimated Time: 2-4 hours
 ```
 
@@ -388,11 +388,16 @@ Each fixed issue moves the needle:
 - Medium fixes: +1-3% improvement
 - Large fixes: +3-5% improvement
 
-Current blockers preventing production use:
-1. Undefined variables (blocks all)
-2. Type mismatches (blocks all)
-3. Logic inversions (blocks all)
-4. Register-based names (high quality impact)
+**Recent Progress (Dec 16, 2025):**
+- CRITICAL-001: Undefined loop variables - FIXED
+- CRITICAL-003: Type mismatch (null as 0) - FIXED
+- CRITICAL-005: Logic inversion in null checks - FIXED
+
+**Remaining blockers preventing production use:**
+1. Undefined variables in nested scopes (CRITICAL-002)
+2. Type mismatches in comparisons (CRITICAL-004)
+3. Missing method bodies (CRITICAL-006)
+4. Register-based names (HIGH-001, high quality impact)
 
 Fixing any of these helps move toward production readiness.
 
