@@ -70,6 +70,7 @@ Current focus areas for reaching JADX parity:
 | **5** | Ternary detection | Convert if-else to `? :` expressions | ✅ Done (Dec 15) |
 | **6** | Arithmetic simplification | Clean up `x + (-1)` → `x - 1`, boolean XOR, increment/decrement patterns (`i++`, `i--`, `i += N`), bitwise-to-logical conversion, algebraic identities (`x+0`→`x`, `x*0`→`0`) | ✅ Done (Dec 15) |
 | **7** | Constant inlining | Inline single-use constants into expressions | ✅ Done (Dec 15) |
+| **8** | Condition simplification | Negate conditions intelligently (`!(a < b)` → `a >= b`), double negation elimination | ✅ Done (Dec 15) |
 
 ## Recent Implementation Details
 
@@ -191,13 +192,38 @@ Intelligent constant and identity folding optimizations eliminate redundant oper
 | `x \| -1` | `-1` | Bitwise OR with all bits set yields all bits set |
 | `x % 1` | `0` | Modulo one always yields zero |
 
-**Implementation:** File: `/crates/dexterity-codegen/src/simplify.rs`
+**Algebraic Transformations** (produce simpler equivalent expressions):
+
+| Expression | Simplification | Reason |
+|------------|---|---|
+| `x + (-N)` | `x - N` | Addition of negative to subtraction |
+| `x - (-N)` | `x + N` | Subtraction of negative to addition |
+| `0 - x` | `-x` | Zero minus x is negation |
+
+**Implementation:** File: `/crates/dexterity-passes/src/simplify.rs`
 
 These optimizations run during code generation and eliminate redundant arithmetic expressions before they reach the output, reducing unnecessary operations and improving code clarity.
 
 **Test Coverage:**
-- ✅ 16 simplify unit tests verify all patterns
+- ✅ 18 simplify unit tests verify all arithmetic patterns (18/18 - covers identity, constant folding, subtraction negatives, zero minus x)
 - ✅ All 683 integration tests pass
+
+### Condition Simplification
+
+Negated conditions are simplified to produce cleaner comparison operators:
+
+**Negation Pushing:**
+
+| Pattern | Simplification | Reason |
+|---------|----------------|--------|
+| `!(a < b)` | `a >= b` | Flip comparison operator |
+| `!(a == b)` | `a != b` | Flip equality operator |
+| `!(a >= b)` | `a < b` | Flip comparison operator |
+| `!!x` | `x` | Double negation elimination |
+
+**Implementation:** File: `/crates/dexterity-codegen/src/body_gen.rs`
+
+The `generate_condition` function detects `Condition::Not(Condition::Simple { ... })` patterns and pushes the negation into the inner condition by flipping the `negated` flag, avoiding unnecessary `!` wrappers in the output.
 
 ## Quick Start
 
@@ -300,14 +326,14 @@ Dexterity  │  112  │  3.88s │  9,607
 | DEX Parsing | ✅ 100% | All 224 Dalvik opcodes |
 | Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
 | Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
-| Code Generation | 🔶 99% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion, compare qualification done; only for-each disabled |
+| Code Generation | 🔶 99% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion, compare qualification, condition simplification done; only for-each disabled |
 | Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files |
 | Variable Naming | ✅ 100% | Full JADX parity |
 | Type Formatting | ✅ 100% | Special values (MIN/MAX_VALUE, NaN, Infinity) for numeric types |
-| Optimization Passes | 🔶 80% | Deboxing, algebraic simplification (identity/constant folding), const inline, code shrink, enum visitor done (6/16 core passes) |
+| Optimization Passes | 🔶 82% | Deboxing, algebraic simplification (identity/constant folding/negation), condition negation, const inline, code shrink, enum visitor done (7/16 core passes) |
 
 ## CLI Reference
 
@@ -647,9 +673,9 @@ All test suites are passing with 100% success rate. All 683 integration tests ar
 | dexterity-dex | 35 | 35 | 0 | ✅ All Passing |
 | dexterity-ir | 40 | 40 | 0 | ✅ All Passing |
 | dexterity-kotlin | 3 | 3 | 0 | ✅ All Passing |
-| dexterity-passes | 77 | 77 | 0 | ✅ All Passing |
+| dexterity-passes | 90 | 90 | 0 | ✅ All Passing |
 | dexterity-resources | 8 | 8 | 0 | ✅ All Passing |
-| **TOTAL** | **964** | **964** | **0** | **✅ 100% Pass Rate** |
+| **TOTAL** | **977** | **977** | **0** | **✅ 100% Pass Rate** |
 
 ### Integration Test Categories
 
