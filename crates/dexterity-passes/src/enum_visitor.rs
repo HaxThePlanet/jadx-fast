@@ -85,8 +85,9 @@ where
         return None;
     }
 
-    // Must extend java.lang.Enum
-    if class.superclass.as_deref() != Some("Ljava/lang/Enum;") {
+    // Must extend java.lang.Enum (handle both formats)
+    let super_class = class.superclass.as_deref();
+    if super_class != Some("Ljava/lang/Enum;") && super_class != Some("java/lang/Enum") {
         return None;
     }
 
@@ -179,21 +180,12 @@ where
     F: Fn(u32) -> Option<String>,
 {
     let insns = clinit.get_instructions();
-
-    // Debug: print for LogLevel
-    if class.class_type.contains("LogLevel") {
-        eprintln!("[DEBUG] LogLevel clinit has {} instructions", insns.len());
-    }
-
     if insns.is_empty() {
         return None;
     }
 
     let mut fields: Vec<EnumFieldInfo> = Vec::new();
     let mut pending_constructs: HashMap<u16, PendingConstruct> = HashMap::new();
-
-    // Debug: Check what instructions we have
-    let _debug_class_type = &class.class_type;
 
     // Pass 1: Find constructor calls and store in map by register
     for insn in insns.iter() {
@@ -210,12 +202,6 @@ where
                 if args.len() >= 3 {
                     let name = extract_string_arg_with_lookup(&args[1], insns, string_lookup);
                     let ordinal = extract_int_arg(&args[2], insns);
-
-                    // Debug: print what we found for LogLevel
-                    if _debug_class_type.contains("LogLevel") {
-                        eprintln!("[DEBUG] LogLevel: name={:?}, ordinal={:?}, args.len={}",
-                            name, ordinal, args.len());
-                    }
 
                     if let (Some(name), Some(ordinal)) = (name, ordinal) {
                         // Extract extra constructor arguments (skip name, ordinal, get rest)
