@@ -4,6 +4,58 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Resource Processing Fixes - 1:1 JADX Parity (Dec 17, 2025)
+
+**Three critical fixes to arsc.rs achieve 1:1 identical resource output with JADX:**
+
+#### Fix 1: Compact Complex Entry Detection (Critical Bag Item Parsing Bug)
+
+**Problem:** Style entries with compact complex format (size==16) were incorrectly parsed as simple entries, causing attribute name mismatches in styles.xml.
+
+**Root Cause:** The FLAG_COMPLEX flag alone was insufficient. JADX also checks `size==16` to identify compact complex entries where the size field indicates the entry format.
+
+**Solution:**
+```rust
+// Note: JADX checks both FLAG_COMPLEX flag AND size==16 (compact complex entries)
+let is_complex = (flags & FLAG_COMPLEX) != 0 || size_or_flags == 16;
+```
+
+**Impact:** Style items now correctly parsed, resolving all attribute name mismatches.
+
+---
+
+#### Fix 2: Style Parent Name Resolution via ANDROID_RES_MAP
+
+**Problem:** Android framework style parents (package ID 0x01) showed raw hex IDs like `@0x01030073` instead of readable names like `@android:style/Widget.Button`.
+
+**Root Cause:** Parent style IDs from the Android framework weren't being resolved through `ANDROID_RES_MAP`.
+
+**Solution:** Added ANDROID_RES_MAP lookup in `generate_styles_xml()` for framework style parents.
+
+**Impact:** Style parents now show readable Android framework names.
+
+---
+
+#### Fix 3: Attribute Reference Formatting with android: Prefix
+
+**Problem:** Android framework attributes in style items showed incorrect format without the `android:` prefix.
+
+**Root Cause:** TYPE_ATTRIBUTE values from Android framework weren't getting proper prefix formatting.
+
+**Solution:** Enhanced `decode_value()` for TYPE_ATTRIBUTE to check both ANDROID_RES_MAP and ANDROID_ATTR_MAP with proper `?android:` prefix.
+
+**Impact:** Attribute references now correctly formatted as `?android:attr/name`, matching JADX output exactly.
+
+---
+
+**Files Changed:**
+- `crates/dexterity-resources/src/arsc.rs` - All three fixes
+
+**Verification:**
+Resource output is now **1:1 identical** with JADX for: strings.xml, styles.xml, colors.xml, arrays.xml, public.xml, and AndroidManifest.xml.
+
+---
+
 ### Four Major Decompilation Features (Dec 17, 2025)
 
 **Four significant features completed to improve decompilation quality:**

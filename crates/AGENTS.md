@@ -85,13 +85,19 @@ Emit Java source from IR.
 
 ### dexterity-resources (Resource Decoding)
 
-Android resource file decoding.
+Android resource file decoding with **1:1 JADX parity** (Dec 17, 2025).
 
 **Key components:**
 - `axml.rs` - Binary XML parsing (AndroidManifest, layouts)
-- `arsc.rs` - resources.arsc parsing (strings, dimensions, colors)
-- `string_pool.rs` - String pool decoding
+- `arsc.rs` - resources.arsc parsing (strings, styles, dimensions, colors)
+- `string_pool.rs` - String pool decoding (UTF-8/UTF-16)
 - `constants.rs` - Android resource type constants
+- `android_res_map.rs` - Android framework resource name lookups (10,000+ entries)
+
+**Recent fixes (Dec 17, 2025):**
+- Compact complex entry detection (size==16 check for bag items)
+- Style parent name resolution via ANDROID_RES_MAP
+- Attribute reference formatting with proper android: prefix
 
 ### dexterity-deobf (Deobfuscation)
 

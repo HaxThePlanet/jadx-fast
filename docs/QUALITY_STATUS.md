@@ -55,6 +55,32 @@
 
 ## Recent Major Fixes
 
+### Dec 17, 2025 - Resource Processing Fixes (1:1 JADX Parity)
+
+**Fix 11: Compact Complex Entry Detection (Critical Bag Item Parsing)**
+- **Before:** Style entries with size==16 parsed as simple entries, causing attribute name mismatches
+- **After:** Correct complex entry detection using dual check: `FLAG_COMPLEX || size==16`
+- **Root Cause:** JADX checks both FLAG_COMPLEX flag AND size==16 for compact complex entries
+- **Impact:** Style items now correctly parsed, all attribute name mismatches resolved
+
+**Fix 12: Style Parent Name Resolution via ANDROID_RES_MAP**
+- **Before:** Android framework style parents showed raw hex IDs like `@0x01030073`
+- **After:** Readable names like `@android:style/Widget.Button`
+- **Root Cause:** Framework style parent IDs (package 0x01) weren't resolved through ANDROID_RES_MAP
+- **Impact:** Style parents now show readable Android framework names
+
+**Fix 13: Attribute Reference Formatting with android: Prefix**
+- **Before:** Framework attributes missing `android:` prefix
+- **After:** Correct `?android:attr/name` format
+- **Root Cause:** TYPE_ATTRIBUTE values from Android framework weren't getting proper prefix formatting
+- **Impact:** Attribute references now match JADX output exactly
+
+**Files Changed:** `crates/dexterity-resources/src/arsc.rs`
+
+**Verification:** Resource output now **1:1 identical** with JADX for strings.xml, styles.xml, colors.xml, arrays.xml, public.xml, and AndroidManifest.xml.
+
+---
+
 ### Dec 17, 2025 - Ternary IR Type and Fallback Mode
 
 **Fix 9: Ternary IR Type Support**
