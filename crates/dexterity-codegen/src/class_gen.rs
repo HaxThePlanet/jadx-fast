@@ -578,8 +578,8 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
     code.add(" {").newline();
     code.inc_indent();
 
-    // Fields (use simple names when imports available)
-    add_fields(class, imports.as_ref(), config.escape_unicode, code);
+    // Fields (use simple names when imports available, pass dex_info for enum string lookup)
+    add_fields(class, imports.as_ref(), config.escape_unicode, dex_info.as_ref(), code);
 
     // Nested inner classes (generated after fields, before methods for Java convention)
     if let Some(nested) = nested_inner_classes {
@@ -695,8 +695,8 @@ fn add_inner_class_declaration<W: CodeWriter>(
     code.add(" {").newline();
     code.inc_indent();
 
-    // Fields
-    add_fields(class, imports, config.escape_unicode, code);
+    // Fields (pass dex_info for enum string lookup)
+    add_fields(class, imports, config.escape_unicode, dex_info.as_ref(), code);
 
     // Methods
     add_methods_with_inner_classes(class, config, imports, dex_info, inner_classes, code);
@@ -813,14 +813,30 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
 }
 
 /// Add field declarations
-fn add_fields<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, escape_unicode: bool, code: &mut W) {
+fn add_fields<W: CodeWriter>(
+    class: &ClassData,
+    imports: Option<&BTreeSet<String>>,
+    escape_unicode: bool,
+    dex_info: Option<&std::sync::Arc<dyn DexInfoProvider>>,
+    code: &mut W,
+) {
     let is_enum = class.is_enum();
 
     // For enum classes, generate proper enum constant declarations
     if is_enum {
-        // Analyze the enum to extract constant info
-        if let Some(enum_info) = dexterity_passes::analyze_enum_class(class) {
-            add_enum_constants(class, &enum_info, code);
+        // Analyze the enum to extract constant info with string lookup
+        let enum_info = if let Some(dex) = dex_info {
+            let dex_clone = dex.clone();
+            dexterity_passes::analyze_enum_class_with_strings(
+                class,
+                Some(move |idx: u32| dex_clone.get_string(idx)),
+            )
+        } else {
+            dexterity_passes::analyze_enum_class(class)
+        };
+
+        if let Some(info) = enum_info {
+            add_enum_constants(class, &info, code);
         } else {
             // Fallback: generate enum constants without arguments
             add_enum_constants_fallback(class, code);
@@ -963,6 +979,7 @@ fn enum_arg_to_string(arg: &dexterity_passes::EnumArg) -> String {
             }
         }
         EnumArg::Bool(b) => if *b { "true" } else { "false" }.to_string(),
+        EnumArg::String(s) => crate::type_gen::escape_string(s),
         EnumArg::Null => "null".to_string(),
         EnumArg::EnumRef(name) => name.clone(),
         EnumArg::Other => "/* unknown */".to_string(),

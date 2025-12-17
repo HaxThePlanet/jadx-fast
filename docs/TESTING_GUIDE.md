@@ -554,6 +554,119 @@ diff /tmp/expected.java /tmp/actual.java
 
 ---
 
+## Reference Test APKs
+
+The `apks/` directory contains reference APKs for benchmarking and quality testing. These APKs are critical for validating decompilation quality and performance.
+
+### APK Files
+
+| APK | Size | Description |
+|-----|------|-------------|
+| `small.apk` | 9.9 KB | Minimal test APK - fast iteration, basic feature validation |
+| `medium.apk` | 10.4 MB | Mid-size app - comprehensive testing, ~13K classes |
+| `large.apk` | 51.6 MB | Large production app - stress testing, ~18K classes |
+| `badboy-x86.apk` | 24.7 MB | x86 architecture APK - architecture compatibility testing |
+
+### Decompilation Output Structure
+
+After running both decompilers, outputs are organized as:
+
+```
+output/
+├── dexterity/           # Dexterity (Rust) output
+│   ├── small/
+│   │   ├── sources/     # Decompiled Java source files
+│   │   └── resources/   # Extracted resources (AndroidManifest.xml, etc.)
+│   ├── medium/
+│   │   ├── sources/
+│   │   └── resources/
+│   ├── large/
+│   │   ├── sources/
+│   │   └── resources/
+│   └── badboy-x86/
+│       ├── sources/
+│       └── resources/
+│
+└── jadx/                # JADX (Java) output - reference implementation
+    ├── small/
+    │   ├── sources/
+    │   └── resources/
+    ├── medium/
+    │   ├── sources/
+    │   └── resources/
+    ├── large/
+    │   ├── sources/
+    │   └── resources/
+    └── badboy-x86/
+        ├── sources/
+        └── resources/
+```
+
+### Decompilation Commands
+
+**Build Dexterity (56 cores):**
+```bash
+cd /mnt/nvme4tb/jadx-rust/crates
+cargo build --release -j 56
+```
+
+**Run Dexterity on APK:**
+```bash
+./target/release/dexterity -d output/dexterity/small apks/small.apk
+./target/release/dexterity -d output/dexterity/medium apks/medium.apk
+./target/release/dexterity -d output/dexterity/large apks/large.apk
+```
+
+**Run JADX on APK:**
+```bash
+jadx -d output/jadx/small apks/small.apk
+jadx -d output/jadx/medium apks/medium.apk
+jadx -d output/jadx/large apks/large.apk
+```
+
+### Performance Benchmarks (56-core system)
+
+| APK | Dexterity | JADX | Speedup |
+|-----|-----------|------|---------|
+| small.apk | 0.01s | 2.1s | **165x** |
+| medium.apk | 5.5s | 18s | **3.3x** |
+| large.apk | 8.0s | 19s | **2.4x** |
+
+### Output Statistics
+
+| APK | Dexterity Java Files | JADX Java Files |
+|-----|---------------------|-----------------|
+| small | 1 | 2 |
+| medium | 6,032 | 10,074 |
+| large | 9,624 | 12,822 |
+
+**Note:** File count differences are due to:
+- Dexterity filters framework classes (android.*, androidx.*, kotlin.*, kotlinx.*) by design
+- JADX includes all classes including framework stubs
+
+### Quality Comparison
+
+Use the QA tool to compare outputs:
+
+```bash
+# Build QA tool
+cargo build --release -p dexterity-qa
+
+# Compare outputs for an APK
+./target/release/dexterity-qa \
+  --jadx-path output/jadx/medium/sources \
+  --dexterity-path output/dexterity/medium/sources \
+  --detailed
+```
+
+See `qa_reports/` for pre-generated comparison reports:
+- `qa_reports/small.md` - Small APK quality report
+- `qa_reports/medium.md` - Medium APK quality report
+- `qa_reports/large.md` - Large APK quality report
+- `qa_reports/COMPARISON_REPORT.md` - Overall comparison summary
+
+---
+
 **Last Updated: 2025-12-16**
 **For workflow, see: `LLM_AGENT_GUIDE.md`**
 **For issues, see: `ISSUE_TRACKER.md`**

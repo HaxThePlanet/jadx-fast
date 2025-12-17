@@ -53,7 +53,7 @@ pub use simplify::{simplify_instructions, SimplifyResult};
 pub use const_inline::{inline_constants, ConstInlineResult};
 pub use code_shrink::{shrink_code, CodeShrinkResult, WrapTarget};
 pub use enum_visitor::{
-    analyze_enum_class, is_enum_synthetic_method, is_values_field,
+    analyze_enum_class, analyze_enum_class_with_strings, is_enum_synthetic_method, is_values_field,
     EnumArg, EnumClassInfo, EnumFieldInfo, EnumVisitorResult,
 };
 

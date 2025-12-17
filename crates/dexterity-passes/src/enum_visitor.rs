@@ -46,6 +46,8 @@ pub enum EnumArg {
     Float(f64),
     /// Boolean literal
     Bool(bool),
+    /// String literal
+    String(String),
     /// Null
     Null,
     /// Reference to another enum field
@@ -65,8 +67,19 @@ pub struct EnumVisitorResult {
     pub analyzed_count: usize,
 }
 
-/// Analyze a class for enum patterns
+/// Analyze a class for enum patterns (without string lookup - uses field names as fallback)
 pub fn analyze_enum_class(class: &ClassData) -> Option<EnumClassInfo> {
+    analyze_enum_class_with_strings(class, None::<fn(u32) -> Option<String>>)
+}
+
+/// Analyze a class for enum patterns with optional string lookup
+///
+/// The `string_lookup` function resolves string_idx values to actual strings from the DEX pool.
+/// This enables extraction of enum constructor arguments.
+pub fn analyze_enum_class_with_strings<F>(class: &ClassData, string_lookup: Option<F>) -> Option<EnumClassInfo>
+where
+    F: Fn(u32) -> Option<String>,
+{
     // Must be an enum class
     if !class.is_enum() {
         return None;
@@ -94,7 +107,7 @@ pub fn analyze_enum_class(class: &ClassData) -> Option<EnumClassInfo> {
 
     // Analyze the static initializer to extract enum fields
     let clinit = &class.methods[clinit_idx];
-    let fields = extract_enum_fields(class, clinit)?;
+    let fields = extract_enum_fields_with_strings(class, clinit, &string_lookup)?;
     info.fields = fields;
 
     Some(info)
@@ -151,15 +164,36 @@ fn find_values_field(class: &ClassData) -> Option<usize> {
         .position(|f| type_is_array_of_class(&f.field_type, &class.class_type))
 }
 
-/// Extract enum fields from the static initializer
+/// Extract enum fields from the static initializer (without string lookup)
 fn extract_enum_fields(class: &ClassData, clinit: &MethodData) -> Option<Vec<EnumFieldInfo>> {
+    extract_enum_fields_with_strings(class, clinit, &None::<fn(u32) -> Option<String>>)
+}
+
+/// Extract enum fields from the static initializer with optional string lookup
+fn extract_enum_fields_with_strings<F>(
+    class: &ClassData,
+    clinit: &MethodData,
+    string_lookup: &Option<F>,
+) -> Option<Vec<EnumFieldInfo>>
+where
+    F: Fn(u32) -> Option<String>,
+{
     let insns = clinit.get_instructions();
+
+    // Debug: print for LogLevel
+    if class.class_type.contains("LogLevel") {
+        eprintln!("[DEBUG] LogLevel clinit has {} instructions", insns.len());
+    }
+
     if insns.is_empty() {
         return None;
     }
 
     let mut fields: Vec<EnumFieldInfo> = Vec::new();
     let mut pending_constructs: HashMap<u16, PendingConstruct> = HashMap::new();
+
+    // Debug: Check what instructions we have
+    let _debug_class_type = &class.class_type;
 
     // Pass 1: Find constructor calls and store in map by register
     for insn in insns.iter() {
@@ -174,13 +208,19 @@ fn extract_enum_fields(class: &ClassData, clinit: &MethodData) -> Option<Vec<Enu
             if let InsnArg::Register(reg) = &args[0] {
                 // Check if args[1] is a string (enum name) and args[2] is int (ordinal)
                 if args.len() >= 3 {
-                    let name = extract_string_arg(&args[1], insns);
+                    let name = extract_string_arg_with_lookup(&args[1], insns, string_lookup);
                     let ordinal = extract_int_arg(&args[2], insns);
 
+                    // Debug: print what we found for LogLevel
+                    if _debug_class_type.contains("LogLevel") {
+                        eprintln!("[DEBUG] LogLevel: name={:?}, ordinal={:?}, args.len={}",
+                            name, ordinal, args.len());
+                    }
+
                     if let (Some(name), Some(ordinal)) = (name, ordinal) {
-                        // Extract extra constructor arguments
+                        // Extract extra constructor arguments (skip name, ordinal, get rest)
                         let extra_args: Vec<EnumArg> = args.iter().skip(3)
-                            .map(|a| convert_to_enum_arg(a, insns))
+                            .map(|a| convert_to_enum_arg_with_lookup(a, insns, string_lookup))
                             .collect();
 
                         pending_constructs.insert(reg.reg_num, PendingConstruct {
@@ -278,17 +318,33 @@ struct PendingConstruct {
     extra_args: Vec<EnumArg>,
 }
 
-/// Extract a string argument from an instruction argument
-/// Note: In DEX, strings are loaded via const-string with string_idx
+/// Extract a string argument from an instruction argument (without string lookup)
 fn extract_string_arg(arg: &InsnArg, insns: &[InsnNode]) -> Option<String> {
+    extract_string_arg_with_lookup(arg, insns, &None::<fn(u32) -> Option<String>>)
+}
+
+/// Extract a string argument from an instruction argument with optional string lookup
+fn extract_string_arg_with_lookup<F>(
+    arg: &InsnArg,
+    insns: &[InsnNode],
+    string_lookup: &Option<F>,
+) -> Option<String>
+where
+    F: Fn(u32) -> Option<String>,
+{
     match arg {
         InsnArg::Register(reg) => {
             // Look for CONST_STRING that defines this register
             for insn in insns {
-                if let InsnType::ConstString { dest, .. } = &insn.insn_type {
+                if let InsnType::ConstString { dest, string_idx } = &insn.insn_type {
                     if dest.reg_num == reg.reg_num {
-                        // We don't have access to the string pool here,
-                        // so we'll use the field name as a fallback
+                        // Try to resolve the string via lookup function
+                        if let Some(lookup) = string_lookup {
+                            if let Some(s) = lookup(*string_idx) {
+                                return Some(s);
+                            }
+                        }
+                        // Fallback: use placeholder
                         return Some(format!("string_{}", reg.reg_num));
                     }
                 }
@@ -318,8 +374,20 @@ fn extract_int_arg(arg: &InsnArg, insns: &[InsnNode]) -> Option<i64> {
     }
 }
 
-/// Convert an instruction argument to an EnumArg
+/// Convert an instruction argument to an EnumArg (without string lookup)
 fn convert_to_enum_arg(arg: &InsnArg, insns: &[InsnNode]) -> EnumArg {
+    convert_to_enum_arg_with_lookup(arg, insns, &None::<fn(u32) -> Option<String>>)
+}
+
+/// Convert an instruction argument to an EnumArg with optional string lookup
+fn convert_to_enum_arg_with_lookup<F>(
+    arg: &InsnArg,
+    insns: &[InsnNode],
+    string_lookup: &Option<F>,
+) -> EnumArg
+where
+    F: Fn(u32) -> Option<String>,
+{
     match arg {
         InsnArg::Literal(lit) => match lit {
             LiteralArg::Int(n) => EnumArg::Int(*n),
@@ -341,8 +409,13 @@ fn convert_to_enum_arg(arg: &InsnArg, insns: &[InsnNode]) -> EnumArg {
                             LiteralArg::Null => EnumArg::Null,
                         };
                     }
-                    InsnType::ConstString { dest, .. } if dest.reg_num == reg.reg_num => {
-                        // String constant - we don't have access to string pool
+                    InsnType::ConstString { dest, string_idx } if dest.reg_num == reg.reg_num => {
+                        // Try to resolve string via lookup
+                        if let Some(lookup) = string_lookup {
+                            if let Some(s) = lookup(*string_idx) {
+                                return EnumArg::String(s);
+                            }
+                        }
                         return EnumArg::Other;
                     }
                     InsnType::StaticGet { dest, .. } if dest.reg_num == reg.reg_num => {
