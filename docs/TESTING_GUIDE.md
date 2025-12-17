@@ -47,8 +47,13 @@ Test Java source → bytecode → decompilation → Java output.
 - `trycatch_tests.rs` - Exception handling
 - `switches_tests.rs` - Switch statements
 - `loops_tests.rs` - Loop constructs
-- `ssa_tests.rs` - SSA transformation
-- `golden_tests.rs` - Golden reference comparison (12,266 lines)
+- `types_tests.rs` - Type inference
+- `conditions_tests.rs` - Conditional statements
+- `enums_tests.rs` - Enum handling
+- `generics_tests.rs` - Generic types
+- `inner_tests.rs` - Inner classes
+
+**Golden Tests Location:** `crates/dexterity-cli/tests/golden_tests.rs` (12,266 lines)
 
 **Run all integration tests:**
 ```bash
@@ -58,13 +63,13 @@ cargo test --test integration_test_framework
 **Run specific integration test file:**
 ```bash
 cargo test --test loops_tests
-cargo test --test type_tests
+cargo test --test types_tests
 ```
 
 **Run specific test function:**
 ```bash
 cargo test loops_tests::test_for_loop
-cargo test --test switches_tests switches_tests::test_switch_with_default
+cargo test --test switches_tests test_switch_with_default
 ```
 
 ### 3. Full Test Suite
@@ -440,10 +445,10 @@ For future CI/CD setup:
 - `crates/dexterity-cli/tests/integration/trycatch_tests.rs` - Exception handling
 - `crates/dexterity-cli/tests/integration/switches_tests.rs` - Switches
 - `crates/dexterity-cli/tests/integration/loops_tests.rs` - Loops
-- `crates/dexterity-cli/tests/integration/ssa_tests.rs` - SSA
-- `crates/dexterity-cli/tests/integration/type_tests.rs` - Type inference
+- `crates/dexterity-cli/tests/integration/types_tests.rs` - Type inference
+- `crates/dexterity-cli/tests/integration/conditions_tests.rs` - Conditionals
 - `crates/dexterity-cli/tests/integration/generics_tests.rs` - Generics
-- `crates/dexterity-cli/tests/integration/golden_tests.rs` - Golden reference
+- `crates/dexterity-cli/tests/golden_tests.rs` - Golden reference
 
 ### Running Specific Test Categories
 

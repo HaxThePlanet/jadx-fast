@@ -162,7 +162,7 @@ String v1 = (String) v0;
 
 ### Dexterity Implementation
 
-**File:** `crates/dexterity-passes/src/type_inference.rs` (~1,958 lines)
+**File:** `crates/dexterity-passes/src/type_inference.rs` (~1,992 lines)
 
 **Entry Point:** `infer_types_with_context_and_hierarchy()`
 
@@ -457,7 +457,7 @@ len = str.length()
 
 ### Dexterity Implementation
 
-**File:** `crates/dexterity-passes/src/var_naming.rs` (~1,157 lines)
+**File:** `crates/dexterity-passes/src/var_naming.rs` (~1,376 lines)
 
 **Entry Point:** `assign_variable_names(method: &mut MethodNode)`
 

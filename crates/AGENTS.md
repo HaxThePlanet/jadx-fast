@@ -7,7 +7,7 @@
 **Build:** Passing
 **Tests:** 899 tests passing (99.6% pass rate - 4 tests disabled in dexterity-qa)
 **Integration Tests:** 685 passing (100%)
-**Lines:** ~42,000 lines of Rust
+**Lines:** ~43,500 lines of Rust
 **Completion:** ~85% feature-complete vs Java jadx-core
 
 ## Crate Overview
@@ -16,8 +16,8 @@
 crates/
 ├── dexterity-dex/       # DEX parsing (4,072 lines)
 ├── dexterity-ir/        # IR types & class hierarchy (3,849 lines)
-├── dexterity-passes/    # Decompilation passes (13,841 lines)
-├── dexterity-codegen/   # Java code generation (9,721 lines)
+├── dexterity-passes/    # Decompilation passes (14,181 lines)
+├── dexterity-codegen/   # Java code generation (10,041 lines)
 ├── dexterity-resources/ # AXML & resources.arsc (4,032 lines)
 ├── dexterity-deobf/     # Deobfuscation (1,819 lines)
 ├── dexterity-kotlin/    # Kotlin metadata parsing (597 lines)

@@ -349,12 +349,14 @@ cargo test --test *_tests
 Located in: `/mnt/nvme4tb/jadx-rust/crates/dexterity-cli/tests/integration/`
 
 - `loops_tests.rs` - Loop constructs and bounds
-- `ssa_tests.rs` - SSA transformation
+- `types_tests.rs` - Type inference
 - `trycatch_tests.rs` - Exception handling
 - `switches_tests.rs` - Switch statements
 - `arith_tests.rs` - Arithmetic operations
 - `generics_tests.rs` - Generic types
-- `golden_tests.rs` - Golden reference comparison
+- `conditions_tests.rs` - Conditional statements
+
+**Golden Tests:** `crates/dexterity-cli/tests/golden_tests.rs` - Golden reference comparison
 
 ### QA Tool
 

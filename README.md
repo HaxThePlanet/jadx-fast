@@ -19,7 +19,7 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~42,000 lines of Rust | 685 integration tests passing | ~82-85% quality | Production ready for most use cases**
+**~43,500 lines of Rust | 685 integration tests passing | ~82-85% quality | Production ready for most use cases**
 
 **Status (Dec 16, 2025):** Two critical code generation bugs fixed. Quality improved from 77.1% to ~82-85%.
 
@@ -55,7 +55,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Rust lines added** | 61,581 |
 | **Rust lines deleted** | 5,957 |
 | **Net Rust lines** | 55,624 |
-| **Final codebase** | ~42,000 lines |
+| **Final codebase** | ~43,500 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
 | **Tests** | 685 integration tests passing |
 
