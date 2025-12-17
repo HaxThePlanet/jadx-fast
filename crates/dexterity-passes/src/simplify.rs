@@ -29,10 +29,23 @@
 //! - `bool ^ 1` → `!bool`
 //! - `bool ^ 0` → `bool` (move)
 //!
+//! ## Double negation elimination
+//! - `--x` → `x` (arithmetic double negation)
+//! - `~~x` → `x` (bitwise double NOT)
+//! - `!!x` → `x` (boolean double NOT)
+//!
+//! ## CMP unwrapping in conditions
+//! - `if (cmp_l(a, b) == 0)` → `if (a == b)`
+//! - `if (cmp_l(a, b) != 0)` → `if (a != b)`
+//! - `if (cmp_l(a, b) < 0)` → `if (a < b)`
+//! - `if (cmp_l(a, b) <= 0)` → `if (a <= b)`
+//! - `if (cmp_l(a, b) > 0)` → `if (a > b)`
+//! - `if (cmp_l(a, b) >= 0)` → `if (a >= b)`
+//!
 //! Based on JADX's SimplifyVisitor patterns.
 
 use std::collections::HashMap;
-use dexterity_ir::instructions::{BinaryOp, InsnArg, InsnNode, InsnType, LiteralArg, UnaryOp, RegisterArg};
+use dexterity_ir::instructions::{BinaryOp, CompareOp, IfCondition, InsnArg, InsnNode, InsnType, LiteralArg, UnaryOp, RegisterArg};
 use dexterity_ir::types::ArgType;
 use crate::ssa::SsaResult;
 
@@ -47,9 +60,30 @@ pub struct SimplifyResult {
 pub fn simplify_instructions(ssa: &mut SsaResult, types: Option<&HashMap<(u16, u32), ArgType>>) -> SimplifyResult {
     let mut simplified_count = 0;
 
+    // Phase 1: Build maps of register definitions for pattern matching
+    // Maps (reg_num, ssa_version) -> (UnaryOp, inner_arg) for unary operations
+    let mut unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+    // Maps (reg_num, ssa_version) -> (CompareOp, left, right) for CMP operations
+    let mut cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+
+    for block in &ssa.blocks {
+        for insn in &block.instructions {
+            match &insn.insn_type {
+                InsnType::Unary { dest, op, arg } => {
+                    unary_defs.insert((dest.reg_num, dest.ssa_version), (*op, arg.clone()));
+                }
+                InsnType::Compare { dest, op, left, right } => {
+                    cmp_defs.insert((dest.reg_num, dest.ssa_version), (*op, left.clone(), right.clone()));
+                }
+                _ => {}
+            }
+        }
+    }
+
+    // Phase 2: Apply simplifications
     for block in &mut ssa.blocks {
         for insn in &mut block.instructions {
-            if let Some(new_insn) = simplify_insn(insn, types) {
+            if let Some(new_insn) = simplify_insn(insn, types, &unary_defs, &cmp_defs) {
                 *insn = new_insn;
                 simplified_count += 1;
             }
@@ -60,20 +94,28 @@ pub fn simplify_instructions(ssa: &mut SsaResult, types: Option<&HashMap<(u16, u
 }
 
 /// Try to simplify a single instruction
-fn simplify_insn(insn: &InsnNode, types: Option<&HashMap<(u16, u32), ArgType>>) -> Option<InsnNode> {
+fn simplify_insn(
+    insn: &InsnNode,
+    types: Option<&HashMap<(u16, u32), ArgType>>,
+    unary_defs: &HashMap<(u16, u32), (UnaryOp, InsnArg)>,
+    cmp_defs: &HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)>,
+) -> Option<InsnNode> {
     match &insn.insn_type {
         InsnType::Binary { dest, op, left, right } => {
             simplify_binary(*dest, *op, left.clone(), right.clone(), insn.offset, types)
         }
         InsnType::Unary { dest, op, arg } => {
-            simplify_unary(*dest, *op, arg.clone(), insn.offset)
+            simplify_unary(*dest, *op, arg.clone(), insn.offset, unary_defs)
+        }
+        InsnType::If { condition, left, right, target } => {
+            simplify_if(*condition, left.clone(), right.clone(), *target, insn.offset, cmp_defs)
         }
         _ => None,
     }
 }
 
 /// Simplify unary operations
-/// Currently handles:
+/// Handles:
 /// - Double negation: --x → x (arithmetic)
 /// - Double NOT: ~~x → x (bitwise)
 /// - Double boolean NOT: !!x → x
@@ -82,19 +124,87 @@ fn simplify_unary(
     op: UnaryOp,
     arg: InsnArg,
     offset: u32,
+    unary_defs: &HashMap<(u16, u32), (UnaryOp, InsnArg)>,
 ) -> Option<InsnNode> {
-    // Currently, we can't detect double negation at the instruction level
-    // because each instruction is processed independently. Double negation
-    // elimination would require looking at the definition of the arg register.
-    // This is typically handled at a higher level by the code generation phase.
-    //
-    // However, we could add detection for patterns like:
-    // v1 = -v0
-    // v2 = -v1  (with v1 only used here)
-    // → v2 = v0
-    //
-    // For now, this is a placeholder for future optimization.
-    let _ = (dest, op, arg, offset);
+    // Check if the argument is a register defined by another unary operation
+    if let InsnArg::Register(reg) = &arg {
+        if let Some((inner_op, inner_arg)) = unary_defs.get(&(reg.reg_num, reg.ssa_version)) {
+            // Double negation elimination: -(-x) → x
+            if op == UnaryOp::Neg && *inner_op == UnaryOp::Neg {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: inner_arg.clone() },
+                    offset,
+                ));
+            }
+            // Double bitwise NOT elimination: ~~x → x
+            if op == UnaryOp::Not && *inner_op == UnaryOp::Not {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: inner_arg.clone() },
+                    offset,
+                ));
+            }
+            // Double boolean NOT elimination: !!x → x
+            if op == UnaryOp::BoolNot && *inner_op == UnaryOp::BoolNot {
+                return Some(InsnNode::new(
+                    InsnType::Move { dest, src: inner_arg.clone() },
+                    offset,
+                ));
+            }
+        }
+    }
+    None
+}
+
+/// Simplify If conditions with CMP unwrapping
+/// Handles patterns like:
+/// - `if (cmp_l(a, b) == 0)` → `if (a == b)`
+/// - `if (cmp_l(a, b) != 0)` → `if (a != b)`
+/// - `if (cmp_l(a, b) < 0)` → `if (a < b)`
+/// - `if (cmp_l(a, b) <= 0)` → `if (a <= b)`
+/// - `if (cmp_l(a, b) > 0)` → `if (a > b)`
+/// - `if (cmp_l(a, b) >= 0)` → `if (a >= b)`
+fn simplify_if(
+    condition: IfCondition,
+    left: InsnArg,
+    right: Option<InsnArg>,
+    target: u32,
+    offset: u32,
+    cmp_defs: &HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)>,
+) -> Option<InsnNode> {
+    // CMP unwrapping: if (cmp_result OP 0) -> if (cmp_left OP cmp_right)
+    // Only applies when comparing a CMP result to zero
+
+    // Check if left is a register that was defined by a CMP instruction
+    if let InsnArg::Register(reg) = &left {
+        if let Some((_, cmp_left, cmp_right)) = cmp_defs.get(&(reg.reg_num, reg.ssa_version)) {
+            // Check if we're comparing to zero
+            let comparing_to_zero = match &right {
+                Some(InsnArg::Literal(LiteralArg::Int(0))) => true,
+                None => true, // *z variants implicitly compare to 0
+                _ => false,
+            };
+
+            if comparing_to_zero {
+                // CMP returns -1 (a < b), 0 (a == b), or 1 (a > b)
+                // So: cmp(a,b) == 0 means a == b
+                //     cmp(a,b) != 0 means a != b
+                //     cmp(a,b) < 0 means a < b
+                //     cmp(a,b) <= 0 means a <= b
+                //     cmp(a,b) > 0 means a > b
+                //     cmp(a,b) >= 0 means a >= b
+                return Some(InsnNode::new(
+                    InsnType::If {
+                        condition,  // The condition stays the same!
+                        left: cmp_left.clone(),
+                        right: Some(cmp_right.clone()),
+                        target,
+                    },
+                    offset,
+                ));
+            }
+        }
+    }
+
     None
 }
 
@@ -383,6 +493,13 @@ fn get_negative_literal(arg: &InsnArg) -> Option<i64> {
 mod tests {
     use super::*;
 
+    // Helper for tests that don't need unary_defs/cmp_defs tracking
+    fn simplify_insn_simple(insn: &InsnNode, types: Option<&HashMap<(u16, u32), ArgType>>) -> Option<InsnNode> {
+        let empty_unary_defs = HashMap::new();
+        let empty_cmp_defs = HashMap::new();
+        simplify_insn(insn, types, &empty_unary_defs, &empty_cmp_defs)
+    }
+
     #[test]
     fn test_add_negative_simplification() {
         let insn = InsnNode::new(
@@ -395,7 +512,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
 
         let simplified = result.unwrap();
@@ -420,7 +537,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_none()); // No simplification needed
     }
 
@@ -441,7 +558,7 @@ mod tests {
         let mut types = HashMap::new();
         types.insert((1, 0), ArgType::Boolean);
 
-        let result = simplify_insn(&insn, Some(&types));
+        let result = simplify_insn_simple(&insn, Some(&types));
         assert!(result.is_some());
 
         let simplified = result.unwrap();
@@ -470,7 +587,7 @@ mod tests {
         let mut types = HashMap::new();
         types.insert((1, 0), ArgType::Boolean);
 
-        let result = simplify_insn(&insn, Some(&types));
+        let result = simplify_insn_simple(&insn, Some(&types));
         assert!(result.is_some());
 
         let simplified = result.unwrap();
@@ -494,7 +611,7 @@ mod tests {
         let mut types = HashMap::new();
         types.insert((1, 0), ArgType::Int);
 
-        let result = simplify_insn(&insn, Some(&types));
+        let result = simplify_insn_simple(&insn, Some(&types));
         assert!(result.is_none()); // No simplification for non-boolean
     }
 
@@ -511,7 +628,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
     }
@@ -529,7 +646,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
     }
@@ -547,7 +664,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
     }
@@ -565,7 +682,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         let simplified = result.unwrap();
         match &simplified.insn_type {
@@ -587,7 +704,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
     }
@@ -605,7 +722,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
     }
@@ -623,7 +740,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
     }
@@ -641,7 +758,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         let simplified = result.unwrap();
         match &simplified.insn_type {
@@ -663,7 +780,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
     }
@@ -682,7 +799,7 @@ mod tests {
         );
 
         // No type info - should still simplify x ^ 0 → x
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         assert!(matches!(&result.unwrap().insn_type, InsnType::Move { .. }));
     }
@@ -700,7 +817,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
         let simplified = result.unwrap();
         match &simplified.insn_type {
@@ -722,7 +839,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
 
         let simplified = result.unwrap();
@@ -748,7 +865,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
 
         let simplified = result.unwrap();
@@ -773,7 +890,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
 
         let simplified = result.unwrap();
@@ -799,7 +916,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
 
         let simplified = result.unwrap();
@@ -825,7 +942,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None);
+        let result = simplify_insn_simple(&insn, None);
         assert!(result.is_some());
 
         let simplified = result.unwrap();
@@ -836,5 +953,270 @@ mod tests {
             }
             _ => panic!("Expected Unary Neg instruction"),
         }
+    }
+
+    #[test]
+    fn test_double_negation_elimination() {
+        // --x → x (double arithmetic negation)
+        // First: r1 = -r0
+        // Second: r2 = -r1
+        // Result: r2 = r0 (move)
+
+        let mut unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+        let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+        // r1_0 was defined as -r0_0
+        unary_defs.insert((1, 0), (UnaryOp::Neg, InsnArg::Register(RegisterArg::with_ssa(0, 0))));
+
+        // Now simplify r2 = -r1_0
+        let insn = InsnNode::new(
+            InsnType::Unary {
+                dest: RegisterArg::with_ssa(2, 0),
+                op: UnaryOp::Neg,
+                arg: InsnArg::Register(RegisterArg::with_ssa(1, 0)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs);
+        assert!(result.is_some(), "Double negation should be simplified");
+
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::Move { dest, src } => {
+                assert_eq!(dest.reg_num, 2);
+                // src should be r0_0 (the original value)
+                if let InsnArg::Register(reg) = src {
+                    assert_eq!(reg.reg_num, 0);
+                    assert_eq!(reg.ssa_version, 0);
+                } else {
+                    panic!("Expected Register source");
+                }
+            }
+            _ => panic!("Expected Move instruction for double negation elimination"),
+        }
+    }
+
+    #[test]
+    fn test_double_bitwise_not_elimination() {
+        // ~~x → x (double bitwise NOT)
+        let mut unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+        let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+        // r1_0 was defined as ~r0_0
+        unary_defs.insert((1, 0), (UnaryOp::Not, InsnArg::Register(RegisterArg::with_ssa(0, 0))));
+
+        // Now simplify r2 = ~r1_0
+        let insn = InsnNode::new(
+            InsnType::Unary {
+                dest: RegisterArg::with_ssa(2, 0),
+                op: UnaryOp::Not,
+                arg: InsnArg::Register(RegisterArg::with_ssa(1, 0)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs);
+        assert!(result.is_some(), "Double bitwise NOT should be simplified");
+
+        let simplified = result.unwrap();
+        assert!(matches!(&simplified.insn_type, InsnType::Move { .. }));
+    }
+
+    #[test]
+    fn test_double_bool_not_elimination() {
+        // !!x → x (double boolean NOT)
+        let mut unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+        let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+        // r1_0 was defined as !r0_0
+        unary_defs.insert((1, 0), (UnaryOp::BoolNot, InsnArg::Register(RegisterArg::with_ssa(0, 0))));
+
+        // Now simplify r2 = !r1_0
+        let insn = InsnNode::new(
+            InsnType::Unary {
+                dest: RegisterArg::with_ssa(2, 0),
+                op: UnaryOp::BoolNot,
+                arg: InsnArg::Register(RegisterArg::with_ssa(1, 0)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs);
+        assert!(result.is_some(), "Double boolean NOT should be simplified");
+
+        let simplified = result.unwrap();
+        assert!(matches!(&simplified.insn_type, InsnType::Move { .. }));
+    }
+
+    #[test]
+    fn test_mixed_negation_not_simplified() {
+        // -~x should NOT be simplified (different ops)
+        let mut unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+        let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+        // r1_0 was defined as ~r0_0
+        unary_defs.insert((1, 0), (UnaryOp::Not, InsnArg::Register(RegisterArg::with_ssa(0, 0))));
+
+        // Now try to simplify r2 = -r1_0 (Neg of Not)
+        let insn = InsnNode::new(
+            InsnType::Unary {
+                dest: RegisterArg::with_ssa(2, 0),
+                op: UnaryOp::Neg,  // Different from Not
+                arg: InsnArg::Register(RegisterArg::with_ssa(1, 0)),
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs);
+        assert!(result.is_none(), "Mixed negation types should NOT be simplified");
+    }
+
+    #[test]
+    fn test_cmp_unwrapping_eq_zero() {
+        // Pattern: if (cmp_l(a, b) == 0) → if (a == b)
+        let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+        let mut cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+
+        // r0_0 was defined as cmp_long(r1_0, r2_0)
+        cmp_defs.insert(
+            (0, 0),
+            (
+                CompareOp::CmpLong,
+                InsnArg::Register(RegisterArg::with_ssa(1, 0)),
+                InsnArg::Register(RegisterArg::with_ssa(2, 0)),
+            ),
+        );
+
+        // if (r0_0 == 0) goto target
+        let insn = InsnNode::new(
+            InsnType::If {
+                condition: IfCondition::Eq,
+                left: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
+                right: Some(InsnArg::Literal(LiteralArg::Int(0))),
+                target: 100,
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs);
+        assert!(result.is_some(), "CMP unwrapping should work");
+
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::If { condition, left, right, target } => {
+                assert_eq!(*condition, IfCondition::Eq);
+                assert_eq!(*target, 100);
+                // left should be r1_0, right should be r2_0
+                if let InsnArg::Register(reg) = left {
+                    assert_eq!(reg.reg_num, 1);
+                } else {
+                    panic!("Expected Register left");
+                }
+                if let Some(InsnArg::Register(reg)) = right {
+                    assert_eq!(reg.reg_num, 2);
+                } else {
+                    panic!("Expected Register right");
+                }
+            }
+            _ => panic!("Expected If instruction"),
+        }
+    }
+
+    #[test]
+    fn test_cmp_unwrapping_lt_zero() {
+        // Pattern: if (cmp_l(a, b) < 0) → if (a < b)
+        let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+        let mut cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+
+        cmp_defs.insert(
+            (0, 0),
+            (
+                CompareOp::CmpLong,
+                InsnArg::Register(RegisterArg::with_ssa(1, 0)),
+                InsnArg::Register(RegisterArg::with_ssa(2, 0)),
+            ),
+        );
+
+        // if (r0_0 < 0) goto target (Ltz - less than zero)
+        let insn = InsnNode::new(
+            InsnType::If {
+                condition: IfCondition::Lt,
+                left: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
+                right: Some(InsnArg::Literal(LiteralArg::Int(0))),
+                target: 200,
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs);
+        assert!(result.is_some(), "CMP unwrapping with Lt should work");
+
+        let simplified = result.unwrap();
+        match &simplified.insn_type {
+            InsnType::If { condition, .. } => {
+                assert_eq!(*condition, IfCondition::Lt);
+            }
+            _ => panic!("Expected If instruction"),
+        }
+    }
+
+    #[test]
+    fn test_cmp_unwrapping_z_variant() {
+        // Pattern: if (cmp_l(a, b) == 0) with no explicit right (zero variant)
+        let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+        let mut cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+
+        cmp_defs.insert(
+            (0, 0),
+            (
+                CompareOp::CmpLong,
+                InsnArg::Register(RegisterArg::with_ssa(1, 0)),
+                InsnArg::Register(RegisterArg::with_ssa(2, 0)),
+            ),
+        );
+
+        // if-eqz r0_0 (no explicit right operand, implicitly comparing to 0)
+        let insn = InsnNode::new(
+            InsnType::If {
+                condition: IfCondition::Eq,
+                left: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
+                right: None,  // *z variants have no explicit right
+                target: 300,
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs);
+        assert!(result.is_some(), "CMP unwrapping with *z variant should work");
+
+        let simplified = result.unwrap();
+        assert!(matches!(&simplified.insn_type, InsnType::If { .. }));
+    }
+
+    #[test]
+    fn test_cmp_unwrapping_non_zero_not_simplified() {
+        // Comparing CMP result to non-zero should NOT be simplified
+        let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+        let mut cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+
+        cmp_defs.insert(
+            (0, 0),
+            (
+                CompareOp::CmpLong,
+                InsnArg::Register(RegisterArg::with_ssa(1, 0)),
+                InsnArg::Register(RegisterArg::with_ssa(2, 0)),
+            ),
+        );
+
+        // if (r0_0 == 1) - comparing to 1, not 0
+        let insn = InsnNode::new(
+            InsnType::If {
+                condition: IfCondition::Eq,
+                left: InsnArg::Register(RegisterArg::with_ssa(0, 0)),
+                right: Some(InsnArg::Literal(LiteralArg::Int(1))),  // Not zero!
+                target: 400,
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs);
+        assert!(result.is_none(), "CMP unwrapping with non-zero comparison should NOT be simplified");
     }
 }
