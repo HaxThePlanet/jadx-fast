@@ -8,9 +8,11 @@ pub mod cfg;
 pub mod code_shrink;
 pub mod conditionals;
 pub mod const_inline;
+pub mod deboxing;
 pub mod enum_visitor;
 pub mod extract_field_init;
 pub mod finally_extract;
+pub mod fix_types;
 pub mod kotlin_intrinsics;
 pub mod loop_analysis;
 pub mod loops;
@@ -75,6 +77,13 @@ pub use type_bound::{
 pub use type_update::{
     InsnKind, TypeListener, TypeUpdateEngine, TypeUpdateEntry, TypeUpdateFlags,
     TypeUpdateInfo, TypeUpdateResult,
+};
+pub use fix_types::{
+    fix_types, fix_types_with_context, FixStrategy, FixTypes, FixTypesResult,
+};
+pub use deboxing::{
+    debox_primitives, debox_primitives_with_lookup, is_unboxing_method, is_wrapper_class,
+    primitive_for_wrapper, wrapper_for_primitive, Deboxing, DeboxingResult, MethodInfo as DeboxingMethodInfo,
 };
 
 /// Pass trait for decompilation passes

@@ -49,6 +49,24 @@
 
 ## Recent Major Fixes
 
+### Dec 17, 2025 - Local Variable Null Comparison Fix
+
+**Fix 8: Extended Local Variable Null Detection**
+- **Before:** `if (externalStorageDirectory2 == 0)` - object compared to int
+- **After:** `if (externalStorageDirectory2 == null)` - correct null comparison
+- **Root Cause:** `name_suggests_object_type()` didn't recognize storage/directory/file/display patterns
+- **Solution:** Extended heuristic with: storage, directory, file, display, device, sensor, camera, etc.
+- **Impact:** Local variables with common object names now correctly compared to null
+
+### Dec 17, 2025 - Exception Type Formatting Fix
+
+**Fix 7: Malformed Exception Types in Catch Clauses**
+- **Before:** `catch (java/io/IOException e)` - uses internal JVM format (won't compile)
+- **After:** `catch (java.io.IOException e)` - correct Java source format
+- **Root Cause:** Exception types from `handler.exception_types` were used directly without conversion
+- **Solution:** Applied `object_to_java_name()` to convert internal format to Java format
+- **Impact:** 0 malformed catch clause types (was 3+ per APK)
+
 ### Dec 17, 2025 - Null Comparison Fix
 
 **Fix 6: Object-Named Variable Null Comparisons**
@@ -110,9 +128,9 @@
 | Priority | Total | Resolved |
 |----------|-------|----------|
 | CRITICAL | 12 | 12 |
-| HIGH | 4 | 4 |
+| HIGH | 5 | 5 |
 | MEDIUM | 2 | 2 |
-| **Total** | **18** | **18** |
+| **Total** | **19** | **19** |
 
 ---
 
@@ -211,7 +229,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 
 ---
 
-**Last Updated:** Dec 16, 2025
+**Last Updated:** Dec 17, 2025
 
 ---
 
@@ -233,5 +251,6 @@ All 18 tracked issues have been resolved:
 | Duplicate Declarations | **DONE** - Scope tracking |
 | Logic Inversions | **DONE** - Null check fixes |
 | Type Comparisons | **DONE** - null vs 0 |
+| Local Variable Null Checks | **DONE** - Extended name heuristics |
 | Same-Package Types | **DONE** - Simple names |
 | Exception Imports | **DONE** - Auto-collection |

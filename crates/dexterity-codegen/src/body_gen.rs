@@ -49,7 +49,7 @@ use crate::stmt_gen::{
     gen_break, gen_close_block, gen_do_while_end, gen_do_while_start, gen_else, gen_else_if,
     gen_if_header, gen_while_header,
 };
-use crate::type_gen::{literal_to_string, type_to_string, type_to_string_with_imports};
+use crate::type_gen::{literal_to_string, object_to_java_name, type_to_string, type_to_string_with_imports};
 use crate::writer::CodeWriter;
 
 /// Context for generating method body code
@@ -2036,11 +2036,13 @@ fn name_suggests_object_type(name: &str) -> bool {
         "item", "element", "entry", "node", "key", "record",
         // Stream/IO types
         "stream", "reader", "writer", "input", "output", "buffer",
-        "file", "channel", "socket", "connection",
+        "file", "dir", "directory", "folder", "channel", "socket", "connection",
         // Android/UI types
         "view", "context", "intent", "bundle", "cursor", "adapter",
         "activity", "fragment", "dialog", "window", "layout",
         "bitmap", "drawable", "paint", "canvas", "rect",
+        // Android storage types
+        "storage", "external", "internal", "cache", "downloads",
         // Exception types
         "exception", "error", "throwable", "cause",
         // Generic suffixes that suggest objects
@@ -2057,6 +2059,9 @@ fn name_suggests_object_type(name: &str) -> bool {
         "task", "snapshot", "reference", "database", "storage",
         // Security types
         "key", "token", "credential", "certificate", "signature",
+        // Other common objects
+        "display", "device", "sensor", "camera", "audio", "video",
+        "image", "resource", "asset", "preference", "editor",
     ];
 
     // Check for exact match or as suffix (e.g., "string1", "str2")
@@ -2082,6 +2087,16 @@ fn name_suggests_object_type(name: &str) -> bool {
         || lower.ends_with("manager") || lower.ends_with("service") || lower.ends_with("provider")
         || lower.ends_with("exception") || lower.ends_with("error") || lower.ends_with("request")
         || lower.ends_with("response") || lower.ends_with("result") || lower.ends_with("data")
+        // File/directory patterns
+        || lower.ends_with("file") || lower.ends_with("directory") || lower.ends_with("dir")
+        || lower.ends_with("path") || lower.ends_with("folder")
+        // Storage patterns
+        || lower.ends_with("storage") || lower.contains("storage")
+        || lower.contains("directory") || lower.contains("file")
+        // Other common patterns
+        || lower.ends_with("bundle") || lower.ends_with("intent") || lower.ends_with("cursor")
+        || lower.ends_with("adapter") || lower.ends_with("builder") || lower.ends_with("factory")
+        || lower.ends_with("instance") || lower.ends_with("reference") || lower.ends_with("resource")
     {
         return true;
     }
@@ -3378,26 +3393,32 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                         .newline();
                 } else if handler.is_multi_catch() {
                     // Multi-catch: catch (Type1 | Type2 | Type3 e)
-                    let exc_types = handler.exception_types.join(" | ");
-                    let first_type = handler.exception_types.first()
+                    // Convert internal format (java/io/IOException) to Java format (java.io.IOException)
+                    let exc_types: Vec<String> = handler.exception_types.iter()
+                        .map(|t| object_to_java_name(t))
+                        .collect();
+                    let exc_types_str = exc_types.join(" | ");
+                    let first_type = exc_types.first()
                         .map(|s| s.as_str())
                         .unwrap_or("Exception");
                     let exc_var = generate_exception_var_name(first_type, i);
                     code.start_line()
                         .add("} catch (")
-                        .add(&exc_types)
+                        .add(&exc_types_str)
                         .add(" ")
                         .add(&exc_var)
                         .add(") {")
                         .newline();
                 } else {
                     // Single exception type
-                    let exc_type = handler.exception_type()
+                    // Convert internal format (java/io/IOException) to Java format (java.io.IOException)
+                    let exc_type_internal = handler.exception_type()
                         .unwrap_or("Exception");
-                    let exc_var = generate_exception_var_name(exc_type, i);
+                    let exc_type = object_to_java_name(exc_type_internal);
+                    let exc_var = generate_exception_var_name(&exc_type, i);
                     code.start_line()
                         .add("} catch (")
-                        .add(exc_type)
+                        .add(&exc_type)
                         .add(" ")
                         .add(&exc_var)
                         .add(") {")
@@ -4369,7 +4390,7 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::InvokeCustom { call_site_idx, args, dest, lambda_info } => {
+        InsnType::InvokeCustom { call_site_idx, args, dest: _, lambda_info } => {
             // Lambda/method reference - generate lambda syntax
             code.start_line();
 

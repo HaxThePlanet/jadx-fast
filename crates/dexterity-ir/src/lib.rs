@@ -22,6 +22,6 @@ pub use info::{
     BytecodeRef, ClassData, DebugInfo, ExceptionHandler, FieldData, FieldValue,
     LocalVar, MethodData, MethodInlineAttr, ProcessState, TryBlock, TypeParameter,
 };
-pub use instructions::{InsnArg, InsnNode, InsnType, RegisterArg};
+pub use instructions::{InsnArg, InsnNode, InsnType, LambdaHandleType, LambdaInfo, RegisterArg};
 pub use types::{ArgType, TypeCompare, compare_types};
 pub use kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};

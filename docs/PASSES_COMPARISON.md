@@ -6,10 +6,10 @@ This document provides a detailed comparison between JADX's visitor passes and D
 
 | Metric | JADX | Dexterity | Status |
 |--------|------|-----------|--------|
-| Total Passes | 63+ | 20+ | ~32% |
-| Type Inference Files | 26 | 3 | In Progress |
+| Total Passes | 63+ | 24+ | ~38% |
+| Type Inference Files | 26 | 5 | Enhanced |
 | Region Analysis Files | 8 | 3 | Partial |
-| Code Optimization Passes | 15+ | 8 | Partial |
+| Code Optimization Passes | 15+ | 10 | Enhanced |
 
 ---
 
@@ -345,18 +345,20 @@ Dexterity `var_naming.rs`:
 
 | JADX Pass | Dexterity Equivalent | Status | Priority |
 |-----------|---------------------|--------|----------|
-| `FixTypesVisitor.java` | - | MISSING | HIGH |
-| `FinishTypeInference.java` | - | MISSING | HIGH |
-| `DeboxingVisitor.java` | - | MISSING | MEDIUM |
+| `FixTypesVisitor.java` | `fix_types.rs` | DONE | HIGH |
+| `FinishTypeInference.java` | - | PARTIAL | HIGH |
+| `DeboxingVisitor.java` | `deboxing.rs` | DONE | MEDIUM |
 | `GenericTypesVisitor.java` | - | MISSING | MEDIUM |
 | `ShadowFieldVisitor.java` | - | MISSING | LOW |
 
-These passes are critical for output quality:
+Implemented passes:
 
-1. **FixTypesVisitor** - Heuristic fallbacks for unresolved types
-2. **FinishTypeInference** - Validate all types resolved
-3. **DeboxingVisitor** - Remove `Integer.valueOf()` / `.intValue()` calls
-4. **GenericTypesVisitor** - Apply generic type information
+1. **FixTypesVisitor** (`fix_types.rs`) - Heuristic fallbacks for unresolved types
+   - 8 strategies: RestoreTypeVarCasts, InsertCasts, DeduceTypes, SplitConstInsns,
+     FixIncompatiblePrimitives, ForceImmutableTypes, InsertAdditionalMove, RemoveGenerics
+2. **DeboxingVisitor** (`deboxing.rs`) - Remove primitive boxing calls
+   - Handles Integer, Boolean, Byte, Short, Character, Long, Float, Double
+   - Utility functions for wrapper class detection
 
 ---
 
@@ -385,17 +387,17 @@ These passes are critical for output quality:
 
 ## Implementation Priority Roadmap
 
-### Phase 1: Type Inference Enhancement (Current)
+### Phase 1: Type Inference Enhancement (COMPLETED)
 1. ✅ Create `type_bound.rs` with TypeBound trait hierarchy
 2. ✅ Create `type_update.rs` with propagation engine
-3. 🔄 Integrate new TypeBound system into `type_inference.rs`
-4. ⏳ Create `fix_types.rs` for heuristic fallbacks
-5. ⏳ Create `deboxing.rs` for primitive unboxing
+3. ✅ Integrate new TypeBound system into `type_inference.rs`
+4. ✅ Create `fix_types.rs` for heuristic fallbacks
+5. ✅ Create `deboxing.rs` for primitive unboxing
 
-### Phase 2: Post-Type Passes
-1. `FinishTypeInference` pass - type validation
-2. `GenericTypesVisitor` - generic type application
-3. `ShadowFieldVisitor` - shadowed field handling
+### Phase 2: Post-Type Passes (Current)
+1. ⏳ `FinishTypeInference` pass - type validation
+2. ⏳ `GenericTypesVisitor` - generic type application
+3. ⏳ `ShadowFieldVisitor` - shadowed field handling
 
 ### Phase 3: Region Enhancement
 1. Enhance `IfRegionMaker` - AND/OR merging
