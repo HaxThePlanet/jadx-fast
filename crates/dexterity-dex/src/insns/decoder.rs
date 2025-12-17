@@ -233,7 +233,8 @@ pub fn decode_instruction(code: &[u16], offset: u32) -> Result<DecodedInsn> {
             let count = ((unit0 >> 12) & 0x0F) as u8;
             insn.index = get_unit(code, idx + 1)? as u32;
             let unit2 = get_unit(code, idx + 2)?;
-            let _proto_idx = get_unit(code, idx + 3)?;
+            let proto_idx = get_unit(code, idx + 3)?;
+            insn.proto_idx = Some(proto_idx as u32);
 
             insn.reg_count = count;
             if count > 0 {
@@ -258,7 +259,8 @@ pub fn decode_instruction(code: &[u16], offset: u32) -> Result<DecodedInsn> {
             let count = ((unit0 >> 8) & 0xFF) as u8;
             insn.index = get_unit(code, idx + 1)? as u32;
             let start_reg = get_unit(code, idx + 2)?;
-            let _proto_idx = get_unit(code, idx + 3)?;
+            let proto_idx = get_unit(code, idx + 3)?;
+            insn.proto_idx = Some(proto_idx as u32);
 
             insn.reg_count = count;
             insn.regs[0] = start_reg;

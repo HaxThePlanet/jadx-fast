@@ -16,6 +16,7 @@ pub fn build_ir_insn(
     literal: i64,
     index: u32,
     target: i32,
+    proto_idx: Option<u32>,
 ) -> Option<InsnNode> {
     let insn_type = match opcode {
         // NOP
@@ -418,26 +419,31 @@ pub fn build_ir_insn(
             kind: InvokeKind::Virtual,
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
+            proto_idx: None,
         },
         0x6f => InsnType::Invoke {
             kind: InvokeKind::Super,
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
+            proto_idx: None,
         },
         0x70 => InsnType::Invoke {
             kind: InvokeKind::Direct,
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
+            proto_idx: None,
         },
         0x71 => InsnType::Invoke {
             kind: InvokeKind::Static,
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
+            proto_idx: None,
         },
         0x72 => InsnType::Invoke {
             kind: InvokeKind::Interface,
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
+            proto_idx: None,
         },
 
         // INVOKE/RANGE variants
@@ -445,26 +451,31 @@ pub fn build_ir_insn(
             kind: InvokeKind::Virtual,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
+            proto_idx: None,
         },
         0x75 => InsnType::Invoke {
             kind: InvokeKind::Super,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
+            proto_idx: None,
         },
         0x76 => InsnType::Invoke {
             kind: InvokeKind::Direct,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
+            proto_idx: None,
         },
         0x77 => InsnType::Invoke {
             kind: InvokeKind::Static,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
+            proto_idx: None,
         },
         0x78 => InsnType::Invoke {
             kind: InvokeKind::Interface,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
+            proto_idx: None,
         },
 
         // Unary operations
@@ -645,16 +656,18 @@ pub fn build_ir_insn(
         0xe1 => build_binary_lit(regs, literal, BinaryOp::Shr),
         0xe2 => build_binary_lit(regs, literal, BinaryOp::Ushr),
 
-        // DEX 038+ opcodes
+        // DEX 038+ opcodes - invoke-polymorphic
         0xfa => InsnType::Invoke {
             kind: InvokeKind::Polymorphic,
             method_idx: index,
             args: build_invoke_args(regs, reg_count),
+            proto_idx,
         },
         0xfb => InsnType::Invoke {
             kind: InvokeKind::Polymorphic,
             method_idx: index,
             args: build_range_args(regs[0], reg_count),
+            proto_idx,
         },
         // invoke-custom - for lambdas and method references
         0xfc => InsnType::InvokeCustom {
@@ -777,13 +790,13 @@ mod tests {
 
     #[test]
     fn test_build_nop() {
-        let insn = build_ir_insn(0x00, 0, &[0; 5], 0, 0, 0, 0).unwrap();
+        let insn = build_ir_insn(0x00, 0, &[0; 5], 0, 0, 0, 0, None).unwrap();
         assert!(matches!(insn.insn_type, InsnType::Nop));
     }
 
     #[test]
     fn test_build_const() {
-        let insn = build_ir_insn(0x12, 0, &[5, 0, 0, 0, 0], 1, 42, 0, 0).unwrap();
+        let insn = build_ir_insn(0x12, 0, &[5, 0, 0, 0, 0], 1, 42, 0, 0, None).unwrap();
         match insn.insn_type {
             InsnType::Const { dest, value } => {
                 assert_eq!(dest.reg_num, 5);
@@ -795,16 +808,18 @@ mod tests {
 
     #[test]
     fn test_build_invoke() {
-        let insn = build_ir_insn(0x6e, 0, &[0, 1, 2, 0, 0], 3, 0, 100, 0).unwrap();
+        let insn = build_ir_insn(0x6e, 0, &[0, 1, 2, 0, 0], 3, 0, 100, 0, None).unwrap();
         match insn.insn_type {
             InsnType::Invoke {
                 kind,
                 method_idx,
                 args,
+                proto_idx,
             } => {
                 assert_eq!(kind, InvokeKind::Virtual);
                 assert_eq!(method_idx, 100);
                 assert_eq!(args.len(), 3);
+                assert_eq!(proto_idx, None);
             }
             _ => panic!("Expected Invoke"),
         }
@@ -812,7 +827,7 @@ mod tests {
 
     #[test]
     fn test_build_if() {
-        let insn = build_ir_insn(0x32, 10, &[0, 1, 0, 0, 0], 2, 0, 0, 5).unwrap();
+        let insn = build_ir_insn(0x32, 10, &[0, 1, 0, 0, 0], 2, 0, 0, 5, None).unwrap();
         match insn.insn_type {
             InsnType::If {
                 condition, target, ..

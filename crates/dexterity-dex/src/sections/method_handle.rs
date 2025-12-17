@@ -190,6 +190,18 @@ impl CallSite {
         }
         None
     }
+
+    /// Get the SAM (Single Abstract Method) method type index (for lambdas)
+    /// This is the proto_idx at index 3 containing the lambda parameter types
+    /// and return type from the functional interface's abstract method
+    pub fn get_sam_method_type(&self) -> Option<u32> {
+        if self.values.len() > 3 {
+            if let EncodedValue::MethodType(idx) = &self.values[3] {
+                return Some(*idx);
+            }
+        }
+        None
+    }
 }
 
 #[cfg(test)]

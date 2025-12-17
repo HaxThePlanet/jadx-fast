@@ -26,7 +26,7 @@ pub mod type_gen;
 pub mod writer;
 
 // Re-exports for convenience
-pub use body_gen::{generate_body, generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes, BodyGenContext};
+pub use body_gen::{generate_body, generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes, generate_body_with_inner_classes_and_lambdas, BodyGenContext};
 pub use class_gen::{
     generate_class, generate_class_with_dex, generate_class_with_inner_classes,
     generate_class_with_nested_inner_classes, ClassGenConfig,

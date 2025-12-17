@@ -31,7 +31,7 @@ use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 use rustc_hash::FxHashMap;
 
 use dexterity_ir::attributes::AFlag;
-use dexterity_ir::instructions::{BinaryOp, IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LiteralArg};
+use dexterity_ir::instructions::{BinaryOp, IfCondition, InsnArg, InsnNode, InsnType, InvokeKind, LambdaInfo, LiteralArg};
 use dexterity_ir::regions::{Condition, LoopKind, Region, RegionContent};
 use dexterity_ir::types::ArgType;
 use dexterity_ir::MethodData;
@@ -108,6 +108,9 @@ pub struct BodyGenContext {
     /// Whether this method is a constructor (<init>)
     /// Used for single-branch ternary optimization
     pub is_constructor: bool,
+    /// Synthetic lambda methods available for inlining
+    /// Maps method name (e.g., "lambda$main$0") to method data
+    pub lambda_methods: HashMap<String, std::sync::Arc<dexterity_ir::MethodData>>,
 }
 
 /// Tracks a StringBuilder chain for optimization to string concatenation
@@ -208,7 +211,22 @@ impl BodyGenContext {
             stringbuilder_chains: HashMap::new(),
             last_source_line: None,
             is_constructor: method.name == "<init>",
+            lambda_methods: HashMap::new(),
         }
+    }
+
+    /// Create a new body generation context with lambda methods for inlining
+    pub fn from_method_with_lambda_methods(
+        method: &MethodData,
+        dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+        inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<dexterity_ir::ClassData>>>,
+        lambda_methods: Option<&HashMap<String, std::sync::Arc<dexterity_ir::MethodData>>>,
+    ) -> Self {
+        let mut ctx = Self::from_method_with_dex_and_inner_classes(method, dex_info, inner_classes);
+        if let Some(lambdas) = lambda_methods {
+            ctx.lambda_methods = lambdas.clone();
+        }
+        ctx
     }
 
     /// Register an anonymous class for inline generation
@@ -219,6 +237,11 @@ impl BodyGenContext {
     /// Get an anonymous class by type descriptor
     pub fn get_anonymous_class(&self, type_desc: &str) -> Option<&dexterity_ir::ClassData> {
         self.anonymous_classes.get(type_desc).map(|arc| arc.as_ref())
+    }
+
+    /// Get a synthetic lambda method by name for inlining
+    pub fn get_lambda_method(&self, name: &str) -> Option<&dexterity_ir::MethodData> {
+        self.lambda_methods.get(name).map(|arc| arc.as_ref())
     }
 
     /// Check if a variable should be inlined (used exactly once and has an expression)
@@ -315,6 +338,44 @@ impl BodyGenContext {
         }
         // Fall back to direct write via ExprGen
         self.expr_gen.write_arg(writer, arg);
+    }
+
+    /// Write an argument with type-aware formatting
+    ///
+    /// This method uses the target type to properly format literals:
+    /// - For `char` type: formats `91` as `'['`
+    /// - For `boolean` type: formats `0`/`1` as `false`/`true`
+    /// - For other types: uses default formatting
+    ///
+    /// This is essential for method invocations where the parameter type
+    /// differs from how the literal is stored (e.g., `append(char)` receiving an int).
+    pub fn write_arg_inline_typed<W: CodeWriter>(&mut self, writer: &mut W, arg: &InsnArg, target_type: &ArgType) {
+        if let InsnArg::Register(reg) = arg {
+            // Check if we have an inlined expression for this register
+            if let Some(expr) = self.take_inline_expr(reg.reg_num, reg.ssa_version) {
+                // Check if this is a pure integer literal that needs type conversion
+                // e.g., "91" should become "'['" when target type is char
+                if let Ok(value) = expr.trim().parse::<i64>() {
+                    match target_type {
+                        ArgType::Char => {
+                            let c = char::from_u32(value as u32).unwrap_or('\u{FFFD}');
+                            writer.add(&crate::type_gen::escape_char_pub(c));
+                            return;
+                        }
+                        ArgType::Boolean => {
+                            writer.add(if value == 0 { "false" } else { "true" });
+                            return;
+                        }
+                        _ => {}
+                    }
+                }
+                // Not a convertible literal, use as-is
+                writer.add(&expr);
+                return;
+            }
+        }
+        // Use type-aware formatting for the argument
+        self.expr_gen.write_arg_with_type(writer, arg, target_type);
     }
 
     /// Set imports for using simple type names in variable declarations
@@ -1081,11 +1142,33 @@ thread_local! {
 /// their method bodies inlined instead of just `new AnonymousClass()`.
 ///
 /// The `current_class_type` parameter is used to distinguish `super()` vs `this()` in constructors.
+///
+/// When `lambda_methods` is provided, synthetic lambda methods can be inlined into lambda expressions.
 pub fn generate_body_with_inner_classes<W: CodeWriter>(
     method: &MethodData,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
     inner_classes: Option<&HashMap<String, std::sync::Arc<dexterity_ir::ClassData>>>,
+    hierarchy: Option<&dexterity_ir::ClassHierarchy>,
+    current_class_type: Option<&str>,
+    deobf_min_length: usize,
+    deobf_max_length: usize,
+    fallback: bool,
+    code: &mut W,
+) {
+    generate_body_with_inner_classes_and_lambdas(
+        method, dex_info, imports, inner_classes, None, hierarchy,
+        current_class_type, deobf_min_length, deobf_max_length, fallback, code
+    );
+}
+
+/// Generate method body with full context including lambda methods for inlining
+pub fn generate_body_with_inner_classes_and_lambdas<W: CodeWriter>(
+    method: &MethodData,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    imports: Option<&BTreeSet<String>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<dexterity_ir::ClassData>>>,
+    lambda_methods: Option<&HashMap<String, std::sync::Arc<dexterity_ir::MethodData>>>,
     hierarchy: Option<&dexterity_ir::ClassHierarchy>,
     current_class_type: Option<&str>,
     deobf_min_length: usize,
@@ -1105,16 +1188,20 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
         }
     }
 
+    // Clone lambda_methods for the closure
+    let lambda_methods_clone = lambda_methods.cloned();
+
     let result = catch_unwind(AssertUnwindSafe(|| {
         generate_body_with_inner_classes_impl(
-            method, 
-            dex_info.clone(), 
-            imports, 
-            inner_classes, 
-            hierarchy, 
-            current_class_type, 
-            deobf_min_length, 
-            deobf_max_length, 
+            method,
+            dex_info.clone(),
+            imports,
+            inner_classes,
+            lambda_methods_clone.as_ref(),
+            hierarchy,
+            current_class_type,
+            deobf_min_length,
+            deobf_max_length,
             code
         )
     }));
@@ -1132,6 +1219,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
     inner_classes: Option<&HashMap<String, std::sync::Arc<dexterity_ir::ClassData>>>,
+    lambda_methods: Option<&HashMap<String, std::sync::Arc<dexterity_ir::MethodData>>>,
     hierarchy: Option<&dexterity_ir::ClassHierarchy>,
     current_class_type: Option<&str>,
     deobf_min_length: usize,
@@ -1298,7 +1386,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
         dexterity_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
     };
 
-    let mut ctx = BodyGenContext::from_method_with_dex(method, dex_info.clone());
+    let mut ctx = BodyGenContext::from_method_with_lambda_methods(method, dex_info.clone(), inner_classes, lambda_methods);
     ctx.expr_gen.set_deobf_limits(deobf_min_length, deobf_max_length);
     let max_versions = ssa_result.max_versions.clone();
     // Collect phi destinations before consuming SSA result
@@ -1310,14 +1398,6 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     // Set current class type for super() vs this() detection in constructors
     if let Some(class_type) = current_class_type {
         ctx.set_current_class_type(class_type.to_string());
-    }
-
-    if let Some(inner) = inner_classes {
-        for (type_desc, class_data) in inner {
-            if is_anonymous_class(type_desc) {
-                ctx.anonymous_classes.insert(type_desc.clone(), class_data.clone());
-            }
-        }
     }
 
     ctx.use_counts = count_variable_uses(&ctx.blocks);
@@ -1412,7 +1492,7 @@ fn detect_iterator_pattern(condition: &Condition, ctx: &BodyGenContext) -> Optio
             // Look for an Invoke instruction calling hasNext()
             for insn in basic_block.instructions.iter() {
                 // Check both Interface and Virtual invokes (ArrayList uses virtual, interface uses interface)
-                if let InsnType::Invoke { kind, method_idx, args } = &insn.insn_type {
+                if let InsnType::Invoke { kind, method_idx, args, .. } = &insn.insn_type {
                     if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
                         if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
                             if method_info.method_name == "hasNext" && args.len() == 1 {
@@ -1487,7 +1567,7 @@ fn detect_next_call(body: &Region, iterator_reg: u16, ctx: &BodyGenContext) -> O
     // Look for an Invoke calling next() on the iterator
     for (i, insn) in block.instructions.iter().enumerate() {
         // Check both Interface and Virtual invokes
-        if let InsnType::Invoke { kind, method_idx, args } = &insn.insn_type {
+        if let InsnType::Invoke { kind, method_idx, args, .. } = &insn.insn_type {
             if matches!(kind, InvokeKind::Interface | InvokeKind::Virtual) {
                 if let Some(method_info) = ctx.expr_gen.get_method_value(*method_idx) {
                     if method_info.method_name == "next" && args.len() == 1 {
@@ -1913,7 +1993,7 @@ fn find_hashcode_source_in_block(
 ) -> Option<(u16, u32)> {
     // Look for invoke-virtual followed by MoveResult that puts into target_reg
     for (i, insn) in block.instructions.iter().enumerate() {
-        if let InsnType::Invoke { kind: InvokeKind::Virtual, method_idx: _, args } = &insn.insn_type {
+        if let InsnType::Invoke { kind: InvokeKind::Virtual, method_idx: _, args, .. } = &insn.insn_type {
             // hashCode() takes just `this`
             if args.len() == 1 {
                 // Check if next instruction is MoveResult to our target
@@ -1996,7 +2076,7 @@ fn extract_string_from_equals(
     string_reg: u16,
     ctx: &BodyGenContext,
 ) -> Option<String> {
-    if let InsnType::Invoke { kind: InvokeKind::Virtual, method_idx: _, args } = &insn.insn_type {
+    if let InsnType::Invoke { kind: InvokeKind::Virtual, method_idx: _, args, .. } = &insn.insn_type {
         // equals() takes 2 args: this, other
         if args.len() == 2 {
             // Check if first arg is our string register (str.equals(literal))
@@ -2995,6 +3075,7 @@ fn emit_ternary_assignment<W: CodeWriter>(
 fn emit_return_ternary<W: CodeWriter>(
     ternary: &ReturnTernaryInfo,
     condition_str: &str,
+    return_type: &ArgType,
     code: &mut W,
 ) {
     // Try to simplify ternary-to-boolean patterns first
@@ -3006,6 +3087,33 @@ fn emit_return_ternary<W: CodeWriter>(
             .add(";")
             .newline();
         return;
+    }
+
+    // For boolean return type, simplify `cond ? 1 : 0` to just `cond`
+    // and `cond ? 0 : 1` to `!cond`
+    // In DEX bytecode, boolean comparisons often result in 1/0 literals
+    if matches!(return_type, ArgType::Boolean) {
+        let then_trimmed = ternary.then_value.trim();
+        let else_trimmed = ternary.else_value.trim();
+
+        if then_trimmed == "1" && else_trimmed == "0" {
+            // cond ? 1 : 0 in boolean context -> cond
+            code.start_line()
+                .add("return ")
+                .add(condition_str)
+                .add(";")
+                .newline();
+            return;
+        }
+        if then_trimmed == "0" && else_trimmed == "1" {
+            // cond ? 0 : 1 in boolean context -> !cond
+            code.start_line()
+                .add("return !(")
+                .add(condition_str)
+                .add(");")
+                .newline();
+            return;
+        }
     }
 
     // Generate return with ternary expression
@@ -3089,6 +3197,196 @@ fn ssa_blocks_to_map_owned(ssa_result: dexterity_passes::ssa::SsaResult) -> BTre
     map
 }
 
+/// Generate a lambda expression with proper syntax
+fn generate_lambda_expression<W: CodeWriter>(
+    info: &dexterity_ir::LambdaInfo,
+    invoke_args: &[dexterity_ir::InsnArg],
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) {
+    // Generate parameter list
+    let param_count = info.lambda_param_types.len();
+    if param_count == 0 {
+        code.add("()");
+    } else if param_count == 1 {
+        let param_name = generate_lambda_param_name(0, &info.lambda_param_types[0]);
+        code.add(&param_name);
+    } else {
+        code.add("(");
+        for (i, param_type) in info.lambda_param_types.iter().enumerate() {
+            if i > 0 { code.add(", "); }
+            code.add(&generate_lambda_param_name(i, param_type));
+        }
+        code.add(")");
+    }
+
+    code.add(" -> ");
+
+    // Try to inline the lambda body if available
+    if info.inline_body {
+        if let Some(lambda_method) = ctx.get_lambda_method(&info.impl_method_name) {
+            if let Some(body_expr) = try_inline_single_expression_lambda(lambda_method, info, invoke_args, ctx) {
+                code.add(&body_expr);
+                return;
+            }
+        }
+    }
+
+    // Fallback: Generate a block that calls the implementation method
+    generate_lambda_method_call_body(info, invoke_args, ctx, code);
+}
+
+fn try_inline_single_expression_lambda(
+    lambda_method: &dexterity_ir::MethodData,
+    info: &dexterity_ir::LambdaInfo,
+    invoke_args: &[dexterity_ir::InsnArg],
+    ctx: &BodyGenContext,
+) -> Option<String> {
+    let instructions = lambda_method.instructions()?;
+    let meaningful: Vec<_> = instructions.iter()
+        .filter(|i| !matches!(i.insn_type, dexterity_ir::InsnType::Nop))
+        .collect();
+
+    if meaningful.len() == 1 {
+        if let dexterity_ir::InsnType::Return { value: Some(ret_arg) } = &meaningful[0].insn_type {
+            return Some(generate_arg_with_lambda_mapping(ret_arg, info, invoke_args, ctx));
+        }
+    }
+    if meaningful.len() == 2 {
+        if let dexterity_ir::InsnType::Return { value: Some(ret_arg) } = &meaningful[1].insn_type {
+            if let dexterity_ir::InsnArg::Register(reg) = ret_arg {
+                if let Some(expr) = generate_insn_as_expression(&meaningful[0].insn_type, reg.reg_num, info, invoke_args, ctx) {
+                    return Some(expr);
+                }
+            }
+        }
+    }
+    None
+}
+
+fn generate_insn_as_expression(
+    insn_type: &dexterity_ir::InsnType,
+    _target_reg: u16,
+    info: &dexterity_ir::LambdaInfo,
+    invoke_args: &[dexterity_ir::InsnArg],
+    ctx: &BodyGenContext,
+) -> Option<String> {
+    use dexterity_ir::instructions::BinaryOp;
+    match insn_type {
+        dexterity_ir::InsnType::Binary { left, op, right, .. } => {
+            let left_str = generate_arg_with_lambda_mapping(left, info, invoke_args, ctx);
+            let right_str = generate_arg_with_lambda_mapping(right, info, invoke_args, ctx);
+            let op_str = match op {
+                BinaryOp::Add => "+",
+                BinaryOp::Sub => "-",
+                BinaryOp::Mul => "*",
+                BinaryOp::Div => "/",
+                BinaryOp::Rem => "%",
+                BinaryOp::And => "&",
+                BinaryOp::Or => "|",
+                BinaryOp::Xor => "^",
+                BinaryOp::Shl => "<<",
+                BinaryOp::Shr => ">>",
+                BinaryOp::Ushr => ">>>",
+                BinaryOp::Rsub => "-", // Rsub is reverse subtract
+            };
+            Some(format!("{} {} {}", left_str, op_str, right_str))
+        }
+        dexterity_ir::InsnType::Const { value, .. } => Some(ctx.expr_gen.gen_literal(value)),
+        _ => None,
+    }
+}
+
+fn generate_arg_with_lambda_mapping(
+    arg: &dexterity_ir::InsnArg,
+    info: &dexterity_ir::LambdaInfo,
+    invoke_args: &[dexterity_ir::InsnArg],
+    ctx: &BodyGenContext,
+) -> String {
+    match arg {
+        dexterity_ir::InsnArg::Register(reg) => {
+            let reg_num = reg.reg_num as usize;
+            if reg_num < info.captured_arg_count && reg_num < invoke_args.len() {
+                return ctx.expr_gen.gen_arg(&invoke_args[reg_num]);
+            }
+            let param_idx = reg_num.saturating_sub(info.captured_arg_count);
+            if param_idx < info.lambda_param_types.len() {
+                return generate_lambda_param_name(param_idx, &info.lambda_param_types[param_idx]);
+            }
+            format!("v{}", reg_num)
+        }
+        dexterity_ir::InsnArg::Literal(lit) => ctx.expr_gen.gen_literal(lit),
+        // For other arg types (Type, Field, Method, String refs), use the standard gen_arg
+        _ => ctx.expr_gen.gen_arg(arg),
+    }
+}
+
+fn generate_lambda_param_name(idx: usize, param_type: &dexterity_ir::ArgType) -> String {
+    use dexterity_ir::ArgType;
+    let base = match param_type {
+        ArgType::Int => "i", ArgType::Long => "l", ArgType::Float => "f",
+        ArgType::Double => "d", ArgType::Boolean => "b", ArgType::Byte => "b",
+        ArgType::Char => "c", ArgType::Short => "s",
+        ArgType::Object(name) => {
+            let simple = name.rsplit('/').next().unwrap_or("obj").strip_suffix(';').unwrap_or(name.rsplit('/').next().unwrap_or("obj"));
+            let prefix = simple.chars().next().unwrap_or('o').to_lowercase().to_string();
+            return if idx > 0 { format!("{}{}", prefix, idx) } else { prefix };
+        }
+        ArgType::Array(_) => "arr",
+        ArgType::Generic { base, .. } => {
+            let prefix = base.rsplit('/').next().unwrap_or("t").chars().next().unwrap_or('t').to_lowercase().to_string();
+            return if idx > 0 { format!("{}{}", prefix, idx) } else { prefix };
+        }
+        ArgType::Void => "v", ArgType::Unknown | ArgType::Wildcard { .. } | ArgType::TypeVariable(_) => "p",
+    };
+    if idx == 0 { base.to_string() } else { format!("{}{}", base, idx) }
+}
+
+fn generate_lambda_method_call_body<W: CodeWriter>(
+    info: &dexterity_ir::LambdaInfo,
+    invoke_args: &[dexterity_ir::InsnArg],
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) {
+    let is_void = matches!(info.lambda_return_type, dexterity_ir::ArgType::Void);
+    let use_block = !invoke_args.is_empty() || !is_void;
+
+    if use_block {
+        code.add("{").newline().inc_indent();
+        code.start_line();
+        if !is_void { code.add("return "); }
+    }
+
+    if matches!(info.handle_type, dexterity_ir::LambdaHandleType::InvokeStatic) {
+        code.add(&info.impl_class.replace('/', ".")).add(".").add(&info.impl_method_name);
+    } else {
+        if !invoke_args.is_empty() { ctx.write_arg_inline(code, &invoke_args[0]); code.add("."); }
+        else { code.add("this."); }
+        code.add(&info.impl_method_name);
+    }
+
+    code.add("(");
+    let skip = if matches!(info.handle_type, dexterity_ir::LambdaHandleType::InvokeStatic) { 0 } else { 1 };
+    let mut first = true;
+    for (i, arg) in invoke_args.iter().enumerate() {
+        if i < skip { continue; }
+        if !first { code.add(", "); }
+        first = false;
+        ctx.write_arg_inline(code, arg);
+    }
+    for (i, pt) in info.lambda_param_types.iter().enumerate() {
+        if !first { code.add(", "); }
+        first = false;
+        code.add(&generate_lambda_param_name(i, pt));
+    }
+    code.add(")");
+
+    if use_block {
+        code.add(";").newline().dec_indent();
+        code.start_line().add("}");
+    }
+}
+
 /// Generate code from a region
 fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
     match region {
@@ -3122,7 +3420,7 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
                 if !matches!(ctx.return_type, ArgType::Void) {
                     if let Some(return_ternary) = detect_return_ternary_pattern(then_region, else_reg, ctx) {
                         let condition_str = generate_condition(condition, ctx);
-                        emit_return_ternary(&return_ternary, &condition_str, code);
+                        emit_return_ternary(&return_ternary, &condition_str, &ctx.return_type, code);
                         return;
                     }
                 }
@@ -3816,6 +4114,53 @@ fn generate_anonymous_class_inline<W: CodeWriter>(
     code.add("}");
 }
 
+/// Helper to write method arguments with type-aware formatting
+/// Uses param_types to properly format literals like char (91 -> '[') and boolean (0 -> false)
+fn write_typed_args<W: CodeWriter>(
+    args: &[InsnArg],
+    param_types: &[ArgType],
+    skip_count: usize,
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) {
+    for (i, a) in args.iter().skip(skip_count).enumerate() {
+        if i > 0 { code.add(", "); }
+        // Use type-aware formatting if we have the parameter type
+        if let Some(param_type) = param_types.get(i) {
+            ctx.write_arg_inline_typed(code, a, param_type);
+        } else {
+            ctx.write_arg_inline(code, a);
+        }
+    }
+}
+
+/// Generate code for invoke-polymorphic (MethodHandle/VarHandle API)
+/// Format: receiver.invoke(args...)
+/// Note: proto_idx contains return type info but we don't have proto table access yet
+/// The cast will be added when MoveResult processes the return value
+#[allow(unused_variables)]
+fn write_polymorphic_invoke<W: CodeWriter>(
+    args: &[InsnArg],
+    proto_idx: Option<u32>,
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) {
+    // Write receiver (first arg) - should be the MethodHandle/VarHandle
+    if let Some(receiver) = args.first() {
+        ctx.write_arg_inline(code, receiver);
+    }
+
+    // Write .invoke(remaining args)
+    code.add(".invoke(");
+    for (i, arg) in args.iter().skip(1).enumerate() {
+        if i > 0 {
+            code.add(", ");
+        }
+        ctx.write_arg_inline(code, arg);
+    }
+    code.add(")");
+}
+
 /// Generate an invoke expression with inlined arguments
 /// OPTIMIZED: Write invoke expression directly to CodeWriter - avoids String allocation
 /// This is the hot path for all method calls
@@ -3823,9 +4168,16 @@ fn write_invoke_with_inlining<W: CodeWriter>(
     kind: &InvokeKind,
     method_idx: u32,
     args: &[InsnArg],
+    proto_idx: Option<u32>,
     ctx: &mut BodyGenContext,
     code: &mut W,
 ) {
+    // Handle polymorphic invoke specially (MethodHandle/VarHandle)
+    if matches!(kind, InvokeKind::Polymorphic) {
+        write_polymorphic_invoke(args, proto_idx, ctx, code);
+        return;
+    }
+
     // Get method info for proper formatting
     if let Some(info) = ctx.expr_gen.get_method_value(method_idx) {
         let skip_count = if matches!(kind, InvokeKind::Static) { 0 } else { 1 };
@@ -3858,12 +4210,9 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                     }
                 }
 
-                // Normal static method call
+                // Normal static method call with type-aware argument formatting
                 code.add(&info.class_name).add(".").add(&info.method_name).add("(");
-                for (i, a) in args.iter().enumerate() {
-                    if i > 0 { code.add(", "); }
-                    ctx.write_arg_inline(code, a);
-                }
+                write_typed_args(args, &info.param_types, skip_count, ctx, code);
                 code.add(")");
             }
             InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
@@ -3909,10 +4258,8 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                     }
                     code.add(&info.method_name).add("(");
                 }
-                for (i, a) in args.iter().skip(skip_count).enumerate() {
-                    if i > 0 { code.add(", "); }
-                    ctx.write_arg_inline(code, a);
-                }
+                // Use type-aware argument formatting
+                write_typed_args(args, &info.param_types, skip_count, ctx, code);
                 code.add(")");
             }
             InvokeKind::Super => {
@@ -3921,10 +4268,8 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 } else {
                     code.add("super.").add(&info.method_name).add("(");
                 }
-                for (i, a) in args.iter().skip(skip_count).enumerate() {
-                    if i > 0 { code.add(", "); }
-                    ctx.write_arg_inline(code, a);
-                }
+                // Use type-aware argument formatting
+                write_typed_args(args, &info.param_types, skip_count, ctx, code);
                 code.add(")");
             }
             _ => {
@@ -3975,12 +4320,13 @@ fn gen_invoke_with_inlining(
     kind: &InvokeKind,
     method_idx: u32,
     args: &[InsnArg],
+    proto_idx: Option<u32>,
     ctx: &mut BodyGenContext,
 ) -> String {
     // OPTIMIZED: Use RawStringWriter to write directly to string buffer
     // This avoids creating intermediate strings for every argument
     let mut writer = RawStringWriter::with_capacity(50 + args.len() * 10);
-    write_invoke_with_inlining(kind, method_idx, args, ctx, &mut writer);
+    write_invoke_with_inlining(kind, method_idx, args, proto_idx, ctx, &mut writer);
     writer.finish()
 }
 
@@ -4000,7 +4346,7 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
     }
 
     // Special handling for Invoke: store expression if MoveResult follows
-    if let InsnType::Invoke { kind, method_idx, args } = &insn.insn_type {
+    if let InsnType::Invoke { kind, method_idx, args, proto_idx } = &insn.insn_type {
         // Check if this is an <init> call on a pending new-instance
         if matches!(kind, InvokeKind::Direct) {
             // Get method info to check if this is <init>
@@ -4138,12 +4484,12 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
         // Normal invoke handling - use inlining for arguments
         if next_is_move_result {
             // Store expression for MoveResult to use (needs String)
-            let expr = gen_invoke_with_inlining(kind, *method_idx, args, ctx);
+            let expr = gen_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx);
             ctx.last_invoke_expr = Some(expr);
         } else {
             // OPTIMIZED: No MoveResult follows - write directly without String allocation
             code.start_line();
-            write_invoke_with_inlining(kind, *method_idx, args, ctx, code);
+            write_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx, code);
             code.add(";").newline();
         }
         return true;
@@ -4445,10 +4791,10 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::Invoke { kind, method_idx, args } => {
+        InsnType::Invoke { kind, method_idx, args, proto_idx } => {
             // Use write_invoke_with_inlining to properly inline constant arguments
             code.start_line();
-            write_invoke_with_inlining(kind, *method_idx, args, ctx, code);
+            write_invoke_with_inlining(kind, *method_idx, args, *proto_idx, ctx, code);
             code.add(";").newline();
             true
         }
@@ -4464,7 +4810,7 @@ fn generate_insn<W: CodeWriter>(
                     code.add(&info.impl_class).add("::").add(&info.impl_method_name);
                 } else {
                     // Lambda syntax: (args) -> body or (args) -> { statements }
-                    code.add("/* TODO: lambda -> ").add(&info.impl_method_name).add(" */");
+                    generate_lambda_expression(info, args, ctx, code);
                 }
             } else {
                 // Fallback - no lambda info available
@@ -4791,10 +5137,12 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
         ArgType::Unknown => "obj".to_string(),
     };
 
+    // JADX starts numeric suffixes from 2, not 1
+    // First param: i, second: i2, third: i3, etc.
     if index == 0 {
         base
     } else {
-        format!("{}{}", base, index)
+        format!("{}{}", base, index + 1)
     }
 }
 

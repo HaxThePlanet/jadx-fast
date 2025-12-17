@@ -428,6 +428,12 @@ pub struct ClassGenConfig {
     pub deobf_min_length: usize,
     /// Deobfuscation: maximum name length (longer names get renamed)
     pub deobf_max_length: usize,
+    /// Resource ID -> name mapping (e.g., 0x7f010001 -> "id/button")
+    pub res_names: std::collections::HashMap<u32, String>,
+    /// Whether to replace resource IDs with R.* field references
+    pub replace_consts: bool,
+    /// App package name for R class imports
+    pub app_package_name: Option<String>,
 }
 
 impl Default for ClassGenConfig {
@@ -443,6 +449,9 @@ impl Default for ClassGenConfig {
             hierarchy: None,
             deobf_min_length: 3,
             deobf_max_length: 64,
+            res_names: std::collections::HashMap::new(),
+            replace_consts: false,
+            app_package_name: None,
         }
     }
 }

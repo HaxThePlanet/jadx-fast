@@ -741,7 +741,7 @@ impl ExprGen {
                 }
             }
 
-            InsnType::Invoke { kind, method_idx, args } => {
+            InsnType::Invoke { kind, method_idx, args, .. } => {
                 let args_str: Vec<_> = args.iter()
                     .skip(if matches!(kind, InvokeKind::Static) { 0 } else { 1 }) // Skip 'this' for non-static
                     .map(|a| self.gen_arg(a))
@@ -934,7 +934,7 @@ impl ExprGen {
                 true
             }
 
-            InsnType::Invoke { kind, method_idx, args } => {
+            InsnType::Invoke { kind, method_idx, args, .. } => {
                 // Skip 'this' arg for non-static methods
                 let skip_receiver = !matches!(kind, InvokeKind::Static);
 

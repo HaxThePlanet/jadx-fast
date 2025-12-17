@@ -93,6 +93,12 @@ pub struct LambdaInfo {
     pub use_method_ref: bool,
     /// Whether to inline the lambda body (synthetic methods)
     pub inline_body: bool,
+    /// Number of captured variables (args passed to invoke-custom that become method params)
+    pub captured_arg_count: usize,
+    /// Lambda parameter types (from the functional interface's abstract method)
+    pub lambda_param_types: Vec<ArgType>,
+    /// Lambda return type (from the functional interface's abstract method)
+    pub lambda_return_type: ArgType,
 }
 
 /// IR instruction types
@@ -251,6 +257,8 @@ pub enum InsnType {
         kind: InvokeKind,
         method_idx: u32,
         args: Vec<InsnArg>,
+        /// Proto index for polymorphic invokes (MethodHandle/VarHandle)
+        proto_idx: Option<u32>,
     },
 
     /// Lambda/method reference invocation (invoke-custom)

@@ -383,10 +383,11 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
 
     tracing::info!("Found {} DEX file(s), {} resource XMLs", dex_file_names.len(), xml_resource_names.len());
 
-    // Process resources (ARSC + AXML)
+    // Process resources (ARSC + AXML) and get resource name mappings
+    let mut res_names: std::collections::HashMap<u32, String> = std::collections::HashMap::new();
     if !args.skip_resources {
         let pretty_print = !args.no_xml_pretty_print;
-        process_resources_streaming(out_res, manifest_data, arsc_data, &xml_resource_names, raw_file_count, input, pretty_print)?;
+        res_names = process_resources_streaming(out_res, manifest_data, arsc_data, &xml_resource_names, raw_file_count, input, pretty_print)?;
     }
 
     // Process source code (DEX) - one at a time to minimize memory
@@ -415,7 +416,7 @@ fn process_apk(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             entry.read_to_end(&mut dex_data)?;
 
             // Process it immediately
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name) {
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, &res_names) {
                 Ok(count) => total_classes += count,
                 Err(e) => {
                     tracing::warn!("Failed to process {}: {}", dex_name, e);
@@ -452,7 +453,7 @@ fn process_resources_streaming(
     raw_file_count: usize,
     apk_path: &PathBuf,
     pretty_print: bool,
-) -> Result<()> {
+) -> Result<std::collections::HashMap<u32, String>> {
     use dexterity_resources::{ArscParser, AxmlParser};
     use std::collections::HashMap;
 
@@ -556,7 +557,7 @@ fn process_resources_streaming(
     tracing::info!("Processed {} resource XMLs ({} errors)", xml_count, xml_errors);
     tracing::info!("Extracted {} raw files", raw_file_count);
 
-    Ok(())
+    Ok(res_names)
 }
 
 #[allow(dead_code)]
@@ -670,7 +671,8 @@ fn process_dex(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
     let progress = create_progress_bar(args);
     let global_field_pool = Arc::new(GlobalFieldPool::new());
     let dex_name = input.file_name().and_then(|n| n.to_str()).unwrap_or("classes.dex");
-    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), 0, dex_name)?;
+    let res_names = std::collections::HashMap::new(); // DEX files don't have resources
+    let count = process_dex_bytes(&data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), 0, dex_name, &res_names)?;
 
     if let Some(pb) = progress {
         pb.finish_with_message("done");
@@ -1005,6 +1007,7 @@ fn process_dex_bytes(
     global_field_pool: Arc<GlobalFieldPool>,
     dex_idx: u32,
     dex_name: &str,
+    res_names: &std::collections::HashMap<u32, String>,
 ) -> Result<usize> {
     mem_checkpoint!("before DexReader");
 
@@ -1402,6 +1405,9 @@ fn process_dex_bytes(
                     hierarchy: Some(hierarchy_arc.clone()),
                     deobf_min_length: args.deobf_min_length,
                     deobf_max_length: args.deobf_max_length,
+                    res_names: res_names.clone(),
+                    replace_consts: args.replace_consts,
+                    app_package_name: None, // TODO: Extract from ARSC or ClassData
                 };
                 let dex_arc: std::sync::Arc<dyn dexterity_codegen::DexInfoProvider> = dex_info.clone();
 

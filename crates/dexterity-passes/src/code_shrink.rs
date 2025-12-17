@@ -952,6 +952,7 @@ mod tests {
                 kind: InvokeKind::Virtual,
                 method_idx: 0,
                 args: vec![InsnArg::reg(0)],
+                proto_idx: None,
             },
             0,
         );
@@ -966,6 +967,7 @@ mod tests {
                 kind: InvokeKind::Virtual,
                 method_idx: 0,
                 args: vec![InsnArg::reg(0)],
+                proto_idx: None,
             },
             1,
         );
@@ -990,6 +992,7 @@ mod tests {
                 kind: InvokeKind::Virtual,
                 method_idx: 0,
                 args: vec![InsnArg::reg(0), InsnArg::reg(1)],
+                proto_idx: None,
             },
             1,
         );

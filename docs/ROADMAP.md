@@ -224,7 +224,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 | File | LOC | Purpose |
 |------|-----|---------|
 | `crates/dexterity-passes/src/type_inference.rs` | 2,644 | Type inference |
-| `crates/dexterity-codegen/src/body_gen.rs` | 5,470 | Region traversal |
+| `crates/dexterity-codegen/src/body_gen.rs` | 5,491 | Region traversal |
 | `crates/dexterity-passes/src/region_builder.rs` | 2,094 | Control flow |
 | `crates/dexterity-passes/src/var_naming.rs` | 1,480 | Variable naming |
 | `crates/dexterity-codegen/src/expr_gen.rs` | 1,379 | Expression gen |
@@ -267,7 +267,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - Quality: 84.5%/87.8%
 
 ### Dec 16, 2025 - PRODUCTION READY Status Achieved
-All 18 P1-P2 issues resolved. Quality improver confirmed:
+All 19 P1-P2 issues resolved. Quality improver confirmed:
 - Type inference: 0 Unknown type failures
 - Variable naming: 99.96% reduction (27,794 → 11)
 - Defect score: 95.9%/96.8%
@@ -293,5 +293,5 @@ All 18 P1-P2 issues resolved. Quality improver confirmed:
 
 ---
 
-**Last Updated:** Dec 16, 2025
-**Status:** PRODUCTION READY - All 18 P1-P2 issues resolved
+**Last Updated:** Dec 17, 2025
+**Status:** PRODUCTION READY - All 19 P1-P2 issues resolved

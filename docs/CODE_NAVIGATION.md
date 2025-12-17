@@ -192,7 +192,7 @@ grep -n "fn is_subtype_of" class_hierarchy.rs
 
 #### Supporting Files
 
-**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~5,470 lines)
+**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~5,491 lines)
 - **Type:** Very Large - Use grep for specific functions
 - **Purpose:** Generates Java code from IR
 - **Key:** How type information is used in code generation
@@ -300,7 +300,7 @@ grep -n "static" class_gen.rs | grep "fn\|let"  # Look for static handling
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~5,470 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~5,491 lines)
 - **Type:** Very Large
 - **Purpose:** Method body generation
 - **Key Functions:**
@@ -362,7 +362,7 @@ grep -n "function_name(" file.rs
 |------|----------|----------|
 | <500 lines | Read entire file | `block_split.rs`, `class_hierarchy.rs` |
 | 500-1700 lines | Search for functions, read specific functions | `cfg.rs` (831), `ssa.rs` (964), `var_naming.rs` (1,480), `class_gen.rs` (1,539), `expr_gen.rs` (1,379), `conditionals.rs` (740), `simplify.rs` (1,646) |
-| 1700-5500 lines | Grep for functions, read relevant sections | `type_inference.rs` (2,644), `region_builder.rs` (2,094), `body_gen.rs` (5,470) |
+| 1700-5500 lines | Grep for functions, read relevant sections | `type_inference.rs` (2,644), `region_builder.rs` (2,094), `body_gen.rs` (5,491) |
 
 ### File Dependency Chain
 
@@ -540,7 +540,7 @@ grep -n "AFlag\|AType\|contains\|get(" jadx-fast/jadx-core/src/main/java/jadx/co
 
 ---
 
-**Last Updated: 2025-12-16**
+**Last Updated: 2025-12-17**
 **For algorithm context, see: `ALGORITHM_REFERENCES.md`**
 **For codegen parity, see: `JADX_CODEGEN_REFERENCE.md` Part 4**
 **For issues, see: `ISSUE_TRACKER.md`**

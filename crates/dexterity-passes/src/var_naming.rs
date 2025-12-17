@@ -910,8 +910,12 @@ pub fn assign_var_names_with_lookups<'a>(
         }
     }
 
-    // Helper closure to get potential name and its score for a variable
-    let get_name_candidate = |reg: u16, version: u32, naming: &mut VarNaming| -> Option<(String, u32)> {
+    // Helper closure to get potential BASE name and its score for a variable
+    // IMPORTANT: This returns the BASE name (e.g., "i", "str") without making it unique.
+    // The caller must call make_unique() once on the final selected name.
+    // This prevents multiple calls to make_unique when evaluating PHI group candidates,
+    // which was causing names like i2, i3, i4 when i, i, i should merge to just "i".
+    let get_name_candidate_base = |reg: u16, version: u32, ssa: &SsaResult, assignment_map: &HashMap<(u16, u32), (usize, usize, u32)>| -> Option<(String, u32)> {
         let insn_offset = assignment_map.get(&(reg, version)).map(|&(_, _, off)| off).unwrap_or(0);
 
         // Priority 1: Debug info name (score 100)
@@ -928,17 +932,16 @@ pub fn assign_var_names_with_lookups<'a>(
             if matches!(insn.insn_type, dexterity_ir::instructions::InsnType::MoveResult { .. }) {
                 if insn_idx > 0 {
                     let prev_insn = &block.instructions[insn_idx - 1];
-                    if let Some(name) = naming.name_from_instruction_context(prev_insn) {
-                        // Score based on name quality
-                        let score = score_name(&name);
-                        return Some((name, score));
+                    if let Some(base_name) = get_base_name_from_instruction(prev_insn, method_lookup, type_lookup, field_lookup) {
+                        let score = score_name(&base_name);
+                        return Some((base_name, score));
                     }
                 }
             }
 
-            if let Some(name) = naming.name_from_instruction_context(insn) {
-                let score = score_name(&name);
-                return Some((name, score));
+            if let Some(base_name) = get_base_name_from_instruction(insn, method_lookup, type_lookup, field_lookup) {
+                let score = score_name(&base_name);
+                return Some((base_name, score));
             }
         }
 
@@ -951,24 +954,24 @@ pub fn assign_var_names_with_lookups<'a>(
         None
     };
 
-    // For each CodeVar group, find the best name across all members
+    // For each CodeVar group, find the best BASE name across all members
     for (&code_var_idx, members) in &code_var_members {
         let mut best_name: Option<String> = None;
         let mut best_score: u32 = 0;
 
-        // Collect name candidates from all members
+        // Collect name candidates from all members (returns BASE names, not unique)
         for &(reg, version) in members {
-            if let Some((name, score)) = get_name_candidate(reg, version, &mut naming) {
+            if let Some((base_name, score)) = get_name_candidate_base(reg, version, ssa, &assignment_map) {
                 if score > best_score {
                     best_score = score;
-                    best_name = Some(name);
+                    best_name = Some(base_name);
                 }
             }
         }
 
-        // Use the best name for the entire group
-        if let Some(name) = best_name {
-            let unique_name = naming.make_unique(&name);
+        // Use the best name for the entire group (make unique ONCE here)
+        if let Some(base_name) = best_name {
+            let unique_name = naming.make_unique(&base_name);
             code_var_names.insert(code_var_idx, unique_name);
         }
     }
@@ -990,8 +993,9 @@ pub fn assign_var_names_with_lookups<'a>(
         // Priority 1: Debug info name (like JADX's DebugInfoApplyVisitor)
         let debug_name = get_debug_name(debug_info, reg, insn_offset);
 
-        // Priority 2: Context-based name from assignment instruction
-        let context_name = if debug_name.is_none() {
+        // Priority 2: Context-based BASE name from assignment instruction
+        // IMPORTANT: Get base name here, NOT unique name. We call make_unique once at the end.
+        let context_base_name = if debug_name.is_none() {
             assignment_map.get(&(reg, version))
                 .and_then(|&(block_idx, insn_idx, _)| {
                     let block = &ssa.blocks[block_idx];
@@ -1001,32 +1005,31 @@ pub fn assign_var_names_with_lookups<'a>(
                     if matches!(insn.insn_type, dexterity_ir::instructions::InsnType::MoveResult { .. }) {
                         if insn_idx > 0 {
                             let prev_insn = &block.instructions[insn_idx - 1];
-                            // Try to get name from the preceding Invoke instruction
-                            if let Some(name) = naming.name_from_instruction_context(prev_insn) {
-                                return Some(name);
+                            // Get base name from the preceding Invoke instruction
+                            if let Some(base) = get_base_name_from_instruction(prev_insn, method_lookup, type_lookup, field_lookup) {
+                                return Some(base);
                             }
                         }
                     }
 
-                    naming.name_from_instruction_context(insn)
+                    get_base_name_from_instruction(insn, method_lookup, type_lookup, field_lookup)
                 })
         } else {
             None
         };
 
+        // Now make the name unique - exactly ONE call to make_unique per variable
         let name = if let Some(name) = debug_name {
             // Got name from debug info (highest priority)
             naming.make_unique(&name)
-        } else if let Some(name) = context_name {
-            // Got a name from instruction context (like makeNameFromInsn succeeded)
-            name
+        } else if let Some(base_name) = context_base_name {
+            // Got a base name from instruction context - make it unique now
+            naming.make_unique(&base_name)
         } else if let Some(arg_type) = type_info.types.get(&(reg, version)) {
             // Fall back to type-based naming (like JADX's makeNameForType)
             naming.name_for_type(arg_type)
         } else {
-            // Last resort: use descriptive fallback name (like JADX's NameGen.getFallbackName)
-            // Using "obj" for object-likely variables is more readable than "r{reg}"
-            // This matches JADX's approach for unknown types
+            // Last resort: use descriptive fallback name
             naming.make_unique("obj")
         };
 
@@ -1077,6 +1080,132 @@ fn score_name(name: &str) -> u32 {
     let camel_case_bonus: u32 = if name.chars().any(|c| c.is_uppercase()) { 5 } else { 0 };
 
     base_score + length_bonus + camel_case_bonus
+}
+
+/// Get base name from instruction context without making it unique
+/// This is a static function that doesn't consume names from the VarNaming pool.
+/// Returns the base name (e.g., "length", "str", "user") that should later be made unique.
+fn get_base_name_from_instruction<'a>(
+    insn: &dexterity_ir::instructions::InsnNode,
+    method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
+    type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
+    field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
+) -> Option<String> {
+    use dexterity_ir::instructions::{InsnType, CastType};
+
+    match &insn.insn_type {
+        // Array length
+        InsnType::ArrayLength { .. } => Some("length".to_string()),
+
+        // String constant
+        InsnType::ConstString { .. } => Some("str".to_string()),
+
+        // Method invocation - extract name from method name
+        InsnType::Invoke { method_idx, .. } => {
+            if let Some(lookup) = method_lookup {
+                if let Some(info) = lookup(*method_idx) {
+                    if let Some(base) = VarNaming::extract_name_from_method(&info.method_name) {
+                        return Some(base);
+                    }
+                }
+            }
+            None
+        }
+
+        // NewInstance - use class name for variable name
+        InsnType::NewInstance { type_idx, .. } => {
+            if let Some(lookup) = type_lookup {
+                if let Some(type_name) = lookup(*type_idx) {
+                    let base = VarNaming::extract_class_name_base(&type_name);
+                    return Some(base.to_string());
+                }
+            }
+            None
+        }
+
+        // Instance field get
+        InsnType::InstanceGet { field_idx, .. } => {
+            if let Some(lookup) = field_lookup {
+                if let Some(info) = lookup(*field_idx) {
+                    let base = VarNaming::sanitize_field_name(&info.field_name);
+                    if !base.is_empty() && base.len() >= 2 {
+                        return Some(base);
+                    }
+                }
+            }
+            None
+        }
+
+        // Static field get
+        InsnType::StaticGet { field_idx, .. } => {
+            if let Some(lookup) = field_lookup {
+                if let Some(info) = lookup(*field_idx) {
+                    let base = VarNaming::sanitize_field_name(&info.field_name);
+                    if !base.is_empty() && base.len() >= 2 {
+                        return Some(base);
+                    }
+                }
+            }
+            None
+        }
+
+        // CheckCast - use target type
+        InsnType::CheckCast { type_idx, .. } => {
+            if let Some(lookup) = type_lookup {
+                if let Some(type_name) = lookup(*type_idx) {
+                    let base = VarNaming::extract_class_name_base(&type_name);
+                    return Some(base.to_string());
+                }
+            }
+            None
+        }
+
+        // Primitive Cast
+        InsnType::Cast { cast_type, .. } => {
+            let base = match cast_type {
+                CastType::IntToLong | CastType::FloatToLong | CastType::DoubleToLong => "l",
+                CastType::IntToFloat | CastType::LongToFloat | CastType::DoubleToFloat => "f",
+                CastType::IntToDouble | CastType::LongToDouble | CastType::FloatToDouble => "d",
+                CastType::LongToInt | CastType::FloatToInt | CastType::DoubleToInt => "i",
+                CastType::IntToByte => "b",
+                CastType::IntToChar => "c",
+                CastType::IntToShort => "s",
+            };
+            Some(base.to_string())
+        }
+
+        // NewArray
+        InsnType::NewArray { type_idx, .. } => {
+            if let Some(lookup) = type_lookup {
+                if let Some(type_name) = lookup(*type_idx) {
+                    if let Some(base) = VarNaming::array_var_name_from_type(&type_name) {
+                        return Some(base.to_string());
+                    }
+                }
+            }
+            Some("arr".to_string())
+        }
+
+        // FilledNewArray
+        InsnType::FilledNewArray { type_idx, .. } => {
+            if let Some(lookup) = type_lookup {
+                if let Some(type_name) = lookup(*type_idx) {
+                    if let Some(base) = VarNaming::array_var_name_from_type(&type_name) {
+                        return Some(base.to_string());
+                    }
+                }
+            }
+            Some("arr".to_string())
+        }
+
+        // InstanceOf
+        InsnType::InstanceOf { .. } => Some("z".to_string()),
+
+        // Compare
+        InsnType::Compare { .. } => Some("cmp".to_string()),
+
+        _ => None,
+    }
 }
 
 /// Get the destination register from an instruction type

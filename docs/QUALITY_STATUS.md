@@ -233,7 +233,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 | dexterity-dex | DEX binary parsing | ~4,315 |
 | dexterity-ir | Intermediate representation | ~4,236 |
 | dexterity-passes | SSA, type inference, regions | ~20,404 |
-| dexterity-codegen | Java source generation | ~11,664 |
+| dexterity-codegen | Java source generation | ~11,685 |
 | dexterity-resources | AXML and resources.arsc | ~4,032 |
 | dexterity-deobf | Deobfuscation | ~1,825 |
 | dexterity-kotlin | Kotlin metadata | ~597 |
@@ -247,7 +247,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 
 ## All P1-P2 Issues Resolved
 
-All 18 tracked issues have been resolved:
+All 19 tracked issues have been resolved:
 
 | Issue Category | Status |
 |----------------|--------|

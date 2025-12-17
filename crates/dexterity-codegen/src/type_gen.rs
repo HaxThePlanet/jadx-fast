@@ -258,6 +258,11 @@ fn format_long(value: i64) -> String {
 
 /// Escape a character literal
 fn escape_char(c: char) -> String {
+    escape_char_pub(c)
+}
+
+/// Public version of escape_char for use from body_gen.rs
+pub fn escape_char_pub(c: char) -> String {
     match c {
         '\n' => "'\\n'".to_string(),
         '\r' => "'\\r'".to_string(),

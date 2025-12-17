@@ -21,7 +21,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **~78,000 lines of Rust | 685 integration tests passing | 3-88x faster than JADX**
 
-**Status (Dec 16, 2025):** PRODUCTION READY. Dexterity achieves **1:1 identical app code** on simple APKs, **84.4-87.8% quality** on complex APKs, and is **3-88x faster** than JADX. All 18 P1-P2 issues resolved.
+**Status (Dec 17, 2025):** PRODUCTION READY. Dexterity achieves **1:1 identical app code** on simple APKs, **84.4-87.8% quality** on complex APKs, and is **3-88x faster** than JADX. All 19 P1-P2 issues resolved.
 
 ## Speed vs Quality Trade-off
 

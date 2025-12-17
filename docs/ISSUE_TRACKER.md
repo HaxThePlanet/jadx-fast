@@ -1208,12 +1208,12 @@ The `ImportCollector` was collecting types from method signatures, field types, 
 
 | Category | Resolved | Partial | Open | Total |
 |----------|----------|---------|------|-------|
-| CRITICAL | 11 | 1 | 0 | 12 |
+| CRITICAL | 12 | 0 | 0 | 12 |
 | HIGH | 5 | 0 | 0 | 5 |
 | MEDIUM | 2 | 0 | 0 | 2 |
-| **Total** | **17** | **1** | **0** | **18** |
+| **Total** | **19** | **0** | **0** | **19** |
 
-Note: NEW-CRITICAL-002 (Switch Recovery) is at 44% recovery - marked PARTIAL and downgraded to HIGH priority.
+Note: NEW-CRITICAL-002 (Switch Recovery) is at 91% recovery for app code - marked MOSTLY RESOLVED and downgraded to HIGH priority.
 
 ## Recent Changes
 

@@ -561,11 +561,12 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
         ArgType::Unknown => "obj".to_string(),
     };
 
-    // Add index suffix if needed to avoid conflicts
+    // JADX starts numeric suffixes from 2, not 1
+    // First param: i, second: i2, third: i3, etc.
     if index == 0 {
         base
     } else {
-        format!("{}{}", base, index)
+        format!("{}{}", base, index + 1)
     }
 }
 

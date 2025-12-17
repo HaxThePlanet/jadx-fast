@@ -27,11 +27,11 @@
 //!
 //! This transactional approach prevents partial updates on failure.
 
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 
-use dexterity_ir::instructions::{InsnType, RegisterArg};
+use dexterity_ir::instructions::{InsnArg, InsnType, InvokeKind, RegisterArg};
 use dexterity_ir::types::{ArgType, TypeCompare, compare_types};
 use dexterity_ir::ClassHierarchy;
 
@@ -913,6 +913,10 @@ impl TypeUpdateEngine {
     }
 
     /// Listener for INVOKE instructions
+    ///
+    /// Handles bidirectional type propagation for method invocations:
+    /// - When instance type is updated, resolve generic types for arguments
+    /// - When argument type is updated, may propagate back to instance
     fn invoke_listener(
         &mut self,
         info: &mut TypeUpdateInfo,
@@ -920,8 +924,132 @@ impl TypeUpdateEngine {
         var: TypeVar,
         candidate_type: &ArgType,
     ) -> TypeUpdateResult {
-        // TODO: Full implementation would propagate types to instance arg
-        // and back to return value based on generic type resolution
+        let InsnType::Invoke { kind, args, .. } = insn else {
+            return TypeUpdateResult::Same;
+        };
+
+        let is_static = matches!(kind, InvokeKind::Static);
+
+        // Build TypeVar mapping for args
+        let arg_vars: Vec<Option<TypeVar>> = args
+            .iter()
+            .map(|arg| {
+                if let InsnArg::Register(r) = arg {
+                    self.var_for_reg(r.reg_num, r.ssa_version)
+                } else {
+                    None
+                }
+            })
+            .collect();
+
+        // Case 1: Instance type is being updated (non-static, args[0])
+        if !is_static && !arg_vars.is_empty() {
+            if let Some(instance_var) = arg_vars[0] {
+                if instance_var == var {
+                    // Instance updated -> propagate to arguments with generic constraints
+                    return self.propagate_from_instance(info, candidate_type, &arg_vars[1..]);
+                }
+            }
+        }
+
+        // Case 2: An argument type is being updated
+        let param_start = if is_static { 0 } else { 1 };
+        for arg_var in arg_vars.iter().skip(param_start).flatten() {
+            if *arg_var == var {
+                // Argument updated -> may propagate back to instance or other args
+                if !is_static {
+                    if let Some(instance_var) = arg_vars[0] {
+                        return self.propagate_to_instance(info, candidate_type, instance_var);
+                    }
+                }
+            }
+        }
+
+        TypeUpdateResult::Same
+    }
+
+    /// Resolve a type variable against an instance type's generic parameters.
+    ///
+    /// Maps common type variable names to their positions in generic parameters:
+    /// - E, T, R -> First type parameter (List<E>, Optional<T>, etc.)
+    /// - V -> Second type parameter (Map<K,V>)
+    /// - K -> First type parameter (Map<K,V>)
+    fn resolve_type_var(var_name: &str, instance_type: &ArgType) -> Option<ArgType> {
+        if let ArgType::Generic { params, .. } = instance_type {
+            if !params.is_empty() {
+                return match var_name {
+                    "E" | "T" | "R" => params.first().cloned(),
+                    "V" if params.len() >= 2 => params.get(1).cloned(),
+                    "K" => params.first().cloned(),
+                    _ => params.first().cloned(),
+                };
+            }
+        }
+        None
+    }
+
+    /// Propagate type updates from instance to arguments with generic constraints.
+    ///
+    /// When the instance type is updated (e.g., from Object to List<String>),
+    /// resolve any TypeVariable in argument types using the instance's generic parameters.
+    fn propagate_from_instance(
+        &mut self,
+        info: &mut TypeUpdateInfo,
+        instance_type: &ArgType,
+        arg_vars: &[Option<TypeVar>],
+    ) -> TypeUpdateResult {
+        let mut changed = false;
+
+        for arg_var in arg_vars.iter().flatten() {
+            if let Some(current_type) = self.resolved.get(arg_var).cloned() {
+                if let ArgType::TypeVariable(ref var_name) = current_type {
+                    if let Some(resolved_type) = Self::resolve_type_var(var_name, instance_type) {
+                        let result = self.update_type_checked(info, *arg_var, &resolved_type);
+                        if result == TypeUpdateResult::Reject {
+                            return result;
+                        }
+                        if result == TypeUpdateResult::Changed {
+                            changed = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if changed {
+            TypeUpdateResult::Changed
+        } else {
+            TypeUpdateResult::Same
+        }
+    }
+
+    /// Propagate type updates from an argument back to the instance.
+    ///
+    /// This is the less common reverse propagation path. When an argument type
+    /// is constrained, it may help infer the instance's generic parameters.
+    /// Currently conservative - returns Same for most cases.
+    fn propagate_to_instance(
+        &mut self,
+        info: &mut TypeUpdateInfo,
+        arg_type: &ArgType,
+        instance_var: TypeVar,
+    ) -> TypeUpdateResult {
+        // Check if instance type is currently Unknown or a raw generic
+        if let Some(instance_type) = self.resolved.get(&instance_var).cloned() {
+            // If instance has a Generic type without resolved params, and arg is concrete,
+            // we could potentially infer the generic param. This is an advanced case.
+            if let ArgType::Generic { params, .. } = &instance_type {
+                // If params contain TypeVariable and arg_type is concrete,
+                // we could update the instance type. Conservative for now.
+                let has_unresolved = params.iter().any(|p| matches!(p, ArgType::TypeVariable(_)));
+                if has_unresolved && !matches!(arg_type, ArgType::TypeVariable(_) | ArgType::Unknown) {
+                    // Could infer: if arg is String and method expects E, instance might be List<String>
+                    // This requires method signature lookup - defer for now
+                }
+            }
+        }
+
+        // Conservative: don't propagate backwards without method signature context
         TypeUpdateResult::Same
     }
 }

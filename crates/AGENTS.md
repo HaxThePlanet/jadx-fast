@@ -17,7 +17,7 @@ crates/
 ├── dexterity-dex/       # DEX parsing (4,315 lines)
 ├── dexterity-ir/        # IR types & class hierarchy (4,236 lines)
 ├── dexterity-passes/    # Decompilation passes (20,404 lines)
-├── dexterity-codegen/   # Java code generation (11,664 lines)
+├── dexterity-codegen/   # Java code generation (11,685 lines)
 ├── dexterity-resources/ # AXML & resources.arsc (4,032 lines)
 ├── dexterity-deobf/     # Deobfuscation (1,825 lines)
 ├── dexterity-kotlin/    # Kotlin metadata parsing (597 lines)
@@ -75,7 +75,7 @@ Emit Java source from IR.
 **Key components:**
 - `class_gen.rs` - Class/interface/enum/annotation generation
 - `method_gen.rs` - Method signatures and bodies
-- `body_gen.rs` - Statement and expression generation (~5,470 lines)
+- `body_gen.rs` - Statement and expression generation (~5,491 lines)
 - `fallback_gen.rs` - Fallback mode raw instruction output
 - `expr_gen.rs` - Expression code generation
 - `stmt_gen.rs` - Statement code generation

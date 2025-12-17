@@ -31,6 +31,8 @@ pub struct DecodedInsn {
     pub index: u32,
     /// Branch target offset (relative, in code units)
     pub target: i32,
+    /// Proto index for invoke-polymorphic (Format45cc/4rcc only)
+    pub proto_idx: Option<u32>,
 }
 
 impl DecodedInsn {
@@ -46,6 +48,7 @@ impl DecodedInsn {
             literal: 0,
             index: 0,
             target: 0,
+            proto_idx: None,
         }
     }
 

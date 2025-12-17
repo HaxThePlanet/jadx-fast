@@ -84,7 +84,7 @@ Check [ROADMAP.md](ROADMAP.md) → "To Clone Next" section:
 | Type Inference | `crates/dexterity-passes/src/type_inference.rs` (2,644 LOC) |
 | Region Builder | `crates/dexterity-passes/src/region_builder.rs` (2,094 LOC) |
 | Variable Naming | `crates/dexterity-passes/src/var_naming.rs` (1,480 LOC) |
-| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (5,470 LOC) |
+| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (5,491 LOC) |
 | Expression Gen | `crates/dexterity-codegen/src/expr_gen.rs` (1,379 LOC) |
 | Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,539 LOC) |
 
@@ -214,7 +214,7 @@ crates/
 │       └── simplify.rs        # Simplification (1,646 LOC)
 ├── dexterity-codegen/      # Java code generation
 │   └── src/
-│       ├── body_gen.rs     # Region traversal (5,470 LOC)
+│       ├── body_gen.rs     # Region traversal (5,491 LOC)
 │       ├── expr_gen.rs     # Expressions (1,379 LOC)
 │       ├── fallback_gen.rs # Fallback mode raw output
 │       └── class_gen.rs    # Class structure (1,539 LOC)
@@ -226,4 +226,4 @@ crates/
 
 ---
 
-**Last Updated:** Dec 16, 2025
+**Last Updated:** Dec 17, 2025
