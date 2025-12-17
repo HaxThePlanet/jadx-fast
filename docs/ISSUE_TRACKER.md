@@ -5,9 +5,9 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 **Status (Dec 17, 2025): PRODUCTION READY with 98%+ JADX CLI parity**
 
-**25 total issues (24 resolved, 1 remaining from badboy APK comparison)**
+**27 total issues (26 resolved, 1 remaining from badboy APK comparison)**
 
-22 of 22 P1-P2 issues fully resolved:
+24 of 24 P1-P2 issues fully resolved:
 - Overall Quality: **95.5%+** (Dec 17 QA re-run) - improved from 77.1%/70.0%
 - Defect Score: **96.5%** (Dec 17 QA re-run) - improved from 90.3%/69.7%
 - Variable Naming: 99.96% reduction (27,794 → 11)
@@ -19,14 +19,16 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 - Performance: 3-88x faster than JADX
 - Framework filtering: **INTENTIONAL** (android.*, androidx.*, kotlin.*, kotlinx.*)
 
-**1 remaining issue from badboy APK comparison (Dec 17):**
+**Resolved issues from badboy APK comparison (Dec 17):**
 - P0-CRITICAL: Static initializer variable resolution (l2, l4 undefined) - **FIXED Dec 17**
+- P1-CRITICAL: Invalid super() calls in Kotlin file facades - **FIXED Dec 17**
 - P2-MEDIUM: Invalid Java identifier names (hyphens in Kotlin synthetic names) - **FIXED Dec 17**
 - P3-LOW: Code verbosity (785 vs 174 lines) - **POSITIVE TRADEOFF** (not a bug)
 
-**2 additional issues FIXED (Dec 17):**
+**Additional issues FIXED (Dec 17):**
 - P1-CRITICAL: Enum constant name corruption (register reuse causing duplicates) - **FIXED**
-- P2-MEDIUM: Invalid Java identifier names (hyphens not sanitized) - **FIXED**
+- P1-CRITICAL: super() emitted in static methods on file facades - **FIXED**
+- P2-MEDIUM: Method names with hyphens not sanitized - **FIXED**
 
 ---
 

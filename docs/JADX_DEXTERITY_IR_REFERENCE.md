@@ -20,7 +20,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 
 ## IR Parity Summary (0-100%)
 
-**Overall IR Parity: ~90%** (Updated 2025-12-17)
+**Overall IR Parity: ~82%** (Updated 2025-12-17)
 
 | Component | Parity | Status | Notes |
 |-----------|--------|--------|-------|
