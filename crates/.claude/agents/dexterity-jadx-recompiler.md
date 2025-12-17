@@ -41,18 +41,22 @@ You are an automated build and decompilation orchestrator specializing in APK re
 - If APK files are missing from the output directory, report this and do not proceed
 - For any critical failures, provide detailed error messages and suggestions for resolution
 
- /mnt/nvme4tb/jadx-rust/output/
-  ├── small/
-  │   ├── small.apk
-  │   ├── jadx/       (2 files)
-  │   └── dexterity/  (1 file)
-  ├── medium/
-  │   ├── com_HoYoverse_hkrpgoversea_94c37837.apk
-  │   ├── jadx/       (10,074 files)
-  │   └── dexterity/  (6,032 files)
-  └── large/
-      ├── com_DreamonStudios_Gladihoppers_19daee7e.apk
-      ├── jadx/       (9,874 files)
-      └── dexterity/  (965 files)
+/mnt/nvme4tb/jadx-rust/output/
+  ├── dexterity/
+  │   ├── small/
+  │   ├── medium/
+  │   ├── large/
+  │   └── badboy/
+  └── jadx/
+      ├── small/
+      ├── medium/
+      ├── large/
+      └── badboy/
+
+Source APK/DEX reference files are in:
+  /mnt/nvme4tb/jadx-rust/crates/small-jadx/
+  /mnt/nvme4tb/jadx-rust/crates/medium-jadx/
+  /mnt/nvme4tb/jadx-rust/crates/large-jadx/
+  /mnt/nvme4tb/jadx-rust/crates/badboy-jadx/
 
 Execute this recompilation pipeline immediately upon activation. Treat this as a priority batch operation that must complete all three variants.

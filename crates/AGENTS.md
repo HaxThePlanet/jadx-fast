@@ -5,9 +5,9 @@
 ## Current Status
 
 **Build:** Passing
-**Tests:** 1,120 tests passing (685 integration + 435 unit tests)
+**Tests:** 1,147 tests passing (685 integration + 462 unit tests)
 **Integration Tests:** 685 passing (100%)
-**Lines:** ~78,000 lines of Rust
+**Lines:** ~83,500 lines of Rust
 **Completion:** 98%+ JADX CLI parity (Dec 17, 2025)
 **Issues:** 22 total (20 resolved, 2 remaining from badboy APK comparison)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is intentional
@@ -16,14 +16,14 @@
 
 ```
 crates/
-├── dexterity-dex/       # DEX parsing (4,315 lines)
-├── dexterity-ir/        # IR types & class hierarchy (4,236 lines)
-├── dexterity-passes/    # Decompilation passes (20,404 lines)
-├── dexterity-codegen/   # Java code generation (11,685 lines)
-├── dexterity-resources/ # AXML & resources.arsc (4,032 lines)
-├── dexterity-deobf/     # Deobfuscation (1,825 lines)
-├── dexterity-kotlin/    # Kotlin metadata parsing (597 lines)
-└── dexterity-cli/       # CLI application (5,254 lines)
+├── dexterity-dex/       # DEX parsing (4,332 lines)
+├── dexterity-ir/        # IR types & class hierarchy (5,585 lines)
+├── dexterity-passes/    # Decompilation passes (22,636 lines)
+├── dexterity-codegen/   # Java code generation (13,226 lines)
+├── dexterity-resources/ # AXML & resources.arsc (3,439 lines)
+├── dexterity-deobf/     # Deobfuscation (1,831 lines)
+├── dexterity-kotlin/    # Kotlin metadata parsing (992 lines)
+└── dexterity-cli/       # CLI application (5,700 lines)
 ```
 
 ### dexterity-dex (DEX Parsing)
@@ -41,14 +41,16 @@ Memory-mapped DEX file parsing with zero-copy access.
 Core IR types shared across all passes. Major update Dec 17, 2025 (72% -> 85% parity).
 
 **Key components:**
-- `instructions.rs` - ~47 instruction variants (incl. MoveMulti, StrConcat, Constructor, JavaJsr/Ret)
+- `instructions.rs` - ~46 instruction variants (incl. MoveMulti, StrConcat, Constructor, JavaJsr/Ret)
 - `types.rs` - Type system with Unknown variants (UnknownNarrow/Wide/Object/Array/Integral)
 - `nodes.rs` - `ClassNode`, `MethodNode`, `FieldNode`, `BlockNode` definitions
 - `class_hierarchy.rs` - Class hierarchy with LCA calculation for type inference (~382 lines)
 - `ssa.rs` - Full SSA infrastructure (SSAVar, TypeInfo, CodeVar, TypeBound, SSAContext)
-- `attributes.rs` - 55+ JADX-compatible attribute flags (u128 bitfield)
+- `attributes.rs` - 69 JADX-compatible attribute flags (u128 bitfield)
 - `builder.rs` - IR builder from DEX bytecode
 - `regions.rs` - Control flow region types (if/loop/switch/try)
+- `kotlin_metadata.rs` - Kotlin metadata types and parsing
+- `info.rs` - Debug info and source line tracking structures
 
 **InsnArg variants:** Register, Literal, Type, Field, Method, String, Wrapped (inlined expr), Named (synthetic vars), This
 
@@ -57,7 +59,7 @@ Core IR types shared across all passes. Major update Dec 17, 2025 (72% -> 85% pa
 Transform IR through analysis passes.
 
 **Key components:**
-- `block_split.rs` - Instructions → basic blocks
+- `block_split.rs` - Instructions to basic blocks
 - `cfg.rs` - CFG construction with dominance (Cooper-Harvey-Kennedy)
 - `ssa.rs` - SSA transformation with phi nodes (FxHashMap for fast lookups)
 - `type_inference.rs` - Constraint-based type inference with:
@@ -65,14 +67,17 @@ Transform IR through analysis passes.
   - Post-solve PHI node LCA computation for conflicting types
   - ObjectType constraints for array elements (vs Unknown)
   - 7 constraint types: Equals, Same, Subtype, ArrayOf, Numeric, Integral, ObjectType
-- `region_builder.rs` - CFG → structured regions (if/loop/switch/try)
+- `region_builder.rs` - CFG to structured regions (if/loop/switch/try)
 - `conditionals.rs` - Else-if chaining, ternary reconstruction
 - `loops.rs` - ForEach detection from iterator patterns
-- `extract_field_init.rs` - Static initializer extraction (`<clinit>` → field decls)
+- `extract_field_init.rs` - Static initializer extraction (`<clinit>` to field decls)
 - `method_inline.rs` - Synthetic bridge method inlining (`access$XXX`)
 - `kotlin_intrinsics.rs` - Kotlin intrinsics handling
 - `var_naming.rs` - JADX-style variable naming (98% parity)
 - `finally_extract.rs` - Finally block handling
+- `code_shrink.rs` - Single-use variable inlining with InvokeCustom (lambda) detection
+- `deboxing.rs` - Primitive boxing/unboxing optimization
+- `fix_types.rs` - Type correction and widening
 
 ### dexterity-codegen (Code Generation)
 
@@ -81,13 +86,14 @@ Emit Java source from IR.
 **Key components:**
 - `class_gen.rs` - Class/interface/enum/annotation generation
 - `method_gen.rs` - Method signatures and bodies
-- `body_gen.rs` - Statement and expression generation (~5,491 lines)
+- `body_gen.rs` - Statement and expression generation (~6,653 lines)
 - `fallback_gen.rs` - Fallback mode raw instruction output
 - `expr_gen.rs` - Expression code generation
-- `stmt_gen.rs` - Statement code generation
+- `stmt_gen.rs` - Statement code generation with InvokeCustom/lambda support
 - `type_gen.rs` - Type name generation with import handling
 - `dex_info.rs` - GlobalFieldPool for multi-DEX field resolution
 - `access_flags.rs` - Java access modifier generation
+- `writer.rs` - Java source code writer with formatting
 
 ### dexterity-resources (Resource Decoding)
 
@@ -116,6 +122,7 @@ Name deobfuscation and mapping support.
 - `mapping_parser.rs` - ProGuard mapping file parser
 - `name_mapper.rs` - Name mapping coordination
 - `visitor.rs` - Deobfuscation pass visitor
+- `signature.rs` - Method signature handling for deobfuscation
 
 ### dexterity-kotlin (Kotlin Support)
 
@@ -124,6 +131,7 @@ Kotlin metadata parsing and name restoration.
 **Key components:**
 - `parser.rs` - `@Metadata` annotation protobuf parsing
 - `extractor.rs` - Name extraction from Kotlin metadata
+- `types.rs` - Kotlin metadata types
 - `visitor.rs` - Kotlin name restoration pass
 
 ### dexterity-cli (CLI Application)
@@ -133,7 +141,7 @@ Command-line interface and decompilation orchestration.
 **Key components:**
 - `main.rs` - Main entry, parallel processing, file output
 - `args.rs` - CLI argument parsing (clap)
-- `converter.rs` - DEX → IR conversion orchestration
+- `converter.rs` - DEX to IR conversion with source line tracking (binary search)
 - `decompiler.rs` - High-level decompilation API
 - `gradle_export.rs` - Android Studio project export
 - `deobf.rs` - Deobfuscation integration
@@ -150,7 +158,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 1. **dexterity-dex**: Parse DEX file (memory-mapped, zero-copy)
 2. **dexterity-ir**: Build IR from Dalvik bytecode
 3. **dexterity-passes**: Transform IR through passes:
-   - Block splitting → CFG → Dominance → SSA → Type inference → Regions
+   - Block splitting > CFG > Dominance > SSA > Type inference > Regions > Code shrink
 4. **dexterity-codegen**: Emit Java source with proper names and imports
 
 ## Key Design Choices

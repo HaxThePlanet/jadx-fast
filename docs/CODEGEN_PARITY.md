@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-Dexterity's code generation module achieves approximately **90% feature parity** with JADX's mature codegen implementation. Key strengths include full lambda/method reference support, comprehensive control flow handling, and robust type generation. Main gaps are increment/decrement operators and compound assignments.
+Dexterity's code generation module achieves approximately **90% feature parity** with JADX's mature codegen implementation. Key strengths include full lambda/method reference support, comprehensive control flow handling, and robust type generation. Main remaining gaps are field increment operations (`obj.field++`) and pre/post increment context detection (`++i` vs `i++`).
 
 | Component | Parity | Status |
 |-----------|--------|--------|
@@ -112,8 +112,8 @@ Dexterity's code generation module achieves approximately **90% feature parity**
 | Method references | DONE | `Foo::method`, `Foo::new` |
 | Boxing detection | DONE | `Integer.valueOf()` removal |
 | Negative literal wrapping | 80% | |
-| **Increment/decrement** | **0%** | `i++`, `--j` NOT IMPLEMENTED |
-| **Compound assignment** | **0%** | `+=`, `-=` NOT IMPLEMENTED |
+| **Increment/decrement** | **90%** | `i++`, `--j` DONE for locals; missing field ops and pre-increment context |
+| **Compound assignment** | **90%** | `+=`, `-=`, `*=`, etc. DONE for locals; missing field ops |
 
 ### 4. Control Flow - 90%
 
@@ -147,7 +147,7 @@ Dexterity's code generation module achieves approximately **90% feature parity**
 | Object null checks | DONE | `x == null` |
 | Boolean negation | 80% | `!x` vs `x == false` |
 | Nested condition merge | 70% | `if(a){if(b){}}` patterns |
-| De Morgan's law | 60% | `!(a && b)` -> `!a \|\| !b` |
+| De Morgan's law | 85% | `!(a && b)` -> `!a \|\| !b` (implemented in `dexterity-ir/src/regions.rs:196-279`) |
 
 ### 6. Type Generation - 95%
 
@@ -217,12 +217,14 @@ Dexterity's code generation module achieves approximately **90% feature parity**
 
 ## Gap Analysis
 
-### P1 - High Impact (~5% total gap)
+### P1 - High Impact (~4% remaining gap)
 
 | Gap | Impact | JADX Reference | Notes |
 |-----|--------|----------------|-------|
-| Increment/decrement | 3% | InsnGen:1216-1230 | `i++`, `--j` patterns |
-| Compound assignment | 2% | ModVisitor | `+=`, `-=`, etc. |
+| Field increment ops | 2% | InsnGen:1216-1230 | `obj.field++`, `this.count += n` |
+| Pre/post increment context | 2% | InsnGen:1216-1230 | `++i` vs `i++` detection |
+
+**Note**: Local variable increment/decrement (`i++`, `--j`) and compound assignments (`+=`, `-=`, etc.) are now implemented in `dexterity-codegen/src/body_gen.rs:820-934`.
 
 ### P2 - Medium Impact (~2% total gap)
 
@@ -251,14 +253,15 @@ Dexterity's code generation module achieves approximately **90% feature parity**
 ## Roadmap to 100%
 
 ### Phase 1: P1 Gaps (Target: 95%)
-1. Implement increment/decrement detection in `mod_visitor.rs`
-   - Pattern: `x = x + 1` -> `x++`
-   - Pattern: `x = x - 1` -> `x--`
-   - Pre vs post increment context
+1. ✅ DONE: Local variable increment/decrement (`dexterity-codegen/src/body_gen.rs:820-934`)
+   - ✅ Pattern: `x = x + 1` -> `x++`
+   - ✅ Pattern: `x = x - 1` -> `x--`
+   - ⏳ TODO: Pre vs post increment context detection (`++i` vs `i++`)
 
-2. Implement compound assignment detection
-   - Pattern: `x = x + n` -> `x += n`
-   - Works for: +, -, *, /, %, &, |, ^, <<, >>
+2. ✅ DONE: Local variable compound assignments (`dexterity-codegen/src/body_gen.rs:914-930`)
+   - ✅ Pattern: `x = x + n` -> `x += n`
+   - ✅ Works for: +, -, *, /, %, &, |, ^, <<, >>, >>>
+   - ⏳ TODO: Field increment/compound (`obj.field++`, `this.count += n`)
 
 ### Phase 2: P2 Gaps (Target: 98%)
 1. ~~String switch reconstruction pass~~ ✅ DONE (79% coverage)
