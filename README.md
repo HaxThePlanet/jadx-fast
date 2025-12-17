@@ -446,8 +446,8 @@ cargo test
 | Tooling | CLI only |
 
 ### Not Yet Implemented
-- Input formats: AAB, APKM, APKS, XAPK, Smali
-- Some optimization passes (FixSwitchOverEnum, ProcessAnonymous)
+- Input formats: APKS, Smali, .class
+- Some optimization passes (GenericTypes, ShadowField, MethodInvoke, Override)
 - GUI, IDE plugins (not planned)
 
 ---
