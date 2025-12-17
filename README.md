@@ -19,6 +19,8 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
+**🔄 Drop-in JADX Replacement** — Same CLI arguments, same output structure. Replace `jadx` with `dexterity` in your existing scripts and workflows.
+
 **~78,000 lines of Rust | 685 integration tests passing | 3-88x faster than JADX**
 
 **Status (Dec 17, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **77-87% quality** on complex APKs, and is **3-88x faster** than JADX. **All 25 P0-P2 issues resolved** (24 fixed + 1 P3 positive tradeoff). Complete decompilation of all classes including framework classes (android.*, androidx.*, kotlin.*, kotlinx.*).
@@ -289,13 +291,13 @@ Dexterity  │  112  │  3.88s │  9,607
 | Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
 | Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
 | Code Generation | ✅ 100% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion, compare qualification, condition simplification, for-each loops, varargs expansion all done |
-| Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
+| Input Formats | 🔶 70% | APK, DEX, JAR, AAR, AAB, XAPK, APKM (missing APKS, Smali, .class) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files, variable filtering |
 | Variable Naming | ✅ 100% | Full JADX parity, deobf-min/max filtering on all names |
 | Type Formatting | ✅ 100% | Special values (MIN/MAX_VALUE, NaN, Infinity) for numeric types |
-| Optimization Passes | 🔶 70% | Deboxing, simplify, const inline, code shrink, enum visitor |
+| Optimization Passes | 🔶 70% | Done: deboxing, simplify, const inline, code shrink, enum. Missing: GenericTypes, ShadowField, MethodInvoke, Override |
 
 ## CLI Reference
 
