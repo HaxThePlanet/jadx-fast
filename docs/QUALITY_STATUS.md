@@ -2,7 +2,7 @@
 
 **Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Target:** 85+/100 Quality Score | **Result:** 77.1% (medium), 70.0% (large) per Dec 16 QA reports
-**Code Issues:** 23 resolved (incl. P0 static init Dec 17) | **2 remaining** (1 P1 enum, 1 P2 identifiers)
+**Code Issues:** 24 resolved (incl. P1 enum corruption Dec 17) | **1 remaining** (1 P2 invalid identifiers)
 **Resource Issues:** **2 FIXED** (XML enums, localized strings) | **3 remaining** (1 P2 complex, 2 cosmetic)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -178,10 +178,10 @@
 
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
-| CRITICAL (P0-P1) | 14 | 13 | 1 remaining: enum corruption (P1) |
+| CRITICAL (P0-P1) | 14 | 14 | All resolved (incl. P0 static init, P1 enum corruption Dec 17) |
 | HIGH (P1-P2) | 7 | 7 | All resolved (incl. annotation defaults, lambda params) |
 | MEDIUM (P2-P3) | 4 | 3 | 1 remaining: invalid identifiers (P3 verbosity is positive tradeoff) |
-| **Total** | **25** | **23** | 2 remaining from badboy APK (1 P1, 1 P2) |
+| **Total** | **25** | **24** | 1 remaining from badboy APK (1 P2 invalid identifiers) |
 
 ### Resource Processing Issues (NEW)
 
@@ -329,12 +329,12 @@ public @interface MagicConstant {
 - `crates/dexterity-cli/src/converter.rs` - Added `apply_annotation_defaults()` function
 - `crates/dexterity-codegen/src/method_gen.rs` - Emit ` default <value>` suffix for annotation methods
 
-### P1-CRITICAL (NEW): Enum Constant Name Corruption
+### P1-CRITICAL: Enum Constant Name Corruption - **DONE (Dec 17, 2025)**
 
 **Impact:** Non-compilable code (duplicate enum constants)
 **Symptom:**
 ```java
-// Dexterity (BROKEN) - Nls.java
+// Dexterity (BEFORE) - Nls.java
 public static enum Capitalization {
     NotSpecified,
     NotSpecified,  // DUPLICATE - invalid Java
@@ -342,7 +342,7 @@ public static enum Capitalization {
     NotSpecified;  // DUPLICATE
 }
 
-// JADX (CORRECT)
+// Dexterity (AFTER) / JADX (CORRECT)
 public enum Capitalization {
     NotSpecified,
     Title,
@@ -350,8 +350,25 @@ public enum Capitalization {
 }
 ```
 
-**Root Cause:** Enum constant names not being extracted from DEX field metadata; falling back to first constant name
-**Files:** `crates/dexterity-dex/src/class.rs`, `crates/dexterity-codegen/src/class_gen.rs`
+**Root Causes:** Three distinct bugs in `enum_visitor.rs`:
+
+1. **SPUT Field Matching Bug** (Pass 2, lines 238-264)
+   - **Before:** Matched StaticPut by field NAME only (`field.name == construct.name`)
+   - **Issue:** If first field is "NotSpecified", ALL constructor calls with that name would add the SAME field multiple times
+   - **Fix:** Match by DEX `field_idx` from StaticPut instruction to ensure each SPUT stores to correct field
+
+2. **Register Reuse Bug** (Pass 1, extract functions)
+   - **Before:** Searched ALL instructions for ANY CONST_STRING/CONST writing to register (forward search)
+   - **Issue:** With register reuse (v0 used for all 3 enum constructors), always found the FIRST constant, so all constructors got same name/ordinal
+   - **Fix:** Added `extract_string_arg_before_idx()` and `extract_int_arg_before_idx()` that search BACKWARDS from constructor call to find nearest preceding constant
+
+3. **HashMap Overwrite Bug** (Pass 1, storage)
+   - **Before:** Used `HashMap<u16, PendingConstruct>` keyed by register number
+   - **Issue:** When register is reused (all 3 constructors use v0), each `insert()` OVERWRITES the previous entry, keeping only the last constructor
+   - **Fix:** Changed to `Vec<(u16, usize, PendingConstruct)>` storing all constructs with instruction indices, then search for nearest construct before each SPUT
+
+**Files Changed:** `crates/dexterity-passes/src/enum_visitor.rs`
+**Validation:** All 1,120 integration tests pass, verified with badboy APK (Nls$Capitalization enum now correct)
 
 ### P1-HIGH (NEW): Lambda/R8 Bridge Method Parameter Corruption - **DONE (Dec 17, 2025)**
 

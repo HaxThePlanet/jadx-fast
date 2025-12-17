@@ -2,7 +2,7 @@
 
 **Current State:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Quality Achieved:** 77.1% (medium) / 70.0% (large) per Dec 16 QA | 1,120/1,120 tests passing
-**Code Issues:** 23 resolved (incl. P0 static init Dec 17) | **2 remaining** (1 P1 enum corruption, 1 P2 invalid identifiers)
+**Code Issues:** 24 resolved (incl. P1 enum corruption Dec 17) | **1 remaining** (1 P2 invalid identifiers)
 **Resource Issues:** **5 new** from resource directory comparison (1 P0, 1 P1, 2 P2, 1 P3)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
@@ -97,16 +97,29 @@ Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/r
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
 **Status:** ✅ RESOLVED - All 1,120 tests pass
 
-### P1-CRITICAL (NEW): Enum Constant Name Corruption
+### P1-CRITICAL: Enum Constant Name Corruption - **DONE (Dec 17, 2025)**
 
 **Impact:** Non-compilable code (duplicate enum constants)
 **Symptom:**
 ```java
-// Dexterity: 4 identical "NotSpecified" instead of NotSpecified/Title/Sentence
+// Dexterity (BEFORE): 4 identical "NotSpecified"
 public static enum Capitalization { NotSpecified, NotSpecified, NotSpecified, NotSpecified; }
+
+// Dexterity (AFTER) / JADX: Correct names
+public static enum Capitalization { NotSpecified, Title, Sentence; }
 ```
-**Root Cause:** Enum constant names not being extracted from DEX field metadata
-**Files:** `crates/dexterity-dex/src/class.rs`, `crates/dexterity-codegen/src/class_gen.rs`
+**Root Causes:** Three distinct bugs fixed:
+1. **SPUT field matching** - Matched by name instead of DEX field_idx, causing same field to be added multiple times
+2. **Register reuse** - Forward search found first constant instead of nearest preceding one
+3. **HashMap overwrite** - Register-keyed HashMap lost all but last constructor when register was reused
+
+**Fix:**
+- Changed pending_constructs from HashMap to Vec with instruction indices
+- Added `extract_string_arg_before_idx()` and `extract_int_arg_before_idx()` for backward search
+- Match SPUT by DEX field_idx instead of field name
+
+**Files Changed:** `crates/dexterity-passes/src/enum_visitor.rs`
+**Validation:** All 1,120 tests pass, verified with badboy APK
 
 ### P1-HIGH (NEW): Lambda/R8 Bridge Method Parameter Corruption
 
