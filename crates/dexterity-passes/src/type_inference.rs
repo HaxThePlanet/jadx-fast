@@ -230,6 +230,9 @@ pub struct TypeInference {
     hierarchy: Option<ClassHierarchy>,
     /// Last invoke return type (for MoveResult pairing)
     last_invoke_return: Option<ArgType>,
+    /// Last invoke instance type variable (for resolving TypeVariables in return types)
+    /// This is args[0] for instance methods (invoke-virtual/invoke-interface)
+    last_invoke_instance_var: Option<TypeVar>,
     /// Phi nodes for post-solve LCA computation: (dest_var, source_vars)
     phi_nodes: Vec<(TypeVar, Vec<TypeVar>)>,
     /// Type refinements from instanceof checks (block_id -> (var, refined_type))
@@ -238,6 +241,10 @@ pub struct TypeInference {
     instanceof_refinements: FxHashMap<u32, Vec<(TypeVar, ArgType)>>,
     /// Type refinements from cast operations (var -> refined_type)
     cast_refinements: FxHashMap<TypeVar, ArgType>,
+    /// Pending TypeVariable resolutions: (dest_var, instance_var, return_type_with_typevars)
+    /// These are populated during MoveResult handling when the return type contains TypeVariable
+    /// and resolved post-solve when instance types are known
+    pending_type_var_resolutions: Vec<(TypeVar, TypeVar, ArgType)>,
 }
 
 impl Default for TypeInference {
@@ -259,9 +266,11 @@ impl TypeInference {
             method_lookup: None,
             hierarchy: None,
             last_invoke_return: None,
+            last_invoke_instance_var: None,
             phi_nodes: Vec::new(),
             instanceof_refinements: FxHashMap::default(),
             cast_refinements: FxHashMap::default(),
+            pending_type_var_resolutions: Vec::new(),
         }
     }
 
@@ -384,6 +393,67 @@ impl TypeInference {
         }
     }
 
+    /// Check if a type contains any TypeVariable that needs resolution
+    fn contains_type_variable(ty: &ArgType) -> bool {
+        match ty {
+            ArgType::TypeVariable(_) => true,
+            ArgType::Generic { params, .. } => params.iter().any(Self::contains_type_variable),
+            ArgType::Array(elem) => Self::contains_type_variable(elem),
+            _ => false,
+        }
+    }
+
+    /// Resolve TypeVariables in a return type given a concrete instance type
+    ///
+    /// This handles common generic patterns like:
+    /// - `List<String>.get(int)` -> return type `E` becomes `String`
+    /// - `Map<K,V>.get(key)` -> return type `V` becomes the second param
+    /// - `Optional<User>.get()` -> return type `T` becomes `User`
+    ///
+    /// The resolution uses positional mapping: if the instance is `Generic { base, params }`
+    /// and return type is `TypeVariable(name)`, we resolve based on the type variable's
+    /// position in the base class's type parameters.
+    ///
+    /// For now, uses a simplified approach:
+    /// - Single type variable (E, T, V) -> first generic param
+    /// - Common patterns (K -> first, V -> second for Map-like classes)
+    fn resolve_type_variable(&self, return_type: &ArgType, instance_type: &ArgType) -> ArgType {
+        match (return_type, instance_type) {
+            // If return type is a TypeVariable and instance has Generic params, try to resolve
+            (ArgType::TypeVariable(var_name), ArgType::Generic { params, .. }) if !params.is_empty() => {
+                // Common single-letter type variables
+                match var_name.as_str() {
+                    // First type parameter (List<E>, Optional<T>, Set<E>, etc.)
+                    "E" | "T" | "R" => params.first().cloned().unwrap_or(return_type.clone()),
+                    // Second type parameter (Map<K,V>)
+                    "V" if params.len() >= 2 => params.get(1).cloned().unwrap_or(return_type.clone()),
+                    // First type parameter (Map<K,V>)
+                    "K" => params.first().cloned().unwrap_or(return_type.clone()),
+                    // Unknown variable name - use first param as fallback
+                    _ => params.first().cloned().unwrap_or(return_type.clone()),
+                }
+            }
+            // For Generic return types, recursively resolve type params
+            (ArgType::Generic { base, params: ret_params }, instance_ty) => {
+                let resolved_params: Vec<ArgType> = ret_params
+                    .iter()
+                    .map(|p| self.resolve_type_variable(p, instance_ty))
+                    .collect();
+                ArgType::Generic {
+                    base: base.clone(),
+                    params: resolved_params,
+                }
+            }
+            // For Array return types, resolve element type
+            (ArgType::Array(elem), instance_ty) => {
+                let resolved_elem = self.resolve_type_variable(elem, instance_ty);
+                ArgType::Array(Box::new(resolved_elem))
+            }
+            // No resolution possible - return as-is
+            _ => return_type.clone(),
+        }
+    }
+
     /// Collect constraints from a single instruction
     fn collect_from_insn(&mut self, insn: &InsnType) {
         match insn {
@@ -436,10 +506,22 @@ impl TypeInference {
                 // Type comes from previous invoke
                 let dest_var = self.get_or_create_var(dest);
                 // Use the return type from the preceding Invoke instruction
-                let return_type = self.last_invoke_return.take()
-                    .map(InferredType::Concrete)
-                    .unwrap_or(InferredType::Unknown);
-                self.add_constraint(Constraint::Equals(dest_var, return_type));
+                let return_type = self.last_invoke_return.take();
+                let instance_var = self.last_invoke_instance_var.take();
+
+                if let Some(return_ty) = return_type {
+                    // Check if return type contains TypeVariable and we have instance info
+                    if Self::contains_type_variable(&return_ty) {
+                        if let Some(inst_var) = instance_var {
+                            // Track this for post-solve resolution
+                            self.pending_type_var_resolutions.push((dest_var, inst_var, return_ty.clone()));
+                        }
+                    }
+                    // Always add the constraint (will be refined post-solve if needed)
+                    self.add_constraint(Constraint::Equals(dest_var, InferredType::Concrete(return_ty)));
+                } else {
+                    self.add_constraint(Constraint::Equals(dest_var, InferredType::Unknown));
+                }
             }
 
             InsnType::MoveException { dest } => {
@@ -734,9 +816,26 @@ impl TypeInference {
 
             InsnType::Invoke { method_idx, args, .. } => {
                 // Method signature determines arg types and return type
+                // Reset instance var tracking for this invoke
+                self.last_invoke_instance_var = None;
+
                 if let Some(ref lookup) = self.method_lookup {
                     if let Some((param_types, return_ty)) = lookup(*method_idx) {
-                        for (arg, expected_ty) in args.iter().zip(param_types.iter()) {
+                        // For instance methods, args[0] is the receiver (this)
+                        // Track it for resolving TypeVariables in return types
+                        // Instance methods have one more arg than param_types (the implicit 'this')
+                        let is_instance_method = args.len() > param_types.len();
+                        if is_instance_method {
+                            if let Some(instance_arg) = args.first() {
+                                if let Some(instance_var) = self.var_for_arg(instance_arg) {
+                                    self.last_invoke_instance_var = Some(instance_var);
+                                }
+                            }
+                        }
+
+                        // Process arguments (skip first for instance methods)
+                        let args_iter = if is_instance_method { &args[1..] } else { args.as_slice() };
+                        for (arg, expected_ty) in args_iter.iter().zip(param_types.iter()) {
                             if let Some(arg_var) = self.var_for_arg(arg) {
                                 // Use UseBound for method arguments - they must be compatible
                                 // with the parameter type (variable is used as this type)
@@ -1926,8 +2025,36 @@ impl TypeInference {
             .and_then(|ty| ty.to_arg_type())
     }
 
+    /// Resolve pending TypeVariable substitutions
+    ///
+    /// This is called after solve() to resolve TypeVariables in return types
+    /// based on the concrete generic types of receiver objects.
+    ///
+    /// For example:
+    /// - If `list` is `List<String>` and we called `list.get(0)`,
+    ///   the return type `E` gets resolved to `String`
+    pub fn resolve_pending_type_variables(&mut self) {
+        for (dest_var, instance_var, return_ty) in self.pending_type_var_resolutions.clone() {
+            // Look up the resolved instance type
+            if let Some(instance_ty) = self.resolved.get(&instance_var) {
+                if let Some(instance_arg_ty) = instance_ty.to_arg_type() {
+                    // Try to resolve TypeVariables using the instance type
+                    let resolved_return = self.resolve_type_variable(&return_ty, &instance_arg_ty);
+
+                    // Only update if we actually resolved something
+                    if resolved_return != return_ty {
+                        self.resolved.insert(dest_var, InferredType::Concrete(resolved_return));
+                    }
+                }
+            }
+        }
+    }
+
     /// Get all resolved types as (reg_num, ssa_version) -> ArgType
-    pub fn get_all_types(&self) -> HashMap<(u16, u32), ArgType> {
+    pub fn get_all_types(&mut self) -> HashMap<(u16, u32), ArgType> {
+        // First, resolve any pending TypeVariable substitutions
+        self.resolve_pending_type_variables();
+
         let mut result = HashMap::with_capacity(self.reg_to_var.len());
         for (&key, &var) in &self.reg_to_var {
             if let Some(ty) = self.resolved.get(&var) {

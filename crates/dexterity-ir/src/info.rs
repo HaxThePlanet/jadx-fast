@@ -523,6 +523,10 @@ pub struct ClassData {
     pub access_flags: u32,
     /// Superclass type (None for java/lang/Object)
     pub superclass: Option<String>,
+    /// Superclass with full type information including generics
+    /// Parsed from dalvik.annotation.Signature - like JADX's ClassNode.superClass ArgType
+    /// Falls back to wrapping superclass String as ArgType::Object if no signature
+    pub superclass_type: Option<ArgType>,
     /// Implemented interfaces with full type information (including generics)
     /// Parsed from DEX and enhanced by Signature annotation - like JADX's ClassNode.interfaces
     pub interfaces: Vec<ArgType>,
@@ -561,6 +565,7 @@ impl ClassData {
             pkg_alias: None,
             access_flags,
             superclass: None,
+            superclass_type: None,
             interfaces: Vec::new(),
             type_parameters: Vec::new(),
             source_file: None,

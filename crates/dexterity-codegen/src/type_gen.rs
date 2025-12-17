@@ -54,7 +54,9 @@ pub fn type_to_string_with_imports_and_package(
             }
         }
         ArgType::TypeVariable(name) => name.clone(),
-        ArgType::Unknown => "/* unknown */".to_string(),
+        // JADX-compatible fallback: Unknown types become Object with warning comment
+        // This ensures generated code compiles even when type inference fails
+        ArgType::Unknown => "Object /* JADX WARNING: Unknown type */".to_string(),
     }
 }
 

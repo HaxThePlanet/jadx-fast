@@ -263,9 +263,12 @@ fn parse_class_signature(sig: &str, class: &mut ClassData) {
         class.type_parameters = parse_type_parameters(&mut chars);
     }
 
-    // Parse superclass type (skip for now, already set from DEX)
+    // Parse superclass type with generics (like JADX's SignatureProcessor.processSuperTypes)
+    // The raw superclass name is already set from DEX, but this adds generic type arguments
     if chars.peek().is_some() {
-        let _ = parse_type_from_signature(&mut chars);
+        if let Some(superclass_type) = parse_type_from_signature(&mut chars) {
+            class.superclass_type = Some(superclass_type);
+        }
     }
 
     // Parse interface types with generics (like JADX's SignatureProcessor.processInterfaces)

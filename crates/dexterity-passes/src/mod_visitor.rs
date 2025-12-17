@@ -1,9 +1,11 @@
 //! ModVisitor pass - Instruction modification and optimization
 //!
-//! This pass modifies and optimizes instructions, based on JADX's ModVisitor.java.
+//! This pass modifies and optimizes instructions, based on JADX's ModVisitor.java
+//! and ReplaceNewArray.java.
 //!
 //! ## Array Initialization Fusion
-//! Combines NEW_ARRAY + FILL_ARRAY_DATA into FILLED_NEW_ARRAY:
+//!
+//! ### Pattern 1: NEW_ARRAY + FILL_ARRAY_DATA
 //! ```java
 //! // Before:
 //! int[] arr = new int[3];        // NewArray
@@ -13,11 +15,23 @@
 //! int[] arr = {1, 2, 3};         // FilledNewArray
 //! ```
 //!
+//! ### Pattern 2: NEW_ARRAY + APUT sequence (from ReplaceNewArray.java)
+//! ```java
+//! // Before:
+//! int[] arr = new int[3];        // NewArray
+//! arr[0] = 1;                    // ArrayPut
+//! arr[1] = 2;                    // ArrayPut
+//! arr[2] = 3;                    // ArrayPut
+//!
+//! // After:
+//! int[] arr = {1, 2, 3};         // FilledNewArray
+//! ```
+//!
 //! ## Dead Instruction Removal
 //! - Removes NOP, GOTO instructions
 //! - Removes instructions marked for removal
 //!
-//! Based on JADX's ModVisitor.java (634 lines)
+//! Based on JADX's ModVisitor.java (634 lines) and ReplaceNewArray.java (218 lines)
 
 use std::collections::{HashMap, HashSet};
 use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType, LiteralArg, RegisterArg};
@@ -28,6 +42,8 @@ use crate::ssa::SsaResult;
 pub struct ModVisitorResult {
     /// Number of arrays fused (NewArray + FillArrayData -> FilledNewArray)
     pub arrays_fused: usize,
+    /// Number of arrays fused from APUT sequence (NewArray + ArrayPut[] -> FilledNewArray)
+    pub aput_arrays_fused: usize,
     /// Number of instructions removed (NOP, GOTO, dead moves)
     pub instructions_removed: usize,
 }
