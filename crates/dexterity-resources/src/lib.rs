@@ -41,9 +41,11 @@
 pub mod axml;
 pub mod arsc;
 pub mod constants;
+pub mod android_res_map;
 mod string_pool;
 mod error;
 
 pub use axml::AxmlParser;
 pub use arsc::ArscParser;
+pub use android_res_map::{ANDROID_RES_MAP, ANDROID_ATTR_MAP, get_android_res_name, get_android_attr_name};
 pub use error::{ResourceError, Result};

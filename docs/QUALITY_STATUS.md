@@ -1,7 +1,8 @@
 # Dexterity Decompilation Quality Status
 
 **Status:** PRODUCTION READY (Dec 17, 2025)
-**Target:** 85+/100 Quality Score | **Result:** 84.5-87.8% ACHIEVED
+**Target:** 85+/100 Quality Score | **Result:** 77.1% (medium), 70.0% (large) per Dec 16 QA reports
+**Note:** Fresh QA analysis needed to validate Dec 17 improvements (4 major features completed). Quality metrics below based on Dec 16 QA reports.
 
 ---
 
@@ -9,7 +10,7 @@
 
 | Metric | Value |
 |--------|-------|
-| Overall Quality Score | **84.5% (medium)**, **87.8% (large)** |
+| Overall Quality Score | **77.1% (medium)**, **70.0% (large)** per Dec 16 QA reports |
 | Type Inference | **0 Unknown type failures** |
 | Interface Generics | **DONE** - `Maybe<T> implements MaybeSource<T>` |
 | Variable Naming | **99.96% reduction** (27,794 → 11 arg0/arg1 instances) |
@@ -20,8 +21,9 @@
 | Polymorphic Invoke | **DONE** - `methodHandle.invoke()` syntax |
 | Instance Type Propagation | **DONE** - Generic args resolved |
 | Resource Field Resolution | **DONE** - `R.id.button` with `--replace-consts` |
-| Defect Score | **95.9% (medium)**, **96.8% (large)** |
-| Integration Tests | 685/685 passing |
+| Defect Score | **90.3% (medium)**, **69.7% (large)** per Dec 16 QA reports |
+| Integration Tests | **685/685 passing** |
+| Unit Tests | **90/91 passing** (1 failing: method_gen::tests::test_method_with_params) |
 | Speed Advantage | 3-88x faster than JADX |
 
 ---
@@ -107,7 +109,8 @@
 - **Solution:** Added `superclass_type: Option<ArgType>` to IR and updated codegen to use it
 - **Impact:** All extends clauses now correctly include type parameters
 
-**Combined Quality Score:** 77.1% → 84.4% (medium), 70.0% → 87.8% (large)
+**Quality Score (Dec 16 QA Reports):** 77.1% (medium), 70.0% (large)
+**Note:** Recent fixes may have improved quality significantly, but fresh QA analysis needed to confirm.
 
 ### Dec 16, 2025 - Three Major Bug Fixes
 
@@ -250,7 +253,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 
 ---
 
-**Last Updated:** Dec 17, 2025
+**Last Updated:** Dec 17, 2025 (documentation sync)
 
 ---
 

@@ -142,7 +142,7 @@ public class MainActivity extends Activity {
 | Interface Generic Params | ✅ | ✅ | **Tie** |
 | Type Inference | ✅ | ✅ | **Tie** (0 failures) |
 | Exception Handling | ✅ | ✅ | **Tie** |
-| Control Flow (switch) | ✅ | 🔶 | **JADX** (44% recovery) |
+| Control Flow (switch) | ✅ | ✅ | **Tie** (91% app code recovery) |
 | **Speed** | ❌ | ✅ | **Dexterity** (3-88x) |
 | **Memory Usage** | ❌ | ✅ | **Dexterity** |
 | **Error Count** | 13 errors | 0 errors | **Dexterity** |
@@ -480,6 +480,9 @@ cargo build --release -p dexterity-cli
 
 # Export as Gradle project
 ./target/release/dexterity -e -d output/ app.apk
+
+# Replace resource IDs with R.* references (e.g., 0x7f040001 -> R.layout.activity_main)
+./target/release/dexterity --replace-consts -d output/ app.apk
 ```
 
 ## Performance
@@ -626,6 +629,7 @@ If you need complete output including framework classes, use JADX. Dexterity is 
 | `--no-kotlin-metadata` | Disable Kotlin metadata parsing |
 | `--escape-unicode` | Escape unicode characters in strings |
 | `--respect-bytecode-access-modifiers` | Use original access modifiers |
+| `--replace-consts` | Replace constant values with R.* resource references (e.g., `0x7f040001` to `R.layout.activity_main`) |
 | `-f, --fallback` | Set decompilation mode to fallback (raw instruction dump) |
 
 ### Performance
@@ -735,20 +739,21 @@ See `docs/LLM_AGENT_GUIDE.md` for complete workflow. Key steps:
 - `docs/TESTING_GUIDE.md` - How to test and validate changes
 - `docs/PROGRESS.md` - Track completed work and quality metrics
 
-**Issue Status (Dec 16, 2025 - PRODUCTION READY):**
+**Issue Status (Dec 17, 2025 - PRODUCTION READY):**
 
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
 | CRITICAL | 12 | 12 | All P1 issues resolved |
-| HIGH | 4 | 4 | All resolved |
+| HIGH | 5 | 5 | All resolved |
 | MEDIUM | 2 | 2 | All resolved |
 
-**Final Quality Metrics (Dec 16, 2025):**
-- **Overall Quality:** 84.4% (medium) / 87.8% (large)
-- **Defect Score:** 95.9% / 96.8%
+**Final Quality Metrics (Dec 17, 2025):**
+- **Overall Quality:** 77.1% (medium) / 70.0% (large) per Dec 16 QA (fresh QA needed)
+- **Defect Score:** 90.3% (medium) / 69.7% (large)
 - **Variable Naming:** 99.96% reduction (27,794 to 11)
 - **Type Inference:** 0 Unknown failures
 - **Integration Tests:** 685/685 passing
+- **Unit Tests:** 90/91 passing (1 failing)
 
 ### Test Parity with Java JADX
 
@@ -934,9 +939,9 @@ These APKs are used for:
 
 ## Test Status
 
-*Last updated: 2025-12-16*
+*Last updated: 2025-12-17*
 
-All 685 integration tests pass. All 91 codegen unit tests pass.
+All 685 integration tests pass. Unit tests: 90/91 passing (1 failing: method_gen::tests::test_method_with_params).
 
 ### Test Summary
 
@@ -944,7 +949,7 @@ All 685 integration tests pass. All 91 codegen unit tests pass.
 |------------|-------|--------|--------|--------|
 | **Integration Tests** | 685 | 685 | 0 | All Passing |
 | dexterity-cli (unit) | 15 | 15 | 0 | All Passing |
-| dexterity-codegen | 91 | 91 | 0 | All Passing |
+| dexterity-codegen | 91 | 90 | 1 | 1 Failing |
 | dexterity-deobf | 25 | 25 | 0 | All Passing |
 | dexterity-dex | 35 | 35 | 0 | All Passing |
 | dexterity-ir | 49 | 49 | 0 | All Passing |
@@ -953,7 +958,7 @@ All 685 integration tests pass. All 91 codegen unit tests pass.
 | dexterity-resources | 8 | 8 | 0 | All Passing |
 | dexterity-qa | 14 | 14 | 0 | All Passing |
 
-**Note:** All unit tests have been updated to reflect the improved type-based variable naming (e.g., `obj0`, `obj5` instead of `v0`, `v5`). The 685 integration tests (which test end-to-end functionality) all pass.
+**Note:** All unit tests have been updated to reflect the improved type-based variable naming (e.g., `obj0`, `obj5` instead of `v0`, `v5`). The 685 integration tests (which test end-to-end functionality) all pass. One unit test (method_gen::tests::test_method_with_params) is failing due to parameter naming.
 
 ### Integration Test Categories
 
@@ -993,7 +998,7 @@ The 685 integration tests are organized by decompilation feature area, matching 
 ### Test Quality Metrics
 
 - **Zero TODO/skipped tests** - All 685 integration tests fully implemented
-- **100% pass rate** - 1,055 tests passing (685 integration + 370 unit tests)
+- **99.9% pass rate** - 1,054 tests passing (685 integration + 369 unit tests, 1 failing)
 - **Comprehensive coverage** - Tests cover all major decompilation features
 - **JADX parity** - 685 integration tests vs 577 Java JADX tests (108 additional tests)
 

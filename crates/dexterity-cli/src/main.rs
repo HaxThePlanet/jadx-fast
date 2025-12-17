@@ -1408,7 +1408,7 @@ fn process_dex_bytes(
                     deobf_min_length: args.deobf_min_length,
                     deobf_max_length: args.deobf_max_length,
                     res_names: res_names.clone(),
-                    replace_consts: args.replace_consts,
+                    replace_consts: args.replace_consts(),
                     app_package_name: None, // TODO: Extract from ARSC or ClassData
                 };
                 let dex_arc: std::sync::Arc<dyn dexterity_codegen::DexInfoProvider> = dex_info.clone();

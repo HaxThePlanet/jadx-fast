@@ -31,6 +31,7 @@ Development history and notable fixes.
 - Before: `method#123(v0, v1, v2);`
 - After: `methodHandle.invoke(this, 10, 20);`
 - All 24 invoke tests + 49 IR tests passing
+- Note: 1 unit test failing in method_gen (test_method_with_params)
 
 ---
 
@@ -78,7 +79,7 @@ Development history and notable fixes.
 **Results:**
 - Before: `() -> { /* method body unavailable */ }`
 - After: `(x) -> x + 1` or `(a, b) -> { return a.compareTo(b); }`
-- All 685 integration tests passing
+- All 685 integration tests passing (90/91 unit tests, 1 failing in method_gen)
 
 ---
 
@@ -105,7 +106,7 @@ Development history and notable fixes.
 - After: `setContentView(R.layout.activity_main);`
 - Unknown resources show: `0x7f010099 /* Unknown resource */`
 - Framework resources: `android.R.attr.minWidth`
-- All 685 integration tests passing
+- All 685 integration tests passing (90/91 unit tests passing)
 
 **Usage:**
 ```bash

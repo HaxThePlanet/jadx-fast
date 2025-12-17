@@ -1,8 +1,9 @@
 # Dexterity Implementation Roadmap
 
-**Current State:** PRODUCTION READY (Dec 17, 2025)
-**Quality Achieved:** 84.4% (medium) / 87.8% (large) | All 19 P1-P2 issues RESOLVED
+**Current State:** HIGH QUALITY - IN PROGRESS (Dec 17, 2025)
+**Quality Achieved:** 77.1% (medium) / 70.0% (large) per latest QA reports | All 19 P1-P2 issues RESOLVED
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
+**Note:** Quality metrics based on Dec 16 QA reports. Fresh metrics needed to validate recent improvements.
 
 ---
 
@@ -30,10 +31,10 @@
 | Component | Dexterity File | LOC | Status |
 |-----------|----------------|-----|--------|
 | SSA Transform | ssa.rs | 964 | DONE |
-| Type Inference | type_inference.rs | 2,432 | DONE |
-| Region Builder | region_builder.rs | 2,066 | DONE |
-| Variable Naming | var_naming.rs | 1,480 | DONE |
-| Code Generation | body_gen.rs + expr_gen.rs | 6,347 | DONE |
+| Type Inference | type_inference.rs | 2,644 | DONE |
+| Region Builder | region_builder.rs | 2,094 | DONE |
+| Variable Naming | var_naming.rs | 1,609 | DONE |
+| Code Generation | body_gen.rs + expr_gen.rs | 7,273 | DONE |
 | Exception Handling | region_builder.rs | - | DONE |
 | Deobfuscation | deobf.rs | 1,825 | DONE |
 
@@ -227,11 +228,11 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 | File | LOC | Purpose |
 |------|-----|---------|
 | `crates/dexterity-passes/src/type_inference.rs` | 2,644 | Type inference |
-| `crates/dexterity-codegen/src/body_gen.rs` | 5,491 | Region traversal |
+| `crates/dexterity-codegen/src/body_gen.rs` | 5,827 | Region traversal |
 | `crates/dexterity-passes/src/region_builder.rs` | 2,094 | Control flow |
-| `crates/dexterity-passes/src/var_naming.rs` | 1,480 | Variable naming |
-| `crates/dexterity-codegen/src/expr_gen.rs` | 1,379 | Expression gen |
-| `crates/dexterity-codegen/src/class_gen.rs` | 1,539 | Class structure |
+| `crates/dexterity-passes/src/var_naming.rs` | 1,609 | Variable naming |
+| `crates/dexterity-codegen/src/expr_gen.rs` | 1,446 | Expression gen |
+| `crates/dexterity-codegen/src/class_gen.rs` | 1,548 | Class structure |
 | `crates/dexterity-codegen/src/fallback_gen.rs` | 45 | Fallback mode raw output |
 
 ### JADX Source (jadx-fast)
@@ -249,14 +250,14 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 
 | Metric | Current | Target | Status |
 |--------|---------|--------|--------|
-| Overall Quality | 84.5-87.8% | 85%+ | **ACHIEVED** |
+| Overall Quality | 77.1% (medium), 70.0% (large) | 85%+ | IN PROGRESS |
 | Variable naming | 99.96% (11 remaining) | 100% | ACHIEVED |
 | Class generics | 736 classes | All | ACHIEVED |
 | Interface generics | 100% | 100% | **ACHIEVED** |
 | Type inference | 0 Unknown failures | 0 | **ACHIEVED** |
-| Defect score | 95.9-96.8% | 95%+ | **ACHIEVED** |
+| Defect score | 90.3% (medium), 69.7% (large) | 95%+ | IN PROGRESS |
 | Speed advantage | 3-88x | Maintain | ACHIEVED |
-| Test pass rate | 685/685 | 100% | ACHIEVED |
+| Test pass rate | 685/685 integration, 90/91 unit | 100% | IN PROGRESS (1 unit test failing: method_gen::tests::test_method_with_params) |
 | P1-P2 issues | 18/18 resolved | All | **ACHIEVED** |
 
 ---
@@ -267,14 +268,15 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 - Added `InsnType::Ternary` for cleaner ternary expression output
 - Added `fallback_gen.rs` for raw bytecode dump on method generation failure
 - All 685 integration tests pass
-- Quality: 84.5%/87.8%
+- Quality: 77.1%/70.0% (per Dec 16 QA reports, fresh analysis needed)
 
-### Dec 16, 2025 - PRODUCTION READY Status Achieved
-All 19 P1-P2 issues resolved. Quality improver confirmed:
+### Dec 16, 2025 - Major Quality Improvements Completed
+All 19 P1-P2 issues resolved:
 - Type inference: 0 Unknown type failures
 - Variable naming: 99.96% reduction (27,794 → 11)
-- Defect score: 95.9%/96.8%
-- Overall quality: 84.5%/87.8%
+- Defect score: 90.3% (medium), 69.7% (large) per QA reports
+- Overall quality: 77.1% (medium), 70.0% (large) per QA reports
+- Note: 1 unit test failing (method_gen::tests::test_method_with_params)
 
 ### Dec 16, 2025 - THREE MAJOR Bug Fixes
 1. **Variable Naming** - 27,794 → 11 arg0/arg1 (99.96% reduction)
@@ -298,6 +300,7 @@ All 19 P1-P2 issues resolved. Quality improver confirmed:
 
 **Last Updated:** Dec 17, 2025
 **Status:** PRODUCTION READY - All P1-P2 issues resolved + 4 major P3 features complete
+**Known Issues:** 1 unit test failing (method_gen::tests::test_method_with_params), fresh QA metrics needed to validate recent improvements
 
 ## Dec 17, 2025 - Four Major Features Completed
 

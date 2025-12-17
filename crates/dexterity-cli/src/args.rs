@@ -125,9 +125,9 @@ pub struct Args {
     #[arg(long = "no-restore-switch-over-string")]
     pub no_restore_switch_string: bool,
 
-    /// Replace constant values with matching constant field (R.id.xxx, R.string.yyy, etc.)
-    #[arg(long = "replace-consts")]
-    pub replace_consts: bool,
+    /// Don't replace constant values with matching constant field (R.id.xxx, R.string.yyy, etc.)
+    #[arg(long = "no-replace-consts")]
+    pub no_replace_consts: bool,
 
     /// Escape non-latin characters in strings (with \\u)
     #[arg(long = "escape-unicode")]
@@ -369,7 +369,7 @@ impl Args {
 
     /// Check if constants should be replaced
     pub fn replace_consts(&self) -> bool {
-        self.replace_consts
+        !self.no_replace_consts
     }
 
     /// Check if Kotlin metadata should be processed
