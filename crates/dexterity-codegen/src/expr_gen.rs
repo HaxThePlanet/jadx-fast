@@ -678,14 +678,29 @@ impl ExprGen {
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
                 let size_str = self.gen_arg(size);
                 // Type is array type, get element type
-                let elem_name = name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';');
+                // Handle both Java format (Object[]) and internal format ([Ljava/lang/Object;)
+                let elem_name = if name.ends_with("[]") {
+                    // Java format: strip trailing []
+                    name.trim_end_matches("[]")
+                } else {
+                    // Internal format: [Ljava/lang/Object; -> java/lang/Object
+                    name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';')
+                };
                 Some(format!("new {}[{}]", elem_name, size_str))
             }
 
             InsnType::FilledNewArray { type_idx, args, .. } => {
                 let name = self.get_type_value(*type_idx)
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
-                let elem_name = name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';');
+                // Type is array type, get element type
+                // Handle both Java format (Object[]) and internal format ([Ljava/lang/Object;)
+                let elem_name = if name.ends_with("[]") {
+                    // Java format: strip trailing []
+                    name.trim_end_matches("[]")
+                } else {
+                    // Internal format: [Ljava/lang/Object; -> java/lang/Object
+                    name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';')
+                };
                 let args_str: Vec<_> = args.iter().map(|a| self.gen_arg(a)).collect();
                 Some(format!("new {}[] {{ {} }}", elem_name, args_str.join(", ")))
             }
@@ -998,7 +1013,15 @@ impl ExprGen {
             InsnType::NewArray { size, type_idx, .. } => {
                 let name = self.get_type_value(*type_idx)
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
-                let elem_name = name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';');
+                // Type is array type, get element type
+                // Handle both Java format (Object[]) and internal format ([Ljava/lang/Object;)
+                let elem_name = if name.ends_with("[]") {
+                    // Java format: strip trailing []
+                    name.trim_end_matches("[]")
+                } else {
+                    // Internal format: [Ljava/lang/Object; -> java/lang/Object
+                    name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';')
+                };
                 writer.add("new ").add(elem_name).add("[");
                 self.write_arg(writer, size);
                 writer.add("]");

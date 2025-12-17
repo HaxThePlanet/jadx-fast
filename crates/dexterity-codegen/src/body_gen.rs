@@ -3584,6 +3584,15 @@ fn generate_insn<W: CodeWriter>(
             // OPTIMIZED: Direct write avoiding Vec<String> allocation
             let type_name = ctx.expr_gen.get_type_value(*type_idx)
                 .unwrap_or_else(|| format!("Type#{}", type_idx));
+            // Type is array type, extract element type
+            // Handle both Java format (Object[]) and internal format ([Ljava/lang/Object;)
+            let elem_type = if type_name.ends_with("[]") {
+                // Java format: strip trailing []
+                type_name.trim_end_matches("[]").to_string()
+            } else {
+                // Internal format: [Ljava/lang/Object; -> java/lang/Object
+                type_name.trim_start_matches('[').trim_start_matches('L').trim_end_matches(';').to_string()
+            };
             if let Some(d) = dest {
                 let reg = d.reg_num;
                 let version = d.ssa_version;
@@ -3591,7 +3600,7 @@ fn generate_insn<W: CodeWriter>(
                 // Check inlining (rare case - needs String)
                 if ctx.should_inline(reg, version) {
                     let args_str: Vec<_> = args.iter().map(|a| ctx.expr_gen.gen_arg(a)).collect();
-                    let expr = format!("new {}[] {{ {} }}", type_name, args_str.join(", "));
+                    let expr = format!("new {}[] {{ {} }}", elem_type, args_str.join(", "));
                     ctx.store_inline_expr(reg, version, expr);
                 } else {
                     let var_name = ctx.expr_gen.get_var_name(d);
@@ -3606,12 +3615,12 @@ fn generate_insn<W: CodeWriter>(
                         if ctx.is_final(reg, version) {
                             code.add("final ");
                         }
-                        code.add(&type_name).add("[] ");
+                        code.add(&elem_type).add("[] ");
                         ctx.mark_declared(reg, version);
                         ctx.mark_name_declared(&var_name);
                     }
 
-                    code.add(&var_name).add(" = new ").add(&type_name).add("[] { ");
+                    code.add(&var_name).add(" = new ").add(&elem_type).add("[] { ");
                     for (i, a) in args.iter().enumerate() {
                         if i > 0 { code.add(", "); }
                         ctx.expr_gen.write_arg(code, a);
