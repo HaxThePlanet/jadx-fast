@@ -149,7 +149,7 @@ If you made significant improvements, update:
 | Task | Priority | Files | Notes |
 |------|----------|-------|-------|
 | **Static initializer variables** | P0-CRITICAL | body_gen.rs:4962,4985 | 2-line fix: `write_arg_inline_typed()` |
-| **Annotation default values** | P1-HIGH | converter.rs, class_gen.rs | Parse `AnnotationDefault` annotation |
+| **Annotation default values** | P1-HIGH | info.rs, converter.rs, method_gen.rs | **DONE** - Parse `AnnotationDefault` annotation |
 | **Missing annotation imports** | P2-MEDIUM | class_gen.rs | Traverse annotation argument types |
 | **Code verbosity** | P3-LOW | body_gen.rs, code_shrink.rs | **POSITIVE TRADEOFF** (not a bug) |
 | Optimization pass audit | P2 | dexterity-passes/ | JADX_OPTIMIZATION_PASSES.md |

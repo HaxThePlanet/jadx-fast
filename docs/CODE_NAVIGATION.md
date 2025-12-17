@@ -28,20 +28,21 @@ grep -n "StaticPut\|static_put\|write_arg_with_type" body_gen.rs
 
 ---
 
-### BADBOY-P1-001: Annotation Default Values Missing (HIGH)
+### BADBOY-P1-001: Annotation Default Values Missing (HIGH) - **FIXED (Dec 17, 2025)**
 
 **Problem:** `long[] flags();` instead of `long[] flags() default {};`
 **Root Cause:** DEX `AnnotationDefault` annotation not parsed/emitted
+**Status:** RESOLVED
 
-**Files:**
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-cli/src/converter.rs` - Parse AnnotationDefault
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/class_gen.rs` - Emit default values
-- `/mnt/nvme4tb/jadx-rust/crates/dexterity-dex/src/annotations.rs` - May need updates
+**Files Changed:**
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-ir/src/info.rs` - Added `annotation_default: Option<AnnotationValue>` to `MethodData`
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-cli/src/converter.rs` - Added `apply_annotation_defaults()` function
+- `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/method_gen.rs` - Emit `default <value>` for annotation methods
 
 ```bash
 # Find annotation handling
-grep -n "annotation\|Annotation\|default" converter.rs
-grep -n "@interface\|AnnotationDefault" class_gen.rs
+grep -n "annotation_default\|apply_annotation_defaults" converter.rs
+grep -n "annotation_default\|default" method_gen.rs
 ```
 
 ---

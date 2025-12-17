@@ -21,7 +21,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 
 **~78,000 lines of Rust | 685 integration tests passing | 3-88x faster than JADX**
 
-**Status (Dec 17, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **77-87% quality** on complex APKs, and is **3-88x faster** than JADX. All 19 P1-P2 issues resolved. **4 new issues identified** from badboy APK comparison (1 P0-critical, 1 P1-high, 2 P2-medium). Android R.* resource field resolution enabled by default. Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
+**Status (Dec 17, 2025):** PRODUCTION READY with **98%+ JADX CLI parity**. Dexterity achieves **1:1 identical app code** on simple APKs, **77-87% quality** on complex APKs, and is **3-88x faster** than JADX. All 19 P1-P2 issues resolved. **3 remaining issues** from badboy APK comparison (1 P0-critical, 2 P2-medium) - P1 annotation defaults fixed. Varargs expansion and annotation defaults newly implemented. Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
 ## Speed vs Quality Trade-off
 
@@ -491,7 +491,7 @@ The `generate_condition` function detects `Condition::Not(Condition::Simple { ..
 
 ## Known Issues (From badboy APK Comparison - Dec 17)
 
-Recent comparison with JADX on badboy APK identified 4 issues:
+Recent comparison with JADX on badboy APK identified 4 issues (1 fixed, 3 remaining):
 
 ### P0-CRITICAL: Static Initializer Variable Resolution
 
@@ -512,25 +512,26 @@ private static final long Purple80 = ColorKt.Color(4291869951L);
 **Fix:** 2-line change - use `write_arg_inline_typed()` instead of `write_arg_with_type()`
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
 
-### P1-HIGH: Annotation Default Values Missing
+### P1-HIGH: Annotation Default Values Missing - **FIXED (Dec 17, 2025)**
 
 **Impact:** Invalid Java syntax for annotation interfaces
 **Symptom:**
 ```java
-// Dexterity (BROKEN)
+// Dexterity (BEFORE)
 public @interface MagicConstant {
     @Override  // WRONG: annotations don't override
     public abstract long[] flags();  // MISSING: default {}
 }
 
-// JADX (CORRECT)
+// JADX / Dexterity (AFTER)
 public @interface MagicConstant {
     long[] flags() default {};
 }
 ```
 
 **Root Cause:** DEX annotation default values not being parsed/emitted
-**Files:** `crates/dexterity-codegen/src/class_gen.rs`, `crates/dexterity-dex/src/annotations.rs`
+**Fix:** Added `annotation_default` field to `MethodData`, implemented `apply_annotation_defaults()` to parse `dalvik/annotation/AnnotationDefault`, updated method_gen.rs to emit `default <value>`
+**Files:** `crates/dexterity-ir/src/info.rs`, `crates/dexterity-cli/src/converter.rs`, `crates/dexterity-codegen/src/method_gen.rs`
 
 ### P2-MEDIUM: Missing Import Statements
 
@@ -670,7 +671,7 @@ If you need complete output including framework classes, use JADX. Dexterity is 
 | DEX Parsing | ✅ 100% | All 224 Dalvik opcodes |
 | Control Flow | ✅ 100% | CFG, dominators, SSA, type inference |
 | Region Reconstruction | ✅ 100% | if/else, loops, switch, try-catch, synchronized, finally |
-| Code Generation | ✅ 100% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion, compare qualification, condition simplification, for-each loops all done |
+| Code Generation | ✅ 100% | Ternary, multi-catch, inner classes, increment/decrement patterns, special numeric formatting, bitwise-to-logical conversion, compare qualification, condition simplification, for-each loops, varargs expansion all done |
 | Input Formats | 🔶 60% | APK, DEX, JAR, AAR, ZIP (missing AAB, APKS, XAPK, Smali) |
 | Resources | ✅ 100% | AXML and resources.arsc (1:1 match) |
 | Kotlin Support | ✅ 100% | Metadata, name restoration, intrinsics |
@@ -841,7 +842,7 @@ See `docs/LLM_AGENT_GUIDE.md` for complete workflow. Key steps:
 | CRITICAL | 12 | 12 | All P1 issues resolved |
 | HIGH | 5 | 5 | All resolved |
 | MEDIUM | 2 | 2 | All resolved |
-| **NEW (badboy)** | 4 | 0 | 1 P0-critical, 1 P1-high, 2 P2-medium |
+| **NEW (badboy)** | 4 | 1 | 1 P0-critical, 1 P1-high (fixed), 2 P2-medium |
 
 **Final Quality Metrics (Dec 17, 2025):**
 - **Overall Quality:** 77.1% (medium) / 70.0% (large) per Dec 16 QA (fresh QA needed)

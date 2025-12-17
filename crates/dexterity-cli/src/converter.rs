@@ -158,6 +158,10 @@ pub fn convert_class(
     // Mark synthetic methods for inlining
     mark_methods_for_inline(&mut class_data.methods);
 
+    // Apply annotation defaults to methods (for annotation classes)
+    // Like JADX's ClassNode.processAttributes() - distributes AnnotationDefault values to methods
+    apply_annotation_defaults(&mut class_data);
+
     // NOTE: extract_field_init is NOT called here because instructions are not yet loaded.
     // Instructions are stored as BytecodeRef (lazy loading).
     // extract_field_init must be called AFTER instructions are loaded in main.rs,
@@ -489,6 +493,49 @@ fn parse_type_parameters(chars: &mut std::iter::Peekable<std::str::Chars>) -> Ve
     }
 
     params
+}
+
+/// Apply annotation defaults to methods in an annotation class
+/// Parses dalvik/annotation/AnnotationDefault and distributes values to methods
+/// Like JADX's ClassNode.processAttributes() for AnnotationDefaultClassAttr
+fn apply_annotation_defaults(class: &mut ClassData) {
+    // Only process annotation classes (ACC_ANNOTATION = 0x2000)
+    if class.access_flags & 0x2000 == 0 {
+        return;
+    }
+
+    // Find the AnnotationDefault annotation at class level
+    // dalvik/annotation/AnnotationDefault contains a nested annotation with default values
+    let defaults = class.annotations.iter().find_map(|annot| {
+        if annot.annotation_type == "dalvik/annotation/AnnotationDefault" {
+            // The default values are stored in a nested annotation
+            // under the "value" element
+            annot.elements.iter().find_map(|elem| {
+                if elem.name == "value" {
+                    if let AnnotationValue::Annotation(nested) = &elem.value {
+                        // The nested annotation contains element name -> default value mappings
+                        return Some(nested.elements.clone());
+                    }
+                }
+                None
+            })
+        } else {
+            None
+        }
+    });
+
+    // Distribute defaults to matching methods
+    if let Some(default_elements) = defaults {
+        for method in &mut class.methods {
+            // Look for a default value with matching method name
+            for elem in &default_elements {
+                if elem.name == method.name {
+                    method.annotation_default = Some(elem.value.clone());
+                    break;
+                }
+            }
+        }
+    }
 }
 
 /// Apply signature annotation to field type if present

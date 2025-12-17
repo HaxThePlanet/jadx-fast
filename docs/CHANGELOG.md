@@ -4,28 +4,130 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Varargs Expansion for NewArray + ArrayPut Patterns (Dec 17, 2025)
+
+**Implemented intelligent varargs expansion to convert NewArray + ArrayPut sequences into inline vararg parameters.**
+
+**Problem:** Arrays created with `new Type[N]` followed by individual `ArrayPut` instructions were not being expanded into varargs, leading to verbose output like:
+```java
+String[] arr = new String[3];
+arr[0] = "a";
+arr[1] = "b";
+arr[2] = "c";
+method(arr);
+```
+
+**Solution:** Track pending NewArray instructions and absorb subsequent ArrayPut instructions, then expand at call site:
+```java
+method("a", "b", "c");
+```
+
+**Implementation Details:**
+
+1. **`PendingVarargArray` struct** (body_gen.rs) - Tracks arrays being built for potential vararg expansion:
+   - `size: usize` - Declared array size
+   - `type_idx: u32` - Type index for element type
+   - `elements: Vec<Option<String>>` - Elements filled so far (indexed by array position)
+   - `filled_count: usize` - Number of indices filled
+   - `invalidated: bool` - Whether array was used in non-vararg context
+
+2. **`pending_vararg_arrays` field in `BodyGenContext`** - HashMap keyed by `(reg_num, ssa_version)` to track NewArray + ArrayPut sequences
+
+3. **NewArray tracking** - When processing `InsnType::NewArray`:
+   - Extracts size from literal or inlined register constant
+   - Creates `PendingVarargArray` entry if size is 1-64 and use count > 1
+   - Supports register-based size constants via `peek_inline_expr()`
+
+4. **ArrayPut absorption** - When processing `InsnType::ArrayPut`:
+   - Checks if array is in `pending_vararg_arrays`
+   - Extracts index from literal or inlined register constant
+   - Absorbs value into `elements` vector if index is valid and not already filled
+   - Suppresses ArrayPut code generation (returns true without emitting)
+
+5. **`try_expand_pending_vararg_array()` helper** - Called during invoke argument processing:
+   - Checks if argument refers to a fully-filled, non-invalidated pending array
+   - Removes from tracking and returns comma-separated element list
+   - Returns None if not expandable
+
+6. **Updated `should_heuristic_expand_varargs()`** - Now checks both:
+   - FilledNewArray pattern (inlined expression string matching)
+   - Pending vararg array (NewArray + ArrayPut pattern)
+
+7. **Invalidation logic** - Arrays are invalidated when used in non-vararg contexts:
+   - `ArrayGet` - Array is being read, not just built for varargs
+   - `ArrayLength` - Array length is accessed
+   - Non-constant index in ArrayPut
+   - Duplicate write to same index
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs` - All implementation
+
+**Results:**
+- All 1,120 tests pass (685 integration + 435 unit)
+- Varargs patterns now properly expanded
+- Non-vararg array usage correctly falls back to explicit array creation
+
+---
+
+### Annotation Default Values Support (Dec 17, 2025)
+
+**Implemented `apply_annotation_defaults()` to parse and emit annotation method default values.**
+
+**Problem:** Annotation classes were missing default values:
+```java
+// Dexterity (BROKEN)
+public @interface MagicConstant {
+    long[] flags();  // MISSING: default {}
+}
+
+// JADX (CORRECT)
+public @interface MagicConstant {
+    long[] flags() default {};
+}
+```
+
+**Solution:** Parse `dalvik/annotation/AnnotationDefault` annotation and distribute values to methods.
+
+**Implementation (`apply_annotation_defaults()` in converter.rs):**
+1. Check if class is an annotation class (ACC_ANNOTATION = 0x2000)
+2. Find `dalvik/annotation/AnnotationDefault` annotation at class level
+3. Extract nested annotation from `value` element (contains name -> default value mappings)
+4. Distribute defaults to matching methods via `method.annotation_default = Some(value)`
+
+**Files Changed:**
+- `crates/dexterity-ir/src/info.rs` - Added `annotation_default: Option<AnnotationValue>` field to `MethodData`
+- `crates/dexterity-cli/src/converter.rs` - Added `apply_annotation_defaults()` function
+- `crates/dexterity-codegen/src/method_gen.rs` - Emit ` default <value>` suffix for annotation methods
+
+**Results:**
+- Annotation default values now correctly parsed and emitted
+- Annotation classes match JADX output
+
+---
+
 ### Badboy APK Comparison - 4 New Issues Identified (Dec 17, 2025)
 
 Comprehensive JADX comparison on badboy APK identified 4 new issues:
 
-**Issue Status:** 23 total (19 resolved, 4 new)
+**Issue Status:** 23 total (20 resolved, 3 new)
 
-| ID | Priority | Issue | Impact |
-|----|----------|-------|--------|
-| BADBOY-P0-001 | CRITICAL | Static initializer variable resolution | Non-compilable code |
-| BADBOY-P1-001 | HIGH | Annotation default values missing | Invalid Java syntax |
-| BADBOY-P2-001 | MEDIUM | Missing import statements | Non-compilable code |
-| BADBOY-P3-001 | LOW | Code verbosity (785 vs 174 lines) | **POSITIVE TRADEOFF** |
+| ID | Priority | Issue | Impact | Status |
+|----|----------|-------|--------|--------|
+| BADBOY-P0-001 | CRITICAL | Static initializer variable resolution | Non-compilable code | NEW |
+| BADBOY-P1-001 | HIGH | Annotation default values missing | Invalid Java syntax | **DONE** |
+| BADBOY-P2-001 | MEDIUM | Missing import statements | Non-compilable code | NEW |
+| BADBOY-P3-001 | LOW | Code verbosity (785 vs 174 lines) | **POSITIVE TRADEOFF** | ACCEPTED |
 
 **P0-CRITICAL: Static Initializer Variable Resolution**
 - Symptom: `ColorKt.Purple80 = l2;` where `l2` is undefined
 - Root cause: StaticPut handler bypasses expression inlining in body_gen.rs:4962,4985
 - Fix: 2-line change - use `write_arg_inline_typed()` instead of `write_arg_with_type()`
 
-**P1-HIGH: Annotation Default Values Missing**
+**P1-HIGH: Annotation Default Values Missing - DONE (Dec 17, 2025)**
 - Symptom: `long[] flags();` instead of `long[] flags() default {};`
 - Root cause: DEX `AnnotationDefault` annotation not parsed/emitted
-- Files: converter.rs, class_gen.rs
+- Fix: Implemented `apply_annotation_defaults()` in converter.rs, added `annotation_default` field to `MethodData`
+- Files: info.rs, converter.rs, method_gen.rs
 
 **P2-MEDIUM: Missing Import Statements**
 - Symptom: `@Retention(RetentionPolicy.SOURCE)` without import

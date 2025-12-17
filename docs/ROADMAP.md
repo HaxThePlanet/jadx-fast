@@ -2,7 +2,7 @@
 
 **Current State:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Quality Achieved:** 77.1% (medium) / 70.0% (large) per Dec 16 QA | 1,120/1,120 tests passing
-**Issues:** All 19 P1-P2 resolved | P0-CRITICAL fixed | **6 remaining issues** from badboy APK comparison (4 P1, 2 P2)
+**Issues:** All 19 P1-P2 resolved | P0-CRITICAL fixed | **5 remaining issues** from badboy APK comparison (3 P1, 2 P2) - P1 annotation defaults fixed
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -91,12 +91,13 @@ public static Unit $r8$lambda$...(Function1 function11) {
 **Root Cause:** Off-by-one error or register numbering mismatch in parameter resolution
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
 
-### P1-HIGH: Annotation Default Values Missing
+### P1-HIGH: Annotation Default Values Missing - **DONE (Dec 17, 2025)**
 
 **Impact:** Invalid Java syntax
 **Symptom:** `long[] flags();` instead of `long[] flags() default {};`
 **Root Cause:** DEX `AnnotationDefault` annotation not parsed/emitted
-**Files:** `crates/dexterity-cli/src/converter.rs`, `crates/dexterity-codegen/src/class_gen.rs`
+**Fix:** Implemented `apply_annotation_defaults()` in converter.rs, added `annotation_default` field to `MethodData`
+**Files:** `crates/dexterity-ir/src/info.rs`, `crates/dexterity-cli/src/converter.rs`, `crates/dexterity-codegen/src/method_gen.rs`
 
 ### P2-MEDIUM: Missing Import Statements
 
@@ -242,7 +243,7 @@ Add JADX-style diagnostic comments:
 | **Polymorphic invoke** | `isPolymorphicCall()` | MethodHandle cases | **DONE** (Dec 17, 2025) |
 | **Android R.* handling** | `handleAppResField()` | Resource ID resolution | **DONE** (Dec 17, 2025) |
 | **JSR/RET instructions** | `JAVA_JSR`, `JAVA_RET` | Old Java bytecode | TODO |
-| **Varargs expansion** | `processVarArg()` | `foo(arr...)` → `foo(a, b)` | TODO |
+| **Varargs expansion** | `processVarArg()` | `foo(arr...)` → `foo(a, b)` | **DONE** - NewArray + ArrayPut pattern tracking |
 
 ### Architecture Differences (Reference)
 

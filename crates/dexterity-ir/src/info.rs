@@ -247,6 +247,10 @@ pub struct MethodData {
     pub annotations: Vec<Annotation>,
     /// Method inline attribute (for synthetic bridge methods)
     pub inline_attr: Option<MethodInlineAttr>,
+    /// Annotation default value (for annotation interface methods)
+    /// Parsed from dalvik/annotation/AnnotationDefault class-level annotation
+    /// Used to emit "default <value>" in method declarations
+    pub annotation_default: Option<AnnotationValue>,
 }
 
 impl MethodData {
@@ -271,6 +275,7 @@ impl MethodData {
             debug_info: None,
             annotations: Vec::new(),
             inline_attr: None,
+            annotation_default: None,
         }
     }
 
@@ -303,6 +308,7 @@ impl MethodData {
             debug_info: None,
             annotations: Vec::new(),
             inline_attr: None,
+            annotation_default: None,
         }
     }
 

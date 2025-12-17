@@ -310,6 +310,14 @@ pub fn generate_method_with_dex<W: CodeWriter>(
     // Method body
     if method.is_abstract() || method.is_native() {
         // Abstract/native methods have no body
+        // For annotation methods, emit default value if present
+        // Like JADX's MethodGen.java lines 172-179
+        if class.is_annotation() {
+            if let Some(ref default_value) = method.annotation_default {
+                code.add(" default ");
+                code.add(&annotation_value_to_string(default_value));
+            }
+        }
         code.add(";").newline();
     } else if method.is_class_init() {
         // Static initializer block
@@ -410,6 +418,15 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
 
     // Method body
     if method.is_abstract() || method.is_native() {
+        // Abstract/native methods have no body
+        // For annotation methods, emit default value if present
+        // Like JADX's MethodGen.java lines 172-179
+        if class.is_annotation() {
+            if let Some(ref default_value) = method.annotation_default {
+                code.add(" default ");
+                code.add(&annotation_value_to_string(default_value));
+            }
+        }
         code.add(";").newline();
     } else if method.is_class_init() {
         code.add(" {").newline();

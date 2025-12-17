@@ -5,11 +5,11 @@
 ## Current Status
 
 **Build:** Passing
-**Tests:** 776+ tests passing (685 integration + 91 unit tests)
+**Tests:** 1,120 tests passing (685 integration + 435 unit tests)
 **Integration Tests:** 685 passing (100%)
 **Lines:** ~78,000 lines of Rust
 **Completion:** 98%+ JADX CLI parity (Dec 17, 2025)
-**Issues:** 23 total (19 resolved, 4 new from badboy APK comparison)
+**Issues:** 22 total (20 resolved, 2 remaining from badboy APK comparison)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is intentional
 
 ## Crate Overview

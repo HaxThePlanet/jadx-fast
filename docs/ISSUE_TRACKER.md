@@ -5,24 +5,24 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 
 **Status (Dec 17, 2025): PRODUCTION READY with 98%+ JADX CLI parity**
 
-**23 total issues (19 resolved, 4 new from badboy APK comparison)**
+**23 total issues (20 resolved, 3 remaining from badboy APK comparison)**
 
-19 of 19 P1-P2 issues fully resolved:
+20 of 20 P1-P2 issues fully resolved:
 - Overall Quality: 77.1% (medium) / 70.0% (large) per Dec 16 QA
 - Defect Score: 90.3% / 69.7%
 - Variable Naming: 99.96% reduction (27,794 → 11)
 - Null Comparisons: 100% correct (26 → 0)
 - Type Inference: 0 Unknown failures
 - Resource Field Resolution: DONE - R.* references enabled by default
+- Annotation Default Values: DONE - `apply_annotation_defaults()` in converter.rs
 - Integration Tests: 685/685 passing
 - Performance: 3-88x faster than JADX
 - Framework filtering: **INTENTIONAL** (android.*, androidx.*, kotlin.*, kotlinx.*)
 
-**4 NEW issues from badboy APK comparison (Dec 17):**
+**3 remaining issues from badboy APK comparison (Dec 17):**
 - P0-CRITICAL: Static initializer variable resolution (l2, l4 undefined)
-- P1-HIGH: Annotation default values missing (no `default {}`)
 - P2-MEDIUM: Missing import statements (RetentionPolicy, ElementType)
-- P3-LOW: Code verbosity (785 vs 174 lines) - **POSITIVE TRADEOFF**
+- P3-LOW: Code verbosity (785 vs 174 lines) - **POSITIVE TRADEOFF** (not a bug)
 
 ---
 
@@ -67,44 +67,44 @@ StaticPut handler in body_gen.rs (lines 4962, 4985) uses `write_arg_with_type()`
 
 ### Issue ID: BADBOY-P1-001
 
-**Status:** NEW
+**Status:** RESOLVED (Dec 17, 2025)
 **Priority:** P1 (HIGH)
 **Category:** Annotation Default Values Missing
 **Impact:** Invalid Java syntax for annotation interfaces
-**Assigned To:** Unassigned
+**Assigned To:** Completed
 
-**The Problem:**
+**The Problem (FIXED):**
 ```java
-// Dexterity output (BROKEN)
+// Dexterity output (BEFORE - BROKEN)
 public @interface MagicConstant {
     @Override  // WRONG: annotations don't override
     public abstract long[] flags();  // MISSING: default {}
 }
 
-// JADX output (CORRECT)
+// Dexterity output (AFTER - FIXED)
 public @interface MagicConstant {
     long[] flags() default {};
 }
 ```
 
-**Root Cause:**
-DEX annotation default values are stored in `AnnotationDefault` annotation but not being parsed or emitted.
+**Root Cause (Found and Fixed):**
+DEX annotation default values are stored in `AnnotationDefault` annotation but were not being parsed or emitted.
 
-**Fix:**
-1. Parse `AnnotationDefault` annotation in converter.rs
-2. Store default values in MethodData or similar structure
-3. Emit `default <value>` in class_gen.rs for annotation methods
+**Solution:**
+1. Added `apply_annotation_defaults()` function in converter.rs to parse `AnnotationDefault` annotations
+2. Added `annotation_default: Option<AnnotationValue>` field to `MethodData` in info.rs
+3. Updated method_gen.rs to emit `default <value>` for annotation methods
 
-**Files to Change:**
-- `crates/dexterity-cli/src/converter.rs` - Parse AnnotationDefault
-- `crates/dexterity-codegen/src/class_gen.rs` - Emit default values
-- `crates/dexterity-dex/src/annotations.rs` - May need updates
+**Files Changed:**
+- `crates/dexterity-cli/src/converter.rs` - Added `apply_annotation_defaults()` function
+- `crates/dexterity-ir/src/info.rs` - Added `annotation_default` field to `MethodData`
+- `crates/dexterity-codegen/src/method_gen.rs` - Emit default values for annotation methods
 
 **Acceptance Criteria:**
-- [ ] Annotation methods have default values when present
-- [ ] No `@Override` on annotation methods
-- [ ] No `public abstract` modifiers on annotation methods
-- [ ] All 685 integration tests pass
+- [x] Annotation methods have default values when present
+- [x] No `@Override` on annotation methods
+- [x] No `public abstract` modifiers on annotation methods
+- [x] All 685 integration tests pass
 
 ---
 
@@ -1307,14 +1307,14 @@ The `ImportCollector` was collecting types from method signatures, field types, 
 | Priority | Total | Resolved | New | Notes |
 |----------|-------|----------|-----|-------|
 | CRITICAL (P0-P1) | 13 | 12 | 1 | BADBOY-P0-001 (static initializer) |
-| HIGH (P1-P2) | 6 | 5 | 1 | BADBOY-P1-001 (annotation defaults) |
+| HIGH (P1-P2) | 6 | 6 | 0 | BADBOY-P1-001 (annotation defaults) - **FIXED** |
 | MEDIUM (P2-P3) | 4 | 2 | 2 | BADBOY-P2-001, BADBOY-P3-001 |
 
-**Total: 23 issues (19 resolved, 4 new from badboy APK comparison)**
+**Total: 23 issues (20 resolved, 3 remaining from badboy APK comparison)**
 
 **New Issues (Dec 17 - badboy APK):**
 - BADBOY-P0-001: Static initializer variable resolution (2-line fix in body_gen.rs)
-- BADBOY-P1-001: Annotation default values missing (converter.rs + class_gen.rs)
+- BADBOY-P1-001: Annotation default values missing - **FIXED** (info.rs + converter.rs + method_gen.rs)
 - BADBOY-P2-001: Missing import statements (class_gen.rs)
 - BADBOY-P3-001: Code verbosity (**POSITIVE TRADEOFF** - not a bug)
 
@@ -1357,14 +1357,14 @@ The `ImportCollector` was collecting types from method signatures, field types, 
 
 ## Progress Summary
 
-| Category | Resolved | New | Total |
-|----------|----------|-----|-------|
+| Category | Resolved | Remaining | Total |
+|----------|----------|-----------|-------|
 | CRITICAL (P0-P1) | 12 | 1 | 13 |
-| HIGH (P1-P2) | 5 | 1 | 6 |
+| HIGH (P1-P2) | 6 | 0 | 6 |
 | MEDIUM (P2-P3) | 2 | 2 | 4 |
-| **Total** | **19** | **4** | **23** |
+| **Total** | **20** | **3** | **23** |
 
-**Note:** 4 new issues from Dec 17 badboy APK comparison. BADBOY-P3-001 is a **POSITIVE TRADEOFF** (Dexterity succeeds where JADX fails).
+**Note:** BADBOY-P1-001 (annotation defaults) now RESOLVED. BADBOY-P3-001 is a **POSITIVE TRADEOFF** (Dexterity succeeds where JADX fails).
 
 ## Recent Changes
 
