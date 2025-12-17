@@ -4244,10 +4244,36 @@ fn split_array_elements(content: &str) -> Vec<&str> {
     elements
 }
 
-/// Try to expand a vararg argument from an inlined filled array.
+/// Try to expand a pending vararg array from NewArray + ArrayPut pattern.
+/// Returns the expanded argument string or None if not expandable.
+fn try_expand_pending_vararg_array(arg: &InsnArg, ctx: &mut BodyGenContext) -> Option<String> {
+    if let InsnArg::Register(reg) = arg {
+        let key = (reg.reg_num, reg.ssa_version);
+
+        // Need to check then remove to avoid borrow issues
+        let should_expand = ctx.pending_vararg_arrays.get(&key)
+            .map(|p| !p.invalidated && p.filled_count == p.size)
+            .unwrap_or(false);
+
+        if should_expand {
+            if let Some(pending) = ctx.pending_vararg_arrays.remove(&key) {
+                // All elements filled - expand as varargs
+                let elements: Vec<String> = pending.elements
+                    .into_iter()
+                    .map(|opt| opt.unwrap_or_else(|| "null".to_string()))
+                    .collect();
+
+                return Some(elements.join(", "));
+            }
+        }
+    }
+    None
+}
+
+/// Try to expand a vararg argument from an inlined filled array or pending array.
 /// Returns the expanded argument string or None if not expandable.
 fn try_expand_vararg(arg: &InsnArg, ctx: &mut BodyGenContext) -> Option<String> {
-    // Only check register arguments that might be inlined
+    // Try 1: FilledNewArray pattern (inlined expression string matching)
     if let InsnArg::Register(reg) = arg {
         // Peek at inlined expression without consuming it
         if let Some(inlined) = ctx.peek_inline_expr(reg.reg_num, reg.ssa_version) {
@@ -4262,14 +4288,18 @@ fn try_expand_vararg(arg: &InsnArg, ctx: &mut BodyGenContext) -> Option<String> 
             }
         }
     }
-    None
+
+    // Try 2: NewArray + ArrayPut pattern (pending array tracking)
+    try_expand_pending_vararg_array(arg, ctx)
 }
 
 /// Heuristic: should we expand varargs when method definition is unknown?
 ///
 /// Checks if:
 /// 1. Last parameter type is an array
-/// 2. The argument is a filled array literal (new Type[] { ... })
+/// 2. The argument is either:
+///    a. A filled array literal (new Type[] { ... }), OR
+///    b. A pending vararg array built via NewArray + ArrayPut
 fn should_heuristic_expand_varargs(
     param_types: &[ArgType],
     args: &[&InsnArg],
@@ -4286,11 +4316,22 @@ fn should_heuristic_expand_varargs(
         return false;
     }
 
-    // Last argument must be an inlined filled array literal
+    // Last argument must be expandable as varargs
     let last_arg = args.last().unwrap();
     if let InsnArg::Register(reg) = last_arg {
+        // Check 1: inlined filled array literal (FilledNewArray pattern)
         if let Some(inlined) = ctx.peek_inline_expr(reg.reg_num, reg.ssa_version) {
-            return extract_vararg_array_elements(inlined).is_some();
+            if extract_vararg_array_elements(inlined).is_some() {
+                return true;
+            }
+        }
+
+        // Check 2: pending vararg array (NewArray + ArrayPut pattern)
+        let key = (reg.reg_num, reg.ssa_version);
+        if let Some(pending) = ctx.pending_vararg_arrays.get(&key) {
+            if !pending.invalidated && pending.filled_count == pending.size {
+                return true;
+            }
         }
     }
 
@@ -4856,11 +4897,20 @@ fn generate_insn<W: CodeWriter>(
             let version = dest.ssa_version;
 
             // Track for potential vararg expansion if:
-            // 1. Size is a constant literal
+            // 1. Size is a constant (literal or inlined constant in register)
             // 2. Size is reasonable (1-64 elements)
             // 3. Array is used more than once (APUTs + final use)
-            if let InsnArg::Literal(LiteralArg::Int(size_val)) = size {
-                let size_val = *size_val as usize;
+            let const_size: Option<usize> = match size {
+                InsnArg::Literal(LiteralArg::Int(size_val)) => Some(*size_val as usize),
+                InsnArg::Register(size_reg) => {
+                    // Check if size register has an inlined constant
+                    ctx.peek_inline_expr(size_reg.reg_num, size_reg.ssa_version)
+                        .and_then(|s| s.parse::<usize>().ok())
+                }
+                _ => None,
+            };
+
+            if let Some(size_val) = const_size {
                 if size_val > 0 && size_val <= 64 {
                     let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
                     // Needs at least: N ArrayPuts + 1 final Invoke = N+1 uses
@@ -4925,13 +4975,30 @@ fn generate_insn<W: CodeWriter>(
             true
         }
 
-        InsnType::ArrayLength { dest, .. } => {
+        InsnType::ArrayLength { dest, array } => {
+            // Invalidate pending vararg array - it's being used in non-vararg context
+            if let InsnArg::Register(arr_reg) = array {
+                if let Some(pending) = ctx.pending_vararg_arrays.get_mut(
+                    &(arr_reg.reg_num, arr_reg.ssa_version)
+                ) {
+                    pending.invalidated = true;
+                }
+            }
+
             // OPTIMIZED: Direct write with int type hint
             emit_assignment_insn(dest, &insn.insn_type, Some(&ArgType::Int), ctx, code);
             true
         }
 
         InsnType::ArrayGet { dest, array, index, .. } => {
+            // Invalidate pending vararg array - it's being read, not just built
+            if let InsnArg::Register(arr_reg) = array {
+                if let Some(pending) = ctx.pending_vararg_arrays.get_mut(
+                    &(arr_reg.reg_num, arr_reg.ssa_version)
+                ) {
+                    pending.invalidated = true;
+                }
+            }
             // Handle ArrayGet specially to properly inline index argument
             let reg = dest.reg_num;
             let version = dest.ssa_version;
@@ -4975,7 +5042,59 @@ fn generate_insn<W: CodeWriter>(
         }
 
         InsnType::ArrayPut { array, index, value, .. } => {
-            // Use write_arg_inline to properly inline constant indices and values
+            // Check if this is writing to a tracked pending vararg array
+            if let InsnArg::Register(arr_reg) = array {
+                let key = (arr_reg.reg_num, arr_reg.ssa_version);
+
+                // Get constant index value (from literal or inlined constant in register)
+                let const_idx: Option<usize> = match index {
+                    InsnArg::Literal(LiteralArg::Int(idx_val)) => Some(*idx_val as usize),
+                    InsnArg::Register(idx_reg) => {
+                        // Check if index register has an inlined constant
+                        ctx.peek_inline_expr(idx_reg.reg_num, idx_reg.ssa_version)
+                            .and_then(|s| s.parse::<usize>().ok())
+                    }
+                    _ => None,
+                };
+
+                // First check if we should absorb this into pending vararg
+                let should_absorb = {
+                    if let Some(pending) = ctx.pending_vararg_arrays.get(&key) {
+                        if !pending.invalidated {
+                            if let Some(idx) = const_idx {
+                                idx < pending.size && pending.elements[idx].is_none()
+                            } else {
+                                false
+                            }
+                        } else {
+                            false
+                        }
+                    } else {
+                        false
+                    }
+                };
+
+                if should_absorb {
+                    // Generate value string while we don't have mutable borrow
+                    let value_str = ctx.gen_arg_inline(value);
+
+                    if let Some(idx) = const_idx {
+                        if let Some(pending) = ctx.pending_vararg_arrays.get_mut(&key) {
+                            pending.elements[idx] = Some(value_str);
+                            pending.filled_count += 1;
+                            // Suppress this ArrayPut - absorbed into varargs
+                            return true;
+                        }
+                    }
+                } else if let Some(pending) = ctx.pending_vararg_arrays.get_mut(&key) {
+                    // Non-constant index, duplicate write, or other issue - invalidate
+                    if !pending.invalidated {
+                        pending.invalidated = true;
+                    }
+                }
+            }
+
+            // Fall through to normal ArrayPut handling
             code.start_line();
             ctx.write_arg_inline(code, array);
             code.add("[");
@@ -5005,8 +5124,8 @@ fn generate_insn<W: CodeWriter>(
             code.start_line();
             ctx.expr_gen.write_arg(code, object);
             code.add(".").add(&field_name).add(" = ");
-            // Use typed writer for proper boolean literal formatting (0 -> false, 1 -> true)
-            ctx.expr_gen.write_arg_with_type(code, value, &field_type);
+            // Use typed writer with inlining support for proper variable resolution
+            ctx.write_arg_inline_typed(code, value, &field_type);
             code.add(";").newline();
             true
         }
@@ -5028,8 +5147,8 @@ fn generate_insn<W: CodeWriter>(
                 .map(|f| f.field_type)
                 .unwrap_or(ArgType::Unknown);
             code.start_line().add(&field_ref).add(" = ");
-            // Use typed writer for proper boolean literal formatting (0 -> false, 1 -> true)
-            ctx.expr_gen.write_arg_with_type(code, value, &field_type);
+            // Use typed writer with inlining support for proper variable resolution
+            ctx.write_arg_inline_typed(code, value, &field_type);
             code.add(";").newline();
             true
         }

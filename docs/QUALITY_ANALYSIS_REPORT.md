@@ -13,7 +13,7 @@ Dexterity is 3-88x faster AND produces production-quality Java code:
 - Variable Naming: 99.96% reduction (27,794 → 11)
 - Type Inference: 0 Unknown failures
 - Integration Tests: 685/685 passing
-- **NEW:** 4 issues identified from badboy APK comparison (1 P0, 1 P1, 2 P2-P3)
+- **NEW:** 7 issues identified from badboy APK comparison (1 P0-fixed, 4 P1, 2 P2)
 - **NOTE:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
 ### Performance Benchmark (112 Core System)
@@ -132,14 +132,17 @@ Dexterity is 3-88x faster AND produces production-quality Java code:
 2. **90% size reduction** - Focus on app-specific code
 3. **Speed maintained** - 3-88x faster than JADX
 
-### 4 New Issues Identified
+### 7 Issues Identified (1 Fixed, 6 Remaining)
 
-| ID | Priority | Issue | Impact |
-|----|----------|-------|--------|
-| BADBOY-P0-001 | CRITICAL | Static initializer variable resolution | Non-compilable code |
-| BADBOY-P1-001 | HIGH | Annotation default values missing | Invalid Java syntax |
-| BADBOY-P2-001 | MEDIUM | Missing import statements | Non-compilable code |
-| BADBOY-P3-001 | LOW | Code verbosity | **POSITIVE TRADEOFF** |
+| ID | Priority | Issue | Impact | Status |
+|----|----------|-------|--------|--------|
+| BADBOY-P0-001 | CRITICAL | Static initializer variable resolution | Non-compilable code | **FIXED** |
+| BADBOY-P1-001 | CRITICAL | Enum constant name corruption | Duplicate enum values | NEW |
+| BADBOY-P1-002 | HIGH | Lambda/R8 bridge method parameter corruption | Undefined variables | NEW |
+| BADBOY-P1-003 | HIGH | Annotation default values missing | Invalid Java syntax | |
+| BADBOY-P2-001 | MEDIUM | Missing import statements | Non-compilable code | |
+| BADBOY-P2-002 | MEDIUM | Invalid Java identifier names | Hyphens in names | NEW |
+| BADBOY-P3-001 | LOW | Code verbosity | **POSITIVE TRADEOFF** | |
 
 ### P0-CRITICAL: Static Initializer Variable Resolution
 

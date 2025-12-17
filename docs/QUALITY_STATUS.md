@@ -2,7 +2,7 @@
 
 **Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Target:** 85+/100 Quality Score | **Result:** 77.1% (medium), 70.0% (large) per Dec 16 QA reports
-**Issues:** All 19 P1-P2 resolved | **4 new issues identified** from badboy APK comparison (1 P0, 1 P1, 2 P2-P3)
+**Issues:** All 19 P1-P2 resolved | **7 new issues identified** from badboy APK comparison (1 P0, 4 P1, 2 P2)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
 ---
@@ -26,7 +26,7 @@
 | Integration Tests | **685/685 passing** |
 | Unit Tests | **91/91 passing** |
 | Speed Advantage | 3-88x faster than JADX |
-| **NEW Issues** | **4 identified** (1 P0, 1 P1, 2 P2-P3) from badboy APK comparison |
+| **NEW Issues** | **7 identified** (1 P0, 4 P1, 2 P2) from badboy APK comparison |
 
 ---
 
@@ -177,14 +177,14 @@
 | CRITICAL | 12 | 12 | All Dec 16 P1 issues |
 | HIGH | 5 | 5 | All resolved |
 | MEDIUM | 2 | 2 | All resolved |
-| **NEW (badboy)** | 4 | 0 | 1 P0, 1 P1, 2 P2-P3 |
-| **Total** | **23** | **19** | 4 new from badboy APK |
+| **NEW (badboy)** | 7 | 0 | 1 P0, 4 P1, 2 P2 |
+| **Total** | **26** | **19** | 7 new from badboy APK |
 
 ---
 
 ## Known Issues (Dec 17 - badboy APK Comparison)
 
-Recent comparison with JADX on badboy APK identified 4 new issues:
+Recent comparison with JADX on badboy APK identified 7 new issues:
 
 ### P0-CRITICAL: Static Initializer Variable Resolution
 
@@ -225,6 +225,50 @@ public @interface MagicConstant {
 **Root Cause:** DEX annotation default values not being parsed from `AnnotationDefault` annotation
 **Files:** `crates/dexterity-codegen/src/class_gen.rs`, `crates/dexterity-dex/src/annotations.rs`
 
+### P1-CRITICAL (NEW): Enum Constant Name Corruption
+
+**Impact:** Non-compilable code (duplicate enum constants)
+**Symptom:**
+```java
+// Dexterity (BROKEN) - Nls.java
+public static enum Capitalization {
+    NotSpecified,
+    NotSpecified,  // DUPLICATE - invalid Java
+    NotSpecified,  // DUPLICATE
+    NotSpecified;  // DUPLICATE
+}
+
+// JADX (CORRECT)
+public enum Capitalization {
+    NotSpecified,
+    Title,
+    Sentence
+}
+```
+
+**Root Cause:** Enum constant names not being extracted from DEX field metadata; falling back to first constant name
+**Files:** `crates/dexterity-dex/src/class.rs`, `crates/dexterity-codegen/src/class_gen.rs`
+
+### P1-HIGH (NEW): Lambda/R8 Bridge Method Parameter Corruption
+
+**Impact:** Non-compilable code (references to undefined variables)
+**Symptom:**
+```java
+// Dexterity (BROKEN) - MainActivityKt.java
+public static Unit $r8$lambda$3680DyU35T7tCS-6DjGpj9WQz4M(
+    Context context, Function1 function11, MutableState mutableState2) {
+    return MainActivityKt.Greeting$lambda$19$lambda$18$lambda$13$lambda$12(
+        context, function12, mutableState3);  // function12, mutableState3 UNDEFINED!
+}
+```
+
+**Pattern:** Every R8-generated lambda bridge method passes wrong parameter names:
+- `function11` declared → `function12` used
+- `mutableState2` declared → `mutableState3` used
+
+**Root Cause:** Off-by-one error or register numbering mismatch in parameter resolution
+**Files:** `crates/dexterity-codegen/src/body_gen.rs`
+
 ### P2-MEDIUM: Missing Import Statements
 
 **Impact:** Non-compilable code
@@ -236,6 +280,19 @@ public @interface MagicConstant {
 
 **Root Cause:** Import collector doesn't traverse annotation argument types
 **Files:** `crates/dexterity-codegen/src/class_gen.rs`
+
+### P2-MEDIUM (NEW): Invalid Java Identifier Names
+
+**Impact:** Non-compilable code
+**Symptom:**
+```java
+// Dexterity (BROKEN) - MainActivityKt.java
+int constructor-impl;  // INVALID: hyphens not allowed in Java identifiers
+Updater.set-impl(...);  // INVALID method name
+```
+
+**Root Cause:** Synthetic/compiler-generated names containing hyphens not being sanitized
+**Files:** `crates/dexterity-codegen/src/body_gen.rs`, `crates/dexterity-codegen/src/class_gen.rs`
 
 ### P3-LOW: Code Verbosity
 

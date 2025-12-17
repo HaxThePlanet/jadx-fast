@@ -127,8 +127,8 @@ public class MainActivity extends Activity {
 
 | Metric | Medium APK | Large APK |
 |--------|------------|-----------|
-| Overall Quality | 84.4% | 87.8% |
-| Defect Score | 95.9% | 96.8% |
+| Overall Quality | 77.1% | 70.0% |
+| Defect Score | 90.3% | 69.7% |
 | Variable Naming | 99.96% reduction | 99.96% reduction |
 | Type Inference | 0 failures | 0 failures |
 
@@ -146,7 +146,7 @@ public class MainActivity extends Activity {
 | **Speed** | ❌ | ✅ | **Dexterity** (3-88x) |
 | **Memory Usage** | ❌ | ✅ | **Dexterity** |
 | **Error Count** | 13 errors | 0 errors | **Dexterity** |
-| **Defect Score** | - | 95.9-96.8% | **Dexterity** |
+| **Defect Score** | - | 69.7-90.3% | **Dexterity** |
 
 #### Output Statistics
 
@@ -158,7 +158,7 @@ public class MainActivity extends Activity {
 
 #### Recommendation
 
-- **Use Dexterity** for most use cases - 84.4-87.8% quality at 3-88x the speed
+- **Use Dexterity** for most use cases - 70-77% quality at 3-88x the speed
 - **Use Dexterity** for simple APKs - 1:1 identical output
 - **Use Dexterity** for performance-critical workflows - 3-88x faster with production quality
 - **Use JADX** only if you prefer its specific output style

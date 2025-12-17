@@ -1,8 +1,8 @@
 # Dexterity Implementation Roadmap
 
 **Current State:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
-**Quality Achieved:** 77.1% (medium) / 70.0% (large) per Dec 16 QA | 685/685 tests passing
-**Issues:** All 19 P1-P2 resolved | **4 new issues** from badboy APK comparison (1 P0, 1 P1, 2 P2-P3)
+**Quality Achieved:** 77.1% (medium) / 70.0% (large) per Dec 16 QA | 1,120/1,120 tests passing
+**Issues:** All 19 P1-P2 resolved | P0-CRITICAL fixed | **6 remaining issues** from badboy APK comparison (4 P1, 2 P2)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -56,14 +56,39 @@
 
 ## Current Priorities (Dec 17 - badboy APK Comparison)
 
-4 new issues identified from comprehensive JADX comparison on badboy APK:
+7 issues identified from comprehensive JADX comparison on badboy APK (1 fixed, 6 remaining):
 
-### P0-CRITICAL: Static Initializer Variable Resolution
+### P0-CRITICAL: Static Initializer Variable Resolution - **DONE (Dec 17, 2025)**
 
 **Impact:** Non-compilable code
 **Symptom:** `ColorKt.Purple80 = l2;` where `l2` is undefined
-**Root Cause:** StaticPut handler bypasses expression inlining (body_gen.rs:4962,4985)
-**Fix:** 2-line change - use `write_arg_inline_typed()` instead of `write_arg_with_type()`
+**Root Cause:** StaticPut/InstancePut handlers bypass expression inlining (body_gen.rs:5116,5139)
+**Fix:** 2-line change - use `write_arg_inline_typed()` instead of `write_arg_with_type()` in both handlers
+**Files:** `crates/dexterity-codegen/src/body_gen.rs`
+**Status:** ✅ RESOLVED - All 1,120 tests pass
+
+### P1-CRITICAL (NEW): Enum Constant Name Corruption
+
+**Impact:** Non-compilable code (duplicate enum constants)
+**Symptom:**
+```java
+// Dexterity: 4 identical "NotSpecified" instead of NotSpecified/Title/Sentence
+public static enum Capitalization { NotSpecified, NotSpecified, NotSpecified, NotSpecified; }
+```
+**Root Cause:** Enum constant names not being extracted from DEX field metadata
+**Files:** `crates/dexterity-dex/src/class.rs`, `crates/dexterity-codegen/src/class_gen.rs`
+
+### P1-HIGH (NEW): Lambda/R8 Bridge Method Parameter Corruption
+
+**Impact:** Non-compilable code (references to undefined variables)
+**Symptom:**
+```java
+// function11 declared, but function12 used in body (undefined!)
+public static Unit $r8$lambda$...(Function1 function11) {
+    return inner(function12);  // WRONG
+}
+```
+**Root Cause:** Off-by-one error or register numbering mismatch in parameter resolution
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
 
 ### P1-HIGH: Annotation Default Values Missing
@@ -79,6 +104,13 @@
 **Symptom:** `@Retention(RetentionPolicy.SOURCE)` without import
 **Root Cause:** Import collector doesn't traverse annotation argument types
 **Files:** `crates/dexterity-codegen/src/class_gen.rs`
+
+### P2-MEDIUM (NEW): Invalid Java Identifier Names
+
+**Impact:** Non-compilable code
+**Symptom:** `int constructor-impl;` - hyphens not allowed in Java identifiers
+**Root Cause:** Synthetic/compiler-generated names containing hyphens not sanitized
+**Files:** `crates/dexterity-codegen/src/body_gen.rs`, `crates/dexterity-codegen/src/class_gen.rs`
 
 ### P3-LOW: Code Verbosity
 
