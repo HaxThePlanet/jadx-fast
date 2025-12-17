@@ -403,8 +403,18 @@ fn extract_class_alias(original_desc: &str, kotlin_name: &str) -> Option<String>
         return None;
     }
 
-    // Clean the name (remove invalid characters)
-    let cleaned: String = kotlin_name
+    // Handle DEX descriptor format: strip L prefix and ; suffix
+    let stripped = kotlin_name
+        .strip_prefix('L')
+        .unwrap_or(kotlin_name)
+        .strip_suffix(';')
+        .unwrap_or(kotlin_name);
+
+    // Convert JVM internal format (slashes) to dots
+    let with_dots = stripped.replace('/', ".");
+
+    // Clean remaining invalid characters
+    let cleaned: String = with_dots
         .chars()
         .map(|c| if c.is_alphanumeric() || c == '_' || c == '.' { c } else { '_' })
         .collect();

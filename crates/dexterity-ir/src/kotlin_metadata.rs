@@ -165,8 +165,18 @@ fn split_and_check_cls_name(origin_cls: &ClassData, full_cls_name: &str) -> Opti
 
 fn clean_object_name(name: &str) -> String {
     // Basic cleaning, similar to Jadx's Utils.cleanObjectName
-    // Replace invalid characters with '_'
-    name.chars()
+    // First, handle DEX descriptor format: strip L prefix and ; suffix
+    let stripped = name
+        .strip_prefix('L')
+        .unwrap_or(name)
+        .strip_suffix(';')
+        .unwrap_or(name);
+
+    // Convert JVM internal format (slashes) to dots
+    let with_dots = stripped.replace('/', ".");
+
+    // Replace remaining invalid characters with '_'
+    with_dots.chars()
         .map(|c| if c.is_alphanumeric() || c == '_' || c == '.' { c } else { '_' })
         .collect()
 }
