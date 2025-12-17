@@ -267,6 +267,7 @@ impl<'a> StmtGen<'a> {
 
             // Expressions that produce a result - generate assignment
             InsnType::Const { dest, .. }
+            | InsnType::Ternary { dest, .. }
             | InsnType::ConstString { dest, .. }
             | InsnType::ConstClass { dest, .. }
             | InsnType::Move { dest, .. }

@@ -103,6 +103,8 @@ pub struct BodyGenContext {
     /// When we see StringBuilder.<init> we start tracking, append() adds args,
     /// toString() emits concatenation instead of method chain
     pub stringbuilder_chains: HashMap<u16, StringBuilderChain>,
+    /// Last source line number seen (for tracking line changes)
+    pub last_source_line: Option<u32>,
     /// Whether this method is a constructor (<init>)
     /// Used for single-branch ternary optimization
     pub is_constructor: bool,
@@ -204,6 +206,7 @@ impl BodyGenContext {
             phi_declarations: HashSet::new(),
             skip_foreach_insns: HashMap::new(),
             stringbuilder_chains: HashMap::new(),
+            last_source_line: None,
             is_constructor: method.name == "<init>",
         }
     }
@@ -463,6 +466,12 @@ fn count_uses_in_insn(insn: &InsnType, counts: &mut HashMap<(u16, u32), usize>) 
             if let Some(r) = right {
                 count_arg(r);
             }
+        }
+        InsnType::Ternary { left, right, then_value, else_value, .. } => {
+            count_arg(left);
+            if let Some(r) = right { count_arg(r); }
+            count_arg(then_value);
+            count_arg(else_value);
         }
         InsnType::PackedSwitch { value, .. } | InsnType::SparseSwitch { value, .. } => count_arg(value),
         InsnType::Phi { sources, .. } => {
@@ -1073,6 +1082,52 @@ thread_local! {
 ///
 /// The `current_class_type` parameter is used to distinguish `super()` vs `this()` in constructors.
 pub fn generate_body_with_inner_classes<W: CodeWriter>(
+    method: &MethodData,
+    dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
+    imports: Option<&BTreeSet<String>>,
+    inner_classes: Option<&HashMap<String, std::sync::Arc<dexterity_ir::ClassData>>>,
+    hierarchy: Option<&dexterity_ir::ClassHierarchy>,
+    current_class_type: Option<&str>,
+    deobf_min_length: usize,
+    deobf_max_length: usize,
+    fallback: bool,
+    code: &mut W,
+) {
+    use std::panic::{catch_unwind, AssertUnwindSafe};
+
+    if fallback {
+        if let Some(insns) = method.instructions() {
+             crate::fallback_gen::generate_fallback_body(insns, code);
+             return;
+        } else {
+             code.start_line().add("/* fallback: no instructions loaded */").newline();
+             return;
+        }
+    }
+
+    let result = catch_unwind(AssertUnwindSafe(|| {
+        generate_body_with_inner_classes_impl(
+            method, 
+            dex_info.clone(), 
+            imports, 
+            inner_classes, 
+            hierarchy, 
+            current_class_type, 
+            deobf_min_length, 
+            deobf_max_length, 
+            code
+        )
+    }));
+
+    if let Err(_payload) = result {
+         code.start_line().add("/* JADX WARNING: Method generation error */").newline();
+         if let Some(insns) = method.instructions() {
+             crate::fallback_gen::generate_fallback_body(insns, code);
+         }
+    }
+}
+
+fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     method: &MethodData,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     imports: Option<&BTreeSet<String>>,
@@ -3936,6 +3991,14 @@ fn generate_insn_with_lookahead<W: CodeWriter>(
     ctx: &mut BodyGenContext,
     code: &mut W,
 ) -> bool {
+    // Emit source line comment if changed
+    if let Some(line) = insn.source_line {
+        if ctx.last_source_line != Some(line) {
+            code.start_line().add("// .line ").add(&line.to_string()).newline();
+            ctx.last_source_line = Some(line);
+        }
+    }
+
     // Special handling for Invoke: store expression if MoveResult follows
     if let InsnType::Invoke { kind, method_idx, args } = &insn.insn_type {
         // Check if this is an <init> call on a pending new-instance
@@ -4630,6 +4693,29 @@ fn generate_insn<W: CodeWriter>(
         }
         InsnType::Continue { .. } => {
             code.start_line().add("continue;").newline();
+            true
+        }
+
+        // Ternary expressions: dest = cond ? then : else
+        InsnType::Ternary { dest, condition, left, right, then_value, else_value } => {
+            let cond_str = format!(
+                "{}{}{}",
+                ctx.expr_gen.gen_arg(left),
+                match condition {
+                    IfCondition::Eq => " == ",
+                    IfCondition::Ne => " != ",
+                    IfCondition::Lt => " < ",
+                    IfCondition::Ge => " >= ",
+                    IfCondition::Gt => " > ",
+                    IfCondition::Le => " <= ",
+                },
+                right.as_ref().map(|r| ctx.expr_gen.gen_arg(r)).unwrap_or_else(|| "0".to_string())
+            );
+            let then_str = ctx.expr_gen.gen_arg(then_value);
+            let else_str = ctx.expr_gen.gen_arg(else_value);
+
+            let ternary_expr = format!("{} ? {} : {}", cond_str, then_str, else_str);
+            ctx.store_inline_expr(dest.reg_num, dest.ssa_version, ternary_expr);
             true
         }
     }

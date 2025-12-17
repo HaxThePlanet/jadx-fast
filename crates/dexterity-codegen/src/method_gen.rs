@@ -332,7 +332,7 @@ pub fn generate_method_with_dex<W: CodeWriter>(
 pub fn generate_method_with_inner_classes<W: CodeWriter>(
     method: &MethodData,
     class: &ClassData,
-    _fallback: bool,
+    fallback: bool,
     imports: Option<&BTreeSet<String>>,
     dex_info: Option<std::sync::Arc<dyn DexInfoProvider>>,
     inner_classes: Option<&std::collections::HashMap<String, std::sync::Arc<ClassData>>>,
@@ -412,13 +412,13 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     } else if method.is_class_init() {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, fallback, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, fallback, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     }
@@ -434,9 +434,10 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     current_class_type: Option<&str>,
     deobf_min_length: usize,
     deobf_max_length: usize,
+    fallback: bool,
     code: &mut W,
 ) {
-    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, current_class_type, deobf_min_length, deobf_max_length, code);
+    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, current_class_type, deobf_min_length, deobf_max_length, fallback, code);
 }
 
 /// Extract throws types from dalvik/annotation/Throws annotation

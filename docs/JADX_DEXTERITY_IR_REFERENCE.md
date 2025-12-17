@@ -237,8 +237,9 @@ pub enum InsnType {
     Invoke { kind: InvokeKind, method_idx: u32, args: Vec<InsnArg> },
     Binary { dest: RegisterArg, op: BinaryOp, left: InsnArg, right: InsnArg },
     If { condition: IfCondition, left: InsnArg, right: Option<InsnArg>, target: u32 },
+    Ternary { dest: RegisterArg, condition: IfCondition, left: InsnArg, right: Option<InsnArg>, then_value: InsnArg, else_value: InsnArg },
     Phi { dest: RegisterArg, sources: Vec<(u32, InsnArg)> },
-    // ... 30+ instruction types
+    // ... 40+ instruction types
 }
 
 pub enum InsnArg {

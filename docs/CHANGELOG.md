@@ -4,6 +4,33 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Ternary IR Type and Fallback Mode (Dec 17, 2025)
+
+**Added `InsnType::Ternary` IR variant and `fallback_gen` module for JADX parity.**
+
+**Ternary IR Type:**
+- Added `InsnType::Ternary` variant in `dexterity-ir/src/instructions.rs`
+- Supports clean ternary expression generation: `result = (cond) ? then_value : else_value`
+- Handles Ternary in codegen across `body_gen.rs`, `stmt_gen.rs`, `expr_gen.rs`
+- Used by `code_shrink.rs` and `type_inference.rs` passes
+
+**Fallback Mode:**
+- Added `fallback_gen.rs` module in dexterity-codegen for raw instruction output
+- CLI flag `-f, --fallback` now visible (removed `hide = true` for JADX compatibility)
+- Description updated to: "Set '--decompilation-mode' to 'fallback' (deprecated)"
+- Dumps raw IR instructions with offsets when decompilation fails
+
+**Files Changed:**
+- `crates/dexterity-ir/src/instructions.rs` - Added Ternary variant
+- `crates/dexterity-codegen/src/lib.rs` - Exports fallback_gen module
+- `crates/dexterity-codegen/src/fallback_gen.rs` - New fallback mode generator
+- `crates/dexterity-codegen/src/body_gen.rs` - Ternary handling in codegen
+- `crates/dexterity-codegen/src/stmt_gen.rs` - Ternary statement generation
+- `crates/dexterity-codegen/src/expr_gen.rs` - Ternary expression generation
+- `crates/dexterity-cli/src/args.rs` - Updated --fallback flag visibility
+
+---
+
 ### Null Comparison Fix for Object-Named Variables (Dec 17, 2025)
 
 **Fixed 26 cases of incorrect `== 0` comparisons for object-typed variables.**

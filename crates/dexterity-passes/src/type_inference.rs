@@ -1133,6 +1133,18 @@ impl TypeInference {
                 }
             }
 
+            // Ternary: result = cond ? then_value : else_value
+            // The dest type should be the common type of then_value and else_value
+            InsnType::Ternary { dest, then_value, else_value, .. } => {
+                let dest_var = self.get_or_create_var(dest);
+                if let Some(then_var) = self.var_for_arg(then_value) {
+                    self.add_constraint(Constraint::Same(dest_var, then_var));
+                }
+                if let Some(else_var) = self.var_for_arg(else_value) {
+                    self.add_constraint(Constraint::Same(dest_var, else_var));
+                }
+            }
+
             // Other control flow instructions don't produce types
             InsnType::Nop
             | InsnType::Return { .. }

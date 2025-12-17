@@ -5,23 +5,23 @@
 ## Current Status
 
 **Build:** Passing
-**Tests:** 911 tests passing (99.5% pass rate - 4 tests disabled in dexterity-qa)
-**Integration Tests:** 689 passing (100%)
-**Lines:** ~51,445 lines of Rust
+**Tests:** 1,055+ tests passing (685 integration + 370 unit tests)
+**Integration Tests:** 685 passing (100%)
+**Lines:** ~78,000 lines of Rust
 **Completion:** ~90% feature-complete vs Java jadx-core
 
 ## Crate Overview
 
 ```
 crates/
-├── dexterity-dex/       # DEX parsing (4,072 lines)
-├── dexterity-ir/        # IR types & class hierarchy (4,166 lines)
-├── dexterity-passes/    # Decompilation passes (17,357 lines)
-├── dexterity-codegen/   # Java code generation (11,067 lines)
+├── dexterity-dex/       # DEX parsing (4,315 lines)
+├── dexterity-ir/        # IR types & class hierarchy (4,236 lines)
+├── dexterity-passes/    # Decompilation passes (20,404 lines)
+├── dexterity-codegen/   # Java code generation (11,664 lines)
 ├── dexterity-resources/ # AXML & resources.arsc (4,032 lines)
 ├── dexterity-deobf/     # Deobfuscation (1,825 lines)
 ├── dexterity-kotlin/    # Kotlin metadata parsing (597 lines)
-└── dexterity-cli/       # CLI application (5,158 lines)
+└── dexterity-cli/       # CLI application (5,254 lines)
 ```
 
 ### dexterity-dex (DEX Parsing)
@@ -39,7 +39,7 @@ Memory-mapped DEX file parsing with zero-copy access.
 Core IR types shared across all passes.
 
 **Key components:**
-- `instructions.rs` - ~40 instruction variants (`InsnType` enum)
+- `instructions.rs` - ~40+ instruction variants (`InsnType` enum including Ternary)
 - `types.rs` - Type system (`ArgType`, primitives, arrays, objects)
 - `nodes.rs` - `ClassNode`, `MethodNode`, `FieldNode`, `BlockNode` definitions
 - `class_hierarchy.rs` - Class hierarchy with LCA calculation for type inference (~382 lines)
@@ -75,7 +75,8 @@ Emit Java source from IR.
 **Key components:**
 - `class_gen.rs` - Class/interface/enum/annotation generation
 - `method_gen.rs` - Method signatures and bodies
-- `body_gen.rs` - Statement and expression generation
+- `body_gen.rs` - Statement and expression generation (~5,470 lines)
+- `fallback_gen.rs` - Fallback mode raw instruction output
 - `expr_gen.rs` - Expression code generation
 - `stmt_gen.rs` - Statement code generation
 - `type_gen.rs` - Type name generation with import handling

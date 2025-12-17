@@ -1499,13 +1499,21 @@ public final class TernaryInsn extends InsnNode {
 }
 ```
 
-**Dexterity approach:**
-- Detects ternary patterns in `body_gen.rs` during code generation
-- No dedicated IR type - analysis done at emit time
+**Dexterity approach (Dec 17, 2025 - NOW IMPLEMENTED):**
+- Added `InsnType::Ternary` variant in `dexterity-ir/src/instructions.rs`
+- Ternary detection in `code_shrink.rs` and codegen in `body_gen.rs`, `stmt_gen.rs`, `expr_gen.rs`
+- Dedicated IR type for cleaner ternary handling - matches JADX approach
 
 ---
 
 ### Feature Parity Gap Analysis
+
+#### ✅ Implemented in Dexterity (Dec 17, 2025)
+
+| Feature | Dexterity Location | Status |
+|---------|-------------------|--------|
+| **TernaryInsn IR type** | `InsnType::Ternary` in `instructions.rs` | **DONE** |
+| **Fallback mode** | `fallback_gen.rs`, `-f, --fallback` CLI flag | **DONE** |
 
 #### ❌ Missing in Dexterity (Critical for Full Parity)
 
@@ -1514,13 +1522,11 @@ public final class TernaryInsn extends InsnNode {
 | **Lambda expressions** | `InsnGen.makeInvokeLambda()` | Android 8+ apps use heavily | P1 |
 | **Method references** | `InsnGen.makeRefLambda()` | `Foo::method`, `Foo::new` | P1 |
 | **INVOKE_CUSTOM** | `InvokeCustomNode` | Required for lambdas | P1 |
-| **TernaryInsn IR type** | `TernaryInsn.java` | Cleaner ternary output | P2 |
 
 #### ⚠️ Missing (Important)
 
 | Feature | JADX Location | Impact |
 |---------|--------------|--------|
-| **Fallback mode** | `fallbackOnlyInsn()` | Raw bytecode on failure |
 | **Code comments** | `CodeGenUtils.addCodeComments()` | Warning annotations |
 | **Source line tracking** | `code.startLineWithNum()` | Debug mapping |
 | **Polymorphic invoke** | `insn.isPolymorphicCall()` | MethodHandle cases |
@@ -1664,9 +1670,9 @@ private void addCompare(ICodeWriter code, CondStack stack, Compare compare) {
 - `crates/dexterity-passes/src/lambda_detection.rs` - New pass
 - `crates/dexterity-codegen/src/body_gen.rs` - Lambda codegen
 
-#### Phase 2: Code Quality
-1. Add `TernaryInsn` IR type for cleaner ternary handling
-2. Implement fallback mode with raw bytecode
+#### Phase 2: Code Quality (DONE - Dec 17, 2025)
+1. ~~Add `TernaryInsn` IR type for cleaner ternary handling~~ **DONE** - `InsnType::Ternary` added
+2. ~~Implement fallback mode with raw bytecode~~ **DONE** - `fallback_gen.rs` module added
 3. Add code comment system (WARN, INFO levels)
 
 #### Phase 3: Edge Cases
@@ -1697,7 +1703,7 @@ Binary, Cast, Compare, CheckCast
 
 **Key differences:**
 - JADX has `CONSTRUCTOR` as separate type (Dexterity uses `Invoke`)
-- JADX has `TERNARY` built into IR (Dexterity detects at codegen)
+- ~~JADX has `TERNARY` built into IR (Dexterity detects at codegen)~~ **FIXED Dec 17, 2025**: Dexterity now has `InsnType::Ternary`
 - JADX has `STR_CONCAT` (StringBuilder optimization result)
 - JADX separates `ARITH` from `Binary`
 

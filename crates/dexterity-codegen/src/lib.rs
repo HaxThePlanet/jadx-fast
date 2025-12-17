@@ -19,6 +19,7 @@ pub mod body_gen;
 pub mod class_gen;
 pub mod dex_info;
 pub mod expr_gen;
+pub mod fallback_gen;
 pub mod method_gen;
 pub mod stmt_gen;
 pub mod type_gen;

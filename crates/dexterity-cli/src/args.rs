@@ -76,8 +76,8 @@ pub struct Args {
     #[arg(long = "type-update-limit", default_value = "10")]
     pub type_update_limit: u32,
 
-    /// Fallback mode (deprecated, use --decompilation-mode=fallback)
-    #[arg(short = 'f', long = "fallback", hide = true)]
+    /// Set '--decompilation-mode' to 'fallback' (deprecated)
+    #[arg(short = 'f', long = "fallback")]
     pub fallback_mode: bool,
 
     // === Code style options ===

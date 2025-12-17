@@ -820,6 +820,13 @@ impl ExprGen {
                 Some(format!("({}){}", name, self.gen_arg(object)))
             }
 
+            InsnType::Ternary { condition, left, right, then_value, else_value, .. } => {
+                let cond_str = self.gen_condition(*condition, left, right.as_ref());
+                let then_str = self.gen_arg(then_value);
+                let else_str = self.gen_arg(else_value);
+                Some(format!("({}) ? {} : {}", cond_str, then_str, else_str))
+            }
+
             _ => None, // Statements, not expressions
         }
     }
@@ -1032,6 +1039,16 @@ impl ExprGen {
                 let name = self.get_type_value(*type_idx)
                     .unwrap_or_else(|| format!("Type#{}", type_idx));
                 writer.add(&name).add(".class");
+                true
+            }
+
+            InsnType::Ternary { condition, left, right, then_value, else_value, .. } => {
+                writer.add("(");
+                let cond_str = self.gen_condition(*condition, left, right.as_ref());
+                writer.add(&cond_str).add(") ? ");
+                self.write_arg(writer, then_value);
+                writer.add(" : ");
+                self.write_arg(writer, else_value);
                 true
             }
 

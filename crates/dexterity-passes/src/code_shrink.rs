@@ -234,6 +234,7 @@ fn can_reorder(insn: &InsnNode) -> bool {
         InsnType::Cast { .. } |
         InsnType::InstanceOf { .. } |
         InsnType::ArrayLength { .. } |
+        InsnType::Ternary { .. } |
         InsnType::Nop => true,
 
         // Field reads - generally safe but could have side effects with volatile

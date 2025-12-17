@@ -17,7 +17,7 @@ Navigate to the right files based on the issue you're working on.
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (~2,066 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (~2,094 lines)
 - **Type:** Large - Use grep for specific functions
 - **Key Functions:**
   - `build_regions()` (entry point) - Orchestrates region building
@@ -111,7 +111,7 @@ grep -n "fn rename_variables" ssa.rs
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (~2,559 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (~2,644 lines)
 - **Type:** Very Large - Extensive grep usage required
 - **Key Functions:**
   - `infer_types_with_context_and_hierarchy()` - Main type inference entry
@@ -192,7 +192,7 @@ grep -n "fn is_subtype_of" class_hierarchy.rs
 
 #### Supporting Files
 
-**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,985 lines)
+**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~5,470 lines)
 - **Type:** Very Large - Use grep for specific functions
 - **Purpose:** Generates Java code from IR
 - **Key:** How type information is used in code generation
@@ -262,7 +262,7 @@ enum NameSource {
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/expr_gen.rs`** (~1,362 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/expr_gen.rs`** (~1,379 lines)
 - **Type:** Large
 - **Purpose:** Expression code generation
 - **Key:** Where variables are referenced in expressions
@@ -300,7 +300,7 @@ grep -n "static" class_gen.rs | grep "fn\|let"  # Look for static handling
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,985 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~5,470 lines)
 - **Type:** Very Large
 - **Purpose:** Method body generation
 - **Key Functions:**
@@ -361,8 +361,8 @@ grep -n "function_name(" file.rs
 | Size | Strategy | Examples |
 |------|----------|----------|
 | <500 lines | Read entire file | `block_split.rs`, `class_hierarchy.rs` |
-| 500-1700 lines | Search for functions, read specific functions | `cfg.rs` (831), `ssa.rs` (964), `var_naming.rs` (1,480), `class_gen.rs` (1,539), `expr_gen.rs` (1,362), `conditionals.rs` (740), `simplify.rs` (1,646) |
-| 1700-5000 lines | Grep for functions, read relevant sections | `type_inference.rs` (2,559), `region_builder.rs` (2,066), `body_gen.rs` (4,985) |
+| 500-1700 lines | Search for functions, read specific functions | `cfg.rs` (831), `ssa.rs` (964), `var_naming.rs` (1,480), `class_gen.rs` (1,539), `expr_gen.rs` (1,379), `conditionals.rs` (740), `simplify.rs` (1,646) |
+| 1700-5500 lines | Grep for functions, read relevant sections | `type_inference.rs` (2,644), `region_builder.rs` (2,094), `body_gen.rs` (5,470) |
 
 ### File Dependency Chain
 

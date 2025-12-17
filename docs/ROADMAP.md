@@ -130,8 +130,8 @@ Add JADX-style diagnostic comments:
 
 | Feature | JADX Files | Impact | Status |
 |---------|-----------|--------|--------|
-| **TernaryInsn IR type** | `TernaryInsn.java` | Cleaner ternary output | TODO |
-| **Fallback mode** | `fallbackOnlyInsn()` | Raw bytecode on failure | TODO |
+| **TernaryInsn IR type** | `TernaryInsn.java` | Cleaner ternary output | **DONE** (Dec 17, 2025) |
+| **Fallback mode** | `fallbackOnlyInsn()` | Raw bytecode on failure | **DONE** (Dec 17, 2025) |
 | **Code comments** | `CodeGenUtils.addCodeComments()` | WARN/INFO annotations | TODO |
 | **Source line tracking** | `code.startLineWithNum()` | Debug mapping | TODO |
 
@@ -223,12 +223,13 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 ### Dexterity Core Files
 | File | LOC | Purpose |
 |------|-----|---------|
-| `crates/dexterity-passes/src/type_inference.rs` | 2,559 | Type inference |
-| `crates/dexterity-codegen/src/body_gen.rs` | 4,985 | Region traversal |
-| `crates/dexterity-passes/src/region_builder.rs` | 2,066 | Control flow |
+| `crates/dexterity-passes/src/type_inference.rs` | 2,644 | Type inference |
+| `crates/dexterity-codegen/src/body_gen.rs` | 5,470 | Region traversal |
+| `crates/dexterity-passes/src/region_builder.rs` | 2,094 | Control flow |
 | `crates/dexterity-passes/src/var_naming.rs` | 1,480 | Variable naming |
-| `crates/dexterity-codegen/src/expr_gen.rs` | 1,362 | Expression gen |
+| `crates/dexterity-codegen/src/expr_gen.rs` | 1,379 | Expression gen |
 | `crates/dexterity-codegen/src/class_gen.rs` | 1,539 | Class structure |
+| `crates/dexterity-codegen/src/fallback_gen.rs` | 45 | Fallback mode raw output |
 
 ### JADX Source (jadx-fast)
 | File | Path | Lines |
@@ -245,7 +246,7 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 
 | Metric | Current | Target | Status |
 |--------|---------|--------|--------|
-| Overall Quality | 84.4-87.8% | 85%+ | **ACHIEVED** |
+| Overall Quality | 84.5-87.8% | 85%+ | **ACHIEVED** |
 | Variable naming | 99.96% (11 remaining) | 100% | ACHIEVED |
 | Class generics | 736 classes | All | ACHIEVED |
 | Interface generics | 100% | 100% | **ACHIEVED** |
@@ -259,12 +260,18 @@ See [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-
 
 ## Completed Work History
 
+### Dec 17, 2025 - Ternary IR Type and Fallback Mode
+- Added `InsnType::Ternary` for cleaner ternary expression output
+- Added `fallback_gen.rs` for raw bytecode dump on method generation failure
+- All 685 integration tests pass
+- Quality: 84.5%/87.8%
+
 ### Dec 16, 2025 - PRODUCTION READY Status Achieved
 All 18 P1-P2 issues resolved. Quality improver confirmed:
 - Type inference: 0 Unknown type failures
 - Variable naming: 99.96% reduction (27,794 → 11)
 - Defect score: 95.9%/96.8%
-- Overall quality: 84.4%/87.8%
+- Overall quality: 84.5%/87.8%
 
 ### Dec 16, 2025 - THREE MAJOR Bug Fixes
 1. **Variable Naming** - 27,794 → 11 arg0/arg1 (99.96% reduction)

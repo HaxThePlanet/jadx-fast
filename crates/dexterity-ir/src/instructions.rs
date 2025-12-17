@@ -306,6 +306,16 @@ pub enum InsnType {
         target: u32,
     },
 
+    /// Ternary operation: result = (cond) ? then_value : else_value
+    Ternary {
+        dest: RegisterArg,
+        condition: IfCondition,
+        left: InsnArg,
+        right: Option<InsnArg>, // None for *z variants
+        then_value: InsnArg,
+        else_value: InsnArg,
+    },
+
     /// Unconditional branch: goto target
     Goto {
         target: u32,

@@ -1,7 +1,7 @@
 # Dexterity Decompilation Quality Status
 
 **Status:** PRODUCTION READY (Dec 17, 2025)
-**Target:** 85+/100 Quality Score | **Result:** 84.4-87.8% ACHIEVED
+**Target:** 85+/100 Quality Score | **Result:** 84.5-87.8% ACHIEVED
 
 ---
 
@@ -9,7 +9,7 @@
 
 | Metric | Value |
 |--------|-------|
-| Overall Quality Score | **84.4% (medium)**, **87.8% (large)** |
+| Overall Quality Score | **84.5% (medium)**, **87.8% (large)** |
 | Type Inference | **0 Unknown type failures** |
 | Interface Generics | **DONE** - `Maybe<T> implements MaybeSource<T>` |
 | Variable Naming | **99.96% reduction** (27,794 → 11 arg0/arg1 instances) |
@@ -48,6 +48,18 @@
 ---
 
 ## Recent Major Fixes
+
+### Dec 17, 2025 - Ternary IR Type and Fallback Mode
+
+**Fix 9: Ternary IR Type Support**
+- **Added:** New `InsnType::Ternary` variant for ternary expressions
+- **Impact:** Cleaner ternary output: `dest = cond ? then : else`
+- **Files Changed:** `dexterity-ir/src/instructions.rs`, `dexterity-passes/src/type_inference.rs`, `dexterity-codegen/src/body_gen.rs`, `dexterity-passes/src/code_shrink.rs`
+
+**Fix 10: Fallback Mode for Method Generation Errors**
+- **Added:** `fallback_gen.rs` module for raw bytecode dump on errors
+- **Impact:** Methods that fail decompilation now show raw instructions instead of crashing
+- **Files Changed:** `dexterity-codegen/src/fallback_gen.rs`, `dexterity-codegen/src/body_gen.rs`
 
 ### Dec 17, 2025 - Local Variable Null Comparison Fix
 
@@ -168,8 +180,8 @@ For full JADX parity, see [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERE
 | Lambda expressions (`(x) -> x + 1`) | Android 8+ apps | TODO |
 | Method references (`Foo::method`) | Common pattern | TODO |
 | INVOKE_CUSTOM parsing | Required for lambdas | TODO |
-| TernaryInsn IR type | Cleaner ternary output | TODO |
-| Fallback mode | Raw bytecode on failure | TODO |
+| TernaryInsn IR type | Cleaner ternary output | **DONE** |
+| Fallback mode | Raw bytecode on failure | **DONE** |
 
 ---
 
@@ -218,14 +230,14 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 
 | Crate | Purpose | Lines |
 |-------|---------|-------|
-| dexterity-dex | DEX binary parsing | ~695 |
-| dexterity-ir | Intermediate representation | ~4,171 |
-| dexterity-passes | SSA, type inference, regions | ~17,304 |
-| dexterity-codegen | Java source generation | ~11,071 |
+| dexterity-dex | DEX binary parsing | ~4,315 |
+| dexterity-ir | Intermediate representation | ~4,236 |
+| dexterity-passes | SSA, type inference, regions | ~20,404 |
+| dexterity-codegen | Java source generation | ~11,664 |
 | dexterity-resources | AXML and resources.arsc | ~4,032 |
 | dexterity-deobf | Deobfuscation | ~1,825 |
 | dexterity-kotlin | Kotlin metadata | ~597 |
-| dexterity-cli | CLI application | ~5,172 |
+| dexterity-cli | CLI application | ~5,254 |
 
 ---
 

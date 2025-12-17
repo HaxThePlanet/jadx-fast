@@ -19,7 +19,7 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~73,000 lines of Rust | 685 integration tests passing | 3-88x faster than JADX**
+**~78,000 lines of Rust | 685 integration tests passing | 3-88x faster than JADX**
 
 **Status (Dec 16, 2025):** PRODUCTION READY. Dexterity achieves **1:1 identical app code** on simple APKs, **84.4-87.8% quality** on complex APKs, and is **3-88x faster** than JADX. All 18 P1-P2 issues resolved.
 
@@ -74,7 +74,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Rust lines added** | 61,581 |
 | **Rust lines deleted** | 5,957 |
 | **Net Rust lines** | 55,624 |
-| **Final codebase** | ~73,000 lines |
+| **Final codebase** | ~78,000 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
 | **Tests** | 685 integration tests passing |
 
@@ -626,6 +626,7 @@ If you need complete output including framework classes, use JADX. Dexterity is 
 | `--no-kotlin-metadata` | Disable Kotlin metadata parsing |
 | `--escape-unicode` | Escape unicode characters in strings |
 | `--respect-bytecode-access-modifiers` | Use original access modifiers |
+| `-f, --fallback` | Set decompilation mode to fallback (raw instruction dump) |
 
 ### Performance
 

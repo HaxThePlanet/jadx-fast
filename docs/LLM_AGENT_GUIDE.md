@@ -81,12 +81,12 @@ Check [ROADMAP.md](ROADMAP.md) → "To Clone Next" section:
 
 | Component | Dexterity File |
 |-----------|----------------|
-| Type Inference | `crates/dexterity-passes/src/type_inference.rs` (2,432 LOC) |
-| Region Builder | `crates/dexterity-passes/src/region_builder.rs` (2,066 LOC) |
+| Type Inference | `crates/dexterity-passes/src/type_inference.rs` (2,644 LOC) |
+| Region Builder | `crates/dexterity-passes/src/region_builder.rs` (2,094 LOC) |
 | Variable Naming | `crates/dexterity-passes/src/var_naming.rs` (1,480 LOC) |
-| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (4,985 LOC) |
-| Expression Gen | `crates/dexterity-codegen/src/expr_gen.rs` (1,362 LOC) |
-| Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,537 LOC) |
+| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (5,470 LOC) |
+| Expression Gen | `crates/dexterity-codegen/src/expr_gen.rs` (1,379 LOC) |
+| Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,539 LOC) |
 
 ### Step 4: Implement
 
@@ -207,16 +207,17 @@ crates/
 │       └── info.rs         # Class/Method/Field data
 ├── dexterity-passes/       # Decompilation passes
 │   └── src/
-│       ├── type_inference.rs  # Type inference (2,432 LOC)
-│       ├── region_builder.rs  # Control flow (2,066 LOC)
+│       ├── type_inference.rs  # Type inference (2,644 LOC)
+│       ├── region_builder.rs  # Control flow (2,094 LOC)
 │       ├── var_naming.rs      # Variable naming (1,480 LOC)
 │       ├── ssa.rs             # SSA transformation (964 LOC)
 │       └── simplify.rs        # Simplification (1,646 LOC)
 ├── dexterity-codegen/      # Java code generation
 │   └── src/
-│       ├── body_gen.rs     # Region traversal (4,985 LOC)
-│       ├── expr_gen.rs     # Expressions (1,362 LOC)
-│       └── class_gen.rs    # Class structure (1,537 LOC)
+│       ├── body_gen.rs     # Region traversal (5,470 LOC)
+│       ├── expr_gen.rs     # Expressions (1,379 LOC)
+│       ├── fallback_gen.rs # Fallback mode raw output
+│       └── class_gen.rs    # Class structure (1,539 LOC)
 └── dexterity-cli/          # CLI application
     └── src/
         ├── converter.rs    # DEX→IR conversion
