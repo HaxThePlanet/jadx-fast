@@ -21,6 +21,56 @@ use crate::method_gen::{generate_annotation, generate_type_parameters, should_em
 use crate::type_gen::{get_package, literal_to_string, type_to_string};
 use crate::writer::{CodeWriter, SimpleCodeWriter};
 
+// ====================
+// Comments Level System
+// ====================
+
+/// Level of comments to include in generated code (matches JADX CommentsLevel)
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default)]
+pub enum CommentsLevel {
+    /// No comments at all
+    None,
+    /// Only user-provided comments
+    UserOnly,
+    /// Include error comments (/* JADX ERROR: ... */)
+    Error,
+    /// Include warning comments (/* JADX WARNING: ... */)
+    Warn,
+    /// Include info comments (/* loaded from: ... */, /* renamed from: ... */)
+    #[default]
+    Info,
+    /// Include debug comments
+    Debug,
+}
+
+impl CommentsLevel {
+    /// Check if a comment at the given level should be included
+    pub fn should_show(&self, comment_level: CommentsLevel) -> bool {
+        // Higher ordinal = more verbose. Show if current level >= comment level
+        *self >= comment_level
+    }
+
+    /// Check if INFO level comments should be shown
+    pub fn show_info(&self) -> bool {
+        self.should_show(CommentsLevel::Info)
+    }
+
+    /// Check if WARN level comments should be shown
+    pub fn show_warn(&self) -> bool {
+        self.should_show(CommentsLevel::Warn)
+    }
+
+    /// Check if ERROR level comments should be shown
+    pub fn show_error(&self) -> bool {
+        self.should_show(CommentsLevel::Error)
+    }
+
+    /// Check if DEBUG level comments should be shown
+    pub fn show_debug(&self) -> bool {
+        self.should_show(CommentsLevel::Debug)
+    }
+}
+
 // =====================
 // Inner Class Utilities
 // =====================
@@ -480,6 +530,8 @@ pub struct ClassGenConfig {
     pub replace_consts: bool,
     /// App package name for R class imports
     pub app_package_name: Option<String>,
+    /// Level of comments to include (ERROR, WARN, INFO, DEBUG)
+    pub comments_level: CommentsLevel,
 }
 
 impl Default for ClassGenConfig {
@@ -498,6 +550,7 @@ impl Default for ClassGenConfig {
             res_names: std::collections::HashMap::new(),
             replace_consts: false,
             app_package_name: None,
+            comments_level: CommentsLevel::Info,
         }
     }
 }
@@ -627,14 +680,14 @@ pub fn generate_class_to_writer_with_nested_inner_classes<W: CodeWriter>(
     }
 
     // Class declaration (use simple names when imports available)
-    add_class_declaration(class, imports.as_ref(), code);
+    add_class_declaration(class, imports.as_ref(), config.comments_level, code);
 
     // Class body
     code.add(" {").newline();
     code.inc_indent();
 
     // Fields (use simple names when imports available, pass dex_info for enum string lookup)
-    add_fields(class, imports.as_ref(), config.escape_unicode, dex_info.as_ref(), code);
+    add_fields(class, imports.as_ref(), config.escape_unicode, dex_info.as_ref(), config.comments_level, code);
 
     // Nested inner classes (generated after fields, before methods for Java convention)
     if let Some(nested) = nested_inner_classes {
@@ -749,7 +802,7 @@ fn add_inner_class_declaration<W: CodeWriter>(
     code.inc_indent();
 
     // Fields (pass dex_info for enum string lookup)
-    add_fields(class, imports, config.escape_unicode, dex_info.as_ref(), code);
+    add_fields(class, imports, config.escape_unicode, dex_info.as_ref(), config.comments_level, code);
 
     // Methods
     add_methods_with_inner_classes(class, config, imports, dex_info, inner_classes, code);
@@ -783,7 +836,10 @@ pub fn get_inner_class_simple_name(class_type: &str) -> String {
 use crate::type_gen::type_to_string_with_imports;
 
 /// Add a rename comment if the entity was renamed during deobfuscation
-fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str) {
+fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str, comments_level: CommentsLevel) {
+    if !comments_level.show_info() {
+        return;
+    }
     code.start_line()
         .add("/* renamed from: ")
         .add(original_name)
@@ -792,9 +848,9 @@ fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str) {
 }
 
 /// Add class declaration (modifiers, name, extends, implements)
-fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, code: &mut W) {
-    // Add "loaded from" comment for top-level classes
-    if !is_inner_class(&class.class_type) {
+fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, comments_level: CommentsLevel, code: &mut W) {
+    // Add "loaded from" comment for top-level classes (INFO level)
+    if !is_inner_class(&class.class_type) && comments_level.show_info() {
         let dex_name = class.dex_name.as_deref().unwrap_or("classes.dex");
         code.start_line()
             .add("/* loaded from: ")
@@ -811,10 +867,10 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
         }
     }
 
-    // Add rename comment if class was renamed during deobfuscation
+    // Add rename comment if class was renamed during deobfuscation (INFO level)
     if let Some(ref alias) = class.alias {
         if alias != &class.simple_name() {
-            add_renamed_comment(code, &class.simple_name());
+            add_renamed_comment(code, &class.simple_name(), comments_level);
         }
     }
 
@@ -883,6 +939,7 @@ fn add_fields<W: CodeWriter>(
     imports: Option<&BTreeSet<String>>,
     escape_unicode: bool,
     dex_info: Option<&std::sync::Arc<dyn DexInfoProvider>>,
+    comments_level: CommentsLevel,
     code: &mut W,
 ) {
     let is_enum = class.is_enum();
@@ -915,7 +972,7 @@ fn add_fields<W: CodeWriter>(
         if !instance_fields.is_empty() {
             code.newline();
             for field in instance_fields {
-                add_field(field, imports, escape_unicode, code);
+                add_field(field, imports, escape_unicode, comments_level, code);
             }
         }
         return;
@@ -938,12 +995,12 @@ fn add_fields<W: CodeWriter>(
 
     // Static fields first
     for field in static_fields {
-        add_field(field, imports, escape_unicode, code);
+        add_field(field, imports, escape_unicode, comments_level, code);
     }
 
     // Instance fields
     for field in instance_fields {
-        add_field(field, imports, escape_unicode, code);
+        add_field(field, imports, escape_unicode, comments_level, code);
     }
 }
 
@@ -1052,7 +1109,7 @@ fn enum_arg_to_string(arg: &dexterity_passes::EnumArg) -> String {
 }
 
 /// Add a single field declaration
-fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>>, escape_unicode: bool, code: &mut W) {
+fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>>, escape_unicode: bool, comments_level: CommentsLevel, code: &mut W) {
     // Emit field annotations
     for annotation in &field.annotations {
         if should_emit_annotation(annotation) {
@@ -1062,10 +1119,10 @@ fn add_field<W: CodeWriter>(field: &FieldData, imports: Option<&BTreeSet<String>
         }
     }
 
-    // Add rename comment if field was renamed during deobfuscation
+    // Add rename comment if field was renamed during deobfuscation (INFO level)
     if let Some(ref alias) = field.alias {
         if alias != &field.name {
-            add_renamed_comment(code, &field.name);
+            add_renamed_comment(code, &field.name, comments_level);
         }
     }
 
@@ -1310,7 +1367,7 @@ fn add_methods_with_inner_classes<W: CodeWriter>(
             code.newline();
         }
         first_method = false;
-        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), config.deobf_min_length, config.deobf_max_length, &config.res_names, config.replace_consts, code);
+        generate_method_with_inner_classes(method, class, config.fallback, imports, dex_info.clone(), inner_classes, config.hierarchy.as_deref(), config.deobf_min_length, config.deobf_max_length, &config.res_names, config.replace_consts, config.comments_level, code);
     }
 }
 

@@ -303,6 +303,182 @@ pub fn precompute_deobf_aliases(
     }
 }
 
+/// Precompute Kotlin metadata aliases for all classes.
+///
+/// This is a lightweight prepass that extracts class aliases from @kotlin.Metadata annotations
+/// and registers them in the global alias registry. This enables cross-class type reference
+/// resolution where class A references type B that has an alias extracted from Kotlin metadata.
+///
+/// Unlike full Kotlin metadata processing, this only extracts class-level aliases (from d2 array)
+/// to minimize overhead while enabling the most impactful type name resolution.
+pub fn precompute_kotlin_aliases(
+    dex: &DexReader,
+    class_indices: &[u32],
+    registry: &AliasRegistry,
+) {
+    use dexterity_dex::EncodedValue;
+
+    const KOTLIN_METADATA_ANNOTATION: &str = "Lkotlin/Metadata;";
+    const KOTLIN_METADATA_D2_PARAMETER: &str = "d2";
+
+    let mut kotlin_class_count = 0;
+    let mut alias_count = 0;
+
+    for &idx in class_indices {
+        let class = match dex.get_class(idx) {
+            Ok(c) => c,
+            Err(_) => continue,
+        };
+
+        let class_type = match class.class_type() {
+            Ok(t) => t,
+            Err(_) => continue,
+        };
+
+        let class_desc = class_type.to_string();
+
+        // Parse class-level annotations
+        let annotations = match class.class_annotations() {
+            Ok(a) => a,
+            Err(_) => continue,
+        };
+
+        // Look for @kotlin.Metadata annotation
+        for annot in &annotations {
+            // Get annotation type descriptor from type_idx
+            let annot_type = match dex.get_type(annot.annotation.type_idx) {
+                Ok(t) => t,
+                Err(_) => continue,
+            };
+
+            if annot_type != KOTLIN_METADATA_ANNOTATION {
+                continue;
+            }
+
+            kotlin_class_count += 1;
+
+            // Find d2 element (string array with class name info)
+            for element in &annot.annotation.elements {
+                // Get element name from name_idx
+                let name = match dex.get_string(element.name_idx) {
+                    Ok(n) => n,
+                    Err(_) => continue,
+                };
+
+                if name.as_ref() != KOTLIN_METADATA_D2_PARAMETER {
+                    continue;
+                }
+
+                // d2 is an array of strings, first element contains the class name
+                if let EncodedValue::Array(arr) = &element.value {
+                    if let Some(EncodedValue::String(str_idx)) = arr.first() {
+                        // String variant stores the string index, resolve it
+                        if let Ok(first_str) = dex.get_string(*str_idx) {
+                            // Extract alias from the full class name
+                            if let Some(alias) = extract_class_alias(&class_desc, &first_str) {
+                                registry.set_class_alias(&class_desc, &alias);
+                                alias_count += 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if kotlin_class_count > 0 {
+        tracing::info!(
+            "Kotlin metadata prepass: {} classes scanned, {} aliases registered",
+            kotlin_class_count,
+            alias_count
+        );
+    }
+}
+
+/// Extract a class alias from Kotlin metadata d2 first element.
+/// Returns the simple class name if it differs from the original class name.
+fn extract_class_alias(original_desc: &str, kotlin_name: &str) -> Option<String> {
+    let kotlin_name = kotlin_name.trim();
+    if kotlin_name.is_empty() {
+        return None;
+    }
+
+    // Clean the name (remove invalid characters)
+    let cleaned: String = kotlin_name
+        .chars()
+        .map(|c| if c.is_alphanumeric() || c == '_' || c == '.' { c } else { '_' })
+        .collect();
+
+    if cleaned.is_empty() {
+        return None;
+    }
+
+    // Get simple name (after last dot)
+    let simple_name = cleaned.rsplit('.').next().unwrap_or(&cleaned);
+
+    // Validate: not empty, valid identifier, not same as original
+    if simple_name.is_empty() || simple_name.contains('$') {
+        return None;
+    }
+
+    // Check first char is valid Java identifier start
+    let first_char = simple_name.chars().next()?;
+    if !first_char.is_alphabetic() && first_char != '_' {
+        return None;
+    }
+
+    // Get original simple name for comparison
+    let original_simple = original_desc
+        .strip_prefix('L')
+        .unwrap_or(original_desc)
+        .strip_suffix(';')
+        .unwrap_or(original_desc)
+        .rsplit('/')
+        .next()
+        .unwrap_or("");
+
+    // Only register if different from original
+    if simple_name == original_simple {
+        return None;
+    }
+
+    // Skip java.* packages (stdlib shouldn't be aliased this way)
+    if cleaned.starts_with("java.") {
+        return None;
+    }
+
+    Some(simple_name.to_string())
+}
+
+/// Register aliases extracted from a class (e.g., from Kotlin metadata) to the global registry.
+/// This enables cross-class type reference resolution when class A references type B that has
+/// an alias extracted from its Kotlin metadata.
+pub fn register_class_aliases_to_registry(class: &ClassData, registry: &AliasRegistry) {
+    let class_desc = normalize_class_descriptor(&class.class_type);
+
+    // Register class alias if present (e.g., from Kotlin metadata)
+    if let Some(ref alias) = class.alias {
+        registry.set_class_alias(&class_desc, alias);
+    }
+
+    // Register field aliases
+    for field in class.static_fields.iter().chain(class.instance_fields.iter()) {
+        if let Some(ref alias) = field.alias {
+            registry.set_field_alias(&class_desc, &field.name, alias);
+        }
+    }
+
+    // Register method aliases
+    for method in &class.methods {
+        if let Some(ref alias) = method.alias {
+            if !method.is_constructor() && !method.is_class_init() {
+                let proto_desc = method_proto_to_descriptor(&method.arg_types, &method.return_type);
+                registry.set_method_alias(&class_desc, &method.name, &proto_desc, alias);
+            }
+        }
+    }
+}
+
 /// Apply aliases from registry to a converted class (class/field/method declaration aliases).
 pub fn apply_aliases_from_registry(class: &mut ClassData, registry: &AliasRegistry) {
     let class_desc = normalize_class_descriptor(&class.class_type);

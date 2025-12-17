@@ -214,7 +214,7 @@ fn process_input(input: &PathBuf, args: &Args) -> Result<()> {
         "dex" => {
             process_dex(input, &out_dir_src, args)?;
         }
-        "jar" | "zip" => {
+        "jar" => {
             process_jar(input, &out_dir_src, args)?;
         }
         "aar" => {
@@ -1219,6 +1219,13 @@ fn process_dex_bytes(
         deobf::precompute_deobf_aliases(&dex, &class_indices, args, &alias_registry);
     }
 
+    // Kotlin metadata prepass: extract class aliases for cross-reference resolution
+    // This runs even when deobfuscation is disabled, as Kotlin classes may have
+    // obfuscated names (by R8/ProGuard) with aliases stored in @kotlin.Metadata
+    if args.process_kotlin_metadata() {
+        deobf::precompute_kotlin_aliases(&dex, &class_indices, &alias_registry);
+    }
+
     // Build class hierarchy for type inference (enables LCA, subtype checking)
     tracing::info!("Building class hierarchy from {} classes", class_indices.len());
     let hierarchy_start = std::time::Instant::now();
@@ -1229,8 +1236,9 @@ fn process_dex_bytes(
         class_hierarchy.has_class("java/lang/Object")
     );
 
-    // Wrap dex_info with alias-aware version if deobfuscation or mappings are active
-    let dex_info: std::sync::Arc<dyn DexInfoProvider> = if args.deobfuscation || args.mappings_path.is_some() {
+    // Wrap dex_info with alias-aware version if deobfuscation, mappings, or Kotlin metadata is active
+    // Kotlin metadata may register class aliases that need to be resolved during code generation
+    let dex_info: std::sync::Arc<dyn DexInfoProvider> = if args.deobfuscation || args.mappings_path.is_some() || args.process_kotlin_metadata() {
         std::sync::Arc::new(AliasAwareDexInfo::new(dex_info, alias_registry.clone()))
     } else {
         dex_info
@@ -1426,6 +1434,15 @@ fn process_dex_bytes(
                 // Extract instance field initializations from constructors
                 dexterity_passes::extract_instance_field_init(&mut ir_class);
 
+                // Convert CLI CommentsLevel to codegen CommentsLevel
+                let comments_level = match args.comments_level {
+                    crate::args::CommentsLevel::None => dexterity_codegen::CommentsLevel::None,
+                    crate::args::CommentsLevel::UserOnly => dexterity_codegen::CommentsLevel::UserOnly,
+                    crate::args::CommentsLevel::Error => dexterity_codegen::CommentsLevel::Error,
+                    crate::args::CommentsLevel::Warn => dexterity_codegen::CommentsLevel::Warn,
+                    crate::args::CommentsLevel::Info => dexterity_codegen::CommentsLevel::Info,
+                    crate::args::CommentsLevel::Debug => dexterity_codegen::CommentsLevel::Debug,
+                };
                 let config = dexterity_codegen::ClassGenConfig {
                     use_imports,
                     show_debug: false,
@@ -1440,6 +1457,7 @@ fn process_dex_bytes(
                     res_names: res_names.clone(),
                     replace_consts: args.replace_consts(),
                     app_package_name: None, // TODO: Extract from ARSC or ClassData
+                    comments_level,
                 };
                 let dex_arc: std::sync::Arc<dyn dexterity_codegen::DexInfoProvider> = dex_info.clone();
 
