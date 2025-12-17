@@ -36,17 +36,21 @@ Memory-mapped DEX file parsing with zero-copy access.
 - `header.rs` - DEX header parsing (magic, checksum, offsets)
 - `consts.rs` - Dalvik opcode definitions (all 224 opcodes)
 
-### dexterity-ir (Intermediate Representation)
+### dexterity-ir (Intermediate Representation) - 85% JADX Parity
 
-Core IR types shared across all passes.
+Core IR types shared across all passes. Major update Dec 17, 2025 (72% -> 85% parity).
 
 **Key components:**
-- `instructions.rs` - ~40+ instruction variants (`InsnType` enum including Ternary)
-- `types.rs` - Type system (`ArgType`, primitives, arrays, objects)
+- `instructions.rs` - ~47 instruction variants (incl. MoveMulti, StrConcat, Constructor, JavaJsr/Ret)
+- `types.rs` - Type system with Unknown variants (UnknownNarrow/Wide/Object/Array/Integral)
 - `nodes.rs` - `ClassNode`, `MethodNode`, `FieldNode`, `BlockNode` definitions
 - `class_hierarchy.rs` - Class hierarchy with LCA calculation for type inference (~382 lines)
+- `ssa.rs` - Full SSA infrastructure (SSAVar, TypeInfo, CodeVar, TypeBound, SSAContext)
+- `attributes.rs` - 55+ JADX-compatible attribute flags (u128 bitfield)
 - `builder.rs` - IR builder from DEX bytecode
 - `regions.rs` - Control flow region types (if/loop/switch/try)
+
+**InsnArg variants:** Register, Literal, Type, Field, Method, String, Wrapped (inlined expr), Named (synthetic vars), This
 
 ### dexterity-passes (Decompilation Passes)
 

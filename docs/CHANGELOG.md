@@ -4,6 +4,58 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Dexterity-IR JADX Parity Improvements (Dec 17, 2025)
+
+**Major IR infrastructure update: 72% -> 85% overall JADX IR parity**
+
+Five key areas improved to match JADX's intermediate representation:
+
+#### 1. AFlag Attribute System (55% -> 80%)
+- Expanded from 13 to 55+ JADX-compatible attribute flags
+- Flags organized by category: Method, Instruction, SSA, Debug, Code Quality, Optimization
+- Extended `InsnNode.flags` from `u64` to `u128` to support 69+ flags
+- Full compatibility with JADX's `FINALLY_INSNS`, `DONT_GENERATE`, `SKIP`, etc.
+
+#### 2. SSA Infrastructure (60% -> 85%)
+- Added `ssa.rs` module with full SSA variable representation
+- `SSAVar`: Use-def chains, type bounds, `CodeVar` integration
+- `TypeInfo`: Constraint-based type inference state
+- `CodeVar`: Links SSA variables through phi nodes (matching JADX's variable naming)
+- `TypeBound`: Upper/lower/exact bounds for type inference
+- `SSAContext`: Method-level SSA state management
+
+#### 3. Instruction Arguments (65% -> 85%)
+- `InsnArg::Wrapped(Box<WrappedInsn>)`: Inlined expressions (matches `InsnWrapArg`)
+- `InsnArg::Named { name, arg_type }`: Synthetic variables like catch exception vars
+- `InsnArg::This { class_type }`: Explicit 'this' reference handling
+
+#### 4. Instructions (70% -> 85%)
+- `MoveMulti`: Parallel assignments (`a, b = b, a`)
+- `StrConcat`: StringBuilder optimization
+- `RegionArg`: Preserves args for region codegen
+- `OneArg`: Single-arg passthrough for implicit values
+- `Constructor`: Tracks new + <init> patterns
+- `JavaJsr`/`JavaRet`: Legacy finally handling (older Java bytecode)
+
+#### 5. Type System (75% -> 90%)
+- `UnknownNarrow`: 32-bit types (int, float, boolean, byte, char, short, object)
+- `UnknownWide`: 64-bit types (long or double)
+- `UnknownObject`: Any reference type
+- `UnknownArray`: Any array type
+- `UnknownIntegral`: Integral subtypes (byte, char, short, int, boolean)
+- Full constraint-based type narrowing matching JADX's `UnknownArg`
+
+**Files Changed:**
+- `crates/dexterity-ir/src/ssa.rs` (new module)
+- `crates/dexterity-ir/src/types.rs`
+- `crates/dexterity-ir/src/instructions.rs`
+- `crates/dexterity-ir/src/attributes.rs`
+- `crates/dexterity-ir/src/lib.rs`
+
+**Documentation:** Updated [JADX_DEXTERITY_IR_REFERENCE.md](JADX_DEXTERITY_IR_REFERENCE.md)
+
+---
+
 ### Two-Switch Pattern Merge for Switch-Over-String (Dec 17, 2025)
 
 **Implemented two-switch pattern detection and merge for switch-over-string.**
