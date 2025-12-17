@@ -391,13 +391,13 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 
 | Crate | Purpose | JADX Parity |
 |-------|---------|-------------|
-| `dexterity-dex` | DEX binary parsing (memory-mapped, all 224 opcodes) | **100%** |
+| `dexterity-dex` | DEX binary parsing (memory-mapped, all 224 opcodes) ([parity details](docs/DEX_PARITY.md)) | **100%** |
 | `dexterity-ir` | Intermediate representation, class hierarchy | **100%** |
-| `dexterity-passes` | SSA, type inference, region reconstruction | **95%** |
-| `dexterity-codegen` | Java source generation | **90%** |
+| `dexterity-passes` | SSA, type inference, region reconstruction, optimization ([parity details](docs/PASSES_COMPARISON.md)) | **95%** |
+| `dexterity-codegen` | Java source generation ([parity details](docs/CODEGEN_PARITY.md)) | **90%** |
 | `dexterity-resources` | AXML and resources.arsc decoding | **100%** |
 | `dexterity-deobf` | Deobfuscation, ProGuard parser | **100%** |
-| `dexterity-kotlin` | Kotlin metadata parsing ([parity details](docs/KOTLIN_PARITY.md)) | **28%** |
+| `dexterity-kotlin` | Kotlin metadata parsing | **100%** |
 | `dexterity-cli` | CLI application | **98%** |
 
 ## Key Technical Features
