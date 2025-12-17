@@ -83,6 +83,9 @@ pub struct MethodInfo {
     pub method_name: String,
     pub return_type: ArgType,
     pub param_types: Vec<ArgType>,
+    /// Whether this method accepts varargs (None if unknown, e.g., external method)
+    /// Used for varargs expansion: `foo(new String[]{"a", "b"})` → `foo("a", "b")`
+    pub is_varargs: Option<bool>,
 }
 
 /// Boxing type for deboxing pass
@@ -1353,6 +1356,7 @@ mod tests {
             method_name: "valueOf".to_string(),
             return_type: ArgType::Object("Ljava/lang/Integer;".to_string()),
             param_types: vec![ArgType::Int],
+            is_varargs: None,
         };
         assert_eq!(BoxingType::from_method(&int_method), Some(BoxingType::Integer));
 
@@ -1363,6 +1367,7 @@ mod tests {
             method_name: "valueOf".to_string(),
             return_type: ArgType::Object("Ljava/lang/Boolean;".to_string()),
             param_types: vec![ArgType::Boolean],
+            is_varargs: None,
         };
         assert_eq!(BoxingType::from_method(&bool_method), Some(BoxingType::Boolean));
 
@@ -1373,6 +1378,7 @@ mod tests {
             method_name: "valueOf".to_string(),
             return_type: ArgType::Object("Ljava/lang/Long;".to_string()),
             param_types: vec![ArgType::Long],
+            is_varargs: None,
         };
         assert_eq!(BoxingType::from_method(&long_method), Some(BoxingType::Long));
 
@@ -1383,6 +1389,7 @@ mod tests {
             method_name: "valueOf".to_string(),
             return_type: ArgType::Object("Ljava/lang/String;".to_string()),
             param_types: vec![ArgType::Int],
+            is_varargs: None,
         };
         assert_eq!(BoxingType::from_method(&other_method), None);
 
@@ -1393,6 +1400,7 @@ mod tests {
             method_name: "parseInt".to_string(),
             return_type: ArgType::Int,
             param_types: vec![ArgType::Object("Ljava/lang/String;".to_string())],
+            is_varargs: None,
         };
         assert_eq!(BoxingType::from_method(&parse_method), None);
     }

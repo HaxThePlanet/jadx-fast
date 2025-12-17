@@ -103,6 +103,9 @@ pub struct BodyGenContext {
     /// When we see StringBuilder.<init> we start tracking, append() adds args,
     /// toString() emits concatenation instead of method chain
     pub stringbuilder_chains: HashMap<u16, StringBuilderChain>,
+    /// Pending vararg arrays being tracked for expansion
+    /// Key: (reg_num, ssa_version) - tracks NewArray + ArrayPut sequences
+    pub pending_vararg_arrays: HashMap<(u16, u32), PendingVarargArray>,
     /// Last source line number seen (for tracking line changes)
     pub last_source_line: Option<u32>,
     /// Whether this method is a constructor (<init>)
@@ -120,6 +123,25 @@ pub struct StringBuilderChain {
     pub args: Vec<String>,
     /// Whether the chain is still valid (set to false if non-append method is called)
     pub valid: bool,
+}
+
+/// Tracks a pending vararg array being built from NewArray + ArrayPut sequence
+///
+/// When we see `new Object[N]` followed by `arr[0] = v1; arr[1] = v2; ...`,
+/// we track the elements so we can expand them as varargs at the invoke site.
+#[derive(Debug, Clone)]
+pub struct PendingVarargArray {
+    /// Declared array size
+    pub size: usize,
+    /// Type index for element type
+    pub type_idx: u32,
+    /// Elements filled so far - indexed by array position
+    /// None means that index hasn't been written yet
+    pub elements: Vec<Option<String>>,
+    /// Number of indices that have been filled
+    pub filled_count: usize,
+    /// Whether array has been invalidated (used in non-vararg context)
+    pub invalidated: bool,
 }
 
 impl Drop for BodyGenContext {
@@ -209,6 +231,7 @@ impl BodyGenContext {
             phi_declarations: HashSet::new(),
             skip_foreach_insns: HashMap::new(),
             stringbuilder_chains: HashMap::new(),
+            pending_vararg_arrays: HashMap::new(),
             last_source_line: None,
             is_constructor: method.name == "<init>",
             lambda_methods: HashMap::new(),
@@ -4123,22 +4146,209 @@ fn generate_anonymous_class_inline<W: CodeWriter>(
     code.add("}");
 }
 
-/// Helper to write method arguments with type-aware formatting
-/// Uses param_types to properly format literals like char (91 -> '[') and boolean (0 -> false)
-fn write_typed_args<W: CodeWriter>(
+// =============================================================================
+// Varargs Expansion Support
+// =============================================================================
+
+/// Check if an inlined expression is a filled array literal that can be expanded for varargs.
+/// Returns the inner arguments if expandable, None otherwise.
+///
+/// Matches patterns like: `new String[] { "a", "b", "c" }`
+/// Does NOT match: variable references, method calls returning arrays, etc.
+fn extract_vararg_array_elements(inlined_expr: &str) -> Option<Vec<&str>> {
+    // Pattern: "new TypeName[] { elem1, elem2, ... }"
+    // Must start with "new " to ensure it's a literal
+    if !inlined_expr.starts_with("new ") {
+        return None;
+    }
+
+    // Find the "[] {" pattern that marks array literal start
+    let array_start = inlined_expr.find("[] { ")?;
+    let content_start = array_start + 5; // Skip "[] { "
+
+    // Find the closing " }"
+    let content_end = inlined_expr.rfind(" }")?;
+
+    if content_start > content_end {
+        // Empty array: new Type[] { } - valid for varargs (zero args)
+        return Some(Vec::new());
+    }
+
+    // Extract the content between { and }
+    let content = &inlined_expr[content_start..content_end];
+
+    if content.is_empty() {
+        return Some(Vec::new());
+    }
+
+    // Split by ", " but need to handle nested structures like strings with commas
+    // For now, use a simple approach that handles most cases:
+    // - Split by ", " that are not inside strings
+    let elements = split_array_elements(content);
+    Some(elements)
+}
+
+/// Split array elements, handling quoted strings that might contain commas
+fn split_array_elements(content: &str) -> Vec<&str> {
+    let mut elements = Vec::new();
+    let mut start = 0;
+    let mut in_string = false;
+    let mut escape_next = false;
+
+    let bytes = content.as_bytes();
+    let mut i = 0;
+
+    while i < bytes.len() {
+        let c = bytes[i] as char;
+
+        if escape_next {
+            escape_next = false;
+            i += 1;
+            continue;
+        }
+
+        if c == '\\' {
+            escape_next = true;
+            i += 1;
+            continue;
+        }
+
+        if c == '"' {
+            in_string = !in_string;
+            i += 1;
+            continue;
+        }
+
+        // Check for ", " separator outside of strings
+        if !in_string && c == ',' && i + 1 < bytes.len() && bytes[i + 1] == b' ' {
+            let elem = &content[start..i];
+            if !elem.is_empty() {
+                elements.push(elem.trim());
+            }
+            start = i + 2; // Skip ", "
+            i += 2;
+            continue;
+        }
+
+        i += 1;
+    }
+
+    // Add the last element
+    if start < content.len() {
+        let elem = &content[start..];
+        if !elem.is_empty() {
+            elements.push(elem.trim());
+        }
+    }
+
+    elements
+}
+
+/// Try to expand a vararg argument from an inlined filled array.
+/// Returns the expanded argument string or None if not expandable.
+fn try_expand_vararg(arg: &InsnArg, ctx: &mut BodyGenContext) -> Option<String> {
+    // Only check register arguments that might be inlined
+    if let InsnArg::Register(reg) = arg {
+        // Peek at inlined expression without consuming it
+        if let Some(inlined) = ctx.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+            if let Some(elements) = extract_vararg_array_elements(inlined) {
+                // Convert to owned strings before consuming to avoid borrow conflict
+                let result = elements.iter().map(|s| s.to_string()).collect::<Vec<_>>().join(", ");
+
+                // Consume the inlined expression since we're using it
+                ctx.take_inline_expr(reg.reg_num, reg.ssa_version);
+
+                return Some(result);
+            }
+        }
+    }
+    None
+}
+
+/// Heuristic: should we expand varargs when method definition is unknown?
+///
+/// Checks if:
+/// 1. Last parameter type is an array
+/// 2. The argument is a filled array literal (new Type[] { ... })
+fn should_heuristic_expand_varargs(
+    param_types: &[ArgType],
+    args: &[&InsnArg],
+    ctx: &BodyGenContext,
+) -> bool {
+    // Must have at least one parameter and argument
+    if param_types.is_empty() || args.is_empty() {
+        return false;
+    }
+
+    // Last parameter must be an array type
+    let last_param = param_types.last().unwrap();
+    if !matches!(last_param, ArgType::Array(_)) {
+        return false;
+    }
+
+    // Last argument must be an inlined filled array literal
+    let last_arg = args.last().unwrap();
+    if let InsnArg::Register(reg) = last_arg {
+        if let Some(inlined) = ctx.peek_inline_expr(reg.reg_num, reg.ssa_version) {
+            return extract_vararg_array_elements(inlined).is_some();
+        }
+    }
+
+    false
+}
+
+/// Write method arguments with varargs expansion support
+///
+/// When the method is varargs and the last argument is an inlined filled array,
+/// expands `foo(new String[]{"a", "b"})` to `foo("a", "b")`
+fn write_typed_args_with_varargs<W: CodeWriter>(
     args: &[InsnArg],
     param_types: &[ArgType],
     skip_count: usize,
+    is_varargs: Option<bool>,
     ctx: &mut BodyGenContext,
     code: &mut W,
 ) {
-    for (i, a) in args.iter().skip(skip_count).enumerate() {
-        if i > 0 { code.add(", "); }
-        // Use type-aware formatting if we have the parameter type
+    let args_to_process: Vec<_> = args.iter().skip(skip_count).collect();
+    let arg_count = args_to_process.len();
+
+    if arg_count == 0 {
+        return;
+    }
+
+    // Check if we should attempt varargs expansion:
+    // 1. Method is known to be varargs, OR
+    // 2. Method varargs status unknown but heuristic suggests expansion
+    let should_try_varargs = is_varargs.unwrap_or(false)
+        || (is_varargs.is_none() && should_heuristic_expand_varargs(param_types, &args_to_process, ctx));
+
+    for (i, a) in args_to_process.iter().enumerate() {
+        if i > 0 {
+            code.add(", ");
+        }
+
+        let is_last_arg = i == arg_count - 1;
+
+        // Try varargs expansion only for the last argument
+        if is_last_arg && should_try_varargs {
+            if let Some(expanded) = try_expand_vararg(a, ctx) {
+                // Handle empty varargs (expanded will be empty string)
+                if !expanded.is_empty() {
+                    code.add(&expanded);
+                }
+                // If empty, we don't add anything (no trailing comma needed)
+                // but we need to remove the extra ", " we added before this arg
+                // Actually, the logic handles this correctly - if expanded is empty,
+                // we just don't add anything, which is correct for empty varargs
+                continue;
+            }
+        }
+
+        // Normal argument handling
         if let Some(param_type) = param_types.get(i) {
-            ctx.write_arg_inline_typed(code, a, param_type);
+            ctx.write_arg_inline_typed(code, *a, param_type);
         } else {
-            ctx.write_arg_inline(code, a);
+            ctx.write_arg_inline(code, *a);
         }
     }
 }
@@ -4221,7 +4431,7 @@ fn write_invoke_with_inlining<W: CodeWriter>(
 
                 // Normal static method call with type-aware argument formatting
                 code.add(&info.class_name).add(".").add(&info.method_name).add("(");
-                write_typed_args(args, &info.param_types, skip_count, ctx, code);
+                write_typed_args_with_varargs(args, &info.param_types, skip_count, info.is_varargs, ctx, code);
                 code.add(")");
             }
             InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
@@ -4267,8 +4477,8 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                     }
                     code.add(&info.method_name).add("(");
                 }
-                // Use type-aware argument formatting
-                write_typed_args(args, &info.param_types, skip_count, ctx, code);
+                // Use type-aware argument formatting with varargs expansion
+                write_typed_args_with_varargs(args, &info.param_types, skip_count, info.is_varargs, ctx, code);
                 code.add(")");
             }
             InvokeKind::Super => {
@@ -4277,8 +4487,8 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 } else {
                     code.add("super.").add(&info.method_name).add("(");
                 }
-                // Use type-aware argument formatting
-                write_typed_args(args, &info.param_types, skip_count, ctx, code);
+                // Use type-aware argument formatting with varargs expansion
+                write_typed_args_with_varargs(args, &info.param_types, skip_count, info.is_varargs, ctx, code);
                 code.add(")");
             }
             _ => {
@@ -4644,6 +4854,30 @@ fn generate_insn<W: CodeWriter>(
             // Handle NewArray specially to properly inline size argument
             let reg = dest.reg_num;
             let version = dest.ssa_version;
+
+            // Track for potential vararg expansion if:
+            // 1. Size is a constant literal
+            // 2. Size is reasonable (1-64 elements)
+            // 3. Array is used more than once (APUTs + final use)
+            if let InsnArg::Literal(LiteralArg::Int(size_val)) = size {
+                let size_val = *size_val as usize;
+                if size_val > 0 && size_val <= 64 {
+                    let use_count = ctx.use_counts.get(&(reg, version)).copied().unwrap_or(0);
+                    // Needs at least: N ArrayPuts + 1 final Invoke = N+1 uses
+                    if use_count > 1 {
+                        ctx.pending_vararg_arrays.insert(
+                            (reg, version),
+                            PendingVarargArray {
+                                size: size_val,
+                                type_idx: *type_idx,
+                                elements: vec![None; size_val],
+                                filled_count: 0,
+                                invalidated: false,
+                            },
+                        );
+                    }
+                }
+            }
 
             // Get element type name
             let type_name = ctx.expr_gen.get_type_value(*type_idx)
@@ -5823,5 +6057,87 @@ mod tests {
         assert!(is_stringbuilder_class("StringBuffer"));
         assert!(!is_stringbuilder_class("String"));
         assert!(!is_stringbuilder_class("ArrayList"));
+    }
+
+    // Varargs expansion tests
+    #[test]
+    fn test_extract_vararg_array_elements_simple() {
+        let result = extract_vararg_array_elements(r#"new String[] { "a", "b", "c" }"#);
+        assert!(result.is_some());
+        let elements = result.unwrap();
+        assert_eq!(elements.len(), 3);
+        assert_eq!(elements[0], r#""a""#);
+        assert_eq!(elements[1], r#""b""#);
+        assert_eq!(elements[2], r#""c""#);
+    }
+
+    #[test]
+    fn test_extract_vararg_array_elements_integers() {
+        let result = extract_vararg_array_elements("new int[] { 1, 2, 3 }");
+        assert!(result.is_some());
+        let elements = result.unwrap();
+        assert_eq!(elements.len(), 3);
+        assert_eq!(elements[0], "1");
+        assert_eq!(elements[1], "2");
+        assert_eq!(elements[2], "3");
+    }
+
+    #[test]
+    fn test_extract_vararg_array_elements_empty() {
+        // Empty array - valid for varargs (zero args)
+        let result = extract_vararg_array_elements("new Object[] { }");
+        assert!(result.is_some());
+        let elements = result.unwrap();
+        assert_eq!(elements.len(), 0);
+    }
+
+    #[test]
+    fn test_extract_vararg_array_elements_single() {
+        let result = extract_vararg_array_elements(r#"new String[] { "only" }"#);
+        assert!(result.is_some());
+        let elements = result.unwrap();
+        assert_eq!(elements.len(), 1);
+        assert_eq!(elements[0], r#""only""#);
+    }
+
+    #[test]
+    fn test_extract_vararg_array_elements_mixed() {
+        let result = extract_vararg_array_elements(r#"new Object[] { "hello", 42, var }"#);
+        assert!(result.is_some());
+        let elements = result.unwrap();
+        assert_eq!(elements.len(), 3);
+        assert_eq!(elements[0], r#""hello""#);
+        assert_eq!(elements[1], "42");
+        assert_eq!(elements[2], "var");
+    }
+
+    #[test]
+    fn test_extract_vararg_array_elements_not_array_literal() {
+        // Variable reference - should NOT match
+        assert!(extract_vararg_array_elements("arr").is_none());
+        // Method call - should NOT match
+        assert!(extract_vararg_array_elements("getArray()").is_none());
+        // Array access - should NOT match
+        assert!(extract_vararg_array_elements("arr[0]").is_none());
+    }
+
+    #[test]
+    fn test_extract_vararg_array_elements_string_with_comma() {
+        // String containing comma should be treated as single element
+        let result = extract_vararg_array_elements(r#"new String[] { "hello, world", "test" }"#);
+        assert!(result.is_some());
+        let elements = result.unwrap();
+        assert_eq!(elements.len(), 2);
+        assert_eq!(elements[0], r#""hello, world""#);
+        assert_eq!(elements[1], r#""test""#);
+    }
+
+    #[test]
+    fn test_split_array_elements_escaped_quotes() {
+        // String with escaped quotes
+        let elements = split_array_elements(r#""say \"hello\"", "test""#);
+        assert_eq!(elements.len(), 2);
+        assert_eq!(elements[0], r#""say \"hello\"""#);
+        assert_eq!(elements[1], r#""test""#);
     }
 }

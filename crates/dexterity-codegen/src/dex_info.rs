@@ -40,6 +40,9 @@ use crate::type_gen::type_to_string;
 use dexterity_dex::DexReader;
 use dexterity_ir::types::ArgType;
 
+/// ACC_VARARGS access flag (0x0080) - method accepts variable arguments
+const ACC_VARARGS: u32 = 0x0080;
+
 // =============================================================================
 // GlobalFieldPool - Multi-DEX field deduplication (like Java JADX)
 // =============================================================================
@@ -339,30 +342,66 @@ pub struct LazyDexInfo {
     global_field_pool: Option<Arc<GlobalFieldPool>>,
     /// Cache for method lookups - uses Arc since callers often only need some fields
     method_cache: DashMap<u32, Option<Arc<MethodInfo>>>,
+    /// Method access flags index: method_idx -> access_flags
+    /// Built at initialization to enable varargs detection (ACC_VARARGS flag)
+    method_access_flags: DashMap<u32, u32>,
+}
+
+/// Build method access flags index by scanning all class definitions
+///
+/// This scans all classes in the DEX file and extracts method_idx -> access_flags
+/// mappings from EncodedMethod entries. This allows us to detect varargs methods
+/// (ACC_VARARGS = 0x0080) even when we only have a method reference (MethodId).
+///
+/// Note: This only works for methods defined in the current DEX file.
+/// External method references will have `is_varargs = None`.
+fn build_method_access_flags_index(dex: &DexReader) -> DashMap<u32, u32> {
+    let flags_map = DashMap::with_capacity(256);
+
+    for class_idx in 0..dex.class_count() {
+        if let Ok(class_def) = dex.get_class(class_idx as u32) {
+            if let Ok(Some(class_data)) = class_def.class_data() {
+                // Direct methods (static, private, constructors)
+                for method in class_data.direct_methods() {
+                    flags_map.insert(method.method_idx, method.access_flags);
+                }
+                // Virtual methods (instance methods, can be overridden)
+                for method in class_data.virtual_methods() {
+                    flags_map.insert(method.method_idx, method.access_flags);
+                }
+            }
+        }
+    }
+
+    flags_map
 }
 
 impl LazyDexInfo {
     /// Create a new LazyDexInfo wrapping a DexReader (without global pool)
     ///
-    /// This is O(1) - no data is loaded upfront.
+    /// This builds the method access flags index for varargs detection.
     /// Use `new_with_pool()` for multi-DEX deduplication.
     pub fn new(dex: Arc<DexReader>) -> Self {
+        let method_access_flags = build_method_access_flags_index(&dex);
         LazyDexInfo {
             dex,
             global_field_pool: None,
             method_cache: DashMap::with_capacity(256),
+            method_access_flags,
         }
     }
 
     /// Create a new LazyDexInfo wrapping a DexReader with a global field pool
     ///
     /// The global pool enables deduplication of fields across multiple DEX files.
-    /// This is O(1) - no data is loaded upfront.
+    /// This builds the method access flags index for varargs detection.
     pub fn new_with_pool(dex: Arc<DexReader>, pool: Arc<GlobalFieldPool>) -> Self {
+        let method_access_flags = build_method_access_flags_index(&dex);
         LazyDexInfo {
             dex,
             global_field_pool: Some(pool),
             method_cache: DashMap::with_capacity(256),
+            method_access_flags,
         }
     }
 
@@ -425,6 +464,11 @@ impl LazyDexInfo {
             return cached.clone();
         }
 
+        // Check if this method has ACC_VARARGS flag
+        // None if external method (not defined in this DEX)
+        let is_varargs = self.method_access_flags.get(&idx)
+            .map(|flags| (*flags & ACC_VARARGS) != 0);
+
         // Parse on-demand
         let result = (|| {
             let method = self.dex.get_method(idx).ok()?;
@@ -446,6 +490,7 @@ impl LazyDexInfo {
                 method_name: method_name.to_string(),
                 return_type,
                 param_types,
+                is_varargs,
             }))
         })();
 
