@@ -181,8 +181,6 @@ pub struct VarNaming<'a> {
     type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
     /// Field lookup: field_idx -> (field_name, class_name)
     field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
-    /// Inner class short names to reserve (prevents variable-inner class collisions)
-    inner_class_names: Option<&'a [String]>,
 }
 
 impl<'a> VarNaming<'a> {
@@ -195,7 +193,6 @@ impl<'a> VarNaming<'a> {
             method_lookup: None,
             type_lookup: None,
             field_lookup: None,
-            inner_class_names: None,
         }
     }
 
@@ -234,7 +231,6 @@ impl<'a> VarNaming<'a> {
             method_lookup,
             type_lookup,
             field_lookup,
-            inner_class_names,
         }
     }
 
@@ -1422,5 +1418,63 @@ mod tests {
         let name = naming.name_for_type(&ArgType::Object("com/example/Foobar1".to_string()));
         assert_eq!(name, "foobar1");
         assert!(is_valid_identifier(&name));
+    }
+
+    #[test]
+    fn test_inner_class_reserved_names() {
+        // Test that inner class short names are reserved to prevent variable-class collisions
+        // This matches JADX's NameGen.addNamesUsedInClass() behavior
+
+        // When inner class names are provided, they should be reserved
+        let inner_class_names = vec![
+            "Builder".to_string(),
+            "Handler".to_string(),
+            "Factory".to_string(),
+        ];
+
+        let naming = VarNaming::with_lookups(
+            10,
+            None,
+            None,
+            None,
+            Some(&inner_class_names),
+        );
+
+        // "builder" should be reserved (lowercase version of "Builder")
+        assert!(naming.used_names.contains("builder"), "builder should be reserved");
+        assert!(naming.used_names.contains("handler"), "handler should be reserved");
+        assert!(naming.used_names.contains("factory"), "factory should be reserved");
+
+        // When we try to name a variable, it should get a suffix
+        let mut naming = VarNaming::with_lookups(
+            10,
+            None,
+            None,
+            None,
+            Some(&inner_class_names),
+        );
+
+        // A StringBuilder type would normally get "sb", not affected
+        let sb_name = naming.name_for_type(&ArgType::Object("java/lang/StringBuilder".to_string()));
+        assert_eq!(sb_name, "sb");
+
+        // But a Builder type should get "builder2" since "builder" is reserved
+        let builder_name = naming.name_for_type(&ArgType::Object("com/example/Builder".to_string()));
+        assert_eq!(builder_name, "builder2", "Should be builder2 since builder is reserved");
+    }
+
+    #[test]
+    fn test_inner_class_reserved_names_empty() {
+        // Test with no inner class names - should not reserve anything extra
+        let naming = VarNaming::with_lookups(
+            10,
+            None,
+            None,
+            None,
+            None,
+        );
+
+        // used_names should be empty initially
+        assert!(naming.used_names.is_empty());
     }
 }
