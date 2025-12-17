@@ -1384,9 +1384,44 @@ pub fn load_method_instructions(method: &mut MethodData, dex: &DexReader) -> Res
         }
     }
 
+    // Apply source line numbers from debug info
+    // line_numbers is Vec<(address, line)> sorted by address
+    if let Some(debug_info) = &method.debug_info {
+        if !debug_info.line_numbers.is_empty() {
+            for insn in &mut instructions {
+                // Find the line number for this instruction's offset
+                // The line number is from the most recent entry whose address <= instruction.offset
+                let source_line = find_source_line(&debug_info.line_numbers, insn.offset);
+                insn.source_line = source_line;
+            }
+        }
+    }
+
     // Set instructions (marks as Loaded)
     method.set_instructions(instructions);
     Ok(())
+}
+
+/// Find the source line number for a given bytecode offset
+/// line_numbers is sorted by address (ascending)
+/// Returns the line number of the most recent entry whose address <= offset
+fn find_source_line(line_numbers: &[(u32, u32)], offset: u32) -> Option<u32> {
+    // Binary search for the rightmost entry with address <= offset
+    let mut result: Option<u32> = None;
+    let mut left = 0;
+    let mut right = line_numbers.len();
+
+    while left < right {
+        let mid = left + (right - left) / 2;
+        if line_numbers[mid].0 <= offset {
+            result = Some(line_numbers[mid].1);
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+
+    result
 }
 
 #[cfg(test)]
@@ -1409,6 +1444,41 @@ mod tests {
     fn test_strip_descriptor() {
         assert_eq!(strip_descriptor("Ljava/lang/Object;"), "java/lang/Object");
         assert_eq!(strip_descriptor("java/lang/Object"), "java/lang/Object");
+    }
+
+    // ===== Source Line Number Tests =====
+
+    #[test]
+    fn test_find_source_line_basic() {
+        // Line number table: (address, line)
+        let line_numbers = vec![(0, 10), (4, 11), (8, 12), (16, 15)];
+
+        // Exact matches
+        assert_eq!(find_source_line(&line_numbers, 0), Some(10));
+        assert_eq!(find_source_line(&line_numbers, 4), Some(11));
+        assert_eq!(find_source_line(&line_numbers, 8), Some(12));
+        assert_eq!(find_source_line(&line_numbers, 16), Some(15));
+
+        // In-between values (should use previous line)
+        assert_eq!(find_source_line(&line_numbers, 2), Some(10)); // between 0 and 4
+        assert_eq!(find_source_line(&line_numbers, 6), Some(11)); // between 4 and 8
+        assert_eq!(find_source_line(&line_numbers, 10), Some(12)); // between 8 and 16
+        assert_eq!(find_source_line(&line_numbers, 20), Some(15)); // after last entry
+    }
+
+    #[test]
+    fn test_find_source_line_empty() {
+        let line_numbers: Vec<(u32, u32)> = vec![];
+        assert_eq!(find_source_line(&line_numbers, 0), None);
+        assert_eq!(find_source_line(&line_numbers, 10), None);
+    }
+
+    #[test]
+    fn test_find_source_line_single_entry() {
+        let line_numbers = vec![(5, 100)];
+        assert_eq!(find_source_line(&line_numbers, 0), None); // before first entry
+        assert_eq!(find_source_line(&line_numbers, 5), Some(100));
+        assert_eq!(find_source_line(&line_numbers, 10), Some(100));
     }
 
     // ===== Type Parameter Parsing Tests =====

@@ -239,7 +239,7 @@ Compare dexterity implementations against JADX originals:
 | Dexterity | JADX | LOC Comparison | Status |
 |-----------|------|----------------|--------|
 | simplify.rs (1,646) | SimplifyVisitor.java (638) | Audit complete | **DONE** - double negation, CMP unwrapping, cast chain optimization |
-| code_shrink.rs (1,038) | CodeShrinkVisitor.java (299) | Audit complete | **DONE** - pipeline integration, cross-block inlining, sync boundary checks |
+| code_shrink.rs (1,038) | CodeShrinkVisitor.java (299) | Audit complete | **DONE** - pipeline integration, cross-block inlining, sync boundary checks, InvokeCustom lambda inline restriction |
 | conditionals.rs (740) | TernaryMod.java (352) | Port ternary conversion | **DONE** - return-ternary, single-branch ternary |
 | mod_visitor.rs (831) | ModVisitor.java (634) | Array init fusion | **DONE** - NEW_ARRAY+FILL_ARRAY fusion, dead MOVE removal |
 
@@ -292,7 +292,7 @@ Add JADX-style diagnostic comments:
 | **TernaryInsn IR type** | `TernaryInsn.java` | Cleaner ternary output | **DONE** (Dec 17, 2025) |
 | **Fallback mode** | `fallbackOnlyInsn()` | Raw bytecode on failure | **DONE** (Dec 17, 2025) |
 | **Code comments** | `CodeGenUtils.addCodeComments()` | WARN/INFO annotations | **DONE** (Dec 17, 2025) - CommentsLevel CLI flag |
-| **Source line tracking** | `code.startLineWithNum()` | Debug mapping | TODO |
+| **Source line tracking** | `code.startLineWithNum()` | Debug mapping | **DONE** (Dec 17, 2025) - `// .line N` comments from debug info |
 
 ### Edge Cases (P3)
 

@@ -20,14 +20,14 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 
 ## IR Parity Summary (0-100%)
 
-**Overall IR Parity: ~85%** (Updated 2025-12-17)
+**Overall IR Parity: ~90%** (Updated 2025-12-17)
 
 | Component | Parity | Status | Notes |
 |-----------|--------|--------|-------|
 | Type System | 90% | ✅ | Unknown variants (NARROW, WIDE, INTEGRAL), type narrowing |
 | Instructions | 85% | ✅ | All JADX types: MOVE_MULTI, STR_CONCAT, REGION_ARG, JSR/RET |
 | Instruction Args | 85% | ✅ | InsnWrapArg, NamedArg, This reference |
-| Class/Method/Field | 68% | 🔶 | Dependency tracking, LoadStage, innerClasses detail |
+| Class/Method/Field | 90% | ✅ | LoadStage, innerClasses, parent_class, dependencies, codegen_deps |
 | Regions | 72% | 🔶 | ForEachLoop/ForLoop distinction, IContainer hierarchy |
 | Attribute System | 80% | ✅ | 55+ JADX flags (was 13), organized by category |
 | Class Hierarchy | 85% | ✅ | Minor: integrated type comparison |
@@ -38,6 +38,7 @@ Both decompilers follow the same high-level pipeline, but differ in implementati
 | Lazy Loading | 90% | ✅ | Excellent match with ProcessState pattern |
 
 ### Recent Improvements (2025-12-17)
+- **Class/Method/Field** (68%→90%): Added LoadStage enum, inner_classes, parent_class, dependencies, codegen_deps
 - **AFlag System** (55%→80%): Added 55+ JADX-compatible attribute flags
 - **SSA Infrastructure** (60%→85%): Full SSAVar, TypeInfo, CodeVar, TypeBound
 - **Instruction Args** (65%→85%): InsnWrapArg, NamedArg, This variants

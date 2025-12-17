@@ -63,6 +63,29 @@ impl ProcessState {
     }
 }
 
+/// Loading stage for dependency-aware processing (mirrors JADX's LoadStage)
+///
+/// This tracks whether dependencies have been loaded, enabling staged processing:
+/// - ProcessStage: Class loaded but dependencies may not be
+/// - CodegenStage: All dependencies loaded, ready for code generation
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum LoadStage {
+    /// No loading stage set yet
+    #[default]
+    None,
+    /// Process stage - class is being processed, dependencies may not be loaded yet
+    ProcessStage,
+    /// Codegen stage - all dependencies loaded, ready for code generation
+    CodegenStage,
+}
+
+impl LoadStage {
+    /// Check if we're at codegen stage (all dependencies available)
+    pub fn is_codegen_ready(&self) -> bool {
+        matches!(self, LoadStage::CodegenStage)
+    }
+}
+
 /// Reference to bytecode in DEX file for lazy loading
 ///
 /// Instead of storing decoded instructions upfront, we store this lightweight
@@ -562,6 +585,8 @@ pub struct ClassData {
     pub dex_name: Option<String>,
     /// Processing state for lazy loading
     pub state: ProcessState,
+    /// Loading stage for dependency-aware processing (like JADX's LoadStage)
+    pub load_stage: LoadStage,
     /// Methods
     pub methods: Vec<MethodData>,
     /// Static fields
@@ -579,6 +604,22 @@ pub struct ClassData {
     pub kotlin_metadata: Option<KotlinMetadata>,
     /// Kotlin-specific class information (data class, sealed, etc.)
     pub kotlin_class_info: Option<KotlinClassInfo>,
+
+    // === JADX Parity: Inner Class Support ===
+    /// Inner classes defined within this class (like JADX's ClassNode.innerClasses)
+    /// Stores class type descriptors of inner classes
+    pub inner_classes: Vec<String>,
+    /// Parent class for inner classes (like JADX's ClassNode.parentClass)
+    /// None for top-level classes, Some(parent_type) for inner classes
+    pub parent_class: Option<String>,
+
+    // === JADX Parity: Dependency Tracking ===
+    /// Top-level classes used by this class (like JADX's ClassNode.dependencies)
+    /// Only populated for top-level classes. Used for load ordering.
+    pub dependencies: Vec<String>,
+    /// Classes needed at code generation stage (like JADX's ClassNode.codegenDeps)
+    /// These must be fully loaded before this class can generate code.
+    pub codegen_deps: Vec<String>,
 }
 
 impl ClassData {
@@ -596,13 +637,19 @@ impl ClassData {
             source_file: None,
             dex_name: None,
             state: ProcessState::NotLoaded,
+            load_stage: LoadStage::None,
             methods: Vec::new(),
             static_fields: Vec::new(),
             instance_fields: Vec::new(),
             annotations: Vec::new(),
-            all_instructions: Vec::new(),  // NEW: shared instruction pool (starts empty)
+            all_instructions: Vec::new(),
             kotlin_metadata: None,
             kotlin_class_info: None,
+            // JADX parity fields
+            inner_classes: Vec::new(),
+            parent_class: None,
+            dependencies: Vec::new(),
+            codegen_deps: Vec::new(),
         }
     }
 
@@ -728,6 +775,95 @@ impl ClassData {
 
     pub fn set_kotlin_metadata(&mut self, metadata: KotlinMetadata) {
         self.kotlin_metadata = Some(metadata);
+    }
+
+    // === JADX Parity: Inner Class Methods ===
+
+    /// Check if this is an inner class (has a parent)
+    /// Like JADX's ClassNode.isInner()
+    pub fn is_inner(&self) -> bool {
+        self.parent_class.is_some()
+    }
+
+    /// Check if this is a top-level class (not an inner class)
+    /// Like JADX's ClassNode.isTopClass()
+    pub fn is_top_class(&self) -> bool {
+        self.parent_class.is_none()
+    }
+
+    /// Add an inner class to this class
+    /// Also sets the inner class's parent_class reference
+    pub fn add_inner_class(&mut self, inner_type: String) {
+        if !self.inner_classes.contains(&inner_type) {
+            self.inner_classes.push(inner_type);
+        }
+    }
+
+    /// Set the parent class for this inner class
+    pub fn set_parent_class(&mut self, parent_type: String) {
+        self.parent_class = Some(parent_type);
+    }
+
+    /// Get the outer class name from an inner class type descriptor
+    /// e.g., "Lcom/example/Outer$Inner;" -> "Lcom/example/Outer;"
+    pub fn get_outer_class_from_type(class_type: &str) -> Option<String> {
+        let name = class_type.trim_start_matches('L').trim_end_matches(';');
+        if let Some(dollar_pos) = name.rfind('$') {
+            Some(format!("L{};", &name[..dollar_pos]))
+        } else {
+            None
+        }
+    }
+
+    /// Check if this class type looks like an inner class (contains $)
+    pub fn is_inner_class_type(class_type: &str) -> bool {
+        let name = class_type.trim_start_matches('L').trim_end_matches(';');
+        name.contains('$')
+    }
+
+    // === JADX Parity: Dependency Tracking Methods ===
+
+    /// Add a dependency (class used by this class)
+    /// Only meaningful for top-level classes
+    pub fn add_dependency(&mut self, dep_type: String) {
+        if !self.dependencies.contains(&dep_type) && dep_type != self.class_type {
+            self.dependencies.push(dep_type);
+        }
+    }
+
+    /// Add a codegen dependency (class needed for code generation)
+    pub fn add_codegen_dep(&mut self, dep_type: String) {
+        if !self.codegen_deps.contains(&dep_type) && dep_type != self.class_type {
+            self.codegen_deps.push(dep_type);
+        }
+    }
+
+    /// Get all dependencies (both regular and codegen)
+    pub fn all_deps(&self) -> impl Iterator<Item = &String> {
+        self.dependencies.iter().chain(self.codegen_deps.iter())
+    }
+
+    /// Check if this class depends on another
+    pub fn depends_on(&self, class_type: &str) -> bool {
+        self.dependencies.iter().any(|d| d == class_type) ||
+        self.codegen_deps.iter().any(|d| d == class_type)
+    }
+
+    // === JADX Parity: Load Stage Methods ===
+
+    /// Get current load stage
+    pub fn get_load_stage(&self) -> LoadStage {
+        self.load_stage
+    }
+
+    /// Set load stage
+    pub fn set_load_stage(&mut self, stage: LoadStage) {
+        self.load_stage = stage;
+    }
+
+    /// Check if ready for code generation (all dependencies loaded)
+    pub fn is_codegen_ready(&self) -> bool {
+        self.load_stage.is_codegen_ready()
     }
 }
 

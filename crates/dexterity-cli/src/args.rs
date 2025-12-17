@@ -43,6 +43,11 @@ pub struct Args {
     #[arg(short = 's', long = "no-src")]
     pub skip_sources: bool,
 
+    /// Include framework classes (android.*, androidx.*, kotlin.*, kotlinx.*, java.*, etc.)
+    /// By default, framework classes are skipped for faster output and smaller size.
+    #[arg(long = "include-framework")]
+    pub include_framework: bool,
+
     /// Processing threads count (0 = auto)
     #[arg(short = 'j', long = "threads-count", default_value = "0")]
     pub threads: usize,

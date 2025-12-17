@@ -31,8 +31,8 @@ pub use builder::build_ir_insn;
 pub use class_hierarchy::ClassHierarchy;
 pub use info::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility, BytecodeRef, ClassData,
-    DebugInfo, ExceptionHandler, FieldData, FieldValue, KotlinClassInfo, LocalVar, MethodData,
-    MethodInlineAttr, ProcessState, TryBlock, TypeParameter,
+    DebugInfo, ExceptionHandler, FieldData, FieldValue, KotlinClassInfo, LoadStage, LocalVar,
+    MethodData, MethodInlineAttr, ProcessState, TryBlock, TypeParameter,
 };
 pub use instructions::{InsnArg, InsnNode, InsnType, LambdaHandleType, LambdaInfo, RegisterArg, WrappedInsn};
 pub use kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};

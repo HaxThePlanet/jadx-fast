@@ -904,18 +904,18 @@ fn try_cross_block_inlining(
 
 /// Check lambda inline restriction - forbid inlining lambda as instance arg to invoke
 /// This prevents invalid patterns like: () -> { ... }.apply();
-fn check_lambda_inline(_def_insn: &InsnNode, use_insn: &InsnNode, arg_idx: usize) -> bool {
-    // Check if def is InvokeCustom (lambda)
-    // Note: Dexterity doesn't have a specific InvokeCustom type, but lambdas are
-    // typically represented as invoke-custom or invoke-interface on functional interfaces
-    // For now, we'll be conservative and allow all - this can be refined later
+fn check_lambda_inline(def_insn: &InsnNode, use_insn: &InsnNode, arg_idx: usize) -> bool {
+    // Check if def is InvokeCustom (lambda/method reference)
+    let is_lambda = matches!(def_insn.insn_type, InsnType::InvokeCustom { .. });
 
-    // If use is an invoke with this as the instance arg (arg 0 for non-static), reject
-    if let InsnType::Invoke { kind, .. } = &use_insn.insn_type {
-        if arg_idx == 0 && !matches!(kind, InvokeKind::Static) {
-            // Check if def is a lambda-like pattern
-            // For now, we'll skip this restriction and rely on null safety checks
-            // TODO: Add proper InvokeCustom detection when available
+    // If use is an invoke with this lambda as the instance arg (arg 0 for non-static), reject
+    // This prevents: (() -> {...}).apply() which is invalid Java syntax
+    if is_lambda {
+        if let InsnType::Invoke { kind, .. } = &use_insn.insn_type {
+            if arg_idx == 0 && !matches!(kind, InvokeKind::Static) {
+                // Lambda used as instance receiver - don't inline
+                return false;
+            }
         }
     }
 
