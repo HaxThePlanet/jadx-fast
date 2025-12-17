@@ -4,7 +4,7 @@
 
 use std::collections::BTreeSet;
 
-use dexterity_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData};
+use dexterity_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData, TypeParameter};
 
 use crate::access_flags::{self, flags::*, AccessContext};
 use crate::body_gen::{generate_body_with_dex, generate_body_with_dex_and_imports, generate_body_with_inner_classes};
@@ -19,6 +19,38 @@ fn add_renamed_comment<W: CodeWriter>(code: &mut W, original_name: &str) {
         .add(original_name)
         .add(" */")
         .newline();
+}
+
+/// Generate type parameters declaration (e.g., "<T, E extends Number>")
+/// Like JADX's ClassGen.addGenericTypeParameters()
+pub fn generate_type_parameters<W: CodeWriter>(
+    type_params: &[TypeParameter],
+    imports: Option<&BTreeSet<String>>,
+    code: &mut W,
+) {
+    if type_params.is_empty() {
+        return;
+    }
+
+    code.add("<");
+    for (i, param) in type_params.iter().enumerate() {
+        if i > 0 {
+            code.add(", ");
+        }
+        code.add(&param.name);
+
+        // Add bounds if present (e.g., "extends Number & Comparable<T>")
+        if !param.bounds.is_empty() {
+            code.add(" extends ");
+            for (j, bound) in param.bounds.iter().enumerate() {
+                if j > 0 {
+                    code.add(" & ");
+                }
+                code.add(&type_to_string_with_imports(bound, imports));
+            }
+        }
+    }
+    code.add("> ");
 }
 
 /// Check if a method should have @Override annotation (heuristic fallback)
@@ -237,6 +269,11 @@ pub fn generate_method_with_dex<W: CodeWriter>(
         }
     }
 
+    // Type parameters (e.g., <T, E extends Number>)
+    if !method.is_constructor() && !method.is_class_init() {
+        generate_type_parameters(&method.type_parameters, imports, code);
+    }
+
     // Return type and name
     if method.is_constructor() {
         // Constructor - use innermost class name (handles inner classes)
@@ -330,6 +367,11 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
         if !mods.is_empty() {
             code.add(&mods);
         }
+    }
+
+    // Type parameters (e.g., <T, E extends Number>)
+    if !method.is_constructor() && !method.is_class_init() {
+        generate_type_parameters(&method.type_parameters, imports, code);
     }
 
     // Return type and name
@@ -479,7 +521,7 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
             let mut chars = simple.chars();
             match chars.next() {
                 Some(c) => c.to_lowercase().chain(chars).collect(),
-                None => format!("arg{}", index),
+                None => "obj".to_string(),
             }
         }
         ArgType::Array(elem) => {
@@ -490,11 +532,26 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
         ArgType::Long => "l".to_string(),
         ArgType::Float => "f".to_string(),
         ArgType::Double => "d".to_string(),
-        ArgType::Boolean => "flag".to_string(),
+        ArgType::Boolean => "z".to_string(),
         ArgType::Byte => "b".to_string(),
         ArgType::Char => "c".to_string(),
         ArgType::Short => "s".to_string(),
-        _ => format!("arg{}", index),
+        // Handle generic types by extracting base class name
+        ArgType::Generic { base, .. } => {
+            let simple = get_simple_name(base);
+            let mut chars = simple.chars();
+            match chars.next() {
+                Some(c) => c.to_lowercase().chain(chars).collect(),
+                None => "obj".to_string(),
+            }
+        }
+        // Handle type variables by using the variable name lowercase
+        ArgType::TypeVariable(name) => name.to_lowercase(),
+        // Handle wildcards by using the bound type if available
+        ArgType::Wildcard { inner: Some(inner), .. } => generate_param_name(index, inner),
+        ArgType::Wildcard { inner: None, .. } => "obj".to_string(),
+        ArgType::Void => "v".to_string(),
+        ArgType::Unknown => "obj".to_string(),
     };
 
     // Add index suffix if needed to avoid conflicts

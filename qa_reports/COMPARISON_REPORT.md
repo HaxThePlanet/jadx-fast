@@ -1,49 +1,67 @@
 # Dexterity vs JADX Decompilation Quality Comparison Report
 
-**Report Date:** December 16, 2025
+**Report Date:** December 16, 2025 (UPDATED)
 **Dexterity Version:** v1.0.0
 **JADX Reference Version:** v1.5.3
-**Test Suite:** 3 APKs (Small, Medium 93M, Large 178M)
-**Analysis Tool:** dexterity-qa (automated comparison tool)
+**Test Suite:** 3 APKs (Small 9.8KB, Medium 10.3MB, Large 51.5MB)
+**Analysis Method:** Manual comparison of decompiled Java output
 
 ---
 
 ## Executive Summary
 
-### Overall Quality Verdict
+### VERDICT: JADX Produces Significantly Better Quality
 
-**Dexterity Quality Score: 73.6/100** (weighted across all test cases)
+**Speed Winner:** Dexterity (3-88x faster)
+**Quality Winner:** JADX (valid, compilable Java code)
 
-| Test Case | Completeness | Code Quality | Defect Score | Overall |
-|-----------|--------------|--------------|--------------|---------|
-| Small | 50.0% | 100.0% | 100.0% | 90.0% |
-| Medium | 59.9% | 64.1% | 89.7% | 76.1% |
-| Large | 9.8% | 73.4% | 91.5% | 69.7% |
-| **Weighted Avg** | **~40%** | **~79%** | **~94%** | **73.6%** |
+### Performance Benchmark (112 Core System)
+
+| APK | Size | Dexterity | JADX | Speedup |
+|-----|------|-----------|------|---------|
+| small.apk | 9.8 KB | 0.022s | 1.929s | **87.7x faster** |
+| medium.apk | 10.3 MB | 3.544s | 14.034s | **3.96x faster** |
+| large.apk | 51.5 MB | 6.502s | 19.577s | **3.01x faster** |
+
+### Quality Scorecard
+
+| Criterion | JADX | Dexterity | Winner |
+|-----------|:----:|:---------:|:------:|
+| Valid/Compilable Java | ✅ | ❌ | **JADX** |
+| Generic Type Parameters | ✅ | ❌ | **JADX** |
+| Exception Handling | ✅ | ❌ | **JADX** |
+| Semantic Variable Names | ✅ | ❌ | **JADX** |
+| Control Flow (switch) | ✅ | ❌ | **JADX** |
+| Speed | ❌ | ✅ | **Dexterity** |
+| Memory Usage | ❌ | ✅ | **Dexterity** |
+| Error Count | 13 errors | 0 errors | **Dexterity** |
 
 ### Key Findings
 
-**CRITICAL GAPS:**
-1. **Massive file count discrepancy** - Dexterity produces 40-90% fewer files than JADX
-   - Small: Perfect parity (50% is measurement artifact - R.java resource issue)
-   - Medium: 6,032 vs 10,073 files (60% of JADX)
-   - Large: 965 vs 9,874 files (10% of JADX)
+**CRITICAL QUALITY ISSUES IN DEXTERITY:**
 
-2. **Variable naming quality** - 35% of variables use cryptic register-based names
-   - JADX: `completableSourceArr`, `timestamp`, `error`
-   - Dexterity: `v1`, `i2`, `length2`, `arg0`
-   - Impact: Significantly reduces readability
+1. **Missing Generic Type Parameters** (CRITICAL)
+   - JADX: `public static <T> Maybe<T> amb(...)`
+   - Dexterity: `public static Maybe<T> amb(...)` - `<T>` declaration MISSING
 
-3. **Control flow incompleteness** - Estimated 25% of switch statements incomplete
-   - Empty switch bodies when JADX has all cases
-   - Unreachable code after throw statements
-   - Missing exception handlers in complex nesting
+2. **Malformed Exception Handling** (CRITICAL)
+   - Dexterity produces incomplete try blocks with unreachable code after return
+   - Missing catch blocks entirely
+
+3. **Variable Naming** (SEVERE)
+   - Dexterity: **27,794** instances of `arg0/arg11`
+   - JADX: **128** instances
+   - Dexterity also has **701** undefined variables (`i2`, `obj2`)
+
+4. **Switch Statement Recovery** (MAJOR)
+   - Dexterity: 370 switch statements recovered
+   - JADX: **1,386** switch statements recovered (375% more)
 
 **POSITIVE ASPECTS:**
-1. Performance advantage: 4-13x faster than JADX
-2. Memory efficiency: 18-40x less memory usage
-3. Code defect score: 89.7% (fewer defects per KLOC)
-4. Defect score on small APK: Perfect (100%)
+1. Performance advantage: 3-88x faster than JADX
+2. Zero decompilation errors (vs JADX's 13)
+3. Lower memory usage
+4. Small APK produces identical output
 
 ### Recommendations - Priority 1 (Fix Before Production)
 

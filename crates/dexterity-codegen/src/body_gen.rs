@@ -993,11 +993,19 @@ fn generate_body_impl<W: CodeWriter>(
             })
         };
 
+        // Build actual parameter names to reserve in var_naming
+        let param_names: Vec<String> = method.arg_types.iter().enumerate().map(|(i, param_type)| {
+            method.arg_names.get(i)
+                .and_then(|n| n.clone())
+                .unwrap_or_else(|| generate_param_name(i, param_type))
+        }).collect();
+
         dexterity_passes::assign_var_names_with_lookups(
             &ssa_result,
             &type_result,
             first_param_reg,
             num_params,
+            Some(&param_names),
             Some(&method_lookup),
             Some(&type_lookup),
             Some(&field_lookup),
@@ -1187,11 +1195,19 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
             })
         };
 
+        // Build actual parameter names to reserve in var_naming
+        let param_names: Vec<String> = method.arg_types.iter().enumerate().map(|(i, param_type)| {
+            method.arg_names.get(i)
+                .and_then(|n| n.clone())
+                .unwrap_or_else(|| generate_param_name(i, param_type))
+        }).collect();
+
         dexterity_passes::assign_var_names_with_lookups(
             &ssa_result,
             &type_result,
             first_param_reg,
             num_params,
+            Some(&param_names),
             Some(&method_lookup),
             Some(&type_lookup),
             Some(&field_lookup),
@@ -2396,6 +2412,11 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
             then_region,
             else_region,
         } => {
+            // Emit pre-condition setup instructions (e.g., array.length for bounds)
+            // These instructions define variables used in the condition but are not part
+            // of the condition itself (like "length = arr.length" before "if (length == 0)")
+            emit_condition_block_prelude(condition, ctx, code);
+
             // Check if this if/else can be converted to a ternary expression
             if let Some(else_reg) = else_region {
                 if let Some(ternary) = detect_ternary_pattern(then_region, else_reg, ctx) {
@@ -2509,6 +2530,33 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
         }
 
         Region::Switch { header_block, cases, default } => {
+            // Emit non-switch instructions from header block (setup instructions)
+            if let Some(block) = ctx.blocks.get(header_block) {
+                let instructions: Vec<_> = block.instructions.clone();
+                let num_insns = instructions.len();
+                for (i, insn) in instructions.iter().enumerate() {
+                    // Skip switch instructions
+                    if matches!(insn.insn_type, InsnType::PackedSwitch { .. } | InsnType::SparseSwitch { .. }) {
+                        continue;
+                    }
+                    // Skip instructions marked with DONT_GENERATE
+                    if insn.has_flag(AFlag::DontGenerate) {
+                        continue;
+                    }
+                    // Skip control flow instructions
+                    if is_control_flow(&insn.insn_type) {
+                        continue;
+                    }
+                    // Peek at next instruction for MoveResult handling
+                    let next_is_move_result = if i + 1 < num_insns {
+                        matches!(instructions[i + 1].insn_type, InsnType::MoveResult { .. })
+                    } else {
+                        false
+                    };
+                    generate_insn_with_lookahead(&insn, next_is_move_result, ctx, code);
+                }
+            }
+
             // Extract switch value from the header block's switch instruction
             let switch_value = ctx.blocks.get(header_block)
                 .and_then(|block| block.instructions.iter().rev().find_map(|insn| {
@@ -2628,6 +2676,33 @@ fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, cod
         }
 
         Region::Synchronized { enter_block, body } => {
+            // Emit non-monitor instructions from enter block (setup instructions)
+            if let Some(block) = ctx.blocks.get(enter_block) {
+                let instructions: Vec<_> = block.instructions.clone();
+                let num_insns = instructions.len();
+                for (i, insn) in instructions.iter().enumerate() {
+                    // Skip monitor instructions
+                    if matches!(insn.insn_type, InsnType::MonitorEnter { .. } | InsnType::MonitorExit { .. }) {
+                        continue;
+                    }
+                    // Skip instructions marked with DONT_GENERATE
+                    if insn.has_flag(AFlag::DontGenerate) {
+                        continue;
+                    }
+                    // Skip control flow instructions
+                    if is_control_flow(&insn.insn_type) {
+                        continue;
+                    }
+                    // Peek at next instruction for MoveResult handling
+                    let next_is_move_result = if i + 1 < num_insns {
+                        matches!(instructions[i + 1].insn_type, InsnType::MoveResult { .. })
+                    } else {
+                        false
+                    };
+                    generate_insn_with_lookahead(&insn, next_is_move_result, ctx, code);
+                }
+            }
+
             // Extract lock object from the MonitorEnter instruction in the enter block
             let lock_obj = ctx.blocks.get(enter_block)
                 .and_then(|block| block.instructions.iter().find_map(|insn| {
@@ -3675,7 +3750,7 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
             let mut chars = simple.chars();
             match chars.next() {
                 Some(c) => c.to_lowercase().chain(chars).collect(),
-                None => format!("arg{}", index),
+                None => "obj".to_string(),
             }
         }
         ArgType::Array(elem) => {
@@ -3686,11 +3761,27 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
         ArgType::Long => "l".to_string(),
         ArgType::Float => "f".to_string(),
         ArgType::Double => "d".to_string(),
-        ArgType::Boolean => "flag".to_string(),
+        ArgType::Boolean => "z".to_string(),
         ArgType::Byte => "b".to_string(),
         ArgType::Char => "c".to_string(),
         ArgType::Short => "s".to_string(),
-        _ => format!("arg{}", index),
+        // Handle generic types by extracting base class name
+        ArgType::Generic { base, .. } => {
+            let simple = base.rsplit('/').next().unwrap_or(base);
+            let simple = simple.rsplit('$').next().unwrap_or(simple);
+            let mut chars = simple.chars();
+            match chars.next() {
+                Some(c) => c.to_lowercase().chain(chars).collect(),
+                None => "obj".to_string(),
+            }
+        }
+        // Handle type variables by using the variable name lowercase
+        ArgType::TypeVariable(name) => name.to_lowercase(),
+        // Handle wildcards by using the bound type if available
+        ArgType::Wildcard { inner: Some(inner), .. } => generate_param_name(index, inner),
+        ArgType::Wildcard { inner: None, .. } => "obj".to_string(),
+        ArgType::Void => "v".to_string(),
+        ArgType::Unknown => "obj".to_string(),
     };
 
     if index == 0 {

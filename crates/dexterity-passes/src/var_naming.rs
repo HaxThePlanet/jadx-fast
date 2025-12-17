@@ -727,13 +727,21 @@ impl<'a> VarNaming<'a> {
             // Boolean getters
             "is", "has", "can", "should", "will", "was", "are", "does",
             // Transformation methods
-            "to", "as", "into", "from",
+            "to", "as", "into", "from", "with",
             // Factory methods
             "create", "new", "make", "build", "of", "parse",
             // Data access methods
             "read", "write", "load", "save", "fetch", "find", "lookup",
+            // Database/query methods
+            "select", "query", "insert", "update", "delete",
             // Processing methods
             "compute", "calculate", "process", "generate", "extract",
+            // Action methods
+            "execute", "run", "handle", "apply", "perform", "invoke",
+            // Configuration methods
+            "configure", "setup", "init", "start", "stop",
+            // Resource methods
+            "open", "close", "connect", "disconnect",
             // Collection methods
             "add", "remove", "contains", "obtain", "acquire",
         ];
@@ -785,7 +793,7 @@ pub fn assign_var_names(
     first_param_reg: u16,
     num_params: u16,
 ) -> VarNamingResult {
-    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, None, None, None, None)
+    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, None, None, None, None, None)
 }
 
 /// Assign names to all variables in an SSA result with optional method/type/field lookups
@@ -794,6 +802,7 @@ pub fn assign_var_names_with_lookups<'a>(
     type_info: &TypeInferenceResult,
     first_param_reg: u16,
     num_params: u16,
+    param_names: Option<&[String]>,
     method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
     type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
     field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
@@ -808,10 +817,17 @@ pub fn assign_var_names_with_lookups<'a>(
 
     let mut names = HashMap::with_capacity(estimated_vars);
 
-    // Reserve parameter names (they're already set up)
-    for i in 0..num_params {
-        let name = format!("p{}", i);
-        naming.mark_used(&name);
+    // Reserve actual parameter names (they're already set up in method signature)
+    if let Some(names_slice) = param_names {
+        for name in names_slice {
+            naming.mark_used(name);
+        }
+    } else {
+        // Fallback: reserve placeholder names for backward compatibility
+        for i in 0..num_params {
+            let name = format!("p{}", i);
+            naming.mark_used(&name);
+        }
     }
 
     // Build CodeVar groups from PHI nodes (like JADX's InitCodeVariables)

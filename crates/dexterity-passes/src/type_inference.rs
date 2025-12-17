@@ -1274,6 +1274,9 @@ impl TypeInference {
             let mut has_primitive = false;
             let mut primitive_type: Option<ArgType> = None;
 
+            let mut array_type: Option<ArgType> = None;
+            let mut has_array = false;
+
             for src_var in source_vars {
                 if let Some(InferredType::Concrete(ty)) = self.resolved.get(src_var) {
                     match ty {
@@ -1297,8 +1300,14 @@ impl TypeInference {
                             }
                         }
                         ArgType::Array(_) => {
-                            // Arrays are objects
-                            object_types.push("java/lang/Object");
+                            // Track array types separately for better phi resolution
+                            has_array = true;
+                            if array_type.is_none() {
+                                array_type = Some(ty.clone());
+                            } else if array_type.as_ref() != Some(ty) {
+                                // Different array types - fall back to Object[]
+                                object_types.push("java/lang/Object");
+                            }
                         }
                         _ => {
                             // Unknown or other type - can't compute LCA
@@ -1309,6 +1318,15 @@ impl TypeInference {
                 } else {
                     all_resolved = false;
                     break;
+                }
+            }
+
+            // Special case: array + null -> preserve array type
+            // e.g., phi(String[], null) -> String[] (not Object)
+            if all_resolved && has_array && has_null && object_types.is_empty() && !has_primitive {
+                if let Some(arr_ty) = array_type {
+                    self.resolved.insert(*dest_var, InferredType::Concrete(arr_ty));
+                    continue;
                 }
             }
 

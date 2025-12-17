@@ -13,7 +13,7 @@ use dexterity_dex::EncodedValue;
 use dexterity_ir::builder::build_ir_insn;
 use dexterity_ir::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility,
-    ArgType, ClassData, FieldData, FieldValue, MethodData,
+    ArgType, ClassData, FieldData, FieldValue, MethodData, TypeParameter,
 };
 use dexterity_ir::kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};
 use dexterity_passes::mark_methods_for_inline;
@@ -69,6 +69,10 @@ pub fn convert_class(
             }
         }
     }
+
+    // Apply signature annotation to get class-level generic type parameters
+    // Like JADX's SignatureProcessor.parseClassSignature()
+    apply_signature_to_class(&mut class_data);
 
     // Fields and methods from class data
     if let Some(data) = class_def.class_data()? {
@@ -209,6 +213,56 @@ fn convert_field(dex: &DexReader, encoded: &EncodedField) -> Result<FieldData> {
     Ok(field)
 }
 
+/// Apply signature annotation to class if present
+/// Parses dalvik.annotation.Signature to extract generic type parameters for class
+/// Like JADX's SignatureProcessor.parseClassSignature()
+fn apply_signature_to_class(class: &mut ClassData) {
+    // Find Signature annotation
+    let signature_str = class.annotations.iter().find_map(|annot| {
+        if annot.annotation_type == "dalvik/annotation/Signature" {
+            // Get the "value" element which is an array of strings
+            annot.elements.iter().find_map(|elem| {
+                if elem.name == "value" {
+                    if let AnnotationValue::Array(values) = &elem.value {
+                        let parts: Vec<&str> = values.iter().filter_map(|v| {
+                            if let AnnotationValue::String(s) = v {
+                                Some(s.as_str())
+                            } else {
+                                None
+                            }
+                        }).collect();
+                        return Some(parts.join(""));
+                    }
+                }
+                None
+            })
+        } else {
+            None
+        }
+    });
+
+    if let Some(sig) = signature_str {
+        parse_class_signature(&sig, class);
+    }
+}
+
+/// Parse a class signature string and update class types
+/// Format: <TypeParams>SuperType;Interface1;Interface2...
+/// Example: <T:Ljava/lang/Object;>Ljava/lang/Object;Lio/reactivex/MaybeSource<TT;>;
+fn parse_class_signature(sig: &str, class: &mut ClassData) {
+    let mut chars = sig.chars().peekable();
+
+    // Parse type parameters (e.g., <T:Ljava/lang/Object;E:Ljava/lang/Number;>)
+    if chars.peek() == Some(&'<') {
+        chars.next(); // consume '<'
+        class.type_parameters = parse_type_parameters(&mut chars);
+    }
+
+    // The rest of the signature contains superclass and interfaces with generic types
+    // For now, we're only extracting type parameters - the superclass/interface
+    // type arguments would require storing ArgType instead of String
+}
+
 /// Apply signature annotation to method types if present
 /// Parses dalvik.annotation.Signature to extract generic type information for methods
 fn apply_signature_to_method(method: &mut MethodData) {
@@ -247,21 +301,10 @@ fn apply_signature_to_method(method: &mut MethodData) {
 fn parse_method_signature(sig: &str, method: &mut MethodData) {
     let mut chars = sig.chars().peekable();
 
-    // Skip type parameters for now (e.g., <T:Ljava/lang/Object;>)
-    // TODO: Parse and store type parameters in method.type_parameters
+    // Parse type parameters (e.g., <T:Ljava/lang/Object;E:Ljava/lang/Number;>)
     if chars.peek() == Some(&'<') {
-        let mut depth = 0;
-        while let Some(&c) = chars.peek() {
-            chars.next();
-            if c == '<' {
-                depth += 1;
-            } else if c == '>' {
-                depth -= 1;
-                if depth == 0 {
-                    break;
-                }
-            }
-        }
+        chars.next(); // consume '<'
+        method.type_parameters = parse_type_parameters(&mut chars);
     }
 
     // Parse argument types: (ArgType1ArgType2...)
@@ -288,6 +331,102 @@ fn parse_method_signature(sig: &str, method: &mut MethodData) {
     if let Some(return_type) = parse_type_from_signature(&mut chars) {
         method.return_type = return_type;
     }
+}
+
+/// Parse type parameters from a signature
+/// Format: T:Ljava/lang/Object;E:Ljava/lang/Number;>
+/// Each type parameter is: Name:Bound1:Bound2...; (bounds separated by :)
+/// Interface bounds are prefixed with ::
+fn parse_type_parameters(chars: &mut std::iter::Peekable<std::str::Chars>) -> Vec<TypeParameter> {
+    let mut params = Vec::new();
+
+    while chars.peek().is_some() && chars.peek() != Some(&'>') {
+        // Parse type parameter name (everything before the first ':')
+        let mut name = String::new();
+        while let Some(&c) = chars.peek() {
+            if c == ':' {
+                break;
+            }
+            if c == '>' {
+                break;
+            }
+            chars.next();
+            name.push(c);
+        }
+
+        if name.is_empty() {
+            break;
+        }
+
+        // Parse bounds (everything after ':' until the next type param or '>')
+        let mut bounds = Vec::new();
+
+        // Consume the first ':'
+        if chars.peek() == Some(&':') {
+            chars.next();
+
+            // Check for class bound vs interface bound
+            // Class bound is just: :Lfoo/Bar;
+            // Interface bound is: ::Lfoo/Bar;
+            // No class bound (extends Object) starts with :: directly
+
+            loop {
+                // Skip extra ':' for interface bounds
+                while chars.peek() == Some(&':') {
+                    chars.next();
+                }
+
+                // Check if we're at the end or next parameter
+                if chars.peek().is_none() || chars.peek() == Some(&'>') {
+                    break;
+                }
+
+                // Check if this is the start of a new type parameter (uppercase letter followed by :)
+                if let Some(&c) = chars.peek() {
+                    // If we see an uppercase letter that isn't part of a type descriptor,
+                    // it's likely the next type parameter
+                    if c.is_ascii_uppercase() {
+                        // Peek ahead to see if it's followed by ':'
+                        let mut peek_chars = chars.clone();
+                        peek_chars.next(); // consume the letter
+                        let mut is_new_param = false;
+                        while let Some(&pc) = peek_chars.peek() {
+                            if pc == ':' {
+                                is_new_param = true;
+                                break;
+                            }
+                            if !pc.is_ascii_alphanumeric() && pc != '_' {
+                                break;
+                            }
+                            peek_chars.next();
+                        }
+                        if is_new_param {
+                            break;
+                        }
+                    }
+                }
+
+                // Parse a bound type
+                if let Some(bound) = parse_type_from_signature(chars) {
+                    // Skip Object bound (implicit)
+                    if !matches!(&bound, ArgType::Object(name) if name == "java/lang/Object") {
+                        bounds.push(bound);
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        params.push(TypeParameter { name, bounds });
+    }
+
+    // Consume the closing '>'
+    if chars.peek() == Some(&'>') {
+        chars.next();
+    }
+
+    params
 }
 
 /// Apply signature annotation to field type if present
@@ -1047,5 +1186,85 @@ mod tests {
     fn test_strip_descriptor() {
         assert_eq!(strip_descriptor("Ljava/lang/Object;"), "java/lang/Object");
         assert_eq!(strip_descriptor("java/lang/Object"), "java/lang/Object");
+    }
+
+    // ===== Type Parameter Parsing Tests =====
+
+    #[test]
+    fn test_parse_simple_type_param() {
+        // <T:Ljava/lang/Object;> - T extends Object (implicit, skipped)
+        let sig = "T:Ljava/lang/Object;>";
+        let mut chars = sig.chars().peekable();
+        let params = parse_type_parameters(&mut chars);
+        assert_eq!(params.len(), 1, "Should parse 1 type parameter");
+        assert_eq!(params[0].name, "T");
+        assert!(params[0].bounds.is_empty(), "Object bound should be implicit");
+    }
+
+    #[test]
+    fn test_parse_multiple_type_params() {
+        // <K:Ljava/lang/Object;V:Ljava/lang/Object;>
+        let sig = "K:Ljava/lang/Object;V:Ljava/lang/Object;>";
+        let mut chars = sig.chars().peekable();
+        let params = parse_type_parameters(&mut chars);
+        assert_eq!(params.len(), 2, "Should parse 2 type parameters");
+        assert_eq!(params[0].name, "K");
+        assert_eq!(params[1].name, "V");
+    }
+
+    #[test]
+    fn test_parse_bounded_type_param() {
+        // <T:Ljava/lang/Number;> - T extends Number
+        let sig = "T:Ljava/lang/Number;>";
+        let mut chars = sig.chars().peekable();
+        let params = parse_type_parameters(&mut chars);
+        assert_eq!(params.len(), 1, "Should parse 1 type parameter");
+        assert_eq!(params[0].name, "T");
+        assert_eq!(params[0].bounds.len(), 1, "Should have 1 bound");
+        assert_eq!(params[0].bounds[0], ArgType::Object("java/lang/Number".to_string()));
+    }
+
+    #[test]
+    fn test_parse_interface_bound() {
+        // <T::Ljava/io/Serializable;> - T with interface bound only (no class bound)
+        let sig = "T::Ljava/io/Serializable;>";
+        let mut chars = sig.chars().peekable();
+        let params = parse_type_parameters(&mut chars);
+        assert_eq!(params.len(), 1, "Should parse 1 type parameter");
+        assert_eq!(params[0].name, "T");
+        assert_eq!(params[0].bounds.len(), 1, "Should have 1 interface bound");
+        assert_eq!(params[0].bounds[0], ArgType::Object("java/io/Serializable".to_string()));
+    }
+
+    #[test]
+    fn test_parse_multiple_bounds() {
+        // <T:Ljava/lang/Number;:Ljava/lang/Comparable;> - T extends Number & Comparable
+        let sig = "T:Ljava/lang/Number;:Ljava/lang/Comparable;>";
+        let mut chars = sig.chars().peekable();
+        let params = parse_type_parameters(&mut chars);
+        assert_eq!(params.len(), 1, "Should parse 1 type parameter");
+        assert_eq!(params[0].name, "T");
+        assert_eq!(params[0].bounds.len(), 2, "Should have 2 bounds");
+    }
+
+    #[test]
+    fn test_parse_rxjava_style() {
+        // RxJava Maybe.amb style: <T:Ljava/lang/Object;>
+        // Full signature would be: <T:Ljava/lang/Object;>(Ljava/lang/Iterable<...>;)Lio/reactivex/Maybe<TT;>;
+        let sig = "T:Ljava/lang/Object;>";
+        let mut chars = sig.chars().peekable();
+        let params = parse_type_parameters(&mut chars);
+        assert_eq!(params.len(), 1, "Should parse 1 type parameter for RxJava style");
+        assert_eq!(params[0].name, "T");
+    }
+
+    #[test]
+    fn test_parse_long_param_name() {
+        // <ResultT:Ljava/lang/Object;>
+        let sig = "ResultT:Ljava/lang/Object;>";
+        let mut chars = sig.chars().peekable();
+        let params = parse_type_parameters(&mut chars);
+        assert_eq!(params.len(), 1, "Should parse 1 type parameter");
+        assert_eq!(params[0].name, "ResultT");
     }
 }

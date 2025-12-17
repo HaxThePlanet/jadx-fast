@@ -22,6 +22,17 @@ use crate::instructions::InsnNode;
 use crate::types::ArgType;
 use crate::kotlin_metadata::KotlinMetadata;
 
+/// A generic type parameter declaration (e.g., T, E extends Number)
+/// Used for method-level type parameters like `<T extends Comparable<T>>`
+#[derive(Debug, Clone)]
+pub struct TypeParameter {
+    /// The name of the type parameter (e.g., "T", "E", "K", "V")
+    pub name: String,
+    /// The bounds (extends constraints). Empty means extends Object implicitly.
+    /// Multiple bounds means T extends A & B & C
+    pub bounds: Vec<ArgType>,
+}
+
 /// Processing state for classes and methods (mirrors Java JADX's ProcessState)
 ///
 /// This enables lazy loading: load instructions on-demand, unload after codegen.
@@ -207,6 +218,9 @@ pub struct MethodData {
     pub arg_types: Vec<ArgType>,
     /// Parameter names from debug info (None = no debug info)
     pub arg_names: Vec<Option<String>>,
+    /// Generic type parameters (e.g., <T, E extends Number>)
+    /// Parsed from dalvik.annotation.Signature
+    pub type_parameters: Vec<TypeParameter>,
     /// Register count
     pub regs_count: u16,
     /// Input parameter count (includes 'this' for instance methods)
@@ -245,6 +259,7 @@ impl MethodData {
             return_type,
             arg_types: Vec::new(),
             arg_names: Vec::new(),
+            type_parameters: Vec::new(),
             regs_count: 0,
             ins_count: 0,
             outs_count: 0,
@@ -276,6 +291,7 @@ impl MethodData {
             return_type,
             arg_types: Vec::new(),
             arg_names: Vec::new(),
+            type_parameters: Vec::new(),
             regs_count: 0,
             ins_count: 0,
             outs_count: 0,
@@ -509,6 +525,9 @@ pub struct ClassData {
     pub superclass: Option<String>,
     /// Implemented interfaces
     pub interfaces: Vec<String>,
+    /// Generic type parameters (e.g., <T, E extends Number>)
+    /// Parsed from dalvik.annotation.Signature - like JADX's ClassNode.generics
+    pub type_parameters: Vec<TypeParameter>,
     /// Source file name
     pub source_file: Option<String>,
     /// Processing state for lazy loading
@@ -540,6 +559,7 @@ impl ClassData {
             access_flags,
             superclass: None,
             interfaces: Vec::new(),
+            type_parameters: Vec::new(),
             source_file: None,
             state: ProcessState::NotLoaded,
             methods: Vec::new(),

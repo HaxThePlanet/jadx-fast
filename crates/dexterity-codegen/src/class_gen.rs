@@ -17,7 +17,7 @@ use dexterity_ir::{ArgType, ClassData, FieldData, FieldValue};
 
 use crate::access_flags::{self, AccessContext};
 use crate::dex_info::{DexInfoProvider, replace_inner_class_separator};
-use crate::method_gen::{generate_annotation, should_emit_annotation};
+use crate::method_gen::{generate_annotation, generate_type_parameters, should_emit_annotation};
 use crate::type_gen::{get_package, literal_to_string, type_to_string};
 use crate::writer::{CodeWriter, SimpleCodeWriter};
 
@@ -778,6 +778,10 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
 
     // Class name (use alias if available from deobfuscation)
     code.add(class.display_name());
+
+    // Generic type parameters (e.g., <T, E extends Number>)
+    // Like JADX's ClassGen.addGenericTypeParameters() at line 203
+    generate_type_parameters(&class.type_parameters, imports, code);
 
     // Extends
     if let Some(ref superclass) = class.superclass {

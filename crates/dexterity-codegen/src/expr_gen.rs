@@ -1178,9 +1178,9 @@ mod tests {
         let reg = RegisterArg::with_ssa(0, 1);
         assert_eq!(gen.get_var_name(&reg), "myVar");
 
-        // Unknown var gets default name
+        // Unknown var gets default name based on type (Object -> obj)
         let reg2 = RegisterArg::with_ssa(5, 0);
-        assert_eq!(gen.get_var_name(&reg2), "v5");
+        assert_eq!(gen.get_var_name(&reg2), "obj5");
     }
 
     #[test]
@@ -1192,7 +1192,7 @@ mod tests {
             left: InsnArg::reg(1),
             right: InsnArg::reg(2),
         };
-        assert_eq!(gen.gen_insn(&insn), Some("v1 + v2".to_string()));
+        assert_eq!(gen.gen_insn(&insn), Some("obj1 + obj2".to_string()));
     }
 
     #[test]
@@ -1203,7 +1203,7 @@ mod tests {
             op: UnaryOp::Neg,
             arg: InsnArg::reg(1),
         };
-        assert_eq!(gen.gen_insn(&insn), Some("-v1".to_string()));
+        assert_eq!(gen.gen_insn(&insn), Some("-obj1".to_string()));
     }
 
     #[test]
@@ -1215,7 +1215,7 @@ mod tests {
             index: InsnArg::reg(2),
             elem_type: ArrayElemType::Int,
         };
-        assert_eq!(gen.gen_insn(&insn), Some("v1[v2]".to_string()));
+        assert_eq!(gen.gen_insn(&insn), Some("obj1[obj2]".to_string()));
     }
 
     #[test]
@@ -1226,7 +1226,7 @@ mod tests {
             &InsnArg::reg(0),
             Some(&InsnArg::reg(1))
         );
-        assert_eq!(cond, "v0 == v1");
+        assert_eq!(cond, "obj0 == obj1");
     }
 
     #[test]

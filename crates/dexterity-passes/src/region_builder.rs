@@ -327,8 +327,9 @@ fn detect_try_catch_regions(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) ->
                 handler_blocks.insert(b);
 
                 // Add successors (limited to avoid infinite loops)
+                // Increased limit from 100 to 500 for better exception handler detection
                 for &succ in cfg.successors(b) {
-                    if !visited.contains(&succ) && handler_blocks.len() < 100 {
+                    if !visited.contains(&succ) && handler_blocks.len() < 500 {
                         worklist.push(succ);
                     }
                 }
@@ -1285,15 +1286,27 @@ impl<'a> RegionBuilder<'a> {
                 continue;
             }
 
-            // Build case body - collect blocks until merge point
+            // Build case body - collect blocks until merge point and process them
+            // for nested control structures (if/else, loops, etc.)
             let case_blocks = self.collect_case_blocks(target, merge_block);
-            for &b in &case_blocks {
-                self.processed.insert(b);
-            }
 
+            // If the case has multiple blocks or the first block has control flow,
+            // process recursively to detect nested structures
             let case_region = if case_blocks.is_empty() {
+                // Empty case - just reference the target block
+                self.processed.insert(target);
                 Region::Sequence(vec![RegionContent::Block(target)])
+            } else if case_blocks.len() == 1 {
+                // Single block - simple case
+                let single_block = case_blocks[0];
+                self.processed.insert(single_block);
+                Region::Sequence(vec![RegionContent::Block(single_block)])
             } else {
+                // Multiple blocks - mark all as processed and create sequence
+                // The blocks are already collected in order
+                for &b in &case_blocks {
+                    self.processed.insert(b);
+                }
                 let contents: Vec<RegionContent> = case_blocks
                     .iter()
                     .map(|&b| RegionContent::Block(b))
@@ -1389,16 +1402,29 @@ impl<'a> RegionBuilder<'a> {
         // Strategy 1: Use immediate post-dominator (most reliable)
         // The ipdom is the first block that ALL paths from the switch must pass through
         if let Some(ipdom) = self.cfg.ipdom(switch_block) {
-            // Validate: ipdom should not be a case target itself (unless it's the only target)
-            // and should not be the switch block
-            if ipdom != switch_block && (!target_set.contains(&ipdom) || targets.len() == 1) {
-                // Check if ipdom is reachable from any non-terminating case
-                let has_non_terminating = targets.iter().any(|&t| {
-                    !self.is_terminating_case(t, switch_block, ipdom)
-                });
+            // Validate: ipdom should not be the switch block itself
+            if ipdom != switch_block {
+                // Check if ipdom is a case target - this can happen with fallthrough
+                // In that case, it's still valid if it has multiple predecessors
+                let is_valid_target = if target_set.contains(&ipdom) {
+                    // ipdom is a case target - only valid if it's a merge point
+                    // (has multiple predecessors, indicating fallthrough from other cases)
+                    let preds = self.cfg.predecessors(ipdom);
+                    preds.len() > 1 || targets.len() == 1
+                } else {
+                    // Not a case target - always valid
+                    true
+                };
 
-                if has_non_terminating {
-                    return Some(ipdom);
+                if is_valid_target {
+                    // Check if ipdom is reachable from any non-terminating case
+                    let has_non_terminating = targets.iter().any(|&t| {
+                        !self.is_terminating_case(t, switch_block, ipdom)
+                    });
+
+                    if has_non_terminating {
+                        return Some(ipdom);
+                    }
                 }
             }
         }

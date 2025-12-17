@@ -53,7 +53,7 @@ Test Java source → bytecode → decompilation → Java output.
 - `generics_tests.rs` - Generic types
 - `inner_tests.rs` - Inner classes
 
-**Golden Tests Location:** `crates/dexterity-cli/tests/golden_tests.rs` (12,266 lines)
+**Golden Tests Location:** `crates/dexterity-cli/tests/golden_tests.rs` (363 lines)
 
 **Run all integration tests:**
 ```bash

@@ -1,29 +1,57 @@
 # Comprehensive Quality Comparison Report: JADX vs Dexterity
-## December 16, 2025 - AFTER BUG FIXES
+## December 16, 2025 - LATEST BENCHMARK
 
 ---
 
 ## Executive Summary
 
-**Overall Assessment: Production Ready for Most Use Cases (Dec 16, 2025)**
+**VERDICT: JADX Produces Significantly Better Quality Output**
 
-**Quality Measurements (After Bug Fixes):**
+Dexterity is 3-88x faster, but JADX produces valid, compilable Java code with proper type information.
 
-| APK Size | Previous Score | Current Score | Improvement |
-|----------|---------------|---------------|-------------|
-| Small (9.8 KB) | 90.0% | **90.0%** | Stable |
-| Medium (10.3 MB) | 77.1% | **~82-85%** | +5-8 points |
-| Large (54.8 MB) | 70.0% | **~75-80%** | +5-10 points |
+### Performance Benchmark (112 Core System)
 
-**Issue Status: All Resolved**
+| APK | Size | Dexterity | JADX | Speedup |
+|-----|------|-----------|------|---------|
+| small.apk | 9.8 KB | 0.022s | 1.929s | **87.7x faster** |
+| medium.apk | 10.3 MB | 3.544s | 14.034s | **3.96x faster** |
+| large.apk | 51.5 MB | 6.502s | 19.577s | **3.01x faster** |
 
-| Priority | Total | Resolved | Notes |
-|----------|-------|----------|-------|
-| CRITICAL | 8 | 8 | Including 2 new bugs fixed today |
-| HIGH | 4 | 4 | All resolved |
-| MEDIUM | 2 | 2 | All resolved |
+### Quality Comparison
 
-**Total: 14 issues resolved, 0 remaining** - Quality improved from 77.1% to ~82-85%
+| Criterion | JADX | Dexterity | Winner |
+|-----------|:----:|:---------:|:------:|
+| Valid/Compilable Java | ✅ | ❌ | **JADX** |
+| Generic Type Parameters | ✅ | ❌ | **JADX** |
+| Exception Handling | ✅ | ❌ | **JADX** |
+| Semantic Variable Names | ✅ | ❌ | **JADX** |
+| Control Flow (switch) | ✅ | ❌ | **JADX** |
+| Speed | ❌ | ✅ | **Dexterity** |
+| Memory Usage | ❌ | ✅ | **Dexterity** |
+| Error Count | 13 errors | 0 errors | **Dexterity** |
+
+### Critical Quality Issues in Dexterity
+
+| Issue | Severity | Dexterity | JADX |
+|-------|----------|-----------|------|
+| Missing Generic Type Params | Critical | `<T>` declarations missing | Complete |
+| Malformed Exception Handling | Critical | Incomplete try blocks, unreachable code | Complete |
+| Variable Naming | Severe | 27,794 `arg0/arg11` instances | 128 instances |
+| Switch Statements | Major | 370 recovered | 1,386 recovered |
+| Undefined Variables | Major | 701 instances (`i2`, `obj2`) | 0 instances |
+
+### Output Statistics
+
+| APK | Dexterity Files | JADX Files | Dexterity Size | JADX Size |
+|-----|-----------------|------------|----------------|-----------|
+| small.apk | 1 | 2 | 116 KB | 120 KB |
+| medium.apk | 6,032 | 10,074 | 53 MB | 93 MB |
+| large.apk | 9,624 | 12,822 | 132 MB | 167 MB |
+
+### Recommendation
+
+- **Use JADX** when you need correct, compilable Java code
+- **Use Dexterity** when speed is critical and you'll manually review output
 
 ---
 
@@ -67,9 +95,9 @@
 
 ## Verification
 
+- All 685 integration tests pass
 - All 82 codegen unit tests pass
 - All 13 var_naming tests pass (2 new tests added)
-- All 685 integration tests pass
 - Rebuilt dexterity and verified on badboy-x86.apk
 
 ---
@@ -638,9 +666,9 @@ catch (JSONException e) {  // Specific exception type
 3. MEDIUM-001 and MEDIUM-002 - Same-package types, exception imports
 
 **Verification:**
+- All 685 integration tests pass
 - All 82 codegen unit tests pass
 - All 13 var_naming tests pass (2 new tests added)
-- All 685 integration tests pass
 - Rebuilt dexterity and verified on badboy-x86.apk
 
 **Quality Achieved:**
