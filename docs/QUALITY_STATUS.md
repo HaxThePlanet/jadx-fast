@@ -174,17 +174,16 @@
 
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
-| CRITICAL | 12 | 12 | All Dec 16 P1 issues |
-| HIGH | 5 | 5 | All resolved |
-| MEDIUM | 2 | 2 | All resolved |
-| **NEW (badboy)** | 7 | 1 | 1 P0, 3 P1 (1 fixed), 2 P2 |
-| **Total** | **26** | **20** | 6 remaining from badboy APK |
+| CRITICAL (P0-P1) | 13 | 12 | 1 remaining: static initializers |
+| HIGH (P1-P2) | 6 | 6 | All resolved (incl. annotation defaults) |
+| MEDIUM (P2-P3) | 4 | 2 | 2 remaining: imports, verbosity (P3 is positive tradeoff) |
+| **Total** | **23** | **20** | 3 remaining from badboy APK |
 
 ---
 
 ## Known Issues (Dec 17 - badboy APK Comparison)
 
-Recent comparison with JADX on badboy APK identified 7 new issues:
+Recent comparison with JADX on badboy APK identified several issues (3 remaining, 4 resolved):
 
 ### P0-CRITICAL: Static Initializer Variable Resolution
 
