@@ -1967,6 +1967,23 @@ struct SwitchOverStringInfo {
     case_strings: std::collections::HashMap<i32, Vec<String>>,
 }
 
+/// Information about a two-switch pattern for string switches
+/// Java compilers emit switch-over-string as:
+/// Switch 1: switch(str.hashCode()) { case X: if(str.equals("val")) idx=N; break; }
+/// Switch 2: switch(idx) { case 0: doFoo(); case 1: doBar(); }
+/// This struct captures the mapping needed to merge them into a single string switch
+#[derive(Clone)]
+struct TwoSwitchInfo {
+    /// The string expression being switched on
+    string_expr: String,
+    /// The original string register (for equals() detection)
+    string_source: (u16, u32),
+    /// Maps index value -> string literal(s) that map to that index
+    index_to_strings: std::collections::HashMap<i32, Vec<String>>,
+    /// The index of the second switch in the parent sequence (to skip it later)
+    second_switch_idx: usize,
+}
+
 /// Detect if a switch is actually a switch over a string
 /// Java compiler transforms: switch(str) { case "hello": ... }
 /// Into: switch(str.hashCode()) { case 99162322: if(str.equals("hello")) ... }
@@ -2155,6 +2172,178 @@ fn get_string_literal_from_arg(arg: &InsnArg, ctx: &BodyGenContext) -> Option<St
             None
         }
         _ => None,
+    }
+}
+
+// =============================================================================
+// Two-Switch Pattern Detection (for switch-over-string merge)
+// =============================================================================
+
+/// Detect if a sequence contains a two-switch pattern that should be merged.
+/// Java compilers emit switch-over-string as:
+/// Switch 1: switch(str.hashCode()) { case X: if(str.equals("val")) idx=N; break; }
+/// Switch 2: switch(idx) { case 0: doFoo(); case 1: doBar(); }
+///
+/// Returns: (first_switch_idx, TwoSwitchInfo) if pattern detected
+fn detect_two_switch_in_sequence(
+    contents: &[RegionContent],
+    ctx: &BodyGenContext,
+) -> Option<(usize, TwoSwitchInfo)> {
+    // Scan for potential first switches (hashCode-based)
+    for (idx, content) in contents.iter().enumerate() {
+        if let RegionContent::Region(region) = content {
+            if let Region::Switch { header_block, cases, .. } = region.as_ref() {
+                // Check if this is a hashCode-based string switch
+                let block = ctx.blocks.get(header_block)?;
+
+                // Find the switch instruction and get the value register
+                let switch_reg = block.instructions.iter().find_map(|insn| {
+                    match &insn.insn_type {
+                        InsnType::PackedSwitch { value, .. } | InsnType::SparseSwitch { value, .. } => {
+                            if let InsnArg::Register(reg_arg) = value {
+                                Some((reg_arg.reg_num, reg_arg.ssa_version))
+                            } else {
+                                None
+                            }
+                        }
+                        _ => None,
+                    }
+                })?;
+
+                // Look for hashCode() followed by MoveResult that produces switch_reg
+                let string_source = find_hashcode_source_in_block(block, switch_reg.0, switch_reg.1)?;
+
+                // Generate the string expression
+                let string_reg_arg = dexterity_ir::instructions::RegisterArg {
+                    reg_num: string_source.0,
+                    ssa_version: string_source.1,
+                };
+                let string_expr = ctx.expr_gen.get_var_name(&string_reg_arg);
+
+                // Now check if cases assign to an index variable
+                let mut index_assignments: Vec<(i32, Vec<String>)> = Vec::new(); // (index, strings)
+                let mut common_index_reg: Option<u16> = None;
+
+                for case in cases {
+                    // Find string literal from equals() call
+                    let strings = find_equals_strings_for_case(&case.region, string_source.0, ctx);
+                    if strings.is_empty() {
+                        continue;
+                    }
+
+                    // Find index assignment: Const { dest, value: Int(N) }
+                    if let Some((reg, _, index_value)) = find_index_assignment_in_case(&case.region, ctx) {
+                        if let Some(expected_reg) = common_index_reg {
+                            if reg != expected_reg {
+                                // Different index registers - not a two-switch pattern
+                                continue;
+                            }
+                        } else {
+                            common_index_reg = Some(reg);
+                        }
+                        index_assignments.push((index_value, strings));
+                    }
+                }
+
+                // Need at least one index assignment to be a two-switch pattern
+                if index_assignments.is_empty() {
+                    continue;
+                }
+
+                let index_reg = common_index_reg?;
+
+                // Look for second switch that uses the index register
+                for (second_idx, second_content) in contents.iter().enumerate().skip(idx + 1) {
+                    if let RegionContent::Region(second_region) = second_content {
+                        if let Region::Switch { header_block: second_header, cases: second_cases, .. } = second_region.as_ref() {
+                            // Check if second switch uses our index register
+                            let second_block = ctx.blocks.get(second_header)?;
+                            let second_switch_reg = second_block.instructions.iter().find_map(|insn| {
+                                match &insn.insn_type {
+                                    InsnType::PackedSwitch { value, .. } | InsnType::SparseSwitch { value, .. } => {
+                                        if let InsnArg::Register(reg_arg) = value {
+                                            Some(reg_arg.reg_num)
+                                        } else {
+                                            None
+                                        }
+                                    }
+                                    _ => None,
+                                }
+                            })?;
+
+                            if second_switch_reg == index_reg {
+                                // Found matching second switch!
+                                // Build the index -> strings mapping
+                                let mut index_to_strings = std::collections::HashMap::new();
+                                for (index_value, strings) in index_assignments {
+                                    index_to_strings.insert(index_value, strings);
+                                }
+
+                                // Found valid two-switch pattern
+                                return Some((idx, TwoSwitchInfo {
+                                    string_expr,
+                                    string_source,
+                                    index_to_strings,
+                                    second_switch_idx: second_idx,
+                                }));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    None
+}
+
+/// Find index assignment in a case region (Const { dest, value: Int(N) })
+fn find_index_assignment_in_case(
+    region: &Region,
+    ctx: &BodyGenContext,
+) -> Option<(u16, u32, i32)> {
+    match region {
+        Region::Sequence(contents) => {
+            for content in contents {
+                if let Some(result) = find_index_assignment_in_content(content, ctx) {
+                    return Some(result);
+                }
+            }
+            None
+        }
+        Region::If { then_region, else_region, .. } => {
+            // Check then region
+            if let Some(result) = find_index_assignment_in_case(then_region, ctx) {
+                return Some(result);
+            }
+            // Check else region
+            if let Some(else_reg) = else_region {
+                if let Some(result) = find_index_assignment_in_case(else_reg, ctx) {
+                    return Some(result);
+                }
+            }
+            None
+        }
+        _ => None,
+    }
+}
+
+/// Find index assignment in a region content
+fn find_index_assignment_in_content(
+    content: &RegionContent,
+    ctx: &BodyGenContext,
+) -> Option<(u16, u32, i32)> {
+    match content {
+        RegionContent::Block(block_id) => {
+            let block = ctx.blocks.get(block_id)?;
+            for insn in &block.instructions {
+                if let InsnType::Const { dest, value: LiteralArg::Int(val) } = &insn.insn_type {
+                    // Convert i64 to i32 (index values should be small)
+                    return Some((dest.reg_num, dest.ssa_version, *val as i32));
+                }
+            }
+            None
+        }
+        RegionContent::Region(region) => find_index_assignment_in_case(region, ctx),
     }
 }
 
@@ -3426,11 +3615,110 @@ fn generate_lambda_method_call_body<W: CodeWriter>(
     }
 }
 
+/// Generate a merged string switch from a two-switch pattern
+/// Takes the second switch (with index cases) and maps case indices to string literals
+fn generate_merged_string_switch<W: CodeWriter>(
+    content: &RegionContent,
+    info: &TwoSwitchInfo,
+    ctx: &mut BodyGenContext,
+    code: &mut W,
+) {
+    // Extract the switch from the content
+    let switch_region = match content {
+        RegionContent::Region(region) => region.as_ref(),
+        _ => {
+            // Not a region - shouldn't happen, fall back to normal generation
+            generate_content(content, ctx, code);
+            return;
+        }
+    };
+
+    if let Region::Switch { header_block: _, cases, default } = switch_region {
+        // Generate switch header with string expression
+        code.start_line()
+            .add("switch (")
+            .add(&info.string_expr)
+            .add(") {")
+            .newline();
+        code.inc_indent();
+
+        for (case_idx, case) in cases.iter().enumerate() {
+            // Map index keys to string literals
+            let mut emitted_any = false;
+            for key in &case.keys {
+                if let Some(strings) = info.index_to_strings.get(key) {
+                    for s in strings {
+                        code.start_line()
+                            .add("case ")
+                            .add(&crate::type_gen::escape_string(s))
+                            .add(":")
+                            .newline();
+                        emitted_any = true;
+                    }
+                }
+            }
+
+            // If no string found for this index, emit a comment
+            if !emitted_any {
+                for key in &case.keys {
+                    code.start_line()
+                        .add("case ")
+                        .add(&key.to_string())
+                        .add(": /* index */")
+                        .newline();
+                }
+            }
+
+            code.inc_indent();
+            generate_region(&case.region, ctx, code);
+
+            // Only add break if case doesn't end with return/throw/continue/break
+            let needs_break = !case_ends_with_exit(&case.region, ctx);
+            if needs_break {
+                let is_last_case = case_idx == cases.len() - 1;
+                if !is_last_case || default.is_none() {
+                    gen_break(code);
+                } else {
+                    gen_break(code);
+                }
+            }
+            code.dec_indent();
+        }
+
+        if let Some(def) = default {
+            code.start_line().add("default:").newline();
+            code.inc_indent();
+            generate_region(def, ctx, code);
+            code.dec_indent();
+        }
+
+        code.dec_indent();
+        code.start_line().add("}").newline();
+    } else {
+        // Not a switch - fall back to normal generation
+        generate_content(content, ctx, code);
+    }
+}
+
 /// Generate code from a region
 fn generate_region<W: CodeWriter>(region: &Region, ctx: &mut BodyGenContext, code: &mut W) {
     match region {
         Region::Sequence(contents) => {
-            for content in contents {
+            // Check for two-switch pattern (switch-over-string merge)
+            let two_switch_info = detect_two_switch_in_sequence(contents, ctx);
+
+            for (idx, content) in contents.iter().enumerate() {
+                if let Some((first_idx, ref info)) = two_switch_info {
+                    // Skip the first switch entirely (it's the hashCode switch)
+                    if idx == first_idx {
+                        continue;
+                    }
+                    // For the second switch, generate merged output
+                    if idx == info.second_switch_idx {
+                        generate_merged_string_switch(content, info, ctx, code);
+                        continue;
+                    }
+                }
                 generate_content(content, ctx, code);
             }
         }
