@@ -15,6 +15,7 @@ pub mod kotlin_intrinsics;
 pub mod loop_analysis;
 pub mod loops;
 pub mod method_inline;
+pub mod mod_visitor;
 pub mod prepare_for_codegen;
 pub mod region_builder;
 pub mod simplify;
@@ -63,6 +64,7 @@ pub use enum_visitor::{
     EnumArg, EnumClassInfo, EnumFieldInfo, EnumVisitorResult,
 };
 pub use prepare_for_codegen::{prepare_for_codegen, PrepareForCodeGenResult};
+pub use mod_visitor::{run_mod_visitor, ModVisitorResult};
 
 /// Pass trait for decompilation passes
 pub trait Pass: Send + Sync {

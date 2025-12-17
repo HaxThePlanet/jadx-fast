@@ -12,7 +12,7 @@ use dexterity_ir::regions::Region;
 use dexterity_ir::MethodData;
 use dexterity_passes::{
     assign_var_names, split_blocks, transform_to_ssa, infer_types, simplify_instructions,
-    inline_constants, shrink_code, prepare_for_codegen, BlockSplitResult, CFG, SsaResult,
+    inline_constants, shrink_code, prepare_for_codegen, run_mod_visitor, BlockSplitResult, CFG, SsaResult,
     TypeInferenceResult, VarNamingResult, CodeShrinkResult,
 };
 use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplicated_finally};
@@ -74,6 +74,10 @@ pub fn decompile_method(
     // Take blocks from CFG after dominance analysis (avoids clone)
     let blocks = cfg.take_blocks();
     let mut ssa = transform_to_ssa(&blocks);
+
+    // Stage 4.25: ModVisitor - array initialization fusion, dead code removal
+    // Combines NEW_ARRAY + FILL_ARRAY_DATA into FILLED_NEW_ARRAY
+    let _ = run_mod_visitor(&mut ssa);
 
     // Stage 4.5: Constant inlining (before type inference for better results)
     let _ = inline_constants(&mut ssa);

@@ -73,7 +73,7 @@ Compare dexterity implementations against JADX originals:
 | simplify.rs (1,520) | SimplifyVisitor.java (638) | Audit complete | **DONE** - double negation, CMP unwrapping, cast chain optimization |
 | code_shrink.rs (910+) | CodeShrinkVisitor.java (299) | Audit complete | **DONE** - pipeline integration, cross-block inlining, sync boundary checks |
 | conditionals.rs (740) | TernaryMod.java (352) | Port ternary conversion | **PENDING AGENT IN PROGRESS** |
-| mod_visitor.rs (NEW) | ModVisitor.java (634) | Array init fusion | **PENDING AGENT IN PROGRESS** |
+| mod_visitor.rs (310) | ModVisitor.java (634) | Array init fusion | **DONE** - NEW_ARRAY+FILL_ARRAY fusion, dead MOVE removal |
 
 **Reference:** [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md)
 
