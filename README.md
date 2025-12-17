@@ -295,7 +295,7 @@ Dexterity  │  112  │  3.88s │  9,607
 | Deobfuscation | ✅ 100% | --deobf, ProGuard mappings, JOBF files, variable filtering |
 | Variable Naming | ✅ 100% | Full JADX parity, deobf-min/max filtering on all names |
 | Type Formatting | ✅ 100% | Special values (MIN/MAX_VALUE, NaN, Infinity) for numeric types |
-| Optimization Passes | 🔶 82% | Deboxing, algebraic simplification (identity/constant folding/negation), condition negation, const inline, code shrink, enum visitor done (7/16 core passes) |
+| Optimization Passes | 🔶 70% | Deboxing, simplify, const inline, code shrink, enum visitor |
 
 ## CLI Reference
 
