@@ -108,27 +108,28 @@ fn apply_companion_object_name(cls: &mut ClassData, companion_name: &str) {
 
 /// Find a method in the class by comparing function signatures
 fn find_method_by_signature<'a>(cls: &'a mut ClassData, kotlin_func: &crate::types::KotlinFunction) -> Option<&'a mut dexterity_ir::MethodData> {
-    // Try exact name match first (fast path for unobfuscated code)
-    if let Some(method) = cls.methods.iter_mut().find(|m| m.name == kotlin_func.name) {
-        return Some(method);
-    }
+    // First, find the index using immutable iteration
+    let index = cls.methods.iter().position(|m| {
+        // Try exact name match first (fast path for unobfuscated code)
+        if m.name == kotlin_func.name {
+            return true;
+        }
+        // Try to match by parameter count and types (for obfuscated methods)
+        // Only match if method has right number of parameters and names aren't set
+        // Method must have same parameter count
+        if m.arg_types.len() != kotlin_func.parameters.len() {
+            return false;
+        }
+        // Method name should look obfuscated (single char or short)
+        if !looks_obfuscated(&m.name) {
+            return false;
+        }
+        // All parameter names should be unset
+        m.arg_names.iter().all(|n| n.is_none())
+    });
 
-    // Try to match by parameter count and types (for obfuscated methods)
-    // Only match if method has right number of parameters and names aren't set
-    cls.methods
-        .iter_mut()
-        .find(|m| {
-            // Method must have same parameter count
-            if m.arg_types.len() != kotlin_func.parameters.len() {
-                return false;
-            }
-            // Method name should look obfuscated (single char or short)
-            if !looks_obfuscated(&m.name) {
-                return false;
-            }
-            // All parameter names should be unset
-            m.arg_names.iter().all(|n| n.is_none())
-        })
+    // Then get mutable reference by index
+    index.map(|i| &mut cls.methods[i])
 }
 
 /// Check if a field matches a Kotlin property using multiple strategies

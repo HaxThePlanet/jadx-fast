@@ -513,6 +513,23 @@ pub struct LocalVar {
     pub end_addr: u32,
 }
 
+/// Kotlin-specific class markers parsed from @kotlin.Metadata annotation
+#[derive(Debug, Clone, Default)]
+pub struct KotlinClassInfo {
+    /// True if this is a Kotlin data class
+    pub is_data_class: bool,
+    /// True if this is a sealed class
+    pub is_sealed: bool,
+    /// True if this is an inline/value class
+    pub is_inline: bool,
+    /// True if this is a companion object
+    pub is_companion: bool,
+    /// Custom companion object name (if not "Companion")
+    pub companion_name: Option<String>,
+    /// Sealed class subclass FQ names
+    pub sealed_subclasses: Vec<String>,
+}
+
 /// Class information
 ///
 /// Supports lazy loading like Java JADX's ClassNode.
@@ -560,6 +577,8 @@ pub struct ClassData {
     /// Reduces peak per-class memory from 7-12 GB to ~2-3 GB.
     pub all_instructions: Vec<InsnNode>,
     pub kotlin_metadata: Option<KotlinMetadata>,
+    /// Kotlin-specific class information (data class, sealed, etc.)
+    pub kotlin_class_info: Option<KotlinClassInfo>,
 }
 
 impl ClassData {
@@ -583,7 +602,28 @@ impl ClassData {
             annotations: Vec::new(),
             all_instructions: Vec::new(),  // NEW: shared instruction pool (starts empty)
             kotlin_metadata: None,
+            kotlin_class_info: None,
         }
+    }
+
+    /// Check if this is a Kotlin data class
+    pub fn is_data_class(&self) -> bool {
+        self.kotlin_class_info.as_ref().map(|k| k.is_data_class).unwrap_or(false)
+    }
+
+    /// Check if this is a Kotlin sealed class
+    pub fn is_sealed_class(&self) -> bool {
+        self.kotlin_class_info.as_ref().map(|k| k.is_sealed).unwrap_or(false)
+    }
+
+    /// Check if this is a Kotlin inline/value class
+    pub fn is_inline_class(&self) -> bool {
+        self.kotlin_class_info.as_ref().map(|k| k.is_inline).unwrap_or(false)
+    }
+
+    /// Set Kotlin class info
+    pub fn set_kotlin_class_info(&mut self, info: KotlinClassInfo) {
+        self.kotlin_class_info = Some(info);
     }
 
     /// Unload all method instructions to free memory (like Java JADX's ClassNode.unload())

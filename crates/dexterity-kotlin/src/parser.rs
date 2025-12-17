@@ -4,8 +4,54 @@ use anyhow::{anyhow, Result};
 use base64::Engine;
 use dexterity_ir::{Annotation, AnnotationValue};
 use prost::Message;
-use crate::types::{KotlinClassMetadata, KotlinKind, KotlinFunction, KotlinParameter, KotlinProperty};
+use crate::types::{
+    KotlinClassMetadata, KotlinKind, KotlinFunction, KotlinParameter, KotlinProperty,
+    KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags,
+};
 use crate::proto;
+
+// Class flag bit positions (from Kotlin metadata spec)
+const CLASS_FLAG_HAS_ANNOTATIONS: i32 = 0x0001;
+const CLASS_FLAG_VISIBILITY_MASK: i32 = 0x000E;    // bits 1-3
+const CLASS_FLAG_MODALITY_MASK: i32 = 0x0030;      // bits 4-5
+const CLASS_FLAG_KIND_MASK: i32 = 0x01C0;          // bits 6-8
+const CLASS_FLAG_IS_INNER: i32 = 0x0200;           // bit 9
+const CLASS_FLAG_IS_DATA: i32 = 0x0400;            // bit 10
+const CLASS_FLAG_IS_EXTERNAL: i32 = 0x0800;        // bit 11
+const CLASS_FLAG_IS_EXPECT: i32 = 0x1000;          // bit 12
+const CLASS_FLAG_IS_INLINE: i32 = 0x2000;          // bit 13
+const CLASS_FLAG_IS_FUN: i32 = 0x4000;             // bit 14 (fun interface)
+
+// Function flag bit positions
+const FUNC_FLAG_HAS_ANNOTATIONS: i32 = 0x0001;
+const FUNC_FLAG_VISIBILITY_MASK: i32 = 0x000E;     // bits 1-3
+const FUNC_FLAG_MODALITY_MASK: i32 = 0x0030;       // bits 4-5
+const FUNC_FLAG_KIND_MASK: i32 = 0x00C0;           // bits 6-7
+const FUNC_FLAG_IS_OPERATOR: i32 = 0x0100;         // bit 8
+const FUNC_FLAG_IS_INFIX: i32 = 0x0200;            // bit 9
+const FUNC_FLAG_IS_INLINE: i32 = 0x0400;           // bit 10
+const FUNC_FLAG_IS_TAILREC: i32 = 0x0800;          // bit 11
+const FUNC_FLAG_IS_EXTERNAL: i32 = 0x1000;         // bit 12
+const FUNC_FLAG_IS_SUSPEND: i32 = 0x2000;          // bit 13
+
+// Property flag bit positions
+const PROP_FLAG_HAS_ANNOTATIONS: i32 = 0x0001;
+const PROP_FLAG_VISIBILITY_MASK: i32 = 0x000E;     // bits 1-3
+const PROP_FLAG_MODALITY_MASK: i32 = 0x0030;       // bits 4-5
+const PROP_FLAG_KIND_MASK: i32 = 0x00C0;           // bits 6-7
+const PROP_FLAG_IS_VAR: i32 = 0x0100;              // bit 8
+const PROP_FLAG_HAS_GETTER: i32 = 0x0200;          // bit 9
+const PROP_FLAG_HAS_SETTER: i32 = 0x0400;          // bit 10
+const PROP_FLAG_IS_CONST: i32 = 0x0800;            // bit 11
+const PROP_FLAG_IS_LATEINIT: i32 = 0x1000;         // bit 12
+const PROP_FLAG_HAS_CONSTANT: i32 = 0x2000;        // bit 13
+const PROP_FLAG_IS_EXTERNAL: i32 = 0x4000;         // bit 14
+const PROP_FLAG_IS_DELEGATED: i32 = 0x8000;        // bit 15
+
+// Value parameter flag bit positions
+const PARAM_FLAG_DECLARES_DEFAULT: i32 = 0x0002;   // bit 1
+const PARAM_FLAG_IS_CROSSINLINE: i32 = 0x0004;     // bit 2
+const PARAM_FLAG_IS_NOINLINE: i32 = 0x0008;        // bit 3
 
 pub fn find_kotlin_metadata(annotations: &[Annotation]) -> Option<&Annotation> {
     annotations.iter().find(|a| {

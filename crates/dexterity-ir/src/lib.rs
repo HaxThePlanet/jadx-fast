@@ -20,7 +20,7 @@ pub use class_hierarchy::ClassHierarchy;
 pub use info::{
     Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility,
     BytecodeRef, ClassData, DebugInfo, ExceptionHandler, FieldData, FieldValue,
-    LocalVar, MethodData, MethodInlineAttr, ProcessState, TryBlock, TypeParameter,
+    KotlinClassInfo, LocalVar, MethodData, MethodInlineAttr, ProcessState, TryBlock, TypeParameter,
 };
 pub use instructions::{InsnArg, InsnNode, InsnType, LambdaHandleType, LambdaInfo, RegisterArg};
 pub use types::{ArgType, TypeCompare, compare_types};
