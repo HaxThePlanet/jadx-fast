@@ -186,10 +186,11 @@ where
     }
 
     let mut fields: Vec<EnumFieldInfo> = Vec::new();
-    let mut pending_constructs: HashMap<u16, PendingConstruct> = HashMap::new();
+    // FIXED: Use Vec to store all constructs, indexed by register at each instruction
+    let mut pending_constructs: Vec<(u16, usize, PendingConstruct)> = Vec::new(); // (reg_num, insn_idx, construct)
 
-    // Pass 1: Find constructor calls and store in map by register
-    for insn in insns.iter() {
+    // Pass 1: Find constructor calls and store in vec with instruction index
+    for (insn_idx, insn) in insns.iter().enumerate() {
         if let InsnType::Invoke { kind: InvokeKind::Direct, args, .. } = &insn.insn_type {
             // Check if this is a constructor call for our enum type
             // Constructor calls have the instance as first argument
@@ -201,8 +202,9 @@ where
             if let InsnArg::Register(reg) = &args[0] {
                 // Check if args[1] is a string (enum name) and args[2] is int (ordinal)
                 if args.len() >= 3 {
-                    let name = extract_string_arg_with_lookup(&args[1], insns, string_lookup);
-                    let ordinal = extract_int_arg(&args[2], insns);
+                    // FIXED: Pass instruction index to find nearest preceding constant
+                    let name = extract_string_arg_before_idx(&args[1], insns, insn_idx, string_lookup);
+                    let ordinal = extract_int_arg_before_idx(&args[2], insns, insn_idx);
 
                     if let (Some(name), Some(ordinal)) = (name, ordinal) {
                         // Extract extra constructor arguments (skip name, ordinal, get rest)
@@ -210,20 +212,16 @@ where
                             .map(|a| convert_to_enum_arg_with_lookup(a, insns, string_lookup))
                             .collect();
 
-                        pending_constructs.insert(reg.reg_num, PendingConstruct {
+                        // Store with instruction index to track which constructor call this is
+                        pending_constructs.push((reg.reg_num, insn_idx, PendingConstruct {
                             name,
                             ordinal: ordinal as i32,
                             extra_args,
-                        });
+                        }));
                     }
                 }
             }
         }
-    }
-
-    eprintln!("[DEBUG] Enum {} Pass 1: Found {} pending constructs", class.class_type, pending_constructs.len());
-    for (reg, construct) in &pending_constructs {
-        eprintln!("[DEBUG]   Register {}: name='{}', ordinal={}", reg, construct.name, construct.ordinal);
     }
 
     // Pass 2: Find SPUT instructions that store enum instances to static fields
@@ -239,7 +237,7 @@ where
         }
 
         // Look for SPUT that stores to this field
-        for insn in insns.iter() {
+        for (sput_idx, insn) in insns.iter().enumerate() {
             if let InsnType::StaticPut { field_idx: sput_field_idx, value } = &insn.insn_type {
                 // Check if this SPUT is storing to the current field we're examining
                 // Match by DEX field index if available, otherwise skip
@@ -252,7 +250,14 @@ where
 
                 if matches_field {
                     if let InsnArg::Register(reg) = value {
-                        if let Some(construct) = pending_constructs.get(&reg.reg_num) {
+                        // FIXED: Find the most recent constructor call that created this register value
+                        // Search backwards from the SPUT to find the constructor call
+                        let construct_opt = pending_constructs.iter()
+                            .rev() // Start from the end (most recent)
+                            .find(|(c_reg, c_idx, _)| *c_reg == reg.reg_num && *c_idx < sput_idx)
+                            .map(|(_, _, construct)| construct);
+
+                        if let Some(construct) = construct_opt {
                             fields.push(EnumFieldInfo {
                                 name: construct.name.clone(),
                                 ordinal: construct.ordinal,
@@ -271,8 +276,6 @@ where
     // If we didn't find fields via SPUT, try alternative approach
     // using field names directly
     if fields.is_empty() {
-        eprintln!("[DEBUG] Enum analysis fallback for class {}: {} pending constructs",
-                  class.class_type, pending_constructs.len());
         for (field_idx, field) in class.static_fields.iter().enumerate() {
             if !type_matches_class(&field.field_type, &class.class_type) {
                 continue;
@@ -281,13 +284,10 @@ where
                 continue;
             }
 
-            eprintln!("[DEBUG]   Field #{}: name='{}', type={:?}", field_idx, field.name, field.field_type);
-
             // Check if there's a construct with matching name
-            if let Some(construct) = pending_constructs.values()
-                .find(|c| c.name == field.name)
+            if let Some((_, _, construct)) = pending_constructs.iter()
+                .find(|(_, _, c)| c.name == field.name)
             {
-                eprintln!("[DEBUG]     -> Matched construct: name='{}', ordinal={}", construct.name, construct.ordinal);
                 fields.push(EnumFieldInfo {
                     name: construct.name.clone(),
                     ordinal: construct.ordinal,
@@ -297,7 +297,6 @@ where
             } else {
                 // Create field with unknown ordinal
                 let ordinal = fields.len() as i32;
-                eprintln!("[DEBUG]     -> No construct match, using field name='{}', ordinal={}", field.name, ordinal);
                 fields.push(EnumFieldInfo {
                     name: field.name.clone(),
                     ordinal,
@@ -305,11 +304,6 @@ where
                     extra_args: Vec::new(),
                 });
             }
-        }
-    } else {
-        eprintln!("[DEBUG] Enum analysis Pass 2 found {} fields for class {}", fields.len(), class.class_type);
-        for f in &fields {
-            eprintln!("[DEBUG]   Field: name='{}', ordinal={}, field_idx={}", f.name, f.ordinal, f.field_idx);
         }
     }
 
@@ -368,6 +362,40 @@ where
     }
 }
 
+/// Extract a string argument by searching BACKWARDS from before_idx to find nearest preceding CONST_STRING
+/// This fixes the enum name corruption bug where register reuse caused wrong strings to be matched
+fn extract_string_arg_before_idx<F>(
+    arg: &InsnArg,
+    insns: &[InsnNode],
+    before_idx: usize,
+    string_lookup: &Option<F>,
+) -> Option<String>
+where
+    F: Fn(u32) -> Option<String>,
+{
+    match arg {
+        InsnArg::Register(reg) => {
+            // Search BACKWARDS from before_idx to find the nearest preceding CONST_STRING
+            for i in (0..before_idx).rev() {
+                if let InsnType::ConstString { dest, string_idx } = &insns[i].insn_type {
+                    if dest.reg_num == reg.reg_num {
+                        // Try to resolve the string via lookup function
+                        if let Some(lookup) = string_lookup {
+                            if let Some(s) = lookup(*string_idx) {
+                                return Some(s);
+                            }
+                        }
+                        // Fallback: use placeholder
+                        return Some(format!("string_{}", reg.reg_num));
+                    }
+                }
+            }
+            None
+        }
+        _ => None,
+    }
+}
+
 /// Extract an integer argument from an instruction argument
 fn extract_int_arg(arg: &InsnArg, insns: &[InsnNode]) -> Option<i64> {
     match arg {
@@ -376,6 +404,26 @@ fn extract_int_arg(arg: &InsnArg, insns: &[InsnNode]) -> Option<i64> {
             // Look for CONST that defines this register
             for insn in insns {
                 if let InsnType::Const { dest, value: LiteralArg::Int(n) } = &insn.insn_type {
+                    if dest.reg_num == reg.reg_num {
+                        return Some(*n);
+                    }
+                }
+            }
+            None
+        }
+        _ => None,
+    }
+}
+
+/// Extract an integer argument by searching BACKWARDS from before_idx to find nearest preceding CONST
+/// This fixes the enum ordinal bug where register reuse caused wrong ordinals to be matched
+fn extract_int_arg_before_idx(arg: &InsnArg, insns: &[InsnNode], before_idx: usize) -> Option<i64> {
+    match arg {
+        InsnArg::Literal(LiteralArg::Int(n)) => Some(*n),
+        InsnArg::Register(reg) => {
+            // Search BACKWARDS from before_idx to find the nearest preceding CONST
+            for i in (0..before_idx).rev() {
+                if let InsnType::Const { dest, value: LiteralArg::Int(n) } = &insns[i].insn_type {
                     if dest.reg_num == reg.reg_num {
                         return Some(*n);
                     }
