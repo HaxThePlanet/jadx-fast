@@ -319,6 +319,7 @@ pub fn precompute_kotlin_aliases(
     use dexterity_dex::EncodedValue;
 
     const KOTLIN_METADATA_ANNOTATION: &str = "Lkotlin/Metadata;";
+    const KOTLIN_METADATA_K_PARAMETER: &str = "k";
     const KOTLIN_METADATA_D2_PARAMETER: &str = "d2";
 
     let mut kotlin_class_count = 0;
@@ -356,6 +357,31 @@ pub fn precompute_kotlin_aliases(
             }
 
             kotlin_class_count += 1;
+
+            // First, check the k (kind) value:
+            // k=1: Class metadata - d2[0] is the class name
+            // k=2: File facade (*Kt classes) - d2 contains function names, NOT class name
+            // k=3: Synthetic class (lambdas)
+            // k=4: Multi-file facade
+            // We should only extract class alias for k=1
+            let mut kind: Option<i32> = None;
+            for element in &annot.annotation.elements {
+                let name = match dex.get_string(element.name_idx) {
+                    Ok(n) => n,
+                    Err(_) => continue,
+                };
+                if name.as_ref() == KOTLIN_METADATA_K_PARAMETER {
+                    if let EncodedValue::Int(k) = element.value {
+                        kind = Some(k);
+                    }
+                    break;
+                }
+            }
+
+            // Skip non-class metadata (file facades, synthetics, etc.)
+            if kind != Some(1) {
+                continue;
+            }
 
             // Find d2 element (string array with class name info)
             for element in &annot.annotation.elements {

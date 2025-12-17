@@ -2,12 +2,13 @@
 
 use anyhow::Result;
 use dexterity_ir::{ClassData, FieldData, KotlinClassInfo};
-use crate::types::{KotlinClassMetadata, KotlinProperty};
+use crate::types::{KotlinClassMetadata, KotlinKind, KotlinProperty};
 
 /// Apply Kotlin metadata names to IR class structure
 pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -> Result<()> {
-    // 1. Set class name alias
-    if cls.alias.is_none() {
+    // 1. Set class name alias - only for actual classes (kind=1), not file facades
+    // File facades (*Kt classes) store function names in d2, not class names
+    if cls.alias.is_none() && matches!(metadata.kind, KotlinKind::Class) {
         cls.alias = Some(metadata.class_name.clone());
     }
 

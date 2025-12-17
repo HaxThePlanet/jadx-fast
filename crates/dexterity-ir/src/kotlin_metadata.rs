@@ -121,6 +121,19 @@ impl ClassAlias {
 
 pub fn get_class_alias(cls: &ClassData) -> Option<ClassAlias> {
     let kotlin_metadata = cls.get_kotlin_metadata()?;
+
+    // Check the kind (k) value:
+    // k=1: Class metadata - d2[0] is the class name
+    // k=2: File facade (*Kt classes) - d2 contains function names, NOT class name
+    // k=3: Synthetic class (lambdas)
+    // k=4: Multi-file facade
+    // We should only extract class alias for k=1
+    if let Some(kind) = kotlin_metadata.kind {
+        if kind != 1 {
+            return None; // Not a regular class, d2[0] is not a class name
+        }
+    }
+
     let first_value = kotlin_metadata.data2.as_ref()?.get(0)?.trim();
 
     if first_value.is_empty() {
