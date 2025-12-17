@@ -147,11 +147,15 @@ impl SSAVar {
     }
 }
 
-// SSA variable flags
-const SSA_FLAG_IMMUTABLE_TYPE: u64 = 1 << 0;
-const SSA_FLAG_PHI_ASSIGN: u64 = 1 << 1;
-const SSA_FLAG_METHOD_ARG: u64 = 1 << 2;
-const SSA_FLAG_THIS_ARG: u64 = 1 << 3;
+// SSA variable flags (pub for use in other modules)
+/// Type cannot be changed by inference
+pub const SSA_FLAG_IMMUTABLE_TYPE: u64 = 1 << 0;
+/// Assigned in a PHI node
+pub const SSA_FLAG_PHI_ASSIGN: u64 = 1 << 1;
+/// This is a method argument register
+pub const SSA_FLAG_METHOD_ARG: u64 = 1 << 2;
+/// This is the 'this' reference
+pub const SSA_FLAG_THIS_ARG: u64 = 1 << 3;
 
 /// Type information for SSA variables (matches JADX's TypeInfo)
 ///

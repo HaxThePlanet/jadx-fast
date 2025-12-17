@@ -584,7 +584,8 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
         ArgType::Wildcard { inner: Some(inner), .. } => generate_param_name(index, inner),
         ArgType::Wildcard { inner: None, .. } => "obj".to_string(),
         ArgType::Void => "v".to_string(),
-        ArgType::Unknown => "obj".to_string(),
+        ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide
+        | ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral => "obj".to_string(),
     };
 
     // Add numeric suffix for params after the first

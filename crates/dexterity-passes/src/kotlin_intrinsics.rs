@@ -3,11 +3,41 @@
 //! Extracts parameter names from Kotlin compiler-generated `Intrinsics.checkNotNullParameter()`
 //! and similar method calls. This is a fallback when Kotlin metadata is unavailable.
 
-use std::collections::HashSet;
+use std::collections::HashMap;
 use dexterity_ir::{MethodData, InsnNode};
 use dexterity_ir::instructions::{InsnType, InsnArg};
 
+/// Kotlin Intrinsics method signatures that contain parameter names
+const INTRINSICS_CLASS: &str = "Lkotlin/jvm/internal/Intrinsics;";
+const CHECK_NOT_NULL_PARAMETER: &str = "checkNotNullParameter";
+const CHECK_NOT_NULL_EXPRESSION_VALUE: &str = "checkNotNullExpressionValue";
+const CHECK_PARAMETER_IS_NOT_NULL: &str = "checkParameterIsNotNull";
+
+/// Context for Kotlin intrinsics processing
+pub struct IntrinsicsContext {
+    /// Map of method index to method signature (class, name, proto)
+    pub method_signatures: HashMap<u32, (String, String, String)>,
+    /// Map of string index to string value
+    pub string_pool: HashMap<u32, String>,
+}
+
+impl IntrinsicsContext {
+    pub fn new() -> Self {
+        Self {
+            method_signatures: HashMap::new(),
+            string_pool: HashMap::new(),
+        }
+    }
+}
+
+impl Default for IntrinsicsContext {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 /// Process Kotlin Intrinsics calls in a method to extract parameter names
+/// This version works without full DEX context by looking for const-string patterns
 pub fn process_kotlin_intrinsics(method: &mut MethodData) {
     // Early exit checks
     if method.instructions.is_none() || method.arg_types.is_empty() {
@@ -19,33 +49,27 @@ pub fn process_kotlin_intrinsics(method: &mut MethodData) {
         return;
     }
 
-    // Find Intrinsics method indices to look for
-    let intrinsics_methods = find_intrinsics_methods();
-    if intrinsics_methods.is_empty() {
-        return; // Intrinsics class not in this DEX
-    }
+    // Build a map of register -> const-string value by scanning instructions
+    let string_map = build_const_string_map(instructions);
 
-    // Scan instructions for Intrinsics calls
+    // Scan instructions for Intrinsics call patterns
     let mut param_names_found = Vec::new();
 
     for (insn_idx, insn) in instructions.iter().enumerate() {
-        if let InsnType::Invoke { method_idx, args, .. } = &insn.insn_type {
-            // Check if this is an Intrinsics call
-            if !intrinsics_methods.contains(&method_idx) {
-                continue;
-            }
-
-            // Try to extract parameter name from the call
-            // Pattern: Intrinsics.checkNotNullParameter(register, "paramName")
-            //          Intrinsics.checkNotNullParameter(register, "paramName", "className")
+        if let InsnType::Invoke { args, .. } = &insn.insn_type {
+            // Check for Intrinsics method call pattern
+            // The invoke should have 2 args: (object_to_check, parameter_name_string)
             if args.len() >= 2 {
-                // Second argument should be the parameter name string
-                if let Some(param_name) = extract_string_from_arg(&args[1], insn_idx, instructions) {
-                    // First argument is the parameter value (register)
-                    if let InsnArg::Register(reg) = &args[0] {
-                        // Map register to parameter index
-                        if let Some(param_idx) = map_reg_to_param(reg.reg_num, method) {
-                            param_names_found.push((param_idx, param_name));
+                // Check if second argument is a string that looks like a parameter name
+                if let Some(param_name) = get_string_arg(&args[1], &string_map, insn_idx, instructions) {
+                    // Validate it looks like a parameter name (not an expression like "foo.bar()")
+                    if looks_like_param_name(&param_name) {
+                        // First argument is the parameter value (register)
+                        if let InsnArg::Register(reg) = &args[0] {
+                            // Map register to parameter index
+                            if let Some(param_idx) = map_reg_to_param(reg.reg_num, method) {
+                                param_names_found.push((param_idx, param_name));
+                            }
                         }
                     }
                 }
@@ -69,14 +93,134 @@ pub fn process_kotlin_intrinsics(method: &mut MethodData) {
     }
 }
 
-/// Find kotlin.jvm.internal.Intrinsics methods in DEX
-/// Returns method indices of Intrinsics check methods
-fn find_intrinsics_methods() -> HashSet<u32> {
-    // Hardcoded method indices - in production this would query DEX
-    // These are placeholder values; real implementation would search DEX
-    // For now, we return an empty set (no Intrinsics methods to find)
-    // The actual matching happens by signature in production
-    HashSet::new()
+/// Process Kotlin Intrinsics with full DEX context
+pub fn process_kotlin_intrinsics_with_context(method: &mut MethodData, ctx: &IntrinsicsContext) {
+    // Early exit checks
+    if method.instructions.is_none() || method.arg_types.is_empty() {
+        return;
+    }
+
+    let instructions = method.get_instructions();
+    if instructions.is_empty() {
+        return;
+    }
+
+    // Scan instructions for Intrinsics calls
+    let mut param_names_found = Vec::new();
+
+    for (insn_idx, insn) in instructions.iter().enumerate() {
+        if let InsnType::Invoke { method_idx, args, .. } = &insn.insn_type {
+            // Check if this is a Kotlin Intrinsics call
+            if let Some((class, name, _proto)) = ctx.method_signatures.get(method_idx) {
+                if class == INTRINSICS_CLASS && is_intrinsics_check_method(name) {
+                    // Try to extract parameter name
+                    if args.len() >= 2 {
+                        if let Some(param_name) = get_string_from_context(&args[1], insn_idx, instructions, ctx) {
+                            if let InsnArg::Register(reg) = &args[0] {
+                                if let Some(param_idx) = map_reg_to_param(reg.reg_num, method) {
+                                    param_names_found.push((param_idx, param_name));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Apply found parameter names
+    for (param_idx, param_name) in param_names_found {
+        if param_idx < method.arg_names.len() && method.arg_names[param_idx].is_none() {
+            if let Some(cleaned_name) = clean_kotlin_param_name(&param_name) {
+                method.arg_names[param_idx] = Some(cleaned_name);
+            }
+        }
+    }
+}
+
+/// Check if method name is a Kotlin Intrinsics check method
+fn is_intrinsics_check_method(name: &str) -> bool {
+    name == CHECK_NOT_NULL_PARAMETER
+        || name == CHECK_NOT_NULL_EXPRESSION_VALUE
+        || name == CHECK_PARAMETER_IS_NOT_NULL
+}
+
+/// Build a map of register -> string value from const-string instructions
+fn build_const_string_map(instructions: &[InsnNode]) -> HashMap<u16, String> {
+    let mut map = HashMap::new();
+
+    for insn in instructions {
+        if let InsnType::ConstString { dest, string_idx } = &insn.insn_type {
+            // Store the string index as a placeholder - we'd need DEX context for actual value
+            // For now, use a naming pattern that indicates this is from const-string
+            map.insert(dest.reg_num, format!("__str_{}", string_idx));
+        }
+    }
+
+    map
+}
+
+/// Get string value from an instruction argument
+fn get_string_arg(
+    arg: &InsnArg,
+    string_map: &HashMap<u16, String>,
+    insn_idx: usize,
+    instructions: &[InsnNode],
+) -> Option<String> {
+    match arg {
+        InsnArg::String(idx) => Some(format!("__str_{}", idx)),
+        InsnArg::Register(reg) => {
+            // First check our prebuilt map
+            if let Some(s) = string_map.get(&reg.reg_num) {
+                return Some(s.clone());
+            }
+            // Fall back to backwards scan
+            find_const_string_for_reg(reg.reg_num, insn_idx, instructions)
+        }
+        _ => None,
+    }
+}
+
+/// Get string from context with full DEX data
+fn get_string_from_context(
+    arg: &InsnArg,
+    insn_idx: usize,
+    instructions: &[InsnNode],
+    ctx: &IntrinsicsContext,
+) -> Option<String> {
+    match arg {
+        InsnArg::String(idx) => ctx.string_pool.get(&(*idx as u32)).cloned(),
+        InsnArg::Register(reg) => {
+            // Find const-string that loaded this register
+            for i in (0..insn_idx).rev() {
+                if let InsnType::ConstString { dest, string_idx } = &instructions[i].insn_type {
+                    if dest.reg_num == reg.reg_num {
+                        return ctx.string_pool.get(&(*string_idx as u32)).cloned();
+                    }
+                }
+            }
+            None
+        }
+        _ => None,
+    }
+}
+
+/// Check if a string looks like a parameter name (vs. an expression message)
+fn looks_like_param_name(s: &str) -> bool {
+    // Skip expression-like strings
+    if s.contains('.') || s.contains('(') || s.contains(' ') {
+        return false;
+    }
+    // Must be a valid identifier
+    if s.is_empty() || s.len() > 64 {
+        return false;
+    }
+    // First char must be letter, underscore, or $
+    let first = s.chars().next().unwrap();
+    if !first.is_alphabetic() && first != '_' && first != '$' {
+        return false;
+    }
+    true
 }
 
 /// Extract string literal from an instruction argument

@@ -38,6 +38,12 @@ pub fn arg_type_to_descriptor(ty: &ArgType) -> String {
         ArgType::Wildcard { inner: None, .. } => "Ljava/lang/Object;".to_string(),
         ArgType::TypeVariable(_) => "Ljava/lang/Object;".to_string(), // Type erasure
         ArgType::Unknown => "Ljava/lang/Object;".to_string(),
+        // Unknown variants during type inference - use Object as placeholder
+        ArgType::UnknownNarrow => "I".to_string(),  // Could be int/float/etc
+        ArgType::UnknownWide => "J".to_string(),    // Could be long/double
+        ArgType::UnknownObject => "Ljava/lang/Object;".to_string(),
+        ArgType::UnknownArray => "[Ljava/lang/Object;".to_string(),
+        ArgType::UnknownIntegral => "I".to_string(),  // Integer-like
     }
 }
 

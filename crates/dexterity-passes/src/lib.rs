@@ -43,7 +43,7 @@ pub use conditionals::{
 };
 pub use extract_field_init::{extract_field_init, extract_instance_field_init};
 pub use finally_extract::{apply_finally_marking, extract_finally, FinallyExtractInfo, InsnsSlice};
-pub use kotlin_intrinsics::process_kotlin_intrinsics;
+pub use kotlin_intrinsics::{process_kotlin_intrinsics, process_kotlin_intrinsics_with_context, IntrinsicsContext};
 pub use loops::{detect_loops, LoopInfo};
 pub use loop_analysis::{analyze_loop_patterns, ArrayForEachPattern, ForLoopPattern, LoopPatternResult, UpperBound};
 pub use method_inline::{

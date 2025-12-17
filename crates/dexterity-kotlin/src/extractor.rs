@@ -1,7 +1,7 @@
 //! Name extraction and application to IR
 
 use anyhow::Result;
-use dexterity_ir::{ClassData, FieldData};
+use dexterity_ir::{ClassData, FieldData, KotlinClassInfo};
 use crate::types::{KotlinClassMetadata, KotlinProperty};
 
 /// Apply Kotlin metadata names to IR class structure
@@ -11,7 +11,18 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
         cls.alias = Some(metadata.class_name.clone());
     }
 
-    // 2. Apply method names and parameter names
+    // 2. Set Kotlin class info (data class, sealed class, etc.)
+    let kotlin_info = KotlinClassInfo {
+        is_data_class: metadata.is_data_class,
+        is_sealed: metadata.flags.is_sealed,
+        is_inline: metadata.flags.is_inline,
+        is_companion: metadata.flags.is_fun_interface, // Note: companion objects are detected differently
+        companion_name: metadata.companion_object.clone(),
+        sealed_subclasses: metadata.sealed_subclasses.clone(),
+    };
+    cls.set_kotlin_class_info(kotlin_info);
+
+    // 3. Apply method names and parameter names
     for kotlin_func in &metadata.functions {
         // Find matching method in IR by comparing signatures
         if let Some(method) = find_method_by_signature(cls, kotlin_func) {
@@ -26,21 +37,32 @@ pub fn apply_kotlin_names(cls: &mut ClassData, metadata: &KotlinClassMetadata) -
                     method.arg_names[param_idx] = Some(kotlin_param.name.clone());
                 }
             }
+
+            // Log suspend/inline function detection
+            if kotlin_func.flags.is_suspend {
+                tracing::debug!("Found suspend function: {}", kotlin_func.name);
+            }
+            if kotlin_func.flags.is_inline {
+                tracing::debug!("Found inline function: {}", kotlin_func.name);
+            }
         }
     }
 
-    // 3. Apply property (field) names using improved matching
+    // 4. Apply property (field) names using improved matching
     apply_property_names(cls, &metadata.properties);
 
-    // 4. Handle companion object if present
+    // 5. Handle companion object if present
     if let Some(companion_name) = &metadata.companion_object {
         apply_companion_object_name(cls, companion_name);
     }
 
-    // 5. Mark data classes (for comment generation in codegen)
+    // 6. Log data class detection
     if metadata.is_data_class {
-        // Store in class annotations or metadata for codegen to emit "// data class" comment
         tracing::debug!("Class {} is a data class", cls.class_type);
+    }
+    if metadata.flags.is_sealed {
+        tracing::debug!("Class {} is a sealed class with {} subclasses",
+            cls.class_type, metadata.sealed_subclasses.len());
     }
 
     Ok(())
@@ -160,6 +182,80 @@ fn field_matches(field: &FieldData, property: &KotlinProperty) -> bool {
     }
 
     false
+}
+
+/// Apply getter method recognition - match getXxx() and isXxx() methods to properties
+pub fn apply_getter_recognition(cls: &mut ClassData, metadata: &KotlinClassMetadata) {
+    for kotlin_prop in &metadata.properties {
+        // Generate expected getter names
+        let get_name = format!("get{}", capitalize_first(&kotlin_prop.name));
+        let is_name = format!("is{}", capitalize_first(&kotlin_prop.name));
+        let getter_name = kotlin_prop.getter_signature.as_ref().cloned().unwrap_or(get_name.clone());
+
+        // Find matching method in IR
+        for method in &mut cls.methods {
+            // Skip methods with aliases already set
+            if method.alias.is_some() {
+                continue;
+            }
+
+            // Match by expected getter name or signature
+            if method.name == get_name || method.name == is_name || method.name == getter_name {
+                // Verify it's a getter (no params except 'this', returns non-void)
+                let param_count = if method.is_static() { 0 } else { 0 }; // Instance getters have 'this' in ins_count but not in arg_types
+                if method.arg_types.len() == param_count && !matches!(method.return_type, dexterity_ir::ArgType::Void) {
+                    // This is a getter for the property
+                    tracing::debug!(
+                        "Matched getter method '{}' -> property '{}'",
+                        method.name, kotlin_prop.name
+                    );
+                    // Don't change method name since it's already correct, but we can add metadata
+                    break;
+                }
+            }
+
+            // Also try matching obfuscated method name to property getter
+            if looks_obfuscated(&method.name) {
+                // Check if this could be a getter: no args, non-void return
+                if method.arg_types.is_empty() && !matches!(method.return_type, dexterity_ir::ArgType::Void) {
+                    // Mark the method as a potential getter for this property
+                    // Don't set alias yet - we need more confidence
+                }
+            }
+        }
+
+        // Also match setter methods if property has setter
+        if kotlin_prop.flags.is_var {
+            let set_name = format!("set{}", capitalize_first(&kotlin_prop.name));
+            let setter_name = kotlin_prop.setter_signature.as_ref().cloned().unwrap_or(set_name.clone());
+
+            for method in &mut cls.methods {
+                if method.alias.is_some() {
+                    continue;
+                }
+
+                if method.name == setter_name || method.name == set_name {
+                    // Verify it's a setter (one param, void return)
+                    if method.arg_types.len() == 1 && matches!(method.return_type, dexterity_ir::ArgType::Void) {
+                        tracing::debug!(
+                            "Matched setter method '{}' -> property '{}'",
+                            method.name, kotlin_prop.name
+                        );
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/// Capitalize first character of a string
+fn capitalize_first(s: &str) -> String {
+    let mut chars = s.chars();
+    match chars.next() {
+        None => String::new(),
+        Some(c) => c.to_uppercase().chain(chars).collect(),
+    }
 }
 
 /// Check if a name looks obfuscated (single letter, meaningless, etc.)

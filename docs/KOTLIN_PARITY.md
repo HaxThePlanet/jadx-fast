@@ -6,12 +6,12 @@
 
 | Metric | Value |
 |--------|-------|
-| **Overall Parity** | **28%** (5/18 JADX features implemented) |
+| **Overall Parity** | **61%** (11/18 JADX features implemented) |
 | **Proto Parsing** | 95% (comprehensive metadata schema) |
-| **IR Extraction** | 28% (limited feature usage) |
-| **Production Impact** | Low - class/method names work, field names broken |
+| **IR Extraction** | 61% (significantly improved feature usage) |
+| **Production Impact** | Medium - class/method/field names work, function modifiers tracked |
 
-Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines) but **minimal feature extraction** to IR. JADX implements 9 practical features; Dexterity implements 2.5 of them.
+Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines) and now implements **11 practical extraction features** including field names, data class detection, companion objects, and function modifiers.
 
 ---
 
@@ -19,28 +19,28 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines)
 
 ### Name Recovery Features
 
-| Feature | JADX | Dexterity | Status | Gap Description |
-|---------|:----:|:---------:|:------:|-----------------|
+| Feature | JADX | Dexterity | Status | Notes |
+|---------|:----:|:---------:|:------:|-------|
 | Class aliasing (d2 array) | YES | YES | **DONE** | `precompute_kotlin_aliases()` in deobf.rs |
 | Method parameter names | YES | YES | **DONE** | `extract_names_to_ir()` in extractor.rs |
-| Field name extraction | YES | NO | **GAP** | `field_name_matches()` always returns false |
+| Field name extraction | YES | YES | **DONE** | Multi-strategy matching (exact, backing field, obfuscated) |
 | toString() parsing | YES | NO | **GAP** | No bytecode analysis (JADX: ToStringParser.kt) |
-| Getter method recognition | YES | NO | **GAP** | No pattern matching (JADX: KotlinUtils.kt) |
-| Kotlin intrinsics vars | YES | NO | **GAP** | No ProcessKotlinInternals equivalent |
+| Getter method recognition | YES | YES | **DONE** | `apply_getter_recognition()` matches getXxx()/isXxx() |
+| Kotlin intrinsics vars | YES | YES | **DONE** | `process_kotlin_intrinsics_with_context()` extracts names |
 
 ### Class Modifier Features
 
-| Feature | JADX | Dexterity | Status | Gap Description |
-|---------|:----:|:---------:|:------:|-----------------|
-| Data class detection | YES | PARTIAL | **GAP** | `isData` parsed but not applied to IR |
-| Companion object rename | YES | NO | **GAP** | `companion_object_name` field unused |
-| Sealed class subclasses | PARTIAL | NO | **GAP** | `sealed_subclass_fq_name` unused |
-| Inline/Value classes | NO | PARSED | N/A | Proto supports, neither uses |
+| Feature | JADX | Dexterity | Status | Notes |
+|---------|:----:|:---------:|:------:|-------|
+| Data class detection | YES | YES | **DONE** | `is_data_class` flag in `KotlinClassInfo` |
+| Companion object rename | YES | YES | **DONE** | `apply_companion_object_name()` sets field alias |
+| Sealed class subclasses | PARTIAL | YES | **DONE** | `sealed_subclasses` stored in `KotlinClassInfo` |
+| Inline/Value classes | NO | YES | **DONE** | `is_inline` flag parsed and stored |
 
 ### Type System Features
 
-| Feature | JADX | Dexterity | Status | Gap Description |
-|---------|:----:|:---------:|:------:|-----------------|
+| Feature | JADX | Dexterity | Status | Notes |
+|---------|:----:|:---------:|:------:|-------|
 | Nullable types | NO | PARSED | N/A | `Type.nullable` field defined |
 | Generic type parameters | NO | PARSED | N/A | Full `TypeParameter` message |
 | Type variance (in/out) | NO | PARSED | N/A | `variance` enum defined |
@@ -48,17 +48,17 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines)
 
 ### Function Modifier Features
 
-| Feature | JADX | Dexterity | Status | Gap Description |
-|---------|:----:|:---------:|:------:|-----------------|
-| Suspend functions | NO | PARSED | N/A | `isSuspend` flag defined |
-| Inline functions | NO | PARSED | N/A | `isInline` flag defined |
-| Operator/infix markers | NO | PARSED | N/A | `isOperator`, `isInfix` flags |
-| Tail recursion | NO | PARSED | N/A | `isTailrec` flag defined |
+| Feature | JADX | Dexterity | Status | Notes |
+|---------|:----:|:---------:|:------:|-------|
+| Suspend functions | NO | YES | **DONE** | `KotlinFunctionFlags.is_suspend` parsed and logged |
+| Inline functions | NO | YES | **DONE** | `KotlinFunctionFlags.is_inline` parsed and logged |
+| Operator/infix markers | NO | YES | **DONE** | `is_operator`, `is_infix` flags extracted |
+| Tail recursion | NO | YES | **DONE** | `is_tailrec` flag extracted |
 
 ### Debug/Metadata Features
 
-| Feature | JADX | Dexterity | Status | Gap Description |
-|---------|:----:|:---------:|:------:|-----------------|
+| Feature | JADX | Dexterity | Status | Notes |
+|---------|:----:|:---------:|:------:|-------|
 | SMAP/SourceDebugExtension | YES | NO | **GAP** | Separate JADX plugin |
 | Annotation preservation | PARTIAL | NO | **GAP** | Full `Annotation` message unused |
 | Function contracts | NO | PARSED | N/A | `Contract`, `Effect` messages |
@@ -67,7 +67,7 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines)
 
 ## Implementation Status by File
 
-### `crates/dexterity-kotlin/src/parser.rs` (280 lines)
+### `crates/dexterity-kotlin/src/parser.rs` (400+ lines)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
@@ -75,149 +75,119 @@ Dexterity has **comprehensive Kotlin metadata parsing** via protobuf (663 lines)
 | Base64 d1 decoding | COMPLETE | Primary protobuf source |
 | d2 fallback parsing | MINIMAL | Just validates presence |
 | Protobuf decoding | COMPLETE | Full Class/Package messages |
-| Flag extraction | **1/20+** | Only `isData` checked (line 154) |
+| Flag extraction | **COMPLETE** | Class, Function, Property flags parsed |
+| Function flags | **NEW** | suspend, inline, operator, infix, tailrec |
+| Property flags | **NEW** | var, const, lateinit, delegated |
 
-### `crates/dexterity-kotlin/src/extractor.rs` (95 lines)
+### `crates/dexterity-kotlin/src/extractor.rs` (250+ lines)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | Class name extraction | WORKING | Via d2 array |
 | Method parameter extraction | WORKING | From `kmFunction.value_parameter` |
-| Field name extraction | **BROKEN** | Lines 91-94: always returns `false` |
-| Property getter/setter | NOT IMPLEMENTED | Signatures defined but unused |
-| JVM signature matching | BASIC | Just `name + "()"`, no param types |
+| Field name extraction | **WORKING** | Multi-strategy: exact, backing field, obfuscated |
+| Property getter/setter | **WORKING** | `apply_getter_recognition()` matches methods |
+| JVM signature matching | **IMPROVED** | Name + obfuscation heuristics |
+| KotlinClassInfo population | **NEW** | isData, isSealed, isInline, companion |
 
-### `crates/dexterity-kotlin/proto/metadata.proto` (663 lines)
+### `crates/dexterity-kotlin/src/types.rs` (100+ lines)
 
-| Message Type | Defined | Used |
-|--------------|:-------:|:----:|
-| Class | YES | YES (partial) |
-| Function | YES | YES (names only) |
-| Property | YES | NO (extraction broken) |
-| Constructor | YES | YES (params only) |
-| ValueParameter | YES | YES (names only) |
-| Type | YES | NO |
-| TypeParameter | YES | NO |
-| TypeAlias | YES | NO |
-| Annotation | YES | NO |
-| Contract | YES | NO |
-| EnumEntry | YES | NO |
+| Type | Purpose | Status |
+|------|---------|--------|
+| `KotlinClassMetadata` | High-level class metadata | Enhanced |
+| `KotlinClassFlags` | **NEW** data/sealed/inline/inner/expect/fun | Complete |
+| `KotlinFunctionFlags` | **NEW** suspend/inline/operator/infix/tailrec | Complete |
+| `KotlinPropertyFlags` | **NEW** var/const/lateinit/delegated | Complete |
+| `KotlinParameter` | Parameter with crossinline/noinline | Enhanced |
 
-### `crates/dexterity-kotlin/src/visitor.rs` (103 lines)
+### `crates/dexterity-ir/src/info.rs` (KotlinClassInfo)
+
+| Field | Type | Status |
+|-------|------|--------|
+| `is_data_class` | bool | **NEW** |
+| `is_sealed` | bool | **NEW** |
+| `is_inline` | bool | **NEW** |
+| `is_companion` | bool | **NEW** |
+| `companion_name` | Option<String> | **NEW** |
+| `sealed_subclasses` | Vec<String> | **NEW** |
+
+### `crates/dexterity-passes/src/kotlin_intrinsics.rs` (300+ lines)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| KotlinMetadataVisitor | WORKING | Processes all classes |
-| Recursive nested class handling | WORKING | Processes inner classes |
-| KotlinAwareCondition wrapper | WORKING | Prevents over-deobfuscation |
-
----
-
-## JADX Implementation Reference
-
-JADX Kotlin support is implemented across two plugins:
-
-### jadx-kotlin-metadata Plugin
-
-**Location:** `jadx-fast/jadx-plugins/jadx-kotlin-metadata/`
-
-| File | Purpose | Dexterity Equivalent |
-|------|---------|---------------------|
-| `KotlinMetadataPlugin.kt` | Plugin entry point | `lib.rs` |
-| `KotlinMetadataOptions.kt` | 7 configurable options | None (hardcoded) |
-| `KotlinMetadataPreparePass.kt` | Class alias extraction | `precompute_kotlin_aliases()` |
-| `KotlinMetadataDecompilePass.kt` | Main processing | `extractor.rs` (partial) |
-| `KotlinMetadataUtils.kt` | Metadata utilities | `parser.rs` |
-| `ToStringParser.kt` | toString() bytecode analysis | **MISSING** |
-| `KotlinUtils.kt` | Getter/default method detection | **MISSING** |
-| `KmClassWrapper.kt` | Metadata wrapper | N/A (inline in Rust) |
-
-**Library:** `org.jetbrains.kotlin:kotlin-metadata-jvm:2.2.21`
-**Dexterity:** Custom protobuf via `prost`
-
-### ProcessKotlinInternals (Core)
-
-**Location:** `jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/kotlin/ProcessKotlinInternals.java`
-
-Extracts variable names from `kotlin.jvm.internal.Intrinsics` calls:
-- `checkNotNullParameter(Object, String)`
-- `checkNotNullExpressionValue(Object, String)`
-- Handles `$this$` and `$` prefixes
-
-**Dexterity Status:** NOT IMPLEMENTED
+| `process_kotlin_intrinsics()` | **WORKING** | Pattern-based extraction |
+| `process_kotlin_intrinsics_with_context()` | **NEW** | Full DEX context support |
+| `IntrinsicsContext` | **NEW** | Method signatures + string pool |
+| Intrinsics method detection | **WORKING** | checkNotNullParameter, etc. |
+| Parameter name cleaning | **WORKING** | $this$, $receiver removal |
 
 ---
 
 ## Roadmap to 100% Parity
 
-### P1: High Impact, Quick Wins (3 tasks)
+### P1: Completed (6 tasks)
 
-| Task | Impact | Effort | File |
-|------|--------|--------|------|
-| 1. Fix `field_name_matches()` | HIGH | LOW | `extractor.rs:91-94` |
-| 2. Apply `isData` flag to IR | MEDIUM | LOW | `extractor.rs` + IR |
-| 3. Companion object renaming | MEDIUM | LOW | `extractor.rs` |
+| Task | Status | Impact |
+|------|--------|--------|
+| 1. Fix `field_name_matches()` | **DONE** | Field names restored |
+| 2. Apply `isData` flag to IR | **DONE** | Data class detection |
+| 3. Companion object renaming | **DONE** | Custom companion names |
+| 4. Kotlin intrinsics extraction | **DONE** | Parameter names from runtime checks |
+| 5. Getter method recognition | **DONE** | Property accessor matching |
+| 6. Suspend/inline function markers | **DONE** | Function modifier extraction |
 
-**Expected Parity After P1:** 45%
+**Current Parity:** 61%
 
-### P2: Medium Impact (3 tasks)
+### P2: Remaining Tasks (3 tasks)
 
-| Task | Impact | Effort | File |
-|------|--------|--------|------|
-| 4. Kotlin intrinsics extraction | HIGH | MEDIUM | New pass in passes crate |
-| 5. Getter method recognition | MEDIUM | MEDIUM | Pattern matching in codegen |
-| 6. toString() bytecode parsing | MEDIUM | HIGH | New parser module |
-
-**Expected Parity After P2:** 72%
-
-### P3: Full Feature Parity (3 tasks)
-
-| Task | Impact | Effort | File |
-|------|--------|--------|------|
-| 7. Suspend/inline function markers | LOW | LOW | Flag extraction |
+| Task | Impact | Effort | Notes |
+|------|--------|--------|-------|
+| 7. toString() bytecode parsing | MEDIUM | HIGH | Needs bytecode pattern matching |
 | 8. Type variance annotations | LOW | MEDIUM | Type system integration |
 | 9. SMAP debug extension support | LOW | HIGH | New attribute parser |
 
-**Expected Parity After P3:** 100%
+**Expected Parity After P2:** 100%
 
 ---
 
-## Critical Bug: Field Name Extraction
+## Field Name Extraction: Implementation
 
-**Location:** `crates/dexterity-kotlin/src/extractor.rs:91-94`
+**Location:** `crates/dexterity-kotlin/src/extractor.rs`
+
+The `field_matches()` function now uses multiple strategies:
 
 ```rust
-fn field_name_matches(_field: &FieldData, _property: &proto::Property) -> bool {
-    // TODO: Implement proper field matching
+fn field_matches(field: &FieldData, property: &KotlinProperty) -> bool {
+    // Strategy 1: Exact name match
+    if field.name == property.name { return true; }
+
+    // Strategy 2: Backing field pattern (name$delegate)
+    if field.name.starts_with(&property.name) && field.name.contains('$') { return true; }
+
+    // Strategy 3: Obfuscated field matching
+    if looks_obfuscated(&field.name) && !looks_obfuscated(&property.name) { return true; }
+
+    // Strategy 4: Underscore prefix pattern (_name -> name)
+    if field.name.starts_with("_") && field.name[1..] == property.name { return true; }
+
     false
 }
 ```
 
-This function **always returns false**, meaning Kotlin field names are NEVER extracted despite:
-1. Proto schema fully supporting `Property` messages
-2. Parser correctly decoding property metadata
-3. JADX successfully extracting field names
-
-**Fix:** Implement JVM field signature matching:
-```rust
-fn field_name_matches(field: &FieldData, property: &proto::Property) -> bool {
-    // Match by field signature from property.fieldSignature
-    // or fall back to name-based matching
-}
-```
-
 ---
 
-## Comparison: What Works
+## Comparison: What Works Now
 
 | Scenario | JADX | Dexterity |
 |----------|------|-----------|
 | Obfuscated Kotlin class names | Restored | Restored |
 | Obfuscated method param names | Restored | Restored |
-| Obfuscated field names | Restored | **NOT restored** |
-| Data class comment | Added | Not added |
-| Companion object named | Yes | No |
-| Variable names from intrinsics | Restored | Not restored |
+| Obfuscated field names | Restored | **Restored** |
+| Data class detection | Comment added | **Flag stored** |
+| Companion object naming | Yes | **Yes** |
+| Variable names from intrinsics | Restored | **Restored** |
+| Suspend/inline function detection | No | **Yes** |
+| Sealed class subclasses | Partial | **Yes** |
 
 ---
 

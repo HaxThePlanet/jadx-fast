@@ -204,7 +204,7 @@ pub enum MethodInlineAttr {
 /// - `insn_indices`: Indices into ClassData.all_instructions (populated when load() is called)
 /// - After codegen, call unload() to free the indices
 /// - Instructions live in ClassData.all_instructions (shared across all methods/blocks)
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct MethodData {
     /// Method name
     pub name: String,
@@ -732,7 +732,7 @@ impl ClassData {
 }
 
 /// Field information
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct FieldData {
     /// Field name
     pub name: String,

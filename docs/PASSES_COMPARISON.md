@@ -293,7 +293,7 @@ Unknown
 | `CodeShrinkVisitor.java` | `code_shrink.rs` | DONE | Variable inlining |
 | `ConstInlineVisitor.java` (307 lines) | `const_inline.rs` | DONE | Constant inlining |
 | `ReplaceNewArray.java` | `mod_visitor.rs` | DONE | Array init patterns |
-| `DeboxingVisitor.java` (181 lines) | - | MISSING | Primitive unboxing |
+| `DeboxingVisitor.java` (181 lines) | `body_gen.rs`, `expr_gen.rs` | DONE | BoxingType detection at codegen |
 
 #### ModVisitor Pattern Comparison
 
@@ -348,8 +348,8 @@ Dexterity `var_naming.rs`:
 | `FixTypesVisitor.java` | `fix_types.rs` | DONE | HIGH |
 | `FinishTypeInference.java` | - | PARTIAL | HIGH |
 | `DeboxingVisitor.java` | `deboxing.rs` | DONE | MEDIUM |
-| `GenericTypesVisitor.java` | - | MISSING | MEDIUM |
-| `ShadowFieldVisitor.java` | - | MISSING | LOW |
+| `GenericTypesVisitor.java` | `generic_types.rs` | DONE | Attach generic type info to constructors |
+| `ShadowFieldVisitor.java` | `shadow_field.rs` | DONE | Fix shadowed field access with super/cast |
 
 Implemented passes:
 
@@ -367,8 +367,8 @@ Implemented passes:
 | JADX Pass | Dexterity Equivalent | Status | Notes |
 |-----------|---------------------|--------|-------|
 | `EnumVisitor.java` | `enum_visitor.rs` | DONE | Enum reconstruction |
-| `ConstructorVisitor.java` | - | MISSING | Constructor handling |
-| `MethodInvokeVisitor.java` (441 lines) | - | MISSING | Overload resolution |
+| `ConstructorVisitor.java` | - | PARTIAL | Basic constructor handling |
+| `MethodInvokeVisitor.java` (441 lines) | `method_invoke.rs` | DONE | Overload resolution with explicit casts |
 | `SwitchOverStringVisitor.java` | `body_gen.rs` | DONE | Two-switch pattern merge (79% coverage) |
 | `ExtractFieldInit.java` | `extract_field_init.rs` | DONE | Field init extraction |
 

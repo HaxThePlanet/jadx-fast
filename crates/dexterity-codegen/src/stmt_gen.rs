@@ -410,6 +410,16 @@ impl<'a> StmtGen<'a> {
                 code.newline();
                 true
             }
+
+            // Expression-producing instructions are not statements
+            // They're handled by expression generation instead
+            InsnType::MoveMulti { .. }
+            | InsnType::StrConcat { .. }
+            | InsnType::RegionArg { .. }
+            | InsnType::OneArg { .. }
+            | InsnType::Constructor { .. }
+            | InsnType::JavaJsr { .. }
+            | InsnType::JavaRet { .. } => false,
         }
     }
 }

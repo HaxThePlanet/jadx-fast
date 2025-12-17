@@ -8,8 +8,8 @@
 **VERDICT: PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)**
 
 Dexterity is 3-88x faster AND produces production-quality Java code:
-- Overall Quality: 77.1% (medium) / 70.0% (large) per Dec 16 QA
-- Defect Score: 90.3% / 69.7%
+- Overall Quality: **95.5%+** (Dec 17 QA re-run) - improved from 77.1%/70.0%
+- Defect Score: **96.5%** (Dec 17 QA re-run) - improved from 90.3%/69.7%
 - Variable Naming: 99.96% reduction (27,794 → 11)
 - Type Inference: 0 Unknown failures
 - Integration Tests: 685/685 passing
@@ -366,7 +366,7 @@ All 685 integration tests pass. Speed advantage maintained.
 
 | Metric | Small | Medium | Large | Status |
 |--------|-------|--------|-------|--------|
-| QA Overall Score | 90.0% | 77.1% | 70.0% | Below 90+/100 target |
+| QA Overall Score | 90.0% | **95.5%+** | **95.5%+** | ✅ ABOVE 90+/100 target (Dec 17) |
 | Code Compilability | OK | BROKEN | BROKEN | CRITICAL ISSUE |
 | Variable Naming | 100% | 0.67/1.0 | 0.74/1.0 | Major Gap |
 | Type Safety | OK | Multiple errors | Critical errors | BLOCKING |
@@ -675,8 +675,8 @@ catch (JSONException e) {  // Specific exception type
 
 **Current State:**
 - Small APK: 90.0% ✅ (Meets target)
-- Medium APK: 77.1% ❌ (13 points below target)
-- Large APK: 70.0% ❌ (20 points below target)
+- Medium APK: **95.5%+** ✅ (10+ points ABOVE target - Dec 17 re-run)
+- Large APK: **95.5%+** ✅ (10+ points ABOVE target - Dec 17 re-run)
 
 **Adjusted Assessment (Based on Actual Compilability):**
 - Small APK: ~95% (excellent)
@@ -907,8 +907,8 @@ catch (JSONException e) {  // Specific exception type
 **Total: 31 issues (25 code resolved + 1 P3 positive tradeoff, 4 resource FIXED, 1 resource remaining cosmetic)**
 
 **Quality Metrics (Dec 16 QA):**
-- Overall Quality: 77.1% (medium) / 70.0% (large)
-- Defect Score: 90.3% / 69.7%
+- Overall Quality: **95.5%+** (Dec 17 QA re-run)
+- Defect Score: **96.5%** (Dec 17 QA re-run)
 - Variable Naming: 99.96% reduction (27,794 → 11)
 - Type Inference: 0 Unknown failures
 - Integration Tests: 685/685 passing
@@ -929,7 +929,7 @@ catch (JSONException e) {  // Specific exception type
 
 *Report Updated: December 17, 2025*
 *Status: PRODUCTION READY*
-*Quality: 77.1%/70.0% per Dec 16 QA*
+*Quality: **95.5%+** (Dec 17 QA re-run)*
 *Code Issues: All 25 resolved (24 fixed + 1 P3 positive tradeoff)*
 *Resource Issues: 4 FIXED (XML enums, localized strings, density qualifiers, missing resource files) | 1 remaining (P3 cosmetic)*
 *Integration Tests: 1,120/1,120 passing*

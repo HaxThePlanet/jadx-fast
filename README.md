@@ -413,7 +413,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 - [Quality Status](docs/QUALITY_STATUS.md) - Detailed output quality vs Java JADX
 - [DEX Parity](docs/DEX_PARITY.md) - **100% parity** for DEX binary parsing (dexterity-dex vs jadx-dex)
 - [Codegen Parity](docs/CODEGEN_PARITY.md) - 90% parity for code generation
-- [Kotlin Parity](docs/KOTLIN_PARITY.md) - 28% parity for Kotlin metadata extraction
+- [Kotlin Parity](docs/KOTLIN_PARITY.md) - **61% parity** for Kotlin metadata extraction (field names, data classes, companion objects, function modifiers)
 - [Roadmap](docs/ROADMAP.md) - Remaining work and implementation plan
 - [Changelog](docs/CHANGELOG.md) - Development history and fixes
 - [Architecture](crates/AGENTS.md) - Crate structure and design

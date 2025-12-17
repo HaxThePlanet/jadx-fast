@@ -1164,7 +1164,15 @@ impl TypeInference {
             | InsnType::SparseSwitch { .. }
             | InsnType::Break { .. }
             | InsnType::Continue { .. }
-            | InsnType::InvokeCustom { .. } => {}
+            | InsnType::InvokeCustom { .. }
+            // New JADX-compatible instructions
+            | InsnType::MoveMulti { .. }
+            | InsnType::StrConcat { .. }
+            | InsnType::RegionArg { .. }
+            | InsnType::OneArg { .. }
+            | InsnType::Constructor { .. }
+            | InsnType::JavaJsr { .. }
+            | InsnType::JavaRet { .. } => {}
         }
     }
 

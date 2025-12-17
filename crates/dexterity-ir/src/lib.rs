@@ -36,5 +36,8 @@ pub use info::{
 };
 pub use instructions::{InsnArg, InsnNode, InsnType, LambdaHandleType, LambdaInfo, RegisterArg, WrappedInsn};
 pub use kotlin_metadata::{KotlinMetadata, KOTLIN_METADATA_ANNOTATION};
-pub use ssa::{CodeVar, SSAContext, SSAVar, SSAVarRef, TypeBound, TypeInfo};
+pub use ssa::{
+    CodeVar, SSAContext, SSAVar, SSAVarRef, TypeBound, TypeInfo,
+    SSA_FLAG_IMMUTABLE_TYPE, SSA_FLAG_METHOD_ARG, SSA_FLAG_PHI_ASSIGN, SSA_FLAG_THIS_ARG,
+};
 pub use types::{compare_types, ArgType, TypeCompare};

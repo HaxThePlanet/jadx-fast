@@ -302,7 +302,13 @@ fn arg_type_to_descriptor(arg_type: &ArgType) -> String {
         ArgType::Generic { base, .. } => format!("L{};", base),
         ArgType::TypeVariable(name) => format!("T{};", name),
         ArgType::Wildcard { .. } => "*".to_string(),
-        ArgType::Unknown => "?".to_string(),
+        // Unknown type variants - use placeholder descriptor
+        ArgType::Unknown
+        | ArgType::UnknownNarrow
+        | ArgType::UnknownWide
+        | ArgType::UnknownObject
+        | ArgType::UnknownArray
+        | ArgType::UnknownIntegral => "?".to_string(),
     }
 }
 

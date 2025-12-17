@@ -11,6 +11,8 @@ pub mod visitor;
 
 // Re-exports
 pub use visitor::KotlinAwareCondition;
+pub use extractor::apply_getter_recognition;
+pub use types::{KotlinClassMetadata, KotlinFunction, KotlinProperty, KotlinClassFlags, KotlinFunctionFlags, KotlinPropertyFlags};
 
 // Re-export generated protobuf types
 pub mod proto {
@@ -65,6 +67,9 @@ pub fn process_kotlin_metadata(cls: &mut ClassData) -> Result<()> {
 
     // Extract and apply names to IR
     extractor::apply_kotlin_names(cls, &kotlin_metadata)?;
+
+    // Apply getter/setter recognition
+    extractor::apply_getter_recognition(cls, &kotlin_metadata);
 
     Ok(())
 }

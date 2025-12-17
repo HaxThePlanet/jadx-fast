@@ -1,9 +1,19 @@
 //! Type representation
+//!
+//! This module provides a comprehensive type system matching JADX's ArgType hierarchy.
+//! Key features:
+//! - Primitive types with automatic widening hierarchy
+//! - Object and array types
+//! - Generic types with type parameters
+//! - Unknown type variants (NARROW, WIDE) for constraint-based type inference
+//! - Type comparison with hierarchy support
 
 /// Argument/variable type representation
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+///
+/// Matches JADX's `jadx.core.dex.instructions.args.ArgType` hierarchy
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
 pub enum ArgType {
-    /// Primitive types
+    // === Primitive types ===
     Void,
     Boolean,
     Byte,
@@ -14,13 +24,15 @@ pub enum ArgType {
     Float,
     Double,
 
+    // === Reference types ===
+
     /// Object type (class reference)
     Object(String),
 
     /// Array type
     Array(Box<ArgType>),
 
-    /// Generic type with parameters
+    /// Generic type with parameters (e.g., List<String>)
     Generic {
         base: String,
         params: Vec<ArgType>,
@@ -35,8 +47,37 @@ pub enum ArgType {
     /// Type variable (e.g., T, E, K, V)
     TypeVariable(String),
 
-    /// Unknown type (for type inference)
+    // === Unknown type variants for type inference ===
+    // Matches JADX's UnknownArg with possible types
+
+    /// Completely unknown type (can be anything)
+    /// Used as initial state before any constraints are gathered
+    #[default]
     Unknown,
+
+    /// Unknown narrow type (32-bit: int, float, boolean, byte, char, short, or object reference)
+    /// Used when we know the value is a single register (32-bit) but don't know the exact type
+    /// Matches JADX's NARROW = unknown(INT, FLOAT, BOOLEAN, BYTE, CHAR, SHORT, OBJECT)
+    UnknownNarrow,
+
+    /// Unknown wide type (64-bit: long or double)
+    /// Used when we know the value spans two registers (64-bit) but don't know if it's long or double
+    /// Matches JADX's WIDE = unknown(LONG, DOUBLE)
+    UnknownWide,
+
+    /// Unknown object type (any reference type)
+    /// Used when we know it's an object but don't know which class
+    /// Matches JADX's UNKNOWN_OBJECT
+    UnknownObject,
+
+    /// Unknown array type (any array)
+    /// Used when we know it's an array but don't know the element type
+    UnknownArray,
+
+    /// Unknown integer subtype (byte, char, short, int, or boolean when used as int)
+    /// Used for const instructions that could be any integral type
+    /// Matches JADX's NARROW_INTEGRAL
+    UnknownIntegral,
 }
 
 /// Wildcard bound direction
@@ -51,6 +92,16 @@ pub enum WildcardBound {
 }
 
 impl ArgType {
+    // === Common types as constants ===
+
+    /// java.lang.Object type
+    pub const OBJECT: ArgType = ArgType::Object(String::new()); // Will be "java/lang/Object" in practice
+
+    /// java.lang.String type
+    pub const STRING: ArgType = ArgType::Object(String::new()); // Will be "java/lang/String" in practice
+
+    // === Factory methods ===
+
     /// Create an object type from a descriptor
     pub fn object(descriptor: impl Into<String>) -> Self {
         ArgType::Object(descriptor.into())
@@ -60,6 +111,21 @@ impl ArgType {
     pub fn array(element: ArgType) -> Self {
         ArgType::Array(Box::new(element))
     }
+
+    /// Create a generic type
+    pub fn generic(base: impl Into<String>, params: Vec<ArgType>) -> Self {
+        ArgType::Generic {
+            base: base.into(),
+            params,
+        }
+    }
+
+    /// Create a type variable
+    pub fn type_var(name: impl Into<String>) -> Self {
+        ArgType::TypeVariable(name.into())
+    }
+
+    // === Type queries ===
 
     /// Check if this is a primitive type
     pub fn is_primitive(&self) -> bool {
@@ -79,13 +145,153 @@ impl ArgType {
 
     /// Check if this is a wide type (64-bit: long, double)
     pub fn is_wide(&self) -> bool {
-        matches!(self, ArgType::Long | ArgType::Double)
+        matches!(self, ArgType::Long | ArgType::Double | ArgType::UnknownWide)
+    }
+
+    /// Check if this is a narrow type (32-bit)
+    pub fn is_narrow(&self) -> bool {
+        matches!(
+            self,
+            ArgType::Boolean
+                | ArgType::Byte
+                | ArgType::Char
+                | ArgType::Short
+                | ArgType::Int
+                | ArgType::Float
+                | ArgType::Object(_)
+                | ArgType::Array(_)
+                | ArgType::UnknownNarrow
+                | ArgType::UnknownObject
+                | ArgType::UnknownIntegral
+        )
     }
 
     /// Check if this is an object or array type
     pub fn is_object(&self) -> bool {
-        matches!(self, ArgType::Object(_) | ArgType::Array(_))
+        matches!(
+            self,
+            ArgType::Object(_)
+                | ArgType::Array(_)
+                | ArgType::Generic { .. }
+                | ArgType::UnknownObject
+                | ArgType::UnknownArray
+        )
     }
+
+    /// Check if this is an array type
+    pub fn is_array(&self) -> bool {
+        matches!(self, ArgType::Array(_) | ArgType::UnknownArray)
+    }
+
+    /// Check if this is any unknown type variant
+    pub fn is_unknown(&self) -> bool {
+        matches!(
+            self,
+            ArgType::Unknown
+                | ArgType::UnknownNarrow
+                | ArgType::UnknownWide
+                | ArgType::UnknownObject
+                | ArgType::UnknownArray
+                | ArgType::UnknownIntegral
+        )
+    }
+
+    /// Check if the type is fully known (not unknown in any way)
+    pub fn is_type_known(&self) -> bool {
+        !self.is_unknown()
+    }
+
+    /// Check if this is an integral type (byte, char, short, int, or boolean)
+    pub fn is_integral(&self) -> bool {
+        matches!(
+            self,
+            ArgType::Boolean
+                | ArgType::Byte
+                | ArgType::Char
+                | ArgType::Short
+                | ArgType::Int
+                | ArgType::UnknownIntegral
+        )
+    }
+
+    /// Check if this is a floating point type
+    pub fn is_float(&self) -> bool {
+        matches!(self, ArgType::Float | ArgType::Double)
+    }
+
+    /// Get the narrowest unknown type that contains this type
+    /// Used for type inference constraint propagation
+    pub fn to_unknown_category(&self) -> ArgType {
+        match self {
+            ArgType::Long | ArgType::Double => ArgType::UnknownWide,
+            ArgType::Object(_) | ArgType::Array(_) | ArgType::Generic { .. } => {
+                ArgType::UnknownObject
+            }
+            ArgType::Boolean
+            | ArgType::Byte
+            | ArgType::Char
+            | ArgType::Short
+            | ArgType::Int => ArgType::UnknownIntegral,
+            ArgType::Float => ArgType::UnknownNarrow,
+            _ => ArgType::Unknown,
+        }
+    }
+
+    /// Check if this unknown type can contain the given concrete type
+    /// Used for type inference constraint checking
+    pub fn can_contain(&self, other: &ArgType) -> bool {
+        match self {
+            ArgType::Unknown => true,
+            ArgType::UnknownNarrow => other.is_narrow(),
+            ArgType::UnknownWide => other.is_wide(),
+            ArgType::UnknownObject => other.is_object(),
+            ArgType::UnknownArray => other.is_array(),
+            ArgType::UnknownIntegral => other.is_integral(),
+            _ => self == other,
+        }
+    }
+
+    /// Narrow this type based on a constraint
+    /// Returns the more specific type if compatible, or None if conflict
+    pub fn narrow_with(&self, constraint: &ArgType) -> Option<ArgType> {
+        if self == constraint {
+            return Some(self.clone());
+        }
+
+        match (self, constraint) {
+            // Unknown can be narrowed to anything
+            (ArgType::Unknown, other) | (other, ArgType::Unknown) => Some(other.clone()),
+
+            // UnknownNarrow can be narrowed to any 32-bit type
+            (ArgType::UnknownNarrow, other) if other.is_narrow() => Some(other.clone()),
+            (other, ArgType::UnknownNarrow) if other.is_narrow() => Some(other.clone()),
+
+            // UnknownWide can be narrowed to long or double
+            (ArgType::UnknownWide, other) if other.is_wide() => Some(other.clone()),
+            (other, ArgType::UnknownWide) if other.is_wide() => Some(other.clone()),
+
+            // UnknownObject can be narrowed to any object type
+            (ArgType::UnknownObject, other) if other.is_object() => Some(other.clone()),
+            (other, ArgType::UnknownObject) if other.is_object() => Some(other.clone()),
+
+            // UnknownIntegral can be narrowed to any integral type
+            (ArgType::UnknownIntegral, other) if other.is_integral() => Some(other.clone()),
+            (other, ArgType::UnknownIntegral) if other.is_integral() => Some(other.clone()),
+
+            // UnknownArray can be narrowed to any array type
+            (ArgType::UnknownArray, ArgType::Array(elem)) => {
+                Some(ArgType::Array(elem.clone()))
+            }
+            (ArgType::Array(elem), ArgType::UnknownArray) => {
+                Some(ArgType::Array(elem.clone()))
+            }
+
+            // No narrowing possible - conflict
+            _ => None,
+        }
+    }
+
+    // === Parsing ===
 
     /// Parse a type from a DEX type descriptor
     pub fn from_descriptor(desc: &str) -> Option<Self> {
@@ -119,6 +325,32 @@ impl ArgType {
                 Some(ArgType::Object(class_name))
             }
             _ => None,
+        }
+    }
+
+    /// Convert to DEX type descriptor string
+    pub fn to_descriptor(&self) -> String {
+        match self {
+            ArgType::Void => "V".to_string(),
+            ArgType::Boolean => "Z".to_string(),
+            ArgType::Byte => "B".to_string(),
+            ArgType::Char => "C".to_string(),
+            ArgType::Short => "S".to_string(),
+            ArgType::Int => "I".to_string(),
+            ArgType::Long => "J".to_string(),
+            ArgType::Float => "F".to_string(),
+            ArgType::Double => "D".to_string(),
+            ArgType::Object(name) => format!("L{};", name),
+            ArgType::Array(elem) => format!("[{}", elem.to_descriptor()),
+            ArgType::Generic { base, .. } => format!("L{};", base),
+            ArgType::TypeVariable(_) => "Ljava/lang/Object;".to_string(),
+            ArgType::Wildcard { .. } => "Ljava/lang/Object;".to_string(),
+            ArgType::Unknown
+            | ArgType::UnknownNarrow
+            | ArgType::UnknownWide
+            | ArgType::UnknownObject
+            | ArgType::UnknownArray
+            | ArgType::UnknownIntegral => "?".to_string(),
         }
     }
 }
@@ -199,6 +431,7 @@ impl TypeCompare {
 /// Compare two types using class hierarchy
 ///
 /// This implements JADX's type comparison logic with hierarchy-aware subtype checking.
+/// Handles all unknown type variants for constraint-based type inference.
 pub fn compare_types(
     first: &ArgType,
     second: &ArgType,
@@ -212,8 +445,31 @@ pub fn compare_types(
     }
 
     match (first, second) {
+        // === Unknown type variant handling ===
         // Unknown is compatible with everything
         (Unknown, _) | (_, Unknown) => TypeCompare::Equal,
+
+        // UnknownNarrow is compatible with all 32-bit types
+        (UnknownNarrow, other) | (other, UnknownNarrow) if other.is_narrow() => TypeCompare::Equal,
+        (UnknownNarrow, _) | (_, UnknownNarrow) => TypeCompare::Conflict,
+
+        // UnknownWide is compatible with long and double
+        (UnknownWide, other) | (other, UnknownWide) if other.is_wide() => TypeCompare::Equal,
+        (UnknownWide, _) | (_, UnknownWide) => TypeCompare::Conflict,
+
+        // UnknownObject is compatible with all object types
+        (UnknownObject, other) | (other, UnknownObject) if other.is_object() => TypeCompare::Equal,
+        (UnknownObject, _) | (_, UnknownObject) => TypeCompare::Conflict,
+
+        // UnknownArray is compatible with all array types
+        (UnknownArray, Array(_)) | (Array(_), UnknownArray) => TypeCompare::Equal,
+        (UnknownArray, _) | (_, UnknownArray) => TypeCompare::Conflict,
+
+        // UnknownIntegral is compatible with integral types
+        (UnknownIntegral, other) | (other, UnknownIntegral) if other.is_integral() => {
+            TypeCompare::Equal
+        }
+        (UnknownIntegral, _) | (_, UnknownIntegral) => TypeCompare::Conflict,
 
         // Primitive type comparisons
         (Int, Byte) | (Int, Short) | (Int, Char) => TypeCompare::Wider,

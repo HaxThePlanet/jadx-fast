@@ -569,7 +569,27 @@ fn count_uses_in_insn(insn: &InsnType, counts: &mut HashMap<(u16, u32), usize>) 
         | InsnType::ConstString { .. } | InsnType::ConstClass { .. }
         | InsnType::NewInstance { .. } | InsnType::MoveResult { .. }
         | InsnType::MoveException { .. } | InsnType::StaticGet { .. }
-        | InsnType::Goto { .. } | InsnType::Break { .. } | InsnType::Continue { .. } => {}
+        | InsnType::Goto { .. } | InsnType::Break { .. } | InsnType::Continue { .. }
+        // New JADX-compatible instructions
+        | InsnType::JavaJsr { .. } | InsnType::JavaRet { .. } | InsnType::RegionArg { .. } => {}
+
+        // New instructions with args
+        InsnType::MoveMulti { moves } => {
+            for (_, src) in moves {
+                count_arg(src);
+            }
+        }
+        InsnType::StrConcat { args, .. } => {
+            for arg in args {
+                count_arg(arg);
+            }
+        }
+        InsnType::OneArg { arg } => count_arg(arg),
+        InsnType::Constructor { args, .. } => {
+            for arg in args {
+                count_arg(arg);
+            }
+        }
     }
 }
 
@@ -1502,6 +1522,11 @@ fn type_to_var_name(ty: &ArgType) -> String {
             format!("{}Arr", type_to_var_name(elem))
         }
         ArgType::Unknown => "v".to_string(),
+        ArgType::UnknownNarrow => "n".to_string(),
+        ArgType::UnknownWide => "w".to_string(),
+        ArgType::UnknownObject => "obj".to_string(),
+        ArgType::UnknownArray => "arr".to_string(),
+        ArgType::UnknownIntegral => "i".to_string(),
         ArgType::Generic { base, .. } => {
             let simple = base.rsplit('/').next().unwrap_or(base);
             let simple = simple.trim_start_matches('L').trim_end_matches(';');
@@ -3560,12 +3585,15 @@ fn generate_lambda_param_name(idx: usize, param_type: &dexterity_ir::ArgType) ->
             let prefix = simple.chars().next().unwrap_or('o').to_lowercase().to_string();
             return if idx > 0 { format!("{}{}", prefix, idx) } else { prefix };
         }
-        ArgType::Array(_) => "arr",
+        ArgType::Array(_) | ArgType::UnknownArray => "arr",
         ArgType::Generic { base, .. } => {
             let prefix = base.rsplit('/').next().unwrap_or("t").chars().next().unwrap_or('t').to_lowercase().to_string();
             return if idx > 0 { format!("{}{}", prefix, idx) } else { prefix };
         }
-        ArgType::Void => "v", ArgType::Unknown | ArgType::Wildcard { .. } | ArgType::TypeVariable(_) => "p",
+        ArgType::Void => "v",
+        ArgType::Unknown | ArgType::Wildcard { .. } | ArgType::TypeVariable(_)
+        | ArgType::UnknownNarrow | ArgType::UnknownWide | ArgType::UnknownObject
+        | ArgType::UnknownIntegral => "p",
     };
     if idx == 0 { base.to_string() } else { format!("{}{}", base, idx) }
 }
@@ -5733,6 +5761,61 @@ fn generate_insn<W: CodeWriter>(
             ctx.store_inline_expr(dest.reg_num, dest.ssa_version, ternary_expr);
             true
         }
+
+        // New JADX-compatible instructions
+        InsnType::MoveMulti { moves } => {
+            // Parallel assignments - emit as sequential for now
+            for (dest, src) in moves {
+                code.start_line();
+                code.add(&ctx.expr_gen.get_var_name(dest));
+                code.add(" = ");
+                ctx.expr_gen.write_arg(code, src);
+                code.add(";").newline();
+            }
+            true
+        }
+        InsnType::StrConcat { dest, args } => {
+            // String concatenation: dest = arg1 + arg2 + ...
+            code.start_line();
+            code.add(&ctx.expr_gen.get_var_name(dest));
+            code.add(" = ");
+            for (i, arg) in args.iter().enumerate() {
+                if i > 0 { code.add(" + "); }
+                ctx.expr_gen.write_arg(code, arg);
+            }
+            code.add(";").newline();
+            true
+        }
+        InsnType::RegionArg { .. } => true, // Placeholder - no code gen
+        InsnType::OneArg { arg } => {
+            // Just emit the argument as an expression statement
+            code.start_line();
+            ctx.expr_gen.write_arg(code, arg);
+            code.add(";").newline();
+            true
+        }
+        InsnType::Constructor { dest, args, .. } => {
+            // Constructor: dest = new Type(args)
+            code.start_line();
+            code.add(&ctx.expr_gen.get_var_name(dest));
+            code.add(" = new ...(");
+            for (i, arg) in args.iter().enumerate() {
+                if i > 0 { code.add(", "); }
+                ctx.expr_gen.write_arg(code, arg);
+            }
+            code.add(");").newline();
+            true
+        }
+        InsnType::JavaJsr { target } => {
+            // JSR is legacy - emit as comment
+            code.start_line().add(&format!("/* jsr {} */", target)).newline();
+            true
+        }
+        InsnType::JavaRet { addr_reg } => {
+            // RET is legacy - emit as comment
+            code.start_line().add(&format!("/* ret {} */", addr_reg.reg_num)).newline();
+            true
+        }
     }
 }
 
@@ -5803,7 +5886,8 @@ fn generate_param_name(index: usize, ty: &ArgType) -> String {
         ArgType::Wildcard { inner: Some(inner), .. } => generate_param_name(index, inner),
         ArgType::Wildcard { inner: None, .. } => "obj".to_string(),
         ArgType::Void => "v".to_string(),
-        ArgType::Unknown => "obj".to_string(),
+        ArgType::Unknown | ArgType::UnknownNarrow | ArgType::UnknownWide
+        | ArgType::UnknownObject | ArgType::UnknownArray | ArgType::UnknownIntegral => "obj".to_string(),
     };
 
     // JADX starts numeric suffixes from 2, not 1

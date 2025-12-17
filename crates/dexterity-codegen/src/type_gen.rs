@@ -57,6 +57,12 @@ pub fn type_to_string_with_imports_and_package(
         // JADX-compatible fallback: Unknown types become Object with warning comment
         // This ensures generated code compiles even when type inference fails
         ArgType::Unknown => "Object /* JADX WARNING: Unknown type */".to_string(),
+        // Partial type inference results - use best guess based on constraints
+        ArgType::UnknownNarrow => "int /* JADX INFO: Narrow type unknown */".to_string(),
+        ArgType::UnknownWide => "long /* JADX INFO: Wide type unknown */".to_string(),
+        ArgType::UnknownObject => "Object /* JADX INFO: Object type unknown */".to_string(),
+        ArgType::UnknownArray => "Object[] /* JADX INFO: Array type unknown */".to_string(),
+        ArgType::UnknownIntegral => "int /* JADX INFO: Integral type */".to_string(),
     }
 }
 

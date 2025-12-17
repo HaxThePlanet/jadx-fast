@@ -294,17 +294,15 @@ mod tests {
 
     #[test]
     fn test_is_instance_field_access() {
-        use dexterity_ir::FieldRef;
+        use dexterity_ir::instructions::RegisterArg;
+        use dexterity_ir::InsnArg;
 
-        let field_ref = FieldRef {
-            class: "Lcom/example/Test;".to_string(),
-            name: "field".to_string(),
-            field_type: ArgType::Int,
-        };
+        let dest = RegisterArg::new(0);
+        let object = InsnArg::reg(1);
 
-        assert!(is_instance_field_access(&InsnType::InstanceGet { field_ref: field_ref.clone() }));
-        assert!(is_instance_field_access(&InsnType::InstancePut { field_ref: field_ref.clone() }));
-        assert!(!is_instance_field_access(&InsnType::StaticGet { field_ref: field_ref.clone() }));
-        assert!(!is_instance_field_access(&InsnType::StaticPut { field_ref }));
+        assert!(is_instance_field_access(&InsnType::InstanceGet { dest, object: object.clone(), field_idx: 0 }));
+        assert!(is_instance_field_access(&InsnType::InstancePut { object: object.clone(), field_idx: 0, value: InsnArg::reg(2) }));
+        assert!(!is_instance_field_access(&InsnType::StaticGet { dest, field_idx: 0 }));
+        assert!(!is_instance_field_access(&InsnType::StaticPut { field_idx: 0, value: InsnArg::reg(2) }));
     }
 }

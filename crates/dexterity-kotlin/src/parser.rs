@@ -211,7 +211,12 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
         .ok_or_else(|| anyhow!("Invalid fq_name index: {}", proto_class.fq_name))?
         .clone();
 
-    // Extract functions
+    // Parse class flags
+    let raw_flags = proto_class.flags.unwrap_or(6); // default: public final class
+    let flags = parse_class_flags(raw_flags);
+    let is_data_class = flags.is_data;
+
+    // Extract functions with flags
     let functions = proto_class
         .function
         .iter()
@@ -219,7 +224,7 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
         .map(|(idx, f)| parse_function(f, &strings, idx as u32))
         .collect::<Result<Vec<_>>>()?;
 
-    // Extract properties (fields)
+    // Extract properties (fields) with flags
     let properties = proto_class
         .property
         .iter()
@@ -232,8 +237,12 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
         .companion_object_name
         .and_then(|idx| strings.get(idx as usize).cloned());
 
-    // Detect data class (bit 5 in flags)
-    let is_data_class = proto_class.flags.unwrap_or(0) & 0x20 != 0;
+    // Extract sealed subclasses
+    let sealed_subclasses = proto_class
+        .sealed_subclass_fq_name
+        .iter()
+        .filter_map(|&idx| strings.get(idx as usize).cloned())
+        .collect();
 
     Ok(KotlinClassMetadata {
         kind: KotlinKind::Class,
@@ -242,8 +251,8 @@ fn parse_class_metadata(bytes: &[u8], annot: &KotlinMetadataAnnotation) -> Resul
         properties,
         companion_object,
         is_data_class,
-        flags: crate::types::KotlinClassFlags::default(),
-        sealed_subclasses: vec![],
+        flags,
+        sealed_subclasses,
     })
 }
 
@@ -296,18 +305,23 @@ fn parse_function(func: &proto::Function, strings: &[String], _idx: u32) -> Resu
         .ok_or_else(|| anyhow!("Invalid function name index"))?
         .clone();
 
-    // Extract parameter names
+    // Parse function flags
+    let raw_flags = func.flags.unwrap_or(6); // default: public final function
+    let flags = parse_function_flags(raw_flags);
+
+    // Extract parameter names with their flags
     let mut parameters = Vec::new();
     for (idx, param) in func.value_parameter.iter().enumerate() {
-        let name = strings
+        let param_name = strings
             .get(param.name as usize)
             .ok_or_else(|| anyhow!("Invalid parameter name index"))?
             .clone();
+        let param_flags = param.flags.unwrap_or(0);
         parameters.push(KotlinParameter {
-            name,
+            name: param_name,
             index: idx,
-            is_crossinline: false,
-            is_noinline: false,
+            is_crossinline: param_flags & PARAM_FLAG_IS_CROSSINLINE != 0,
+            is_noinline: param_flags & PARAM_FLAG_IS_NOINLINE != 0,
         });
     }
 
@@ -319,7 +333,7 @@ fn parse_function(func: &proto::Function, strings: &[String], _idx: u32) -> Resu
         name,
         jvm_signature,
         parameters,
-        flags: crate::types::KotlinFunctionFlags::default(),
+        flags,
         receiver_type: None,
     })
 }
@@ -330,16 +344,33 @@ fn parse_property(prop: &proto::Property, strings: &[String], _idx: u32) -> Resu
         .ok_or_else(|| anyhow!("Invalid property name index"))?
         .clone();
 
+    // Parse property flags
+    let raw_flags = prop.flags.unwrap_or(518); // default: public final property with getter
+    let flags = parse_property_flags(raw_flags);
+
     // JVM field signature - simplified
-    let jvm_field_signature = format!("{}", name);
+    let jvm_field_signature = name.clone();
+
+    // Check if property has getter/setter
+    let has_getter = raw_flags & PROP_FLAG_HAS_GETTER != 0;
+    let has_setter = raw_flags & PROP_FLAG_HAS_SETTER != 0;
 
     Ok(KotlinProperty {
-        name,
+        name: name.clone(),
         jvm_field_signature,
-        getter_signature: None,
-        setter_signature: None,
-        flags: crate::types::KotlinPropertyFlags::default(),
+        getter_signature: if has_getter { Some(format!("get{}", capitalize_first(&name))) } else { None },
+        setter_signature: if has_setter { Some(format!("set{}", capitalize_first(&name))) } else { None },
+        flags,
     })
+}
+
+/// Capitalize the first character of a string (for getter/setter name generation)
+fn capitalize_first(s: &str) -> String {
+    let mut chars = s.chars();
+    match chars.next() {
+        None => String::new(),
+        Some(c) => c.to_uppercase().chain(chars).collect(),
+    }
 }
 
 fn build_string_table(_proto_class: &proto::Class, annot: &KotlinMetadataAnnotation) -> Result<Vec<String>> {

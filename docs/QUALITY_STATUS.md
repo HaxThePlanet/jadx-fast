@@ -603,7 +603,7 @@ APK/DEX → dexterity-dex → dexterity-ir → dexterity-passes → dexterity-co
 | dexterity-codegen | Java source generation | ~11,685 |
 | dexterity-resources | AXML and resources.arsc | ~4,032 |
 | dexterity-deobf | Deobfuscation | ~1,825 |
-| dexterity-kotlin | Kotlin metadata | ~597 |
+| dexterity-kotlin | Kotlin metadata (61% parity) | ~991 |
 | dexterity-cli | CLI application | ~5,254 |
 
 ---

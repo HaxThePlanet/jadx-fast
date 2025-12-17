@@ -270,6 +270,15 @@ fn can_reorder(insn: &InsnNode) -> bool {
 
         // Phi nodes shouldn't be in instruction list
         InsnType::Phi { .. } => false,
+
+        // New JADX-compatible instructions
+        InsnType::MoveMulti { .. } => true,  // Pure value moves
+        InsnType::StrConcat { .. } => false, // String operations have side effects
+        InsnType::RegionArg { .. } => false, // Region placeholders
+        InsnType::OneArg { .. } => true,     // Pure passthrough
+        InsnType::Constructor { .. } => false, // Side effects (new instance)
+        InsnType::JavaJsr { .. } => false,   // Control flow
+        InsnType::JavaRet { .. } => false,   // Control flow
     }
 }
 

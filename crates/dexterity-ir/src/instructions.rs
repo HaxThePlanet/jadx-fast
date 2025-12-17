@@ -366,6 +366,64 @@ pub enum InsnType {
         sources: Vec<(u32, InsnArg)>, // (block_id, value)
     },
 
+    // === Synthetic/Additional instructions (matching JADX) ===
+
+    /// Move multiple values (for parallel assignments)
+    /// Used to represent simultaneous assignments like: a, b = b, a
+    /// Matches JADX's MOVE_MULTI
+    MoveMulti {
+        /// List of (dest, src) pairs to assign simultaneously
+        moves: Vec<(RegisterArg, InsnArg)>,
+    },
+
+    /// String concatenation: result = arg1 + arg2 + ... (all strings)
+    /// Used for StringBuilder-based string concatenation optimization
+    /// Matches JADX's STR_CONCAT
+    StrConcat {
+        dest: RegisterArg,
+        args: Vec<InsnArg>,
+    },
+
+    /// Region argument placeholder
+    /// Fake instruction to keep arguments which will be used in regions codegen
+    /// Matches JADX's REGION_ARG
+    RegionArg {
+        /// Arguments to preserve for region code generation
+        args: Vec<InsnArg>,
+    },
+
+    /// One argument passthrough
+    /// Just generates one argument (used for implicit value propagation)
+    /// Matches JADX's ONE_ARG
+    OneArg {
+        arg: InsnArg,
+    },
+
+    /// Constructor invocation (specialized invoke for constructors)
+    /// Matches JADX's CONSTRUCTOR - tracks new + <init> patterns
+    Constructor {
+        dest: RegisterArg,
+        type_idx: u32,
+        method_idx: u32,
+        args: Vec<InsnArg>,
+    },
+
+    /// Java JSR (Jump SubRoutine) - legacy finally implementation
+    /// Only found in older Java .class files converted to DEX
+    /// Matches JADX's JAVA_JSR
+    JavaJsr {
+        /// Target subroutine address
+        target: u32,
+    },
+
+    /// Java RET (Return from subroutine) - legacy finally return
+    /// Only found in older Java .class files converted to DEX
+    /// Matches JADX's JAVA_RET
+    JavaRet {
+        /// Register containing return address
+        addr_reg: RegisterArg,
+    },
+
     // === Synthetic instructions (added during region reconstruction) ===
 
     /// Break statement (exit loop early)

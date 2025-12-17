@@ -552,6 +552,19 @@ impl ExprGen {
             InsnArg::String(idx) => self.get_string_value(*idx)
                 .map(|s| format!("\"{}\"", escape_string_inner(&s, self.escape_unicode)))
                 .unwrap_or_else(|| format!("string#{}", idx)),
+            // New JADX-compatible argument types
+            InsnArg::Wrapped(wrapped) => {
+                // For wrapped instructions, generate placeholder - actual expansion in code gen
+                format!("/* wrapped:{} */", wrapped.insn_idx)
+            }
+            InsnArg::Named { name, .. } => name.clone(),
+            InsnArg::This { class_type } => {
+                if class_type.is_empty() {
+                    "this".to_string()
+                } else {
+                    "this".to_string()
+                }
+            }
         }
     }
 
@@ -582,6 +595,16 @@ impl ExprGen {
                 } else {
                     writer.add(&format!("string#{}", idx));
                 }
+            }
+            // New JADX-compatible argument types
+            InsnArg::Wrapped(wrapped) => {
+                writer.add(&format!("/* wrapped:{} */", wrapped.insn_idx));
+            }
+            InsnArg::Named { name, .. } => {
+                writer.add(name);
+            }
+            InsnArg::This { .. } => {
+                writer.add("this");
             }
         }
     }
