@@ -339,6 +339,8 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     hierarchy: Option<&dexterity_ir::ClassHierarchy>,
     deobf_min_length: usize,
     deobf_max_length: usize,
+    res_names: &std::collections::HashMap<u32, String>,
+    replace_consts: bool,
     code: &mut W,
 ) {
     // Emit method annotations from DEX
@@ -412,13 +414,13 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     } else if method.is_class_init() {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, fallback, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     } else {
         code.add(" {").newline();
         code.inc_indent();
-        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, fallback, code);
+        add_method_body_with_inner_classes(method, dex_info.clone(), imports, inner_classes, hierarchy, Some(&class.class_type), deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, code);
         code.dec_indent();
         code.start_line().add("}").newline();
     }
@@ -435,9 +437,11 @@ fn add_method_body_with_inner_classes<W: CodeWriter>(
     deobf_min_length: usize,
     deobf_max_length: usize,
     fallback: bool,
+    res_names: &std::collections::HashMap<u32, String>,
+    replace_consts: bool,
     code: &mut W,
 ) {
-    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, current_class_type, deobf_min_length, deobf_max_length, fallback, code);
+    generate_body_with_inner_classes(method, dex_info, imports, inner_classes, hierarchy, current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, code);
 }
 
 /// Extract throws types from dalvik/annotation/Throws annotation

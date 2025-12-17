@@ -741,8 +741,9 @@ fn process_jar(input: &PathBuf, out_src: &PathBuf, args: &Args) -> Result<()> {
             let mut entry = archive.by_name(dex_name)?;
             entry.read_to_end(&mut dex_data)?;
 
-            // Process it immediately
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name) {
+            // Process it immediately - JAR DEX files have no resource mappings
+            let empty_res_names = std::collections::HashMap::new();
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, &empty_res_names) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }
@@ -882,8 +883,9 @@ fn process_aar(input: &PathBuf, out_src: &PathBuf, out_res: &PathBuf, args: &Arg
             let mut entry = archive.by_name(dex_name)?;
             entry.read_to_end(&mut dex_data)?;
 
-            // Process it immediately
-            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name) {
+            // Process it immediately - AAB DEX files have no resource mappings
+            let empty_res_names = std::collections::HashMap::new();
+            match process_dex_bytes(&dex_data, out_src, args, progress.as_ref(), Arc::clone(&global_field_pool), dex_idx as u32, dex_name, &empty_res_names) {
                 Ok(count) => total_classes += count,
                 Err(e) => tracing::warn!("Failed to process {}: {}", dex_name, e),
             }

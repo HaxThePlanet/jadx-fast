@@ -56,6 +56,10 @@ pub struct ExprGen {
     pub deobf_min_length: usize,
     /// Deobfuscation: maximum name length (longer names get renamed)
     pub deobf_max_length: usize,
+    /// Resource ID -> name mapping (e.g., 0x7f010001 -> "id/button")
+    pub res_names: HashMap<u32, String>,
+    /// Whether to replace resource IDs with R.* field references
+    pub replace_consts: bool,
 }
 
 /// Field information
@@ -299,6 +303,8 @@ impl ExprGen {
             escape_unicode: false,
             deobf_min_length: 3,
             deobf_max_length: 64,
+            res_names: HashMap::new(),
+            replace_consts: false,
         }
     }
 
@@ -315,6 +321,8 @@ impl ExprGen {
             escape_unicode: false,
             deobf_min_length: 3,
             deobf_max_length: 64,
+            res_names: HashMap::new(),
+            replace_consts: false,
         }
     }
 
@@ -332,6 +340,12 @@ impl ExprGen {
     pub fn set_deobf_limits(&mut self, min_length: usize, max_length: usize) {
         self.deobf_min_length = min_length;
         self.deobf_max_length = max_length;
+    }
+
+    /// Set resource names mapping and replacement flag
+    pub fn set_resources(&mut self, res_names: HashMap<u32, String>, replace_consts: bool) {
+        self.res_names = res_names;
+        self.replace_consts = replace_consts;
     }
 
     /// Reset for reuse - CRITICAL: Must shrink oversized HashMaps
@@ -582,10 +596,57 @@ impl ExprGen {
         }
     }
 
+    /// Try to resolve an integer literal as a resource ID (R.* field reference)
+    /// Returns Some(ref) if resource replacement is enabled and the ID is found,
+    /// None otherwise or if replacement is disabled
+    fn try_resolve_resource(&self, value: i64) -> Option<String> {
+        // Check if replacement is disabled
+        if !self.replace_consts {
+            return None;
+        }
+
+        // Only check valid resource ID range
+        if value < 0 || value > u32::MAX as i64 {
+            return None;
+        }
+
+        let res_id = value as u32;
+
+        // Check if it's a resource ID (0x01xxxxxx or 0x7fxxxxxx)
+        let package_id = (res_id >> 24) & 0xFF;
+        if package_id != 0x01 && package_id != 0x7f {
+            return None;
+        }
+
+        // Look up in resource map
+        if let Some(res_name) = self.res_names.get(&res_id) {
+            // res_name format: "layout/activity_main" or "id/button"
+            let parts: Vec<&str> = res_name.split('/').collect();
+            if parts.len() == 2 {
+                let package_prefix = if package_id == 0x01 {
+                    "android.R."  // Framework resource
+                } else {
+                    "R."  // App resource
+                };
+                return Some(format!("{}{}.{}", package_prefix, parts[0], parts[1]));
+            }
+        } else if package_id == 0x7f || package_id == 0x01 {
+            // Looks like a resource ID but not found - add comment
+            return Some(format!("{} /* Unknown resource */", format!("0x{:08x}", res_id)));
+        }
+
+        None
+    }
+
     /// Generate literal expression
     pub fn gen_literal(&self, lit: &LiteralArg) -> String {
         match lit {
             LiteralArg::Int(v) => {
+                // Check if this is a resource ID that should be replaced
+                if let Some(res_ref) = self.try_resolve_resource(*v) {
+                    return res_ref;
+                }
+
                 if *v >= i32::MIN as i64 && *v <= i32::MAX as i64 {
                     format!("{}", v)
                 } else {
@@ -618,6 +679,12 @@ impl ExprGen {
     pub fn write_literal<W: crate::writer::CodeWriter>(&self, writer: &mut W, lit: &LiteralArg) {
         match lit {
             LiteralArg::Int(v) => {
+                // Check if this is a resource ID that should be replaced
+                if let Some(res_ref) = self.try_resolve_resource(*v) {
+                    writer.add(&res_ref);
+                    return;
+                }
+
                 if *v >= i32::MIN as i64 && *v <= i32::MAX as i64 {
                     writer.add(&format!("{}", v));
                 } else {

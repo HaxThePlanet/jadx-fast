@@ -1154,11 +1154,13 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
     deobf_min_length: usize,
     deobf_max_length: usize,
     fallback: bool,
+    res_names: &HashMap<u32, String>,
+    replace_consts: bool,
     code: &mut W,
 ) {
     generate_body_with_inner_classes_and_lambdas(
         method, dex_info, imports, inner_classes, None, hierarchy,
-        current_class_type, deobf_min_length, deobf_max_length, fallback, code
+        current_class_type, deobf_min_length, deobf_max_length, fallback, res_names, replace_consts, code
     );
 }
 
@@ -1174,6 +1176,8 @@ pub fn generate_body_with_inner_classes_and_lambdas<W: CodeWriter>(
     deobf_min_length: usize,
     deobf_max_length: usize,
     fallback: bool,
+    res_names: &HashMap<u32, String>,
+    replace_consts: bool,
     code: &mut W,
 ) {
     use std::panic::{catch_unwind, AssertUnwindSafe};
@@ -1202,6 +1206,8 @@ pub fn generate_body_with_inner_classes_and_lambdas<W: CodeWriter>(
             current_class_type,
             deobf_min_length,
             deobf_max_length,
+            res_names,
+            replace_consts,
             code
         )
     }));
@@ -1224,6 +1230,8 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
     current_class_type: Option<&str>,
     deobf_min_length: usize,
     deobf_max_length: usize,
+    res_names: &HashMap<u32, String>,
+    replace_consts: bool,
     code: &mut W,
 ) {
     CODEGEN_DEPTH.with(|depth| {
@@ -1388,6 +1396,7 @@ fn generate_body_with_inner_classes_impl<W: CodeWriter>(
 
     let mut ctx = BodyGenContext::from_method_with_lambda_methods(method, dex_info.clone(), inner_classes, lambda_methods);
     ctx.expr_gen.set_deobf_limits(deobf_min_length, deobf_max_length);
+    ctx.expr_gen.set_resources(res_names.clone(), replace_consts);
     let max_versions = ssa_result.max_versions.clone();
     // Collect phi destinations before consuming SSA result
     ctx.phi_declarations = collect_phi_destinations(&ssa_result);
