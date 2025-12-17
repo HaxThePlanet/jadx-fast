@@ -482,36 +482,21 @@ impl ExprGen {
         self.get_field_value(idx).map(|f| format!("{}.{}", f.class_name, f.field_name))
     }
 
-    /// Get variable name (or generate default with deobfuscation filtering)
+    /// Get variable name (or generate default)
+    ///
+    /// Variable names from our var_naming pass (JADX-compatible) are used as-is.
+    /// These include valid short names like "i", "s", "sb", "str", "th" following Java conventions.
+    /// Deobfuscation filtering is only applied to unknown/default names, not to our generated names.
     pub fn get_var_name(&self, reg: &RegisterArg) -> String {
         // First, try to use named variable from debug info or type inference
+        // Trust names from var_naming pass - they are already JADX-compatible
         if let Some(name) = self.var_names.get(&(reg.reg_num, reg.ssa_version)) {
-            let name = name.clone();
-            // Apply deobfuscation filtering to named variables too
-            let len = name.len();
-            if len < self.deobf_min_length || len > self.deobf_max_length {
-                // Name is too short or too long, rename it
-                return format!("var{}", reg.reg_num);
-            }
-            return name;
+            return name.clone();
         }
 
-        // Generate default name and apply deobfuscation limits
-        let default_name = format!("v{}", reg.reg_num);
-        let len = default_name.len();
-
-        if len < self.deobf_min_length {
-            // Name too short (e.g., "v0" is 2 chars, min is 3+)
-            // Generate longer name: "var0", "local0", etc.
-            format!("var{}", reg.reg_num)
-        } else if len > self.deobf_max_length {
-            // Name too long (unlikely for "vN" but for consistency)
-            // Use shorter form
-            format!("v{}", reg.reg_num)
-        } else {
-            // Name length is acceptable
-            default_name
-        }
+        // No name from var_naming - use fallback
+        // This typically means the variable wasn't properly analyzed
+        format!("obj{}", reg.reg_num)
     }
 
     /// Get string by index (local cache first, then DEX provider)

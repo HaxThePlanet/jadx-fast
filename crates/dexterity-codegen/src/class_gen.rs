@@ -663,8 +663,10 @@ fn add_inner_class_declaration<W: CodeWriter>(
     // Extends
     if let Some(ref superclass) = class.superclass {
         // Don't show "extends Object"
+        // Don't show "extends Enum" for enum types (implicit in Java)
         if superclass != "java/lang/Object"
-            && !(access_flags::is_annotation(class.access_flags) && superclass == "java/lang/annotation/Annotation") {
+            && !(access_flags::is_annotation(class.access_flags) && superclass == "java/lang/annotation/Annotation")
+            && !(access_flags::is_enum(class.access_flags) && (superclass == "java/lang/Enum" || superclass == "Ljava/lang/Enum;")) {
             code.add(" extends ");
             let ty = ArgType::Object(superclass.clone());
             code.add(&type_to_string_with_imports(&ty, imports));
@@ -781,8 +783,10 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
     if let Some(ref superclass) = class.superclass {
         // Don't show "extends Object"
         // Don't show "extends Annotation" for annotation types (implicit in Java)
+        // Don't show "extends Enum" for enum types (implicit in Java)
         if superclass != "java/lang/Object"
-            && !(access_flags::is_annotation(class.access_flags) && superclass == "java/lang/annotation/Annotation") {
+            && !(access_flags::is_annotation(class.access_flags) && superclass == "java/lang/annotation/Annotation")
+            && !(access_flags::is_enum(class.access_flags) && (superclass == "java/lang/Enum" || superclass == "Ljava/lang/Enum;")) {
             code.add(" extends ");
             let ty = ArgType::Object(superclass.clone());
             code.add(&type_to_string_with_imports(&ty, imports));
@@ -812,6 +816,31 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
 fn add_fields<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String>>, escape_unicode: bool, code: &mut W) {
     let is_enum = class.is_enum();
 
+    // For enum classes, generate proper enum constant declarations
+    if is_enum {
+        // Analyze the enum to extract constant info
+        if let Some(enum_info) = dexterity_passes::analyze_enum_class(class) {
+            add_enum_constants(class, &enum_info, code);
+        } else {
+            // Fallback: generate enum constants without arguments
+            add_enum_constants_fallback(class, code);
+        }
+
+        // Generate instance fields (not static enum fields)
+        let instance_fields: Vec<_> = class.instance_fields.iter()
+            .filter(|f| !is_enum_synthetic_field(f, is_enum))
+            .collect();
+
+        if !instance_fields.is_empty() {
+            code.newline();
+            for field in instance_fields {
+                add_field(field, imports, escape_unicode, code);
+            }
+        }
+        return;
+    }
+
+    // Non-enum class: regular field generation
     // Filter out synthetic enum fields
     let static_fields: Vec<_> = class.static_fields.iter()
         .filter(|f| !is_enum_synthetic_field(f, is_enum))
@@ -834,6 +863,109 @@ fn add_fields<W: CodeWriter>(class: &ClassData, imports: Option<&BTreeSet<String
     // Instance fields
     for field in instance_fields {
         add_field(field, imports, escape_unicode, code);
+    }
+}
+
+/// Generate enum constant declarations in proper Java syntax
+/// e.g., VERBOSE(2), DEBUG(3), INFO(4);
+fn add_enum_constants<W: CodeWriter>(
+    _class: &ClassData,
+    enum_info: &dexterity_passes::EnumClassInfo,
+    code: &mut W,
+) {
+    if enum_info.fields.is_empty() {
+        return;
+    }
+
+    code.newline();
+
+    for (i, field_info) in enum_info.fields.iter().enumerate() {
+        code.start_line();
+        code.add(&field_info.name);
+
+        // Add constructor arguments if any (beyond implicit name and ordinal)
+        if !field_info.extra_args.is_empty() {
+            code.add("(");
+            for (j, arg) in field_info.extra_args.iter().enumerate() {
+                if j > 0 {
+                    code.add(", ");
+                }
+                code.add(&enum_arg_to_string(arg));
+            }
+            code.add(")");
+        }
+
+        // Add comma or semicolon
+        if i < enum_info.fields.len() - 1 {
+            code.add(",");
+        } else {
+            code.add(";");
+        }
+        code.newline();
+    }
+}
+
+/// Fallback enum constant generation when analysis fails
+/// Just outputs the constant names without arguments
+fn add_enum_constants_fallback<W: CodeWriter>(class: &ClassData, code: &mut W) {
+    // Normalize class type (strip L prefix and ; suffix for comparison)
+    let class_type_normalized = class.class_type
+        .strip_prefix('L')
+        .unwrap_or(&class.class_type)
+        .strip_suffix(';')
+        .unwrap_or(&class.class_type);
+
+    // Find enum constant fields (static fields with type matching the enum)
+    let enum_fields: Vec<_> = class.static_fields.iter()
+        .filter(|f| {
+            // Check if field type matches enum class type
+            // ArgType::Object stores names without L prefix and ; suffix
+            if let ArgType::Object(ref obj_type) = f.field_type {
+                obj_type == class_type_normalized
+            } else {
+                false
+            }
+        })
+        .filter(|f| !f.name.starts_with('$')) // Skip $VALUES
+        .collect();
+
+    if enum_fields.is_empty() {
+        return;
+    }
+
+    code.newline();
+
+    for (i, field) in enum_fields.iter().enumerate() {
+        code.start_line();
+        code.add(field.display_name());
+
+        // Add comma or semicolon
+        if i < enum_fields.len() - 1 {
+            code.add(",");
+        } else {
+            code.add(";");
+        }
+        code.newline();
+    }
+}
+
+/// Convert an EnumArg to a string representation
+fn enum_arg_to_string(arg: &dexterity_passes::EnumArg) -> String {
+    use dexterity_passes::EnumArg;
+    match arg {
+        EnumArg::Int(n) => n.to_string(),
+        EnumArg::Float(f) => {
+            // Check if it's a whole number that needs 'd' suffix for double
+            if f.fract() == 0.0 && *f >= i64::MIN as f64 && *f <= i64::MAX as f64 {
+                format!("{}.0d", *f as i64)
+            } else {
+                format!("{}d", f)
+            }
+        }
+        EnumArg::Bool(b) => if *b { "true" } else { "false" }.to_string(),
+        EnumArg::Null => "null".to_string(),
+        EnumArg::EnumRef(name) => name.clone(),
+        EnumArg::Other => "/* unknown */".to_string(),
     }
 }
 
@@ -983,7 +1115,7 @@ fn is_default_constructor(method: &dexterity_ir::MethodData) -> bool {
 }
 
 /// Check if a method is a synthetic enum method that should be filtered
-/// Enums have auto-generated values() and valueOf() methods
+/// Enums have auto-generated values(), valueOf(), <clinit>, and constructor methods
 fn is_enum_synthetic_method(method: &dexterity_ir::MethodData, is_enum_class: bool) -> bool {
     if !is_enum_class {
         return false;
@@ -1002,6 +1134,11 @@ fn is_enum_synthetic_method(method: &dexterity_ir::MethodData, is_enum_class: bo
                 return true;
             }
         }
+    }
+
+    // Check for <clinit> (static initializer) - enum constants are already generated
+    if method.is_class_init() {
+        return true;
     }
 
     // Check for enum constructor: private <init>(String, int)

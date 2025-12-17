@@ -101,9 +101,17 @@ pub fn analyze_enum_class(class: &ClassData) -> Option<EnumClassInfo> {
 }
 
 /// Check if a type matches the class type
+/// Handles both normalized (without L/;) and non-normalized class names
 fn type_matches_class(field_type: &ArgType, class_type: &str) -> bool {
+    // Normalize class_type by stripping L prefix and ; suffix if present
+    let class_type_normalized = class_type
+        .strip_prefix('L')
+        .unwrap_or(class_type)
+        .strip_suffix(';')
+        .unwrap_or(class_type);
+
     match field_type {
-        ArgType::Object(s) => s == class_type,
+        ArgType::Object(s) => s == class_type_normalized || s == class_type,
         _ => false,
     }
 }
