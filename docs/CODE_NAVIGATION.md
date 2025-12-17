@@ -361,8 +361,8 @@ grep -n "function_name(" file.rs
 | Size | Strategy | Examples |
 |------|----------|----------|
 | <500 lines | Read entire file | `block_split.rs`, `class_hierarchy.rs` |
-| 500-1700 lines | Search for functions, read specific functions | `cfg.rs` (831), `ssa.rs` (964), `var_naming.rs` (1,480), `class_gen.rs` (1,539), `expr_gen.rs` (1,379), `conditionals.rs` (740), `simplify.rs` (1,646) |
-| 1700-5500 lines | Grep for functions, read relevant sections | `type_inference.rs` (2,644), `region_builder.rs` (2,094), `body_gen.rs` (5,491) |
+| 500-1700 lines | Search for functions, read specific functions | `cfg.rs` (831), `ssa.rs` (964), `var_naming.rs` (1,609), `class_gen.rs` (1,548), `expr_gen.rs` (1,454), `conditionals.rs` (740), `simplify.rs` (1,646), `stmt_gen.rs` (759), `method_gen.rs` (700) |
+| 1700-6100 lines | Grep for functions, read relevant sections | `type_inference.rs` (2,644), `region_builder.rs` (2,094), `body_gen.rs` (6,034) |
 
 ### File Dependency Chain
 
@@ -429,8 +429,9 @@ Detailed:
 - Class generation: `crates/dexterity-codegen/src/class_gen.rs`
 - Method generation: `crates/dexterity-codegen/src/method_gen.rs`
 - Body generation: `crates/dexterity-codegen/src/body_gen.rs`
-- Expression generation: `crates/dexterity-codegen/src/expr_gen.rs`
+- Expression generation: `crates/dexterity-codegen/src/expr_gen.rs` (includes R.* resource resolution)
 - Type generation: `crates/dexterity-codegen/src/type_gen.rs`
+- Fallback mode: `crates/dexterity-codegen/src/fallback_gen.rs` (raw instruction dump on failure)
 
 ### Tests
 - Integration tests: `crates/dexterity-cli/tests/integration/`

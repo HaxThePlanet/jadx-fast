@@ -142,12 +142,13 @@ Resource output is now **1:1 identical** with JADX for: strings.xml, styles.xml,
 **Solution:**
 - Added `try_resolve_resource()` method in ExprGen
 - Detects app resources (0x7fxxxxxx) and framework resources (0x01xxxxxx)
-- Added `--replace-consts` CLI flag (disabled by default for JADX compatibility)
+- Resource resolution **enabled by default** (JADX-compatible behavior)
+- `--no-replace-consts` CLI flag to disable and show raw hex IDs
 - Resource mappings wired through pipeline: main.rs → ClassGenConfig → body_gen.rs → expr_gen.rs
 
 **Files Changed:**
 - `crates/dexterity-cli/src/main.rs` - Resource pipeline, ARSC parsing
-- `crates/dexterity-cli/src/args.rs` - `--replace-consts` flag
+- `crates/dexterity-cli/src/args.rs` - `--no-replace-consts` flag
 - `crates/dexterity-codegen/src/expr_gen.rs` - Resource detection logic
 - `crates/dexterity-codegen/src/class_gen.rs` - ClassGenConfig resources field
 - `crates/dexterity-codegen/src/body_gen.rs` - Resource parameter threading
@@ -162,7 +163,11 @@ Resource output is now **1:1 identical** with JADX for: strings.xml, styles.xml,
 
 **Usage:**
 ```bash
-./target/release/dexterity --replace-consts -d output/ app.apk
+# Resource resolution enabled by default
+./target/release/dexterity -d output/ app.apk
+
+# Disable resource resolution to show raw hex IDs
+./target/release/dexterity --no-replace-consts -d output/ app.apk
 ```
 
 ---

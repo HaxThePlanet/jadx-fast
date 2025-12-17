@@ -20,7 +20,7 @@
 | Lambda Bodies | **DONE** - Full decompilation with inlining |
 | Polymorphic Invoke | **DONE** - `methodHandle.invoke()` syntax |
 | Instance Type Propagation | **DONE** - Generic args resolved |
-| Resource Field Resolution | **DONE** - `R.id.button` with `--replace-consts` |
+| Resource Field Resolution | **DONE** - `R.id.button` enabled by default (`--no-replace-consts` to disable) |
 | Defect Score | **90.3% (medium)**, **69.7% (large)** per Dec 16 QA reports |
 | Integration Tests | **685/685 passing** |
 | Unit Tests | **90/91 passing** (1 failing: method_gen::tests::test_method_with_params) |
@@ -218,7 +218,7 @@ For full JADX parity, see [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERE
 | Fallback mode | Raw bytecode on failure | **DONE** |
 | Polymorphic invoke | MethodHandle cases | **DONE** - `methodHandle.invoke()` |
 | Instance arg type propagation | Generic type chains | **DONE** - TypeVar resolution |
-| Android R.* handling | Resource ID resolution | **DONE** - `--replace-consts` flag |
+| Android R.* handling | Resource ID resolution | **DONE** - Enabled by default, `--no-replace-consts` to disable |
 | Varargs expansion | `foo(arr...)` → `foo(a, b)` | TODO |
 
 ---
@@ -246,8 +246,11 @@ Dexterity intentionally excludes framework/library classes:
 # Build
 cd crates && cargo build --release -p dexterity-cli
 
-# Basic decompilation
+# Basic decompilation (resource R.* resolution enabled by default)
 ./target/release/dexterity -d output/ app.apk
+
+# Disable resource ID replacement (show raw hex IDs)
+./target/release/dexterity --no-replace-consts -d output/ app.apk
 
 # With deobfuscation
 ./target/release/dexterity --deobf -d output/ app.apk
@@ -307,4 +310,4 @@ All 19 tracked issues have been resolved:
 | Lambda Body Decompilation | **DONE** - Full body + inlining |
 | Polymorphic Invoke | **DONE** - MethodHandle support |
 | Instance Arg Type Propagation | **DONE** - Generic TypeVar resolution |
-| Android R.* Resources | **DONE** - `--replace-consts` flag |
+| Android R.* Resources | **DONE** - Enabled by default, use `--no-replace-consts` to disable |

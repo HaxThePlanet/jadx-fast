@@ -326,7 +326,8 @@ All 19 P1-P2 issues resolved:
 
 ### Android R.* Resource Field Resolution ✅
 - `try_resolve_resource()` detects 0x7fxxxxxx (app) and 0x01xxxxxx (framework)
-- `--replace-consts` CLI flag (JADX-compatible, disabled by default)
+- Resource resolution **enabled by default** (JADX-compatible behavior)
+- `--no-replace-consts` CLI flag to disable and show raw hex IDs
 - App resources → `R.id.button`, Framework → `android.R.attr.minWidth`
 - Unknown resources → `0x7f010099 /* Unknown resource */`
 - Resource mappings flow through: main.rs → ClassGenConfig → body_gen.rs → expr_gen.rs

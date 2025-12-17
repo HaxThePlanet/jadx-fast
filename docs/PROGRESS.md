@@ -295,7 +295,8 @@ Four significant features completed to improve decompilation quality:
 **Solution:**
 - Added `try_resolve_resource()` in ExprGen
 - Detects app (0x7fxxxxxx) and framework (0x01xxxxxx) resources
-- Added `--replace-consts` CLI flag (JADX-compatible)
+- Resource resolution enabled by default (JADX-compatible)
+- Added `--no-replace-consts` CLI flag to disable
 
 **Files Changed:**
 - `crates/dexterity-cli/src/main.rs`, `args.rs`
@@ -303,7 +304,7 @@ Four significant features completed to improve decompilation quality:
 
 **Results:** All 685 integration tests passing
 
-**Usage:** `./target/release/dexterity --replace-consts -d output/ app.apk`
+**Usage:** Resource resolution is enabled by default. Use `--no-replace-consts` to disable: `./target/release/dexterity --no-replace-consts -d output/ app.apk`
 
 ---
 
