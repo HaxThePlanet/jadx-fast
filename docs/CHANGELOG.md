@@ -4,6 +4,116 @@ Development history and notable fixes.
 
 ## December 2025
 
+### Four Major Decompilation Features (Dec 17, 2025)
+
+**Four significant features completed to improve decompilation quality:**
+
+#### 1. Polymorphic Invoke Handling ✅
+
+**Problem:** `invoke-polymorphic` and `invoke-polymorphic/range` opcodes (MethodHandle.invoke/invokeExact) were generating raw `method#123(v0, v1, v2)` output.
+
+**Solution:**
+- Added `proto_idx: Option<u32>` field to `DecodedInsn` struct
+- Updated Format45cc and Format4rcc decoders to capture proto_idx
+- Added `proto_idx` field to `InsnType::Invoke` variant
+- Implemented `write_polymorphic_invoke()` for proper codegen
+
+**Files Changed:**
+- `crates/dexterity-dex/src/insns/mod.rs` - Added proto_idx field
+- `crates/dexterity-dex/src/insns/decoder.rs` - Format45cc/4rcc parsing
+- `crates/dexterity-ir/src/instructions.rs` - Invoke variant update
+- `crates/dexterity-ir/src/builder.rs` - 12 Invoke constructors updated
+- `crates/dexterity-cli/src/converter.rs` - Pass proto_idx to builder
+- `crates/dexterity-codegen/src/body_gen.rs` - write_polymorphic_invoke()
+- `crates/dexterity-passes/src/code_shrink.rs` - Test updates
+
+**Results:**
+- Before: `method#123(v0, v1, v2);`
+- After: `methodHandle.invoke(this, 10, 20);`
+- All 24 invoke tests + 49 IR tests passing
+
+---
+
+#### 2. Instance Arg Type Propagation ✅
+
+**Problem:** When instance type updates (e.g., `Object` → `List<String>`), argument types with generic constraints weren't being resolved.
+
+**Solution:**
+- `invoke_listener` (lines 915-968): Extracts kind and args from INVOKE instructions, builds TypeVar mapping
+- `resolve_type_var` (lines 971-988): Maps type variable names (E, T, R, K, V) to generic parameter positions
+- `propagate_from_instance` (lines 991-1024): Resolves TypeVariables using instance's generic params
+- `propagate_to_instance` (lines 1026-1054): Framework for reverse propagation
+
+**Files Changed:**
+- `crates/dexterity-passes/src/type_update.rs` - 140 lines added (915-1054)
+
+**Results:**
+- All 155 type inference tests passing
+- Generic type parameters now properly propagate through method chains
+
+---
+
+#### 3. Lambda Body Decompilation ✅
+
+**Problem:** Lambda expressions showed method references but couldn't decompile lambda bodies like `(x) -> x + 1`.
+
+**Solution:**
+- Extended `LambdaInfo` struct with:
+  - `captured_arg_count: usize` - number of captured variables
+  - `lambda_param_types: Vec<ArgType>` - lambda parameter types
+  - `lambda_return_type: ArgType` - return type
+- Added `lambda_methods: HashMap<String, Arc<MethodData>>` registry to BodyGenContext
+- Implemented lambda generation functions:
+  - `generate_lambda_expression()` - main entry point
+  - `try_inline_single_expression_lambda()` - inlines simple lambdas
+  - `generate_insn_as_expression()` - converts instructions to expressions
+  - `generate_arg_with_lambda_mapping()` - maps lambda args
+  - `generate_lambda_param_name()` - generates param names from types
+
+**Files Changed:**
+- `crates/dexterity-ir/src/instructions.rs` - Extended LambdaInfo
+- `crates/dexterity-cli/src/converter.rs` - resolve_lambda_info() enhancements
+- `crates/dexterity-codegen/src/body_gen.rs` - Lambda generation (500+ lines)
+
+**Results:**
+- Before: `() -> { /* method body unavailable */ }`
+- After: `(x) -> x + 1` or `(a, b) -> { return a.compareTo(b); }`
+- All 685 integration tests passing
+
+---
+
+#### 4. Android R.* Resource Field Resolution ✅
+
+**Problem:** Resource IDs appeared as raw integers like `setContentView(0x7f040001)` instead of readable `R.layout.activity_main`.
+
+**Solution:**
+- Added `try_resolve_resource()` method in ExprGen
+- Detects app resources (0x7fxxxxxx) and framework resources (0x01xxxxxx)
+- Added `--replace-consts` CLI flag (disabled by default for JADX compatibility)
+- Resource mappings wired through pipeline: main.rs → ClassGenConfig → body_gen.rs → expr_gen.rs
+
+**Files Changed:**
+- `crates/dexterity-cli/src/main.rs` - Resource pipeline, ARSC parsing
+- `crates/dexterity-cli/src/args.rs` - `--replace-consts` flag
+- `crates/dexterity-codegen/src/expr_gen.rs` - Resource detection logic
+- `crates/dexterity-codegen/src/class_gen.rs` - ClassGenConfig resources field
+- `crates/dexterity-codegen/src/body_gen.rs` - Resource parameter threading
+- `crates/dexterity-codegen/src/method_gen.rs` - Signature updates
+
+**Results:**
+- Before: `setContentView(0x7f040001);`
+- After: `setContentView(R.layout.activity_main);`
+- Unknown resources show: `0x7f010099 /* Unknown resource */`
+- Framework resources: `android.R.attr.minWidth`
+- All 685 integration tests passing
+
+**Usage:**
+```bash
+./target/release/dexterity --replace-consts -d output/ app.apk
+```
+
+---
+
 ### Ternary IR Type and Fallback Mode (Dec 17, 2025)
 
 **Added `InsnType::Ternary` IR variant and `fallback_gen` module for JADX parity.**

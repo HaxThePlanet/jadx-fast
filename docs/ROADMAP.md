@@ -109,8 +109,9 @@ Add JADX-style diagnostic comments:
 
 | Feature | JADX Files | Impact | Status |
 |---------|-----------|--------|--------|
-| **Lambda expressions** | `InsnGen.makeInvokeLambda()` | Android 8+ apps use ~40% | **DONE** (Dec 17, 2025) |
+| **Lambda expressions** | `InsnGen.makeInvokeLambda()` | Android 8+ apps use ~40% | **DONE** (Dec 17, 2025) - Full body generation |
 | **Method references** | `InsnGen.makeRefLambda()` | `Foo::method`, `::new` syntax | **DONE** (Dec 17, 2025) |
+| **Lambda body inlining** | `try_inline_single_expression_lambda()` | Clean lambda output | **DONE** (Dec 17, 2025) |
 | **INVOKE_CUSTOM parsing** | `InvokeCustomNode.java` | Required for lambdas | **DONE** |
 
 **Implementation (Completed Dec 17, 2025):**
@@ -124,7 +125,9 @@ Add JADX-style diagnostic comments:
 - Method references: `Class::method`, `obj::method`, `this::method`
 - Constructor references: `Class::new`
 - Static method references: `Integer::parseInt`
-- All 15 java8/lambda integration tests pass
+- Lambda body generation: `(x) -> x + 1` with full body decompilation
+- Single-expression lambda inlining: `try_inline_single_expression_lambda()`
+- All 685 integration tests pass (including lambda tests)
 
 ### Important Missing Features (P2)
 
@@ -139,8 +142,8 @@ Add JADX-style diagnostic comments:
 
 | Feature | JADX Files | Impact | Status |
 |---------|-----------|--------|--------|
-| **Polymorphic invoke** | `isPolymorphicCall()` | MethodHandle cases | TODO |
-| **Android R.* handling** | `handleAppResField()` | Resource ID resolution | TODO |
+| **Polymorphic invoke** | `isPolymorphicCall()` | MethodHandle cases | **DONE** (Dec 17, 2025) |
+| **Android R.* handling** | `handleAppResField()` | Resource ID resolution | **DONE** (Dec 17, 2025) |
 | **JSR/RET instructions** | `JAVA_JSR`, `JAVA_RET` | Old Java bytecode | TODO |
 | **Varargs expansion** | `processVarArg()` | `foo(arr...)` → `foo(a, b)` | TODO |
 
@@ -294,4 +297,33 @@ All 19 P1-P2 issues resolved. Quality improver confirmed:
 ---
 
 **Last Updated:** Dec 17, 2025
-**Status:** PRODUCTION READY - All 19 P1-P2 issues resolved
+**Status:** PRODUCTION READY - All P1-P2 issues resolved + 4 major P3 features complete
+
+## Dec 17, 2025 - Four Major Features Completed
+
+### Polymorphic Invoke Handling ✅
+- Added `proto_idx: Option<u32>` field through pipeline (DecodedInsn → InsnType::Invoke)
+- `write_polymorphic_invoke()` generates `receiver.invoke(args...)` syntax
+- All 24 invoke tests + 49 IR tests passing
+
+### Instance Arg Type Propagation ✅
+- `invoke_listener` (lines 915-968): Extracts kind/args, builds TypeVar mapping
+- `resolve_type_var` (lines 971-988): Maps E, T, R, K, V to generic positions
+- `propagate_from_instance` (lines 991-1024): Resolves TypeVariables using instance generics
+- `propagate_to_instance` (lines 1026-1054): Framework for reverse propagation
+- All 155 tests passing
+
+### Lambda Body Decompilation ✅
+- Extended `LambdaInfo` with `captured_arg_count`, `lambda_param_types`, `lambda_return_type`
+- Added `lambda_methods` registry to `BodyGenContext`
+- `generate_lambda_expression()` - main entry point
+- `try_inline_single_expression_lambda()` - inlines simple lambdas
+- `generate_insn_as_expression()` - converts instructions to expressions
+- All 685 integration tests passing
+
+### Android R.* Resource Field Resolution ✅
+- `try_resolve_resource()` detects 0x7fxxxxxx (app) and 0x01xxxxxx (framework)
+- `--replace-consts` CLI flag (JADX-compatible, disabled by default)
+- App resources → `R.id.button`, Framework → `android.R.attr.minWidth`
+- Unknown resources → `0x7f010099 /* Unknown resource */`
+- Resource mappings flow through: main.rs → ClassGenConfig → body_gen.rs → expr_gen.rs

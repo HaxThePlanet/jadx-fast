@@ -1,6 +1,6 @@
 # Progress Tracking: Dexterity JADX Parity
 
-**PRODUCTION READY - All 19 P1-P2 issues resolved (Dec 17, 2025)**
+**PRODUCTION READY - All P1-P2 issues resolved + 4 major P3 features complete (Dec 17, 2025)**
 
 ---
 
@@ -227,6 +227,83 @@ Results:
 ---
 
 ## Recent Fixes
+
+### Four Major Decompilation Features - Dec 17, 2025
+
+Four significant features completed to improve decompilation quality:
+
+#### 1. Polymorphic Invoke Handling ✅
+
+**Problem:** `invoke-polymorphic` opcodes generated raw `method#123(v0, v1, v2)` output.
+
+**Solution:**
+- Added `proto_idx: Option<u32>` through pipeline (DecodedInsn → InsnType::Invoke)
+- Implemented `write_polymorphic_invoke()` for `receiver.invoke(args...)` syntax
+
+**Files Changed:**
+- `crates/dexterity-dex/src/insns/mod.rs`, `decoder.rs`
+- `crates/dexterity-ir/src/instructions.rs`, `builder.rs`
+- `crates/dexterity-cli/src/converter.rs`
+- `crates/dexterity-codegen/src/body_gen.rs`
+- `crates/dexterity-passes/src/code_shrink.rs`
+
+**Results:** All 24 invoke tests + 49 IR tests passing
+
+---
+
+#### 2. Instance Arg Type Propagation ✅
+
+**Problem:** Generic type parameters weren't propagating through method chains.
+
+**Solution:**
+- `invoke_listener` (lines 915-968): Extracts kind/args, builds TypeVar mapping
+- `resolve_type_var` (lines 971-988): Maps E, T, R, K, V to generic positions
+- `propagate_from_instance` (lines 991-1024): Resolves TypeVariables using instance generics
+- `propagate_to_instance` (lines 1026-1054): Framework for reverse propagation
+
+**Files Changed:**
+- `crates/dexterity-passes/src/type_update.rs` - 140 lines added
+
+**Results:** All 155 type inference tests passing
+
+---
+
+#### 3. Lambda Body Decompilation ✅
+
+**Problem:** Lambda expressions couldn't decompile bodies like `(x) -> x + 1`.
+
+**Solution:**
+- Extended `LambdaInfo` with `captured_arg_count`, `lambda_param_types`, `lambda_return_type`
+- Added `lambda_methods` registry to `BodyGenContext`
+- Implemented: `generate_lambda_expression()`, `try_inline_single_expression_lambda()`, `generate_insn_as_expression()`
+
+**Files Changed:**
+- `crates/dexterity-ir/src/instructions.rs`
+- `crates/dexterity-cli/src/converter.rs`
+- `crates/dexterity-codegen/src/body_gen.rs` (500+ lines)
+
+**Results:** All 685 integration tests passing
+
+---
+
+#### 4. Android R.* Resource Field Resolution ✅
+
+**Problem:** Resource IDs appeared as `0x7f040001` instead of `R.layout.activity_main`.
+
+**Solution:**
+- Added `try_resolve_resource()` in ExprGen
+- Detects app (0x7fxxxxxx) and framework (0x01xxxxxx) resources
+- Added `--replace-consts` CLI flag (JADX-compatible)
+
+**Files Changed:**
+- `crates/dexterity-cli/src/main.rs`, `args.rs`
+- `crates/dexterity-codegen/src/expr_gen.rs`, `class_gen.rs`, `body_gen.rs`, `method_gen.rs`
+
+**Results:** All 685 integration tests passing
+
+**Usage:** `./target/release/dexterity --replace-consts -d output/ app.apk`
+
+---
 
 ### Undefined Variables in Switch/Synchronized Regions - Dec 16, 2025 (Quality: ~95-98% -> ~99%+)
 

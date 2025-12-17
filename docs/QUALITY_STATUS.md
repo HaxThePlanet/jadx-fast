@@ -16,6 +16,10 @@
 | Null Comparisons | **100% correct** (26 → 0 `== 0` for objects) |
 | Class-Level Generics | 736 classes with proper `<T>` |
 | Undefined Variables | 99.9% eliminated (701 → ~0) |
+| Lambda Bodies | **DONE** - Full decompilation with inlining |
+| Polymorphic Invoke | **DONE** - `methodHandle.invoke()` syntax |
+| Instance Type Propagation | **DONE** - Generic args resolved |
+| Resource Field Resolution | **DONE** - `R.id.button` with `--replace-consts` |
 | Defect Score | **95.9% (medium)**, **96.8% (large)** |
 | Integration Tests | 685/685 passing |
 | Speed Advantage | 3-88x faster than JADX |
@@ -171,17 +175,22 @@ For detailed algorithm documentation used to achieve this quality:
 | Warning comments | DONE | body_gen.rs:933 (`/* JADX WARN: */`), class_gen.rs (`/* renamed from: */`) |
 | Multi-DEX support | DONE | converter.rs multi-dex handling |
 
-## Future Codegen Parity (P1 Features Not Yet Implemented)
+## Codegen Feature Parity (Dec 17, 2025)
 
 For full JADX parity, see [JADX_CODEGEN_REFERENCE.md Part 4](JADX_CODEGEN_REFERENCE.md#part-4-jadx-vs-dexterity-codegen-comparison) and [ROADMAP.md](ROADMAP.md#codegen-feature-parity-new---dec-2025).
 
 | Feature | Impact | Status |
 |---------|--------|--------|
-| Lambda expressions (`(x) -> x + 1`) | Android 8+ apps | TODO |
-| Method references (`Foo::method`) | Common pattern | TODO |
-| INVOKE_CUSTOM parsing | Required for lambdas | TODO |
+| Lambda expressions (`(x) -> x + 1`) | Android 8+ apps | **DONE** - Full body decompilation |
+| Lambda body inlining | Clean output | **DONE** - `try_inline_single_expression_lambda()` |
+| Method references (`Foo::method`) | Common pattern | **DONE** |
+| INVOKE_CUSTOM parsing | Required for lambdas | **DONE** |
 | TernaryInsn IR type | Cleaner ternary output | **DONE** |
 | Fallback mode | Raw bytecode on failure | **DONE** |
+| Polymorphic invoke | MethodHandle cases | **DONE** - `methodHandle.invoke()` |
+| Instance arg type propagation | Generic type chains | **DONE** - TypeVar resolution |
+| Android R.* handling | Resource ID resolution | **DONE** - `--replace-consts` flag |
+| Varargs expansion | `foo(arr...)` → `foo(a, b)` | TODO |
 
 ---
 
@@ -266,3 +275,7 @@ All 19 tracked issues have been resolved:
 | Local Variable Null Checks | **DONE** - Extended name heuristics |
 | Same-Package Types | **DONE** - Simple names |
 | Exception Imports | **DONE** - Auto-collection |
+| Lambda Body Decompilation | **DONE** - Full body + inlining |
+| Polymorphic Invoke | **DONE** - MethodHandle support |
+| Instance Arg Type Propagation | **DONE** - Generic TypeVar resolution |
+| Android R.* Resources | **DONE** - `--replace-consts` flag |

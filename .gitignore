@@ -73,4 +73,5 @@ coverage/
 output/
 decompile_output/
 jadx-fast
-jadx-fast
+crates/medium-jadx/
+crates/jadx-*/
