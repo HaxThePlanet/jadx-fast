@@ -11,6 +11,11 @@ use std::collections::{HashMap, HashSet};
 
 use dexterity_ir::{ArgType, ClassData, MethodData};
 
+// Access flag constants
+const ACC_PUBLIC: u32 = 0x0001;
+const ACC_PRIVATE: u32 = 0x0002;
+const ACC_PROTECTED: u32 = 0x0004;
+
 /// Information about overridden methods
 #[derive(Debug, Clone)]
 pub struct MethodOverrideAttr {
@@ -199,8 +204,9 @@ where
     F: Fn(&str) -> Option<ClassData>,
 {
     // Skip constructors, static methods, and private methods
+    let is_private = (method.access_flags & ACC_PRIVATE) != 0;
     if method.is_constructor() || method.is_class_init() ||
-       method.is_static() || method.is_private() {
+       method.is_static() || is_private {
         return None;
     }
 
@@ -334,13 +340,17 @@ fn signatures_compatible(parent_sig: &str, child_sig: &str) -> bool {
 
 /// Check if a parent method is visible from the child class
 fn is_method_visible(method: &MethodData, child_class: &ClassData, parent_class: &ClassData) -> bool {
+    let is_private = (method.access_flags & ACC_PRIVATE) != 0;
+    let is_public = (method.access_flags & ACC_PUBLIC) != 0;
+    let is_protected = (method.access_flags & ACC_PROTECTED) != 0;
+
     // Private methods are not visible
-    if method.is_private() {
+    if is_private {
         return false;
     }
 
     // Public and protected are always visible
-    if method.is_public() || method.is_protected() {
+    if is_public || is_protected {
         return true;
     }
 
