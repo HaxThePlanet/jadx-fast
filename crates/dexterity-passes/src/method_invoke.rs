@@ -219,7 +219,9 @@ pub fn find_required_casts(
     changed = false;
     for (i, arg) in cast_types.iter_mut().enumerate() {
         if let Some(param_type) = target_method.arg_types.get(i) {
-            if !arg.is_generic() && param_type.is_generic() {
+            let arg_is_generic = matches!(arg, ArgType::Generic { .. });
+            let param_is_generic = matches!(param_type, ArgType::Generic { .. });
+            if !arg_is_generic && param_is_generic {
                 *arg = param_type.clone();
                 changed = true;
             }
@@ -292,7 +294,8 @@ fn is_method_applicable(method: &MethodDetails, arg_types: &[ArgType]) -> bool {
 /// - Integer literal without explicit type → int
 /// - Register → its declared type
 pub fn get_compiler_var_type(arg_type: &ArgType, is_literal_zero: bool) -> ArgType {
-    if is_literal_zero && (arg_type.is_object() || arg_type.is_array()) {
+    let is_array = matches!(arg_type, ArgType::Array(_));
+    if is_literal_zero && (arg_type.is_object() || is_array) {
         // Null literal - compiler sees as unknown object type
         ArgType::Object("java/lang/Object".to_string())
     } else if arg_type.is_primitive() && !matches!(arg_type, ArgType::Boolean) {
@@ -306,7 +309,7 @@ pub fn get_compiler_var_type(arg_type: &ArgType, is_literal_zero: bool) -> ArgTy
 /// Process method invocation for varargs detection
 pub fn detect_vararg_call(param_types: &[ArgType]) -> bool {
     param_types.last()
-        .map(|t| t.is_array())
+        .map(|t| matches!(t, ArgType::Array(_)))
         .unwrap_or(false)
 }
 
