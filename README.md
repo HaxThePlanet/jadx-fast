@@ -972,24 +972,27 @@ These APKs are used for:
 
 *Last updated: 2025-12-17*
 
-All 685 integration tests pass. Unit tests: 90/91 passing (1 failing: method_gen::tests::test_method_with_params).
+All tests passing! 1,120 total tests: 685 integration tests + 435 unit tests across all crates.
 
 ### Test Summary
 
-| Test Suite | Tests | Passed | Failed | Status |
-|------------|-------|--------|--------|--------|
-| **Integration Tests** | 685 | 685 | 0 | All Passing |
-| dexterity-cli (unit) | 15 | 15 | 0 | All Passing |
-| dexterity-codegen | 91 | 90 | 1 | 1 Failing |
-| dexterity-deobf | 25 | 25 | 0 | All Passing |
-| dexterity-dex | 35 | 35 | 0 | All Passing |
-| dexterity-ir | 49 | 49 | 0 | All Passing |
-| dexterity-kotlin | 3 | 3 | 0 | All Passing |
-| dexterity-passes | 130 | 130 | 0 | All Passing |
-| dexterity-resources | 8 | 8 | 0 | All Passing |
-| dexterity-qa | 14 | 14 | 0 | All Passing |
-
-**Note:** All unit tests have been updated to reflect the improved type-based variable naming (e.g., `obj0`, `obj5` instead of `v0`, `v5`). The 685 integration tests (which test end-to-end functionality) all pass. One unit test (method_gen::tests::test_method_with_params) is failing due to parameter naming.
+| Test Suite | Tests | Passed | Failed | Ignored | Status |
+|------------|-------|--------|--------|---------|--------|
+| **Integration Tests** | 685 | 685 | 0 | 0 | All Passing |
+| **Golden Tests** | 4 | 4 | 0 | 0 | All Passing |
+| **Test Framework** | 3 | 3 | 0 | 0 | All Passing |
+| dexterity-cli (unit) | 15 | 15 | 0 | 0 | All Passing |
+| dexterity-codegen | 99 | 99 | 0 | 0 | All Passing |
+| dexterity-deobf | 25 | 25 | 0 | 0 | All Passing |
+| dexterity-dex | 37 | 37 | 0 | 0 | All Passing |
+| dexterity-ir | 49 | 49 | 0 | 0 | All Passing |
+| dexterity-kotlin | 18 | 18 | 0 | 0 | All Passing |
+| dexterity-llm-postproc | 3 | 3 | 0 | 0 | All Passing |
+| dexterity-passes | 155 | 155 | 0 | 0 | All Passing |
+| dexterity-qa (lib) | 7 | 7 | 0 | 0 | All Passing |
+| dexterity-qa (bin) | 7 | 7 | 0 | 0 | All Passing |
+| dexterity-resources | 13 | 13 | 0 | 0 | All Passing |
+| **TOTAL** | **1,120** | **1,120** | **0** | **0** | **100% Pass**
 
 ### Integration Test Categories
 
