@@ -56,6 +56,48 @@ Five key areas improved to match JADX's intermediate representation:
 
 ---
 
+### Field Increment and Compound Assignment Support (Dec 17, 2025)
+
+**Implemented field increment operations and compound assignments. Codegen parity improved from 90% to 93%.**
+
+**Problem:** Field increment and compound assignment patterns were output verbosely:
+```java
+// Dexterity (BEFORE)
+this.count = this.count + 1;
+obj.value = obj.value * 2;
+Class.staticField = Class.staticField + n;
+
+// Dexterity (AFTER)
+this.count++;
+obj.value *= 2;
+Class.staticField += n;
+```
+
+**Implementation:**
+- Added `detect_field_increment()` function (body_gen.rs:955-1105) to detect field increment patterns
+- Supports instance fields (`obj.field++`, `this.count++`)
+- Supports static fields (`Class.field++`, `ClassName.staticField += n`)
+- Supports all compound operators: `+`, `-`, `*`, `/`, `%`, `&`, `|`, `^`, `<<`, `>>`, `>>>`
+- Pattern matching finds InstanceGet/StaticGet followed by binary operation and InstancePut/StaticPut
+
+**Patterns Detected:**
+- `obj.field = obj.field + 1` -> `obj.field++`
+- `obj.field = obj.field - 1` -> `obj.field--`
+- `this.count = this.count + N` -> `this.count += N`
+- `Class.field = Class.field OP N` -> `Class.field OP= N`
+
+**Files Changed:**
+- `crates/dexterity-codegen/src/body_gen.rs` - Added `detect_field_increment()`, `find_defining_insn_in_context()`, `args_match()` functions
+
+**Results:**
+- Codegen parity: 90% -> **93%**
+- All 1,120 tests pass (685 integration + 435 unit)
+- Only remaining P1 gap: pre/post increment context detection (`++i` vs `i++`)
+
+**Note:** Local variable increment/decrement (`i++`, `x += n`) was already at 90% parity, implemented in body_gen.rs:820-934.
+
+---
+
 ### Two-Switch Pattern Merge for Switch-Over-String (Dec 17, 2025)
 
 **Implemented two-switch pattern detection and merge for switch-over-string.**

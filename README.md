@@ -395,7 +395,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 | `dexterity-dex` | DEX binary parsing (memory-mapped, all 224 opcodes) ([parity details](docs/DEX_PARITY.md)) | **100%** |
 | `dexterity-ir` | Intermediate representation, SSA, class hierarchy ([parity details](docs/JADX_DEXTERITY_IR_REFERENCE.md)) | **90%** |
 | `dexterity-passes` | Type inference, region reconstruction, optimization ([parity details](docs/PASSES_COMPARISON.md)) | **95%** |
-| `dexterity-codegen` | Java source generation ([parity details](docs/CODEGEN_PARITY.md)) | **90%** |
+| `dexterity-codegen` | Java source generation ([parity details](docs/CODEGEN_PARITY.md)) | **93%** |
 | `dexterity-resources` | AXML and resources.arsc decoding | **100%** |
 | `dexterity-deobf` | Deobfuscation, ProGuard parser | **100%** |
 | `dexterity-kotlin` | Kotlin metadata parsing | **100%** |
@@ -413,7 +413,7 @@ APK/DEX -> dexterity-dex -> dexterity-ir -> dexterity-passes -> dexterity-codege
 
 - [Quality Status](docs/QUALITY_STATUS.md) - Detailed output quality vs Java JADX
 - [DEX Parity](docs/DEX_PARITY.md) - **100% parity** for DEX binary parsing (dexterity-dex vs jadx-dex)
-- [Codegen Parity](docs/CODEGEN_PARITY.md) - 90% parity for code generation
+- [Codegen Parity](docs/CODEGEN_PARITY.md) - 93% parity for code generation
 - [Kotlin Parity](docs/KOTLIN_PARITY.md) - **61% parity** for Kotlin metadata extraction (field names, data classes, companion objects, function modifiers)
 - [Roadmap](docs/ROADMAP.md) - Remaining work and implementation plan
 - [Changelog](docs/CHANGELOG.md) - Development history and fixes

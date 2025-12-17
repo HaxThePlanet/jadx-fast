@@ -53,6 +53,16 @@ use crate::stmt_gen::{
 use crate::type_gen::{literal_to_string, object_to_java_name, type_to_string, type_to_string_with_imports};
 use crate::writer::CodeWriter;
 
+/// Sanitize a method name to be a valid Java identifier
+/// Kotlin internal methods often have hyphens (e.g., set-impl, getGreen-0d7_KjU)
+/// which are invalid Java identifiers. This converts hyphens to underscores.
+fn sanitize_method_name(name: &str) -> String {
+    if !name.contains('-') {
+        return name.to_string();
+    }
+    name.replace('-', "_")
+}
+
 /// Context for generating method body code
 pub struct BodyGenContext {
     /// Expression generator with variable names and type info
@@ -4981,7 +4991,7 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 }
 
                 // Normal static method call with type-aware argument formatting
-                code.add(&info.class_name).add(".").add(&info.method_name).add("(");
+                code.add(&info.class_name).add(".").add(&sanitize_method_name(&info.method_name)).add("(");
                 write_typed_args_with_varargs(args, &info.param_types, skip_count, info.is_varargs, ctx, code);
                 code.add(")");
             }
@@ -5026,7 +5036,7 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                             code.add(".");
                         }
                     }
-                    code.add(&info.method_name).add("(");
+                    code.add(&sanitize_method_name(&info.method_name)).add("(");
                 }
                 // Use type-aware argument formatting with varargs expansion
                 write_typed_args_with_varargs(args, &info.param_types, skip_count, info.is_varargs, ctx, code);
@@ -5036,7 +5046,7 @@ fn write_invoke_with_inlining<W: CodeWriter>(
                 if info.method_name == "<init>" {
                     code.add("super(");
                 } else {
-                    code.add("super.").add(&info.method_name).add("(");
+                    code.add("super.").add(&sanitize_method_name(&info.method_name)).add("(");
                 }
                 // Use type-aware argument formatting with varargs expansion
                 write_typed_args_with_varargs(args, &info.param_types, skip_count, info.is_varargs, ctx, code);

@@ -26,6 +26,15 @@ use dexterity_ir::types::ArgType;
 use crate::dex_info::DexInfoProvider;
 use crate::type_gen::literal_to_string;
 
+/// Sanitize a method name to be a valid Java identifier
+/// Kotlin internal methods often have hyphens (e.g., set-impl, getGreen-0d7_KjU)
+fn sanitize_method_name(name: &str) -> String {
+    if !name.contains('-') {
+        return name.to_string();
+    }
+    name.replace('-', "_")
+}
+
 /// Expression generation context
 ///
 /// ⚠️ WARNING: Contains 6 HashMaps that MUST be properly shrunk via reset()
@@ -841,9 +850,10 @@ impl ExprGen {
                     .collect();
 
                 if let Some(info) = self.get_method_value(*method_idx) {
+                    let method_name = sanitize_method_name(&info.method_name);
                     match kind {
                         InvokeKind::Static => {
-                            Some(format!("{}.{}({})", info.class_name, info.method_name, args_str.join(", ")))
+                            Some(format!("{}.{}({})", info.class_name, method_name, args_str.join(", ")))
                         }
                         InvokeKind::Virtual | InvokeKind::Interface | InvokeKind::Direct => {
                             let receiver = args.first().map(|a| self.gen_arg(a)).unwrap_or_default();
@@ -857,16 +867,16 @@ impl ExprGen {
                                     Some(format!("new {}({})", info.class_name, args_str.join(", ")))
                                 }
                             } else if receiver == "this" {
-                                Some(format!("{}({})", info.method_name, args_str.join(", ")))
+                                Some(format!("{}({})", method_name, args_str.join(", ")))
                             } else {
-                                Some(format!("{}.{}({})", receiver, info.method_name, args_str.join(", ")))
+                                Some(format!("{}.{}({})", receiver, method_name, args_str.join(", ")))
                             }
                         }
                         InvokeKind::Super => {
                             if info.method_name == "<init>" {
                                 Some(format!("super({})", args_str.join(", ")))
                             } else {
-                                Some(format!("super.{}({})", info.method_name, args_str.join(", ")))
+                                Some(format!("super.{}({})", method_name, args_str.join(", ")))
                             }
                         }
                         _ => Some(format!("method#{}({})", method_idx, args_str.join(", ")))
@@ -1032,9 +1042,10 @@ impl ExprGen {
                 let skip_receiver = !matches!(kind, InvokeKind::Static);
 
                 if let Some(info) = self.get_method_value(*method_idx) {
+                    let method_name = sanitize_method_name(&info.method_name);
                     match kind {
                         InvokeKind::Static => {
-                            writer.add(&info.class_name).add(".").add(&info.method_name).add("(");
+                            writer.add(&info.class_name).add(".").add(&method_name).add("(");
                             for (i, a) in args.iter().enumerate() {
                                 if i > 0 { writer.add(", "); }
                                 self.write_arg(writer, a);
@@ -1051,10 +1062,10 @@ impl ExprGen {
                                         writer.add("new ").add(&info.class_name).add("(");
                                     }
                                 } else if recv_name == "this" {
-                                    writer.add(&info.method_name).add("(");
+                                    writer.add(&method_name).add("(");
                                 } else {
                                     self.write_arg(writer, receiver);
-                                    writer.add(".").add(&info.method_name).add("(");
+                                    writer.add(".").add(&method_name).add("(");
                                 }
                             }
                             for (i, a) in args.iter().skip(if skip_receiver { 1 } else { 0 }).enumerate() {
@@ -1067,7 +1078,7 @@ impl ExprGen {
                             if info.method_name == "<init>" {
                                 writer.add("super(");
                             } else {
-                                writer.add("super.").add(&info.method_name).add("(");
+                                writer.add("super.").add(&method_name).add("(");
                             }
                             for (i, a) in args.iter().skip(if skip_receiver { 1 } else { 0 }).enumerate() {
                                 if i > 0 { writer.add(", "); }

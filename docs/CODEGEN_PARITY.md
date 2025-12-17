@@ -112,8 +112,8 @@ Dexterity's code generation module achieves approximately **93% feature parity**
 | Method references | DONE | `Foo::method`, `Foo::new` |
 | Boxing detection | DONE | `Integer.valueOf()` removal |
 | Negative literal wrapping | 80% | |
-| **Increment/decrement** | **90%** | `i++`, `--j` DONE for locals; missing field ops and pre-increment context |
-| **Compound assignment** | **90%** | `+=`, `-=`, `*=`, etc. DONE for locals; missing field ops |
+| **Increment/decrement** | **95%** | `i++`, `--j`, `obj.field++`, `this.count++` all DONE; only missing pre/post context detection |
+| **Compound assignment** | **95%** | `+=`, `-=`, `*=`, etc. DONE for locals and fields (`obj.field += n`) |
 
 ### 4. Control Flow - 90%
 
@@ -223,7 +223,7 @@ Dexterity's code generation module achieves approximately **93% feature parity**
 |-----|--------|----------------|-------|
 | Pre/post increment context | 2% | InsnGen:1216-1230 | `++i` vs `i++` detection |
 
-**Note**: Local variable and field increment/decrement (`i++`, `obj.field++`) and compound assignments (`+=`, `-=`, etc.) are now implemented in `dexterity-codegen/src/body_gen.rs:820-1108`.
+**Note**: Local variable and field increment/decrement (`i++`, `obj.field++`) and compound assignments (`+=`, `-=`, etc.) are fully implemented in `dexterity-codegen/src/body_gen.rs:820-1108`. The only remaining gap is pre/post increment context detection (`++i` vs `i++`).
 
 ### P2 - Medium Impact (~1% total gap)
 
@@ -238,8 +238,9 @@ Dexterity's code generation module achieves approximately **93% feature parity**
 | Feature | Coverage | JADX Reference | Notes |
 |---------|----------|----------------|-------|
 | String switch reconstruction | **79%** | SwitchOverStringVisitor | Two-switch pattern merge via `detect_two_switch_in_sequence()` |
-| Field increment ops | **DONE** | InsnGen:1216-1230 | `obj.field++`, `this.count += n` via `detect_field_increment()` |
-| Boolean simplification | **DONE** | ConditionGen | `x == true` → `x`, `!(a < b)` → `a >= b` |
+| Field increment ops | **DONE** | InsnGen:1216-1230 | `obj.field++`, `this.count += n` via `detect_field_increment()` in body_gen.rs:955-1105 |
+| Field compound assignments | **DONE** | InsnGen | `obj.field += n`, `this.count -= 1` for all operators (+, -, *, /, %, &, \|, ^, <<, >>, >>>) |
+| Boolean simplification | **DONE** | ConditionGen | De Morgan's laws, comparison inversion (`!(a < b)` → `a >= b`), literal normalization (`x == true` → `x`) |
 
 ### P3 - Low Impact (~2% total gap)
 
@@ -258,16 +259,18 @@ Dexterity's code generation module achieves approximately **93% feature parity**
 1. ✅ DONE: Local variable increment/decrement (`dexterity-codegen/src/body_gen.rs:820-934`)
    - ✅ Pattern: `x = x + 1` -> `x++`
    - ✅ Pattern: `x = x - 1` -> `x--`
-   - ⏳ TODO: Pre vs post increment context detection (`++i` vs `i++`)
+   - **90% complete** - only missing pre vs post increment context detection (`++i` vs `i++`)
 
 2. ✅ DONE: Local variable compound assignments (`dexterity-codegen/src/body_gen.rs:914-930`)
    - ✅ Pattern: `x = x + n` -> `x += n`
    - ✅ Works for: +, -, *, /, %, &, |, ^, <<, >>, >>>
 
-3. ✅ DONE: Field increment/compound (`dexterity-codegen/src/body_gen.rs:936-1108`)
+3. ✅ DONE: Field increment/compound (`dexterity-codegen/src/body_gen.rs:955-1105`)
    - ✅ Pattern: `obj.field = obj.field + 1` -> `obj.field++`
+   - ✅ Pattern: `this.count = this.count + n` -> `this.count += n`
    - ✅ Pattern: `Class.field = Class.field + n` -> `Class.field += n`
    - ✅ All compound operators: +, -, *, /, %, &, |, ^, <<, >>, >>>
+   - Implemented via `detect_field_increment()` function
 
 ### Phase 2: P2 Gaps (Target: 98%) - ✅ 97% ACHIEVED
 1. ~~String switch reconstruction pass~~ ✅ DONE (79% coverage)

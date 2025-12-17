@@ -4,6 +4,17 @@
 
 use std::collections::BTreeSet;
 
+/// Sanitize a method name to be a valid Java identifier
+/// R8/D8 optimizer creates synthetic methods with hyphens (e.g., $r8$lambda$...-...)
+/// which are invalid Java identifiers. This converts hyphens to underscores.
+fn sanitize_method_name(name: &str) -> String {
+    if !name.contains('-') {
+        return name.to_string();
+    }
+    // Replace hyphens with underscores (simpler than camelCase for method names)
+    name.replace('-', "_")
+}
+
 use dexterity_ir::{Annotation, AnnotationValue, AnnotationVisibility, ArgType, ClassData, MethodData, TypeParameter};
 
 use crate::access_flags::{self, flags::*, AccessContext};
@@ -296,8 +307,8 @@ pub fn generate_method_with_dex<W: CodeWriter>(
         // Regular method (use simple names when imports available)
         code.add(&type_to_string_with_imports(&method.return_type, imports));
         code.add(" ");
-        // Use alias if available from deobfuscation
-        code.add(method.display_name());
+        // Use alias if available from deobfuscation, sanitize for valid Java identifier
+        code.add(&sanitize_method_name(method.display_name()));
     }
 
     // Parameters (except for static initializer)
@@ -406,8 +417,8 @@ pub fn generate_method_with_inner_classes<W: CodeWriter>(
     } else {
         code.add(&type_to_string_with_imports(&method.return_type, imports));
         code.add(" ");
-        // Use alias if available from deobfuscation
-        code.add(method.display_name());
+        // Use alias if available from deobfuscation, sanitize for valid Java identifier
+        code.add(&sanitize_method_name(method.display_name()));
     }
 
     // Parameters (except for static initializer)
