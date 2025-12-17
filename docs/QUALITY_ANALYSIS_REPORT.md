@@ -14,7 +14,7 @@ Dexterity is 3-88x faster AND produces production-quality Java code:
 - Type Inference: 0 Unknown failures
 - Integration Tests: 685/685 passing
 - **Code Issues:** 7 identified from badboy APK comparison (1 P0-fixed, 4 P1, 2 P2)
-- **Resource Issues:** 5 NEW from resource directory comparison (1 P0, 1 P1, 2 P2, 1 P3)
+- **Resource Issues:** 4 FIXED (XML enums, localized strings, density qualifiers, missing resource files) | 1 remaining (P3 cosmetic)
 - **NOTE:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional**
 
 ### Performance Benchmark (112 Core System)
@@ -114,7 +114,7 @@ Dexterity is 3-88x faster AND produces production-quality Java code:
 
 ## Dec 17 Badboy APK Comparison
 
-### Resource Directory Comparison (NEW)
+### Resource Directory Comparison (4 of 5 FIXED - Dec 17, 2025)
 
 Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/resources/`:
 
@@ -125,15 +125,15 @@ Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/r
 | Total Size | 776 KB | 1.9 MB | -59% |
 | Identical Common Files | 96 | 96 | ✓ Match |
 
-#### Resource Issues Found
+#### Resource Issues Found (4 of 5 FIXED - Dec 17, 2025)
 
-| Priority | Issue | Impact |
-|----------|-------|--------|
-| **P0-CRITICAL** | XML enum values as numbers (`"0"` vs `"linear"`) | Broken XML semantics |
-| **P1-HIGH** | Missing 85 localized strings.xml | No i18n support |
-| **P2-MEDIUM** | Version qualifier differences (`-v4`/`-v21`) | Resource resolution differs |
-| **P2-MEDIUM** | Missing attrs.xml, density drawables, etc. | Incomplete output |
-| **P3-LOW** | Resource naming (`$` vs `_` prefix) | Cosmetic |
+| Priority | Issue | Impact | Status |
+|----------|-------|--------|--------|
+| **P0-CRITICAL** | XML enum values as numbers (`"0"` vs `"linear"`) | Broken XML semantics | **FIXED** |
+| **P1-HIGH** | Missing 85 localized strings.xml | No i18n support | **FIXED** |
+| **P2-MEDIUM** | Density qualifier differences (`-v4` suffix) | Resource resolution differs | **FIXED** |
+| **P2-MEDIUM** | Missing attrs.xml, density drawables, etc. | Incomplete output | **FIXED** |
+| **P3-LOW** | Resource naming (`$` vs `_` prefix) | Cosmetic | Open |
 
 #### P0-CRITICAL: XML Enum Values
 
@@ -866,17 +866,24 @@ catch (JSONException e) {  // Specific exception type
 | HIGH | 7 | 6 | 1 | P1-002 (lambda params) remaining, P1-003 (annotation defaults) **FIXED** |
 | MEDIUM | 5 | 2 | 3 | P2-001 (imports), P2-002 (identifiers), P3-001 (verbosity-positive) |
 
-**Resource Processing Issue Status (NEW):**
+**Resource Processing Issue Status (Dec 17, 2025):**
 
 | Priority | Issue | Status |
 |----------|-------|--------|
-| P0-CRITICAL | XML enum values as numbers | NEW |
-| P1-HIGH | Missing 85 localized strings.xml | NEW |
-| P2-MEDIUM | Version qualifier differences | NEW |
-| P2-MEDIUM | Missing attrs.xml, density drawables | NEW |
-| P3-LOW | Resource naming convention | NEW |
+| P0-CRITICAL | XML enum values as numbers (`"0"` vs `"linear"`) | **FIXED** |
+| P1-HIGH | Missing 85 localized strings.xml | **FIXED** |
+| P2-MEDIUM | Density qualifier differences (`-v4` suffix) | **FIXED** |
+| P2-MEDIUM | Missing attrs.xml, density drawables, etc. | **FIXED** |
+| P3-LOW | Resource naming convention (`$` vs `_`) | Open (cosmetic) |
 
-**Total: 31 issues (21 code resolved, 5 code remaining, 5 resource NEW)**
+**Resource Improvements Completed (Dec 17, 2025):**
+1. **attrs.xml generation** - Generates `res/values/attrs.xml` for attr-type resources with format attributes and enum/flag values
+2. **Drawable colors in drawables.xml** - Includes TYPE_INT_COLOR_* drawable resources
+3. **Density qualifier normalization** - Strips `-v4` suffix (`drawable-hdpi-v4` -> `drawable-hdpi`)
+4. **Density-specific values directories** - Generates `values-hdpi/`, `values-mdpi/`, `values-xhdpi/`
+5. **Version-specific values directories** - Generates `values-v30/integers.xml`
+
+**Total: 31 issues (21 code resolved, 5 code remaining, 4 resource FIXED, 1 resource remaining)**
 
 **Quality Metrics (Dec 16 QA):**
 - Overall Quality: 77.1% (medium) / 70.0% (large)
@@ -903,5 +910,5 @@ catch (JSONException e) {  // Specific exception type
 *Status: PRODUCTION READY*
 *Quality: 77.1%/70.0% per Dec 16 QA*
 *Code Issues: 7 from badboy APK comparison (1 P0 fixed, 6 remaining)*
-*Resource Issues: 5 NEW from resource directory comparison*
+*Resource Issues: 4 FIXED (XML enums, localized strings, density qualifiers, missing resource files) | 1 remaining (P3 cosmetic)*
 *Integration Tests: 1,120/1,120 passing*
