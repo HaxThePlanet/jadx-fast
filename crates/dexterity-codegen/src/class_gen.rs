@@ -668,7 +668,8 @@ fn add_inner_class_declaration<W: CodeWriter>(
             && !(access_flags::is_annotation(class.access_flags) && superclass == "java/lang/annotation/Annotation")
             && !(access_flags::is_enum(class.access_flags) && (superclass == "java/lang/Enum" || superclass == "Ljava/lang/Enum;")) {
             code.add(" extends ");
-            let ty = ArgType::Object(superclass.clone());
+            // Use superclass_type with generics if available, otherwise fall back to plain Object type
+            let ty = class.superclass_type.clone().unwrap_or_else(|| ArgType::Object(superclass.clone()));
             code.add(&type_to_string_with_imports(&ty, imports));
         }
     }
@@ -799,7 +800,8 @@ fn add_class_declaration<W: CodeWriter>(class: &ClassData, imports: Option<&BTre
             && !(access_flags::is_annotation(class.access_flags) && superclass == "java/lang/annotation/Annotation")
             && !(access_flags::is_enum(class.access_flags) && (superclass == "java/lang/Enum" || superclass == "Ljava/lang/Enum;")) {
             code.add(" extends ");
-            let ty = ArgType::Object(superclass.clone());
+            // Use superclass_type with generics if available, otherwise fall back to plain Object type
+            let ty = class.superclass_type.clone().unwrap_or_else(|| ArgType::Object(superclass.clone()));
             code.add(&type_to_string_with_imports(&ty, imports));
         }
     }

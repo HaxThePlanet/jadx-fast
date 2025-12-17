@@ -47,6 +47,7 @@
 | Multi-DEX support | RootNode.java | P2 | jadx-core/dex/nodes/ | **DONE** |
 | Warning comments | CodeGen.java retry | P3 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** |
 | For-each loops | LoopRegionVisitor.java | P2 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** - array pattern + iterator pattern |
+| ReplaceNewArray | ReplaceNewArray.java (218 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** - NEW_ARRAY + APUT sequence fusion |
 
 ---
 
@@ -56,15 +57,23 @@
 
 **Problem (FIXED):**
 ```java
-// Before:   public abstract class Maybe implements MaybeSource
-// After:    public abstract class Maybe<T> implements MaybeSource<T>
+// Before:   public class State extends AtomicInteger implements ObservableSource
+// After:    public class State extends AtomicInteger implements ObservableSource<T>
+
+// Before:   public class MyClass extends BaseClass<T>
+// After:    public class MyClass extends BaseClass<T>  (superclass generics preserved)
 ```
 
-**Root Cause:** In `parse_class_signature()`, the interface matching logic only handled `ArgType::Object` but not `ArgType::Generic`. When the signature parser returned a generic interface like `MaybeSource<T>`, it was incorrectly skipped.
+**Root Cause 1 (Interfaces):** In `parse_class_signature()`, the interface matching logic only handled `ArgType::Object` but not `ArgType::Generic`. Fixed by extracting base class names from both variants.
 
-**Fix:** Updated `crates/dexterity-cli/src/converter.rs` lines 288-313 to extract base class names from both `ArgType::Object` and `ArgType::Generic` variants when matching parsed interfaces against original DEX interfaces.
+**Root Cause 2 (Superclass):** In `parse_class_signature()`, the superclass type with generics was being parsed but *discarded* with a comment "skip for now, already set from DEX". But DEX only has the raw class name without generic type parameters.
 
-**Validation:** Classes like `Maybe<T>`, `Flowable<T>`, `SerializedSubscriber<T>`, etc. now correctly show generic type parameters in their implements clauses, matching JADX output.
+**Fix:**
+1. Added `superclass_type: Option<ArgType>` field to `ClassData` in `dexterity-ir/src/info.rs` to store the full generic superclass type
+2. Updated `parse_class_signature()` in `converter.rs` to store the parsed superclass type to `class.superclass_type`
+3. Updated code generation in `class_gen.rs` to use `superclass_type` when available for the `extends` clause
+
+**Validation:** Classes now correctly show generic type parameters in both `extends` and `implements` clauses, matching JADX output.
 
 ### P2: Optimization Pass Audit
 
@@ -130,6 +139,7 @@ Add JADX-style diagnostic comments:
 - [x] DeboxingVisitor - **IMPLEMENTED** (at codegen level in body_gen.rs:2992-3006, BoxingType in expr_gen.rs)
 - [x] PrepareForCodeGen final cleanup - **IMPLEMENTED** (prepare_for_codegen.rs, redundant move removal, associative chain marking)
 - [x] IfCondition.simplify() - **DONE** (De Morgan's laws, double negation elimination, NOT distribution for ternary, in regions.rs Condition::simplify())
+- [x] ReplaceNewArray - **DONE** (mod_visitor.rs: NEW_ARRAY + APUT sequence fusion, fills gaps with zeros like JADX)
 
 ### Code Generation ([JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md))
 - [x] Import management (BTreeSet for sorting)

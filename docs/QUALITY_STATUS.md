@@ -48,14 +48,22 @@
 
 ## Recent Major Fixes
 
-### Dec 17, 2025 - Interface Generics Fix
+### Dec 17, 2025 - Interface and Superclass Generics Fix
 
 **Fix 4: Interface Generic Type Parameters (P1 Critical)**
 - **Before:** `public abstract class Maybe<T> implements MaybeSource`
 - **After:** `public abstract class Maybe<T> implements MaybeSource<T>`
 - **Root Cause:** Signature parser matched `ArgType::Object` but not `ArgType::Generic`
 - **Impact:** All implements clauses now correctly include type parameters
-- **Quality Score:** 77.1% → 84.4% (medium), 70.0% → 87.8% (large)
+
+**Fix 5: Superclass Generic Type Parameters (P1 Critical)**
+- **Before:** `public class State extends AtomicInteger implements ObservableSource`
+- **After:** `public class State extends AtomicInteger implements ObservableSource<T>`
+- **Root Cause:** Superclass type with generics was being parsed but discarded in `parse_class_signature()`
+- **Solution:** Added `superclass_type: Option<ArgType>` to IR and updated codegen to use it
+- **Impact:** All extends clauses now correctly include type parameters
+
+**Combined Quality Score:** 77.1% → 84.4% (medium), 70.0% → 87.8% (large)
 
 ### Dec 16, 2025 - Three Major Bug Fixes
 
