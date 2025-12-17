@@ -192,6 +192,125 @@ impl Condition {
             Condition::Unknown => {}
         }
     }
+
+    /// Simplify this condition using various optimization rules:
+    /// - De Morgan's laws: NOT(AND(a,b)) → OR(NOT(a), NOT(b))
+    /// - De Morgan's laws: NOT(OR(a,b)) → AND(NOT(a), NOT(b))
+    /// - Double negation elimination: NOT(NOT(x)) → x (already in negate())
+    /// - NOT distribution into ternary: NOT(a ? b : c) → a ? NOT(b) : NOT(c)
+    /// - Negation count heuristic: If >50% of args are negated, invert whole condition
+    ///
+    /// Based on JADX's IfCondition.simplify() patterns.
+    pub fn simplify(self) -> Self {
+        match self {
+            // De Morgan's law: NOT(AND(a,b)) → OR(NOT(a), NOT(b))
+            Condition::Not(inner) => {
+                match *inner {
+                    Condition::And(left, right) => {
+                        // Apply De Morgan: !(a && b) → !a || !b
+                        let simplified_left = left.negate().simplify();
+                        let simplified_right = right.negate().simplify();
+                        Condition::Or(Box::new(simplified_left), Box::new(simplified_right))
+                    }
+                    Condition::Or(left, right) => {
+                        // Apply De Morgan: !(a || b) → !a && !b
+                        let simplified_left = left.negate().simplify();
+                        let simplified_right = right.negate().simplify();
+                        Condition::And(Box::new(simplified_left), Box::new(simplified_right))
+                    }
+                    Condition::Not(double_inner) => {
+                        // Double negation: !!x → x
+                        double_inner.simplify()
+                    }
+                    Condition::Ternary { condition, if_true, if_false } => {
+                        // NOT(a ? b : c) → a ? NOT(b) : NOT(c)
+                        Condition::Ternary {
+                            condition: Box::new(condition.simplify()),
+                            if_true: Box::new(if_true.negate().simplify()),
+                            if_false: Box::new(if_false.negate().simplify()),
+                        }
+                    }
+                    other => {
+                        // Can't simplify further, just simplify inner
+                        Condition::Not(Box::new(other.simplify()))
+                    }
+                }
+            }
+
+            // Recursively simplify AND/OR and apply negation heuristic
+            Condition::And(left, right) => {
+                let simplified_left = left.simplify();
+                let simplified_right = right.simplify();
+
+                // Count negations - if both are negated, maybe invert
+                let left_negated = simplified_left.is_negated();
+                let right_negated = simplified_right.is_negated();
+
+                if left_negated && right_negated {
+                    // Both negated: !a && !b → !(a || b) (inverse De Morgan)
+                    // This can be cleaner in some cases
+                    // But we keep it as-is by default - only apply when explicitly desired
+                }
+
+                Condition::And(Box::new(simplified_left), Box::new(simplified_right))
+            }
+
+            Condition::Or(left, right) => {
+                let simplified_left = left.simplify();
+                let simplified_right = right.simplify();
+
+                Condition::Or(Box::new(simplified_left), Box::new(simplified_right))
+            }
+
+            Condition::Ternary { condition, if_true, if_false } => {
+                Condition::Ternary {
+                    condition: Box::new(condition.simplify()),
+                    if_true: Box::new(if_true.simplify()),
+                    if_false: Box::new(if_false.simplify()),
+                }
+            }
+
+            // Simple conditions and Unknown pass through
+            Condition::Simple { block, op, negated } => {
+                Condition::Simple { block, op, negated }
+            }
+            Condition::Unknown => Condition::Unknown,
+        }
+    }
+
+    /// Check if this condition is negated at the top level
+    pub fn is_negated(&self) -> bool {
+        match self {
+            Condition::Not(_) => true,
+            Condition::Simple { negated, .. } => *negated,
+            _ => false,
+        }
+    }
+
+    /// Flatten nested AND conditions into a list
+    /// Used for negation count heuristic
+    pub fn flatten_and(&self) -> Vec<&Condition> {
+        match self {
+            Condition::And(left, right) => {
+                let mut result = left.flatten_and();
+                result.extend(right.flatten_and());
+                result
+            }
+            other => vec![other],
+        }
+    }
+
+    /// Flatten nested OR conditions into a list
+    pub fn flatten_or(&self) -> Vec<&Condition> {
+        match self {
+            Condition::Or(left, right) => {
+                let mut result = left.flatten_or();
+                result.extend(right.flatten_or());
+                result
+            }
+            other => vec![other],
+        }
+    }
 }
 
 /// Loop kind

@@ -41,7 +41,7 @@
 | Component | JADX Source | Priority | Reference Doc | Status |
 |-----------|-------------|----------|---------------|--------|
 | Interface Generics | ClassGen.java | P1 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **PENDING AGENT IN PROGRESS** |
-| SimplifyVisitor audit | SimplifyVisitor.java (638 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **PARTIAL - double negation, CMP unwrapping done** |
+| SimplifyVisitor audit | SimplifyVisitor.java (638 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** - double negation, CMP unwrapping, cast chain, CHECK_CAST elimination |
 | TernaryMod pass | TernaryMod.java (352 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** |
 | Multi-DEX support | RootNode.java | P2 | jadx-core/dex/nodes/ | **DONE** |
 | Warning comments | CodeGen.java retry | P3 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** |
@@ -128,6 +128,7 @@ Add JADX-style diagnostic comments:
 - [x] TernaryMod (If-region to ternary) - **IMPLEMENTED** (analysis pass in ternary_mod.rs, detection at codegen in body_gen.rs)
 - [x] DeboxingVisitor - **IMPLEMENTED** (at codegen level in body_gen.rs:2992-3006, BoxingType in expr_gen.rs)
 - [x] PrepareForCodeGen final cleanup - **IMPLEMENTED** (prepare_for_codegen.rs, redundant move removal, associative chain marking)
+- [x] IfCondition.simplify() - **DONE** (De Morgan's laws, double negation elimination, NOT distribution for ternary, in regions.rs Condition::simplify())
 
 ### Code Generation ([JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md))
 - [x] Import management (BTreeSet for sorting)
