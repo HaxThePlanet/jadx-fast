@@ -17,7 +17,7 @@ Navigate to the right files based on the issue you're working on.
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (~1,929 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/region_builder.rs`** (~2,066 lines)
 - **Type:** Large - Use grep for specific functions
 - **Key Functions:**
   - `build_regions()` (entry point) - Orchestrates region building
@@ -47,7 +47,7 @@ grep -n "struct LoopInfo" region_builder.rs
 
 ---
 
-**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/cfg.rs`** (~710 lines)
+**File 2: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/cfg.rs`** (~831 lines)
 - **Type:** Medium - Can search for specific functions
 - **Key Functions:**
   - `build_cfg()` - Constructs control flow graph
@@ -111,7 +111,7 @@ grep -n "fn rename_variables" ssa.rs
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (~2,010 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/type_inference.rs`** (~2,432 lines)
 - **Type:** Very Large - Extensive grep usage required
 - **Key Functions:**
   - `infer_types_with_context_and_hierarchy()` - Main type inference entry
@@ -192,7 +192,7 @@ grep -n "fn is_subtype_of" class_hierarchy.rs
 
 #### Supporting Files
 
-**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,163 lines)
+**File 4: `/mnt/nvme4tb/jadx-rust/crates/dexterity-codegen/src/body_gen.rs`** (~4,985 lines)
 - **Type:** Very Large
 - **Purpose:** Generates Java code from IR
 - **Key:** How type information is used in code generation
@@ -213,7 +213,7 @@ grep -n "default_value" body_gen.rs  # How defaults are chosen
 
 #### Primary Files
 
-**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/var_naming.rs`** (~1,392 lines)
+**File 1: `/mnt/nvme4tb/jadx-rust/crates/dexterity-passes/src/var_naming.rs`** (~1,480 lines)
 - **Type:** Medium - Can search for specific functions
 - **Key Functions:**
   - `assign_variable_names()` - Main naming entry
@@ -361,8 +361,8 @@ grep -n "function_name(" file.rs
 | Size | Strategy | Examples |
 |------|----------|----------|
 | <500 lines | Read entire file | `block_split.rs`, `class_hierarchy.rs` |
-| 500-1500 lines | Search for functions, read specific functions | `cfg.rs`, `ssa.rs`, `var_naming.rs`, `class_gen.rs`, `expr_gen.rs`, `conditionals.rs` |
-| 1500-4500 lines | Grep for functions, read relevant sections | `type_inference.rs`, `region_builder.rs`, `body_gen.rs`, `simplify.rs` |
+| 500-1700 lines | Search for functions, read specific functions | `cfg.rs` (831), `ssa.rs` (964), `var_naming.rs` (1,480), `class_gen.rs` (1,537), `expr_gen.rs` (1,362), `conditionals.rs` (740), `simplify.rs` (1,646) |
+| 1700-5000 lines | Grep for functions, read relevant sections | `type_inference.rs` (2,432), `region_builder.rs` (2,066), `body_gen.rs` (4,985) |
 
 ### File Dependency Chain
 

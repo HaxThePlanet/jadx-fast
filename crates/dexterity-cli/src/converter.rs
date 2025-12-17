@@ -287,17 +287,28 @@ fn parse_class_signature(sig: &str, class: &mut ClassData) {
         // Replace interfaces with parsed versions (which have generic type args)
         for (i, parsed_type) in parsed_interfaces.into_iter().enumerate() {
             if i < original_count {
-                // Validate that base class name matches
-                if let ArgType::Object(parsed_name) = &parsed_type {
-                    if let ArgType::Object(original_name) = &class.interfaces[i] {
-                        if parsed_name == original_name ||
-                           parsed_name.split('<').next() == original_name.split('<').next() {
-                            // Replace with parsed version (has generic args)
-                            class.interfaces[i] = parsed_type;
-                        }
+                // Extract base class name from parsed type (handles both Object and Generic)
+                let parsed_base = match &parsed_type {
+                    ArgType::Object(name) => Some(name.as_str()),
+                    ArgType::Generic { base, .. } => Some(base.as_str()),
+                    _ => None,
+                };
+
+                // Extract base class name from original interface
+                let original_base = match &class.interfaces[i] {
+                    ArgType::Object(name) => Some(name.as_str()),
+                    ArgType::Generic { base, .. } => Some(base.as_str()),
+                    _ => None,
+                };
+
+                // Validate that base class name matches before replacing
+                if let (Some(parsed_name), Some(original_name)) = (parsed_base, original_base) {
+                    if parsed_name == original_name {
+                        // Replace with parsed version (has generic args)
+                        class.interfaces[i] = parsed_type;
                     }
                 } else {
-                    // For non-object types, just replace
+                    // For other types, just replace
                     class.interfaces[i] = parsed_type;
                 }
             }

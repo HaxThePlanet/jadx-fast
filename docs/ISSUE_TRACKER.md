@@ -51,13 +51,13 @@ See `LLM_AGENT_GUIDE.md` for workflow instructions.
 **Results:**
 - **27,794 -> 0** arg0/arg1 instances (100% elimination!)
 - Parameters now correctly named from debug info (e.g., `savedInstanceState`)
-- All 685 integration tests pass
+- All 689 integration tests pass
 - All 102 unit tests pass
 
 **Acceptance Criteria:**
 - [x] Reduce `arg0/arg11` instances from 27,794 to <500 - EXCEEDED: now 0!
 - [x] Parameter names match JADX output
-- [x] All 685 integration tests pass
+- [x] All 689 integration tests pass
 
 ---
 
@@ -101,7 +101,7 @@ grep -rn "switch" jadx-fast/jadx-core/src/main/java/jadx/core/dex/visitors/regio
 **Acceptance Criteria:**
 - [ ] Recover at least 1,000 switch statements (currently 370)
 - [ ] Handle both packed and sparse switches
-- [ ] All 685 integration tests pass
+- [ ] All 689 integration tests pass
 
 ---
 
@@ -146,7 +146,7 @@ public static <T> Maybe<T> amb(Iterable<? extends MaybeSource<? extends T>> sour
 **Acceptance Criteria:**
 - [x] Method-level `<T>` declarations present
 - [x] Generic bounds preserved (`<T extends Foo>`)
-- [x] All 685 integration tests pass
+- [x] All 689 integration tests pass
 
 ---
 
@@ -200,12 +200,12 @@ public abstract class Maybe<T> implements io.reactivex.MaybeSource
 
 **Results:**
 - **736 classes** now have type parameters
-- All 685 integration tests pass
+- All 689 integration tests pass
 
 **Acceptance Criteria:**
 - [x] Class-level `<T>` declarations present
 - [x] Generic bounds preserved (`<T extends Foo>`)
-- [x] All 685 integration tests pass
+- [x] All 689 integration tests pass
 
 ---
 
@@ -251,7 +251,7 @@ grep -rn "ExceptionHandler" dexterity-codegen/src/body_gen.rs
 - [ ] No unreachable code after return/throw in try blocks
 - [ ] All catch blocks present
 - [ ] Finally blocks reconstructed correctly
-- [ ] All 685 integration tests pass
+- [ ] All 689 integration tests pass
 
 ---
 
@@ -289,13 +289,13 @@ grep -rn "ExceptionHandler" dexterity-codegen/src/body_gen.rs
 **Results:**
 - **216 → 81** undefined length patterns (63% reduction, ~135 fixes)
 - Combined with previous fixes: **701 → 81** total undefined variables (88% reduction)
-- All 685/685 integration tests pass
+- All 689/689 integration tests pass
 - If conditions now correctly inline expressions like `arr.length`
 
 **Acceptance Criteria:**
 - [x] Reduce undefined variables from 701 to 81 (88% reduction)
 - [x] If conditions correctly inline expressions
-- [x] All 685 integration tests pass
+- [x] All 689 integration tests pass
 
 ---
 
@@ -332,7 +332,7 @@ grep -rn "ExceptionHandler" dexterity-codegen/src/body_gen.rs
 
 **Results:**
 - **81 → ~0** undefined variables (target achieved)
-- All 685 integration tests pass
+- All 689 integration tests pass
 - All 82 codegen unit tests pass
 - Combined with previous fixes: **701 → ~0** undefined variables (99.9%+ elimination)
 
@@ -344,7 +344,7 @@ grep -rn "ExceptionHandler" dexterity-codegen/src/body_gen.rs
 - [x] Reduce undefined variables from 81 to ~0
 - [x] Switch regions correctly emit setup instructions
 - [x] Synchronized regions correctly emit setup instructions
-- [x] All 685 integration tests pass
+- [x] All 689 integration tests pass
 
 ---
 
@@ -369,7 +369,7 @@ The `$` to `.` conversion for inner class names was incorrectly converting `$$` 
 - Updated 8 call sites in dex_info.rs, type_gen.rs, class_gen.rs
 
 **Acceptance Criteria:**
-- [x] All 685 integration tests pass
+- [x] All 689 integration tests pass
 - [x] All 82 codegen unit tests pass
 - [x] Verified on badboy-x86.apk
 
@@ -395,7 +395,7 @@ Anonymous inner class names like `$1` produced `1Var` when lowercased.
 
 **Acceptance Criteria:**
 - [x] All 13 var_naming tests pass (2 new tests added)
-- [x] All 685 integration tests pass
+- [x] All 689 integration tests pass
 - [x] Verified on badboy-x86.apk
 
 ---
@@ -459,7 +459,7 @@ Loop condition setup instructions weren't being emitted before the condition was
 
 - [x] No undefined variables in generated code
 - [x] All loop bounds properly resolved and defined
-- [x] All existing integration tests continue to pass (685/685)
+- [x] All existing integration tests continue to pass (689/689)
 - [x] Decompiled code compiles without errors
 
 ---
@@ -489,7 +489,7 @@ Variable `v2` is referenced but never defined in nested or conditional scope.
 - Created 2 integration tests:
   1. `variable_in_conditional_branch_test` - variable in both then/else branches ✅ PASS
   2. `variable_in_then_branch_only_test` - variable in then branch only ✅ PASS
-- 685 total integration tests pass
+- 689 total integration tests pass
 - No undefined variable errors observed
 
 **Verification:**
@@ -567,7 +567,7 @@ Dalvik returns 0 for null references, but the return statement generation wasn't
 
 - [x] All return statements match method return type
 - [x] Null used for reference types, not 0
-- [x] Integration tests pass (685/685)
+- [x] Integration tests pass (689/689)
 - [x] Metrics improve
 
 ---
@@ -627,7 +627,7 @@ Local variables (not parameters) still show `== 0` when type inference fails to 
 - [x] Method parameters correctly compared to null (not 0)
 - [ ] Local variables correctly compared to null (requires deeper type inference work)
 - [ ] String variables not compared to integers
-- [x] Integration tests pass (685/685)
+- [x] Integration tests pass (689/689)
 
 ---
 
@@ -744,7 +744,7 @@ public String getVersion() {
 }
 ```
 
-**RESOLUTION:** Methods ARE being generated with correct bodies. They appear in the output (just in different order than JADX). All 685 integration tests pass with no failures related to missing method bodies.
+**RESOLUTION:** Methods ARE being generated with correct bodies. They appear in the output (just in different order than JADX). All 689 integration tests pass with no failures related to missing method bodies.
 
 **Root Cause:**
 
@@ -754,7 +754,7 @@ The issue appears to have been resolved by previous fixes to the code generation
 
 - [x] Checked medium APK output: methods present at lines 167-177
 - [x] Verified method bodies are correct (return string constants)
-- [x] Ran all 685 integration tests: PASS (0 failures)
+- [x] Ran all 689 integration tests: PASS (0 failures)
 - [x] Compared JADX vs Dexterity output: both have methods (different order only)
 
 **Relevant Code Areas:**
@@ -766,7 +766,7 @@ The issue appears to have been resolved by previous fixes to the code generation
 
 - [x] All methods have bodies - VERIFIED
 - [x] No methods are skipped - VERIFIED
-- [x] Tests pass - 685/685 PASS
+- [x] Tests pass - 689/689 PASS
 
 **Conclusion:**
 
@@ -803,7 +803,7 @@ Variables have register-based names (`v2`, `v3`, `v6`) instead of meaningful nam
 - Large APK: Dexterity variable quality = 0.98 vs JADX = 0.93
 
 **Implementation Review:**
-The `var_naming.rs` module (~1,376 lines) is comprehensive:
+The `var_naming.rs` module (~1,480 lines) is comprehensive:
 - Context-based naming from instruction analysis (field access, casts, method invocations)
 - PHI node merging with scoring (best name wins across connected SSA variables)
 - Debug info integration
@@ -825,7 +825,7 @@ The variable naming system works correctly and performs BETTER than JADX. The fe
 
 - [x] Variable quality score improved from 0.67 to 0.98 (EXCEEDS JADX's 0.93)
 - [x] Register names only used as last resort fallback
-- [x] Tests pass (685/685)
+- [x] Tests pass (689/689)
 
 ---
 
@@ -876,7 +876,7 @@ The `declared_vars` tracking used `(reg, version)` as key, but different SSA ver
 
 - [x] No duplicate declarations in same scope (for same variable name)
 - [x] Proper shadowing only when needed
-- [x] Integration tests pass (685/685)
+- [x] Integration tests pass (689/689)
 
 ---
 
@@ -923,7 +923,7 @@ Added `get_effective_access_flags()` function in converter.rs that:
 
 - [x] Inner classes properly marked as static
 - [x] Modifiers match original DEX
-- [x] Integration tests pass (685/685)
+- [x] Integration tests pass (689/689)
 
 ---
 
@@ -956,7 +956,7 @@ Dexterity actually handles unreachable code BETTER than JADX. The region_builder
 
 - [x] Unreachable code removed from output (verified: 0 defects)
 - [x] Only reachable paths emitted (BETTER than JADX)
-- [x] Tests pass (685/685)
+- [x] Tests pass (689/689)
 
 ---
 
@@ -1011,7 +1011,7 @@ The `object_to_java_name_with_imports()` function only simplified types that wer
 - [x] Same-package types use simple names
 - [x] Imported types still use simple names
 - [x] Other-package types use qualified names
-- [x] All 685 integration tests pass
+- [x] All 689 integration tests pass
 - [x] Readability improved
 
 ---
@@ -1060,7 +1060,7 @@ The `ImportCollector` was collecting types from method signatures, field types, 
 
 - [x] All used exception types imported
 - [x] Code compiles without import errors
-- [x] All 685 integration tests pass
+- [x] All 689 integration tests pass
 
 ---
 
@@ -1136,14 +1136,14 @@ The `ImportCollector` was collecting types from method signatures, field types, 
   - Fix: Added `emit_condition_block_prelude(condition, ctx, code)` at line 2402 in body_gen.rs
   - Result: **216 → 81** undefined length patterns (63% reduction, ~135 fixes)
   - Combined with previous fixes: **701 → 81** total undefined variables (88% reduction)
-  - All 685 integration tests pass
+  - All 689 integration tests pass
 - **Dec 16, 2025**: MAJOR QUALITY IMPROVEMENTS - 5 Phases Completed (+10-18% quality)
   - Phase 1: Generic Type Parameters - TypeParameter struct, parse_type_parameters(), generate_type_parameters()
   - Phase 2: Switch Statement Recovery - Improved find_switch_merge() for fallthrough cases
   - Phase 3: Variable Naming - Added 16 new method prefixes (with, select, query, insert, update, delete, etc.)
   - Phase 4: Exception Handling - Increased handler block collection limit from 100 to 500 blocks
   - Phase 5: PHI Node Type Resolution - Improved compute_phi_lcas() to preserve array types with null
-  - All 685 integration tests pass, all unit tests pass, release build successful
+  - All 689 integration tests pass, all unit tests pass, release build successful
 - **Dec 16, 2025**: CRITICAL-007 (Double-Dot Class Names) RESOLVED
   - Added `replace_inner_class_separator()` helper in dex_info.rs
   - Preserves `$$` for synthetic classes, converts single `$` to `.`
@@ -1192,7 +1192,7 @@ The `ImportCollector` was collecting types from method signatures, field types, 
   - Added name-based declaration tracking (`declared_names: HashSet<String>`)
   - Different SSA versions with same name no longer cause duplicate declarations
 
-**All 685 integration tests pass.**
+**All 689 integration tests pass.**
 
 ## How to Use This Tracker
 

@@ -85,7 +85,7 @@ cargo test
 test result: ok. X passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
 
-All integration tests should pass (685 tests).
+All integration tests should pass (689 tests).
 
 ---
 
@@ -438,7 +438,7 @@ For future CI/CD setup:
 
 ### Current Test Status
 
-**Expected passing:** 685 integration tests + unit tests across all crates
+**Expected passing:** 689 integration tests + unit tests across all crates
 
 **Test files:**
 - `crates/dexterity-cli/tests/integration/arith_tests.rs` - Arithmetic
@@ -487,7 +487,7 @@ Your fix is successful when:
 ✅ **Test Coverage**
 - [ ] New test written and passing
 - [ ] Related tests still passing
-- [ ] Full test suite still passes (685 integration tests)
+- [ ] Full test suite still passes (689 integration tests)
 
 ✅ **Quality Metrics**
 - [ ] Overall quality improved
@@ -568,7 +568,7 @@ The `apks/` directory contains reference APKs for benchmarking and quality testi
 | APK | Size | Description |
 |-----|------|-------------|
 | `small.apk` | 9.9 KB | Minimal test APK - fast iteration, basic feature validation |
-| `medium.apk` | 10.4 MB | Mid-size app - comprehensive testing, ~13K classes |
+| `medium.apk` | 10.3 MB | Mid-size app - comprehensive testing, ~13K classes |
 | `large.apk` | 51.6 MB | Large production app - stress testing, ~18K classes |
 | `badboy-x86.apk` | 24.7 MB | x86 architecture APK - architecture compatibility testing |
 

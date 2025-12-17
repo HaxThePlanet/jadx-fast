@@ -162,7 +162,7 @@ String v1 = (String) v0;
 
 ### Dexterity Implementation
 
-**File:** `crates/dexterity-passes/src/type_inference.rs` (~2,010 lines)
+**File:** `crates/dexterity-passes/src/type_inference.rs` (~2,432 lines)
 
 **Entry Point:** `infer_types_with_context_and_hierarchy()`
 
@@ -296,7 +296,7 @@ return;
 
 ### Dexterity Implementation
 
-**File:** `crates/dexterity-passes/src/region_builder.rs` (~1,929 lines)
+**File:** `crates/dexterity-passes/src/region_builder.rs` (~2,066 lines)
 
 **Entry Point:** `build_regions(method: &mut MethodNode)`
 
@@ -457,7 +457,7 @@ len = str.length()
 
 ### Dexterity Implementation
 
-**File:** `crates/dexterity-passes/src/var_naming.rs` (~1,392 lines)
+**File:** `crates/dexterity-passes/src/var_naming.rs` (~1,480 lines)
 
 **Entry Point:** `assign_variable_names(method: &mut MethodNode)`
 
@@ -624,7 +624,7 @@ Builds graph representation of method control flow. Each basic block is node, co
 
 ### Dexterity Implementation
 
-**File:** `crates/dexterity-passes/src/cfg.rs` (~710 lines)
+**File:** `crates/dexterity-passes/src/cfg.rs` (~831 lines)
 
 **Entry Point:** `build_cfg(blocks: &Vec<Block>) -> CFG`
 

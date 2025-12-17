@@ -19,7 +19,7 @@
 
 A high-performance Android DEX/APK decompiler written in Rust, producing Java source code compatible with [JADX](https://github.com/skylot/jadx) output.
 
-**~48,900 lines of Rust | 685 integration tests passing | 3-88x faster than JADX**
+**~73,000 lines of Rust | 685 integration tests passing | 3-88x faster than JADX**
 
 **Status (Dec 16, 2025):** Dexterity achieves **1:1 identical app code** on simple APKs, **high quality app code** on complex APKs (framework cruft excluded), and is **3-88x faster** than JADX.
 
@@ -74,7 +74,7 @@ A high-performance Android DEX/APK decompiler written in Rust, producing Java so
 | **Rust lines added** | 61,581 |
 | **Rust lines deleted** | 5,957 |
 | **Net Rust lines** | 55,624 |
-| **Final codebase** | ~48,900 lines |
+| **Final codebase** | ~73,000 lines |
 | **Peak day** | 36,464 LOC (Dec 12) |
 | **Tests** | 685 integration tests passing |
 
@@ -792,7 +792,7 @@ Goal: Match all 577 integration tests from `jadx-fast/jadx-core/src/test/java/ja
 | fallback | 2 | 2 | 0 | Done |
 | jbc | 1 | 1 | 0 | Done |
 | sample | - | 5 | 0 | Done |
-| **TOTAL** | **577** | **685** | **0** | Complete |
+| **TOTAL** | **577** | **682** | **0** | Complete |
 
 Rust tests are in `crates/dexterity-cli/tests/integration/` - 685 integration tests passing, 0 TODOs remaining.
 
@@ -803,7 +803,7 @@ Remaining TODOs found in the codebase:
 | File | Description | Status |
 |------|-------------|--------|
 | `dexterity-cli/src/converter.rs:210` | Parse and store type parameters in method.type_parameters | Open |
-| `dexterity-cli/src/converter.rs:770` | Multi-DEX support (currently hardcoded to dex_idx: 0) | Open |
+| `dexterity-cli/src/converter.rs:770` | ~~Multi-DEX support (currently hardcoded to dex_idx: 0)~~ | ✅ Done (implemented) |
 | `dexterity-cli/src/gradle_export.rs` | Gradle export dependencies handling (3 locations) | Open |
 | `dexterity-passes/src/type_inference.rs` | ~~Compute LCA of all phi sources after initial resolution~~ | ✅ Done (Dec 15) |
 
@@ -970,7 +970,7 @@ The 685 integration tests are organized by decompilation feature area, matching 
 | Category | Tests | Status | Notes |
 |----------|-------|--------|-------|
 | others | 113 | All Pass | Misc decompilation features |
-| conditions | 66 | All Pass | If/else, ternary, boolean operations |
+| conditions | 68 | All Pass | If/else, ternary, boolean operations |
 | types | 63 | All Pass | Type inference, casts, primitives |
 | trycatch | 58 | All Pass | Exception handling, finally blocks |
 | loops | 57 | All Pass | While, do-while, for loops |
@@ -1001,9 +1001,9 @@ The 685 integration tests are organized by decompilation feature area, matching 
 ### Test Quality Metrics
 
 - **Zero TODO/skipped tests** - All 685 integration tests fully implemented
-- **99.6% pass rate** - 907 tests passing, 4 tests disabled (dexterity-qa compilation issue)
+- **99.5% pass rate** - 911 tests passing, 4 tests disabled (dexterity-qa compilation issue)
 - **Comprehensive coverage** - Tests cover all major decompilation features
-- **JADX parity** - 685 Rust tests vs 577 Java JADX tests (108 additional tests)
+- **JADX parity** - 685 integration tests vs 577 Java JADX tests (108 additional tests)
 
 ### Running Tests
 

@@ -11,7 +11,7 @@
 2. **Pick a task from roadmap**: [ROADMAP.md](ROADMAP.md)
 3. **Find the JADX algorithm**: See [JADX Reference Documentation](#jadx-reference-documentation) below
 4. **Reference JADX source**: `jadx-fast/jadx-core/src/main/java/jadx/core/`
-5. **Implement and test**: Run `cargo test` (685 integration tests)
+5. **Implement and test**: Run `cargo test` (689 integration tests)
 
 ---
 
@@ -81,12 +81,12 @@ Check [ROADMAP.md](ROADMAP.md) → "To Clone Next" section:
 
 | Component | Dexterity File |
 |-----------|----------------|
-| Type Inference | `crates/dexterity-passes/src/type_inference.rs` (2,010 LOC) |
-| Region Builder | `crates/dexterity-passes/src/region_builder.rs` (1,929 LOC) |
-| Variable Naming | `crates/dexterity-passes/src/var_naming.rs` (1,392 LOC) |
-| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (4,163 LOC) |
+| Type Inference | `crates/dexterity-passes/src/type_inference.rs` (2,432 LOC) |
+| Region Builder | `crates/dexterity-passes/src/region_builder.rs` (2,066 LOC) |
+| Variable Naming | `crates/dexterity-passes/src/var_naming.rs` (1,480 LOC) |
+| Code Generation | `crates/dexterity-codegen/src/body_gen.rs` (4,985 LOC) |
 | Expression Gen | `crates/dexterity-codegen/src/expr_gen.rs` (1,362 LOC) |
-| Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,532 LOC) |
+| Class Gen | `crates/dexterity-codegen/src/class_gen.rs` (1,537 LOC) |
 
 ### Step 4: Implement
 
@@ -125,7 +125,7 @@ If you made significant improvements, update:
 | Variable Naming | 99.98% (27,794 → 6 arg0/arg1) |
 | Class-Level Generics | 736 classes with `<T>` |
 | Undefined Variables | 99.9% eliminated |
-| Integration Tests | 685/685 passing |
+| Integration Tests | 689/689 passing |
 | Speed Advantage | 3-88x faster than JADX |
 
 ### What's Implemented (JADX Parity)
@@ -144,7 +144,7 @@ If you made significant improvements, update:
 |------|----------|-----------|
 | Interface generic params | P1 | JADX_CODEGEN_REFERENCE.md |
 | Optimization pass audit | P2 | JADX_OPTIMIZATION_PASSES.md |
-| Multi-DEX support | P2 | RootNode.java |
+| Multi-DEX support | DONE | main.rs / converter.rs |
 | Warning comments | P3 | JADX_CODEGEN_REFERENCE.md |
 
 ---
@@ -158,7 +158,7 @@ If you made significant improvements, update:
 - Test edge cases (empty, single item, large input)
 
 ### When Testing
-- All 685 integration tests must pass
+- All 689 integration tests must pass
 - Add tests for new functionality
 - Test with real APKs, not just simple examples
 
@@ -207,16 +207,16 @@ crates/
 │       └── info.rs         # Class/Method/Field data
 ├── dexterity-passes/       # Decompilation passes
 │   └── src/
-│       ├── type_inference.rs  # Type inference (2,010 LOC)
-│       ├── region_builder.rs  # Control flow (1,929 LOC)
-│       ├── var_naming.rs      # Variable naming (1,392 LOC)
+│       ├── type_inference.rs  # Type inference (2,432 LOC)
+│       ├── region_builder.rs  # Control flow (2,066 LOC)
+│       ├── var_naming.rs      # Variable naming (1,480 LOC)
 │       ├── ssa.rs             # SSA transformation (964 LOC)
-│       └── simplify.rs        # Simplification (1,520 LOC)
+│       └── simplify.rs        # Simplification (1,646 LOC)
 ├── dexterity-codegen/      # Java code generation
 │   └── src/
-│       ├── body_gen.rs     # Region traversal (4,163 LOC)
+│       ├── body_gen.rs     # Region traversal (4,985 LOC)
 │       ├── expr_gen.rs     # Expressions (1,362 LOC)
-│       └── class_gen.rs    # Class structure (1,532 LOC)
+│       └── class_gen.rs    # Class structure (1,537 LOC)
 └── dexterity-cli/          # CLI application
     └── src/
         ├── converter.rs    # DEX→IR conversion

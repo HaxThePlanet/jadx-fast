@@ -29,10 +29,10 @@
 | Component | Dexterity File | LOC | Status |
 |-----------|----------------|-----|--------|
 | SSA Transform | ssa.rs | 964 | DONE |
-| Type Inference | type_inference.rs | 2,010 | DONE |
-| Region Builder | region_builder.rs | 1,929 | DONE |
-| Variable Naming | var_naming.rs | 1,392 | DONE |
-| Code Generation | body_gen.rs + expr_gen.rs | 5,525 | DONE |
+| Type Inference | type_inference.rs | 2,432 | DONE |
+| Region Builder | region_builder.rs | 2,066 | DONE |
+| Variable Naming | var_naming.rs | 1,480 | DONE |
+| Code Generation | body_gen.rs + expr_gen.rs | 6,347 | DONE |
 | Exception Handling | region_builder.rs | - | DONE |
 | Deobfuscation | deobf.rs | 1,825 | DONE |
 
@@ -40,7 +40,7 @@
 
 | Component | JADX Source | Priority | Reference Doc | Status |
 |-----------|-------------|----------|---------------|--------|
-| Interface Generics | ClassGen.java | P1 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **PENDING AGENT IN PROGRESS** |
+| Interface Generics | ClassGen.java | P1 | [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) | **DONE** - Fixed signature parsing to handle ArgType::Generic |
 | SimplifyVisitor audit | SimplifyVisitor.java (638 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** - double negation, CMP unwrapping, cast chain, CHECK_CAST elimination |
 | TernaryMod pass | TernaryMod.java (352 LOC) | P2 | [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md) | **DONE** |
 | Multi-DEX support | RootNode.java | P2 | jadx-core/dex/nodes/ | **DONE** |
@@ -51,19 +51,19 @@
 
 ## Implementation Priorities
 
-### P1: Interface Generic Parameters
+### P1: Interface Generic Parameters - **DONE (Dec 17, 2025)**
 
-**Problem:**
+**Problem (FIXED):**
 ```java
-// Current:  public abstract class Maybe implements MaybeSource
-// Target:   public abstract class Maybe<T> implements MaybeSource<T>
+// Before:   public abstract class Maybe implements MaybeSource
+// After:    public abstract class Maybe<T> implements MaybeSource<T>
 ```
 
-**Reference:** [JADX_CODEGEN_REFERENCE.md](JADX_CODEGEN_REFERENCE.md) - ClassGen.java interface signature handling
+**Root Cause:** In `parse_class_signature()`, the interface matching logic only handled `ArgType::Object` but not `ArgType::Generic`. When the signature parser returned a generic interface like `MaybeSource<T>`, it was incorrectly skipped.
 
-**Files:**
-- `crates/dexterity-cli/src/converter.rs` - Parse interface signatures
-- `crates/dexterity-codegen/src/class_gen.rs` - Emit interface type params
+**Fix:** Updated `crates/dexterity-cli/src/converter.rs` lines 288-313 to extract base class names from both `ArgType::Object` and `ArgType::Generic` variants when matching parsed interfaces against original DEX interfaces.
+
+**Validation:** Classes like `Maybe<T>`, `Flowable<T>`, `SerializedSubscriber<T>`, etc. now correctly show generic type parameters in their implements clauses, matching JADX output.
 
 ### P2: Optimization Pass Audit
 
@@ -71,18 +71,16 @@ Compare dexterity implementations against JADX originals:
 
 | Dexterity | JADX | LOC Comparison | Status |
 |-----------|------|----------------|--------|
-| simplify.rs (1,520) | SimplifyVisitor.java (638) | Audit complete | **DONE** - double negation, CMP unwrapping, cast chain optimization |
-| code_shrink.rs (910+) | CodeShrinkVisitor.java (299) | Audit complete | **DONE** - pipeline integration, cross-block inlining, sync boundary checks |
+| simplify.rs (1,646) | SimplifyVisitor.java (638) | Audit complete | **DONE** - double negation, CMP unwrapping, cast chain optimization |
+| code_shrink.rs (1,038) | CodeShrinkVisitor.java (299) | Audit complete | **DONE** - pipeline integration, cross-block inlining, sync boundary checks |
 | conditionals.rs (740) | TernaryMod.java (352) | Port ternary conversion | **DONE** - return-ternary, single-branch ternary |
-| mod_visitor.rs (310) | ModVisitor.java (634) | Array init fusion | **DONE** - NEW_ARRAY+FILL_ARRAY fusion, dead MOVE removal |
+| mod_visitor.rs (443) | ModVisitor.java (634) | Array init fusion | **DONE** - NEW_ARRAY+FILL_ARRAY fusion, dead MOVE removal |
 
 **Reference:** [JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md)
 
-### P2: Multi-DEX Support
+### P2: Multi-DEX Support - DONE
 
-**Problem:** Currently hardcoded `dex_idx: 0` in converter.rs:~950
-
-**Fix:** Handle APKs with multiple classes.dex, classes2.dex, etc.
+Multi-DEX support has been implemented. The codebase now properly handles APKs with multiple DEX files (classes.dex, classes2.dex, etc.) through the `dex_idx` parameter in converter.rs and main.rs.
 
 ### P3: Warning Comments
 
@@ -158,12 +156,12 @@ Add JADX-style diagnostic comments:
 ### Dexterity Core Files
 | File | LOC | Purpose |
 |------|-----|---------|
-| `crates/dexterity-passes/src/type_inference.rs` | 2,010 | Type inference |
-| `crates/dexterity-codegen/src/body_gen.rs` | 4,163 | Region traversal |
-| `crates/dexterity-passes/src/region_builder.rs` | 1,929 | Control flow |
-| `crates/dexterity-passes/src/var_naming.rs` | 1,392 | Variable naming |
+| `crates/dexterity-passes/src/type_inference.rs` | 2,432 | Type inference |
+| `crates/dexterity-codegen/src/body_gen.rs` | 4,985 | Region traversal |
+| `crates/dexterity-passes/src/region_builder.rs` | 2,066 | Control flow |
+| `crates/dexterity-passes/src/var_naming.rs` | 1,480 | Variable naming |
 | `crates/dexterity-codegen/src/expr_gen.rs` | 1,362 | Expression gen |
-| `crates/dexterity-codegen/src/class_gen.rs` | 1,532 | Class structure |
+| `crates/dexterity-codegen/src/class_gen.rs` | 1,537 | Class structure |
 
 ### JADX Source (jadx-fast)
 | File | Path | Lines |
@@ -182,10 +180,10 @@ Add JADX-style diagnostic comments:
 |--------|---------|--------|--------|
 | Variable naming | 99.98% | 100% | ACHIEVED |
 | Class generics | 736 classes | All | ACHIEVED |
-| Interface generics | PARTIAL | 100% | P1 |
+| Interface generics | 100% | 100% | **ACHIEVED** (Dec 17) |
 | Speed advantage | 3-88x | Maintain | ACHIEVED |
 | Test pass rate | 685/685 | 100% | ACHIEVED |
-| Optimization passes | ~60% | 90% | P2 |
+| Optimization passes | ~82% | 90% | P2 |
 
 ---
 
