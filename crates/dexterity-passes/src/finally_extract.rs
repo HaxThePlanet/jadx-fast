@@ -16,7 +16,7 @@
 use std::collections::BTreeSet;
 
 use dexterity_ir::attributes::AFlag;
-use dexterity_ir::instructions::{InsnNode, InsnType};
+use dexterity_ir::instructions::{InsnArg, InsnNode, InsnType};
 
 use crate::cfg::CFG;
 use crate::region_builder::{HandlerInfo, TryInfo};

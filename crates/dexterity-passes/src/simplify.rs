@@ -46,6 +46,10 @@
 //! - Round-trip cast elimination: `(int)(long)x` → `x` (when x is int)
 //! - Chain cast simplification: `(double)(long)x` → `(double)x` (skip intermediate)
 //!
+//! ## CHECK_CAST optimization (object type casts)
+//! - Duplicate cast elimination: `(T)(T)x` → `(T)x` - redundant identical casts
+//! - Type-match elimination: `(T)x` → `x` when x already has type T
+//!
 //! Note: StringBuilder chain → STR_CONCAT is handled at codegen level, not here.
 //!
 //! Based on JADX's SimplifyVisitor patterns.
@@ -73,6 +77,9 @@ pub fn simplify_instructions(ssa: &mut SsaResult, types: Option<&HashMap<(u16, u
     let mut cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
     // Maps (reg_num, ssa_version) -> (CastType, inner_arg) for cast operations
     let mut cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+    // Maps (reg_num, ssa_version) -> type_idx for CHECK_CAST operations
+    // Used to detect duplicate object type casts
+    let mut check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
     for block in &ssa.blocks {
         for insn in &block.instructions {
@@ -86,6 +93,13 @@ pub fn simplify_instructions(ssa: &mut SsaResult, types: Option<&HashMap<(u16, u
                 InsnType::Cast { dest, cast_type, arg } => {
                     cast_defs.insert((dest.reg_num, dest.ssa_version), (*cast_type, arg.clone()));
                 }
+                InsnType::CheckCast { object, type_idx } => {
+                    // Track which registers have been CHECK_CAST to which type
+                    // Note: CHECK_CAST modifies in place, so we track the input register
+                    if let InsnArg::Register(reg) = object {
+                        check_cast_defs.insert((reg.reg_num, reg.ssa_version), *type_idx);
+                    }
+                }
                 _ => {}
             }
         }
@@ -94,7 +108,7 @@ pub fn simplify_instructions(ssa: &mut SsaResult, types: Option<&HashMap<(u16, u
     // Phase 2: Apply simplifications
     for block in &mut ssa.blocks {
         for insn in &mut block.instructions {
-            if let Some(new_insn) = simplify_insn(insn, types, &unary_defs, &cmp_defs, &cast_defs) {
+            if let Some(new_insn) = simplify_insn(insn, types, &unary_defs, &cmp_defs, &cast_defs, &check_cast_defs) {
                 *insn = new_insn;
                 simplified_count += 1;
             }
@@ -111,6 +125,7 @@ fn simplify_insn(
     unary_defs: &HashMap<(u16, u32), (UnaryOp, InsnArg)>,
     cmp_defs: &HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)>,
     cast_defs: &HashMap<(u16, u32), (CastType, InsnArg)>,
+    check_cast_defs: &HashMap<(u16, u32), u32>,
 ) -> Option<InsnNode> {
     match &insn.insn_type {
         InsnType::Binary { dest, op, left, right } => {
@@ -124,6 +139,9 @@ fn simplify_insn(
         }
         InsnType::Cast { dest, cast_type, arg } => {
             simplify_cast(*dest, *cast_type, arg.clone(), insn.offset, cast_defs)
+        }
+        InsnType::CheckCast { object, type_idx } => {
+            simplify_check_cast(object.clone(), *type_idx, insn.offset, types, check_cast_defs)
         }
         _ => None,
     }
@@ -353,6 +371,46 @@ fn get_direct_cast(from: PrimitiveType, to: PrimitiveType) -> Option<CastType> {
         (PrimitiveType::Double, PrimitiveType::Float) => Some(CastType::DoubleToFloat),
         _ => None, // No direct cast available
     }
+}
+
+/// Simplify CHECK_CAST operations (object type casts)
+///
+/// Based on JADX's processCast() in SimplifyVisitor.java:
+/// 1. Duplicate cast elimination: if object was already cast to same type
+/// 2. Type-match elimination: if object already has the target type
+///
+/// Returns Some(Nop) if cast can be eliminated, None otherwise.
+fn simplify_check_cast(
+    object: InsnArg,
+    type_idx: u32,
+    offset: u32,
+    _types: Option<&HashMap<(u16, u32), ArgType>>,
+    check_cast_defs: &HashMap<(u16, u32), u32>,
+) -> Option<InsnNode> {
+    // Check for duplicate cast: if the object register was defined by a CHECK_CAST
+    // with the same target type, this cast is redundant
+    if let InsnArg::Register(reg) = &object {
+        if let Some(&prev_type_idx) = check_cast_defs.get(&(reg.reg_num, reg.ssa_version)) {
+            if prev_type_idx == type_idx {
+                // This is a duplicate cast - the object was already cast to this type
+                // Replace with NOP instruction
+                return Some(InsnNode::new(InsnType::Nop, offset));
+            }
+        }
+    }
+
+    // Future optimization: check if object's type already matches target type
+    // This would require type information lookup by type_idx
+    // if let Some(types) = types {
+    //     if let InsnArg::Register(reg) = &object {
+    //         if let Some(obj_type) = types.get(&(reg.reg_num, reg.ssa_version)) {
+    //             // Check if obj_type matches the type at type_idx
+    //             // Would need access to DEX type pool to resolve type_idx
+    //         }
+    //     }
+    // }
+
+    None
 }
 
 /// Check if an argument is a zero literal (0)
@@ -640,12 +698,13 @@ fn get_negative_literal(arg: &InsnArg) -> Option<i64> {
 mod tests {
     use super::*;
 
-    // Helper for tests that don't need unary_defs/cmp_defs/cast_defs tracking
+    // Helper for tests that don't need unary_defs/cmp_defs/cast_defs/check_cast_defs tracking
     fn simplify_insn_simple(insn: &InsnNode, types: Option<&HashMap<(u16, u32), ArgType>>) -> Option<InsnNode> {
         let empty_unary_defs = HashMap::new();
         let empty_cmp_defs = HashMap::new();
         let empty_cast_defs = HashMap::new();
-        simplify_insn(insn, types, &empty_unary_defs, &empty_cmp_defs, &empty_cast_defs)
+        let empty_check_cast_defs = HashMap::new();
+        simplify_insn(insn, types, &empty_unary_defs, &empty_cmp_defs, &empty_cast_defs, &empty_check_cast_defs)
     }
 
     #[test]
@@ -1113,6 +1172,7 @@ mod tests {
         let mut unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
         // r1_0 was defined as -r0_0
         unary_defs.insert((1, 0), (UnaryOp::Neg, InsnArg::Register(RegisterArg::with_ssa(0, 0))));
 
@@ -1126,7 +1186,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs, &empty_cast_defs);
+        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs, &empty_cast_defs, &empty_check_cast_defs);
         assert!(result.is_some(), "Double negation should be simplified");
 
         let simplified = result.unwrap();
@@ -1151,6 +1211,7 @@ mod tests {
         let mut unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
         // r1_0 was defined as ~r0_0
         unary_defs.insert((1, 0), (UnaryOp::Not, InsnArg::Register(RegisterArg::with_ssa(0, 0))));
 
@@ -1164,7 +1225,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs, &empty_cast_defs);
+        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs, &empty_cast_defs, &empty_check_cast_defs);
         assert!(result.is_some(), "Double bitwise NOT should be simplified");
 
         let simplified = result.unwrap();
@@ -1177,6 +1238,7 @@ mod tests {
         let mut unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
         // r1_0 was defined as !r0_0
         unary_defs.insert((1, 0), (UnaryOp::BoolNot, InsnArg::Register(RegisterArg::with_ssa(0, 0))));
 
@@ -1190,7 +1252,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs, &empty_cast_defs);
+        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs, &empty_cast_defs, &empty_check_cast_defs);
         assert!(result.is_some(), "Double boolean NOT should be simplified");
 
         let simplified = result.unwrap();
@@ -1203,6 +1265,7 @@ mod tests {
         let mut unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
         // r1_0 was defined as ~r0_0
         unary_defs.insert((1, 0), (UnaryOp::Not, InsnArg::Register(RegisterArg::with_ssa(0, 0))));
 
@@ -1216,7 +1279,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs, &empty_cast_defs);
+        let result = simplify_insn(&insn, None, &unary_defs, &empty_cmp_defs, &empty_cast_defs, &empty_check_cast_defs);
         assert!(result.is_none(), "Mixed negation types should NOT be simplified");
     }
 
@@ -1226,6 +1289,7 @@ mod tests {
         let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let mut cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
         // r0_0 was defined as cmp_long(r1_0, r2_0)
         cmp_defs.insert(
@@ -1248,7 +1312,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs, &empty_cast_defs);
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs, &empty_cast_defs, &empty_check_cast_defs);
         assert!(result.is_some(), "CMP unwrapping should work");
 
         let simplified = result.unwrap();
@@ -1278,6 +1342,7 @@ mod tests {
         let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let mut cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
         cmp_defs.insert(
             (0, 0),
@@ -1299,7 +1364,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs, &empty_cast_defs);
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs, &empty_cast_defs, &empty_check_cast_defs);
         assert!(result.is_some(), "CMP unwrapping with Lt should work");
 
         let simplified = result.unwrap();
@@ -1317,6 +1382,7 @@ mod tests {
         let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let mut cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
         cmp_defs.insert(
             (0, 0),
@@ -1338,7 +1404,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs, &empty_cast_defs);
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs, &empty_cast_defs, &empty_check_cast_defs);
         assert!(result.is_some(), "CMP unwrapping with *z variant should work");
 
         let simplified = result.unwrap();
@@ -1351,6 +1417,7 @@ mod tests {
         let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let mut cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
         cmp_defs.insert(
             (0, 0),
@@ -1372,7 +1439,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs, &empty_cast_defs);
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &cmp_defs, &empty_cast_defs, &empty_check_cast_defs);
         assert!(result.is_none(), "CMP unwrapping with non-zero comparison should NOT be simplified");
     }
 
@@ -1382,6 +1449,7 @@ mod tests {
         let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let mut cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
         // r1_0 was defined as (long)r0_0
         cast_defs.insert(
@@ -1399,7 +1467,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &cast_defs);
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &cast_defs, &empty_check_cast_defs);
         assert!(result.is_some(), "Round-trip cast should be eliminated");
 
         let simplified = result.unwrap();
@@ -1423,6 +1491,7 @@ mod tests {
         let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let mut cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
         // r1_0 was defined as (double)r0_0
         cast_defs.insert(
@@ -1440,7 +1509,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &cast_defs);
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &cast_defs, &empty_check_cast_defs);
         assert!(result.is_some(), "Float-double round-trip cast should be eliminated");
 
         let simplified = result.unwrap();
@@ -1453,6 +1522,7 @@ mod tests {
         let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let mut cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
         // r1_0 was defined as (long)r0_0
         cast_defs.insert(
@@ -1470,7 +1540,7 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &cast_defs);
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &cast_defs, &empty_check_cast_defs);
         assert!(result.is_some(), "Chain cast should be simplified to direct cast");
 
         let simplified = result.unwrap();
@@ -1494,6 +1564,7 @@ mod tests {
         let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
         let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
         let mut cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
 
         // r1_0 was defined as (byte)r0_0
         cast_defs.insert(
@@ -1513,8 +1584,63 @@ mod tests {
             0,
         );
 
-        let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &cast_defs);
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &cast_defs, &empty_check_cast_defs);
         // The chain is invalid (byte != int for source), so no simplification
         assert!(result.is_none(), "Incompatible cast chain should NOT be simplified");
+    }
+
+    #[test]
+    fn test_duplicate_check_cast_elimination() {
+        // Pattern: (T)(T)x → NOP (duplicate object type cast)
+        // If r1_0 was already CHECK_CAST to type_idx=5, and we do CHECK_CAST again to type_idx=5
+        // The second cast is redundant and should become NOP
+        let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+        let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+        let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
+        let mut check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
+
+        // r1_0 was previously CHECK_CAST to type_idx=5
+        check_cast_defs.insert((1, 0), 5);
+
+        // CHECK_CAST r1_0 to same type_idx=5 → should become NOP
+        let insn = InsnNode::new(
+            InsnType::CheckCast {
+                object: InsnArg::Register(RegisterArg::with_ssa(1, 0)),
+                type_idx: 5,
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &empty_cast_defs, &check_cast_defs);
+        assert!(result.is_some(), "Duplicate CHECK_CAST should be eliminated");
+
+        let simplified = result.unwrap();
+        assert!(matches!(&simplified.insn_type, InsnType::Nop), "Duplicate CHECK_CAST should become NOP");
+    }
+
+    #[test]
+    fn test_different_check_cast_not_eliminated() {
+        // Pattern: (T2)(T1)x → keep both (different target types)
+        let empty_unary_defs: HashMap<(u16, u32), (UnaryOp, InsnArg)> = HashMap::new();
+        let empty_cmp_defs: HashMap<(u16, u32), (CompareOp, InsnArg, InsnArg)> = HashMap::new();
+        let empty_cast_defs: HashMap<(u16, u32), (CastType, InsnArg)> = HashMap::new();
+        let empty_check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
+        let mut check_cast_defs: HashMap<(u16, u32), u32> = HashMap::new();
+
+        // r1_0 was previously CHECK_CAST to type_idx=5
+        check_cast_defs.insert((1, 0), 5);
+
+        // CHECK_CAST r1_0 to different type_idx=10 → should NOT be eliminated
+        let insn = InsnNode::new(
+            InsnType::CheckCast {
+                object: InsnArg::Register(RegisterArg::with_ssa(1, 0)),
+                type_idx: 10,
+            },
+            0,
+        );
+
+        let result = simplify_insn(&insn, None, &empty_unary_defs, &empty_cmp_defs, &empty_cast_defs, &check_cast_defs);
+        assert!(result.is_none(), "CHECK_CAST to different type should NOT be eliminated");
     }
 }

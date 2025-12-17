@@ -41,7 +41,7 @@ use dexterity_passes::region_builder::{build_regions_with_try_catch, mark_duplic
 use dexterity_passes::ssa::transform_to_ssa_owned;
 use dexterity_passes::type_inference::{infer_types, TypeInferenceResult};
 
-use crate::class_gen::is_anonymous_class;
+use crate::class_gen::{get_inner_class_simple_name, is_anonymous_class};
 use crate::dex_info::DexInfoProvider;
 use crate::expr_gen::{BoxingType, ExprGen};
 use crate::method_gen::generate_method_with_dex;
@@ -1025,6 +1025,7 @@ fn generate_body_impl<W: CodeWriter>(
             Some(&type_lookup),
             Some(&field_lookup),
             method.debug_info.as_ref(),
+            None, // No inner class names in this context (use generate_body_with_inner_classes for full support)
         )
     } else {
         dexterity_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
@@ -1217,6 +1218,16 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
                 .unwrap_or_else(|| generate_param_name(i, param_type))
         }).collect();
 
+        // Extract inner class short names to reserve (prevents variable-class collisions)
+        // This matches JADX's NameGen.addNamesUsedInClass() behavior
+        let inner_class_short_names: Vec<String> = inner_classes
+            .map(|ic| ic.keys()
+                .filter(|k| k.contains('$'))  // Only actual inner classes
+                .map(|k| get_inner_class_simple_name(k))
+                .filter(|name| !name.chars().all(|c| c.is_ascii_digit()))  // Skip anonymous (1, 2, etc.)
+                .collect())
+            .unwrap_or_default();
+
         dexterity_passes::assign_var_names_with_lookups(
             &ssa_result,
             &type_result,
@@ -1227,6 +1238,7 @@ pub fn generate_body_with_inner_classes<W: CodeWriter>(
             Some(&type_lookup),
             Some(&field_lookup),
             method.debug_info.as_ref(),
+            if inner_class_short_names.is_empty() { None } else { Some(&inner_class_short_names) },
         )
     } else {
         dexterity_passes::assign_var_names(&ssa_result, &type_result, first_param_reg, num_params)
@@ -4435,5 +4447,94 @@ mod tests {
         // Test with whitespace
         let result = simplify_ternary_to_boolean("a == b", " true ", " false ");
         assert_eq!(result, Some("a == b".to_string()), "Should handle whitespace in values");
+    }
+
+    // StringBuilder chain optimization tests
+    #[test]
+    fn test_parse_stringbuilder_chain_simple() {
+        // Test simple constructor with string
+        let result = parse_stringbuilder_chain("new StringBuilder(\"hello\")");
+        assert!(result.is_some());
+        assert_eq!(result.unwrap(), vec!["\"hello\""]);
+    }
+
+    #[test]
+    fn test_parse_stringbuilder_chain_empty() {
+        // Test empty constructor
+        let result = parse_stringbuilder_chain("new StringBuilder()");
+        assert!(result.is_some());
+        assert_eq!(result.unwrap(), vec!["\"\""]);
+    }
+
+    #[test]
+    fn test_parse_stringbuilder_chain_with_appends() {
+        // Test chain with appends
+        let result = parse_stringbuilder_chain("new StringBuilder(\"a\").append(b).append(\"c\")");
+        assert!(result.is_some());
+        assert_eq!(result.unwrap(), vec!["\"a\"", "b", "\"c\""]);
+    }
+
+    #[test]
+    fn test_parse_stringbuilder_chain_invalid() {
+        // Test invalid chain (has reverse)
+        let result = parse_stringbuilder_chain("new StringBuilder(str).reverse()");
+        assert!(result.is_none());
+
+        // Test non-StringBuilder
+        let result = parse_stringbuilder_chain("new ArrayList()");
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_concat_constant_strings() {
+        // Test consecutive constant string concatenation
+        let args = vec![
+            "\"a\"".to_string(),
+            "\"b\"".to_string(),
+            "x".to_string(),
+            "\"c\"".to_string(),
+            "\"d\"".to_string(),
+        ];
+        let result = concat_constant_strings(&args);
+        assert_eq!(result, vec!["\"ab\"", "x", "\"cd\""]);
+    }
+
+    #[test]
+    fn test_concat_constant_strings_no_merge() {
+        // Test when no consecutive constants
+        let args = vec!["\"a\"".to_string(), "x".to_string(), "\"b\"".to_string()];
+        let result = concat_constant_strings(&args);
+        assert_eq!(result, vec!["\"a\"", "x", "\"b\""]);
+    }
+
+    #[test]
+    fn test_extract_string_literal() {
+        assert_eq!(extract_string_literal("\"hello\""), Some("hello"));
+        assert_eq!(extract_string_literal("  \"world\"  "), Some("world"));
+        assert_eq!(extract_string_literal("variable"), None);
+        assert_eq!(extract_string_literal("123"), None);
+    }
+
+    #[test]
+    fn test_find_matching_paren() {
+        // Test simple case
+        assert_eq!(find_matching_paren("hello)"), Some(5));
+
+        // Test with nested parens
+        assert_eq!(find_matching_paren("foo(bar))"), Some(8));
+
+        // Test with string containing paren
+        assert_eq!(find_matching_paren("\"a)b\")"), Some(5));
+
+        // Test with char literal
+        assert_eq!(find_matching_paren("')')"), Some(3));
+    }
+
+    #[test]
+    fn test_is_stringbuilder_class() {
+        assert!(is_stringbuilder_class("StringBuilder"));
+        assert!(is_stringbuilder_class("StringBuffer"));
+        assert!(!is_stringbuilder_class("String"));
+        assert!(!is_stringbuilder_class("ArrayList"));
     }
 }

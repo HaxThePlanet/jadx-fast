@@ -181,6 +181,8 @@ pub struct VarNaming<'a> {
     type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
     /// Field lookup: field_idx -> (field_name, class_name)
     field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
+    /// Inner class short names to reserve (prevents variable-inner class collisions)
+    inner_class_names: Option<&'a [String]>,
 }
 
 impl<'a> VarNaming<'a> {
@@ -193,23 +195,46 @@ impl<'a> VarNaming<'a> {
             method_lookup: None,
             type_lookup: None,
             field_lookup: None,
+            inner_class_names: None,
         }
     }
 
     /// Create a new variable naming context with lookups
+    ///
+    /// When `inner_class_names` is provided, those names are pre-reserved to prevent
+    /// variable names from colliding with inner class short names. This matches JADX's
+    /// NameGen.addNamesUsedInClass() behavior.
     pub fn with_lookups(
         first_param_reg: u16,
         method_lookup: Option<&'a dyn Fn(u32) -> Option<MethodNameInfo>>,
         type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
         field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
+        inner_class_names: Option<&'a [String]>,
     ) -> Self {
+        // Pre-reserve inner class short names to prevent variable-class collisions
+        // This matches JADX's behavior where variables can't shadow inner class names
+        let mut used_names = HashSet::new();
+        if let Some(names) = inner_class_names {
+            for name in names {
+                // Reserve both the exact name and lowercase version
+                // e.g., if inner class is "Builder", reserve "builder" for variables
+                let lowercase = name.chars().next()
+                    .map(|c| c.to_lowercase().to_string() + &name[1..])
+                    .unwrap_or_default();
+                if !lowercase.is_empty() {
+                    used_names.insert(lowercase);
+                }
+            }
+        }
+
         VarNaming {
-            used_names: HashSet::new(),
+            used_names,
             name_counters: HashMap::new(),
             first_param_reg,
             method_lookup,
             type_lookup,
             field_lookup,
+            inner_class_names,
         }
     }
 
@@ -793,7 +818,7 @@ pub fn assign_var_names(
     first_param_reg: u16,
     num_params: u16,
 ) -> VarNamingResult {
-    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, None, None, None, None, None)
+    assign_var_names_with_lookups(ssa, type_info, first_param_reg, num_params, None, None, None, None, None, None)
 }
 
 /// Assign names to all variables in an SSA result with optional method/type/field lookups
@@ -807,8 +832,9 @@ pub fn assign_var_names_with_lookups<'a>(
     type_lookup: Option<&'a dyn Fn(u32) -> Option<String>>,
     field_lookup: Option<&'a dyn Fn(u32) -> Option<FieldNameInfo>>,
     debug_info: Option<&'a DebugInfo>,
+    inner_class_names: Option<&'a [String]>,
 ) -> VarNamingResult {
-    let mut naming = VarNaming::with_lookups(first_param_reg, method_lookup, type_lookup, field_lookup);
+    let mut naming = VarNaming::with_lookups(first_param_reg, method_lookup, type_lookup, field_lookup, inner_class_names);
 
     // Estimate capacity based on SSA result size
     let estimated_vars = ssa.blocks.iter()
@@ -827,6 +853,14 @@ pub fn assign_var_names_with_lookups<'a>(
         for i in 0..num_params {
             let name = format!("p{}", i);
             naming.mark_used(&name);
+        }
+    }
+
+    // Reserve inner class short names to prevent variable-inner class collisions
+    // (like JADX's NameGen.addNamesUsedInClass())
+    if let Some(inner_names) = inner_class_names {
+        for name in inner_names {
+            naming.mark_used(name);
         }
     }
 

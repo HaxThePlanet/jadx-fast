@@ -104,7 +104,7 @@ Add JADX-style diagnostic comments:
 - [x] AssignBound vs UseBound separation
 - [x] Type comparison lattice (EQUAL, NARROW, WIDER, CONFLICT)
 - [x] Best type selection via max(bounds)
-- [ ] TypeSearch multi-variable solver (iteration limit: 1M) - **PENDING AGENT IN PROGRESS**
+- [x] TypeSearch multi-variable solver (iteration limit: 1M) - **DONE**
 
 ### Region Control Flow ([JADX_REGION_CONTROL_FLOW.md](JADX_REGION_CONTROL_FLOW.md))
 - [x] Region hierarchy (If, Loop, Switch, TryCatch, Synchronized)
@@ -119,11 +119,11 @@ Add JADX-style diagnostic comments:
 - [x] Method pattern extraction (getName()→name)
 - [x] Array names (int[]→iArr)
 - [x] Collision handling with numeric suffixes
-- [ ] Reserved names for inner classes - partial
+- [x] Reserved names for inner classes - **DONE** (infrastructure in var_naming.rs, inner_class_names parameter)
 
 ### Optimization Passes ([JADX_OPTIMIZATION_PASSES.md](JADX_OPTIMIZATION_PASSES.md))
 - [x] ConstInlineVisitor equivalent
-- [~] SimplifyVisitor audit - **PARTIAL**: double negation (--x, ~~x, !!x), CMP unwrapping done; StringBuilder chain **PENDING AGENT IN PROGRESS**, cast optimization pending
+- [x] SimplifyVisitor audit - **DONE**: double negation (--x, ~~x, !!x), CMP unwrapping, StringBuilder chain (codegen level), cast chain optimization, CHECK_CAST duplicate elimination
 - [x] TernaryMod (If-region to ternary) - **IMPLEMENTED** (analysis pass in ternary_mod.rs, detection at codegen in body_gen.rs)
 - [x] DeboxingVisitor - **IMPLEMENTED** (at codegen level in body_gen.rs:2992-3006, BoxingType in expr_gen.rs)
 - [x] PrepareForCodeGen final cleanup - **IMPLEMENTED** (prepare_for_codegen.rs, redundant move removal, associative chain marking)
@@ -138,8 +138,8 @@ Add JADX-style diagnostic comments:
 ### Exception Handling ([JADX_EXCEPTION_HANDLING.md](JADX_EXCEPTION_HANDLING.md))
 - [x] TryCatchBlockAttr structure
 - [x] Handler merging for multi-catch
-- [ ] Finally block extraction via InsnsSlice matching - **PENDING AGENT IN PROGRESS**
-- [ ] MONITOR_ENTER/EXIT as implicit finally - partial
+- [x] Finally block extraction via InsnsSlice matching - **DONE** (copyCodeVars SSA sync added)
+- [x] MONITOR_ENTER/EXIT as implicit finally - **DONE** (is_monitor_only_handler() filters synchronized cleanup handlers)
 
 ### Deobfuscation ([JADX_DEOBFUSCATION.md](JADX_DEOBFUSCATION.md))
 - [x] Two-phase system (DeobfuscatorVisitor, RenameVisitor)

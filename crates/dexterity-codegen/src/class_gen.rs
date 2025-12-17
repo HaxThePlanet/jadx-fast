@@ -703,7 +703,12 @@ fn add_inner_class_declaration<W: CodeWriter>(
 }
 
 /// Get the simple name of an inner class (the part after the last $)
-fn get_inner_class_simple_name(class_type: &str) -> String {
+///
+/// Examples:
+/// - "Lcom/example/Outer$Inner;" -> "Inner"
+/// - "Lcom/example/Outer$1;" -> "1" (anonymous class)
+/// - "com/example/Outer$Inner" -> "Inner"
+pub fn get_inner_class_simple_name(class_type: &str) -> String {
     let stripped = class_type
         .strip_prefix('L')
         .unwrap_or(class_type)
