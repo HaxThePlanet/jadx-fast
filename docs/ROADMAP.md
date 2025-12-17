@@ -2,7 +2,8 @@
 
 **Current State:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Quality Achieved:** 77.1% (medium) / 70.0% (large) per Dec 16 QA | 1,120/1,120 tests passing
-**Issues:** All 20 P0-P2 resolved | **3 remaining issues** from badboy APK comparison (1 P0, 1 P2, 1 P3)
+**Code Issues:** All 20 P0-P2 resolved + 1 P2 (Dec 17) | **2 remaining** P1-P2 from badboy APK + 1 P3
+**Resource Issues:** **5 new** from resource directory comparison (1 P0, 1 P1, 2 P2, 1 P3)
 **Strategy:** Clone remaining JADX functionality using comprehensive algorithm documentation
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
@@ -54,9 +55,38 @@
 
 ---
 
+## Resource Processing Issues (NEW - Dec 17, 2025)
+
+Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/resources/` revealed 5 issues:
+
+| Priority | Issue | Root Cause | Files |
+|----------|-------|------------|-------|
+| **P0-CRITICAL** | XML enum values as numbers (`"0"` vs `"linear"`) | Resource decoder not mapping enum IDs to strings | `dexterity-resources/src/arsc.rs` |
+| **P1-HIGH** | Missing 85 localized strings.xml | String extractor filtering to default locale | `dexterity-resources/src/arsc.rs` |
+| **P2-MEDIUM** | Version qualifier differences (`-v4`/`-v21` vs base) | Different resource consolidation strategy | `dexterity-cli/src/main.rs` |
+| **P2-MEDIUM** | Missing attrs.xml, density drawables, etc. | Incomplete resource type handling | `dexterity-resources/src/arsc.rs` |
+| **P3-LOW** | Resource naming (`$` vs `_` prefix) | Different naming convention | `dexterity-resources/src/arsc.rs` |
+
+### Resource Comparison Statistics
+
+| Metric | Dexterity | JADX | Delta |
+|--------|-----------|------|-------|
+| Total Files | 128 | 219 | -91 |
+| Identical Files | 96 | 96 | ✓ |
+| Total Size | 776 KB | 1.9 MB | -59% |
+
+### What's Working ✓
+- AndroidManifest.xml - identical
+- Base res/values/ files (colors.xml, dimens.xml, strings.xml, styles.xml) - identical
+- META-INF/ files - identical
+- Native .so libraries - identical
+- Most drawable/layout XMLs - identical
+
+---
+
 ## Current Priorities (Dec 17 - badboy APK Comparison)
 
-7 issues identified from comprehensive JADX comparison on badboy APK (4 fixed, 3 remaining):
+7 code generation issues identified from comprehensive JADX comparison on badboy APK (4 fixed, 3 remaining):
 
 ### P0-CRITICAL: Static Initializer Variable Resolution - **DONE (Dec 17, 2025)**
 
@@ -99,12 +129,13 @@ public static Unit $r8$lambda$...(Function1 function11) {
 **Fix:** Implemented `apply_annotation_defaults()` in converter.rs, added `annotation_default` field to `MethodData`
 **Files:** `crates/dexterity-ir/src/info.rs`, `crates/dexterity-cli/src/converter.rs`, `crates/dexterity-codegen/src/method_gen.rs`
 
-### P2-MEDIUM: Missing Import Statements
+### P2-MEDIUM: Missing Import Statements - **DONE (Dec 17, 2025)**
 
 **Impact:** Non-compilable code
 **Symptom:** `@Retention(RetentionPolicy.SOURCE)` without import
 **Root Cause:** Import collector doesn't traverse annotation argument types
-**Files:** `crates/dexterity-codegen/src/class_gen.rs`
+**Fix:** Added `collect_from_annotation_value()` method to recursively traverse annotation arguments (Type, Enum, Annotation, Array variants) and collect type references
+**Files:** `crates/dexterity-codegen/src/class_gen.rs` (lines 203-231, 300-303, 322-325, 333-336, 349-352)
 
 ### P2-MEDIUM (NEW): Invalid Java Identifier Names
 
@@ -396,8 +427,8 @@ All 19 P1-P2 issues resolved:
 ---
 
 **Last Updated:** Dec 17, 2025
-**Status:** PRODUCTION READY - All 19 P1-P2 issues resolved + 4 major features complete
-**New Issues:** 4 from badboy APK comparison (BADBOY-P0-001, BADBOY-P1-001, BADBOY-P2-001, BADBOY-P3-001)
+**Status:** PRODUCTION READY - All 20 P0-P2 issues resolved + 4 major features complete
+**Remaining Issues:** 3 from badboy APK comparison (BADBOY-P0-001, BADBOY-P2-001, BADBOY-P3-001)
 **Note:** Framework filtering is intentional by design. BADBOY-P3-001 is a positive tradeoff.
 
 ## Dec 17, 2025 - Four Major Features Completed

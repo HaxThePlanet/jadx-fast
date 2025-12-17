@@ -2,7 +2,8 @@
 
 **Status:** PRODUCTION READY with 98%+ JADX CLI parity (Dec 17, 2025)
 **Target:** 85+/100 Quality Score | **Result:** 77.1% (medium), 70.0% (large) per Dec 16 QA reports
-**Issues:** All 20 P0-P2 resolved | **3 remaining issues** from badboy APK comparison (1 P0, 1 P2, 1 P3)
+**Code Issues:** All 20 P0-P2 resolved + 1 P2 (Dec 17) | **2 remaining** P1-P2 from badboy APK + 1 P3
+**Resource Issues:** **5 new issues** from resource directory comparison (1 P0, 1 P1, 2 P2, 1 P3)
 **Note:** Framework filtering (android.*, androidx.*, kotlin.*, kotlinx.*) is **intentional by design**.
 
 ---
@@ -26,7 +27,8 @@
 | Integration Tests | **685/685 passing** |
 | Unit Tests | **435/435 passing** |
 | Speed Advantage | 3-88x faster than JADX |
-| **Remaining Issues** | **3 remaining** (1 P0, 2 P2-P3) from badboy APK comparison |
+| **Remaining Code Issues** | **3 remaining** (1 P0, 2 P2-P3) from badboy APK comparison |
+| **Remaining Resource Issues** | **5 new** (1 P0, 1 P1, 2 P2, 1 P3) from resource directory comparison |
 
 ---
 
@@ -172,18 +174,107 @@
 
 ## Issue Status
 
+### Code Generation Issues
+
 | Priority | Total | Resolved | Notes |
 |----------|-------|----------|-------|
 | CRITICAL (P0-P1) | 13 | 12 | 1 remaining: static initializers |
 | HIGH (P1-P2) | 6 | 6 | All resolved (incl. annotation defaults) |
-| MEDIUM (P2-P3) | 4 | 2 | 2 remaining: imports, verbosity (P3 is positive tradeoff) |
-| **Total** | **23** | **20** | 3 remaining from badboy APK |
+| MEDIUM (P2-P3) | 4 | 3 | 1 remaining: invalid identifiers (P3 verbosity is positive tradeoff) |
+| **Total** | **23** | **21** | 2 remaining P1-P2 from badboy APK + 1 P3 |
+
+### Resource Processing Issues (NEW)
+
+| Priority | Issue | Status |
+|----------|-------|--------|
+| P0-CRITICAL | XML enum values as numbers (`"0"` vs `"linear"`) | NEW |
+| P1-HIGH | Missing 85 localized strings.xml | NEW |
+| P2-MEDIUM | API version qualifier differences (-v4/-v21) | NEW |
+| P2-MEDIUM | Missing attrs.xml, density drawables, etc. | NEW |
+| P3-LOW | Resource naming convention (`$` vs `_`) | NEW |
+| **Total** | **5 resource issues** | All NEW |
 
 ---
 
 ## Known Issues (Dec 17 - badboy APK Comparison)
 
-Recent comparison with JADX on badboy APK identified several issues (3 remaining, 4 resolved):
+Recent comparison with JADX on badboy APK identified several issues.
+
+### Resource Directory Issues (NEW - Dec 17, 2025)
+
+Deep comparison of `output/dexterity/badboy/resources/` vs `output/jadx/badboy/resources/`:
+
+| Metric | Dexterity | JADX | Delta |
+|--------|-----------|------|-------|
+| Total Files | 128 | 219 | -91 files |
+| Total Directories | 43 | 130 | -87 dirs |
+| Total Size | 776 KB | 1.9 MB | -59% |
+| Identical Common Files | 96 | 96 | ✓ Match |
+
+#### P0-CRITICAL: XML Enum Value Representation
+
+Dexterity outputs **numeric enum values** instead of **human-readable strings**:
+
+```xml
+<!-- Dexterity (WRONG) -->
+<gradient android:type="0" ...>
+<shape android:shape="0">
+
+<!-- JADX (CORRECT) -->
+<gradient android:type="linear" ...>
+<shape android:shape="rectangle">
+```
+
+**Impact:** XML files may not be valid for Android tools expecting string enums.
+**Files:** `res/drawable/$ic_launcher_foreground__0.xml`, `res/drawable-v21/notification_action_background.xml`
+**Root Cause:** Resource decoder not mapping numeric enum IDs to string names
+
+#### P1-HIGH: Missing Localized String Resources (85 languages)
+
+Dexterity only outputs base `strings.xml` (English). JADX outputs **85 localized variants**.
+
+**Missing:** `values-af`, `values-ar`, `values-de`, `values-es`, `values-fr`, `values-ja`, `values-ko`, `values-zh-rCN`, etc. (85 total)
+**Impact:** Decompiled APKs lose internationalization support.
+**Root Cause:** String resource extractor filtering to default locale only
+
+#### P2-MEDIUM: API Version Qualifier Differences
+
+| Resource Type | Dexterity Path | JADX Path |
+|---------------|----------------|-----------|
+| Drawables | `drawable-hdpi-v4/` | `drawable-hdpi/` |
+| Mipmaps | `mipmap-hdpi-v4/` | `mipmap-hdpi/` |
+| Layouts | `layout-v21/notification_action.xml` | `layout/notification_action.xml` |
+
+**Impact:** Different resource resolution behavior on various Android versions.
+
+#### P2-MEDIUM: Missing Resource Files
+
+- `DebugProbesKt.bin` - Kotlin debug probe binary
+- `res/values/attrs.xml` - Custom attribute definitions
+- `res/values-hdpi/drawables.xml`, `res/values-mdpi/drawables.xml`, `res/values-xhdpi/drawables.xml`
+- `res/values-v30/integers.xml` - API 30+ integer resources
+
+#### P3-LOW: Resource Naming Convention
+
+| Aspect | Dexterity | JADX |
+|--------|-----------|------|
+| Prefix | `$` | `_` |
+| Resource ID | Not included | Included as hex suffix |
+| Example | `$ic_launcher_foreground__0.xml` | `_ic_launcher_foreground__0_res_0x7f040000.xml` |
+
+#### What's Working ✓ (96 identical files)
+
+- `AndroidManifest.xml` ✓
+- All Kotlin builtin files ✓
+- All `META-INF/` version and license files ✓
+- All native `.so` libraries ✓
+- Base `res/values/` files (colors.xml, dimens.xml, drawables.xml, integers.xml, public.xml, strings.xml, styles.xml) ✓
+- All `res/color/`, `res/xml/` files ✓
+- Most drawable and layout XMLs ✓
+
+---
+
+### Code Generation Issues (3 remaining, 4 resolved):
 
 ### P0-CRITICAL: Static Initializer Variable Resolution
 
@@ -257,7 +348,7 @@ public enum Capitalization {
 **Root Cause:** Enum constant names not being extracted from DEX field metadata; falling back to first constant name
 **Files:** `crates/dexterity-dex/src/class.rs`, `crates/dexterity-codegen/src/class_gen.rs`
 
-### P1-HIGH (NEW): Lambda/R8 Bridge Method Parameter Corruption
+### P1-HIGH (NEW): Lambda/R8 Bridge Method Parameter Corruption - **IN PROGRESS (Dec 17, 2025)**
 
 **Impact:** Non-compilable code (references to undefined variables)
 **Symptom:**
@@ -277,7 +368,7 @@ public static Unit $r8$lambda$3680DyU35T7tCS-6DjGpj9WQz4M(
 **Root Cause:** Off-by-one error or register numbering mismatch in parameter resolution
 **Files:** `crates/dexterity-codegen/src/body_gen.rs`
 
-### P2-MEDIUM: Missing Import Statements
+### P2-MEDIUM: Missing Import Statements - **DONE (Dec 17, 2025)**
 
 **Impact:** Non-compilable code
 **Symptom:**
@@ -287,6 +378,16 @@ public static Unit $r8$lambda$3680DyU35T7tCS-6DjGpj9WQz4M(
 ```
 
 **Root Cause:** Import collector doesn't traverse annotation argument types
+**Fix:** Added `collect_from_annotation_value()` method to recursively traverse annotation arguments:
+1. `AnnotationValue::Type(class_name)` - Type references like `RetentionPolicy.class`
+2. `AnnotationValue::Enum(class_name, field_name)` - Enum constants like `RetentionPolicy.SOURCE`
+3. `AnnotationValue::Annotation(nested)` - Nested annotations (recursive)
+4. `AnnotationValue::Array(values)` - Arrays of values (recursive)
+
+Updated `collect_from_class_with_dex()` to call this method for all annotation elements (class-level, field-level, method-level annotations).
+
+**Validation:** Added test `test_import_collector_annotation_arguments()` - verifies `@Retention(RetentionPolicy.SOURCE)` and `@Target({ElementType.FIELD})` properly import enum types.
+
 **Files:** `crates/dexterity-codegen/src/class_gen.rs`
 
 ### P2-MEDIUM (NEW): Invalid Java Identifier Names

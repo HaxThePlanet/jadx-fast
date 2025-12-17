@@ -200,6 +200,36 @@ impl ImportCollector {
         }
     }
 
+    /// Collect types from annotation value
+    fn collect_from_annotation_value(&mut self, value: &dexterity_ir::info::AnnotationValue) {
+        use dexterity_ir::info::AnnotationValue;
+        match value {
+            AnnotationValue::Type(class_name) => {
+                // Type reference like RetentionPolicy.class
+                self.add_internal_name(class_name);
+            }
+            AnnotationValue::Enum(class_name, _field_name) => {
+                // Enum constant like RetentionPolicy.SOURCE
+                self.add_internal_name(class_name);
+            }
+            AnnotationValue::Annotation(nested) => {
+                // Nested annotation - recursively collect from it
+                self.add_internal_name(&nested.annotation_type);
+                for element in &nested.elements {
+                    self.collect_from_annotation_value(&element.value);
+                }
+            }
+            AnnotationValue::Array(values) => {
+                // Array of values - collect from each element
+                for v in values {
+                    self.collect_from_annotation_value(v);
+                }
+            }
+            // Primitive values don't need imports
+            _ => {}
+        }
+    }
+
     /// Add an internal class name (e.g., "java/lang/String" or "Ljava/lang/String;")
     /// Also handles array type descriptors like "[Ljava/lang/String;" by extracting the element type
     fn add_internal_name(&mut self, name: &str) {
@@ -267,6 +297,10 @@ impl ImportCollector {
         // Class-level annotations (including @Metadata for Kotlin)
         for annotation in &class.annotations {
             self.add_internal_name(&annotation.annotation_type);
+            // Collect types from annotation arguments (fixes P2-MEDIUM: Missing Import Statements)
+            for element in &annotation.elements {
+                self.collect_from_annotation_value(&element.value);
+            }
         }
 
         // Superclass
@@ -285,6 +319,10 @@ impl ImportCollector {
             // Field annotations
             for annotation in &field.annotations {
                 self.add_internal_name(&annotation.annotation_type);
+                // Collect types from annotation arguments
+                for element in &annotation.elements {
+                    self.collect_from_annotation_value(&element.value);
+                }
             }
         }
         for field in &class.instance_fields {
@@ -292,6 +330,10 @@ impl ImportCollector {
             // Field annotations
             for annotation in &field.annotations {
                 self.add_internal_name(&annotation.annotation_type);
+                // Collect types from annotation arguments
+                for element in &annotation.elements {
+                    self.collect_from_annotation_value(&element.value);
+                }
             }
         }
 
@@ -304,6 +346,10 @@ impl ImportCollector {
             // Method annotations
             for annotation in &method.annotations {
                 self.add_internal_name(&annotation.annotation_type);
+                // Collect types from annotation arguments
+                for element in &annotation.elements {
+                    self.collect_from_annotation_value(&element.value);
+                }
             }
             // Collect types from method body instructions
             if let Some(instructions) = method.instructions() {
@@ -1448,6 +1494,66 @@ mod tests {
         assert!(imports.contains(&"android.app.Activity".to_string()));
         assert!(imports.contains(&"android.view.View".to_string()));
         assert!(imports.contains(&"java.io.Serializable".to_string()));
+    }
+
+    #[test]
+    fn test_import_collector_annotation_arguments() {
+        // Test P2-MEDIUM fix: Missing Import Statements
+        // Annotations like @Retention(RetentionPolicy.SOURCE) should import RetentionPolicy
+        use dexterity_ir::info::{Annotation, AnnotationElement, AnnotationValue, AnnotationVisibility};
+
+        let mut class = make_class("com/example/MyAnnotation", 0x2601); // interface + annotation
+
+        // Add @Retention(RetentionPolicy.SOURCE) annotation
+        class.annotations.push(Annotation {
+            annotation_type: "java/lang/annotation/Retention".to_string(),
+            visibility: AnnotationVisibility::Runtime,
+            elements: vec![
+                AnnotationElement {
+                    name: "value".to_string(),
+                    value: AnnotationValue::Enum(
+                        "java/lang/annotation/RetentionPolicy".to_string(),
+                        "SOURCE".to_string()
+                    ),
+                }
+            ],
+        });
+
+        // Add @Target({ElementType.FIELD, ElementType.METHOD}) annotation
+        class.annotations.push(Annotation {
+            annotation_type: "java/lang/annotation/Target".to_string(),
+            visibility: AnnotationVisibility::Runtime,
+            elements: vec![
+                AnnotationElement {
+                    name: "value".to_string(),
+                    value: AnnotationValue::Array(vec![
+                        AnnotationValue::Enum(
+                            "java/lang/annotation/ElementType".to_string(),
+                            "FIELD".to_string()
+                        ),
+                        AnnotationValue::Enum(
+                            "java/lang/annotation/ElementType".to_string(),
+                            "METHOD".to_string()
+                        ),
+                    ]),
+                }
+            ],
+        });
+
+        let mut collector = ImportCollector::new(&class.class_type);
+        collector.collect_from_class(&class);
+
+        let imports = collector.get_imports();
+
+        // Should import the annotation classes themselves (already worked before)
+        assert!(imports.contains(&"java.lang.annotation.Retention".to_string()));
+        assert!(imports.contains(&"java.lang.annotation.Target".to_string()));
+
+        // Should import the enum types from annotation arguments (THIS IS THE FIX)
+        assert!(imports.contains(&"java.lang.annotation.RetentionPolicy".to_string()),
+                "RetentionPolicy should be imported (from @Retention argument)");
+        assert!(imports.contains(&"java.lang.annotation.ElementType".to_string()),
+                "ElementType should be imported (from @Target argument)");
     }
 
     #[test]
