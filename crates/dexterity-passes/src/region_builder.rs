@@ -222,14 +222,10 @@ pub fn build_regions(cfg: &CFG) -> Region {
 
 /// Build regions with try-catch block information from IR
 pub fn build_regions_with_try_catch(cfg: &CFG, try_blocks: &[dexterity_ir::TryBlock]) -> Region {
-    // OPTIMIZATION: Increased block limit from 150 to 500
-    // The original 150 limit was overly conservative and caused many SKIP warnings on obfuscated code.
-    // With modern memory limits (32GB safety check in place), we can safely handle 500+ blocks.
-    // This allows decompilation of more complex real-world methods.
-    let block_count = cfg.block_ids().count();
-    if block_count > 500 {
-        panic!("SKIP: {} blocks > 500 limit for regions", block_count);
-    }
+    // Note: No hard block limit - using JADX-style dynamic iteration limits instead.
+    // RegionBuilder tracks iteration_budget (5 × block_count) and panics if exceeded.
+    // This allows processing of large methods while preventing infinite loops.
+    // Panics are caught by catch_unwind in body_gen.rs and converted to stub methods.
 
     // Convert try blocks to internal format
     let tries = detect_try_catch_regions(cfg, try_blocks);
@@ -569,6 +565,10 @@ struct RegionBuilder<'a> {
     regions_count: usize,
     /// Maximum number of regions allowed (blocks * 100)
     regions_limit: usize,
+    /// Iteration budget for traversal (5 × block_count, like JADX)
+    iteration_budget: usize,
+    /// Number of iterations used so far
+    iterations_used: usize,
 }
 
 impl<'a> RegionBuilder<'a> {
@@ -612,6 +612,7 @@ impl<'a> RegionBuilder<'a> {
             }
         }
 
+        let block_count = cfg.block_ids().count();
         RegionBuilder {
             cfg,
             loops,
@@ -628,7 +629,24 @@ impl<'a> RegionBuilder<'a> {
             merged_blocks,
             stack: RegionStack::new(),
             regions_count: 0,
-            regions_limit: cfg.block_ids().count() * 100,
+            regions_limit: block_count * 100,
+            // JADX uses 5 × block_count for iteration limits (DepthRegionTraversal.java)
+            iteration_budget: block_count * 5,
+            iterations_used: 0,
+        }
+    }
+
+    /// Check iteration budget and panic if exceeded (like JADX's JadxOverflowException)
+    /// This prevents infinite loops in complex CFGs while allowing large methods to be processed
+    fn check_iteration_budget(&mut self) {
+        self.iterations_used += 1;
+        if self.iterations_used > self.iteration_budget {
+            panic!(
+                "Iteration limit reached: {} iterations (budget: {} = 5 × {} blocks)",
+                self.iterations_used,
+                self.iteration_budget,
+                self.iteration_budget / 5
+            );
         }
     }
 
@@ -680,6 +698,9 @@ impl<'a> RegionBuilder<'a> {
 
     /// Traverse a block and return next block to process (like Java's traverse)
     fn traverse(&mut self, contents: &mut Vec<RegionContent>, block_id: u32) -> Option<u32> {
+        // JADX-style iteration budget check (DepthRegionTraversal.java)
+        self.check_iteration_budget();
+
         // Check if we're at an exit
         if self.stack.contains_exit(block_id) {
             return None;
@@ -1260,7 +1281,7 @@ impl<'a> RegionBuilder<'a> {
     /// When one branch of an IF exits the loop, we create:
     /// - if (cond) break; else { body } - when then branch exits
     /// - if (!cond) break; else { body } - when else branch exits (negated condition)
-    fn create_loop_break_region(&self, cond: &IfInfo, loop_info: &LoopInfo) -> Option<Region> {
+    fn create_loop_break_region(&mut self, cond: &IfInfo, loop_info: &LoopInfo) -> Option<Region> {
         let then_exits = cond.then_blocks.iter().any(|b| !loop_info.blocks.contains(b));
         let else_exits = cond.else_blocks.iter().any(|b| !loop_info.blocks.contains(b));
 
@@ -1342,12 +1363,11 @@ impl<'a> RegionBuilder<'a> {
         let condition = self.extract_condition_with_negation(cond.condition_block, cond.negate_condition);
 
         // Build then region
+        // Note: Don't pre-mark blocks as processed - let traverse() discover
+        // nested control structures (switches, ifs, loops) properly
         let then_region = if cond.then_blocks.is_empty() {
             Region::Sequence(vec![])
         } else {
-            for &b in &cond.then_blocks {
-                self.processed.insert(b);
-            }
             self.build_branch_region(&cond.then_blocks)
         };
 
@@ -1355,9 +1375,6 @@ impl<'a> RegionBuilder<'a> {
         let else_region = if cond.else_blocks.is_empty() {
             None
         } else {
-            for &b in &cond.else_blocks {
-                self.processed.insert(b);
-            }
             Some(Box::new(self.build_branch_region(&cond.else_blocks)))
         };
 
@@ -1373,15 +1390,26 @@ impl<'a> RegionBuilder<'a> {
     }
 
     /// Build a region from a list of blocks
-    fn build_branch_region(&self, blocks: &[u32]) -> Region {
+    /// Build a region for a branch (then/else block)
+    /// Uses traverse to properly detect nested control structures (switches, ifs, loops)
+    fn build_branch_region(&mut self, blocks: &[u32]) -> Region {
         if blocks.is_empty() {
             return Region::Sequence(vec![]);
         }
 
-        let contents: Vec<RegionContent> = blocks
-            .iter()
-            .map(|&b| RegionContent::Block(b))
-            .collect();
+        // Use traverse to properly detect nested structures like switches, loops, ifs
+        // This is critical for switch-over-string patterns which are inside if-branches
+        let first = blocks[0];
+        let mut contents = Vec::new();
+
+        // Traverse starting from the first block - this will:
+        // 1. Detect switches and process them as Region::Switch
+        // 2. Detect nested ifs and process them as Region::If
+        // 3. Handle regular blocks as RegionContent::Block
+        let mut current = Some(first);
+        while let Some(block_id) = current {
+            current = self.traverse(&mut contents, block_id);
+        }
 
         Region::Sequence(contents)
     }
