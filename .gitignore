@@ -71,3 +71,4 @@ coverage/
 *~
 .#*
 output/
+jadx-fast
